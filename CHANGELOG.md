@@ -1,5 +1,18 @@
 # Changes
 
+## 0.5.0
+
+- Group interests by sport with collapsible league lists, group selection and
+  mixed states. Preserve saved choices, add national soccer flags and label the
+  EFL Championship as England's competition.
+- Preview event dates, times, locations and notes on hover or day focus; keep
+  click/tap/Enter day details, Escape dismissal and continuous month scrolling.
+- Confirm a programmatic month jump reaches its destination before settling;
+  retain resize alignment during delayed scroll delivery and bound stalled motion.
+- Add 41 PGA Tour and 26 LPGA Tour records, bringing the reviewed 2026 snapshot
+  to 3,621 events across 24 competitions. Clearly label 63 final-date-only
+  markers; preserve full spans for THE PLAYERS, three playoffs and nine majors.
+  Retain pinned attribution, separate CC BY-SA/CC0 components and MIT software.
 
 ## 0.4.0
 

@@ -12,7 +12,8 @@ import {
   yearMonthAnchors,
 } from "./date-utils";
 import type { EventCard, FilterState } from "./types";
-import { leagueVisual } from "./calendar-helpers";
+import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
+import InterestGroups from "./InterestGroups";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { FIRST_MONTH, LAST_MONTH, monthAt, monthIndex, monthWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
@@ -65,10 +66,9 @@ function Pill({ event }: { event: EventCard }) {
   return (
     <span
       className={`event-pill ${leagueVisual(event.league).className}`}
-      title={event.title}
     >
-      <b>{leagueVisual(event.league).shortLabel}</b>
-      <span>{event.title}</span>
+      <b>{SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league).shortLabel}</b>
+      <span>{event.tags.includes("final date only") && "Final date · "}{event.title}</span>
     </span>
   );
 }
@@ -86,6 +86,7 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
           {leagueVisual(event.league).shortLabel}
         </span>
         <h3>{event.title}</h3>
+        {event.tags.includes("final date only") && <p className="date-scope">Final date only</p>}
         {event.subtitle && <p>{event.subtitle}</p>}
         {location && <p>{location}</p>}
         <p className="event-status">
@@ -225,11 +226,6 @@ export default function App() {
       );
     }
     setChoose(false);
-  }
-  function toggle(league: string) {
-    setDraft((a) =>
-      a.includes(league) ? a.filter((x) => x !== league) : [...a, league],
-    );
   }
   function closeDay() {
     setDay(null);
@@ -405,6 +401,7 @@ export default function App() {
                 errors={errors}
                 today={today}
                 day={day}
+                timezone={timezone}
                 navigation={navigation}
                 onVisibleMonth={setMonth}
                 onRecenter={setFeedCenter}
@@ -502,24 +499,7 @@ export default function App() {
           ) : error && !leagues.length ? (
             <p>{error}</p>
           ) : (
-            <div className="interest-grid">
-              {leagues.map((l) => (
-                <label
-                  key={l.value}
-                  className={`interest ${draft.includes(l.value) ? "chosen" : ""}`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={draft.includes(l.value)}
-                    onChange={() => toggle(l.value)}
-                  />
-                  <span
-                    className={`interest-dot ${leagueVisual(l.value).className}`}
-                  />
-                  <span>{leagueVisual(l.value).shortLabel}</span>
-                </label>
-              ))}
-            </div>
+            <InterestGroups leagues={leagues} selected={draft} onChange={setDraft} />
           )}
           <div className="interest-actions">
             <button onClick={() => setDraft(leagues.map((l) => l.value))}>

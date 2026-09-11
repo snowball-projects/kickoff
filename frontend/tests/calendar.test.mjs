@@ -70,9 +70,13 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
     const on = (d) =>
       month.groups.find((g) => g.date === d).items.map((e) => e.event_id);
     assert.ok(on("2026-09-11").includes("late"));
+    const late = month.groups.find((group) => group.date === "2026-09-11").items.find((event) => event.event_id === "late");
+    assert.equal(late.start_calendar_date, "2026-09-11");
+    assert.equal(late.end_calendar_date, "2026-09-11");
     assert.ok(!on("2026-09-12").includes("late"));
     for (const date of ["2026-09-12", "2026-09-13", "2026-09-14"])
       assert.ok(on(date).includes("multi"));
+    assert.equal(month.groups.find((group) => group.date === "2026-09-14").items.find((event) => event.event_id === "multi").start_calendar_date, "2026-09-12");
     assert.ok(!on("2026-09-15").includes("multi"));
     const only = await getCalendar(
       "month",

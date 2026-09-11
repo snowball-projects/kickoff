@@ -323,7 +323,7 @@ export async function getCalendar(
     // one-day event uses its display-zone date, not the provider's venue date.
     for (const day of grouped.keys())
       if (day >= date && day <= end)
-        grouped.get(day)?.push({ ...eventCard(event), calendar_date: day });
+        grouped.get(day)?.push({ ...eventCard(event), start_calendar_date: date, calendar_date: day, end_calendar_date: end });
   }
   const groups = [...grouped.entries()].map(([date, items]) => ({
     date,

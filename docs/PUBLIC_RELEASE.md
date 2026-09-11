@@ -1,6 +1,6 @@
 # Public schedule boundary
 
-The 2026 collection contains **3,554 records across 22 selectable competitions**.
+The 2026 collection contains **3,621 records across 24 selectable competitions**.
 It is a reviewed community snapshot, not an official or live feed. A refresh
 records retrieval time; it does not certify that every event was checked then.
 Dates can move. An empty day means no matching published records.
@@ -10,7 +10,7 @@ Dates can move. An empty day means no matching published records.
 | Competition | Records | Supported scope |
 | --- | ---: | --- |
 | Premier League / Bundesliga / La Liga / Serie A / Ligue 1 | 374 / 297 / 379 / 374 / 287 | Dated openfootball fixtures in calendar 2026 from the overlapping 2025–26 and 2026–27 files |
-| Championship / Eredivisie / Primeira Liga / Brazil Série A | 559 / 305 / 307 / 377 | Same scope; Championship includes five classified playoff games, Brazil uses its single-year file |
+| EFL Championship (England) / Eredivisie / Primeira Liga / Brazil Série A | 559 / 305 / 307 / 377 | Same scope; Championship includes five classified playoff games, Brazil uses its single-year file |
 | Formula 1 | 115 | Source-provided races, practice, qualifying and sprint sessions; Races only is the initial UI setting |
 | World Climbing | 13 | Senior 2026 World Climbing Series stops, inclusive event spans, not timed rounds |
 | NASCAR Cup | 36 | Numbered points races; ten Chase races classified as postseason; no exhibitions or practice/qualifying |
@@ -19,6 +19,7 @@ Dates can move. An empty day means no matching published records.
 | UFC / PFL / RIZIN / ONE | 42 / 16 / 9 / 16 | Reviewed annual rows; PFL global cards only; ONE whole Fight Night/Samurai cards classified as combat sports |
 | IWF Worlds | 1 | Senior championship span, October 27–November 8; not a promise of lifting on every day |
 | Men's / women's golf majors | 4 / 5 | Competitive tournament spans; all 2026 majors are past |
+| PGA Tour / LPGA Tour season additions | 41 / 26 | 37 PGA and 26 LPGA final-date markers; THE PLAYERS and three PGA playoff tournaments have verified full spans. Majors are selected separately; no full daily tour schedule is claimed |
 | Selected boxing unifications | 1 | Navarrete–Foster, October 24; the qualifying WBO/IBF vs WBC bout is documented below |
 
 Football source times have no verified timezone declaration and remain Time TBD.
@@ -28,7 +29,9 @@ calendar-year inputs, including one from the original five-league collection.
 F1DB explicitly defines its times as UTC; the UI converts those to the device zone.
 
 All Wikimedia additions are **date-only** and stay on their source calendar dates.
-Their inclusive end dates are preserved. Melbourne's NFL game is September 11
+Known inclusive spans are preserved. Golf's **63 final-date-only markers** appear
+on the final date listed by the source; they do not imply one-day tournaments.
+Opening dates and tee times are unavailable for those entries. Melbourne's NFL game is September 11
 at the venue (September 10 in the US); its note explains this difference without
 inventing a kickoff. Combat records are whole cards, not prelim/main-card or
 ring-walk clocks. An interrupted IndyCar race can span two dates without being
@@ -46,7 +49,7 @@ Software is [MIT](../LICENSE). Data keeps its own terms:
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), including
   its records within the combined calendar. Preserve attribution, source links,
   license and change notices, and the applicable share-alike terms when reusing it.
-- Wikidata contributors: the IWF structured-data record is
+- Wikidata contributors: the IWF and THE PLAYERS structured-data records are
   [CC0 1.0](https://www.wikidata.org/wiki/Wikidata:Licensing).
 
 Each published bundle preserves source revisions, input hashes, retrieval times,
@@ -76,8 +79,10 @@ were used for verification, not claimed as open redistribution grants.
   contains only the reviewed Navarrete–Foster qualifying card and is not exhaustive.
   [Qualification evidence](sources/combat-iwf.md#boxing-qualification-evidence)
   records the three belts and requires review near fight week. No owner exceptions.
-- [Golf evidence](sources/golf.md): nine majors only; no full PGA/LPGA tour,
-  business-week calendar, team cups or tee times.
+- [Golf evidence](sources/golf.md): nine majors and 67 PGA/LPGA season additions,
+  mostly final-date markers; no complete daily tour schedule, business-week
+  calendar, team cups or tee times. PGA additions span January–November and LPGA
+  markers February–November. The canceled Sentry is excluded.
 - [openfootball evidence](sources/openfootball.md): source paths, statuses,
   score shapes and Championship playoff classification.
 

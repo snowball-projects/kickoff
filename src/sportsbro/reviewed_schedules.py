@@ -67,6 +67,9 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         start, end = date.fromisoformat(row["start_date"]), date.fromisoformat(row["end_date"])
         if end < start or (end - start).days > 31:
             raise ValueError("Invalid reviewed event span")
+        date_scope = row.get("date_scope", "span")
+        if date_scope not in {"span", "final_date"} or (date_scope == "final_date" and start != end):
+            raise ValueError("Invalid reviewed date scope")
         if any(row.get(key) for key in ("start_time_utc", "start_time_local", "timezone")):
             raise ValueError("Reviewed date registry cannot establish a clock time")
         phase = row.get("competition_phase", "regular_season")
@@ -107,7 +110,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 **classification_fields(
                     "championship" if row["league"] in {"IWF_WORLDS", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"} else phase
                 ),
-                tags=["event dates"],
+                tags=["event dates"] + (["final date only"] if date_scope == "final_date" else []),
             )
         )
     errors = validate_batch(events)

@@ -25,10 +25,14 @@ def test_reviewed_dates_keep_inclusive_cross_month_span_and_stable_identity():
     )
     assert event.end_calendar_date == "2026-08-02"
     assert event.start_time_utc is event.start_time_local is event.timezone is None
-    assert len(events) == len(notices) == 9
+    assert len(events) == 76
+    assert len(notices) == 13
     moved = copy.deepcopy(payload)
-    moved["events"][-1]["start_date"] = "2026-07-31"
-    assert reviewed_events(moved, 2026)[0][-1].event_id == events[-1].event_id
+    row = next(row for row in moved["events"] if row["id"] == event.event_id)
+    row["start_date"] = "2026-07-31"
+    assert (
+        next(e for e in reviewed_events(moved, 2026)[0] if e.event_id == event.event_id).calendar_date == "2026-07-31"
+    )
 
 
 @pytest.mark.parametrize(
@@ -40,6 +44,8 @@ def test_reviewed_dates_keep_inclusive_cross_month_span_and_stable_identity():
         lambda p: p["events"][0].update(start_date="2026-04"),
         lambda p: p["events"][0].update(end_date="2026-04-08"),
         lambda p: p["events"][0].update(start_time_utc="2026-04-09T00:00:00Z"),
+        lambda p: p["events"][0].update(date_scope="final_date"),
+        lambda p: p["events"][0].update(date_scope="guessed"),
         lambda p: p["events"].append(p["events"][0]),
     ],
 )
@@ -55,6 +61,32 @@ def test_all_reviewed_assets_have_valid_provenance_and_dates():
     assert events and sources
     assert len({event.event_id for event in events}) == len(events)
     assert all(event.start_time_utc is None for event in events)
+
+
+def test_golf_season_additions_keep_final_dates_explicit_and_majors_separate():
+    events, notices = reviewed_events(golf_registry(), 2026)
+    pga = [event for event in events if event.league == "PGA_TOUR"]
+    lpga = [event for event in events if event.league == "LPGA_TOUR"]
+    assert len(pga) == 41
+    assert len(lpga) == 26
+    markers = [event for event in events if "final date only" in event.tags]
+    assert len(markers) == 63
+    assert all(event.calendar_date == event.end_calendar_date for event in markers)
+    assert all("opening date" in event.subtitle for event in markers)
+    assert all(event.start_time_utc is event.start_time_local is event.timezone is None for event in events)
+    assert {event.calendar_date[5:7] for event in pga} == {f"{month:02}" for month in range(1, 12)}
+    players = next(event for event in pga if event.title == "The Players Championship")
+    assert (players.calendar_date, players.end_calendar_date, players.source) == (
+        "2026-03-12",
+        "2026-03-15",
+        "wikidata",
+    )
+    assert len([event for event in pga if event.competition_phase == "postseason"]) == 3
+    assert next(event for event in pga if event.title == "Travelers Championship").calendar_date == "2026-06-29"
+    assert not any("Sentry" in event.title for event in events)
+    assert sum(event.league == "GOLF_MAJORS_MEN" for event in events) == 4
+    assert sum(event.league == "GOLF_MAJORS_WOMEN" for event in events) == 5
+    assert {notice["license"] for notice in notices} == {"CC BY-SA 4.0", "CC0 1.0"}
 
 
 def test_network_failure_preserves_published_snapshot(monkeypatch, tmp_path):

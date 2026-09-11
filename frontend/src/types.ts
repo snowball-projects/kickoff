@@ -34,6 +34,7 @@ export type EventCard = {
   country: string | null;
   round_or_stage: string | null;
   calendar_date: string | null;
+  start_calendar_date?: string;
   end_calendar_date?: string | null;
   source_url?: string | null;
   competition_phase: string;
