@@ -98,6 +98,9 @@ export default function MonthFeed(props: Props) {
         focusedDay?.focus({ preventScroll: true });
         root.scrollTo({ top, behavior });
         measure();
+        // A staging scroll may already have scheduled an idle callback. Keep
+        // only one, so an orphan cannot finish navigation during the animation.
+        clearTimeout(idle.current);
         idle.current = setTimeout(settle, 180);
       };
       if (behavior === "auto") jump();

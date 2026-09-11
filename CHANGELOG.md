@@ -8,6 +8,7 @@
   NFL and combat cards, IWF Worlds, and nine golf majors.
 - Preserve date-only spans, stable event IDs, participant identities and source
   terms. Add attributed CC BY-SA and CC0 downloads and explicit coverage limits.
+- Fix an idle-timer race when resizing during a smooth Today jump.
 - Withhold canceled/postponed football dates and preserve playoff/Chase phases.
   Keep the previous publication usable when a refresh fails.
 

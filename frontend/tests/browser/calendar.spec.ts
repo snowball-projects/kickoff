@@ -313,3 +313,28 @@ test("a focusable calendar supports native Page Down and reduced-motion Today", 
   expect(behaviors).toContain("auto");
   expect(behaviors).not.toContain("smooth");
 });
+
+test("a scroll event before the jump idle timer cannot finish navigation early", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.setViewportSize({ width: 1000, height: 720 });
+  await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
+  await page.getByRole("button", { name: "Open June 2026" }).click();
+  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-06-01"))).toBeLessThanOrEqual(2);
+  await page.evaluate(() => {
+    const root = document.querySelector<HTMLElement>(".month-feed")!;
+    const scrollTo = root.scrollTo.bind(root);
+    root.scrollTo = ((options: ScrollToOptions) => {
+      scrollTo(options);
+      // Exercise the ordering seen when staging scroll delivery precedes the
+      // animation-frame callback's idle scheduling, without changing the motion.
+      if (options.behavior === "smooth") root.dispatchEvent(new Event("scroll"));
+    }) as typeof root.scrollTo;
+  });
+  await page.getByRole("button", { name: "Today", exact: true }).click();
+  // The obsolete 160 ms idle callback must not mark this long jump complete.
+  await page.waitForTimeout(220);
+  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeGreaterThan(3);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(2);
+  await expect(heading(page)).toHaveText("September");
+});
