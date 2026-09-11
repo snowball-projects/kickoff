@@ -32,12 +32,22 @@ export default function MonthFeed(props: Props) {
   const previousAnchors = useRef<string[]>([]);
   const position = useRef<{ anchor: string; offset: number } | null>(null);
   const moving = useRef(false);
+  const navigationDeadline = useRef(0);
   const frame = useRef(0);
   const idle = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const jumpFrame = useRef(0);
 
   function sections() {
     return [...scroller.current!.querySelectorAll<HTMLElement>("[data-month]")];
+  }
+  function destination(root: HTMLDivElement, navigation: MonthNavigation) {
+    const target = sections().find((element) => element.dataset.month === navigation.anchor);
+    if (!target) return null;
+    const focusedDay = navigation.focusDate ? root.querySelector<HTMLElement>(`#day-${navigation.focusDate}`) : null;
+    const top = focusedDay
+      ? Math.max(target.offsetTop, focusedDay.offsetTop + focusedDay.offsetHeight - root.clientHeight + 4)
+      : target.offsetTop;
+    return { focusedDay, top: Math.max(0, Math.min(top, root.scrollHeight - root.clientHeight)) };
   }
   function measure() {
     const root = scroller.current;
@@ -50,6 +60,22 @@ export default function MonthFeed(props: Props) {
     latest.current.onVisibleMonth(anchor);
   }
   function settle() {
+    clearTimeout(idle.current);
+    if (moving.current && scroller.current) {
+      cancelAnimationFrame(jumpFrame.current);
+      const target = destination(scroller.current, latest.current.navigation);
+      // Timer silence is not arrival: compositor scroll delivery can be sparse.
+      // Keep resize tied to the destination while a native jump is in flight.
+      if (target && Math.abs(scroller.current.scrollTop - target.top) > 2 && performance.now() < navigationDeadline.current) {
+        measure();
+        idle.current = setTimeout(settle, 160);
+        return;
+      }
+      // Bound stalled/canceled browser motion without an indefinitely live timer.
+      if (target) {
+        scroller.current.scrollTo({ top: target.top, behavior: "instant" });
+      }
+    }
     moving.current = false;
     measure();
     latest.current.onNavigationEnd();
@@ -85,7 +111,7 @@ export default function MonthFeed(props: Props) {
     const root = scroller.current!;
     const navigation = props.navigation;
     if (lastNavigation.current !== navigation.id) {
-      const target = sections().find((el) => el.dataset.month === navigation.anchor);
+      const target = destination(root, navigation);
       if (!target) return;
       cancelAnimationFrame(jumpFrame.current);
       clearTimeout(idle.current);
@@ -93,12 +119,11 @@ export default function MonthFeed(props: Props) {
       const wasPresent = previousAnchors.current.includes(navigation.anchor);
       lastNavigation.current = navigation.id;
       moving.current = true;
-      const focusedDay = navigation.focusDate
-        ? root.querySelector<HTMLElement>(`#day-${navigation.focusDate}`)
-        : null;
-      const top = focusedDay
-        ? Math.max(target.offsetTop, focusedDay.offsetTop + focusedDay.offsetHeight - root.clientHeight + 4)
-        : target.offsetTop;
+      navigationDeadline.current = performance.now() + 2000;
+      const { focusedDay, top } = target;
+      // Focus belongs to the requested keyboard navigation even if its queued
+      // visual jump is canceled by resize or an idle-completion callback.
+      focusedDay?.focus({ preventScroll: true });
       const behavior = initial ? "auto" : scrollBehavior(matchMedia("(prefers-reduced-motion: reduce)").matches);
       // A distant jump replaces the bounded window, then glides into the target.
       // Nearby navigation traverses the existing months with native scrolling.
@@ -107,7 +132,6 @@ export default function MonthFeed(props: Props) {
         root.scrollTo({ top: top + direction * root.clientHeight * 0.7, behavior: "instant" });
       }
       const jump = () => {
-        focusedDay?.focus({ preventScroll: true });
         root.scrollTo({ top, behavior });
         measure();
         // A staging scroll may already have scheduled an idle callback. Keep
@@ -134,17 +158,11 @@ export default function MonthFeed(props: Props) {
         // Rotation or resizing changes month heights during a smooth jump.
         // Cancel its old pixel destination and land on the requested date.
         cancelAnimationFrame(jumpFrame.current);
-        const { anchor, focusDate } = latest.current.navigation;
-        const target = sections().find((el) => el.dataset.month === anchor);
-        const focusedDay = focusDate ? root.querySelector<HTMLElement>(`#day-${focusDate}`) : null;
-        if (target) {
-          const top = focusedDay
-            ? Math.max(target.offsetTop, focusedDay.offsetTop + focusedDay.offsetHeight - root.clientHeight + 4)
-            : target.offsetTop;
-          root.scrollTo({ top, behavior: "instant" });
-        }
+        const target = destination(root, latest.current.navigation);
+        if (target) root.scrollTo({ top: target.top, behavior: "instant" });
         clearTimeout(idle.current);
-        settle();
+        // Let a queued compositor update arrive before confirming completion.
+        idle.current = setTimeout(settle, 160);
       } else if (position.current) {
         const target = sections().find((el) => el.dataset.month === position.current!.anchor);
         if (target) root.scrollTo({ top: target.offsetTop - position.current.offset, behavior: "instant" });

@@ -70,6 +70,9 @@ async function nativeScrollTo(page: Page, anchor: string, offset = 0) {
   await feed(page).focus();
   await section(page, anchor).evaluate((element, amount) => {
     const root = element.closest(".month-feed")!;
+    // Model user scrolling, including its interruption of an in-flight jump,
+    // before applying an exact distance for repeatable recycling assertions.
+    root.dispatchEvent(new WheelEvent("wheel", { bubbles: true }));
     root.scrollTo({ top: (element as HTMLElement).offsetTop + amount, behavior: "instant" });
   }, offset);
   await expect(heading(page)).toHaveText(new Intl.DateTimeFormat("en-US", { month: "long" }).format(new Date(`${anchor}T12:00:00Z`)));
@@ -389,7 +392,7 @@ test("a focusable calendar supports native Page Down and reduced-motion Today", 
   expect(behaviors).not.toContain("smooth");
 });
 
-test("a scroll event before the jump idle timer cannot finish navigation early", async ({ page }) => {
+test("delayed scroll delivery completes the jump at its destination before resizing", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1000, height: 720 });
   await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
@@ -402,14 +405,49 @@ test("a scroll event before the jump idle timer cannot finish navigation early",
       scrollTo(options);
       // Exercise the ordering seen when staging scroll delivery precedes the
       // animation-frame callback's idle scheduling, without changing the motion.
-      if (options.behavior === "smooth") root.dispatchEvent(new Event("scroll"));
+      if (options.behavior === "smooth") {
+        root.dispatchEvent(new Event("scroll"));
+        // A busy main thread can deliver the idle timer before the compositor's
+        // next scroll event. Hold that delivery through the resize below.
+        root.addEventListener("scroll", (event) => event.stopImmediatePropagation(), { capture: true });
+      }
     }) as typeof root.scrollTo;
   });
   await page.getByRole("button", { name: "Today", exact: true }).click();
-  // The obsolete 160 ms idle callback must not mark this long jump complete.
-  await page.waitForTimeout(220);
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeGreaterThan(3);
+  // Silence in scroll delivery must finish at the destination, never preserve
+  // an intermediate offset as a completed jump. No animation-duration guess.
+  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(2);
   await page.setViewportSize({ width: 390, height: 844 });
   await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(2);
   await expect(heading(page)).toHaveText("September");
+});
+
+async function stallSmoothJump(page: Page) {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.evaluate(() => {
+    const root = document.querySelector<HTMLElement>('.month-feed')!;
+    const scrollTo = root.scrollTo.bind(root);
+    root.scrollTo = ((options: ScrollToOptions) => {
+      if (options.behavior === 'smooth') {
+        scrollTo({ top: root.scrollTop + 100, behavior: 'instant' });
+      } else scrollTo(options);
+    }) as typeof root.scrollTo;
+  });
+}
+
+test('a stalled browser jump reaches its bounded destination within the deadline', async ({ page }) => {
+  await stallSmoothJump(page);
+  await page.getByRole('button', { name: 'Next month' }).click();
+  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-10-01')), { timeout: 5000 }).toBeLessThanOrEqual(2);
+  await expect(heading(page)).toHaveText('October');
+});
+
+test('manual wheel interruption prevents a stalled jump from snapping later', async ({ page }) => {
+  await stallSmoothJump(page);
+  await page.getByRole('button', { name: 'Next month' }).click();
+  await feed(page).hover();
+  await page.mouse.wheel(0, 60);
+  // Observe past the programmatic fallback deadline after explicit user input.
+  await page.waitForTimeout(2200);
+  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-10-01'))).toBeGreaterThan(100);
 });
