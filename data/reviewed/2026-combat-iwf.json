@@ -1,0 +1,999 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "wikipedia-ufc",
+      "name": "Wikipedia contributors: 2026 in UFC",
+      "url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "revision": "1374208261",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "retrieved_at": "2026-09-11T18:02:51.288718Z",
+      "sha256": "ac48251609e185e446b9e91e4d52c4a17983c9ea7632710447c6104bff0a951b",
+      "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374208261&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+    },
+    {
+      "id": "wikipedia-pfl",
+      "name": "Wikipedia contributors: 2026 in Professional Fighters League",
+      "url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "revision": "1374220528",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "retrieved_at": "2026-09-11T18:02:51.716213Z",
+      "sha256": "f3979a9f7e753369cc99bdfa4439f8a6b208995831b8d300da6857578f6330f4",
+      "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374220528&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+    },
+    {
+      "id": "wikipedia-rizin",
+      "name": "Wikipedia contributors: 2026 in Rizin Fighting Federation",
+      "url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "revision": "1374349911",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "retrieved_at": "2026-09-11T18:02:52.202617Z",
+      "sha256": "344628ea2f22b79e4dc76a75c535b4f861e772324c1b2a787707c96d8135fc1c",
+      "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374349911&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+    },
+    {
+      "id": "wikipedia-one",
+      "name": "Wikipedia contributors: 2026 in ONE Championship",
+      "url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "revision": "1374372383",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "retrieved_at": "2026-09-11T18:02:52.791702Z",
+      "sha256": "270267a42db7634c0dd0d04ba0775cf1854a18e2b32a9591e07a24e05394f401",
+      "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374372383&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+    },
+    {
+      "id": "wikidata-iwf-worlds-2026",
+      "name": "Wikidata contributors: 2026 World Weightlifting Championships",
+      "url": "https://www.wikidata.org/w/index.php?title=Q124142978&oldid=2499700131",
+      "revision": "2499700131",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "retrieved_at": "2026-09-11T18:02:53.189149Z",
+      "sha256": "5dd0cf2ae6e3db2d0b54a21edb5e77aec705d193f768ebe367c033c14ae24736",
+      "input_url": "https://www.wikidata.org/wiki/Special:EntityData/Q124142978.json?revision=2499700131",
+      "changes": "Selected day-precision championship dates; preserved inclusive span; no session times or venue inferred."
+    },
+    {
+      "id": "wikipedia-navarrete",
+      "name": "Wikipedia contributors: Emanuel Navarrete",
+      "url": "https://en.wikipedia.org/w/index.php?title=Emanuel_Navarrete&oldid=1373169260",
+      "revision": "1373169260",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "retrieved_at": "2026-09-11T18:04:20.450466Z",
+      "sha256": "0d2376a9110920eda3e586291fac7e0019e8d0490ab11ba4134847f3ce9373bd",
+      "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1373169260&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+    },
+    {
+      "id": "wikipedia-pfl-chicago",
+      "name": "Wikipedia contributors: PFL Chicago: Carmouche vs. Bishop 2",
+      "url": "https://en.wikipedia.org/w/index.php?title=PFL_Chicago%3A_Carmouche_vs._Bishop_2&oldid=1374088812",
+      "revision": "1374088812",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "retrieved_at": "2026-09-11T18:05:49.092874Z",
+      "sha256": "426023e3fb8859dfed3562105aa5e2933001939900164e9ba40ba1bc4755c20b",
+      "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374088812&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+    }
+  ],
+  "events": [
+    {
+      "id": "one-fight-night-39",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 39: Rambolek vs. Dayakaev",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-01-24",
+      "end_date": "2026-01-24",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-324",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 324: Gaethje vs. Pimblett",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-01-24",
+      "end_date": "2026-01-24",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-325",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 325: Volkanovski vs. Lopes 2",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-02-01",
+      "end_date": "2026-02-01",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-01",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Dubai: Nurmagomedov vs. Davis",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-02-07",
+      "end_date": "2026-02-07",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-266",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Bautista vs. Oliveira",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-02-07",
+      "end_date": "2026-02-07",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-40",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 40: Buntan vs. Hemetsberger 2",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-02-14",
+      "end_date": "2026-02-14",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-267",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Strickland vs. Hernandez",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-02-21",
+      "end_date": "2026-02-21",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-268",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Moreno vs. Kavanagh",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-02-28",
+      "end_date": "2026-02-28",
+      "event_type": "tournament"
+    },
+    {
+      "id": "rizin-52",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin 52",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-03-07",
+      "end_date": "2026-03-07",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-326",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 326: Holloway vs Oliveira 2",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-03-07",
+      "end_date": "2026-03-07",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-41",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 41: Sinsamut vs. Jarvis",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-03-14",
+      "end_date": "2026-03-14",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-269",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Emmett vs. Vallejos",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-03-14",
+      "end_date": "2026-03-14",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-02",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Madrid: van Steenis vs. Edwards 2",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-03-20",
+      "end_date": "2026-03-20",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-270",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Evloev vs. Murphy",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-03-21",
+      "end_date": "2026-03-21",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-03",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Pittsburgh: Eblen vs. Battle",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-03-28",
+      "end_date": "2026-03-28",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-271",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Adesanya vs. Pyfer",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-03-28",
+      "end_date": "2026-03-28",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-272",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Moicano vs. Duncan",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-04-04",
+      "end_date": "2026-04-04",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-42",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 42: Mann vs. Dzabrailov",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-04-11",
+      "end_date": "2026-04-11",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "pfl-2026-global-04",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Chicago: Pettis vs. McKee",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-04-11",
+      "end_date": "2026-04-11",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-327",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 327: Procházka vs. Ulberg",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-04-11",
+      "end_date": "2026-04-11",
+      "event_type": "tournament"
+    },
+    {
+      "id": "rizin-landmark-13",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin Landmark 13",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-04-12",
+      "end_date": "2026-04-12",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-05",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Belfast: Kelly vs. Wilson",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-04-16",
+      "end_date": "2026-04-16",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-273",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Burns vs. Malott",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-04-18",
+      "end_date": "2026-04-18",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-274",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Sterling vs. Zalal",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-04-25",
+      "end_date": "2026-04-25",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-samurai-1",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Samurai 1",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-04-29",
+      "end_date": "2026-04-29",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "pfl-2026-global-06",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Sioux Falls: Storley vs. Zendeli",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-05-02",
+      "end_date": "2026-05-02",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-275",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Della Maddalena vs. Prates",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-05-02",
+      "end_date": "2026-05-02",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-328",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 328: Chimaev vs. Strickland",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-05-09",
+      "end_date": "2026-05-09",
+      "event_type": "tournament"
+    },
+    {
+      "id": "rizin-53",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin 53",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-05-10",
+      "end_date": "2026-05-10",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-43",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 43: Tang vs. Gasanov",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-05-16",
+      "end_date": "2026-05-16",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-276",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Allen vs. Costa",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-05-16",
+      "end_date": "2026-05-16",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-07",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Brussels: Habirora vs. Henderson",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-05-23",
+      "end_date": "2026-05-23",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-277",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Song vs. Figueiredo",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-05-30",
+      "end_date": "2026-05-30",
+      "event_type": "tournament"
+    },
+    {
+      "id": "rizin-landmark-14",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin Landmark 14",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-06-06",
+      "end_date": "2026-06-06",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-278",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Muhammad vs. Bonfim",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-06-06",
+      "end_date": "2026-06-06",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-freedom-250",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Freedom 250",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-06-14",
+      "end_date": "2026-06-14",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-279",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Kape vs. Horiguchi",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-06-20",
+      "end_date": "2026-06-20",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-44",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 44: Jarvis vs. Rungrawee 2",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-06-27",
+      "end_date": "2026-06-27",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "pfl-2026-global-08",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL San Diego: McKee vs. Isbulaev",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-06-27",
+      "end_date": "2026-06-27",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-280",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Fiziev vs. Torres",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-06-27",
+      "end_date": "2026-06-27",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-329",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 329: McGregor vs. Holloway 2",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-07-11",
+      "end_date": "2026-07-11",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-45",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 45: Lessei vs. Rabah",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-07-18",
+      "end_date": "2026-07-18",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "pfl-2026-global-09",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Austin: Eblen vs. Kasanganay 2",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-07-18",
+      "end_date": "2026-07-18",
+      "event_type": "tournament"
+    },
+    {
+      "id": "rizin-landmark-15",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin Landmark 15",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-07-18",
+      "end_date": "2026-07-18",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-281",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: du Plessis vs. Usman",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-07-18",
+      "end_date": "2026-07-18",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-10",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Washington DC: Jean vs. Rodriguez",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-07-25",
+      "end_date": "2026-07-25",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-282",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Ankalaev vs. Guskov",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-07-25",
+      "end_date": "2026-07-25",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-11",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL New York: Nurmagomedov vs. Colgan",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-07-31",
+      "end_date": "2026-07-31",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-283",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Medić vs. Rodriguez",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-08-01",
+      "end_date": "2026-08-01",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-12",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Charlotte: Battle vs. Rosta",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-08-07",
+      "end_date": "2026-08-07",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-samurai-2",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Samurai 2",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-08-08",
+      "end_date": "2026-08-08",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-284",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Gamrot vs. Salkilld",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-08-08",
+      "end_date": "2026-08-08",
+      "event_type": "tournament"
+    },
+    {
+      "id": "rizin-54",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin 54",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-08-11",
+      "end_date": "2026-08-11",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-46",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 46: Hemetsberger vs. Diachkova",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-08-15",
+      "end_date": "2026-08-15",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-330",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 330: Makhachev vs. Machado Garry",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-08-15",
+      "end_date": "2026-08-15",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-13",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Tampa: Cyborg vs. Vieira",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-08-22",
+      "end_date": "2026-08-22",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-285",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Hernandez vs. Rodrigues",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-08-22",
+      "end_date": "2026-08-22",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-286",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Nurmagomedov vs. Song",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-08-29",
+      "end_date": "2026-08-29",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-47",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 47: Stamp vs. Flores",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-09-05",
+      "end_date": "2026-09-05",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-287",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Hooker vs. Parnasse",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-09-05",
+      "end_date": "2026-09-05",
+      "event_type": "tournament"
+    },
+    {
+      "id": "super-rizin-5",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Super Rizin 5",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-09-10",
+      "end_date": "2026-09-10",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-samurai-3",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Samurai 3",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-09-12",
+      "end_date": "2026-09-12",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-288",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Silva vs. Delgado",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-09-12",
+      "end_date": "2026-09-12",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-331",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 331: Van vs. Pantoja 2",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-09-19",
+      "end_date": "2026-09-19",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-289",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Rosas Jr. vs. Barcelos",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-09-26",
+      "end_date": "2026-09-26",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-48",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 48",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-10-03",
+      "end_date": "2026-10-03",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "rizin-landmark-16",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin Landmark 16",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-10-03",
+      "end_date": "2026-10-03",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-332",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 332: Silva vs. Wang",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-10-03",
+      "end_date": "2026-10-03",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-290",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Allen vs. Duncan",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-10-10",
+      "end_date": "2026-10-10",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-14",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Chicago: Carmouche vs. Bishop 2",
+      "source_id": "wikipedia-pfl-chicago",
+      "start_date": "2026-10-16",
+      "end_date": "2026-10-16",
+      "event_type": "tournament",
+      "notes": "October 16 follows the event-specific Wikipedia revision, corroborated by PFL and Wintrust Arena; the annual table's October 17 row was rejected."
+    },
+    {
+      "id": "one-samurai-4",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Samurai 4",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-10-17",
+      "end_date": "2026-10-17",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-291",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Buckley vs. Malott",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-10-17",
+      "end_date": "2026-10-17",
+      "event_type": "tournament"
+    },
+    {
+      "id": "boxing-navarrete-foster-1",
+      "sport": "boxing",
+      "league": "BOXING_MAJOR",
+      "title": "Emanuel Navarrete vs. O'Shaquie Foster",
+      "source_id": "wikipedia-navarrete",
+      "start_date": "2026-10-24",
+      "end_date": "2026-10-24",
+      "event_type": "tournament",
+      "venue": "Frost Bank Center, San Antonio",
+      "notes": "Qualifying bout: reigning IBF and WBO super featherweight champion Emanuel Navarrete vs. reigning WBC champion O'Shaquie Foster, for those three full titles. The Ring title is additional and is not counted. Reviewed September 11, 2026; title status requires review near fight week."
+    },
+    {
+      "id": "ufc-333",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 333: Volkanovski vs. Evloev",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-10-24",
+      "end_date": "2026-10-24",
+      "event_type": "tournament"
+    },
+    {
+      "id": "iwf-worlds-2026",
+      "sport": "weightlifting",
+      "league": "IWF_WORLDS",
+      "title": "2026 World Weightlifting Championships",
+      "source_id": "wikidata-iwf-worlds-2026",
+      "start_date": "2026-10-27",
+      "end_date": "2026-11-08",
+      "event_type": "tournament",
+      "notes": "Senior championship span, inclusive October 27–November 8. This does not assert lifting on every day; session times, weigh-ins and venue are not supplied by this Wikidata item."
+    },
+    {
+      "id": "ufc-fight-night-292",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night 292",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-10-31",
+      "end_date": "2026-10-31",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-49",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 49",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-11-07",
+      "end_date": "2026-11-07",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-fight-night-293",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night: Bonfim vs. Brady",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-11-07",
+      "end_date": "2026-11-07",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-15",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Dubai: Nemkov vs. Bilostenniy",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-11-14",
+      "end_date": "2026-11-14",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-334",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 334",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-11-14",
+      "end_date": "2026-11-14",
+      "event_type": "tournament"
+    },
+    {
+      "id": "ufc-fight-night-294",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC Fight Night 294",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-11-21",
+      "end_date": "2026-11-21",
+      "event_type": "tournament"
+    },
+    {
+      "id": "one-fight-night-50",
+      "sport": "combat_sports",
+      "league": "ONE",
+      "title": "ONE Fight Night 50",
+      "source_id": "wikipedia-one",
+      "start_date": "2026-12-12",
+      "end_date": "2026-12-12",
+      "event_type": "tournament",
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+    },
+    {
+      "id": "ufc-335",
+      "sport": "mma",
+      "league": "UFC",
+      "title": "UFC 335",
+      "source_id": "wikipedia-ufc",
+      "start_date": "2026-12-12",
+      "end_date": "2026-12-12",
+      "event_type": "tournament"
+    },
+    {
+      "id": "pfl-2026-global-16",
+      "sport": "mma",
+      "league": "PFL",
+      "title": "PFL Lyon: Lapilus vs. McKee",
+      "source_id": "wikipedia-pfl",
+      "start_date": "2026-12-19",
+      "end_date": "2026-12-19",
+      "event_type": "tournament"
+    },
+    {
+      "id": "rizin-2026-new-years-eve",
+      "sport": "mma",
+      "league": "RIZIN",
+      "title": "Rizin: New Year's Eve Event",
+      "source_id": "wikipedia-rizin",
+      "start_date": "2026-12-31",
+      "end_date": "2026-12-31",
+      "event_type": "tournament"
+    }
+  ],
+  "exclusions": [
+    {
+      "league": "RIZIN",
+      "event": "Rizin Landmark 17 / RIZIN.55",
+      "start_date": "2026-11-08",
+      "reason": "Unresolved identity conflict: the pinned Wikipedia annual table and current official event index/menu call this Landmark 17, but the linked official event page is titled RIZIN.55. Held rather than treating two names as separate cards.",
+      "evidence_urls": [
+        "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+        "https://jp.rizinff.com/_ct/17852466",
+        "https://jp.rizinff.com/_tags/%E5%A4%A7%E4%BC%9A%E6%83%85%E5%A0%B1"
+      ]
+    },
+    {
+      "league": "PFL",
+      "event": "PFL Chicago: Carmouche vs. Bishop 2 annual-table October 17 row",
+      "reason": "Rejected conflicting date; included one October 16 event from the separately pinned event-specific Wikipedia source, supported by PFL and Wintrust Arena."
+    },
+    {
+      "league": "PFL",
+      "event": "PFL Africa, MENA, Europe and other regional series",
+      "reason": "Scope is PFL main global cards only. Six Africa/MENA rows in the reviewed annual table were excluded; no separate Bellator season inferred."
+    },
+    {
+      "league": "ONE",
+      "event": "ONE Friday Fights and The Inner Circle",
+      "reason": "Scope is whole ONE Fight Night and Samurai cards only; future coverage is limited to the five rows actually present in the reviewed community table."
+    },
+    {
+      "league": "IWF_WORLDS",
+      "event": "Other IWF meets and all individual lifting sessions",
+      "reason": "Only the senior Worlds item has a reviewed reusable date span here. No session clock, timezone, venue or day-by-day lifting schedule is inferred."
+    },
+    {
+      "league": "BOXING_MAJOR",
+      "event": "All other boxing cards",
+      "reason": "This initial registry contains the one reviewed qualifying upcoming bout. It is not a complete 2026 boxing calendar. Single-title cards, two-belt unifications, and defenses of three belts are outside the rule unless all four full titles are contested; no owner exceptions selected."
+    }
+  ]
+}

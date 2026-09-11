@@ -80,6 +80,8 @@ export type ManifestResponse = {
   updated_at?: string;
   sources?: SourceNotice[];
   coverage?: string;
+  components?: { path: string; sha256: string }[];
+  data_license_notice?: string;
   season: number;
   all_events: number;
   available_seasons: number[];
