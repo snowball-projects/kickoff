@@ -1,43 +1,91 @@
 # Public schedule boundary
 
-The public launch bundle contains only **openfootball** (CC0 1.0) and **F1DB**
-(CC BY 4.0) data. Explicit attribution, source revisions, original file hashes,
-retrieval time and changes are preserved. Software is MIT; schedule data retains
-its own license. The downloadable JSON carries attribution too.
+The 2026 collection contains **3,554 records across 22 selectable competitions**.
+It is a reviewed community snapshot, not an official or live feed. A refresh
+records retrieval time; it does not certify that every event was checked then.
+Dates can move. An empty day means no matching published records.
 
-## Current coverage
+## Published coverage
 
-Calendar year 2026: Premier League, Bundesliga, La Liga, Serie A, Ligue 1 and
-F1 races plus source-provided practice, qualifying and sprint sessions. The UI
-starts in Races only mode. Both football seasons overlapping the calendar year
-are considered. Records without dates cannot appear in the calendar.
+| Competition | Records | Supported scope |
+| --- | ---: | --- |
+| Premier League / Bundesliga / La Liga / Serie A / Ligue 1 | 374 / 297 / 379 / 374 / 287 | Dated openfootball fixtures in calendar 2026 from the overlapping 2025–26 and 2026–27 files |
+| Championship / Eredivisie / Primeira Liga / Brazil Série A | 559 / 305 / 307 / 377 | Same scope; Championship includes five classified playoff games, Brazil uses its single-year file |
+| Formula 1 | 115 | Source-provided races, practice, qualifying and sprint sessions; Races only is the initial UI setting |
+| World Climbing | 13 | Senior 2026 World Climbing Series stops, inclusive event spans, not timed rounds |
+| NASCAR Cup | 36 | Numbered points races; ten Chase races classified as postseason; no exhibitions or practice/qualifying |
+| IndyCar | 18 | Championship races; archive coverage, season ended September 6 |
+| NFL | 19 | **Selected opener, international and holiday games**, not the full schedule |
+| UFC / PFL / RIZIN / ONE | 42 / 16 / 9 / 16 | Reviewed annual rows; PFL global cards only; ONE whole Fight Night/Samurai cards classified as combat sports |
+| IWF Worlds | 1 | Senior championship span, October 27–November 8; not a promise of lifting on every day |
+| Men's / women's golf majors | 4 / 5 | Competitive tournament spans; all 2026 majors are past |
+| Selected boxing unifications | 1 | Navarrete–Foster, October 24; the qualifying WBO/IBF vs WBC bout is documented below |
 
-These are community-maintained schedules, not official or live feeds. A successful
-refresh says when sportsbro retrieved source data, not when every fixture was
-last verified. Check the linked source before making plans. An empty day is an
-absence of matching published records, not proof there are no events.
+Football source times have no verified timezone declaration and remain Time TBD.
+Canceled or postponed fixtures with old dates are withheld until the source
+supplies a usable schedule. This excludes seven such rows in the current
+calendar-year inputs, including one from the original five-league collection.
+F1DB explicitly defines its times as UTC; the UI converts those to the device zone.
 
-F1DB defines session timestamps as UTC; retain unusual weekdays and supplied
-dates. Football JSON time strings do not declare a timezone, so the public
-adapter deliberately omits them and the UI shows Time TBD. Do not infer venue
-timezones merely to populate a clock. Date-only records remain on source dates.
+All Wikimedia additions are **date-only** and stay on their source calendar dates.
+Their inclusive end dates are preserved. Melbourne's NFL game is September 11
+at the venue (September 10 in the US); its note explains this difference without
+inventing a kickoff. Combat records are whole cards, not prelim/main-card or
+ring-walk clocks. An interrupted IndyCar race can span two dates without being
+two events. Dates, names and title eligibility can change.
 
-## Sources and rights review (September 10, 2026)
+## Reuse and attribution
 
-- [openfootball](https://github.com/openfootball/football.json),
-  [CC0 declaration](https://github.com/openfootball/football.json/blob/master/LICENSE.md).
-- [F1DB](https://github.com/f1db/f1db),
-  [CC BY 4.0 license](https://github.com/f1db/f1db/blob/main/LICENSE),
-  [UTC field definitions](https://github.com/f1db/f1db/blob/main/src/schema/current/single/f1db.schema.json).
+Software is [MIT](../LICENSE). Data keeps its own terms:
 
-No public redistribution permission was established for the existing MLB, NBA,
-NHL, Formula1.com, NASCAR, IndyCar, UEFA, PGA or IFSC ingestion sources. Their
-adapters can remain as private/local tools; access alone does not authorize
-republishing downloaded schedules. NFL remains disabled until validated. FIFA's
-terms contain a limited noncommercial website-display permission, but it is not
-an unrestricted data license and FIFA is outside this launch bundle.
+- [openfootball](https://github.com/openfootball/football.json):
+  [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
+- [F1DB](https://github.com/f1db/f1db):
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+- Wikipedia contributors: the identified adapted schedule component is
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), including
+  its records within the combined calendar. Preserve attribution, source links,
+  license and change notices, and the applicable share-alike terms when reusing it.
+- Wikidata contributors: the IWF structured-data record is
+  [CC0 1.0](https://www.wikidata.org/wiki/Wikidata:Licensing).
 
-Before adding another public source: verify access, schema/coverage, timezone
-meaning, update behavior and reuse terms; document attribution; add offline
-parser fixtures; then extend the publishing allowlist. Never relabel old reference
-CSV files as verified current schedules. Do not bulk-publish raw payloads.
+Each published bundle preserves source revisions, input hashes, retrieval times,
+changes and license notices. Per-event links identify their pinned sources.
+About sportsbro provides attribution and downloads of the separately identified
+Wikipedia and Wikidata components. Those downloads use immutable content-hash
+filenames listed in the year's `components` field. No article prose, images,
+logos, results or private raw payloads are included. Official organizer sources
+were used for verification, not claimed as open redistribution grants.
+
+## Decisions and omissions
+
+- [Climbing and motorsport evidence](sources/climbing-motorsport.md): senior stops
+  only; no youth/para/continental climbing or invented 2026 senior Worlds.
+- [NFL evidence](sources/nfl.md): 19 licensed community selections are published.
+  The automated nflverse feed remains blocked by unresolved upstream provenance;
+  its data-repository CC BY declaration does not answer that specific gap.
+  No Week 18 placeholder dates, full regular season or postseason are supplied.
+- [Combat and IWF evidence](sources/combat-iwf.md): UFC October 3 and PFL Chicago
+  conflicts are resolved. RIZIN November 8 remains held while official pages
+  disagree on identity. PFL regional cards and ONE Friday Fights/Inner Circle
+  are outside scope. No full IWF calendar or session grid is claimed.
+- Boxing includes cards contesting all four full WBA/WBC/IBF/WBO titles, or a
+  unification between reigning champions bringing at least three of those
+  titles in one division. The rule applies to women and men equally; it excludes
+  interim/secondary titles, exhibitions and influencer cards. The initial set
+  contains only the reviewed Navarrete–Foster qualifying card and is not exhaustive.
+  [Qualification evidence](sources/combat-iwf.md#boxing-qualification-evidence)
+  records the three belts and requires review near fight week. No owner exceptions.
+- [Golf evidence](sources/golf.md): nine majors only; no full PGA/LPGA tour,
+  business-week calendar, team cups or tee times.
+- [openfootball evidence](sources/openfootball.md): source paths, statuses,
+  score shapes and Championship playoff classification.
+
+Existing official-source adapters remain local experiments, outside public
+publication. This includes MLB, NBA, NHL, official NASCAR/IndyCar/UFC/ONE/PGA/IFSC
+feeds and other unreviewed inputs. No paid service or backend was added.
+
+A normal build makes no provider requests. New sources require a documented
+rights, provenance, coverage and date-semantics review, offline fixtures and a
+publishing-allowlist change. Never restore old reference CSVs or caches as public
+data. See [operation and maintenance](OPERATIONS.md).

@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "wikipedia-2026-nfl-selected-games",
+      "name": "Wikipedia contributors — 2026 NFL season (selected games)",
+      "url": "https://en.wikipedia.org/w/index.php?title=2026_NFL_season&oldid=1374361050",
+      "revision": "1374361050",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "retrieved_at": "2026-09-11T18:08:55+00:00",
+      "sha256": "dda9868faab4d3e0082d93ad5e950c9fa9e7413c2eaa73c6db07c76515c3c2b1",
+      "input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1374361050&prop=wikitext%7Crevid&format=json",
+      "changes": "Selected 19 explicitly dated regular-season highlights: opener, nine international games, five Thanksgiving-week games and four Christmas-week games. Expanded team labels, generated stable selection IDs, and normalized venue-local calendar dates. Omitted kickoff clocks, article prose, images, results, and all other matchups. Melbourne remains September 11 locally, with the source's September 10 U.S. date explained. Away/home team identities retained as named game participants."
+    }
+  ],
+  "events": [
+    {
+      "id": "wikipedia-nfl-2026-kickoff-ne-sea",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "New England Patriots at Seattle Seahawks",
+      "start_date": "2026-09-09",
+      "end_date": "2026-09-09",
+      "event_type": "game",
+      "notes": "Kickoff Game; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "New England Patriots",
+      "home_team": "Seattle Seahawks"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-sf-la",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "San Francisco 49ers at Los Angeles Rams · Melbourne",
+      "start_date": "2026-09-11",
+      "end_date": "2026-09-11",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included. September 11 in Melbourne is September 10 in U.S. time zones.",
+      "away_team": "San Francisco 49ers",
+      "home_team": "Los Angeles Rams"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-bal-dal",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Baltimore Ravens at Dallas Cowboys · Rio de Janeiro",
+      "start_date": "2026-09-27",
+      "end_date": "2026-09-27",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Baltimore Ravens",
+      "home_team": "Dallas Cowboys"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-ind-was",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Indianapolis Colts at Washington Commanders · London",
+      "start_date": "2026-10-04",
+      "end_date": "2026-10-04",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Indianapolis Colts",
+      "home_team": "Washington Commanders"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-phi-jax",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Philadelphia Eagles at Jacksonville Jaguars · London",
+      "start_date": "2026-10-11",
+      "end_date": "2026-10-11",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Philadelphia Eagles",
+      "home_team": "Jacksonville Jaguars"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-hou-jax",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Houston Texans at Jacksonville Jaguars · London",
+      "start_date": "2026-10-18",
+      "end_date": "2026-10-18",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Houston Texans",
+      "home_team": "Jacksonville Jaguars"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-pit-no",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Pittsburgh Steelers at New Orleans Saints · Paris",
+      "start_date": "2026-10-25",
+      "end_date": "2026-10-25",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Pittsburgh Steelers",
+      "home_team": "New Orleans Saints"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-cin-atl",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Cincinnati Bengals at Atlanta Falcons · Madrid",
+      "start_date": "2026-11-08",
+      "end_date": "2026-11-08",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Cincinnati Bengals",
+      "home_team": "Atlanta Falcons"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-ne-det",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "New England Patriots at Detroit Lions · Munich",
+      "start_date": "2026-11-15",
+      "end_date": "2026-11-15",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "New England Patriots",
+      "home_team": "Detroit Lions"
+    },
+    {
+      "id": "wikipedia-nfl-2026-international-min-sf",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Minnesota Vikings at San Francisco 49ers · Mexico City",
+      "start_date": "2026-11-22",
+      "end_date": "2026-11-22",
+      "event_type": "game",
+      "notes": "International Series; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Minnesota Vikings",
+      "home_team": "San Francisco 49ers"
+    },
+    {
+      "id": "wikipedia-nfl-2026-thanksgiving-gb-la",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Green Bay Packers at Los Angeles Rams",
+      "start_date": "2026-11-25",
+      "end_date": "2026-11-25",
+      "event_type": "game",
+      "notes": "Thanksgiving Eve; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Green Bay Packers",
+      "home_team": "Los Angeles Rams"
+    },
+    {
+      "id": "wikipedia-nfl-2026-thanksgiving-chi-det",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Chicago Bears at Detroit Lions",
+      "start_date": "2026-11-26",
+      "end_date": "2026-11-26",
+      "event_type": "game",
+      "notes": "Thanksgiving Day; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Chicago Bears",
+      "home_team": "Detroit Lions"
+    },
+    {
+      "id": "wikipedia-nfl-2026-thanksgiving-phi-dal",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Philadelphia Eagles at Dallas Cowboys",
+      "start_date": "2026-11-26",
+      "end_date": "2026-11-26",
+      "event_type": "game",
+      "notes": "Thanksgiving Day; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Philadelphia Eagles",
+      "home_team": "Dallas Cowboys"
+    },
+    {
+      "id": "wikipedia-nfl-2026-thanksgiving-kc-buf",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Kansas City Chiefs at Buffalo Bills",
+      "start_date": "2026-11-26",
+      "end_date": "2026-11-26",
+      "event_type": "game",
+      "notes": "Thanksgiving Day; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Kansas City Chiefs",
+      "home_team": "Buffalo Bills"
+    },
+    {
+      "id": "wikipedia-nfl-2026-thanksgiving-den-pit",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Denver Broncos at Pittsburgh Steelers",
+      "start_date": "2026-11-27",
+      "end_date": "2026-11-27",
+      "event_type": "game",
+      "notes": "Black Friday; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Denver Broncos",
+      "home_team": "Pittsburgh Steelers"
+    },
+    {
+      "id": "wikipedia-nfl-2026-christmas-hou-phi",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Houston Texans at Philadelphia Eagles",
+      "start_date": "2026-12-24",
+      "end_date": "2026-12-24",
+      "event_type": "game",
+      "notes": "Christmas Eve; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Houston Texans",
+      "home_team": "Philadelphia Eagles"
+    },
+    {
+      "id": "wikipedia-nfl-2026-christmas-gb-chi",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Green Bay Packers at Chicago Bears",
+      "start_date": "2026-12-25",
+      "end_date": "2026-12-25",
+      "event_type": "game",
+      "notes": "Christmas Day; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Green Bay Packers",
+      "home_team": "Chicago Bears"
+    },
+    {
+      "id": "wikipedia-nfl-2026-christmas-buf-den",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Buffalo Bills at Denver Broncos",
+      "start_date": "2026-12-25",
+      "end_date": "2026-12-25",
+      "event_type": "game",
+      "notes": "Christmas Day; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Buffalo Bills",
+      "home_team": "Denver Broncos"
+    },
+    {
+      "id": "wikipedia-nfl-2026-christmas-la-sea",
+      "source_id": "wikipedia-2026-nfl-selected-games",
+      "sport": "football",
+      "league": "NFL",
+      "title": "Los Angeles Rams at Seattle Seahawks",
+      "start_date": "2026-12-25",
+      "end_date": "2026-12-25",
+      "event_type": "game",
+      "notes": "Christmas Day; selected NFL games only. Venue-local date; kickoff time is not included.",
+      "away_team": "Los Angeles Rams",
+      "home_team": "Seattle Seahawks"
+    }
+  ],
+  "exclusions": [
+    {
+      "scope": "Full NFL regular season",
+      "reason": "Only the 19 explicitly dated season highlights were reviewed. This is not all 272 games."
+    },
+    {
+      "scope": "Week 18 and unresolved flex candidates",
+      "reason": "No placeholder date or kickoff is published. Week 18 dates and times remain TBD until confirmed."
+    },
+    {
+      "scope": "NFL preseason and postseason",
+      "reason": "Outside this reviewed selection; no implied full calendar-year coverage."
+    },
+    {
+      "scope": "nflverse schedules release",
+      "reason": "The data-release license exists, but the underlying schedule provenance and grant remain unresolved; see nfl-provenance-decision.md."
+    }
+  ]
+}

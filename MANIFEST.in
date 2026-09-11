@@ -1,0 +1,3 @@
+include THIRD-PARTY-NOTICES.txt
+recursive-include data/reviewed *.json *.md
+recursive-include docs/sources *.md

@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 from pathlib import Path
 
@@ -76,17 +77,7 @@ def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
 
     def read(url):
         requests.append(url)
-        if "/commits/" in url:
-            return json.dumps({"sha": "a" * 40}).encode()
-        if "/contents/" in url:
-            return json.dumps([{"type": "dir", "path": "src/data/seasons/2026/races/01"}]).encode()
-        if url.endswith("race.yml"):
-            return b"id: 1234\nround: 1\ndate: 2026-03-01\ntime: 12:00\ngrandPrixId: test\n"
-        season = url.split("/")[-2]
-        day = "2025-10-01" if season == "2025-26" else "2026-10-01"
-        return json.dumps(
-            {"matches": [{"date": day, "time": "20:00", "team1": "Home", "team2": "Away", "round": "Round 1"}]}
-        ).encode()
+        return fake_open_read(url)
 
     monkeypatch.setattr("sportsbro.open_schedules.read_url", read)
     result = refresh_open_schedules(2026, tmp_path / "working", tmp_path / "published")
@@ -100,3 +91,79 @@ def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
         for league in ("en.2", "nl.1", "pt.1")
     )
     assert all(e["start_time_utc"] is None for e in bundle["events"] if e["source"] == "openfootball")
+
+
+def fake_open_read(url):
+    if "/commits/" in url:
+        return json.dumps({"sha": "a" * 40}).encode()
+    if "/contents/" in url:
+        return json.dumps([{"type": "dir", "path": "src/data/seasons/2026/races/01"}]).encode()
+    if url.endswith("race.yml"):
+        return b"id: 1234\nround: 1\ndate: 2026-03-01\ntime: 12:00\ngrandPrixId: test\n"
+    season = url.split("/")[-2]
+    day = "2025-10-01" if season == "2025-26" else "2026-10-01"
+    return json.dumps(
+        {"matches": [{"date": day, "time": "20:00", "team1": "Home", "team2": "Away", "round": "Round 1"}]}
+    ).encode()
+
+
+def test_late_refresh_failure_keeps_prior_components_and_truthful_partial_coverage(monkeypatch, tmp_path):
+    monkeypatch.setattr("sportsbro.open_schedules.read_url", fake_open_read)
+    reviewed = tmp_path / "reviewed"
+    reviewed.mkdir()
+    registry = reviewed / "2026-golf.json"
+    registry.write_text(json.dumps(golf_registry()))
+    output = tmp_path / "published"
+    path = refresh_open_schedules(2026, tmp_path / "working", output, reviewed)
+    original = path.read_bytes()
+    bundle = json.loads(original)
+    assert "4 men's golf majors" in bundle["coverage"]
+    assert "World Climbing" not in bundle["coverage"]
+    modified = golf_registry()
+    modified["events"][0]["title"] += " revised"
+    registry.write_text(json.dumps(modified))
+    write = Path.write_bytes
+
+    def fail_final(path, body):
+        if path == output / "2026.tmp":
+            raise OSError("disk full during final write")
+        return write(path, body)
+
+    monkeypatch.setattr(Path, "write_bytes", fail_final)
+    with pytest.raises(OSError, match="disk full"):
+        refresh_open_schedules(2026, tmp_path / "working", output, reviewed)
+    assert path.read_bytes() == original
+    for component in bundle["components"]:
+        assert hashlib.sha256((output / component["path"]).read_bytes()).hexdigest() == component["sha256"]
+
+
+def test_chase_rounds_and_major_championships_keep_phase():
+    events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
+    chase = [event for event in events if event.league == "NASCAR_CUP" and event.is_postseason]
+    assert len(chase) == 10
+    assert all(int(event.event_id.rsplit("-", 1)[1]) >= 27 for event in chase)
+    assert all(event.competition_phase == "championship" for event in events if event.league == "IWF_WORLDS")
+
+
+def test_wikidata_prose_cannot_be_published_as_cc0():
+    payload = golf_registry()
+    payload["sources"][0].update(
+        url="https://www.wikidata.org/w/index.php?title=Wikidata:Licensing&oldid=1365105813",
+        license="CC0 1.0",
+        license_url="https://creativecommons.org/publicdomain/zero/1.0/",
+    )
+    with pytest.raises(ValueError, match="structured Wikidata"):
+        reviewed_events(payload, 2026)
+
+
+def test_nfl_selection_has_real_participants_and_keeps_melbourne_venue_date():
+    from sportsbro.semantics import is_malformed_event
+
+    events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
+    games = [event for event in events if event.league == "NFL"]
+    assert len(games) == 19
+    assert all(not is_malformed_event(event) and len(event.participants) == 2 for event in games)
+    melbourne = next(event for event in games if "Melbourne" in event.title)
+    assert melbourne.calendar_date == "2026-09-11"
+    assert melbourne.home_participant.name == "Los Angeles Rams"
+    assert melbourne.away_participant.name == "San Francisco 49ers"

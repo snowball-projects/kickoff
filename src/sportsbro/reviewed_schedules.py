@@ -8,8 +8,8 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
-from sportsbro.models import CalendarEvent
-from sportsbro.semantics import classification_fields
+from sportsbro.models import CalendarEvent, Participant
+from sportsbro.semantics import COMPETITION_PHASES, classification_fields
 from sportsbro.validation import validate_batch
 
 LICENSES = {
@@ -29,6 +29,24 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         if not policy or url.scheme != "https":
             raise ValueError("Unreviewed registry source")
         kind, license_name, license_url = policy
+        titles = parse_qs(url.query).get("title", [])
+        if url.path != "/w/index.php" or len(titles) != 1:
+            raise ValueError("Registry source needs a pinned article or entity URL")
+        if kind == "wikidata" and not re.fullmatch(r"Q[1-9][0-9]*", titles[0]):
+            raise ValueError("Only structured Wikidata items carry the reviewed CC0 grant")
+        if kind == "wikipedia" and titles[0].split(":", 1)[0].lower() in {
+            "wikipedia",
+            "file",
+            "template",
+            "user",
+            "category",
+            "mediawiki",
+            "help",
+            "talk",
+            "portal",
+            "draft",
+        }:
+            raise ValueError("Registry expects a Wikipedia article")
         revision = str(source["revision"])
         if not revision.isdigit() or parse_qs(url.query).get("oldid") != [revision]:
             raise ValueError("Registry source must pin its exact revision")
@@ -51,8 +69,17 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Invalid reviewed event span")
         if any(row.get(key) for key in ("start_time_utc", "start_time_local", "timezone")):
             raise ValueError("Reviewed date registry cannot establish a clock time")
+        phase = row.get("competition_phase", "regular_season")
+        if phase not in COMPETITION_PHASES:
+            raise ValueError("Unknown reviewed competition phase")
         if start.year > year or end.year < year:
             continue
+        home, away = None, None
+        if row["event_type"] == "game":
+            if not row.get("home_team") or not row.get("away_team"):
+                raise ValueError("Reviewed game needs both participants")
+            home = Participant(name=row["home_team"], role="home")
+            away = Participant(name=row["away_team"], role="away")
         events.append(
             CalendarEvent(
                 event_id=row["id"],
@@ -71,13 +98,14 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 city=None,
                 region=None,
                 country=row.get("country"),
+                home_participant=home,
+                away_participant=away,
+                participants=[away, home] if home and away else [],
                 calendar_date=start.isoformat(),
                 end_calendar_date=end.isoformat(),
                 source_url=source["url"],
                 **classification_fields(
-                    "championship"
-                    if row["league"] in {"IWF_WORLDS", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"}
-                    else "regular_season"
+                    "championship" if row["league"] in {"IWF_WORLDS", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"} else phase
                 ),
                 tags=["event dates"],
             )

@@ -5,8 +5,8 @@ Public schedule data is separate from the MIT software license:
 openfootball contributors — football.json; CC0 1.0 Universal.
 https://github.com/openfootball/football.json
 https://creativecommons.org/publicdomain/zero/1.0/
-Changes: selected five leagues and calendar-year dates, mapped into sportsbro's
-schema, omitted scores and unzoned kickoff times. No league endorsement.
+Changes: selected nine leagues and calendar-year dates, mapped into sportsbro's
+schema, omitted scores, canceled/postponed fixtures and unzoned kickoff times. No league endorsement.
 
 F1DB and contributors — Formula 1 database; CC BY 4.0.
 https://github.com/f1db/f1db
@@ -15,6 +15,24 @@ Changes: selected race/session date and UTC time fields, simplified names,
 normalized into sportsbro's event schema and grouped by calendar year.
 Pinned source revisions, file hashes and attribution travel with each public
 snapshot. F1DB is community maintained, not an official Formula 1 service.
+
+Wikipedia contributors — selected sports schedules; CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/
+https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use#7._Licensing_of_Content
+Changes: selected reviewed date-only events, normalized inclusive date spans,
+simplified labels and venues, classified competition phases; omitted article
+prose, images, results and unverified clocks. Adaptations remain CC BY-SA 4.0,
+including their records in the combined calendar. Per-page contributor credits,
+pinned revision links, hashes, retrieval dates and detailed changes accompany
+all rows in the public bundle and the separately downloadable component.
+Preserve applicable attribution and share-alike obligations on redistribution.
+
+Wikidata contributors — IWF senior Worlds dates, item Q124142978; CC0 1.0.
+https://www.wikidata.org/wiki/Wikidata:Licensing
+https://creativecommons.org/publicdomain/zero/1.0/
+Changes: selected day-precision start/end claims and retained inclusive dates;
+no timestamp or lifting-session details inferred. Revision/hash/source receipts
+travel with the CC0 component. This notice does not apply CC0 to Wikidata prose.
 
 League/team names identify scheduled events; no official team or league logos
 are included and no endorsement is implied.

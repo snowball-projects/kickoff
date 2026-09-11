@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -43,6 +44,20 @@ SOURCES = [
         "license_url": "https://creativecommons.org/licenses/by/4.0/",
     },
 ]
+REVIEWED_LABELS = {
+    "IFSC_WORLD_CUP": "World Climbing stops",
+    "NASCAR_CUP": "NASCAR Cup races",
+    "INDYCAR": "IndyCar races",
+    "IWF_WORLDS": "IWF Worlds span",
+    "UFC": "UFC cards",
+    "PFL": "PFL global cards",
+    "RIZIN": "RIZIN cards",
+    "ONE": "ONE Fight Night/Samurai cards",
+    "BOXING_MAJOR": "selected boxing unification",
+    "GOLF_MAJORS_MEN": "men's golf majors",
+    "GOLF_MAJORS_WOMEN": "women's golf majors",
+    "NFL": "selected NFL opener, international and holiday games (not the full schedule)",
+}
 
 
 def read_url(url: str) -> bytes:
@@ -263,11 +278,14 @@ def refresh_open_schedules(year: int, working_dir: Path, output_dir: Path, revie
     bundle_path = export_web_bundle(Settings.load(working_dir), year, working_dir / "public")
     bundle = json.loads(bundle_path.read_text())
     bundle["updated_at"] = retrieved
+    reviewed_counts = Counter(event.league for event in reviewed)
+    reviewed_coverage = ", ".join(
+        f"{count} {REVIEWED_LABELS[league]}" for league, count in sorted(reviewed_counts.items())
+    )
     bundle["coverage"] = (
         f"{year}: nine football leagues and Formula 1. "
         + (
-            "Reviewed event dates: World Climbing, NASCAR Cup, IndyCar, IWF Worlds, selected major combat cards "
-            "and nine golf majors. See coverage details for inclusions and omissions. "
+            f"Reviewed event dates: {reviewed_coverage}. See coverage details for inclusions and omissions. "
             if reviewed
             else ""
         )
@@ -295,7 +313,6 @@ def refresh_open_schedules(year: int, working_dir: Path, output_dir: Path, revie
         selected = [event for event in bundle["events"] if event["source"] == kind]
         if not selected:
             continue
-        name = f"{year}-{kind}.json"
         component = {
             "schema_version": "1",
             "season": year,
@@ -304,7 +321,9 @@ def refresh_open_schedules(year: int, working_dir: Path, output_dir: Path, revie
             "sources": [source for source in notices if source["kind"] == kind],
             "events": selected,
         }
-        components[name] = (json.dumps(component, ensure_ascii=True, separators=(",", ":")) + "\n").encode()
+        body = (json.dumps(component, ensure_ascii=True, separators=(",", ":")) + "\n").encode()
+        name = f"{year}-{kind}-{hashlib.sha256(body).hexdigest()}.json"
+        components[name] = body
     bundle["components"] = [
         {"path": name, "sha256": hashlib.sha256(body).hexdigest()} for name, body in components.items()
     ]

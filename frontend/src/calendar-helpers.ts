@@ -23,7 +23,7 @@ const LEAGUE_META: Record<
   IWF_WORLDS: { shortLabel: "IWF Worlds", className: "league-generic", order: 35 },
   GOLF_MAJORS_MEN: { shortLabel: "Golf · men's majors", className: "league-pga", order: 36 },
   GOLF_MAJORS_WOMEN: { shortLabel: "Golf · women's majors", className: "league-pga", order: 37 },
-  NFL: { shortLabel: "NFL", className: "league-nfl", order: 0 },
+  NFL: { shortLabel: "NFL · selected games", className: "league-nfl", order: 0 },
   NBA: { shortLabel: "NBA", className: "league-nba", order: 1 },
   MLB: { shortLabel: "MLB", className: "league-mlb", order: 2 },
   NHL: { shortLabel: "NHL", className: "league-nhl", order: 3 },

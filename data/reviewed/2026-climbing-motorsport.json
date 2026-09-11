@@ -23,7 +23,7 @@
       "retrieved_at": "2026-09-11T18:02:08Z",
       "sha256": "c493027406d12bf4b23d5d42911de47f2cab537bb1bfba7f22b5b71082663a1a",
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1373965067&prop=text&format=json",
-      "changes": "Adapted by snowball: selected schedule fields, expanded merged cells, removed footnotes, media, results and clocks; normalized dates to inclusive ISO date spans and added stable event IDs. This adapted data remains CC BY-SA 4.0."
+      "changes": "Adapted by snowball: selected schedule fields, expanded merged cells, removed footnotes, media, results and clocks; normalized dates to inclusive ISO date spans and added stable event IDs. This adapted data remains CC BY-SA 4.0. Classified source-labeled Chase rounds 27–36 as postseason."
     },
     {
       "id": "indycar-2026",
@@ -490,7 +490,9 @@
       "start_date": "2026-09-06",
       "end_date": "2026-09-06",
       "event_type": "race",
-      "venue": "Darlington Raceway, Darlington, South Carolina"
+      "venue": "Darlington Raceway, Darlington, South Carolina",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-28",
@@ -501,7 +503,9 @@
       "start_date": "2026-09-13",
       "end_date": "2026-09-13",
       "event_type": "race",
-      "venue": "World Wide Technology Raceway, Madison, Illinois"
+      "venue": "World Wide Technology Raceway, Madison, Illinois",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-29",
@@ -512,7 +516,9 @@
       "start_date": "2026-09-19",
       "end_date": "2026-09-19",
       "event_type": "race",
-      "venue": "Bristol Motor Speedway, Bristol, Tennessee"
+      "venue": "Bristol Motor Speedway, Bristol, Tennessee",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-30",
@@ -523,7 +529,9 @@
       "start_date": "2026-09-27",
       "end_date": "2026-09-27",
       "event_type": "race",
-      "venue": "Kansas Speedway, Kansas City, Kansas"
+      "venue": "Kansas Speedway, Kansas City, Kansas",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-31",
@@ -534,7 +542,9 @@
       "start_date": "2026-10-04",
       "end_date": "2026-10-04",
       "event_type": "race",
-      "venue": "Las Vegas Motor Speedway, Las Vegas, Nevada"
+      "venue": "Las Vegas Motor Speedway, Las Vegas, Nevada",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-32",
@@ -545,7 +555,9 @@
       "start_date": "2026-10-11",
       "end_date": "2026-10-11",
       "event_type": "race",
-      "venue": "Charlotte Motor Speedway, Concord, North Carolina"
+      "venue": "Charlotte Motor Speedway, Concord, North Carolina",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-33",
@@ -556,7 +568,9 @@
       "start_date": "2026-10-18",
       "end_date": "2026-10-18",
       "event_type": "race",
-      "venue": "Phoenix Raceway, Avondale, Arizona"
+      "venue": "Phoenix Raceway, Avondale, Arizona",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-34",
@@ -567,7 +581,9 @@
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
       "event_type": "race",
-      "venue": "Talladega Superspeedway, Lincoln, Alabama"
+      "venue": "Talladega Superspeedway, Lincoln, Alabama",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-35",
@@ -578,7 +594,9 @@
       "start_date": "2026-11-01",
       "end_date": "2026-11-01",
       "event_type": "race",
-      "venue": "Martinsville Speedway, Ridgeway, Virginia"
+      "venue": "Martinsville Speedway, Ridgeway, Virginia",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "nascar-cup-2026-round-36",
@@ -589,7 +607,9 @@
       "start_date": "2026-11-08",
       "end_date": "2026-11-08",
       "event_type": "race",
-      "venue": "Homestead–Miami Speedway, Homestead, Florida"
+      "venue": "Homestead–Miami Speedway, Homestead, Florida",
+      "competition_phase": "postseason",
+      "notes": "Cup Series Chase championship race."
     },
     {
       "id": "indycar-2026-round-01",

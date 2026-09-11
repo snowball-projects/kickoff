@@ -1,4 +1,4 @@
-import { readFile, mkdir, cp, readdir } from "node:fs/promises";
+import { readFile, mkdir, cp, readdir, rm } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
@@ -7,6 +7,7 @@ const target = join(root, "frontend/public");
 await mkdir(join(target, "data"), { recursive: true });
 const names = (await readdir(join(root, "data/published"))).filter((n) => /^\d{4}\.json$/.test(n));
 if (!names.length) throw Error("No reviewed public schedule snapshots");
+const publishedNames = new Set(names);
 for (const name of names) {
   const text = await readFile(join(root, "data/published", name), "utf8");
   const bundle = JSON.parse(text);
@@ -30,6 +31,9 @@ for (const name of names) {
       const url = new URL(event.source_url);
       if (!notice || notice.license !== license || url.protocol !== "https:" || url.hostname !== host || url.searchParams.get("oldid") !== String(notice.revision) || !/^[a-f0-9]{64}$/.test(notice.sha256) || !notice.changes || !notice.retrieved_at)
         throw Error("Missing reviewed Wikimedia provenance or license");
+      const titles = url.searchParams.getAll("title");
+      if (url.origin !== `https://${host}` || url.pathname !== "/w/index.php" || titles.length !== 1 || !titles[0] || (event.source === "wikidata" && !/^Q[1-9][0-9]*$/.test(titles[0])) || (event.source === "wikipedia" && /^(Wikipedia|File|Template|User|Category|MediaWiki|Help|Talk|Portal|Draft):/i.test(titles[0])))
+        throw Error("Unreviewed Wikimedia article/entity namespace");
       if (event.start_time_utc || event.start_time_local || event.timezone || !event.end_calendar_date)
         throw Error("Reviewed date-only event has unsupported clock semantics");
       if (bundle.data_licenses?.[event.source] !== license)
@@ -39,8 +43,10 @@ for (const name of names) {
   for (const kind of ["wikipedia", "wikidata"]) {
     const events = bundle.events.filter((e) => e.source === kind);
     if (!events.length) continue;
-    const path = `${bundle.season}-${kind}.json`;
-    const reference = bundle.components?.find((c) => c.path === path);
+    const reference = bundle.components?.find((c) => new RegExp(`^${bundle.season}-${kind}-[a-f0-9]{64}\\.json$`).test(c.path));
+    if (!reference) throw Error("Missing immutable licensed data component");
+    const path = reference.path;
+    publishedNames.add(path);
     const body = await readFile(join(root, "data/published", path));
     if (!reference || createHash("sha256").update(body).digest("hex") !== reference.sha256)
       throw Error("Missing or changed licensed data component");
@@ -50,6 +56,11 @@ for (const name of names) {
     await cp(join(root, "data/published", path), join(target, "data", path));
   }
   await cp(join(root, "data/published", name), join(target, "data", name));
+}
+// Only these generated snapshot/component filenames are managed by this script.
+for (const name of await readdir(join(target, "data"))) {
+  if (/^\d{4}(?:-(?:wikipedia|wikidata)-[a-f0-9]{64})?\.json$/.test(name) && !publishedNames.has(name))
+    await rm(join(target, "data", name));
 }
 for (const name of ["LICENSE", "THIRD-PARTY-NOTICES.txt"])
   await cp(join(root, name), join(target, name));
