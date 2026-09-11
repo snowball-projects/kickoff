@@ -20,18 +20,20 @@ Wikipedia contributors — selected sports schedules; CC BY-SA 4.0.
 https://creativecommons.org/licenses/by-sa/4.0/
 https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use#7._Licensing_of_Content
 Changes: selected reviewed date-only events, normalized inclusive date spans,
-simplified labels and venues, classified competition phases; omitted article
+simplified labels and venues, classified competition phases, explicitly marked
+golf final-date-only records where opening dates were unavailable; omitted article
 prose, images, results and unverified clocks. Adaptations remain CC BY-SA 4.0,
 including their records in the combined calendar. Per-page contributor credits,
 pinned revision links, hashes, retrieval dates and detailed changes accompany
 all rows in the public bundle and the separately downloadable component.
 Preserve applicable attribution and share-alike obligations on redistribution.
 
-Wikidata contributors — IWF senior Worlds dates, item Q124142978; CC0 1.0.
+Wikidata contributors — IWF senior Worlds (Q124142978) and 2026 Players
+Championship (Q138632122) dates; CC0 1.0.
 https://www.wikidata.org/wiki/Wikidata:Licensing
 https://creativecommons.org/publicdomain/zero/1.0/
 Changes: selected day-precision start/end claims and retained inclusive dates;
-no timestamp or lifting-session details inferred. Revision/hash/source receipts
+no timestamp, lifting-session or tee-time details inferred. Revision/hash/source receipts
 travel with the CC0 component. This notice does not apply CC0 to Wikidata prose.
 
 League/team names identify scheduled events; no official team or league logos

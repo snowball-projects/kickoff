@@ -56,6 +56,8 @@ REVIEWED_LABELS = {
     "BOXING_MAJOR": "selected boxing unification",
     "GOLF_MAJORS_MEN": "men's golf majors",
     "GOLF_MAJORS_WOMEN": "women's golf majors",
+    "PGA_TOUR": "selected PGA Tour tournaments (mostly final dates only)",
+    "LPGA_TOUR": "selected LPGA Tour final dates",
     "NFL": "selected NFL opener, international and holiday games (not the full schedule)",
 }
 

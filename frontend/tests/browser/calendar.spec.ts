@@ -267,12 +267,87 @@ test("changing interests updates pills while preserving the visible scroll posit
   await nativeScrollTo(page, "2026-10-01", 125);
   const before = await monthPosition(page, "2026-10-01");
   await page.getByRole("button", { name: /Interests/ }).click();
-  await page.getByRole("checkbox", { name: "Premier League", exact: true }).uncheck();
+  await page.locator("summary").filter({ hasText: /^Soccer$/ }).click();
+  await page.getByRole("checkbox", { name: "England Premier League", exact: true }).uncheck();
   await page.getByRole("button", { name: "Show my calendar" }).click();
   await expect(page.locator("#day-2026-10-10 .event-pill")).toHaveCount(1);
   await expect(page.locator("#day-2026-10-10 .event-pill")).toContainText("Grand Prix 10");
   await expect(heading(page)).toHaveText("October");
   expect(Math.abs(await monthPosition(page, "2026-10-01") - before)).toBeLessThanOrEqual(1);
+});
+
+test("event hover preview is readable, hoverable, dismissible and keeps day clicks", async ({ page }) => {
+  const day = page.locator("#day-2026-09-10");
+  const pill = day.locator(".event-pill").filter({ hasText: "Grand Prix 09" });
+  await pill.hover();
+  const preview = page.getByRole("tooltip");
+  await expect(preview).toContainText("Grand Prix 09");
+  await expect(preview).toContainText("Time TBD");
+  await expect(preview).toContainText("Italy");
+  await expect(page.getByRole("complementary", { name: "Day events" })).toHaveCount(0);
+  await preview.hover();
+  await preview.getByText("Italy", { exact: true }).click();
+  await page.waitForTimeout(220);
+  await expect(preview).toBeVisible();
+  const bounds = await preview.boundingBox();
+  expect(bounds!.x).toBeGreaterThanOrEqual(0);
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(1280);
+  await page.screenshot({ path: "test-results/event-preview-desktop.png" });
+  await page.keyboard.press("Escape");
+  await expect(preview).toHaveCount(0);
+  await page.getByRole("heading", { level: 1 }).hover();
+  await pill.hover();
+  await expect(preview).toBeVisible();
+  await pill.click();
+  await expect(preview).toHaveCount(0);
+  await expect(page.getByRole("complementary", { name: "Day events" })).toContainText("Grand Prix 09");
+});
+
+test("keyboard previews first event and Enter exposes every event and source", async ({ page }) => {
+  await page.keyboard.press("Tab");
+  const day = page.locator("#day-2026-09-10");
+  await day.focus();
+  const preview = page.getByRole("tooltip");
+  await expect(preview).toBeVisible();
+  await expect(day).toHaveAttribute("aria-describedby", "event-preview");
+  await page.keyboard.press("Escape");
+  await expect(preview).toHaveCount(0);
+  await expect(day).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#day-2026-09-11")).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(preview).toBeVisible();
+  await page.keyboard.press("Enter");
+  const detail = page.getByRole("complementary", { name: "Day events" });
+  await expect(detail).toContainText("Football fixture 09");
+  await expect(detail).toContainText("Grand Prix 09");
+  await expect(preview).toHaveCount(0);
+});
+
+test("scrolling dismisses an event preview before the month is recycled", async ({ page }) => {
+  await page.locator("#day-2026-09-10 .event-pill").first().hover();
+  await expect(page.getByRole("tooltip")).toBeVisible();
+  await page.mouse.wheel(0, 250);
+  await expect(page.getByRole("tooltip")).toHaveCount(0);
+});
+
+test("keyboard month navigation restores the focused event preview after scrolling", async ({ page }) => {
+  await page.keyboard.press("Tab");
+  await page.locator("#day-2026-09-10").focus();
+  await page.keyboard.press("PageDown");
+  await expect(page.locator("#day-2026-10-10")).toBeFocused();
+  await expect(page.getByRole("tooltip")).toContainText("October 10, 2026");
+  await page.waitForTimeout(250);
+  await expect(page.getByRole("tooltip")).toBeVisible();
+});
+
+test.describe("touch events", () => {
+  test.use({ hasTouch: true, viewport: { width: 390, height: 844 } });
+  test("a tap opens day details without a hover overlay", async ({ page }) => {
+    await page.locator("#day-2026-09-10 .event-pill").first().tap();
+    await expect(page.getByRole("tooltip")).toHaveCount(0);
+    await expect(page.getByRole("complementary", { name: "Day events" })).toContainText("Grand Prix 09");
+  });
 });
 
 test("long native traversal recenters without growing the DOM or moving the visual anchor", async ({ page }) => {

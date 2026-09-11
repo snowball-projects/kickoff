@@ -4,8 +4,11 @@ A calendar for the sports you follow, by snowball.
 
 **[Open sportsbro](https://snowball-projects.github.io/sportsbro/)**
 
-Choose your leagues, scroll up or down through months, zoom out to the year, or
-open a day's events. The heading follows the visible month; **Today** at the
+Choose individual leagues or whole collapsible sport groups, scroll up or down
+through months, zoom out to the year, or open a day's events. Hover an event for
+its dates, time, location and notes. Focusing a day previews its first event;
+Enter or a tap opens all events and sources, and Escape dismisses the preview.
+The heading follows the visible month; **Today** at the
 bottom left returns smoothly to the current month. Reduced-motion settings skip
 the animation. Interests stay on your device; no account, analytics, live scores
 or betting features.
@@ -16,7 +19,9 @@ heading. Calendar navigation spans 1900–2100; years without a published schedu
 are marked unavailable.
 
 The reviewed 2026 collection covers nine football leagues, F1, World Climbing,
-NASCAR Cup, IndyCar, selected NFL and combat cards, IWF Worlds and golf majors.
+NASCAR Cup, IndyCar, selected NFL and combat cards, IWF Worlds, golf majors and
+selected PGA/LPGA season dates. Most added golf entries show only a tournament's
+listed final date; they are labeled **Final date**, with no implied opening date.
 [Coverage and data licenses](docs/PUBLIC_RELEASE.md) give exact inclusions and
 omissions. Most additions are date-only; verified F1 times use your device's zone.
 Software is MIT; Wikipedia-derived schedule data retains CC BY-SA 4.0.

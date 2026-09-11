@@ -5,6 +5,13 @@ paid feed or database is configured. GitHub hosting limits apply. Preferences us
 one local-storage key, `sportsbro.interests.v1`; schedule queries run entirely in
 the browser against same-origin JSON files, one per published year.
 
+Verified September 11, 2026: [GitHub Pages is free for public repositories](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits),
+with a 1 GB published-site limit, a 100 GB/month soft bandwidth limit and a
+10-minute deployment timeout. The 10-builds/hour soft limit does not apply to
+this custom Actions workflow. Exceeding free limits requires reducing usage or
+pausing publication; do not enable paid services or change billing during the
+collection cleanup. This golf expansion adds no runtime provider requests.
+
 `frontend/public/data` is generated from reviewed `data/published` snapshots.
 Never copy a private normalized directory or cache into public assets. Snapshots
 are portable JSON; other software can read the same contract without operating
@@ -35,6 +42,20 @@ arrow keys move by day or week, Page Up/Down changes month, and Shift + Page
 Up/Down changes year; month jumps clamp to a valid day. Current-day highlighting,
 event pills, interests, search, year overview and the day detail panel remain
 available across navigation.
+
+Interests are grouped into Soccer, Motorsports, American football, Combat sports,
+Golf and Miscellaneous. Each group expands independently and has a checkbox for
+all its available leagues; a mixed checkbox means some are selected. Individual
+league IDs and the existing storage key are preserved. New league IDs are not
+silently added to previously saved choices. Soccer flags identify the national
+league's country; CHAMPIONSHIP is England's EFL Championship.
+
+A single event preview is mounted outside the scrolling surface. Hover a pill
+or focus a day (its first event) to read dates, time, venue and notes. It stays
+open while hovered and closes on Escape or manual scrolling. Keyboard navigation
+restores the destination day's preview after scrolling settles. Clicking/tapping
+the day or pressing Enter retains the full day panel and source links. No extra
+provider fetches or nested interactive controls are needed for previews.
 
 ## Deploy or revive
 
@@ -74,6 +95,12 @@ moves or renaming, and record the input URL, raw-byte SHA-256, retrieval time,
 revision, contributor attribution, license and changes together. Retain raw
 responses in local ignored storage. Do not turn date-only or month-precision
 values into timestamps. Add a new year explicitly; do not extrapolate dates.
+
+Golf registry rows with `date_scope: "final_date"` must have equal start/end
+dates. These are markers of the source's listed final date, not tournament spans.
+The importer adds the `final date only` tag, which the calendar, preview and day
+panel display. Never fill missing starts by subtracting three days. See the
+[golf source review](sources/golf.md) for exact coverage and exceptions.
 
 Refresh with `scripts/refresh-public.py --year 2026`. It validates registries and
 all normalized events before publishing. Wikimedia components use immutable
