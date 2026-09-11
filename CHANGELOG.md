@@ -1,6 +1,6 @@
 # Changes
 
-## Unreleased
+## 0.5.0
 
 - Group interests by sport with collapsible league lists, group selection and
   mixed states. Preserve saved choices, add national soccer flags and label the
