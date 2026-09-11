@@ -24,6 +24,9 @@ type DashboardBundle = {
 };
 
 const bundleCache = new Map<number, Promise<DashboardBundle>>();
+const BUNDLE_CACHE_LIMIT = 3;
+
+class ScheduleDataError extends Error {}
 
 function bundleUrl(season: number) {
   const base = import.meta.env?.BASE_URL || "/";
@@ -32,25 +35,46 @@ function bundleUrl(season: number) {
 
 function loadBundle(season: number) {
   let promise = bundleCache.get(season);
-  if (!promise) {
+  if (promise) {
+    // Both pending and resolved bundles share the same small LRU cache.
+    bundleCache.delete(season);
+    bundleCache.set(season, promise);
+  } else {
     promise = fetch(bundleUrl(season))
       .then(async (response) => {
         if (!response.ok) {
-          throw new Error(`Schedule data for ${season} is unavailable.`);
+          throw new ScheduleDataError(
+            response.status === 404
+              ? `No published schedule for ${season}.`
+              : `Schedule data for ${season} is unavailable. Please retry.`,
+          );
         }
         const payload = (await response.json()) as DashboardBundle;
         if (payload.schema_version !== "1") {
-          throw new Error(
-            `Unsupported schedule bundle version: ${payload.schema_version}`,
+          throw new ScheduleDataError(
+            `Schedule data for ${season} is unavailable: unsupported bundle version.`,
+          );
+        }
+        if (payload.season !== season) {
+          throw new ScheduleDataError(
+            `Schedule data for ${season} is unavailable: the bundle belongs to ${payload.season}.`,
           );
         }
         return payload;
       })
       .catch((error: unknown) => {
-        bundleCache.delete(season);
-        throw error;
+        // An evicted request can settle after another request for this year.
+        if (bundleCache.get(season) === promise) bundleCache.delete(season);
+        throw error instanceof ScheduleDataError
+          ? error
+          : new ScheduleDataError(
+              `Schedule data for ${season} is unavailable. Please retry.`,
+            );
       });
     bundleCache.set(season, promise);
+    if (bundleCache.size > BUNDLE_CACHE_LIMIT) {
+      bundleCache.delete(bundleCache.keys().next().value!);
+    }
   }
   return promise;
 }
@@ -331,6 +355,193 @@ export async function getCalendarRange(
     ),
   );
   return Object.fromEntries(entries) as Record<string, CalendarResponse>;
+}
+
+export type CalendarDataState = {
+  months: Record<string, CalendarResponse>;
+  errors: Record<number, string>;
+  loadingYears: number[];
+  manifests: Record<number, ManifestResponse>;
+  facets: FiltersResponse | null;
+};
+
+type YearLoad = {
+  pending?: AbortController;
+  error?: string;
+  manifest?: ManifestResponse;
+  facets?: FiltersResponse;
+};
+
+const FACET_FILTERS: FilterState = {
+  sport: "",
+  league: "",
+  competition_phase: "",
+  country: "",
+  city: "",
+  tags: [],
+};
+
+function combinedFacets(responses: FiltersResponse[]): FiltersResponse {
+  const result = { ...responses[0] };
+  result.available_seasons = [
+    ...new Set(responses.flatMap((r) => r.available_seasons)),
+  ].sort();
+  result.total_events = responses.reduce((sum, r) => sum + r.total_events, 0);
+  for (const key of [
+    "sports",
+    "leagues",
+    "event_types",
+    "competition_phases",
+    "countries",
+    "cities",
+    "venues",
+    "tags",
+    "participants",
+  ] as const) {
+    const counts = new Map<string, number>();
+    for (const response of responses) {
+      for (const item of response[key]) {
+        counts.set(item.value, (counts.get(item.value) || 0) + item.count);
+      }
+    }
+    result[key] = [...counts]
+      .map(([value, count]) => ({ value, count }))
+      .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value));
+  }
+  return result;
+}
+
+// The store owns only the requested window. It is separate from React so race
+// conditions, retries and window eviction can be checked with offline fixtures.
+export class CalendarDataStore {
+  private anchors = new Set<string>();
+  private years = new Map<number, YearLoad>();
+  private months: Record<string, CalendarResponse> = {};
+  private signature = "";
+  private timezone = "";
+  private retry = 0;
+  private filters = FACET_FILTERS;
+  private listeners = new Set<() => void>();
+  private state: CalendarDataState = {
+    months: {},
+    errors: {},
+    loadingYears: [],
+    manifests: {},
+    facets: null,
+  };
+
+  getSnapshot = () => this.state;
+
+  subscribe = (listener: () => void) => {
+    this.listeners.add(listener);
+    return () => {
+      this.listeners.delete(listener);
+    };
+  };
+
+  matches(signature: string, timezone: string) {
+    return this.signature === signature && this.timezone === timezone;
+  }
+
+  update(anchors: string[], signature: string, timezone: string, retry: number) {
+    const changed = !this.matches(signature, timezone);
+    const retryChanged = this.retry !== retry;
+    this.signature = signature;
+    this.timezone = timezone;
+    this.retry = retry;
+    this.filters = JSON.parse(signature) as FilterState;
+    this.anchors = new Set(anchors);
+    const years = new Set(anchors.map((anchor) => Number(anchor.slice(0, 4))));
+    this.months = changed
+      ? {}
+      : Object.fromEntries(
+          Object.entries(this.months).filter(([anchor]) => this.anchors.has(anchor)),
+        );
+    for (const [year, record] of this.years) {
+      if (!years.has(year) || changed) {
+        record.pending?.abort();
+        record.pending = undefined;
+      }
+      if (!years.has(year)) this.years.delete(year);
+      // Changing interests cannot make an unpublished year available.
+      else if (retryChanged) record.error = undefined;
+    }
+    for (const year of years) {
+      if (!this.years.has(year)) this.years.set(year, {});
+    }
+    this.loadMissing();
+    this.publish();
+  }
+
+  cancel() {
+    for (const record of this.years.values()) {
+      record.pending?.abort();
+      record.pending = undefined;
+    }
+  }
+
+  private loadMissing() {
+    for (const [year, record] of this.years) {
+      if (record.pending || record.error) continue;
+      const missing = [...this.anchors].filter(
+        (anchor) => Number(anchor.slice(0, 4)) === year && !this.months[anchor],
+      );
+      if (!missing.length) continue;
+      const request = new AbortController();
+      record.pending = request;
+      const { signal } = request;
+      Promise.all([
+        record.manifest || getManifest(year, signal),
+        record.facets || getFilters(year, FACET_FILTERS, this.timezone, signal),
+        getCalendarRange(year, missing, this.filters, this.timezone, signal),
+      ])
+        .then(([manifest, facets, months]) => {
+          if (this.years.get(year) !== record || record.pending !== request) return;
+          record.pending = undefined;
+          record.manifest = manifest;
+          record.facets = facets;
+          for (const [anchor, month] of Object.entries(months)) {
+            if (this.anchors.has(anchor)) this.months[anchor] = month;
+          }
+          // A sliding window may have added more months while this year loaded.
+          this.loadMissing();
+          this.publish();
+        })
+        .catch((error: unknown) => {
+          if (this.years.get(year) !== record || record.pending !== request) return;
+          record.pending = undefined;
+          record.error = error instanceof Error
+            ? error.message
+            : `Schedule data for ${year} is unavailable. Please retry.`;
+          this.publish();
+        });
+    }
+  }
+
+  private publish() {
+    const responses = [...this.years.values()].flatMap((record) =>
+      record.facets ? [record.facets] : [],
+    );
+    this.state = {
+      months: { ...this.months },
+      errors: Object.fromEntries(
+        [...this.years].flatMap(([year, record]) =>
+          record.error ? [[year, record.error]] : [],
+        ),
+      ),
+      manifests: Object.fromEntries(
+        [...this.years].flatMap(([year, record]) =>
+          record.manifest ? [[year, record.manifest]] : [],
+        ),
+      ),
+      loadingYears: [...this.years]
+        .filter(([, record]) => record.pending)
+        .map(([year]) => year),
+      // Keep the last useful interests even when the entire window is missing.
+      facets: responses.length ? combinedFacets(responses) : this.state.facets,
+    };
+    for (const listener of this.listeners) listener();
+  }
 }
 
 export async function searchEvents(

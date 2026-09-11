@@ -24,9 +24,17 @@ and F1DB. The old official-source adapters remain local ingestion tools; none of
 those adapters is claimed as an approved public feed. Historical reference CSVs
 and caches are not included in the public source snapshot.
 
-No history was force-pushed or rewritten. The private repository and a local Git
-bundle preserve the pre-repair commits. The public source snapshot starts
-from the reviewed repaired source in the owner-approved snowball repository. It is not an assertion that old scraped data is MIT.
+No pre-repair commits were rewritten or force-pushed. After preservation checks,
+the owner approved deletion of the original `adelevski/sportsbro` GitHub
+repository, and that remote has been deleted. Original and repaired Git history
+and old release artifacts remain in the local collection's
+`retirement-review/sportsbro/`, including `original-checkout.git`,
+`repaired-private-history.bundle` and `releases/`. Preserve these backups.
+
+The public source snapshot starts from reviewed repaired source in the
+owner-approved `snowball-projects/sportsbro` repository. It is not an assertion
+that old scraped data is MIT. Use preserved history as a reference; do not restore
+the old merge errors, raw caches, removed server or inferred season markers.
 
 Verification includes provider/CLI tests, F1 UTC/Saturday/session cases, unchanged
 IDs after fixture rescheduling, export privacy/end dates, browser-data timezone

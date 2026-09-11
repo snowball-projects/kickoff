@@ -4,9 +4,16 @@ A calendar for the sports you follow, by snowball.
 
 **[Open sportsbro](https://snowball-projects.github.io/sportsbro/)**
 
-Choose your leagues, browse the current month, zoom out to the year, or open a
-day's events. **Today** returns to the current month. Interests stay on your
-device; no account, analytics, live scores or betting features.
+Choose your leagues, scroll up or down through months, zoom out to the year, or
+open a day's events. The heading follows the visible month; **Today** at the
+bottom left returns smoothly to the current month. Reduced-motion settings skip
+the animation. Interests stay on your device; no account, analytics, live scores
+or betting features.
+
+With a day focused, arrow keys move between days, Page Up/Down changes month,
+and Shift + Page Up/Down changes year. Search covers the year shown in the
+heading. Calendar navigation spans 1900–2100; years without a published schedule
+are marked unavailable.
 
 The first public collection covers F1 and five European football leagues.
 [Coverage and data licenses](docs/PUBLIC_RELEASE.md) distinguish published data
@@ -21,9 +28,20 @@ npm ci
 npm run dev
 ```
 
-Node 24 is used for deployment. `npm test` checks calendar data behavior;
-`npm run build` prepares the checked-in reviewed snapshot and builds static
-`frontend/dist/`. Normal builds make no schedule-provider requests.
+Node 24 is used for deployment. From `frontend`, verify the calendar with:
+
+```sh
+npm test
+npx playwright install chromium
+npm run test:browser
+npm run build
+```
+
+Unit tests check dates, navigation, scroll state and schedule loading. Browser
+tests exercise the scrolling calendar; `PLAYWRIGHT_CHROME=1 npm run test:browser`
+uses an installed Google Chrome instead of Playwright's Chromium. The build
+prepares the checked-in reviewed snapshot and writes static `frontend/dist/`.
+Normal builds make no schedule-provider requests.
 
 ## Ingestion and verification
 

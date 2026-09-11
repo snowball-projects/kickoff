@@ -30,3 +30,6 @@ frontend/public/THIRD-PARTY-NOTICES.txt
 # Historical schedule downloads are private reference material.
 data/reference/
 !.env.example
+
+frontend/test-results/
+frontend/playwright-report/

@@ -90,7 +90,7 @@ button,
 }
 .app-shell {
   height: 100dvh;
-  min-height: 520px;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   max-width: 1800px;
@@ -145,6 +145,7 @@ button,
   justify-content: center;
 }
 .calendar-heading {
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -732,7 +733,7 @@ dialog p {
 @media (max-width: 620px) {
   .app-shell {
     padding: 0 10px;
-    min-height: 500px;
+    min-height: 0;
   }
   .topbar {
     height: 56px;
@@ -872,5 +873,66 @@ dialog p {
     scroll-behavior: auto !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* The weekday labels and Today remain outside the native scrolling surface. */
+.calendar-stage:has(.month-feed) {
+  overflow: hidden;
+}
+.month-feed {
+  --week-height: 140px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  overflow-anchor: none;
+  scrollbar-gutter: stable;
+  flex: 1;
+  min-height: 0;
+  scroll-padding: 4px;
+}
+.month-feed:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: -2px;
+}
+.feed-month {
+  padding-bottom: 28px;
+}
+.feed-month h2 {
+  font-size: 22px;
+  color: var(--green);
+  padding: 10px 3px 0;
+  height: 38px;
+}
+.month-status {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 0 3px;
+}
+.month-status button {
+  color: var(--green);
+  flex-shrink: 0;
+  text-decoration: underline;
+}
+.month-feed .day-number {
+  flex-shrink: 0;
+}
+.month-feed .day-cell:focus-visible {
+  outline-offset: -3px;
+}
+@media (max-width: 620px) {
+  .month-feed {
+    --week-height: 128px;
+  }
+  .feed-month h2 {
+    font-size: 20px;
+  }
+  .month-status {
+    font-size: 11px;
   }
 }

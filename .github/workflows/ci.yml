@@ -53,5 +53,9 @@ jobs:
         run: npm ci
       - name: Test frontend
         run: npm test
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Test calendar navigation in browser
+        run: npm run test:browser
       - name: Build frontend
         run: npm run build

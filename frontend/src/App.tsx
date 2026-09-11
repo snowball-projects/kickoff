@@ -1,15 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { searchEvents } from "./data";
 import {
-  getCalendarRange,
-  getFilters,
-  getManifest,
-  searchEvents,
-} from "./data";
-import {
-  addMonths,
   eventTimeLabel,
   firstOfMonth,
-  formatLongDate,
   monthLabel,
   monthTitle,
   monthWeeksSunStart,
@@ -18,14 +11,11 @@ import {
   WEEKDAY_NARROW,
   yearMonthAnchors,
 } from "./date-utils";
-import type {
-  CalendarResponse,
-  EventCard,
-  FilterState,
-  FiltersResponse,
-  ManifestResponse,
-} from "./types";
+import type { EventCard, FilterState } from "./types";
 import { leagueVisual } from "./calendar-helpers";
+import MonthFeed, { type MonthNavigation } from "./MonthFeed";
+import { FIRST_MONTH, LAST_MONTH, monthAt, monthIndex, monthWindow } from "./month-feed-state";
+import { useCalendarData } from "./use-calendar-data";
 
 const EMPTY: FilterState = {
   sport: "",
@@ -117,6 +107,9 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
 export default function App() {
   const [today, setToday] = useState(todayIso);
   const [month, setMonth] = useState(() => firstOfMonth(today));
+  const [feedCenter, setFeedCenter] = useState(() => firstOfMonth(today));
+  const [navigation, setNavigation] = useState<MonthNavigation>(() => ({ anchor: firstOfMonth(today), id: 0 }));
+  const pendingMonth = useRef<string | null>(null);
   const [view, setView] = useState<"month" | "year">("month");
   const [day, setDay] = useState<string | null>(null);
   const [interests, setInterests] = useState<string[] | null>(savedInterests);
@@ -129,11 +122,6 @@ export default function App() {
   const [searchTotal, setSearchTotal] = useState(0);
   const [searchError, setSearchError] = useState("");
   const [searching, setSearching] = useState(false);
-  const [months, setMonths] = useState<Record<string, CalendarResponse>>({});
-  const [manifest, setManifest] = useState<ManifestResponse | null>(null);
-  const [facets, setFacets] = useState<FiltersResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
   const [storageNote, setStorageNote] = useState("");
   const year = Number(month.slice(0, 4));
@@ -143,14 +131,18 @@ export default function App() {
     followed_leagues: interests ?? undefined,
   };
   const signature = JSON.stringify(activeFilters);
-  const current = months[month];
-  const selected = Object.values(months)
-    .flatMap((m) => m.groups)
-    .find((g) => g.date === day);
   const anchors = yearMonthAnchors(year);
-  const weeks = monthWeeksSunStart(month, current?.groups || [], {
-    showAdjacentDays: false,
-  });
+  const feedAnchors = monthWindow(feedCenter);
+  const requestedAnchors = [...new Set([
+    ...(view === "year" ? anchors : feedAnchors),
+    ...(day ? [firstOfMonth(day)] : []),
+  ])].sort();
+  const { months, errors, loadingYears, manifests, facets } = useCalendarData(requestedAnchors, signature, timezone, retry);
+  const manifest = manifests[year];
+  const error = errors[year] || "";
+  const loading = loadingYears.includes(year);
+  const selected = day ? months[firstOfMonth(day)]?.groups.find((group) => group.date === day) : undefined;
+  const selectedError = day ? errors[Number(day.slice(0, 4))] : undefined;
   const dayHeading = useRef<HTMLHeadingElement>(null);
   const interestsButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -160,35 +152,6 @@ export default function App() {
   useEffect(() => {
     if (day) dayHeading.current?.focus();
   }, [day]);
-  useEffect(() => {
-    let active = true;
-    setLoading(true);
-    setError("");
-    setMonths({});
-    setManifest(null);
-    const f = JSON.parse(signature) as FilterState;
-    Promise.all([
-      getManifest(year),
-      getFilters(year, EMPTY, timezone),
-      getCalendarRange(year, anchors, f, timezone),
-    ])
-      .then(([m, fs, cal]) => {
-        if (active) {
-          setManifest(m);
-          setFacets(fs);
-          setMonths(cal);
-        }
-      })
-      .catch((e) => {
-        if (active) setError(e.message);
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [year, signature, timezone, retry]);
   useEffect(() => {
     let active = true;
     setResults([]);
@@ -220,16 +183,30 @@ export default function App() {
       clearTimeout(timer);
     };
   }, [search, signature, year, timezone, retry]);
+  function navigateMonth(anchor: string, focusDate?: string) {
+    const bounded = monthAt(monthIndex(anchor));
+    pendingMonth.current = bounded;
+    if (!feedAnchors.includes(bounded)) setFeedCenter(bounded);
+    setNavigation((previous) => ({ anchor: bounded, id: previous.id + 1, focusDate }));
+    setMonth(bounded);
+  }
   function openDay(date: string) {
-    setMonth(firstOfMonth(date));
+    if (search.trim().length >= 2 || view === "year") navigateMonth(firstOfMonth(date));
     setDay(date);
     setView("month");
     setSearch("");
   }
-  function openMonth(anchor: string) {
-    setMonth(anchor);
+  function openMonth(anchor: string, focusDate?: string) {
+    navigateMonth(anchor, focusDate);
     setDay(null);
     setView("month");
+  }
+  function moveMonth(delta: number) {
+    const from = view === "year" ? month : pendingMonth.current || month;
+    const anchor = monthAt(monthIndex(from) + delta);
+    if (view === "year") setMonth(anchor);
+    else navigateMonth(anchor);
+    setDay(null);
   }
   function jumpToday() {
     const now = todayIso();
@@ -256,7 +233,11 @@ export default function App() {
   }
   function closeDay() {
     setDay(null);
-    document.getElementById(`day-${day}`)?.focus();
+    const target = document.getElementById(`day-${day}`);
+    if (target) {
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ block: "nearest", behavior: "instant" });
+    } else if (day) openMonth(firstOfMonth(day), day);
   }
   const leagues = facets?.leagues || [];
   return (
@@ -276,7 +257,7 @@ export default function App() {
               ‹ <span>{year}</span>
             </button>
           ) : (
-            <button className="back-button" onClick={() => setView("month")}>
+            <button className="back-button" onClick={() => openMonth(month)}>
               ‹ <span>Month</span>
             </button>
           )}
@@ -310,34 +291,33 @@ export default function App() {
         </div>
       </header>
       <div className="calendar-heading">
-        <h1>{view === "year" ? year : monthTitle(month)}</h1>
+        <h1 aria-live="polite" aria-atomic="true">{view === "year" ? year : monthTitle(month)}</h1>
         <div className="heading-actions">
           <label className="search">
             <span className="sr-only">Search teams, events and places</span>
             <input
               type="search"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                if (search.trim().length < 2 && e.target.value.trim().length >= 2) navigateMonth(month);
+                setSearch(e.target.value);
+              }}
               placeholder="Search events"
             />
           </label>
           <button
             className="icon-button"
             aria-label={`Previous ${view}`}
-            onClick={() => {
-              setMonth(addMonths(month, view === "year" ? -12 : -1));
-              setDay(null);
-            }}
+            disabled={monthIndex(month) - (view === "year" ? 12 : 1) < monthIndex(FIRST_MONTH)}
+            onClick={() => moveMonth(view === "year" ? -12 : -1)}
           >
             ‹
           </button>
           <button
             className="icon-button"
             aria-label={`Next ${view}`}
-            onClick={() => {
-              setMonth(addMonths(month, view === "year" ? 12 : 1));
-              setDay(null);
-            }}
+            disabled={monthIndex(month) + (view === "year" ? 12 : 1) > monthIndex(LAST_MONTH)}
+            onClick={() => moveMonth(view === "year" ? 12 : 1)}
           >
             ›
           </button>
@@ -348,9 +328,9 @@ export default function App() {
           className="calendar-stage"
           aria-label={view === "year" ? `${year} calendar` : monthLabel(month)}
         >
-          {error ? (
+          {error && view === "year" && search.trim().length < 2 ? (
             <div className="empty-state" role="alert">
-              <h2>No published schedule for {year}</h2>
+              <h2>Schedule unavailable for {year}</h2>
               <p>{error}</p>
               <button onClick={() => setRetry((x) => x + 1)}>Retry</button>
               <button onClick={jumpToday}>Current month</button>
@@ -361,7 +341,7 @@ export default function App() {
                 {searching
                   ? "Searching…"
                   : searchError ||
-                    `${searchTotal} matches${searchTotal > 30 ? " · first 30 shown" : ""}`}
+                    `${searchTotal} matches in ${year}${searchTotal > 30 ? " · first 30 shown" : ""}`}
               </p>
               {results.map((e) => (
                 <button
@@ -419,57 +399,26 @@ export default function App() {
                   <span key={d}>{d}</span>
                 ))}
               </div>
-              <div
-                className="month-grid"
-                style={{
-                  gridTemplateRows: `repeat(${weeks.length}, minmax(94px, 1fr))`,
-                }}
-              >
-                {weeks.flat().map((cell, i) =>
-                  cell.date ? (
-                    <button
-                      id={`day-${cell.date}`}
-                      key={cell.date}
-                      className={`day-cell ${cell.date === today ? "is-today" : ""} ${cell.date === day ? "selected" : ""}`}
-                      onClick={() => openDay(cell.date!)}
-                      aria-label={`${formatLongDate(cell.date)}, ${cell.group?.event_count || 0} events`}
-                      aria-current={cell.date === today ? "date" : undefined}
-                    >
-                      <span className="day-number">
-                        {Number(cell.date.slice(-2))}
-                      </span>
-                      <span className="day-events">
-                        {(cell.group?.items || []).slice(0, 3).map((e) => (
-                          <Pill key={e.event_id} event={e} />
-                        ))}
-                        {(cell.group?.event_count || 0) > 3 && (
-                          <span className="more-events">
-                            +{cell.group!.event_count - 3} more
-                          </span>
-                        )}
-                      </span>
-                    </button>
-                  ) : (
-                    <div key={`blank-${i}`} className="day-cell blank" />
-                  ),
-                )}
-              </div>
+              <MonthFeed
+                anchors={feedAnchors}
+                months={months}
+                errors={errors}
+                today={today}
+                day={day}
+                navigation={navigation}
+                onVisibleMonth={setMonth}
+                onRecenter={setFeedCenter}
+                onNavigate={openMonth}
+                onNavigationEnd={() => { pendingMonth.current = null; }}
+                onOpenDay={openDay}
+                onRetry={() => setRetry((value) => value + 1)}
+                renderEvent={(event) => <Pill key={event.event_id} event={event} />}
+              />
             </>
           )}
-          {loading && !error && (
-            <div className="loading-note" role="status">
-              Loading schedule…
-            </div>
+          {loading && !error && view === "year" && (
+            <div className="loading-note" role="status">Loading schedule…</div>
           )}
-          {!loading &&
-            !error &&
-            current?.total_events === 0 &&
-            view === "month" &&
-            search.length < 2 && (
-              <p className="coverage-note" role="status">
-                No published events match this month and your interests.
-              </p>
-            )}
         </section>
         {day && (
           <aside
@@ -508,7 +457,7 @@ export default function App() {
                 ))
               ) : (
                 <p className="empty-state">
-                  {loading ? "Loading…" : "No published events match this day."}
+                  {selectedError || (!day || !months[firstOfMonth(day)] ? "Loading…" : "No published events match this day.")}
                 </p>
               )}
             </div>
@@ -694,10 +643,11 @@ export default function App() {
           </p>
           {storageNote && <p>{storageNote}</p>}
           <p>
-            <a href={`${import.meta.env.BASE_URL}data/${year}.json`} download>
-              Download schedule JSON
-            </a>{" "}
-            ·{" "}
+            {manifest && <>
+              <a href={`${import.meta.env.BASE_URL}data/${year}.json`} download>
+                Download schedule JSON
+              </a>{" · "}
+            </>}
             <a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.txt`}>
               Licenses
             </a>
