@@ -17,6 +17,8 @@ type DashboardBundle = {
   updated_at?: string;
   sources?: SourceNotice[];
   coverage?: string;
+  components?: { path: string; sha256: string }[];
+  data_license_notice?: string;
   season: number;
   available_seasons: number[];
   providers: ProviderSummary[];
@@ -240,6 +242,8 @@ export async function getManifest(
     updated_at: bundle.updated_at,
     sources: bundle.sources,
     coverage: bundle.coverage,
+    components: bundle.components,
+    data_license_notice: bundle.data_license_notice,
     available_seasons: bundle.available_seasons,
     providers: bundle.providers,
   };

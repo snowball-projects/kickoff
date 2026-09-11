@@ -15,10 +15,11 @@ and Shift + Page Up/Down changes year. Search covers the year shown in the
 heading. Calendar navigation spans 1900–2100; years without a published schedule
 are marked unavailable.
 
-The first public collection covers F1 and five European football leagues.
-[Coverage and data licenses](docs/PUBLIC_RELEASE.md) distinguish published data
-from other experimental/local adapters. Football kickoff times are TBD until
-timezone semantics are verified; known F1 times use your device's timezone.
+The reviewed 2026 collection covers nine football leagues, F1, World Climbing,
+NASCAR Cup, IndyCar, selected NFL and combat cards, IWF Worlds and golf majors.
+[Coverage and data licenses](docs/PUBLIC_RELEASE.md) give exact inclusions and
+omissions. Most additions are date-only; verified F1 times use your device's zone.
+Software is MIT; Wikipedia-derived schedule data retains CC BY-SA 4.0.
 
 ## Run the calendar
 

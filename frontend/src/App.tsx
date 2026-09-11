@@ -613,6 +613,11 @@ export default function App() {
               "Selected published schedules. No live scores or guarantee of complete coverage."}
           </p>
           <p>
+            <a href="https://github.com/snowball-projects/sportsbro/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noreferrer">
+              Coverage details and omitted events ↗
+            </a>
+          </p>
+          <p>
             Dates and times can change. Known UTC times appear in your device’s
             timezone. Dates without a verified timezone stay on the source date;
             their time is marked TBD.
@@ -623,6 +628,14 @@ export default function App() {
             events.
           </p>
           <h3>Sources</h3>
+          {manifest?.data_license_notice && <p>{manifest.data_license_notice}</p>}
+          {manifest?.components?.map((component) => (
+            <p key={component.path}>
+              <a href={`${import.meta.env.BASE_URL}data/${component.path}`} download>
+                Download {component.path.includes("wikipedia") ? "Wikipedia" : "Wikidata"} schedule data
+              </a>
+            </p>
+          ))}
           {manifest?.sources?.map((s) => (
             <p key={s.name}>
               <a href={s.url} target="_blank" rel="noreferrer">

@@ -59,11 +59,39 @@ missing events or infer season milestones from partial data. Before each new
 calendar year, add and verify its snapshot. Years without a published snapshot
 show an honest unavailable state and allow returning to the current month.
 
+## Reviewed registry maintenance
+
+`data/reviewed/2026-*.json` holds deliberately reviewed event selections. The
+public refresh fetches only the openfootball/F1DB sources; it reads these
+registries locally. Updating the snapshot timestamp does not refresh a pinned
+Wikimedia review. Check upcoming cards/stops periodically and near the event,
+especially boxing title eligibility. A dormant calendar should be treated as
+an archive until its sources are reviewed again.
+
+For a registry change, inspect its pinned source and the candidate revision,
+verify scope, dates and rights against `docs/sources/`, keep stable IDs through
+moves or renaming, and record the input URL, raw-byte SHA-256, retrieval time,
+revision, contributor attribution, license and changes together. Retain raw
+responses in local ignored storage. Do not turn date-only or month-precision
+values into timestamps. Add a new year explicitly; do not extrapolate dates.
+
+Refresh with `scripts/refresh-public.py --year 2026`. It validates registries and
+all normalized events before publishing. Wikimedia components use immutable
+content-hash filenames and are written before the year bundle is atomically
+replaced. A failed fetch, parse or final write leaves the previous year bundle
+and its referenced downloads intact. Unreferenced component files from an
+interrupted attempt can remain; the build copies only referenced components.
+Keep the previous snapshot in Git for rollback.
+
+Run Python checks, frontend data tests/build and browser tests. Review counts,
+exclusions, timezone behavior and source/component license notices in the diff.
+The build validates each public source and requires attributed licensed
+components to match the combined calendar exactly. It never copies raw caches.
+
 ## Next
 
-- Add the owner's priority sports when a reusable source and its date/time
-  semantics are verified. Existing local adapters are starting points, not
-  evidence of public launch readiness.
+- Broaden partial NFL/combat coverage only after reviewing suitable sources;
+  the automated nflverse upstream provenance remains unresolved.
 - Verify football kickoff timezone conventions before displaying times.
 - Consider a scheduled refresh only after source stability and review needs are
   understood. Preserve the previous snapshot on failure and show retrieval time.
