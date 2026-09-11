@@ -1,0 +1,709 @@
+import { useEffect, useRef, useState } from "react";
+import {
+  getCalendarRange,
+  getFilters,
+  getManifest,
+  searchEvents,
+} from "./data";
+import {
+  addMonths,
+  eventTimeLabel,
+  firstOfMonth,
+  formatLongDate,
+  monthLabel,
+  monthTitle,
+  monthWeeksSunStart,
+  todayIso,
+  WEEKDAY_LABELS,
+  WEEKDAY_NARROW,
+  yearMonthAnchors,
+} from "./date-utils";
+import type {
+  CalendarResponse,
+  EventCard,
+  FilterState,
+  FiltersResponse,
+  ManifestResponse,
+} from "./types";
+import { leagueVisual } from "./calendar-helpers";
+
+const EMPTY: FilterState = {
+  sport: "",
+  league: "",
+  competition_phase: "",
+  country: "",
+  city: "",
+  tags: [],
+  motorsport_view: "race_only",
+};
+const KEY = "sportsbro.interests.v1";
+function savedInterests(): string[] | null {
+  try {
+    const v = JSON.parse(localStorage.getItem(KEY) || "null");
+    return Array.isArray(v) && v.every((x) => typeof x === "string") ? v : null;
+  } catch {
+    return null;
+  }
+}
+function Modal({
+  title,
+  onClose,
+  children,
+}: {
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  const ref = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    ref.current?.showModal();
+    return () => ref.current?.close();
+  }, []);
+  return (
+    <dialog ref={ref} aria-label={title} onCancel={onClose}>
+      <header>
+        <h2>{title}</h2>
+        <button className="icon-button" onClick={onClose} aria-label="Close">
+          ×
+        </button>
+      </header>
+      {children}
+    </dialog>
+  );
+}
+function Pill({ event }: { event: EventCard }) {
+  return (
+    <span
+      className={`event-pill ${leagueVisual(event.league).className}`}
+      title={event.title}
+    >
+      <b>{leagueVisual(event.league).shortLabel}</b>
+      <span>{event.title}</span>
+    </span>
+  );
+}
+function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
+  const location = [event.venue, event.city, event.country]
+    .filter(Boolean)
+    .join(" · ");
+  return (
+    <article className="agenda-event">
+      <div className="event-time">{eventTimeLabel(event, timezone)}</div>
+      <div>
+        <span
+          className={`league-label ${leagueVisual(event.league).className}`}
+        >
+          {leagueVisual(event.league).shortLabel}
+        </span>
+        <h3>{event.title}</h3>
+        {event.subtitle && <p>{event.subtitle}</p>}
+        {location && <p>{location}</p>}
+        <p className="event-status">
+          {event.status.replaceAll("_", " ")}
+          {event.end_calendar_date &&
+          event.end_calendar_date > (event.calendar_date || "")
+            ? ` · through ${event.end_calendar_date}`
+            : ""}
+        </p>
+        {event.source_url && (
+          <a href={event.source_url} target="_blank" rel="noreferrer">
+            Schedule source ↗
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}
+export default function App() {
+  const [today, setToday] = useState(todayIso);
+  const [month, setMonth] = useState(() => firstOfMonth(today));
+  const [view, setView] = useState<"month" | "year">("month");
+  const [day, setDay] = useState<string | null>(null);
+  const [interests, setInterests] = useState<string[] | null>(savedInterests);
+  const [draft, setDraft] = useState<string[]>(() => savedInterests() || []);
+  const [choose, setChoose] = useState(() => savedInterests() === null);
+  const [info, setInfo] = useState(false);
+  const [filters, setFilters] = useState<FilterState>(EMPTY);
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState<EventCard[]>([]);
+  const [searchTotal, setSearchTotal] = useState(0);
+  const [searchError, setSearchError] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [months, setMonths] = useState<Record<string, CalendarResponse>>({});
+  const [manifest, setManifest] = useState<ManifestResponse | null>(null);
+  const [facets, setFacets] = useState<FiltersResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [retry, setRetry] = useState(0);
+  const [storageNote, setStorageNote] = useState("");
+  const year = Number(month.slice(0, 4));
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  const activeFilters = {
+    ...filters,
+    followed_leagues: interests ?? undefined,
+  };
+  const signature = JSON.stringify(activeFilters);
+  const current = months[month];
+  const selected = Object.values(months)
+    .flatMap((m) => m.groups)
+    .find((g) => g.date === day);
+  const anchors = yearMonthAnchors(year);
+  const weeks = monthWeeksSunStart(month, current?.groups || [], {
+    showAdjacentDays: false,
+  });
+  const dayHeading = useRef<HTMLHeadingElement>(null);
+  const interestsButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const id = setInterval(() => setToday(todayIso()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+  useEffect(() => {
+    if (day) dayHeading.current?.focus();
+  }, [day]);
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError("");
+    setMonths({});
+    setManifest(null);
+    const f = JSON.parse(signature) as FilterState;
+    Promise.all([
+      getManifest(year),
+      getFilters(year, EMPTY, timezone),
+      getCalendarRange(year, anchors, f, timezone),
+    ])
+      .then(([m, fs, cal]) => {
+        if (active) {
+          setManifest(m);
+          setFacets(fs);
+          setMonths(cal);
+        }
+      })
+      .catch((e) => {
+        if (active) setError(e.message);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [year, signature, timezone, retry]);
+  useEffect(() => {
+    let active = true;
+    setResults([]);
+    setSearchError("");
+    if (search.trim().length < 2) {
+      setSearching(false);
+      return;
+    }
+    setSearching(true);
+    const timer = setTimeout(
+      () =>
+        searchEvents(year, search.trim(), JSON.parse(signature), timezone)
+          .then((r) => {
+            if (active) {
+              setResults(r.items);
+              setSearchTotal(r.total);
+            }
+          })
+          .catch((e) => {
+            if (active) setSearchError(e.message);
+          })
+          .finally(() => {
+            if (active) setSearching(false);
+          }),
+      150,
+    );
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, [search, signature, year, timezone, retry]);
+  function openDay(date: string) {
+    setMonth(firstOfMonth(date));
+    setDay(date);
+    setView("month");
+    setSearch("");
+  }
+  function openMonth(anchor: string) {
+    setMonth(anchor);
+    setDay(null);
+    setView("month");
+  }
+  function jumpToday() {
+    const now = todayIso();
+    setToday(now);
+    openMonth(firstOfMonth(now));
+    setSearch("");
+  }
+  function save() {
+    setInterests(draft);
+    try {
+      localStorage.setItem(KEY, JSON.stringify(draft));
+      setStorageNote("");
+    } catch {
+      setStorageNote(
+        "Interests are active for this visit; browser storage is unavailable.",
+      );
+    }
+    setChoose(false);
+  }
+  function toggle(league: string) {
+    setDraft((a) =>
+      a.includes(league) ? a.filter((x) => x !== league) : [...a, league],
+    );
+  }
+  function closeDay() {
+    setDay(null);
+    document.getElementById(`day-${day}`)?.focus();
+  }
+  const leagues = facets?.leagues || [];
+  return (
+    <div className="app-shell">
+      <header className="topbar">
+        <div className="nav-left">
+          {view === "month" ? (
+            <button
+              className="back-button"
+              onClick={() => {
+                setView("year");
+                setDay(null);
+                setSearch("");
+              }}
+              aria-label={`Show ${year} year calendar`}
+            >
+              ‹ <span>{year}</span>
+            </button>
+          ) : (
+            <button className="back-button" onClick={() => setView("month")}>
+              ‹ <span>Month</span>
+            </button>
+          )}
+        </div>
+        <a className="brand" href="https://snowball-projects.github.io/">
+          <img
+            src={`${import.meta.env.BASE_URL}icon.png`}
+            width="32"
+            height="32"
+            alt=""
+          />
+          sportsbro
+        </a>
+        <div className="nav-right">
+          <button
+            ref={interestsButton}
+            onClick={() => {
+              setDraft(interests || leagues.map((l) => l.value));
+              setChoose(true);
+            }}
+          >
+            Interests{interests ? ` · ${interests.length}` : ""}
+          </button>
+          <button
+            className="icon-button"
+            aria-label="About sportsbro and schedule coverage"
+            onClick={() => setInfo(true)}
+          >
+            i
+          </button>
+        </div>
+      </header>
+      <div className="calendar-heading">
+        <h1>{view === "year" ? year : monthTitle(month)}</h1>
+        <div className="heading-actions">
+          <label className="search">
+            <span className="sr-only">Search teams, events and places</span>
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search events"
+            />
+          </label>
+          <button
+            className="icon-button"
+            aria-label={`Previous ${view}`}
+            onClick={() => {
+              setMonth(addMonths(month, view === "year" ? -12 : -1));
+              setDay(null);
+            }}
+          >
+            ‹
+          </button>
+          <button
+            className="icon-button"
+            aria-label={`Next ${view}`}
+            onClick={() => {
+              setMonth(addMonths(month, view === "year" ? 12 : 1));
+              setDay(null);
+            }}
+          >
+            ›
+          </button>
+        </div>
+      </div>
+      <main className={`calendar-body ${day ? "with-day" : ""}`}>
+        <section
+          className="calendar-stage"
+          aria-label={view === "year" ? `${year} calendar` : monthLabel(month)}
+        >
+          {error ? (
+            <div className="empty-state" role="alert">
+              <h2>No published schedule for {year}</h2>
+              <p>{error}</p>
+              <button onClick={() => setRetry((x) => x + 1)}>Retry</button>
+              <button onClick={jumpToday}>Current month</button>
+            </div>
+          ) : search.trim().length >= 2 ? (
+            <section className="search-results" aria-label="Search results">
+              <p role="status">
+                {searching
+                  ? "Searching…"
+                  : searchError ||
+                    `${searchTotal} matches${searchTotal > 30 ? " · first 30 shown" : ""}`}
+              </p>
+              {results.map((e) => (
+                <button
+                  className="search-result"
+                  key={e.event_id}
+                  onClick={() => e.calendar_date && openDay(e.calendar_date)}
+                >
+                  <time>{e.calendar_date}</time>
+                  <Pill event={e} />
+                </button>
+              ))}
+            </section>
+          ) : view === "year" ? (
+            <div className="year-grid">
+              {anchors.map((anchor) => {
+                const mini = monthWeeksSunStart(
+                  anchor,
+                  months[anchor]?.groups || [],
+                  { showAdjacentDays: false },
+                );
+                return (
+                  <button
+                    className={`mini-month ${anchor === firstOfMonth(today) ? "current-month" : ""}`}
+                    key={anchor}
+                    onClick={() => openMonth(anchor)}
+                    aria-label={`Open ${monthLabel(anchor)}`}
+                  >
+                    <h2>{monthTitle(anchor)}</h2>
+                    <div className="mini-weekdays">
+                      {WEEKDAY_NARROW.map((d, i) => (
+                        <span key={i}>{d}</span>
+                      ))}
+                    </div>
+                    <div className="mini-days">
+                      {mini.flat().map((cell, i) => (
+                        <span
+                          key={i}
+                          className={`${cell.date === today ? "mini-today" : ""} ${cell.group?.event_count ? "has-events" : ""}`}
+                          aria-current={
+                            cell.date === today ? "date" : undefined
+                          }
+                        >
+                          {cell.date ? Number(cell.date.slice(-2)) : ""}
+                        </span>
+                      ))}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <>
+              <div className="weekday-row">
+                {WEEKDAY_LABELS.map((d) => (
+                  <span key={d}>{d}</span>
+                ))}
+              </div>
+              <div
+                className="month-grid"
+                style={{
+                  gridTemplateRows: `repeat(${weeks.length}, minmax(94px, 1fr))`,
+                }}
+              >
+                {weeks.flat().map((cell, i) =>
+                  cell.date ? (
+                    <button
+                      id={`day-${cell.date}`}
+                      key={cell.date}
+                      className={`day-cell ${cell.date === today ? "is-today" : ""} ${cell.date === day ? "selected" : ""}`}
+                      onClick={() => openDay(cell.date!)}
+                      aria-label={`${formatLongDate(cell.date)}, ${cell.group?.event_count || 0} events`}
+                      aria-current={cell.date === today ? "date" : undefined}
+                    >
+                      <span className="day-number">
+                        {Number(cell.date.slice(-2))}
+                      </span>
+                      <span className="day-events">
+                        {(cell.group?.items || []).slice(0, 3).map((e) => (
+                          <Pill key={e.event_id} event={e} />
+                        ))}
+                        {(cell.group?.event_count || 0) > 3 && (
+                          <span className="more-events">
+                            +{cell.group!.event_count - 3} more
+                          </span>
+                        )}
+                      </span>
+                    </button>
+                  ) : (
+                    <div key={`blank-${i}`} className="day-cell blank" />
+                  ),
+                )}
+              </div>
+            </>
+          )}
+          {loading && !error && (
+            <div className="loading-note" role="status">
+              Loading schedule…
+            </div>
+          )}
+          {!loading &&
+            !error &&
+            current?.total_events === 0 &&
+            view === "month" &&
+            search.length < 2 && (
+              <p className="coverage-note" role="status">
+                No published events match this month and your interests.
+              </p>
+            )}
+        </section>
+        {day && (
+          <aside
+            className="day-inspector"
+            aria-label="Day events"
+            onKeyDown={(e) => {
+              if (e.key === "Escape") closeDay();
+            }}
+          >
+            <header>
+              <div>
+                <p>
+                  {new Intl.DateTimeFormat(undefined, {
+                    weekday: "long",
+                  }).format(new Date(`${day}T12:00:00`))}
+                </p>
+                <h2 ref={dayHeading} tabIndex={-1}>
+                  {new Intl.DateTimeFormat(undefined, {
+                    month: "long",
+                    day: "numeric",
+                  }).format(new Date(`${day}T12:00:00`))}
+                </h2>
+              </div>
+              <button
+                className="icon-button"
+                aria-label="Close day"
+                onClick={closeDay}
+              >
+                ×
+              </button>
+            </header>
+            <div className="day-scroll">
+              {selected?.items.length ? (
+                selected.items.map((e) => (
+                  <EventRow key={e.event_id} event={e} timezone={timezone} />
+                ))
+              ) : (
+                <p className="empty-state">
+                  {loading ? "Loading…" : "No published events match this day."}
+                </p>
+              )}
+            </div>
+          </aside>
+        )}
+      </main>
+      <footer className="bottom-bar">
+        <button className="today-button" onClick={jumpToday}>
+          Today
+        </button>
+        <span className="footer-meta">
+          {timezone.replaceAll("_", " ")}
+          <span className="snapshot">
+            {" "}
+            ·{" "}
+            {manifest?.updated_at
+              ? `Snapshot ${manifest.updated_at.slice(0, 10)}`
+              : "Published schedules"}
+          </span>
+        </span>
+        <a
+          href="https://github.com/snowball-projects/sportsbro"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Source ↗
+        </a>
+      </footer>
+      {choose && (
+        <Modal
+          title="Follow your sports"
+          onClose={() => {
+            setChoose(false);
+            interestsButton.current?.focus();
+          }}
+        >
+          <p className="modal-intro">
+            Choose leagues for your calendar. Saved only on this device.
+          </p>
+          {loading && !leagues.length ? (
+            <p>Loading available leagues…</p>
+          ) : error && !leagues.length ? (
+            <p>{error}</p>
+          ) : (
+            <div className="interest-grid">
+              {leagues.map((l) => (
+                <label
+                  key={l.value}
+                  className={`interest ${draft.includes(l.value) ? "chosen" : ""}`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={draft.includes(l.value)}
+                    onChange={() => toggle(l.value)}
+                  />
+                  <span
+                    className={`interest-dot ${leagueVisual(l.value).className}`}
+                  />
+                  <span>{leagueVisual(l.value).shortLabel}</span>
+                </label>
+              ))}
+            </div>
+          )}
+          <div className="interest-actions">
+            <button onClick={() => setDraft(leagues.map((l) => l.value))}>
+              Select all
+            </button>
+            <button onClick={() => setDraft([])}>Clear</button>
+          </div>
+          <label className="option-row">
+            Motorsport
+            <select
+              value={filters.motorsport_view}
+              onChange={(e) =>
+                setFilters((f) => ({
+                  ...f,
+                  motorsport_view: e.target.value as
+                    "race_only" | "full_weekend",
+                }))
+              }
+            >
+              <option value="race_only">Races only</option>
+              <option value="full_weekend">Full weekend</option>
+            </select>
+          </label>
+          <details className="advanced">
+            <summary>More filters</summary>
+            {(
+              [
+                ["sport", "Sport", "sports"],
+                ["competition_phase", "Phase", "competition_phases"],
+                ["country", "Country", "countries"],
+                ["city", "City", "cities"],
+              ] as const
+            ).map(([field, label, facet]) => (
+              <label className="option-row" key={field}>
+                {label}
+                <select
+                  value={filters[field]}
+                  onChange={(e) =>
+                    setFilters((f) => ({ ...f, [field]: e.target.value }))
+                  }
+                >
+                  <option value="">All</option>
+                  {facets?.[facet].map((x) => (
+                    <option key={x.value} value={x.value}>
+                      {x.value.replaceAll("_", " ")}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
+            <div className="tag-filters">
+              {facets?.tags.map((t) => (
+                <button
+                  aria-pressed={filters.tags.includes(t.value)}
+                  key={t.value}
+                  onClick={() =>
+                    setFilters((f) => ({
+                      ...f,
+                      tags: f.tags.includes(t.value)
+                        ? f.tags.filter((v) => v !== t.value)
+                        : [...f.tags, t.value],
+                    }))
+                  }
+                >
+                  {t.value}
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setFilters(EMPTY)}>
+              Reset extra filters
+            </button>
+          </details>
+          <p className="fine-print">
+            Only published coverage appears here. More sports will be added as
+            reusable sources are verified.
+          </p>
+          <button className="primary-button" onClick={save}>
+            Show my calendar
+          </button>
+        </Modal>
+      )}
+      {info && (
+        <Modal title="About sportsbro" onClose={() => setInfo(false)}>
+          <p>
+            A sports calendar by{" "}
+            <a href="https://snowball-projects.github.io/">snowball</a>.
+          </p>
+          <h3>Coverage</h3>
+          <p>
+            {manifest?.coverage ||
+              "Selected published schedules. No live scores or guarantee of complete coverage."}
+          </p>
+          <p>
+            Dates and times can change. Known UTC times appear in your device’s
+            timezone. Dates without a verified timezone stay on the source date;
+            their time is marked TBD.
+          </p>
+          <p>
+            Snapshot: {manifest?.updated_at || "unavailable"}. An empty day
+            means no matching published records, not necessarily no sporting
+            events.
+          </p>
+          <h3>Sources</h3>
+          {manifest?.sources?.map((s) => (
+            <p key={s.name}>
+              <a href={s.url} target="_blank" rel="noreferrer">
+                {s.name}
+              </a>{" "}
+              ·{" "}
+              <a href={s.license_url} target="_blank" rel="noreferrer">
+                {s.license}
+              </a>
+            </p>
+          ))}
+          <h3>Privacy</h3>
+          <p>
+            No accounts, analytics or advertising. Only your league choices are
+            saved in this browser. Calendar data is static; browsing does not
+            contact sports providers. GitHub Pages receives normal hosting
+            requests.
+          </p>
+          {storageNote && <p>{storageNote}</p>}
+          <p>
+            <a href={`${import.meta.env.BASE_URL}data/${year}.json`} download>
+              Download schedule JSON
+            </a>{" "}
+            ·{" "}
+            <a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.txt`}>
+              Licenses
+            </a>
+          </p>
+        </Modal>
+      )}
+    </div>
+  );
+}

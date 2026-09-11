@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools==84.0.0", "wheel==0.48.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sportsbro"
+version = "0.2.0"
+description = "A static-first sports calendar by snowball."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "snowball" }]
+dependencies = [
+    "pypdf>=6.17,<7",
+    "tzdata>=2024.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=1.6,<2",
+    "pytest>=9.1,<10",
+    "ruff>=0.16,<0.17",
+]
+
+[project.scripts]
+sportsbro = "sportsbro.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sportsbro = ["config/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+ignore = ["B008"]

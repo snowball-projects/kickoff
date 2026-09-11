@@ -1,0 +1,94 @@
+{
+  "providers": {
+    "nfl": {
+      "label": "NFL",
+      "sport": "football",
+      "season_mode": "single_year",
+      "default_event_scope": "regular_only",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "nba": {
+      "label": "NBA",
+      "sport": "basketball",
+      "season_mode": "cross_year_end_label",
+      "default_event_scope": "regular_only",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "mlb": {
+      "label": "MLB",
+      "sport": "baseball",
+      "season_mode": "single_year",
+      "default_event_scope": "regular_only",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "nhl": {
+      "label": "NHL",
+      "sport": "hockey",
+      "season_mode": "cross_year_end_label",
+      "default_event_scope": "regular_only",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "f1": {
+      "label": "F1",
+      "sport": "motorsport",
+      "season_mode": "single_year",
+      "default_event_scope": "all_published",
+      "default_include_special_events": false,
+      "default_include_support_events": false,
+      "default_motorsport_view": "race_only"
+    },
+    "nascar_cup": {
+      "label": "NASCAR Cup Series",
+      "sport": "motorsport",
+      "season_mode": "single_year",
+      "default_event_scope": "all_published",
+      "default_include_special_events": false,
+      "default_include_support_events": false,
+      "default_motorsport_view": "race_only"
+    },
+    "indycar": {
+      "label": "IndyCar Series",
+      "sport": "motorsport",
+      "season_mode": "single_year",
+      "default_event_scope": "all_published",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "fifa_world_cup": {
+      "label": "FIFA World Cup",
+      "sport": "soccer",
+      "season_mode": "single_year",
+      "default_event_scope": "all_published",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "uefa_champions_league": {
+      "label": "UEFA Champions League",
+      "sport": "soccer",
+      "season_mode": "cross_year_end_label",
+      "default_event_scope": "all_published",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "ifsc": {
+      "label": "IFSC Climbing",
+      "sport": "climbing",
+      "season_mode": "single_year",
+      "default_event_scope": "all_published",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    },
+    "pga_tour": {
+      "label": "PGA TOUR",
+      "sport": "golf",
+      "season_mode": "single_year",
+      "default_event_scope": "all_published",
+      "default_include_special_events": false,
+      "default_include_support_events": false
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "sportsbro-web",
+  "private": true,
+  "version": "0.2.0",
+  "author": "snowball",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.mjs",
+    "predev": "node ../scripts/prepare-web.mjs",
+    "prebuild": "node ../scripts/prepare-web.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^6.0.2",
+    "vite": "^8.2.2"
+  }
+}
