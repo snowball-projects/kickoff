@@ -10,8 +10,9 @@ separate from sportsbro's MIT software. No paid service or backend is involved.
 [`data/reviewed/2026-climbing-motorsport.json`](../../data/reviewed/2026-climbing-motorsport.json) follows schema version 1. Each event references one
 source; every source has an article/revision URL, explicit Wikipedia-contributor
 credit, license/link, retrieval time, exact response SHA-256, input URL and
-modification statement. `climbing-motorsport-inputs.json` preserves revision
-timestamps separately. SHA-256 refers to the **complete response bytes** from
+modification statement. The local audit manifest `climbing-motorsport-inputs.json` preserves revision
+timestamps separately; it is retained in the collection review directory and
+is not a shipped repository input. SHA-256 refers to the **complete response bytes** from
 MediaWiki `action=parse&oldid=...&prop=text&format=json`, not to rendered text or
 the output asset.
 

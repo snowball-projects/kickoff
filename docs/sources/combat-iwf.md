@@ -50,8 +50,9 @@ identifies its structured item data as CC0.
 Each manifest `sha256` is the SHA-256 of the exact pinned API response bytes,
 not of HTML or the normalized event array. `input_url` identifies that API
 request; `url` is a human-readable permanent revision. Raw responses and
-receipts are retained in `combat-source-evidence/`. `build-combat-iwf.py`
-verifies their revisions and byte hashes before extracting anything. The
+receipts are retained in the local collection review directory, under
+`combat-source-evidence/`. The one-off local audit helper `build-combat-iwf.py`
+verified their revisions and byte hashes; it is not shipped repository tooling. The
 Navarrete retrieval timestamp was recovered from the saved response file's
 write time after a later request hit HTTP 429; the raw bytes and revision were
 already saved. Other source timestamps are the recorded retrieval times.
