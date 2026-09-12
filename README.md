@@ -79,3 +79,5 @@ the public frontend build accepts only reviewed open-source datasets.
 
 Original code: [MIT](LICENSE). Third-party schedules and dependencies retain
 [their licenses](THIRD-PARTY-NOTICES.txt). No official league affiliation.
+
+[Operations](https://snowball-projects.github.io/operations/#sportsbro)

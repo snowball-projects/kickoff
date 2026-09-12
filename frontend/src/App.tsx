@@ -644,6 +644,10 @@ export default function App() {
             <a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.txt`}>
               Licenses
             </a>
+            {" · "}
+            <a href="https://snowball-projects.github.io/operations/#sportsbro">
+              Operations
+            </a>
           </p>
         </Modal>
       )}

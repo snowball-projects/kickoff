@@ -129,12 +129,14 @@ components to match the combined calendar exactly. It never copies raw caches.
 
 The owner approved deletion of the original `adelevski/sportsbro` GitHub
 repository after preservation checks, and that remote has been deleted.
-Original and repaired Git history and old release artifacts remain locally in
-the collection's `retirement-review/sportsbro/`, including
-`original-checkout.git`, `repaired-private-history.bundle` and `releases/`.
+Original and repaired Git history and old release artifacts are retained in the
+private preservation archive, including `original-checkout.git`,
+`repaired-private-history.bundle` and `releases/`. The separately authorized
+September 11 local cleanup archived and verified the old collection before
+removing its checkout folders; the private archive index owns restore paths.
 Private historical material includes reference CSVs and raw caches that are not
-cleared for public redistribution. Preserve these local backups; remote
-retirement did not authorize deleting them.
+cleared for public redistribution. Preserve the archives; deleting their retained
+contents requires a separate owner decision.
 
 The canonical public repository is `snowball-projects/sportsbro`, which starts
 from reviewed repaired source. The local history is a reference for recovery,

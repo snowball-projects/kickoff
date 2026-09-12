@@ -27,9 +27,11 @@ and caches are not included in the public source snapshot.
 No pre-repair commits were rewritten or force-pushed. After preservation checks,
 the owner approved deletion of the original `adelevski/sportsbro` GitHub
 repository, and that remote has been deleted. Original and repaired Git history
-and old release artifacts remain in the local collection's
-`retirement-review/sportsbro/`, including `original-checkout.git`,
-`repaired-private-history.bundle` and `releases/`. Preserve these backups.
+and old release artifacts were retained in `retirement-review/sportsbro/`,
+including `original-checkout.git`, `repaired-private-history.bundle` and
+`releases/`. The separately authorized September 11 local cleanup moved that
+collection into the private preservation archive after verification and removed
+the old folders. Its private index owns restore paths. Preserve these archives.
 
 The public source snapshot starts from reviewed repaired source in the
 owner-approved `snowball-projects/sportsbro` repository. It is not an assertion

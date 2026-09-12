@@ -24,8 +24,9 @@
   sportsbro.web. Keep end-date spans and display-zone date conversions intact.
 - The owner approved deletion of the original `adelevski/sportsbro` GitHub
   repository, and that remote has been deleted. Original/repaired private Git
-  history and old release artifacts remain in the local collection's
-  `retirement-review/sportsbro/`. Publish only reviewed clean source to
+  history and old release artifacts are retained in the private preservation
+  archive; its index maps the former `retirement-review/sportsbro/` folder.
+  Publish only reviewed clean source to
   snowball-projects/sportsbro, the owner-approved canonical home.
 - Preserve both sides of useful merge work; docs/MERGE-REPAIR.md records the
   September repair. Do not force-push or delete preserved local private history,
