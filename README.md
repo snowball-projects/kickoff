@@ -26,7 +26,7 @@ listed final date; they are labeled **Final date**, with no implied opening date
 omissions. Most additions are date-only; verified F1 times use your device's zone.
 Software is MIT; Wikipedia-derived schedule data retains CC BY-SA 4.0.
 
-## Run the calendar
+## Run
 
 ```sh
 cd frontend
@@ -76,6 +76,8 @@ the public frontend build accepts only reviewed open-source datasets.
 - [Operation and next steps](docs/OPERATIONS.md)
 - [Windows merge reconciliation](docs/MERGE-REPAIR.md)
 - [Icon source and prompt](assets/PROMPT.md)
+
+## License
 
 Original code: [MIT](LICENSE). Third-party schedules and dependencies retain
 [their licenses](THIRD-PARTY-NOTICES.txt). No official league affiliation.
