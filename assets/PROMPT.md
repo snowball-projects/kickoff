@@ -2,8 +2,7 @@
 
 - Tool: built-in image_gen.imagegen (no CLI fallback).
 - Generated: September 10, 2026.
-- Source: /Users/adelevski/.codex/generated_images/01a08e49-db34-71f1-955c-af5e61eb0b60/exec-837f4462-8cdb-4d36-802c-a115ef4c6398.png
-- Final asset: /private/tmp/sportsbro-icon.png
+- Output: committed here unaltered, with its original alpha preserved.
 - Reference context: inspected choss/assets/icon.png and maim/assets/icon.png for the restrained forest-green icon family. No reference image was supplied to generation.
 - Visual inspection: calendar silhouette, two binding tabs, ivory stadium oval and field; no text or backdrop.
 - Alpha verification: RGBA, 1254 × 1254, alpha extrema 0–255; 761888 fully transparent pixels; all four corners alpha 0. Original generated alpha preserved.
