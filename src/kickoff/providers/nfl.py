@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from datetime import date
 
-from sportsbro.models import ProviderOptions, ProviderRunResult
-from sportsbro.providers.base import Provider
-from sportsbro.settings import Settings
+from kickoff.models import ProviderOptions, ProviderRunResult
+from kickoff.providers.base import Provider
+from kickoff.settings import Settings
 
 
 class NFLProvider(Provider):

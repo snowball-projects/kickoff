@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from sportsbro.models import ProviderOptions, ProviderRunResult
-from sportsbro.settings import Settings
+from kickoff.models import ProviderOptions, ProviderRunResult
+from kickoff.settings import Settings
 
 
 class Provider(ABC):

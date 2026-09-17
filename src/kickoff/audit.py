@@ -3,9 +3,9 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from typing import Any
 
-from sportsbro.dataset import load_events_from_json
-from sportsbro.models import CalendarEvent
-from sportsbro.settings import Settings
+from kickoff.dataset import load_events_from_json
+from kickoff.models import CalendarEvent
+from kickoff.settings import Settings
 
 
 def _duplicate_candidate_key(event: CalendarEvent) -> tuple[str, ...]:

@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from sportsbro.settings import Settings
+from kickoff.settings import Settings
 
 
 class SettingsTests(unittest.TestCase):

@@ -5,15 +5,15 @@ import re
 from collections import Counter
 from datetime import datetime
 
-from sportsbro.http import FetchError, fetch_bytes, fetch_json, fetch_text
-from sportsbro.models import CalendarEvent, Participant, ProviderOptions, ProviderRunResult, RawArtifact
-from sportsbro.normalize import stable_event_id
-from sportsbro.pdf import extract_pdf_lines
-from sportsbro.provider_utils import EventAccumulator
-from sportsbro.providers.base import Provider
-from sportsbro.semantics import classification_fields
-from sportsbro.settings import Settings
-from sportsbro.timeutils import (
+from kickoff.http import FetchError, fetch_bytes, fetch_json, fetch_text
+from kickoff.models import CalendarEvent, Participant, ProviderOptions, ProviderRunResult, RawArtifact
+from kickoff.normalize import stable_event_id
+from kickoff.pdf import extract_pdf_lines
+from kickoff.provider_utils import EventAccumulator
+from kickoff.providers.base import Provider
+from kickoff.semantics import classification_fields
+from kickoff.settings import Settings
+from kickoff.timeutils import (
     EASTERN_NAME,
     UTC,
     eastern_to_utc,

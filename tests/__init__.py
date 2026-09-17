@@ -1,1 +1,1 @@
-"""sportsbro test suite."""
+"""kickoff test suite."""

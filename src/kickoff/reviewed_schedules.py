@@ -8,9 +8,9 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
-from sportsbro.models import CalendarEvent, Participant
-from sportsbro.semantics import COMPETITION_PHASES, classification_fields
-from sportsbro.validation import validate_batch
+from kickoff.models import CalendarEvent, Participant
+from kickoff.semantics import COMPETITION_PHASES, classification_fields
+from kickoff.validation import validate_batch
 
 LICENSES = {
     "en.wikipedia.org": ("wikipedia", "CC BY-SA 4.0", "https://creativecommons.org/licenses/by-sa/4.0/"),

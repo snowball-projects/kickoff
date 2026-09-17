@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sportsbro.models import CalendarEvent, ProviderOptions
+from kickoff.models import CalendarEvent, ProviderOptions
 
 COMPETITION_PHASES = {
     "regular_season",

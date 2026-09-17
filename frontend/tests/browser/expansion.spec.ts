@@ -63,8 +63,8 @@ test("reviewed expansion works with scrolling, inclusive spans and attribution d
   await expect(page.getByRole("tooltip")).toContainText("November 8, 2026");
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("September");
-  await page.getByRole("button", { name: "About sportsbro and schedule coverage" }).click();
-  const about = page.getByRole("dialog", { name: "About sportsbro", exact: true });
+  await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
+  const about = page.getByRole("dialog", { name: "About kickoff", exact: true });
   await expect(about).toContainText("19 selected NFL opener, international and holiday games");
   await expect(about).toContainText("CC BY-SA 4.0");
   const download = about.getByRole("link", { name: "Download Wikipedia schedule data" });

@@ -5,12 +5,12 @@ from datetime import timezone
 from pathlib import Path
 from unittest.mock import patch
 
-from sportsbro.models import ProviderOptions
-from sportsbro.providers.f1 import F1Provider
-from sportsbro.providers.nascar_cup import NascarCupProvider
-from sportsbro.providers.nba import NBAProvider
-from sportsbro.providers.static_csv import StaticScheduleProvider
-from sportsbro.settings import Settings
+from kickoff.models import ProviderOptions
+from kickoff.providers.f1 import F1Provider
+from kickoff.providers.nascar_cup import NascarCupProvider
+from kickoff.providers.nba import NBAProvider
+from kickoff.providers.static_csv import StaticScheduleProvider
+from kickoff.settings import Settings
 
 
 class ProviderParserTests(unittest.TestCase):
@@ -62,9 +62,9 @@ class ProviderParserTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             settings = Settings.load(Path(temp_dir))
             provider = F1Provider()
-            with patch("sportsbro.providers.f1.fetch_text", side_effect=[season_html, page_html]):
+            with patch("kickoff.providers.f1.fetch_text", side_effect=[season_html, page_html]):
                 race_only = provider.fetch(2026, settings, ProviderOptions(motorsport_view="race_only"))
-            with patch("sportsbro.providers.f1.fetch_text", side_effect=[season_html, page_html]):
+            with patch("kickoff.providers.f1.fetch_text", side_effect=[season_html, page_html]):
                 full_weekend = provider.fetch(2026, settings, ProviderOptions(motorsport_view="full_weekend"))
 
         self.assertEqual([event.event_type for event in race_only.events], ["race"])
@@ -78,8 +78,8 @@ class ProviderParserTests(unittest.TestCase):
         provider = NBAProvider()
         line = "Tue. 10/21/25 Houston at Oklahoma City 6:30 PM 7:30 PM NBC/Peacock R"
         with (
-            patch("sportsbro.timeutils.get_zoneinfo", return_value=timezone.utc),
-            patch("sportsbro.providers.nba.get_zoneinfo", return_value=timezone.utc),
+            patch("kickoff.timeutils.get_zoneinfo", return_value=timezone.utc),
+            patch("kickoff.providers.nba.get_zoneinfo", return_value=timezone.utc),
         ):
             events = provider._parse_pdf_lines([line], 2026)
         self.assertEqual(len(events), 1)
@@ -96,8 +96,8 @@ class ProviderParserTests(unittest.TestCase):
             "DAYTONA SAT | FEB 14 | 5 PM | CW",
         ]
         with (
-            patch("sportsbro.timeutils.get_zoneinfo", return_value=timezone.utc),
-            patch("sportsbro.providers.nascar_cup.get_zoneinfo", return_value=timezone.utc),
+            patch("kickoff.timeutils.get_zoneinfo", return_value=timezone.utc),
+            patch("kickoff.providers.nascar_cup.get_zoneinfo", return_value=timezone.utc),
         ):
             events, _metadata = provider._parse_pdf_lines(
                 lines,
@@ -117,8 +117,8 @@ class ProviderParserTests(unittest.TestCase):
             "DAYTONA SAT | FEB 14 | 5 PM | CW",
         ]
         with (
-            patch("sportsbro.timeutils.get_zoneinfo", return_value=timezone.utc),
-            patch("sportsbro.providers.nascar_cup.get_zoneinfo", return_value=timezone.utc),
+            patch("kickoff.timeutils.get_zoneinfo", return_value=timezone.utc),
+            patch("kickoff.providers.nascar_cup.get_zoneinfo", return_value=timezone.utc),
         ):
             race_only, _metadata = provider._parse_pdf_lines(
                 lines,

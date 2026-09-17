@@ -1,8 +1,8 @@
 import unittest
 
-from sportsbro.audit import summarize_events
-from sportsbro.models import CalendarEvent, Participant
-from sportsbro.semantics import classification_fields
+from kickoff.audit import summarize_events
+from kickoff.models import CalendarEvent, Participant
+from kickoff.semantics import classification_fields
 
 
 def _sample_event(event_id: str, title: str, calendar_date: str) -> CalendarEvent:

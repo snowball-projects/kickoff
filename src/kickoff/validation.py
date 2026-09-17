@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import fields
 from datetime import date
 
-from sportsbro.models import CalendarEvent
-from sportsbro.semantics import COMPETITION_PHASES, classification_fields
+from kickoff.models import CalendarEvent
+from kickoff.semantics import COMPETITION_PHASES, classification_fields
 
 REQUIRED_STRING_FIELDS = [
     "event_id",

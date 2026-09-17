@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
 
-from sportsbro.timeutils import isoformat_z, parse_clock_time
+from kickoff.timeutils import isoformat_z, parse_clock_time
 
 
 class TimeUtilsTests(unittest.TestCase):

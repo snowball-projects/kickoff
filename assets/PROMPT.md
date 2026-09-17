@@ -1,4 +1,4 @@
-# sportsbro icon generation
+# kickoff icon generation
 
 - Tool: built-in image_gen.imagegen (no CLI fallback).
 - Generated: September 10, 2026.
@@ -10,7 +10,7 @@
 ## Exact generation prompt
 
 Use case: logo-brand
-Asset type: original transparent raster app icon for sportsbro, a snowball sports-calendar app.
+Asset type: original transparent raster app icon for kickoff, a snowball sports-calendar app.
 Primary request: one minimal, elegant icon combining a compact calendar sheet with sports. A deep emerald / forest green calendar silhouette, with two broad binding tabs at the top and a simple ivory stadium oval / playing-field motif centered inside. Use a single bold oval ring around a small plain rectangular field. Broad uncomplicated silhouettes, balanced visual weight, strong readability at 32px.
 Style/medium: restrained premium icon illustration, near-flat solid geometry with very mild matte depth and subtle tonal variation, crisp smooth edges. Forest green approximately #123f36 and warm ivory #f5f1e6. No shiny plastic or dramatic 3D.
 Composition/framing: front-facing, centered on a square canvas with generous clear margin, occupying about 76% of the canvas width. The calendar itself is the icon, with slightly softened corners.

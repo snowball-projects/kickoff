@@ -20,7 +20,7 @@ for (const [name, mutate, message] of [
   }, /Unreviewed Wikimedia article\/entity namespace/],
 ]) {
   test(`public build rejects ${name}`, async () => {
-    const root = await mkdtemp(join(tmpdir(), "sportsbro-publish-test-"));
+    const root = await mkdtemp(join(tmpdir(), "kickoff-publish-test-"));
     try {
       await mkdir(join(root, "scripts"));
       await mkdir(join(root, "data/published"), { recursive: true });

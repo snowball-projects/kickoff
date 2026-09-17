@@ -54,7 +54,7 @@ Software is [MIT](../LICENSE). Data keeps its own terms:
 
 Each published bundle preserves source revisions, input hashes, retrieval times,
 changes and license notices. Per-event links identify their pinned sources.
-About sportsbro provides attribution and downloads of the separately identified
+About kickoff provides attribution and downloads of the separately identified
 Wikipedia and Wikidata components. Those downloads use immutable content-hash
 filenames listed in the year's `components` field. No article prose, images,
 logos, results or private raw payloads are included. Official organizer sources

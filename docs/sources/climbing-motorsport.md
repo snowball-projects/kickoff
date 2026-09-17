@@ -1,9 +1,9 @@
-# sportsbro: reviewed climbing and motorsport extraction
+# kickoff: reviewed climbing and motorsport extraction
 
 Reviewed September 11, 2026. The owner-authorized first scope is **67 date-only
 events**: 13 senior World Climbing Series stops, 36 NASCAR Cup points races and
 18 IndyCar championship races. All are an adapted **CC BY-SA 4.0** data component,
-separate from sportsbro's MIT software. No paid service or backend is involved.
+separate from kickoff's MIT software. No paid service or backend is involved.
 
 ## Deliverable and exact provenance
 
@@ -128,7 +128,7 @@ loads it without requesting Wikimedia and normalizes it through the shared
 validated exporter. The registry preserves the input URLs, exact retrieved byte
 hashes, revision links and transformations; full article responses remain local
 review evidence under the collection's
-`reports/sportsbro-expansion/implementation/` directory and are not shipped.
+`reports/kickoff-expansion/implementation/` directory and are not shipped.
 
 For a source update, inspect the pinned source and a newer revision, check the
 scope and primary evidence above, preserve stable IDs, and update the registry's

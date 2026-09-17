@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from sportsbro.models import CalendarEvent, Participant
+from kickoff.models import CalendarEvent, Participant
 
 
 def event_from_dict(item: dict) -> CalendarEvent:

@@ -43,7 +43,7 @@ const events = Array.from({ length: 12 }, (_, index) => {
 test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-09-10T17:00:00Z"));
   await page.addInitScript(() => {
-    localStorage.setItem("sportsbro.interests.v1", JSON.stringify(["EPL", "F1"]));
+    localStorage.setItem("kickoff.interests.v1", JSON.stringify(["EPL", "F1"]));
   });
   await page.route("**/data/*.json", async (route) => {
     if (new URL(route.request().url()).pathname.endsWith("/2026.json")) {

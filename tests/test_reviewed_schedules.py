@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from sportsbro.open_schedules import refresh_open_schedules
-from sportsbro.reviewed_schedules import load_reviewed_schedules, reviewed_events
+from kickoff.open_schedules import refresh_open_schedules
+from kickoff.reviewed_schedules import load_reviewed_schedules, reviewed_events
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -98,7 +98,7 @@ def test_network_failure_preserves_published_snapshot(monkeypatch, tmp_path):
     def fail(_):
         raise OSError("offline")
 
-    monkeypatch.setattr("sportsbro.open_schedules.read_url", fail)
+    monkeypatch.setattr("kickoff.open_schedules.read_url", fail)
     with pytest.raises(OSError, match="offline"):
         refresh_open_schedules(2026, tmp_path / "working", target)
     assert old.read_text() == "previous reviewed snapshot"
@@ -111,7 +111,7 @@ def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
         requests.append(url)
         return fake_open_read(url)
 
-    monkeypatch.setattr("sportsbro.open_schedules.read_url", read)
+    monkeypatch.setattr("kickoff.open_schedules.read_url", read)
     result = refresh_open_schedules(2026, tmp_path / "working", tmp_path / "published")
     bundle = json.loads(result.read_text())
     assert len(bundle["events"]) == 10
@@ -140,7 +140,7 @@ def fake_open_read(url):
 
 
 def test_late_refresh_failure_keeps_prior_components_and_truthful_partial_coverage(monkeypatch, tmp_path):
-    monkeypatch.setattr("sportsbro.open_schedules.read_url", fake_open_read)
+    monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
     reviewed = tmp_path / "reviewed"
     reviewed.mkdir()
     registry = reviewed / "2026-golf.json"
@@ -189,7 +189,7 @@ def test_wikidata_prose_cannot_be_published_as_cc0():
 
 
 def test_nfl_selection_has_real_participants_and_keeps_melbourne_venue_date():
-    from sportsbro.semantics import is_malformed_event
+    from kickoff.semantics import is_malformed_event
 
     events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
     games = [event for event in events if event.league == "NFL"]

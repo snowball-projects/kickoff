@@ -5,7 +5,7 @@ import json
 from collections import OrderedDict
 from typing import Any
 
-from sportsbro.models import CalendarEvent
+from kickoff.models import CalendarEvent
 
 
 def stable_event_id(*parts: object) -> str:

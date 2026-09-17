@@ -1,6 +1,6 @@
 import unittest
 
-from sportsbro.cli import build_parser
+from kickoff.cli import build_parser
 
 
 class CliTests(unittest.TestCase):

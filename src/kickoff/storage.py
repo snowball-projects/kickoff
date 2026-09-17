@@ -5,10 +5,10 @@ import json
 from pathlib import Path
 from typing import Any
 
-from sportsbro.dataset import load_events_from_json
-from sportsbro.models import CalendarEvent, ProviderRunResult
-from sportsbro.normalize import dedupe_events, sort_events
-from sportsbro.settings import Settings
+from kickoff.dataset import load_events_from_json
+from kickoff.models import CalendarEvent, ProviderRunResult
+from kickoff.normalize import dedupe_events, sort_events
+from kickoff.settings import Settings
 
 CSV_COLUMNS = [
     "event_id",

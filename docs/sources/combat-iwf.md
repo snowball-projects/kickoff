@@ -133,7 +133,7 @@ loads it without requesting Wikimedia and normalizes it through the shared
 validated exporter. The registry preserves the input URLs, exact retrieved byte
 hashes, revision links and transformations; full article responses remain local
 review evidence under the collection's
-`reports/sportsbro-expansion/implementation/` directory and are not shipped.
+`reports/kickoff-expansion/implementation/` directory and are not shipped.
 
 For a source update, inspect the pinned source and a newer revision, check the
 scope and primary evidence above, preserve stable IDs, and update the registry's

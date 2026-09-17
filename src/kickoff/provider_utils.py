@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from collections import Counter, OrderedDict
 
-from sportsbro.models import CalendarEvent, ProviderOptions
-from sportsbro.semantics import include_competition_phase, is_malformed_event
+from kickoff.models import CalendarEvent, ProviderOptions
+from kickoff.semantics import include_competition_phase, is_malformed_event
 
 
 class EventAccumulator:

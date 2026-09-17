@@ -1,18 +1,18 @@
-sportsbro original software: MIT; see LICENSE.
+kickoff original software: MIT; see LICENSE.
 
 Public schedule data is separate from the MIT software license:
 
 openfootball contributors — football.json; CC0 1.0 Universal.
 https://github.com/openfootball/football.json
 https://creativecommons.org/publicdomain/zero/1.0/
-Changes: selected nine leagues and calendar-year dates, mapped into sportsbro's
+Changes: selected nine leagues and calendar-year dates, mapped into kickoff's
 schema, omitted scores, canceled/postponed fixtures and unzoned kickoff times. No league endorsement.
 
 F1DB and contributors — Formula 1 database; CC BY 4.0.
 https://github.com/f1db/f1db
 https://creativecommons.org/licenses/by/4.0/
 Changes: selected race/session date and UTC time fields, simplified names,
-normalized into sportsbro's event schema and grouped by calendar year.
+normalized into kickoff's event schema and grouped by calendar year.
 Pinned source revisions, file hashes and attribution travel with each public
 snapshot. F1DB is community maintained, not an official Formula 1 service.
 

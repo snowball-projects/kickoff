@@ -1,5 +1,11 @@
 # Changes
 
+## Unreleased
+
+- Rename the project from sportsbro to kickoff. The Python package, the
+  frontend package and the KICKOFF_ environment variables follow.
+
+
 ## 0.5.0
 
 - Group interests by sport with collapsible league lists, group selection and

@@ -1,9 +1,9 @@
 import unittest
 
-from sportsbro.models import CalendarEvent, Participant
-from sportsbro.normalize import dedupe_events, stable_event_id
-from sportsbro.semantics import classification_fields, is_malformed_event
-from sportsbro.validation import schema_field_names, validate_batch
+from kickoff.models import CalendarEvent, Participant
+from kickoff.normalize import dedupe_events, stable_event_id
+from kickoff.semantics import classification_fields, is_malformed_event
+from kickoff.validation import schema_field_names, validate_batch
 
 
 def _sample_event(event_id: str) -> CalendarEvent:

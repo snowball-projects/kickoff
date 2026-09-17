@@ -3,15 +3,15 @@ from __future__ import annotations
 import re
 from datetime import date
 
-from sportsbro.http import fetch_bytes, fetch_text
-from sportsbro.models import CalendarEvent, ProviderOptions, ProviderRunResult, RawArtifact
-from sportsbro.normalize import stable_event_id
-from sportsbro.pdf import extract_pdf_lines
-from sportsbro.provider_utils import EventAccumulator
-from sportsbro.providers.base import Provider
-from sportsbro.semantics import classification_fields
-from sportsbro.settings import Settings
-from sportsbro.timeutils import EASTERN_NAME, eastern_to_utc, get_zoneinfo, isoformat_local, isoformat_z
+from kickoff.http import fetch_bytes, fetch_text
+from kickoff.models import CalendarEvent, ProviderOptions, ProviderRunResult, RawArtifact
+from kickoff.normalize import stable_event_id
+from kickoff.pdf import extract_pdf_lines
+from kickoff.provider_utils import EventAccumulator
+from kickoff.providers.base import Provider
+from kickoff.semantics import classification_fields
+from kickoff.settings import Settings
+from kickoff.timeutils import EASTERN_NAME, eastern_to_utc, get_zoneinfo, isoformat_local, isoformat_z
 
 NASCAR_TRACKS = {
     "CLASH (BOWMAN GRAY)": {

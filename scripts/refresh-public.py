@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 
-from sportsbro.open_schedules import refresh_open_schedules
+from kickoff.open_schedules import refresh_open_schedules
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--year", type=int, required=True)

@@ -27,7 +27,7 @@ const EMPTY: FilterState = {
   tags: [],
   motorsport_view: "race_only",
 };
-const KEY = "sportsbro.interests.v1";
+const KEY = "kickoff.interests.v1";
 function savedInterests(): string[] | null {
   try {
     const v = JSON.parse(localStorage.getItem(KEY) || "null");
@@ -265,7 +265,7 @@ export default function App() {
             height="32"
             alt=""
           />
-          sportsbro
+          kickoff
         </a>
         <div className="nav-right">
           <button
@@ -279,7 +279,7 @@ export default function App() {
           </button>
           <button
             className="icon-button"
-            aria-label="About sportsbro and schedule coverage"
+            aria-label="About kickoff and schedule coverage"
             onClick={() => setInfo(true)}
           >
             i
@@ -476,7 +476,7 @@ export default function App() {
           </span>
         </span>
         <a
-          href="https://github.com/snowball-projects/sportsbro"
+          href="https://github.com/snowball-projects/kickoff"
           target="_blank"
           rel="noreferrer"
         >
@@ -582,7 +582,7 @@ export default function App() {
         </Modal>
       )}
       {info && (
-        <Modal title="About sportsbro" onClose={() => setInfo(false)}>
+        <Modal title="About kickoff" onClose={() => setInfo(false)}>
           <p>
             A sports calendar by{" "}
             <a href="https://snowball-projects.github.io/">snowball</a>.
@@ -593,7 +593,7 @@ export default function App() {
               "Selected published schedules. No live scores or guarantee of complete coverage."}
           </p>
           <p>
-            <a href="https://github.com/snowball-projects/sportsbro/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noreferrer">
+            <a href="https://github.com/snowball-projects/kickoff/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noreferrer">
               Coverage details and omitted events ↗
             </a>
           </p>
@@ -645,7 +645,7 @@ export default function App() {
               Licenses
             </a>
             {" · "}
-            <a href="https://snowball-projects.github.io/operations/#sportsbro">
+            <a href="https://snowball-projects.github.io/operations/#kickoff">
               Operations
             </a>
           </p>

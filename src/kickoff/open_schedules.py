@@ -11,13 +11,13 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 
-from sportsbro.models import CalendarEvent, Participant
-from sportsbro.normalize import stable_event_id
-from sportsbro.reviewed_schedules import load_reviewed_schedules
-from sportsbro.semantics import classification_fields
-from sportsbro.settings import Settings
-from sportsbro.validation import validate_batch
-from sportsbro.web import export_web_bundle
+from kickoff.models import CalendarEvent, Participant
+from kickoff.normalize import stable_event_id
+from kickoff.reviewed_schedules import load_reviewed_schedules
+from kickoff.semantics import classification_fields
+from kickoff.settings import Settings
+from kickoff.validation import validate_batch
+from kickoff.web import export_web_bundle
 
 FOOTBALL = {
     "en.1": ("EPL", "Premier League", "England"),
@@ -64,7 +64,7 @@ REVIEWED_LABELS = {
 
 def read_url(url: str) -> bytes:
     request = Request(
-        url, headers={"User-Agent": "sportsbro-open-schedule/0.2 (https://github.com/snowball-projects/sportsbro)"}
+        url, headers={"User-Agent": "kickoff-open-schedule/0.2 (https://github.com/snowball-projects/kickoff)"}
     )
     with urlopen(request, timeout=40) as response:
         data = response.read(5_000_001)

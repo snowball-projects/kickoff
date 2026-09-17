@@ -3,14 +3,14 @@ from __future__ import annotations
 import json
 from collections import Counter
 
-from sportsbro.http import FetchError, fetch_json
-from sportsbro.models import CalendarEvent, Participant, ProviderOptions, ProviderRunResult, RawArtifact
-from sportsbro.normalize import stable_event_id
-from sportsbro.provider_utils import EventAccumulator
-from sportsbro.providers.base import Provider
-from sportsbro.semantics import classification_fields
-from sportsbro.settings import Settings
-from sportsbro.timeutils import isoformat_local, isoformat_z, parse_iso_datetime, utc_to_timezone
+from kickoff.http import FetchError, fetch_json
+from kickoff.models import CalendarEvent, Participant, ProviderOptions, ProviderRunResult, RawArtifact
+from kickoff.normalize import stable_event_id
+from kickoff.provider_utils import EventAccumulator
+from kickoff.providers.base import Provider
+from kickoff.semantics import classification_fields
+from kickoff.settings import Settings
+from kickoff.timeutils import isoformat_local, isoformat_z, parse_iso_datetime, utc_to_timezone
 
 NHL_CLUBS = [
     "ANA",

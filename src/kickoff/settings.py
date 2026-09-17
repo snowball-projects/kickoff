@@ -5,8 +5,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from sportsbro import __version__
-from sportsbro.models import ProviderOptions
+from kickoff import __version__
+from kickoff.models import ProviderOptions
 
 
 def _load_env_file(path: Path) -> None:
@@ -36,7 +36,7 @@ class Settings:
     def load(cls, repo_root: Path | None = None) -> "Settings":
         resolved_root = repo_root or Path.cwd()
         _load_env_file(resolved_root / ".env")
-        data_dir = resolved_root / os.environ.get("SPORTSBRO_DATA_DIR", "data")
+        data_dir = resolved_root / os.environ.get("KICKOFF_DATA_DIR", "data")
         config_dir = resolved_root / "config"
         if not (config_dir / "leagues.json").exists():
             config_dir = Path(__file__).resolve().parent / "config"
@@ -51,9 +51,9 @@ class Settings:
             normalized_dir=data_dir / "normalized",
             config_dir=config_dir,
             providers_config=providers_config,
-            timeout_seconds=float(os.environ.get("SPORTSBRO_HTTP_TIMEOUT_SECONDS", "20")),
-            user_agent=os.environ.get("SPORTSBRO_USER_AGENT", f"sportsbro/{__version__}"),
-            default_season=int(os.environ.get("SPORTSBRO_DEFAULT_SEASON", "2026")),
+            timeout_seconds=float(os.environ.get("KICKOFF_HTTP_TIMEOUT_SECONDS", "20")),
+            user_agent=os.environ.get("KICKOFF_USER_AGENT", f"kickoff/{__version__}"),
+            default_season=int(os.environ.get("KICKOFF_DEFAULT_SEASON", "2026")),
         )
 
     def ensure_directories(self) -> None:

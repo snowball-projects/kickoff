@@ -26,7 +26,7 @@ test("group choices are independent, mixed, collapsible and preserve saved leagu
   await chooser.locator("summary").filter({ hasText: /^Miscellaneous$/ }).click();
   await chooser.getByRole("checkbox", { name: "IWF Worlds", exact: true }).check();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("sportsbro.interests.v1")!))).toEqual(["F1", "NASCAR_CUP", "INDYCAR", "IWF_WORLDS"]);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v1")!))).toEqual(["F1", "NASCAR_CUP", "INDYCAR", "IWF_WORLDS"]);
   await page.reload();
   await expect(chooser).toHaveCount(0);
   await page.getByRole("button", { name: "Interests · 4", exact: true }).click();

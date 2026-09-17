@@ -5,17 +5,17 @@ import json
 from pathlib import Path
 from typing import Sequence
 
-from sportsbro.audit import audit_normalized_selection
-from sportsbro.dataset import load_events_from_json
-from sportsbro.registry import build_registry
-from sportsbro.settings import Settings
-from sportsbro.storage import write_run_outputs
-from sportsbro.validation import validate_batch
-from sportsbro.web import export_web_bundle
+from kickoff.audit import audit_normalized_selection
+from kickoff.dataset import load_events_from_json
+from kickoff.registry import build_registry
+from kickoff.settings import Settings
+from kickoff.storage import write_run_outputs
+from kickoff.validation import validate_batch
+from kickoff.web import export_web_bundle
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="sportsbro")
+    parser = argparse.ArgumentParser(prog="kickoff")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     fetch = subparsers.add_parser("fetch", help="Fetch raw data and write normalized outputs.")

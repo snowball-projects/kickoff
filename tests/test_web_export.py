@@ -3,9 +3,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from sportsbro.models import CalendarEvent, Participant
-from sportsbro.settings import Settings
-from sportsbro.web import export_web_bundle
+from kickoff.models import CalendarEvent, Participant
+from kickoff.settings import Settings
+from kickoff.web import export_web_bundle
 
 
 class WebExportTests(unittest.TestCase):

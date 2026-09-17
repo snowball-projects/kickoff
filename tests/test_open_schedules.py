@@ -1,4 +1,4 @@
-from sportsbro.open_schedules import f1_events, football_events
+from kickoff.open_schedules import f1_events, football_events
 
 
 def test_football_keeps_unzoned_times_unknown_and_stable_identity():

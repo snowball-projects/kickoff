@@ -1,8 +1,8 @@
-# sportsbro
+# kickoff
 
 A calendar for the sports you follow, by snowball.
 
-**[Open sportsbro](https://snowball-projects.github.io/sportsbro/)**
+**[Open kickoff](https://snowball-projects.github.io/kickoff/)**
 
 Choose individual leagues or whole collapsible sport groups, scroll up or down
 through months, zoom out to the year, or open a day's events. Hover an event for
@@ -70,7 +70,7 @@ This pins upstream commits, retains raw inputs locally, normalizes approved
 sources and passes through the sanitized web exporter. Review the resulting
 `data/published/2026.json` diff before publishing. A failed fetch does not replace
 the last published snapshot. Original official-source adapters remain available
-through `sportsbro fetch`, `validate`, `audit` and `export-web` for local use;
+through `kickoff fetch`, `validate`, `audit` and `export-web` for local use;
 the public frontend build accepts only reviewed open-source datasets.
 
 - [Operation and next steps](docs/OPERATIONS.md)
@@ -82,4 +82,4 @@ the public frontend build accepts only reviewed open-source datasets.
 Original code: [MIT](LICENSE). Third-party schedules and dependencies retain
 [their licenses](THIRD-PARTY-NOTICES.md). No official league affiliation.
 
-[Operations](https://snowball-projects.github.io/operations/#sportsbro)
+[Operations](https://snowball-projects.github.io/operations/#kickoff)

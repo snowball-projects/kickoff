@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const port = Number(process.env.SPORTSBRO_TEST_PORT || 5173);
+const port = Number(process.env.KICKOFF_TEST_PORT || 5173);
 
 export default defineConfig({
   testDir: "./tests/browser",

@@ -4,10 +4,10 @@ import json
 from pathlib import Path
 from typing import Any
 
-from sportsbro.dataset import load_events_from_json
-from sportsbro.models import CalendarEvent, Participant
-from sportsbro.normalize import sort_events
-from sportsbro.settings import Settings
+from kickoff.dataset import load_events_from_json
+from kickoff.models import CalendarEvent, Participant
+from kickoff.normalize import sort_events
+from kickoff.settings import Settings
 
 SCHEMA_VERSION = "1"
 

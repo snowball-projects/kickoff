@@ -1,4 +1,4 @@
-# sportsbro
+# kickoff
 
 A static sports calendar built from reviewed schedule snapshots. No live
 scores, betting or backend by default.
@@ -38,11 +38,11 @@ scores, betting or backend by default.
   upstream commits, hashes and dates.
 - Raw source and cache data stays local and ignored. Never expose secrets,
   historical private payloads or unfiltered normalized files. Public export
-  passes through `sportsbro.web`.
+  passes through `kickoff.web`.
 
 ## Publication
 
-- `snowball-projects/sportsbro` is the canonical home; publish only reviewed
+- `snowball-projects/kickoff` is the canonical home; publish only reviewed
   clean source there.
 - Review staged changes, then verify the Pages workflow and live assets before
   calling a release published. Do not force-push.
@@ -51,7 +51,7 @@ scores, betting or backend by default.
 
 ## Stewardship
 
-- Write `sportsbro` and `snowball` in lowercase.
+- Write `kickoff` and `snowball` in lowercase.
 - Original software is MIT; data and dependencies retain their own terms.
 - Do not add AI-builder labels or production credits to public copy.
 - `CLAUDE.md` imports this file. Keep operational detail in docs rather than

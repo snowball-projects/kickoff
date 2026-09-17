@@ -2,7 +2,7 @@
 
 The website is static React/Vite on GitHub Pages. No application server, API key,
 paid feed or database is configured. GitHub hosting limits apply. Preferences use
-one local-storage key, `sportsbro.interests.v1`; schedule queries run entirely in
+one local-storage key, `kickoff.interests.v1`; schedule queries run entirely in
 the browser against same-origin JSON files, one per published year.
 
 Verified September 11, 2026: [GitHub Pages is free for public repositories](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits),
@@ -127,7 +127,7 @@ components to match the combined calendar exactly. It never copies raw caches.
 
 ## Historical preservation
 
-The owner approved deletion of the original `adelevski/sportsbro` GitHub
+The owner approved deletion of the original `adelevski/kickoff` GitHub
 repository after preservation checks, and that remote has been deleted.
 Original and repaired Git history and old release artifacts are retained in the
 private preservation archive, including `original-checkout.git`,
@@ -138,7 +138,7 @@ Private historical material includes reference CSVs and raw caches that are not
 cleared for public redistribution. Preserve the archives; deleting their retained
 contents requires a separate owner decision.
 
-The canonical public repository is `snowball-projects/sportsbro`, which starts
+The canonical public repository is `snowball-projects/kickoff`, which starts
 from reviewed repaired source. The local history is a reference for recovery,
 not a public deployment input; do not restore old merge errors, caches, the
 removed server or inferred season markers.
