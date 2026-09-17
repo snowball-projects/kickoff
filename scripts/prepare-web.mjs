@@ -62,6 +62,6 @@ for (const name of await readdir(join(target, "data"))) {
   if (/^\d{4}(?:-(?:wikipedia|wikidata)-[a-f0-9]{64})?\.json$/.test(name) && !publishedNames.has(name))
     await rm(join(target, "data", name));
 }
-for (const name of ["LICENSE", "THIRD-PARTY-NOTICES.txt"])
+for (const name of ["LICENSE", "THIRD-PARTY-NOTICES.md"])
   await cp(join(root, name), join(target, name));
 console.log(`Prepared ${names.length} reviewed public snapshot(s).`);

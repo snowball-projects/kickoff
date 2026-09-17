@@ -641,7 +641,7 @@ export default function App() {
                 Download schedule JSON
               </a>{" · "}
             </>}
-            <a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.txt`}>
+            <a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.md`}>
               Licenses
             </a>
             {" · "}
