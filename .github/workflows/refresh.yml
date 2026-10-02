@@ -1,0 +1,77 @@
+name: Refresh schedules
+
+# Weekly league refresh. Commits only when published schedules change, then
+# dispatches the Pages workflow (pushes made with GITHUB_TOKEN do not trigger it).
+# Feed problems keep the previous data and open an issue instead of publishing gaps.
+on:
+  schedule:
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+  issues: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+      - run: python -m pip install -r requirements-dev.lock -e '.[dev]'
+      - name: Fetch schedules
+        run: python scripts/refresh-public.py --warnings "$RUNNER_TEMP/warnings.md"
+      - name: Validate public snapshots
+        run: node scripts/prepare-web.mjs
+      - name: Commit changes
+        id: commit
+        run: |
+          git add data/published
+          if git diff --cached --quiet; then
+            echo "No schedule changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Refresh published schedules"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Publish
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
+      - name: Report warnings
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -s "$RUNNER_TEMP/warnings.md" ]; then exit 0; fi
+          body="$(printf 'The [weekly refresh](%s/%s/actions/runs/%s) kept previous data for:\n\n' \
+            "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"; cat "$RUNNER_TEMP/warnings.md")"
+          open="$(gh issue list --state open --search 'in:title "Schedule refresh warnings"' --json number --jq '.[0].number')"
+          if [ -n "$open" ]; then
+            gh issue comment "$open" --body "$body"
+          else
+            gh issue create --title "Schedule refresh warnings" --body "$body"
+          fi
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Schedule refresh failed" \
+            --body "The [weekly refresh]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) failed. The published calendar is unchanged."

@@ -38,6 +38,13 @@ for (const name of names) {
         throw Error("Reviewed date-only event has unsupported clock semantics");
       if (bundle.data_licenses?.[event.source] !== license)
         throw Error("Missing data license mapping");
+    } else if (["espn", "mlb", "nhl"].includes(event.source)) {
+      // Scheduled league feeds: attributed facts with an https link back, never raw payloads.
+      const notice = bundle.sources.find((s) => s.kind === event.source);
+      if (!notice?.name || !notice.license || !event.source_url?.startsWith("https://"))
+        throw Error("Missing league feed attribution");
+      if (bundle.data_licenses?.[event.source] !== notice.license)
+        throw Error("Missing data license mapping");
     } else throw Error("Unreviewed public data source");
   }
   for (const kind of ["wikipedia", "wikidata"]) {

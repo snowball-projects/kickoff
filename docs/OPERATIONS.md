@@ -73,12 +73,18 @@ provider fetches or nested interactive controls are needed for previews.
 4. Revert a bad code/data commit to roll back through the same workflow. Another
    static host can serve the build under any path; no vendor-specific backend.
 
-The public snapshot is refreshed deliberately, not advertised as live. Run the
-refresh command, inspect changes in fixtures/counts/coverage and provenance, then
-commit. Unknown/cancelled dates should be explicit; do not silently fabricate
-missing events or infer season milestones from partial data. Before each new
-calendar year, add and verify its snapshot. Years without a published snapshot
-show an honest unavailable state and allow returning to the current month.
+The refresh workflow runs every Monday at 09:17 UTC and on demand
+(`workflow_dispatch`). It fetches this year and next, validates the snapshots with
+`scripts/prepare-web.mjs`, commits only when published data changes, and then
+dispatches the Pages workflow. A run makes roughly 250 small requests (about
+90 ESPN NBA team schedules, 53 NHL weeks, 31 NFL weeks and a few dozen others)
+and costs nothing on GitHub's free Actions minutes for public repositories.
+Feed failures and suspicious drops keep the previous events and open an issue;
+open-data or validation failures leave the published calendar untouched and open
+a "Schedule refresh failed" issue. Unknown/cancelled dates should be explicit;
+do not silently fabricate missing events or infer season milestones from partial
+data. Clients derive not started, live and over from start times; no live state
+is fetched.
 
 ## Reviewed registry maintenance
 
@@ -120,6 +126,11 @@ components to match the combined calendar exactly. It never copies raw caches.
 - Broaden partial NFL/combat coverage only after reviewing suitable sources;
   the automated nflverse upstream provenance remains unresolved.
 - Verify football kickoff timezone conventions before displaying times.
+- Slim the per-year bundle (participants are serialized three times); 2026 is
+  about 11 MB raw, 700 KB gzipped.
+- Backfill 2025 so the calendar reaches a full year back.
+- Add 2027 registries for World Climbing, IWF and other reviewed events as
+  their calendars publish.
 - Consider a scheduled refresh only after source stability and review needs are
   understood. Preserve the previous snapshot on failure and show retrieval time.
 - Team-level interests and calendar subscriptions are possible later additions;

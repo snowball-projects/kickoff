@@ -23,7 +23,7 @@ const LEAGUE_META: Record<
   IWF_WORLDS: { shortLabel: "IWF Worlds", className: "league-generic", order: 35 },
   GOLF_MAJORS_MEN: { shortLabel: "Golf · men's majors", className: "league-pga", order: 36 },
   GOLF_MAJORS_WOMEN: { shortLabel: "Golf · women's majors", className: "league-pga", order: 37 },
-  NFL: { shortLabel: "NFL · selected games", className: "league-nfl", order: 0 },
+  NFL: { shortLabel: "NFL", className: "league-nfl", order: 0 },
   NBA: { shortLabel: "NBA", className: "league-nba", order: 1 },
   MLB: { shortLabel: "MLB", className: "league-mlb", order: 2 },
   NHL: { shortLabel: "NHL", className: "league-nhl", order: 3 },
@@ -32,7 +32,7 @@ const LEAGUE_META: Record<
   INDYCAR: { shortLabel: "INDYCAR", className: "league-indycar", order: 6 },
   FIFA_WORLD_CUP: { shortLabel: "FIFA", className: "league-fifa", order: 7 },
   UEFA_CHAMPIONS_LEAGUE: {
-    shortLabel: "UCL",
+    shortLabel: "Champions League",
     className: "league-ucl",
     order: 8,
   },
@@ -47,7 +47,7 @@ const LEAGUE_META: Record<
     className: "league-ifsc-youth",
     order: 11,
   },
-  PGA_TOUR: { shortLabel: "PGA Tour · selected dates", className: "league-pga", order: 38 },
+  PGA_TOUR: { shortLabel: "PGA Tour", className: "league-pga", order: 38 },
   LPGA_TOUR: { shortLabel: "LPGA Tour · final dates", className: "league-pga", order: 39 },
 };
 
@@ -67,8 +67,12 @@ const SPORT_GROUPS = [
   { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE"] },
   { name: "Motorsports", leagues: ["F1", "NASCAR_CUP", "INDYCAR"] },
   { name: "American football", leagues: ["NFL"] },
+  { name: "Basketball", leagues: ["NBA"] },
+  { name: "Baseball", leagues: ["MLB"] },
+  { name: "Hockey", leagues: ["NHL"] },
   { name: "Combat sports", leagues: ["UFC", "PFL", "RIZIN", "ONE", "BOXING_MAJOR"] },
-  { name: "Golf", leagues: ["GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN", "PGA_TOUR", "LPGA_TOUR"] },
+  { name: "Golf", leagues: ["PGA_TOUR", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN", "LPGA_TOUR"] },
+  { name: "Climbing and weightlifting", leagues: ["IFSC_WORLD_CUP", "IWF_WORLDS"] },
 ];
 
 export function interestGroups(leagues: { value: string }[]) {

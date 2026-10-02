@@ -18,13 +18,15 @@ and Shift + Page Up/Down changes year. Search covers the year shown in the
 heading. Calendar navigation spans 1900–2100; years without a published schedule
 are marked unavailable.
 
-The reviewed 2026 collection covers nine football leagues, F1, World Climbing,
-NASCAR Cup, IndyCar, selected NFL and combat cards, IWF Worlds, golf majors and
-selected PGA/LPGA season dates. Most added golf entries show only a tournament's
-listed final date; they are labeled **Final date**, with no implied opening date.
-[Coverage and data licenses](docs/PUBLIC_RELEASE.md) give exact inclusions and
-omissions. Most additions are date-only; verified F1 times use your device's zone.
-Software is MIT; Wikipedia-derived schedule data retains CC BY-SA 4.0.
+The 2026 calendar has 9,274 events across 28 competitions, and
+2027 is filling in as leagues publish. Full schedules for the NFL, NBA, MLB, NHL,
+UEFA Champions League, PGA Tour, UFC, NASCAR Cup and IndyCar come from official
+league feeds (MLB, NHL) and ESPN's public schedule data, refreshed weekly. Nine
+football leagues and F1 come from open datasets; World Climbing, IWF Worlds,
+golf majors, LPGA final dates and other combat cards are hand-reviewed. No live
+scores. [Coverage and data sources](docs/PUBLIC_RELEASE.md) give exact
+inclusions, omissions and terms. Software is MIT; schedule data keeps its
+sources' terms, and league and team names belong to their owners.
 
 ## Run
 
@@ -60,15 +62,17 @@ python3 -m venv .venv
 .venv/bin/python -m build --no-isolation
 ```
 
-To refresh the public snapshot explicitly:
+A scheduled workflow (`.github/workflows/refresh.yml`) refreshes every Monday.
+To refresh by hand:
 
 ```sh
+.venv/bin/python scripts/refresh-public.py            # this year and next
 .venv/bin/python scripts/refresh-public.py --year 2026
 ```
 
-This pins upstream commits, retains raw inputs locally, normalizes approved
-sources and passes through the sanitized web exporter. Review the resulting
-`data/published/2026.json` diff before publishing. A failed fetch does not replace
+This pins open-data upstream commits, fetches the league feeds, retains raw inputs
+locally, normalizes approved sources and passes through the sanitized web exporter.
+A failed fetch does not replace
 the last published snapshot. Original official-source adapters remain available
 through `kickoff fetch`, `validate`, `audit` and `export-web` for local use;
 the public frontend build accepts only reviewed open-source datasets.

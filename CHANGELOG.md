@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Publish full NFL, NBA, MLB, NHL, UEFA Champions League, PGA Tour, UFC,
+  NASCAR Cup and IndyCar schedules from official league feeds and ESPN, refreshed
+  every Monday by a scheduled workflow that commits only real changes and keeps
+  the previous data if a feed fails or shrinks. 2026 now has 9,274 events
+  and 2027 5,537.
+- Add Basketball, Baseball, Hockey and Climbing and weightlifting interest groups.
 - Rename the project from sportsbro to kickoff. The Python package, the
   frontend package and the KICKOFF_ environment variables follow.
 
