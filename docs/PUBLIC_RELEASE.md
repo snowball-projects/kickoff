@@ -1,11 +1,39 @@
 # Public schedule boundary
 
-The 2026 collection contains **3,621 records across 24 selectable competitions**.
-It is a reviewed community snapshot, not an official or live feed. A refresh
-records retrieval time; it does not certify that every event was checked then.
-Dates can move. An empty day means no matching published records.
+The 2026 calendar contains **9,274 records across 28 selectable competitions**;
+2027 contains 5,537 so far. League feeds are checked weekly; open
+datasets are pinned to upstream commits; reviewed registries change only by
+review. It is not a live feed. Dates can move. An empty day means no matching
+published records.
 
-## Published coverage
+## League feeds
+
+Approved by the owner on October 1, 2026. These sources supply factual schedule
+information (date, time, participants, venue) and grant no data license.
+kickoff names each source, links every event back to it, and carries no logos,
+scores, odds, articles or raw payloads. League and team names identify events
+only; no affiliation or endorsement is implied.
+
+| Competition | 2026 / 2027 records | Source | Scope |
+| --- | ---: | --- | --- |
+| NFL | 271 / 44 | ESPN weekly scoreboards | Regular season and postseason; Pro Bowl marked exhibition; unset Week 18 times stay date-only |
+| NBA | 1298 / 725 | ESPN team schedules | Regular season and playoffs; no preseason |
+| MLB | 2479 / 2430 | Official MLB Stats API | Regular season and postseason; no spring training |
+| NHL | 1412 / 695 | Official NHL schedule API | Regular season and playoffs; no preseason |
+| UEFA Champions League | 189 / 36 | ESPN, on match dates listed by OpenLigaDB | Fixtures appear as draws set them |
+| PGA Tour | 48 / 37 | ESPN golf calendar | Date-only tournament spans; canceled events removed |
+| UFC | 52 / 0 | ESPN | Whole cards at ESPN's listed card start |
+| NASCAR Cup | 40 / 0 | ESPN | Points races; Clash, Duels and All-Star marked exhibition |
+| IndyCar | 18 / 0 | ESPN | Championship races |
+
+Canceled, postponed and suspended games are withheld until rescheduled. Each
+refresh compares every league with its previous snapshot: if a feed fails or
+returns under 70% of its previous events, the previous events stay published and
+the workflow opens a "Schedule refresh warnings" issue. A league feed replaces
+the hand-reviewed selection for the same league (NFL, UFC, NASCAR Cup, IndyCar
+and PGA Tour season dates); men's majors remain a separate reviewed selection.
+
+## Open and reviewed coverage (2026)
 
 | Competition | Records | Supported scope |
 | --- | ---: | --- |

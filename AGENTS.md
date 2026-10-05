@@ -32,8 +32,11 @@ scores, betting or backend by default.
 
 ## Data and privacy
 
-- Public builds accept only reviewed data and published snapshots. Revalidate
-  rights, coverage and timezones before adding a source.
+- Public builds accept only published snapshots from approved sources: open
+  datasets, reviewed registries and, since the owner's October 1, 2026 decision,
+  the league feeds in `src/kickoff/feeds.py` (official league APIs and ESPN's
+  public JSON, for factual schedules only). Revalidate rights, coverage and
+  timezones before adding a source. Never publish logos or raw feed payloads.
 - The code's MIT license does not license raw schedules. Preserve citations,
   upstream commits, hashes and dates.
 - Raw source and cache data stays local and ignored. Never expose secrets,

@@ -28,13 +28,21 @@ pinned revision links, hashes, retrieval dates and detailed changes accompany
 all rows in the public bundle and the separately downloadable component.
 Preserve applicable attribution and share-alike obligations on redistribution.
 
-Wikidata contributors — IWF senior Worlds (Q124142978) and 2026 Players
-Championship (Q138632122) dates; CC0 1.0.
+Wikidata contributors — IWF senior Worlds (Q124142978) dates; CC0 1.0.
 https://www.wikidata.org/wiki/Wikidata:Licensing
 https://creativecommons.org/publicdomain/zero/1.0/
 Changes: selected day-precision start/end claims and retained inclusive dates;
 no timestamp, lifting-session or tee-time details inferred. Revision/hash/source receipts
 travel with the CC0 component. This notice does not apply CC0 to Wikidata prose.
+
+ESPN, the MLB Stats API and the NHL schedule API — league schedules (NFL,
+NBA, MLB, NHL, UEFA Champions League, PGA Tour, UFC, NASCAR Cup, IndyCar).
+https://www.espn.com/  https://statsapi.mlb.com/  https://www.nhl.com/schedule
+These sources grant no data license. kickoff republishes factual schedule
+information only (dates, times, participants, venues), attributes each event to
+its source with a link, and omits logos, scores, odds, articles and raw payloads.
+OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
+its data is republished.
 
 League/team names identify scheduled events; no official team or league logos
 are included and no endorsement is implied.

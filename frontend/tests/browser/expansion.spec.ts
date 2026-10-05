@@ -1,22 +1,17 @@
 import { expect, test } from "@playwright/test";
 
-test("golf season dates remain partial and separately selectable from majors", async ({ page }) => {
+test("full PGA Tour spans stay separate from LPGA final-date markers and majors", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
   await page.goto("/");
   const chooser = page.getByRole("dialog", { name: "Follow your sports" });
   await chooser.locator("summary").filter({ hasText: /^Golf$/ }).click();
-  await chooser.getByRole("checkbox", { name: "PGA Tour · selected dates", exact: true }).check();
+  await chooser.getByRole("checkbox", { name: "PGA Tour", exact: true }).check();
   await chooser.getByRole("checkbox", { name: "LPGA Tour · final dates", exact: true }).check();
   await expect(chooser.getByRole("checkbox", { name: "Golf · women's majors", exact: true })).not.toBeChecked();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
-  const biltmore = page.locator("#day-2026-09-20 .event-pill");
-  await expect(biltmore).toContainText("Final date · Biltmore Championship");
-  await expect(page.locator("#day-2026-09-19 .event-pill")).toHaveCount(0);
-  await biltmore.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(250);
-  await biltmore.hover();
-  await expect(page.getByRole("tooltip")).toContainText("Final date only");
-  await expect(page.getByRole("tooltip")).toContainText("opening date and tee times are not supplied");
+  for (const day of ["2026-09-17", "2026-09-20"])
+    await expect(page.locator(`#day-${day} .event-pill`)).toContainText("Biltmore Championship");
+  await expect(page.locator("#day-2026-09-20 .event-pill")).not.toContainText("Final date");
   await page.getByPlaceholder("Search events").fill("Walmart");
   await page.getByRole("region", { name: "Search results" }).getByRole("button").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
@@ -26,7 +21,7 @@ test("golf season dates remain partial and separately selectable from majors", a
   await page.getByPlaceholder("Search events").fill("Players Championship");
   await page.getByRole("region", { name: "Search results" }).getByRole("button").click();
   await expect(detail).toContainText("through 2026-03-15");
-  await expect(detail.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", /Q138632122/);
+  await expect(detail.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", /espn\.com/);
 });
 
 test("reviewed expansion works with scrolling, inclusive spans and attribution downloads", async ({ page, request }) => {
@@ -34,9 +29,9 @@ test("reviewed expansion works with scrolling, inclusive spans and attribution d
   await page.goto("/");
   const chooser = page.getByRole("dialog", { name: "Follow your sports" });
   await expect(chooser).toBeVisible();
-  for (const name of ["American football", "Miscellaneous", "Golf"])
+  for (const name of ["American football", "Climbing and weightlifting", "Golf"])
     await chooser.locator("summary").filter({ hasText: new RegExp(`^${name}$`) }).click();
-  await expect(chooser.getByText("NFL · selected games", { exact: true })).toBeVisible();
+  await expect(chooser.getByText("NFL", { exact: true })).toBeVisible();
   await expect(chooser.getByText("World Climbing", { exact: true })).toBeVisible();
   await expect(chooser.getByText("Golf · women's majors", { exact: true })).toBeVisible();
   await chooser.getByRole("button", { name: "Clear", exact: true }).click();
@@ -65,7 +60,7 @@ test("reviewed expansion works with scrolling, inclusive spans and attribution d
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("September");
   await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
   const about = page.getByRole("dialog", { name: "About kickoff", exact: true });
-  await expect(about).toContainText("19 selected NFL opener, international and holiday games");
+  await expect(about).toContainText("Published schedules for NFL, NBA, MLB, NHL");
   await expect(about).toContainText("CC BY-SA 4.0");
   const download = about.getByRole("link", { name: "Download Wikipedia schedule data" });
   const href = await download.getAttribute("href");
@@ -74,7 +69,7 @@ test("reviewed expansion works with scrolling, inclusive spans and attribution d
   expect(response.ok()).toBeTruthy();
   const component = await response.json();
   expect(component.license).toBe("CC BY-SA 4.0");
-  expect(component.events.filter((e: { league: string }) => e.league === "NFL")).toHaveLength(19);
+  expect(component.events.filter((e: { league: string }) => e.league === "NFL")).toHaveLength(0);
 });
 
 test("expanded interest labels and date-only card details fit a mobile viewport", async ({ page }) => {
