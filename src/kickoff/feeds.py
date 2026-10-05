@@ -9,9 +9,12 @@ from __future__ import annotations
 
 import gzip
 import json
+import re
 import time
 from collections.abc import Callable
 from datetime import date, datetime, timedelta
+from functools import cache
+from importlib.resources import files
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
@@ -154,9 +157,11 @@ def _espn_event(
     phase: str = "regular_season",
     span: bool = False,
 ) -> CalendarEvent | None:
-    status = ((event.get("status") or {}).get("type") or {}).get("name", "")
     competition = (event.get("competitions") or [{}])[0]
-    if status in DROPPED_STATUSES or status.startswith("STATUS_CANCEL"):
+    # Scoreboards expose event.status; team schedules use competition.status.
+    # If the feed disagrees with itself, withholding is safer than an old appointment.
+    statuses = [((item.get("status") or {}).get("type") or {}).get("name", "") for item in (event, competition)]
+    if any(status in DROPPED_STATUSES or status.startswith("STATUS_CANCEL") for status in statuses):
         return None
     timed = bool(competition.get("timeValid", True)) and not span
     home = away = None
@@ -202,6 +207,23 @@ def _dedupe(events: list[CalendarEvent]) -> list[CalendarEvent]:
     return list({event.event_id: event for event in events}.values())
 
 
+@cache
+def _phase_overrides() -> dict[str, dict]:
+    """Reviewed event identities, never inferred postseason dates for future years."""
+    payload = json.loads(files("kickoff").joinpath("config/feed-phases.json").read_text())
+    return {row["event_id"]: row for row in payload["events"]}
+
+
+def espn_calendar_phase(league: str, event_id: str | int, season: str, name: str) -> str:
+    """Retain reviewed playoff identity where ESPN reports generic regular-season."""
+    if league == "NASCAR_CUP" and re.search(r"\b(?:clash|duel|all[\s-]*star)\b", name, re.IGNORECASE):
+        return "exhibition"
+    override = _phase_overrides().get(f"espn-{league.lower()}-{event_id}")
+    if override and override["league"] == league and override["season"] == season:
+        return override["competition_phase"]
+    return "regular_season"
+
+
 def espn_season_feed(path: str, league: str, sport: str, event_type: str, fallback_url: str, *, span=False):
     """Golf, MMA and racing: one scoreboard request returns the whole calendar year."""
 
@@ -209,10 +231,9 @@ def espn_season_feed(path: str, league: str, sport: str, event_type: str, fallba
         payload = get_json(f"{ESPN}/{path}/scoreboard?dates={year}&limit=500")
         events = []
         for row in payload.get("events") or []:
-            phase = "regular_season"
             name = row.get("name", "")
-            if league == "NASCAR_CUP" and any(word in name for word in ("Clash", "Duel", "All-Star")):
-                phase = "exhibition"
+            season = str((row.get("season") or {}).get("year") or _local_date(row["date"], EASTERN)[:4])
+            phase = espn_calendar_phase(league, row["id"], season, name)
             event = _espn_event(
                 row,
                 league=league,

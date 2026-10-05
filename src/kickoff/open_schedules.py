@@ -90,13 +90,30 @@ def read_url(url: str) -> bytes:
 
 
 def read_optional(url: str) -> bytes | None:
-    """A season file that upstream has not published yet is absent, not an error."""
+    """Allow a 404 only for an input the caller knows may not be published yet."""
     try:
         return read_url(url)
     except HTTPError as error:
         if error.code == 404:
             return None
         raise
+
+
+def _published_input_paths(previous: dict | None, repository: str) -> set[str]:
+    """Identify prior inputs across pinned revisions, including older bundles."""
+    paths = set()
+    prefixes = (
+        f"https://raw.githubusercontent.com/{repository}/",
+        f"https://github.com/{repository}/blob/",
+    )
+    for item in (previous or {}).get("input_evidence", []) + (previous or {}).get("events", []):
+        url = item.get("url") or item.get("source_url") or ""
+        for prefix in prefixes:
+            if url.startswith(prefix):
+                _revision, separator, path = url[len(prefix) :].partition("/")
+                if separator:
+                    paths.add(path)
+    return paths
 
 
 def _previous_bundle(path: Path) -> dict | None:
@@ -297,8 +314,16 @@ def refresh_open_schedules(
     """
     warnings = warnings if warnings is not None else []
     previous = _previous_bundle(output_dir / f"{year}.json")
+    published_football = _published_input_paths(previous, "openfootball/football.json")
+    # Split-year inputs are shared by adjacent calendar snapshots. A first refresh
+    # for this year must also preserve publication evidence from those snapshots.
+    for adjacent_year in (year - 1, year + 1):
+        adjacent = _previous_bundle(output_dir / f"{adjacent_year}.json")
+        published_football.update(_published_input_paths(adjacent, "openfootball/football.json"))
+    published_f1 = _published_input_paths(previous, "f1db/f1db")
     working_dir.mkdir(parents=True, exist_ok=True)
-    retrieved = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    now = datetime.now(timezone.utc)
+    retrieved = now.isoformat(timespec="seconds")
     revisions = {}
     for repo, branch in [("openfootball/football.json", "master"), ("f1db/f1db", "main")]:
         revisions[repo] = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
@@ -330,19 +355,28 @@ def refresh_open_schedules(
     )
     f1dir = f"src/data/seasons/{year}/races"
     f1rev = revisions["f1db/f1db"]
-    listing = read_optional(f"https://api.github.com/repos/f1db/f1db/contents/{f1dir}?ref={f1rev}")
+    optional_f1 = year > now.year and not any(path.startswith(f"{f1dir}/") for path in published_f1)
+    listing_url = f"https://api.github.com/repos/f1db/f1db/contents/{f1dir}?ref={f1rev}"
+    listing = read_optional(listing_url) if optional_f1 else read_url(listing_url)
     races = json.loads(listing) if listing is not None else []
     for item in races:
         if item["type"] == "dir":
             path = item["path"] + "/race.yml"
             jobs.append(("f1", "", str(year), path, f"https://raw.githubusercontent.com/f1db/f1db/{f1rev}/{path}"))
-    if not races:
-        if year <= datetime.now(timezone.utc).year:
-            raise ValueError("No F1 races returned")
+    if not races and not optional_f1:
+        raise ValueError("No F1 races returned")
+
+    def fetch_input(job):
+        kind, key, season, path, url = job
+        # A split-year season may be unpublished early in its starting year;
+        # Brazil's current calendar-year schedule and every listed F1 race are required.
+        future_football = int(season[:4]) > now.year if key == "br.1" else int(season[:4]) >= now.year
+        if kind == "football" and future_football and path not in published_football:
+            return read_optional(url)
+        return read_url(url)
+
     with ThreadPoolExecutor(max_workers=4) as pool:
-        bodies = list(
-            pool.map(lambda job: read_optional(job[4]) if job[2].startswith(str(year)) else read_url(job[4]), jobs)
-        )
+        bodies = list(pool.map(fetch_input, jobs))
     events, evidence = [], []
     for job, body in zip(jobs, bodies, strict=True):
         kind, key, season, path, url = job

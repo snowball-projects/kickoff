@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "notes": "Explicit phase corrections for identified feed events. ESPN labels these reviewed 2026 playoff events regular-season. Event IDs, not dates or inferred season boundaries, keep classifications stable when schedules move. Review and add identities for future seasons; never extrapolate these rows.",
+  "events": [
+    {
+      "event_id": "espn-nascar_cup-202609063891",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Darlington",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-27",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202609134249",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at World Wide Technology Raceway",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-28",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202609190016",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Bristol",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-29",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202609270039",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Kansas",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-30",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202610040787",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Las Vegas",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-31",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202610110021",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Charlotte",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-32",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202610180053",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Phoenix",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-33",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202610250041",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Talladega",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-34",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202611010020",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Martinsville",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-35",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-nascar_cup-202611080042",
+      "league": "NASCAR_CUP",
+      "season": "2026",
+      "title": "NASCAR Cup Series at Miami",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "nascar-cup-2026-round-36",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_NASCAR_Cup_Series&oldid=1373965067"
+    },
+    {
+      "event_id": "espn-pga_tour-401811962",
+      "league": "PGA_TOUR",
+      "season": "2026",
+      "title": "FedEx St. Jude Championship",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "wikipedia-golf-2026-pga-tour-fedex-st-jude-championship",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_FedEx_Cup_Playoffs&oldid=1372634692"
+    },
+    {
+      "event_id": "espn-pga_tour-401811963",
+      "league": "PGA_TOUR",
+      "season": "2026",
+      "title": "BMW Championship",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "wikipedia-golf-2026-pga-tour-bmw-championship",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_FedEx_Cup_Playoffs&oldid=1372634692"
+    },
+    {
+      "event_id": "espn-pga_tour-401811964",
+      "league": "PGA_TOUR",
+      "season": "2026",
+      "title": "TOUR Championship",
+      "competition_phase": "postseason",
+      "reviewed_event_id": "wikipedia-golf-2026-pga-tour-tour-championship",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_FedEx_Cup_Playoffs&oldid=1372634692"
+    }
+  ]
+}

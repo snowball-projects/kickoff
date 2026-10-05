@@ -86,6 +86,19 @@ do not silently fabricate missing events or infer season milestones from partial
 data. Clients derive not started, live and over from start times; no live state
 is fetched.
 
+ESPN team schedules place status inside the competition; both status locations
+are checked before publishing a game. Missing previously published open-data
+inputs fail the refresh, and every race referenced by an F1 listing is required.
+
+`src/kickoff/config/feed-phases.json` preserves the reviewed postseason identities
+that ESPN labels generically as regular season: ten 2026 NASCAR Chase races and
+three 2026 PGA playoff tournaments. Each override records the exact feed event
+ID, season and pinned review source. The registry does not infer future playoff
+dates or reuse a classification for another season. Review and add new identities
+when future playoff schedules become available; if a provider changes an ID,
+verify its replacement before updating the registry. All-Star, Clash and Duel
+name variants are classified as exhibitions separately.
+
 ## Reviewed registry maintenance
 
 `data/reviewed/2026-*.json` holds deliberately reviewed event selections. The
