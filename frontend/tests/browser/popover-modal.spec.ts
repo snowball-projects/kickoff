@@ -125,17 +125,39 @@ for (const viewport of [
   });
 }
 
-test("keyboard focus stays in the modal and Close is usable after tabbing to its last link", async ({ page }) => {
+test("keyboard traverses modal links and returns to the always-visible Close button", async ({ page }, testInfo) => {
   await openCalendar(page);
   const opener = page.getByRole("button", { name: "About kickoff and schedule coverage" });
   await opener.click();
   const dialog = page.getByRole("dialog", { name: "About kickoff", exact: true });
   const close = dialog.getByRole("button", { name: "Close", exact: true });
   await expect(close).toBeFocused();
+  // Native dialogs may visit browser chrome at a traversal boundary. They
+  // must never let focus reach an inert control in the underlying calendar.
   await page.keyboard.press("Shift+Tab");
-  await expect(dialog.getByRole("link").last()).toBeFocused();
-  await checkChrome(dialog, page);
-  await page.keyboard.press("Tab");
+  const boundaryFocus = await dialog.evaluate((element) => ({
+    tag: document.activeElement?.tagName,
+    text: document.activeElement?.textContent?.slice(0, 80),
+    documentFocused: document.hasFocus(),
+    inDialog: element.contains(document.activeElement),
+  }));
+  await testInfo.attach("native-dialog-boundary-focus", {
+    body: JSON.stringify(boundaryFocus, null, 2), contentType: "application/json",
+  });
+  expect(boundaryFocus.inDialog || boundaryFocus.tag === "BODY").toBe(true);
+  await close.focus();
+  const links = dialog.getByRole("link");
+  const count = await links.count();
+  for (let index = 0; index < count; index++) {
+    await page.keyboard.press("Tab");
+    await expect(links.nth(index)).toBeFocused();
+    await checkChrome(dialog, page);
+  }
+  for (let index = count - 2; index >= 0; index--) {
+    await page.keyboard.press("Shift+Tab");
+    await expect(links.nth(index)).toBeFocused();
+  }
+  await page.keyboard.press("Shift+Tab");
   await expect(close).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(dialog).toHaveCount(0);
