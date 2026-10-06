@@ -1,3 +1,4 @@
+import { matchesInterestOptions, uniqueGolfEvents } from "./interest-preferences";
 import type {
   CalendarResponse,
   CalendarView,
@@ -100,11 +101,7 @@ function normalized(value: string | null | undefined) {
 }
 
 function matchesFilters(event: EventDetail, filters: FilterState) {
-  if (
-    filters.followed_leagues &&
-    !filters.followed_leagues.includes(event.league)
-  )
-    return false;
+  if (!matchesInterestOptions(event, filters)) return false;
   if (
     filters.motorsport_view === "race_only" &&
     event.sport === "motorsport" &&
@@ -258,9 +255,9 @@ export async function getFilters(
   throwIfAborted(signal);
   const bundle = await loadBundle(season);
   throwIfAborted(signal);
-  const events = bundle.events.filter((event) =>
+  const events = uniqueGolfEvents(bundle.events.filter((event) =>
     matchesFilters(event, filters),
-  );
+  ));
   return {
     season,
     total_events: events.length,
@@ -310,7 +307,7 @@ export async function getCalendar(
     datesBetween(startDate, endDate).map((date) => [date, [] as EventCard[]]),
   );
   for (const event of sortedEvents(
-    bundle.events.filter((item) => matchesFilters(item, filters)),
+    uniqueGolfEvents(bundle.events.filter((item) => matchesFilters(item, filters))),
   )) {
     const date = eventDate(event, timezone);
     if (!date) continue;
@@ -560,7 +557,7 @@ export async function searchEvents(
   throwIfAborted(signal);
   const needle = normalized(query);
   const matches = sortedEvents(
-    bundle.events.filter((event) => {
+    uniqueGolfEvents(bundle.events.filter((event) => {
       if (!matchesFilters(event, filters)) return false;
       const haystack = [
         event.title,
@@ -575,7 +572,7 @@ export async function searchEvents(
         .join(" | ")
         .toLocaleLowerCase();
       return haystack.includes(needle);
-    }),
+    })),
   );
   const items = matches
     .slice(0, 30)
@@ -595,3 +592,4 @@ export async function searchEvents(
     items,
   };
 }
+

@@ -26,7 +26,7 @@ test("group choices are independent, mixed, collapsible and preserve saved leagu
   await chooser.locator("summary").filter({ hasText: /^Climbing and weightlifting$/ }).click();
   await chooser.getByRole("checkbox", { name: "IWF Worlds", exact: true }).check();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v1")!))).toEqual(["F1", "NASCAR_CUP", "INDYCAR", "IWF_WORLDS"]);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues)).toEqual(["F1", "NASCAR_CUP", "INDYCAR", "IWF_WORLDS"]);
   await page.reload();
   await expect(chooser).toHaveCount(0);
   await page.getByRole("button", { name: "Interests · 4", exact: true }).click();
@@ -35,4 +35,72 @@ test("group choices are independent, mixed, collapsible and preserve saved leagu
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
   await page.screenshot({ path: "test-results/grouped-interests-mobile.png" });
+});
+
+
+test("advanced choices save together, cancel cleanly, and survive reopening on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
+  await page.goto("/");
+  const chooser = page.getByRole("dialog", { name: "Follow your sports" });
+  const advanced = chooser.locator("details.advanced");
+  await expect(advanced.locator("select").first()).toBeHidden();
+  await expect(chooser.getByText("More filters", { exact: true })).toHaveCount(0);
+  await chooser.locator("summary").filter({ hasText: /^Golf$/ }).click();
+  await expect(chooser.getByRole("region", { name: "Golf interests" }).getByRole("checkbox")).toHaveCount(3);
+  await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).check();
+  await chooser.locator("summary").filter({ hasText: /^Combat sports$/ }).click();
+  await expect(chooser.getByRole("checkbox", { name: "One", exact: true })).toBeVisible();
+  await chooser.getByRole("checkbox", { name: "Boxing", exact: true }).check();
+  await advanced.locator("summary").click();
+  await expect(advanced).toContainText("Selected reviewed bouts only");
+  await advanced.getByLabel("PGA Tour", { exact: true }).selectOption("majors_only");
+  await advanced.getByLabel("LPGA Tour", { exact: true }).selectOption("majors_only");
+  await advanced.getByLabel("Motorsport", { exact: true }).selectOption("full_weekend");
+  await advanced.getByRole("checkbox", { name: "Four-belt undisputed bouts" }).uncheck();
+  expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
+  await page.screenshot({ path: "test-results/advanced-options-mobile.png" });
+  await chooser.getByRole("button", { name: "Show my calendar" }).click();
+  const saved = await page.evaluate(() => localStorage.getItem("kickoff.interests.v2"));
+  expect(JSON.parse(saved!).boxing_categories).toEqual(["three_belt_unification"]);
+  await page.getByPlaceholder("Search events").fill("Sony");
+  await expect(page.getByRole("region", { name: "Search results" }).getByRole("button")).toHaveCount(0);
+  await page.getByPlaceholder("Search events").fill("Masters Tournament");
+  await expect(page.getByRole("region", { name: "Search results" }).getByRole("button")).toHaveCount(1);
+  await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
+  await advanced.locator("summary").click();
+  await advanced.getByLabel("PGA Tour", { exact: true }).selectOption("full_tour");
+  await page.keyboard.press("Escape");
+  await expect(chooser).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem("kickoff.interests.v2"))).toEqual(saved);
+  await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
+  await advanced.locator("summary").click();
+  await expect(advanced.getByLabel("PGA Tour", { exact: true })).toHaveValue("majors_only");
+  await advanced.getByRole("checkbox", { name: "Three-belt unifications" }).uncheck();
+  await chooser.getByRole("button", { name: "Show my calendar" }).click();
+  await page.getByPlaceholder("Search events").fill("Navarrete");
+  await expect(page.getByRole("region", { name: "Search results" }).getByRole("button")).toHaveCount(0);
+  await page.reload();
+  await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
+  await advanced.locator("summary").click();
+  await expect(advanced.getByLabel("Motorsport", { exact: true })).toHaveValue("full_weekend");
+  await expect(advanced.getByRole("checkbox", { name: "Three-belt unifications" })).not.toBeChecked();
+});
+
+test("legacy mixed golf choices migrate without a second onboarding", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v1",
+    JSON.stringify(["GOLF_MAJORS_MEN", "LPGA_TOUR", "GOLF_MAJORS_WOMEN"])));
+  await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
+  await page.goto("/");
+  const chooser = page.getByRole("dialog", { name: "Follow your sports" });
+  await expect(chooser).toHaveCount(0);
+  await page.getByRole("button", { name: "Interests · 2", exact: true }).click();
+  await chooser.locator("details.advanced summary").click();
+  await expect(chooser.locator("details.advanced").getByLabel("PGA Tour", { exact: true })).toHaveValue("majors_only");
+  await expect(chooser.locator("details.advanced").getByLabel("LPGA Tour", { exact: true })).toHaveValue("full_tour");
+  await chooser.getByRole("button", { name: "Show my calendar" }).click();
+  await page.reload();
+  await expect(chooser).toHaveCount(0);
+  await page.getByPlaceholder("Search events").fill("Masters Tournament");
+  await expect(page.getByRole("region", { name: "Search results" }).getByRole("button")).toHaveCount(1);
 });

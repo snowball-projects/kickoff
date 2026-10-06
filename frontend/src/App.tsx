@@ -14,6 +14,7 @@ import {
 import type { EventCard, FilterState } from "./types";
 import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
 import InterestGroups from "./InterestGroups";
+import { BOXING_CATEGORIES, defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { FIRST_MONTH, LAST_MONTH, monthAt, monthIndex, monthWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
@@ -27,14 +28,8 @@ const EMPTY: FilterState = {
   tags: [],
   motorsport_view: "race_only",
 };
-const KEY = "kickoff.interests.v1";
-function savedInterests(): string[] | null {
-  try {
-    const v = JSON.parse(localStorage.getItem(KEY) || "null");
-    return Array.isArray(v) && v.every((x) => typeof x === "string") ? v : null;
-  } catch {
-    return null;
-  }
+function savedPreferences() {
+  try { return readPreferences(localStorage); } catch { return defaultPreferences(); }
 }
 function Modal({
   title,
@@ -113,11 +108,13 @@ export default function App() {
   const pendingMonth = useRef<string | null>(null);
   const [view, setView] = useState<"month" | "year">("month");
   const [day, setDay] = useState<string | null>(null);
-  const [interests, setInterests] = useState<string[] | null>(savedInterests);
-  const [draft, setDraft] = useState<string[]>(() => savedInterests() || []);
-  const [choose, setChoose] = useState(() => savedInterests() === null);
+  const [preferences, setPreferences] = useState<InterestPreferences>(savedPreferences);
+  const interests = preferences.leagues;
+  const [draftPreferences, setDraftPreferences] = useState<InterestPreferences>(savedPreferences);
+  const [draft, setDraft] = useState<string[]>(() => savedPreferences().leagues || []);
+  const [choose, setChoose] = useState(() => savedPreferences().leagues === null);
   const [info, setInfo] = useState(false);
-  const [filters, setFilters] = useState<FilterState>(EMPTY);
+  const filters = EMPTY;
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<EventCard[]>([]);
   const [searchTotal, setSearchTotal] = useState(0);
@@ -129,6 +126,9 @@ export default function App() {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
   const activeFilters = {
     ...filters,
+    golf_views: preferences.golf_views,
+    motorsport_view: preferences.motorsport_view,
+    boxing_categories: preferences.boxing_categories,
     followed_leagues: interests ?? undefined,
   };
   const signature = JSON.stringify(activeFilters);
@@ -216,9 +216,10 @@ export default function App() {
     setSearch("");
   }
   function save() {
-    setInterests(draft);
+    const next = { ...draftPreferences, leagues: draft };
+    setPreferences(next);
     try {
-      localStorage.setItem(KEY, JSON.stringify(draft));
+      localStorage.setItem(INTERESTS_KEY, JSON.stringify(next));
       setStorageNote("");
     } catch {
       setStorageNote(
@@ -235,7 +236,7 @@ export default function App() {
       target.scrollIntoView({ block: "nearest", behavior: "instant" });
     } else if (day) openMonth(firstOfMonth(day), day);
   }
-  const leagues = facets?.leagues || [];
+  const leagues = interestLeagues(facets?.leagues || []);
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -272,6 +273,7 @@ export default function App() {
             ref={interestsButton}
             onClick={() => {
               setDraft(interests || leagues.map((l) => l.value));
+              setDraftPreferences(preferences);
               setChoose(true);
             }}
           >
@@ -507,70 +509,41 @@ export default function App() {
             </button>
             <button onClick={() => setDraft([])}>Clear</button>
           </div>
-          <label className="option-row">
-            Motorsport
-            <select
-              value={filters.motorsport_view}
-              onChange={(e) =>
-                setFilters((f) => ({
-                  ...f,
-                  motorsport_view: e.target.value as
-                    "race_only" | "full_weekend",
-                }))
-              }
-            >
-              <option value="race_only">Races only</option>
-              <option value="full_weekend">Full weekend</option>
-            </select>
-          </label>
           <details className="advanced">
-            <summary>More filters</summary>
-            {(
-              [
-                ["sport", "Sport", "sports"],
-                ["competition_phase", "Phase", "competition_phases"],
-                ["country", "Country", "countries"],
-                ["city", "City", "cities"],
-              ] as const
-            ).map(([field, label, facet]) => (
-              <label className="option-row" key={field}>
-                {label}
-                <select
-                  value={filters[field]}
-                  onChange={(e) =>
-                    setFilters((f) => ({ ...f, [field]: e.target.value }))
-                  }
-                >
-                  <option value="">All</option>
-                  {facets?.[facet].map((x) => (
-                    <option key={x.value} value={x.value}>
-                      {x.value.replaceAll("_", " ")}
-                    </option>
-                  ))}
+            <summary>Advanced options</summary>
+            <label className="option-row">
+              Motorsport
+              <select aria-label="Motorsport" value={draftPreferences.motorsport_view} onChange={(e) =>
+                setDraftPreferences((p) => ({ ...p, motorsport_view: e.target.value as "race_only" | "full_weekend" }))}>
+                <option value="race_only">Races only</option>
+                <option value="full_weekend">Full weekend</option>
+              </select>
+            </label>
+            {GOLF_TOURS.map((tour) => (
+              <label className="option-row" key={tour}>
+                {leagueVisual(tour).shortLabel}
+                <select aria-label={leagueVisual(tour).shortLabel} value={draftPreferences.golf_views[tour]} onChange={(e) =>
+                  setDraftPreferences((p) => ({ ...p, golf_views: { ...p.golf_views,
+                    [tour]: e.target.value as "majors_only" | "full_tour" } }))}>
+                  <option value="majors_only">Majors only</option>
+                  <option value="full_tour">Full tour</option>
                 </select>
               </label>
             ))}
-            <div className="tag-filters">
-              {facets?.tags.map((t) => (
-                <button
-                  aria-pressed={filters.tags.includes(t.value)}
-                  key={t.value}
-                  onClick={() =>
-                    setFilters((f) => ({
-                      ...f,
-                      tags: f.tags.includes(t.value)
-                        ? f.tags.filter((v) => v !== t.value)
-                        : [...f.tags, t.value],
-                    }))
-                  }
-                >
-                  {t.value}
-                </button>
+            <p className="fine-print">Full tour shows all published tournaments, including majors. LPGA coverage is selected dates; most non-major entries show only the final date.</p>
+            <fieldset className="boxing-options">
+              <legend>Boxing</legend>
+              {BOXING_CATEGORIES.map((category) => (
+                <label key={category}>
+                  <input type="checkbox" checked={draftPreferences.boxing_categories.includes(category)}
+                    onChange={() => setDraftPreferences((p) => ({ ...p, boxing_categories:
+                      p.boxing_categories.includes(category) ? p.boxing_categories.filter((value) => value !== category)
+                        : [...p.boxing_categories, category] }))} />
+                  {category === "four_belt" ? "Four-belt undisputed bouts" : "Three-belt unifications"}
+                </label>
               ))}
-            </div>
-            <button onClick={() => setFilters(EMPTY)}>
-              Reset extra filters
-            </button>
+              <p className="fine-print">Selected reviewed bouts only, not a complete boxing schedule. Counts only full WBA, WBC, IBF and WBO world titles. Both choices include all reviewed boxing; narrower choices require reviewed classification.</p>
+            </fieldset>
           </details>
           <p className="fine-print">
             Only published coverage appears here. More sports will be added as
@@ -654,3 +627,4 @@ export default function App() {
     </div>
   );
 }
+

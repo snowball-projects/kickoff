@@ -10,7 +10,9 @@ its dates, time, location and notes. Focusing a day previews its first event;
 Enter or a tap opens all events and sources, and Escape dismisses the preview.
 The heading follows the visible month; **Today** at the
 bottom left returns smoothly to the current month. Reduced-motion settings skip
-the animation. Interests stay on your device; no account, analytics, live scores
+the animation. Advanced options include per-tour golf scope, motorsport sessions and selected boxing
+categories. Golf interests combine majors with their tour, without duplicate
+tournaments. Interests and these options stay on your device; no account, analytics, live scores
 or betting features.
 
 With a day focused, arrow keys move between days, Page Up/Down changes month,
@@ -87,3 +89,4 @@ Original code: [MIT](LICENSE). Third-party schedules and dependencies retain
 [their licenses](THIRD-PARTY-NOTICES.md). No official league affiliation.
 
 [Operations](https://snowball-projects.github.io/operations/#kickoff)
+

@@ -1,6 +1,6 @@
 # Public schedule boundary
 
-The 2026 calendar contains **9,274 records across 28 selectable competitions**;
+The 2026 calendar contains **9,274 records across 28 source competitions**;
 2027 contains 5,537 so far. League feeds are checked weekly; open
 datasets are pinned to upstream commits; reviewed registries change only by
 review. It is not a live feed. Dates can move. An empty day means no matching
@@ -31,7 +31,11 @@ refresh compares every league with its previous snapshot: if a feed fails or
 returns under 70% of its previous events, the previous events stay published and
 the workflow opens a "Schedule refresh warnings" issue. A league feed replaces
 the hand-reviewed selection for the same league (NFL, UFC, NASCAR Cup, IndyCar
-and PGA Tour season dates); men's majors remain a separate reviewed selection.
+and PGA Tour season dates); men's majors remain separate reviewed source records. The interface groups majors
+under PGA Tour or LPGA Tour and suppresses a duplicate men's major only when
+the selected tour record has the same tournament identity and date span.
+Advanced options offer Majors only or Full tour separately for each tour; Full
+tour means all published coverage, not a promise of complete LPGA coverage.
 
 ## Open and reviewed coverage (2026)
 
@@ -105,6 +109,12 @@ were used for verification, not claimed as open redistribution grants.
   titles in one division. The rule applies to women and men equally; it excludes
   interim/secondary titles, exhibitions and influencer cards. The initial set
   contains only the reviewed Navarrete–Foster qualifying card and is not exhaustive.
+  Advanced options filter four-belt undisputed bouts or three-belt unifications.
+  The current card is explicitly classified as a three-belt unification; there
+  are no four-belt records in the current snapshot. Selecting both preserves
+  all reviewed boxing. Narrow selections require explicit classification in
+  `frontend/src/interest-preferences.ts`; new or revised bouts must be reviewed
+  there before they can appear under a specific category.
   [Qualification evidence](sources/combat-iwf.md#boxing-qualification-evidence)
   records the three belts and requires review near fight week. No owner exceptions.
 - [Golf evidence](sources/golf.md): nine majors and 67 PGA/LPGA season additions,
@@ -122,3 +132,4 @@ A normal build makes no provider requests. New sources require a documented
 rights, provenance, coverage and date-semantics review, offline fixtures and a
 publishing-allowlist change. Never restore old reference CSVs or caches as public
 data. See [operation and maintenance](OPERATIONS.md).
+
