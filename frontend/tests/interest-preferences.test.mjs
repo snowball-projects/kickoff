@@ -16,7 +16,7 @@ test("legacy majors migrate per tour, deduplicate interests and retain unrelated
   assert.equal(readPreferences(storage({})).leagues, null);
   assert.equal(readPreferences(storage({ [LEGACY_INTERESTS_KEY]: "bad json" })).leagues, null);
   assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: "broken", [LEGACY_INTERESTS_KEY]: '["NFL"]' })).leagues, ["NFL"]);
-  const saved = { ...migrated, motorsport_view: "full_weekend", boxing_categories: [] };
+  const saved = { ...migrated, motorsport_view: "full_weekend" };
   assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(saved),
     [LEGACY_INTERESTS_KEY]: '["NFL"]' })), saved);
   assert.deepEqual(readPreferences(storage({ [LEGACY_INTERESTS_KEY]: '["GOLF_MAJORS_WOMEN"]' })).golf_views,
@@ -35,7 +35,8 @@ test("golf modes apply equally to search and calendar with no duplicate majors o
   const bundle = JSON.parse(await readFile(new URL("../../data/published/2026.json", import.meta.url), "utf8"));
   const original = globalThis.fetch;
   try {
-    globalThis.fetch = async () => Response.json(bundle);
+    globalThis.fetch = async (url) => String(url).endsWith("/2026.json")
+      ? Response.json(bundle) : new Response(null, { status: 404 });
     const { searchEvents, getCalendar } = await loadModule("data");
     const filters = { ...empty, followed_leagues: ["PGA_TOUR", "LPGA_TOUR"],
       golf_views: { PGA_TOUR: "majors_only", LPGA_TOUR: "majors_only" } };
@@ -55,16 +56,22 @@ test("golf modes apply equally to search and calendar with no duplicate majors o
   } finally { globalThis.fetch = original; }
 });
 
-test("boxing choices filter only evidence-backed categories and all-selected preserves reviewed inclusion", async () => {
-  const { matchesInterestOptions, BOXING_CATEGORIES } = await loadModule("interest-preferences");
-  const bout = { event_id: "boxing-navarrete-foster-1", league: "BOXING_MAJOR" };
-  assert.equal(matchesInterestOptions(bout, { boxing_categories: ["three_belt_unification"] }), true);
-  assert.equal(matchesInterestOptions(bout, { boxing_categories: ["four_belt"] }), false);
-  assert.equal(matchesInterestOptions(bout, { boxing_categories: [] }), false);
-  const unclassified = { ...bout, event_id: "future-reviewed-bout" };
-  assert.equal(matchesInterestOptions(unclassified, { boxing_categories: BOXING_CATEGORIES }), true);
-  assert.equal(matchesInterestOptions(unclassified, { boxing_categories: ["three_belt_unification"] }), false);
-  assert.equal(matchesInterestOptions({ league: "UFC" }, { boxing_categories: [] }), true);
+test("retired boxing choices never hide reviewed bouts, while other saved options survive", async () => {
+  const { matchesInterestOptions, readPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
+  for (const categories of [[], ["four_belt"], ["three_belt_unification"], ["four_belt", "three_belt_unification"]]) {
+    const old = { leagues: ["BOXING_MAJOR", "PGA_TOUR"], motorsport_view: "full_weekend",
+      golf_views: { PGA_TOUR: "majors_only", LPGA_TOUR: "full_tour" }, boxing_categories: categories };
+    const migrated = readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(old) }));
+    assert.equal("boxing_categories" in migrated, false);
+    assert.deepEqual(migrated.leagues, old.leagues);
+    assert.deepEqual(migrated.golf_views, old.golf_views);
+    assert.equal(migrated.motorsport_view, "full_weekend");
+    for (const id of ["boxing-navarrete-foster-1", "future-reviewed-undisputed-bout"]) {
+      assert.equal(matchesInterestOptions({ event_id: id, league: "BOXING_MAJOR" },
+        { followed_leagues: migrated.leagues, boxing_categories: categories }), true);
+    }
+    assert.equal(matchesInterestOptions({ league: "BOXING_MAJOR" }, { followed_leagues: ["UFC"] }), false);
+  }
 });
 
 test("duplicate suppression needs a matching identity and full span and retains source objects", async () => {

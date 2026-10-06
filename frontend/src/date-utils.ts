@@ -20,16 +20,58 @@ function pad(value: number) {
   return String(value).padStart(2, "0");
 }
 
-function localDateText(date: Date) {
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-}
-
 function daysInMonth(year: number, month: number) {
-  return new Date(year, month, 0).getDate();
+  return new Date(Date.UTC(year, month, 0)).getUTCDate();
 }
 
-export function todayIso() {
-  return localDateText(new Date());
+const validTimezones = new Map<string, string>();
+const dateFormatters = new Map<string, Intl.DateTimeFormat>();
+
+export function safeTimezone(timezone: string) {
+  const known = validTimezones.get(timezone);
+  if (known) return known;
+  let valid = "UTC";
+  try {
+    if (timezone) valid = new Intl.DateTimeFormat("en-US", { timeZone: timezone }).resolvedOptions().timeZone;
+  } catch {
+    // A restricted or older browser may not expose a usable IANA timezone.
+  }
+  if (validTimezones.size >= 16) validTimezones.clear();
+  validTimezones.set(timezone, valid);
+  return valid;
+}
+
+// Device settings only: no location permission, IP lookup or network request.
+export function browserTimezone() {
+  try {
+    return safeTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC");
+  } catch {
+    return "UTC";
+  }
+}
+
+function zonedDateText(date: Date, timezone: string) {
+  const zone = safeTimezone(timezone);
+  let formatter = dateFormatters.get(zone);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-US", {
+      year: "numeric", month: "2-digit", day: "2-digit", timeZone: zone,
+    });
+    if (dateFormatters.size >= 16) dateFormatters.clear();
+    dateFormatters.set(zone, formatter);
+  }
+  const parts = Object.fromEntries(formatter.formatToParts(date).map((part) => [part.type, part.value]));
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+export function todayIso(timezone = browserTimezone(), now = new Date()) {
+  return zonedDateText(now, timezone);
+}
+
+export function timezoneLabel(timezone: string) {
+  const zone = safeTimezone(timezone);
+  if (zone === "UTC") return "UTC";
+  return `Local time · ${zone.split("/").at(-1)!.replaceAll("_", " ")}`;
 }
 
 export function firstOfMonth(dateText: string) {
@@ -75,23 +117,26 @@ export function monthLabel(anchor: string) {
   return new Intl.DateTimeFormat(undefined, {
     month: "long",
     year: "numeric",
-  }).format(new Date(`${anchor}T12:00:00`));
+    timeZone: "UTC",
+  }).format(new Date(`${anchor}T12:00:00Z`));
 }
 
 export function monthTitle(anchor: string) {
   return new Intl.DateTimeFormat(undefined, {
     month: "long",
-  }).format(new Date(`${anchor}T12:00:00`));
+    timeZone: "UTC",
+  }).format(new Date(`${anchor}T12:00:00Z`));
 }
 
 export function yearLabel(anchor: string) {
   return new Intl.DateTimeFormat(undefined, {
     year: "numeric",
-  }).format(new Date(`${anchor}T12:00:00`));
+    timeZone: "UTC",
+  }).format(new Date(`${anchor}T12:00:00Z`));
 }
 
 export function formatDayNumber(dateText: string) {
-  return new Date(`${dateText}T12:00:00`).getDate();
+  return Number(dateText.slice(8, 10));
 }
 
 export function formatLongDate(dateText: string) {
@@ -100,14 +145,16 @@ export function formatLongDate(dateText: string) {
     month: "long",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(`${dateText}T12:00:00`));
+    timeZone: "UTC",
+  }).format(new Date(`${dateText}T12:00:00Z`));
 }
 
 export function formatShortDate(dateText: string) {
   return new Intl.DateTimeFormat(undefined, {
     month: "short",
     day: "numeric",
-  }).format(new Date(`${dateText}T12:00:00`));
+    timeZone: "UTC",
+  }).format(new Date(`${dateText}T12:00:00Z`));
 }
 
 export function formatCalendarCaption(dateText: string) {
@@ -115,65 +162,52 @@ export function formatCalendarCaption(dateText: string) {
     month: "short",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(`${dateText}T12:00:00`));
+    timeZone: "UTC",
+  }).format(new Date(`${dateText}T12:00:00Z`));
 }
 
-export function eventTimestamp(event: EventCard) {
-  const source = event.start_time_utc || event.start_time_local;
-  if (source) {
+type EventDateFields = Pick<EventCard, "start_time_utc" | "start_time_local" | "calendar_date">;
+
+export function eventInstant(event: EventDateFields) {
+  for (const source of [event.start_time_utc, event.start_time_local]) {
+    // A source wall clock without an offset is not an instant. Never interpret
+    // it in the visitor's timezone or invent a clock for a date-only record.
+    if (!source || !/T.*(?:Z|[+-]\d{2}:?\d{2})$/i.test(source)) continue;
     const value = Date.parse(source);
-    if (!Number.isNaN(value)) {
-      return value;
-    }
+    if (!Number.isNaN(value)) return value;
   }
-  if (event.calendar_date) {
-    return Date.parse(`${event.calendar_date}T12:00:00`);
-  }
-  return Number.MAX_SAFE_INTEGER;
+  return null;
+}
+
+export function eventCalendarDate(event: EventDateFields, timezone: string) {
+  const instant = eventInstant(event);
+  return instant === null ? event.calendar_date : zonedDateText(new Date(instant), timezone);
+}
+
+export function eventTimestamp(event: EventDateFields) {
+  return eventInstant(event) ?? (event.calendar_date
+    ? Date.parse(`${event.calendar_date}T12:00:00Z`)
+    : Number.MAX_SAFE_INTEGER);
 }
 
 function timeFormatter(timezone: string) {
   return new Intl.DateTimeFormat(undefined, {
     hour: "numeric",
     minute: "2-digit",
-    timeZone: timezone,
+    timeZone: safeTimezone(timezone),
   });
 }
 
 export function eventTimeLabel(event: EventCard, timezone: string) {
-  if (event.start_time_utc) {
-    return timeFormatter(timezone).format(new Date(event.start_time_utc));
-  }
-  if (event.start_time_local) {
-    const parsed = Date.parse(event.start_time_local);
-    if (!Number.isNaN(parsed)) {
-      return timeFormatter(timezone).format(new Date(parsed));
-    }
-  }
-  return "Time TBD";
+  const instant = eventInstant(event);
+  return instant === null ? "Time TBD" : timeFormatter(timezone).format(new Date(instant));
 }
 
 export function eventTimeBucket(event: EventCard, timezone: string) {
-  if (event.start_time_utc) {
-    return new Intl.DateTimeFormat("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-      timeZone: timezone,
-    }).format(new Date(event.start_time_utc));
-  }
-  if (event.start_time_local) {
-    const parsed = Date.parse(event.start_time_local);
-    if (!Number.isNaN(parsed)) {
-      return new Intl.DateTimeFormat("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-        timeZone: timezone,
-      }).format(new Date(parsed));
-    }
-  }
-  return "tbd";
+  const instant = eventInstant(event);
+  return instant === null ? "tbd" : new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: safeTimezone(timezone),
+  }).format(new Date(instant));
 }
 
 type MonthGridOptions = {
@@ -188,8 +222,8 @@ export function monthGridSunStart(
   const showAdjacentDays = options.showAdjacentDays ?? true;
   const year = parseYear(anchor);
   const month = parseMonth(anchor);
-  const monthStart = new Date(year, month - 1, 1, 12);
-  const firstWeekday = monthStart.getDay();
+  const monthStart = new Date(Date.UTC(year, month - 1, 1, 12));
+  const firstWeekday = monthStart.getUTCDay();
   const totalDays = daysInMonth(year, month);
   const groupByDate = new Map(groups.map((group) => [group.date, group]));
   const cells: MonthGridCell[] = [];
@@ -199,9 +233,9 @@ export function monthGridSunStart(
       cells.push({ date: null, inMonth: false });
       continue;
     }
-    const date = new Date(year, month - 1, 1 - index, 12);
+    const date = new Date(Date.UTC(year, month - 1, 1 - index, 12));
     cells.push({
-      date: localDateText(date),
+      date: date.toISOString().slice(0, 10),
       inMonth: false,
     });
   }
@@ -217,9 +251,9 @@ export function monthGridSunStart(
       cells.push({ date: null, inMonth: false });
       continue;
     }
-    const date = new Date(year, month - 1, totalDays + trailingDay, 12);
+    const date = new Date(Date.UTC(year, month - 1, totalDays + trailingDay, 12));
     cells.push({
-      date: localDateText(date),
+      date: date.toISOString().slice(0, 10),
       inMonth: false,
     });
     trailingDay += 1;

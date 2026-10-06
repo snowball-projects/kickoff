@@ -144,7 +144,6 @@ export type CalendarResponse = {
 export type FilterState = {
   followed_leagues?: string[];
   golf_views?: { PGA_TOUR: "majors_only" | "full_tour"; LPGA_TOUR: "majors_only" | "full_tour" };
-  boxing_categories?: ("four_belt" | "three_belt_unification")[];
   motorsport_view?: "race_only" | "full_weekend";
   sport: string;
   league: string;

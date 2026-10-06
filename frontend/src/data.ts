@@ -1,4 +1,5 @@
 import { matchesInterestOptions, uniqueGolfEvents } from "./interest-preferences";
+import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
 import type {
   CalendarResponse,
   CalendarView,
@@ -28,8 +29,12 @@ type DashboardBundle = {
 
 const bundleCache = new Map<number, Promise<DashboardBundle>>();
 const BUNDLE_CACHE_LIMIT = 3;
+// Avoid repeatedly probing an unpublished neighboring year as months recycle.
+// An explicit retry clears these misses; normal primary-year loads still retry.
+const unpublishedSeasons = new Set<number>();
 
 class ScheduleDataError extends Error {}
+class UnpublishedScheduleError extends ScheduleDataError {}
 
 function bundleUrl(season: number) {
   const base = import.meta.env?.BASE_URL || "/";
@@ -46,10 +51,12 @@ function loadBundle(season: number) {
     promise = fetch(bundleUrl(season))
       .then(async (response) => {
         if (!response.ok) {
+          if (response.status === 404) {
+            unpublishedSeasons.add(season);
+            throw new UnpublishedScheduleError(`No published schedule for ${season}.`);
+          }
           throw new ScheduleDataError(
-            response.status === 404
-              ? `No published schedule for ${season}.`
-              : `Schedule data for ${season} is unavailable. Please retry.`,
+            `Schedule data for ${season} is unavailable. Please retry.`,
           );
         }
         const payload = (await response.json()) as DashboardBundle;
@@ -63,6 +70,7 @@ function loadBundle(season: number) {
             `Schedule data for ${season} is unavailable: the bundle belongs to ${payload.season}.`,
           );
         }
+        unpublishedSeasons.delete(season);
         return payload;
       })
       .catch((error: unknown) => {
@@ -129,43 +137,10 @@ function matchesFilters(event: EventDetail, filters: FilterState) {
   return filters.tags.every((tag) => tags.has(normalized(tag)));
 }
 
-function eventDate(event: EventDetail, timezone: string) {
-  if (event.start_time_utc) {
-    const date = new Date(event.start_time_utc);
-    if (!Number.isNaN(date.valueOf())) {
-      try {
-        const parts = new Intl.DateTimeFormat("en-US", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          timeZone: timezone,
-        }).formatToParts(date);
-        const value = Object.fromEntries(
-          parts.map((part) => [part.type, part.value]),
-        );
-        return `${value.year}-${value.month}-${value.day}`;
-      } catch {
-        // Fall back to the provider's canonical date for an invalid browser timezone.
-      }
-    }
-  }
-  return event.calendar_date;
-}
-
-function eventTime(event: EventDetail) {
-  if (event.start_time_utc) {
-    const parsed = Date.parse(event.start_time_utc);
-    if (!Number.isNaN(parsed)) return parsed;
-  }
-  return event.calendar_date
-    ? Date.parse(`${event.calendar_date}T12:00:00Z`)
-    : Number.MAX_SAFE_INTEGER;
-}
-
 function sortedEvents(events: EventDetail[]) {
   return [...events].sort(
     (left, right) =>
-      eventTime(left) - eventTime(right) ||
+      eventTimestamp(left) - eventTimestamp(right) ||
       left.event_id.localeCompare(right.event_id),
   );
 }
@@ -224,6 +199,63 @@ function datesBetween(start: string, end: string) {
     current.setUTCDate(current.getUTCDate() + 1);
   }
   return dates;
+}
+
+function eventDateSpan(event: EventDetail, timezone: string) {
+  const start = eventCalendarDate(event, timezone);
+  // An inclusive date-only end is not a timestamp. Preserve verified spans,
+  // while a single-date timed record moves wholly to its display-zone date.
+  const end = start && event.end_calendar_date &&
+    event.end_calendar_date > (event.calendar_date || start)
+    ? event.end_calendar_date : start;
+  return { start, end };
+}
+
+async function eventsForRange(
+  season: number,
+  startDate: string,
+  endDate: string,
+  signal?: AbortSignal,
+  includeAdjacent = true,
+) {
+  throwIfAborted(signal);
+  let primary: DashboardBundle | null = null;
+  let primaryError: UnpublishedScheduleError | null = null;
+  try {
+    if (includeAdjacent && unpublishedSeasons.has(season)) {
+      throw new UnpublishedScheduleError(`No published schedule for ${season}.`);
+    }
+    primary = await loadBundle(season);
+  } catch (error) {
+    if (!includeAdjacent || !(error instanceof UnpublishedScheduleError)) throw error;
+    primaryError = error;
+  }
+  throwIfAborted(signal);
+  if (!includeAdjacent) return { events: primary!.events, primaryError };
+  // Snapshots use source calendar years. UTC and visitor-local dates can cross
+  // into a neighboring year; two days cover the full -12 to +14 hour range.
+  const first = parseDate(startDate);
+  first.setUTCDate(first.getUTCDate() - 2);
+  const last = parseDate(endDate);
+  last.setUTCDate(last.getUTCDate() + 2);
+  const neighbors: number[] = [];
+  for (let year = first.getUTCFullYear(); year <= last.getUTCFullYear(); year += 1) {
+    if (year !== season && !unpublishedSeasons.has(year)) neighbors.push(year);
+  }
+  const adjacent = await Promise.all(neighbors.map(async (year) => {
+    try {
+      return await loadBundle(year);
+    } catch (error) {
+      if (error instanceof UnpublishedScheduleError) return null;
+      // A transient or malformed neighboring bundle must not silently hide
+      // known boundary events. Keep the normal visible error/retry flow.
+      throw error;
+    }
+  }));
+  throwIfAborted(signal);
+  return { primaryError, events: [...new Map([...adjacent, primary].flatMap((bundle) =>
+    bundle?.events.map((event) => [event.event_id, event] as const) || [],
+  )).values()] };
 }
 
 export async function getManifest(
@@ -298,28 +330,24 @@ export async function getCalendar(
   filters: FilterState,
   timezone: string,
   signal?: AbortSignal,
+  includeAdjacent = true,
 ): Promise<CalendarResponse> {
   throwIfAborted(signal);
-  const bundle = await loadBundle(season);
-  throwIfAborted(signal);
   const [startDate, endDate] = dateRange(view, anchorDate);
+  const { events, primaryError } = await eventsForRange(season, startDate, endDate, signal, includeAdjacent);
+  const displayTimezone = safeTimezone(timezone);
   const grouped = new Map(
     datesBetween(startDate, endDate).map((date) => [date, [] as EventCard[]]),
   );
   for (const event of sortedEvents(
-    uniqueGolfEvents(bundle.events.filter((item) => matchesFilters(item, filters))),
+    uniqueGolfEvents(events.filter((item) => matchesFilters(item, filters))),
   )) {
-    const date = eventDate(event, timezone);
+    const { start: date, end } = eventDateSpan(event, displayTimezone);
     if (!date) continue;
-    const end =
-      event.end_calendar_date &&
-      event.end_calendar_date > (event.calendar_date || date)
-        ? event.end_calendar_date
-        : date;
     // Date-only multi-day tournaments occupy every inclusive date. A timed
     // one-day event uses its display-zone date, not the provider's venue date.
     for (const day of grouped.keys())
-      if (day >= date && day <= end)
+      if (day >= date && day <= (end || date))
         grouped.get(day)?.push({ ...eventCard(event), start_calendar_date: date, calendar_date: day, end_calendar_date: end });
   }
   const groups = [...grouped.entries()].map(([date, items]) => ({
@@ -327,14 +355,16 @@ export async function getCalendar(
     event_count: items.length,
     items,
   }));
+  const totalEvents = groups.reduce((total, group) => total + group.event_count, 0);
+  if (primaryError && !totalEvents) throw primaryError;
   return {
     view,
     season,
     anchor_date: anchorDate,
     start_date: startDate,
     end_date: endDate,
-    timezone,
-    total_events: groups.reduce((total, group) => total + group.event_count, 0),
+    timezone: displayTimezone,
+    total_events: totalEvents,
     groups,
   };
 }
@@ -345,13 +375,14 @@ export async function getCalendarRange(
   filters: FilterState,
   timezone: string,
   signal?: AbortSignal,
+  includeAdjacent = true,
 ) {
   const entries = await Promise.all(
     monthAnchors.map(
       async (anchor) =>
         [
           anchor,
-          await getCalendar("month", season, anchor, filters, timezone, signal),
+          await getCalendar("month", season, anchor, filters, timezone, signal, includeAdjacent),
         ] as const,
     ),
   );
@@ -368,6 +399,7 @@ export type CalendarDataState = {
 
 type YearLoad = {
   pending?: AbortController;
+  boundaryPending?: AbortController;
   error?: string;
   manifest?: ManifestResponse;
   facets?: FiltersResponse;
@@ -447,21 +479,24 @@ export class CalendarDataStore {
   update(anchors: string[], signature: string, timezone: string, retry: number) {
     const changed = !this.matches(signature, timezone);
     const retryChanged = this.retry !== retry;
+    if (retryChanged) unpublishedSeasons.clear();
     this.signature = signature;
     this.timezone = timezone;
     this.retry = retry;
     this.filters = JSON.parse(signature) as FilterState;
     this.anchors = new Set(anchors);
     const years = new Set(anchors.map((anchor) => Number(anchor.slice(0, 4))));
-    this.months = changed
+    this.months = changed || retryChanged
       ? {}
       : Object.fromEntries(
           Object.entries(this.months).filter(([anchor]) => this.anchors.has(anchor)),
         );
     for (const [year, record] of this.years) {
-      if (!years.has(year) || changed) {
+      if (!years.has(year) || changed || retryChanged) {
         record.pending?.abort();
         record.pending = undefined;
+        record.boundaryPending?.abort();
+        record.boundaryPending = undefined;
       }
       if (!years.has(year)) this.years.delete(year);
       // Changing interests cannot make an unpublished year available.
@@ -471,6 +506,9 @@ export class CalendarDataStore {
       if (!this.years.has(year)) this.years.set(year, {});
     }
     this.loadMissing();
+    for (const [year, record] of this.years) {
+      if (record.error && unpublishedSeasons.has(year)) this.loadBoundaryMonths(year, record);
+    }
     this.publish();
   }
 
@@ -478,6 +516,8 @@ export class CalendarDataStore {
     for (const record of this.years.values()) {
       record.pending?.abort();
       record.pending = undefined;
+      record.boundaryPending?.abort();
+      record.boundaryPending = undefined;
     }
   }
 
@@ -494,7 +534,7 @@ export class CalendarDataStore {
       Promise.all([
         record.manifest || getManifest(year, signal),
         record.facets || getFilters(year, FACET_FILTERS, this.timezone, signal),
-        getCalendarRange(year, missing, this.filters, this.timezone, signal),
+        getCalendarRange(year, missing, this.filters, this.timezone, signal, false),
       ])
         .then(([manifest, facets, months]) => {
           if (this.years.get(year) !== record || record.pending !== request) return;
@@ -504,6 +544,7 @@ export class CalendarDataStore {
           for (const [anchor, month] of Object.entries(months)) {
             if (this.anchors.has(anchor)) this.months[anchor] = month;
           }
+          this.loadBoundaryMonths(year, record);
           // A sliding window may have added more months while this year loaded.
           this.loadMissing();
           this.publish();
@@ -514,9 +555,38 @@ export class CalendarDataStore {
           record.error = error instanceof Error
             ? error.message
             : `Schedule data for ${year} is unavailable. Please retry.`;
+          if (error instanceof UnpublishedScheduleError) this.loadBoundaryMonths(year, record);
           this.publish();
         });
     }
+  }
+
+  private loadBoundaryMonths(year: number, record: YearLoad) {
+    const anchors = [...this.anchors].filter((anchor) =>
+      Number(anchor.slice(0, 4)) === year && ["01", "12"].includes(anchor.slice(5, 7)),
+    );
+    if (!anchors.length) return;
+    record.boundaryPending?.abort();
+    const request = new AbortController();
+    record.boundaryPending = request;
+    // Render the year's own data first. A neighboring request must never hold
+    // up an otherwise available year; merge its boundary events when it settles.
+    Promise.allSettled(anchors.map(async (anchor) => [anchor,
+      await getCalendar("month", year, anchor, this.filters, this.timezone, request.signal),
+    ] as const))
+      .then((results) => {
+        if (this.years.get(year) !== record || record.boundaryPending !== request) return;
+        record.boundaryPending = undefined;
+        for (const result of results) {
+          if (result.status === "fulfilled") {
+            const [anchor, month] = result.value;
+            if (this.anchors.has(anchor)) this.months[anchor] = month;
+          } else if (!(result.reason instanceof UnpublishedScheduleError)) {
+            record.error = `Some year-boundary events could not be loaded. ${result.reason instanceof Error ? result.reason.message : "Please retry."}`;
+          }
+        }
+        this.publish();
+      });
   }
 
   private publish() {
@@ -553,12 +623,16 @@ export async function searchEvents(
   signal?: AbortSignal,
 ): Promise<SearchResponse> {
   throwIfAborted(signal);
-  const bundle = await loadBundle(season);
-  throwIfAborted(signal);
+  const startDate = `${season}-01-01`;
+  const endDate = `${season}-12-31`;
+  const { events, primaryError } = await eventsForRange(season, startDate, endDate, signal);
+  const displayTimezone = safeTimezone(timezone);
   const needle = normalized(query);
   const matches = sortedEvents(
-    uniqueGolfEvents(bundle.events.filter((event) => {
+    uniqueGolfEvents(events.filter((event) => {
       if (!matchesFilters(event, filters)) return false;
+      const { start, end } = eventDateSpan(event, displayTimezone);
+      if (!start || !end || start > endDate || end < startDate) return false;
       const haystack = [
         event.title,
         event.subtitle,
@@ -576,10 +650,16 @@ export async function searchEvents(
   );
   const items = matches
     .slice(0, 30)
-    .map((event) => ({
-      ...eventCard(event),
-      calendar_date: eventDate(event, timezone),
-    }));
+    .map((event) => {
+      const { start, end } = eventDateSpan(event, displayTimezone);
+      return {
+        ...eventCard(event),
+        start_calendar_date: start || undefined,
+        calendar_date: start,
+        end_calendar_date: end,
+      };
+    });
+  if (primaryError && !matches.length) throw primaryError;
   return {
     season,
     query,
@@ -588,8 +668,7 @@ export async function searchEvents(
     offset: 0,
     has_more: matches.length > items.length,
     sort: "start_asc",
-    timezone: null,
+    timezone: displayTimezone,
     items,
   };
 }
-

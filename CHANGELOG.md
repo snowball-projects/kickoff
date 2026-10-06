@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Streamline Interests and Advanced options; move golf, boxing and privacy
+  disclosures into About. Retire boxing category filters without retaining
+  hidden saved exclusions. Remove search and month arrows, retaining scrolling,
+  Today and keyboard navigation. Clarify automatic browser-local times and
+  snapshot freshness.
+
 - Simplify golf interests to PGA Tour and LPGA Tour, with per-tour major scope,
   motorsport sessions and selected boxing categories under Advanced options.
   Preserve legacy major selections, save options on-device, and remove the
