@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { eventTimeLabel, formatLongDate } from "./date-utils";
-import { leagueVisual } from "./calendar-helpers";
 import type { EventCard } from "./types";
 
 export type Preview = { event: EventCard; target: HTMLElement; date: string };
@@ -48,15 +47,12 @@ export default function EventPreview({ preview, timezone, onEnter, onLeave }: {
     <div ref={ref} id="event-preview" role="tooltip" className="event-preview"
       style={position} onPointerEnter={onEnter} onPointerLeave={onLeave}
       onPointerDown={(event) => event.stopPropagation()} onWheel={(event) => event.stopPropagation()}>
-      <p className={`league-label ${leagueVisual(event.league).className}`}>{leagueVisual(event.league).shortLabel}</p>
       <h3>{event.title}</h3>
       <p>{event.tags.includes("final date only") && "Final date only · "}{formatLongDate(start)}{event.end_calendar_date && event.end_calendar_date > start
         ? ` – ${formatLongDate(event.end_calendar_date)}` : ""}</p>
       <p className="preview-time">{eventTimeLabel(event, timezone)}</p>
       {location && <p>{location}</p>}
-      {event.subtitle && <p>{event.subtitle}</p>}
-      <p className="event-status">{event.status.replaceAll("_", " ")}</p>
-      <p className="preview-help">Open the day for all events and sources. Press Enter when the day is focused.</p>
+      {event.status !== "scheduled" && <p className="event-status">{event.status.replaceAll("_", " ")}</p>}
     </div>, document.body,
   );
 }

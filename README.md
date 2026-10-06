@@ -6,7 +6,7 @@ A calendar for the sports you follow, by snowball.
 
 Choose individual leagues or whole collapsible sport groups, scroll up or down
 through months, zoom out to the year, or open a day's events. Hover an event for
-its dates, time, location and notes. Focusing a day previews its first event;
+its title, dates, time and location. Focusing a day previews its first event;
 Enter or a tap opens all events and sources, and Escape dismisses the preview.
 The heading follows the visible month; **Today** at the
 bottom left returns smoothly to the current month. Reduced-motion settings skip
