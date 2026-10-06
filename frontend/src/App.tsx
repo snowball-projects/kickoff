@@ -513,7 +513,7 @@ export default function App() {
             <summary>Advanced options</summary>
             <label className="option-row">
               Motorsport
-              <select value={draftPreferences.motorsport_view} onChange={(e) =>
+              <select aria-label="Motorsport" value={draftPreferences.motorsport_view} onChange={(e) =>
                 setDraftPreferences((p) => ({ ...p, motorsport_view: e.target.value as "race_only" | "full_weekend" }))}>
                 <option value="race_only">Races only</option>
                 <option value="full_weekend">Full weekend</option>
@@ -522,7 +522,7 @@ export default function App() {
             {GOLF_TOURS.map((tour) => (
               <label className="option-row" key={tour}>
                 {leagueVisual(tour).shortLabel}
-                <select value={draftPreferences.golf_views[tour]} onChange={(e) =>
+                <select aria-label={leagueVisual(tour).shortLabel} value={draftPreferences.golf_views[tour]} onChange={(e) =>
                   setDraftPreferences((p) => ({ ...p, golf_views: { ...p.golf_views,
                     [tour]: e.target.value as "majors_only" | "full_tour" } }))}>
                   <option value="majors_only">Majors only</option>

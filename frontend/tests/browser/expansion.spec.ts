@@ -79,11 +79,11 @@ test("expanded interest labels and date-only card details fit a mobile viewport"
   const chooser = page.getByRole("dialog", { name: "Follow your sports" });
   await expect(chooser).toBeVisible();
   await chooser.locator("summary").filter({ hasText: /^Combat sports$/ }).click();
-  await expect(chooser.getByText("Boxing", { exact: true })).toBeVisible();
+  await expect(chooser.getByRole("checkbox", { name: "Boxing", exact: true })).toBeVisible();
   expect(await chooser.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBeTruthy();
   await page.screenshot({ path: "test-results/expansion-mobile.png" });
   await chooser.getByRole("button", { name: "Clear", exact: true }).click();
-  await chooser.getByText("Boxing", { exact: true }).click();
+  await chooser.getByRole("checkbox", { name: "Boxing", exact: true }).click();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await page.getByPlaceholder("Search events").fill("Navarrete");
   await page.getByRole("region", { name: "Search results" }).getByRole("button").click();
