@@ -6,8 +6,8 @@ test("full PGA Tour spans stay separate from LPGA final-date markers and majors"
   const chooser = page.getByRole("dialog", { name: "Follow your sports" });
   await chooser.locator("summary").filter({ hasText: /^Golf$/ }).click();
   await chooser.getByRole("checkbox", { name: "PGA Tour", exact: true }).check();
-  await chooser.getByRole("checkbox", { name: "LPGA Tour · final dates", exact: true }).check();
-  await expect(chooser.getByRole("checkbox", { name: "Golf · women's majors", exact: true })).not.toBeChecked();
+  await chooser.getByRole("checkbox", { name: "LPGA Tour", exact: true }).check();
+  await expect(chooser.getByRole("checkbox", { name: "Golf · women's majors", exact: true })).toHaveCount(0);
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   for (const day of ["2026-09-17", "2026-09-20"])
     await expect(page.locator(`#day-${day} .event-pill`)).toContainText("Biltmore Championship");
@@ -33,7 +33,7 @@ test("reviewed expansion works with scrolling, inclusive spans and attribution d
     await chooser.locator("summary").filter({ hasText: new RegExp(`^${name}$`) }).click();
   await expect(chooser.getByText("NFL", { exact: true })).toBeVisible();
   await expect(chooser.getByText("World Climbing", { exact: true })).toBeVisible();
-  await expect(chooser.getByText("Golf · women's majors", { exact: true })).toBeVisible();
+  await expect(chooser.getByText("LPGA Tour", { exact: true })).toBeVisible();
   await chooser.getByRole("button", { name: "Clear", exact: true }).click();
   await chooser.getByText("IWF Worlds", { exact: true }).click();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
@@ -79,11 +79,11 @@ test("expanded interest labels and date-only card details fit a mobile viewport"
   const chooser = page.getByRole("dialog", { name: "Follow your sports" });
   await expect(chooser).toBeVisible();
   await chooser.locator("summary").filter({ hasText: /^Combat sports$/ }).click();
-  await expect(chooser.getByText("Boxing · selected unifications", { exact: true })).toBeVisible();
+  await expect(chooser.getByText("Boxing", { exact: true })).toBeVisible();
   expect(await chooser.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBeTruthy();
   await page.screenshot({ path: "test-results/expansion-mobile.png" });
   await chooser.getByRole("button", { name: "Clear", exact: true }).click();
-  await chooser.getByText("Boxing · selected unifications", { exact: true }).click();
+  await chooser.getByText("Boxing", { exact: true }).click();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await page.getByPlaceholder("Search events").fill("Navarrete");
   await page.getByRole("region", { name: "Search results" }).getByRole("button").click();
@@ -92,3 +92,4 @@ test("expanded interest labels and date-only card details fit a mobile viewport"
   await expect(detail).toContainText("Time TBD");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
 });
+

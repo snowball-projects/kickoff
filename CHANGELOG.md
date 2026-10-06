@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Simplify golf interests to PGA Tour and LPGA Tour, with per-tour major scope,
+  motorsport sessions and selected boxing categories under Advanced options.
+  Preserve legacy major selections, save options on-device, and remove the
+  More filters interface while retaining its underlying filter support.
+
 - Publish full NFL, NBA, MLB, NHL, UEFA Champions League, PGA Tour, UFC,
   NASCAR Cup and IndyCar schedules from official league feeds and ESPN, refreshed
   every Monday by a scheduled workflow that commits only real changes and keeps
@@ -54,3 +59,4 @@
 - Publish licensed F1DB/openfootball snapshots with provenance and honest time limits.
 - Remove resurrected server/generated files; preserve private historical source.
 - Add original calendar/stadium icon and matching favicons.
+

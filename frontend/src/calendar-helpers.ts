@@ -1,3 +1,5 @@
+import { interestLeagues } from "./interest-preferences";
+
 const LEAGUE_META: Record<
   string,
   { shortLabel: string; className: string; order: number }
@@ -18,8 +20,8 @@ const LEAGUE_META: Record<
   UFC: { shortLabel: "UFC", className: "league-generic", order: 30 },
   PFL: { shortLabel: "PFL", className: "league-generic", order: 31 },
   RIZIN: { shortLabel: "RIZIN", className: "league-generic", order: 32 },
-  ONE: { shortLabel: "ONE · combat sports", className: "league-generic", order: 33 },
-  BOXING_MAJOR: { shortLabel: "Boxing · selected unifications", className: "league-generic", order: 34 },
+  ONE: { shortLabel: "One", className: "league-generic", order: 33 },
+  BOXING_MAJOR: { shortLabel: "Boxing", className: "league-generic", order: 34 },
   IWF_WORLDS: { shortLabel: "IWF Worlds", className: "league-generic", order: 35 },
   GOLF_MAJORS_MEN: { shortLabel: "Golf · men's majors", className: "league-pga", order: 36 },
   GOLF_MAJORS_WOMEN: { shortLabel: "Golf · women's majors", className: "league-pga", order: 37 },
@@ -48,7 +50,7 @@ const LEAGUE_META: Record<
     order: 11,
   },
   PGA_TOUR: { shortLabel: "PGA Tour", className: "league-pga", order: 38 },
-  LPGA_TOUR: { shortLabel: "LPGA Tour · final dates", className: "league-pga", order: 39 },
+  LPGA_TOUR: { shortLabel: "LPGA Tour", className: "league-pga", order: 39 },
 };
 
 export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = {
@@ -71,12 +73,12 @@ const SPORT_GROUPS = [
   { name: "Baseball", leagues: ["MLB"] },
   { name: "Hockey", leagues: ["NHL"] },
   { name: "Combat sports", leagues: ["UFC", "PFL", "RIZIN", "ONE", "BOXING_MAJOR"] },
-  { name: "Golf", leagues: ["PGA_TOUR", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN", "LPGA_TOUR"] },
+  { name: "Golf", leagues: ["PGA_TOUR", "LPGA_TOUR"] },
   { name: "Climbing and weightlifting", leagues: ["IFSC_WORLD_CUP", "IWF_WORLDS"] },
 ];
 
 export function interestGroups(leagues: { value: string }[]) {
-  const available = new Set(leagues.map((league) => league.value));
+  const available = new Set(interestLeagues(leagues).map((league) => league.value));
   const groups = SPORT_GROUPS.map((group) => ({
     name: group.name,
     leagues: group.leagues.filter((league) => available.delete(league)),
@@ -101,3 +103,4 @@ export function leagueVisual(league: string) {
     }
   );
 }
+
