@@ -109,12 +109,9 @@ were used for verification, not claimed as open redistribution grants.
   titles in one division. The rule applies to women and men equally; it excludes
   interim/secondary titles, exhibitions and influencer cards. The initial set
   contains only the reviewed Navarrete–Foster qualifying card and is not exhaustive.
-  Advanced options filter four-belt undisputed bouts or three-belt unifications.
-  The current card is explicitly classified as a three-belt unification; there
-  are no four-belt records in the current snapshot. Selecting both preserves
-  all reviewed boxing. Narrow selections require explicit classification in
-  `frontend/src/interest-preferences.ts`; new or revised bouts must be reviewed
-  there before they can appear under a specific category.
+  Both qualifying categories are included whenever Boxing is selected. Retired
+  saved category filters are ignored so they cannot hide covered bouts. The
+  current snapshot contains no four-belt records.
   [Qualification evidence](sources/combat-iwf.md#boxing-qualification-evidence)
   records the three belts and requires review near fight week. No owner exceptions.
 - [Golf evidence](sources/golf.md): nine majors and 67 PGA/LPGA season additions,

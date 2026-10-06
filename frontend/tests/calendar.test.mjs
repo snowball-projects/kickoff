@@ -22,8 +22,8 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
       competition_phase: "regular_season",
       start_time_utc: null,
     };
-    globalThis.fetch = async () =>
-      Response.json({
+    globalThis.fetch = async (url) =>
+      !url.endsWith("/2026.json") ? new Response("missing", { status: 404 }) : Response.json({
         schema_version: "1",
         season: 2026,
         available_seasons: [2026],

@@ -7,7 +7,8 @@ test("published playoff and exhibition events remain visible through the Phase f
   const bundle = JSON.parse(await readFile(new URL("../../data/published/2026.json", import.meta.url), "utf8"));
   const originalFetch = globalThis.fetch;
   try {
-    globalThis.fetch = async () => Response.json(bundle);
+    globalThis.fetch = async (url) => String(url).endsWith("/2026.json")
+      ? Response.json(bundle) : new Response(null, { status: 404 });
     const { searchEvents } = await loadModule("data");
     const filters = { sport: "", league: "", country: "", city: "", competition_phase: "postseason", tags: [] };
     const nascar = await searchEvents(2026, "", { ...filters, league: "NASCAR_CUP" }, "UTC");

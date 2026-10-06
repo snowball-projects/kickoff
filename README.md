@@ -10,14 +10,15 @@ its dates, time, location and notes. Focusing a day previews its first event;
 Enter or a tap opens all events and sources, and Escape dismisses the preview.
 The heading follows the visible month; **Today** at the
 bottom left returns smoothly to the current month. Reduced-motion settings skip
-the animation. Advanced options include per-tour golf scope, motorsport sessions and selected boxing
-categories. Golf interests combine majors with their tour, without duplicate
+the animation. Advanced options include per-tour golf scope and motorsport sessions.
+Boxing includes all covered three-belt unifications and four-belt undisputed bouts. Golf interests combine majors with their tour, without duplicate
 tournaments. Interests and these options stay on your device; no account, analytics, live scores
 or betting features.
 
 With a day focused, arrow keys move between days, Page Up/Down changes month,
-and Shift + Page Up/Down changes year. Search covers the year shown in the
-heading. Calendar navigation spans 1900–2100; years without a published schedule
+and Shift + Page Up/Down changes year. In the year overview, Page Up/Down
+changes year. Times automatically use the browser timezone without location
+access; date-only events retain their source dates. Calendar navigation spans 1900–2100; years without a published schedule
 are marked unavailable.
 
 The 2026 calendar has 9,274 events across 28 competitions, and

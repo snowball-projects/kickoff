@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { searchEvents } from "./data";
 import {
+  browserTimezone,
+  timezoneLabel,
   eventTimeLabel,
   firstOfMonth,
   monthLabel,
@@ -14,9 +15,9 @@ import {
 import type { EventCard, FilterState } from "./types";
 import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
 import InterestGroups from "./InterestGroups";
-import { BOXING_CATEGORIES, defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
+import { defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
-import { FIRST_MONTH, LAST_MONTH, monthAt, monthIndex, monthWindow } from "./month-feed-state";
+import { monthAt, monthIndex, monthWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
 
 const EMPTY: FilterState = {
@@ -42,8 +43,13 @@ function Modal({
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    ref.current?.showModal();
-    return () => ref.current?.close();
+    const dialog = ref.current;
+    const opener = document.activeElement;
+    dialog?.showModal();
+    return () => {
+      dialog?.close();
+      if (opener instanceof HTMLElement && opener.isConnected) opener.focus({ preventScroll: true });
+    };
   }, []);
   return (
     <dialog ref={ref} aria-label={title} onCancel={onClose}>
@@ -105,7 +111,6 @@ export default function App() {
   const [month, setMonth] = useState(() => firstOfMonth(today));
   const [feedCenter, setFeedCenter] = useState(() => firstOfMonth(today));
   const [navigation, setNavigation] = useState<MonthNavigation>(() => ({ anchor: firstOfMonth(today), id: 0 }));
-  const pendingMonth = useRef<string | null>(null);
   const [view, setView] = useState<"month" | "year">("month");
   const [day, setDay] = useState<string | null>(null);
   const [preferences, setPreferences] = useState<InterestPreferences>(savedPreferences);
@@ -115,20 +120,14 @@ export default function App() {
   const [choose, setChoose] = useState(() => savedPreferences().leagues === null);
   const [info, setInfo] = useState(false);
   const filters = EMPTY;
-  const [search, setSearch] = useState("");
-  const [results, setResults] = useState<EventCard[]>([]);
-  const [searchTotal, setSearchTotal] = useState(0);
-  const [searchError, setSearchError] = useState("");
-  const [searching, setSearching] = useState(false);
   const [retry, setRetry] = useState(0);
   const [storageNote, setStorageNote] = useState("");
   const year = Number(month.slice(0, 4));
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  const timezone = browserTimezone();
   const activeFilters = {
     ...filters,
     golf_views: preferences.golf_views,
     motorsport_view: preferences.motorsport_view,
-    boxing_categories: preferences.boxing_categories,
     followed_leagues: interests ?? undefined,
   };
   const signature = JSON.stringify(activeFilters);
@@ -153,67 +152,26 @@ export default function App() {
   useEffect(() => {
     if (day) dayHeading.current?.focus();
   }, [day]);
-  useEffect(() => {
-    let active = true;
-    setResults([]);
-    setSearchError("");
-    if (search.trim().length < 2) {
-      setSearching(false);
-      return;
-    }
-    setSearching(true);
-    const timer = setTimeout(
-      () =>
-        searchEvents(year, search.trim(), JSON.parse(signature), timezone)
-          .then((r) => {
-            if (active) {
-              setResults(r.items);
-              setSearchTotal(r.total);
-            }
-          })
-          .catch((e) => {
-            if (active) setSearchError(e.message);
-          })
-          .finally(() => {
-            if (active) setSearching(false);
-          }),
-      150,
-    );
-    return () => {
-      active = false;
-      clearTimeout(timer);
-    };
-  }, [search, signature, year, timezone, retry]);
   function navigateMonth(anchor: string, focusDate?: string) {
     const bounded = monthAt(monthIndex(anchor));
-    pendingMonth.current = bounded;
     if (!feedAnchors.includes(bounded)) setFeedCenter(bounded);
     setNavigation((previous) => ({ anchor: bounded, id: previous.id + 1, focusDate }));
     setMonth(bounded);
   }
   function openDay(date: string) {
-    if (search.trim().length >= 2 || view === "year") navigateMonth(firstOfMonth(date));
+    if (view === "year") navigateMonth(firstOfMonth(date));
     setDay(date);
     setView("month");
-    setSearch("");
   }
   function openMonth(anchor: string, focusDate?: string) {
     navigateMonth(anchor, focusDate);
     setDay(null);
     setView("month");
   }
-  function moveMonth(delta: number) {
-    const from = view === "year" ? month : pendingMonth.current || month;
-    const anchor = monthAt(monthIndex(from) + delta);
-    if (view === "year") setMonth(anchor);
-    else navigateMonth(anchor);
-    setDay(null);
-  }
   function jumpToday() {
     const now = todayIso();
     setToday(now);
     openMonth(firstOfMonth(now));
-    setSearch("");
   }
   function save() {
     const next = { ...draftPreferences, leagues: draft };
@@ -247,7 +205,6 @@ export default function App() {
               onClick={() => {
                 setView("year");
                 setDay(null);
-                setSearch("");
               }}
               aria-label={`Show ${year} year calendar`}
             >
@@ -290,69 +247,28 @@ export default function App() {
       </header>
       <div className="calendar-heading">
         <h1 aria-live="polite" aria-atomic="true">{view === "year" ? year : monthTitle(month)}</h1>
-        <div className="heading-actions">
-          <label className="search">
-            <span className="sr-only">Search teams, events and places</span>
-            <input
-              type="search"
-              value={search}
-              onChange={(e) => {
-                if (search.trim().length < 2 && e.target.value.trim().length >= 2) navigateMonth(month);
-                setSearch(e.target.value);
-              }}
-              placeholder="Search events"
-            />
-          </label>
-          <button
-            className="icon-button"
-            aria-label={`Previous ${view}`}
-            disabled={monthIndex(month) - (view === "year" ? 12 : 1) < monthIndex(FIRST_MONTH)}
-            onClick={() => moveMonth(view === "year" ? -12 : -1)}
-          >
-            ‹
-          </button>
-          <button
-            className="icon-button"
-            aria-label={`Next ${view}`}
-            disabled={monthIndex(month) + (view === "year" ? 12 : 1) > monthIndex(LAST_MONTH)}
-            onClick={() => moveMonth(view === "year" ? 12 : 1)}
-          >
-            ›
-          </button>
-        </div>
       </div>
       <main className={`calendar-body ${day ? "with-day" : ""}`}>
         <section
           className="calendar-stage"
           aria-label={view === "year" ? `${year} calendar` : monthLabel(month)}
+          tabIndex={view === "year" ? 0 : undefined}
+          onKeyDown={(event) => {
+            if (view !== "year" || (event.key !== "PageUp" && event.key !== "PageDown")) return;
+            event.preventDefault();
+            event.currentTarget.focus();
+            setMonth(monthAt(monthIndex(month) + (event.key === "PageUp" ? -12 : 12)));
+          }}
         >
-          {error && view === "year" && search.trim().length < 2 ? (
+          {error && view === "year" && (
             <div className="empty-state" role="alert">
-              <h2>Schedule unavailable for {year}</h2>
+              <h2>{error.startsWith("Some year-boundary") ? "Partial schedule" : "Schedule unavailable"} for {year}</h2>
               <p>{error}</p>
               <button onClick={() => setRetry((x) => x + 1)}>Retry</button>
               <button onClick={jumpToday}>Current month</button>
             </div>
-          ) : search.trim().length >= 2 ? (
-            <section className="search-results" aria-label="Search results">
-              <p role="status">
-                {searching
-                  ? "Searching…"
-                  : searchError ||
-                    `${searchTotal} matches in ${year}${searchTotal > 30 ? " · first 30 shown" : ""}`}
-              </p>
-              {results.map((e) => (
-                <button
-                  className="search-result"
-                  key={e.event_id}
-                  onClick={() => e.calendar_date && openDay(e.calendar_date)}
-                >
-                  <time>{e.calendar_date}</time>
-                  <Pill event={e} />
-                </button>
-              ))}
-            </section>
-          ) : view === "year" ? (
+          )}
+          {view === "year" ? (
             <div className="year-grid">
               {anchors.map((anchor) => {
                 const mini = monthWeeksSunStart(
@@ -408,7 +324,7 @@ export default function App() {
                 onVisibleMonth={setMonth}
                 onRecenter={setFeedCenter}
                 onNavigate={openMonth}
-                onNavigationEnd={() => { pendingMonth.current = null; }}
+                onNavigationEnd={() => {}}
                 onOpenDay={openDay}
                 onRetry={() => setRetry((value) => value + 1)}
                 renderEvent={(event) => <Pill key={event.event_id} event={event} />}
@@ -431,14 +347,14 @@ export default function App() {
               <div>
                 <p>
                   {new Intl.DateTimeFormat(undefined, {
-                    weekday: "long",
-                  }).format(new Date(`${day}T12:00:00`))}
+                    weekday: "long", timeZone: "UTC",
+                  }).format(new Date(`${day}T12:00:00Z`))}
                 </p>
                 <h2 ref={dayHeading} tabIndex={-1}>
                   {new Intl.DateTimeFormat(undefined, {
                     month: "long",
-                    day: "numeric",
-                  }).format(new Date(`${day}T12:00:00`))}
+                    day: "numeric", timeZone: "UTC",
+                  }).format(new Date(`${day}T12:00:00Z`))}
                 </h2>
               </div>
               <button
@@ -450,6 +366,7 @@ export default function App() {
               </button>
             </header>
             <div className="day-scroll">
+              {selectedError && !!selected?.items.length && <p role="status">{selectedError}</p>}
               {selected?.items.length ? (
                 selected.items.map((e) => (
                   <EventRow key={e.event_id} event={e} timezone={timezone} />
@@ -468,12 +385,12 @@ export default function App() {
           Today
         </button>
         <span className="footer-meta">
-          {timezone.replaceAll("_", " ")}
+          <span title={`Browser timezone: ${timezone}`}>{timezoneLabel(timezone)}</span>
           <span className="snapshot">
             {" "}
             ·{" "}
             {manifest?.updated_at
-              ? `Snapshot ${manifest.updated_at.slice(0, 10)}`
+              ? `Updated ${manifest.updated_at.slice(0, 10)}`
               : "Published schedules"}
           </span>
         </span>
@@ -487,15 +404,12 @@ export default function App() {
       </footer>
       {choose && (
         <Modal
-          title="Follow your sports"
+          title="Interests"
           onClose={() => {
             setChoose(false);
             interestsButton.current?.focus();
           }}
         >
-          <p className="modal-intro">
-            Choose leagues for your calendar. Saved only on this device.
-          </p>
           {loading && !leagues.length ? (
             <p>Loading available leagues…</p>
           ) : error && !leagues.length ? (
@@ -530,25 +444,7 @@ export default function App() {
                 </select>
               </label>
             ))}
-            <p className="fine-print">Full tour shows all published tournaments, including majors. LPGA coverage is selected dates; most non-major entries show only the final date.</p>
-            <fieldset className="boxing-options">
-              <legend>Boxing</legend>
-              {BOXING_CATEGORIES.map((category) => (
-                <label key={category}>
-                  <input type="checkbox" checked={draftPreferences.boxing_categories.includes(category)}
-                    onChange={() => setDraftPreferences((p) => ({ ...p, boxing_categories:
-                      p.boxing_categories.includes(category) ? p.boxing_categories.filter((value) => value !== category)
-                        : [...p.boxing_categories, category] }))} />
-                  {category === "four_belt" ? "Four-belt undisputed bouts" : "Three-belt unifications"}
-                </label>
-              ))}
-              <p className="fine-print">Selected reviewed bouts only, not a complete boxing schedule. Counts only full WBA, WBC, IBF and WBO world titles. Both choices include all reviewed boxing; narrower choices require reviewed classification.</p>
-            </fieldset>
           </details>
-          <p className="fine-print">
-            Only published coverage appears here. More sports will be added as
-            reusable sources are verified.
-          </p>
           <button className="primary-button" onClick={save}>
             Show my calendar
           </button>
@@ -562,8 +458,17 @@ export default function App() {
           </p>
           <h3>Coverage</h3>
           <p>
-            {manifest?.coverage ||
-              "Selected published schedules. No live scores or guarantee of complete coverage."}
+            Published schedules, not live scores. Coverage is incomplete; an empty
+            day means no matching published events. Dates and times can change.
+          </p>
+          <p>
+            Golf: Full tour includes all published tournaments and majors.
+            LPGA coverage is selected dates, mostly final dates outside the majors.
+          </p>
+          <p>
+            Boxing: selected reviewed four-belt undisputed bouts and unifications
+            of at least three full WBA, WBC, IBF or WBO titles in one division.
+            No interim or secondary titles, exhibitions or influencer cards.
           </p>
           <p>
             <a href="https://github.com/snowball-projects/kickoff/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noreferrer">
@@ -571,14 +476,11 @@ export default function App() {
             </a>
           </p>
           <p>
-            Dates and times can change. Known UTC times appear in your device’s
-            timezone. Dates without a verified timezone stay on the source date;
-            their time is marked TBD.
+            Verified times use your browser’s timezone automatically. Date-only
+            events stay on their source dates with Time TBD.
           </p>
           <p>
-            Snapshot: {manifest?.updated_at || "unavailable"}. An empty day
-            means no matching published records, not necessarily no sporting
-            events.
+            Schedule snapshot updated: {manifest?.updated_at || "unavailable"}.
           </p>
           <h3>Sources</h3>
           {manifest?.data_license_notice && <p>{manifest.data_license_notice}</p>}
@@ -602,10 +504,10 @@ export default function App() {
           ))}
           <h3>Privacy</h3>
           <p>
-            No accounts, analytics or advertising. Only your league choices are
-            saved in this browser. Calendar data is static; browsing does not
-            contact sports providers. GitHub Pages receives normal hosting
-            requests.
+            Interests and options stay in this browser. No accounts, analytics,
+            advertising or location access. Timezone comes from your browser;
+            no lookup is sent. Static calendar browsing contacts no sports
+            providers. GitHub Pages receives normal hosting requests.
           </p>
           {storageNote && <p>{storageNote}</p>}
           <p>

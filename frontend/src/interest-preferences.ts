@@ -3,18 +3,15 @@ import type { EventDetail, FilterState } from "./types";
 export const INTERESTS_KEY = "kickoff.interests.v2";
 export const LEGACY_INTERESTS_KEY = "kickoff.interests.v1";
 export const GOLF_TOURS = ["PGA_TOUR", "LPGA_TOUR"] as const;
-export const BOXING_CATEGORIES = ["four_belt", "three_belt_unification"] as const;
 export type GolfView = "majors_only" | "full_tour";
-export type BoxingCategory = typeof BOXING_CATEGORIES[number];
 export type InterestPreferences = {
   leagues: string[] | null;
   golf_views: Record<typeof GOLF_TOURS[number], GolfView>;
   motorsport_view: "race_only" | "full_weekend";
-  boxing_categories: BoxingCategory[];
 };
 export function defaultPreferences(): InterestPreferences {
   return { leagues: null, golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" },
-    motorsport_view: "race_only", boxing_categories: [...BOXING_CATEGORIES] };
+    motorsport_view: "race_only" };
 }
 export function interestLeague(league: string) {
   return league === "GOLF_MAJORS_MEN" ? "PGA_TOUR"
@@ -47,8 +44,7 @@ export function readPreferences(storage: Pick<Storage, "getItem">): InterestPref
           preferences.golf_views[tour] = value.golf_views[tour];
       }
       if (value.motorsport_view === "full_weekend") preferences.motorsport_view = "full_weekend";
-      if (Array.isArray(value.boxing_categories)) preferences.boxing_categories = BOXING_CATEGORIES.filter(
-        (category) => value.boxing_categories.includes(category));
+      // Retired boxing filters are deliberately ignored, including empty selections.
       return preferences;
     }
     const legacy = read(LEGACY_INTERESTS_KEY);
@@ -73,15 +69,6 @@ export function matchesInterestOptions(event: EventDetail, filters: FilterState)
     && !filters.followed_leagues.includes(event.league)) return false;
   if ((tour === "PGA_TOUR" || tour === "LPGA_TOUR") && filters.golf_views?.[tour] === "majors_only"
     && !golfMajor(event)) return false;
-  if (event.league === "BOXING_MAJOR" && filters.boxing_categories) {
-    // Both policy branches selected means all reviewed boxing, preserving future
-    // unclassified records. A narrowed choice requires explicit reviewed evidence.
-    if (BOXING_CATEGORIES.every((category) => filters.boxing_categories!.includes(category))) return true;
-    // docs/sources/combat-iwf.md#boxing-qualification-evidence documents this
-    // exact bout as a three-full-title unification, not a four-title contest.
-    const category = event.event_id === "boxing-navarrete-foster-1" ? "three_belt_unification" : null;
-    if (!category || !filters.boxing_categories.includes(category)) return false;
-  }
   return true;
 }
 

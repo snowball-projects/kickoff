@@ -104,27 +104,24 @@ test("native wheel scrolling updates the month and year without replacing adjace
   await expect(page.locator("#day-2027-01-10")).toHaveAttribute("aria-label", /schedule unavailable/);
 });
 
-test("Today returns from a distant missing year, clears day/search, and keeps the current date highlighted", async ({ page }) => {
-  await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
-  await page.getByRole("button", { name: "Next year" }).click();
-  await page.getByRole("button", { name: "Next year" }).click();
-  await page.locator(".back-button").filter({ hasText: "Month" }).click();
+test("Today returns from a distant missing year, closes day details, and keeps the current date highlighted", async ({ page }) => {
+  await page.locator("#day-2026-09-10").focus();
+  await page.keyboard.press("Shift+PageDown");
+  await expect(page.locator("#day-2027-09-10")).toBeFocused();
+  await page.keyboard.press("Shift+PageDown");
+  await expect(page.locator("#day-2028-09-10")).toBeFocused();
   await expect(page.getByRole("button", { name: "Show 2028 year calendar" })).toBeVisible();
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await expect(heading(page)).toHaveText("September");
   await expect(page.getByRole("button", { name: "Show 2026 year calendar" })).toBeVisible();
-  await expect.poll(() => monthPosition(page, "2026-09-01")).toBeGreaterThanOrEqual(-1);
-  await expect.poll(() => monthPosition(page, "2026-09-01")).toBeLessThanOrEqual(1);
+  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(1);
   await expect(page.locator("#day-2026-09-10")).toHaveAttribute("aria-current", "date");
   await expect(page.locator("#day-2026-09-10")).toHaveClass(/is-today/);
-  await page.getByRole("searchbox").fill("Football fixture");
-  await expect(page.getByRole("region", { name: "Search results" })).toBeVisible();
-  await page.getByRole("button", { name: "Today", exact: true }).click();
-  await expect(page.getByRole("searchbox")).toHaveValue("");
-  await expect(feed(page)).toBeVisible();
   await page.locator("#day-2026-09-10").click();
+  await expect(page.getByRole("complementary", { name: "Day events" })).toBeVisible();
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await expect(page.getByRole("complementary", { name: "Day events" })).toHaveCount(0);
+  await expect(feed(page)).toBeVisible();
 });
 
 test("day keyboard navigation crosses months and years and clamps leap-month dates", async ({ page }) => {
@@ -154,15 +151,17 @@ test("day keyboard navigation crosses months and years and clamps leap-month dat
   await expect(page.locator("#day-2028-03-01")).toBeFocused();
 });
 
-test("Today interrupts an in-progress smooth month navigation", async ({ page }) => {
+test("Today interrupts an in-progress smooth keyboard year navigation", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  const start = await feed(page).evaluate((element) => element.scrollTop);
-  const target = await section(page, "2026-10-01").evaluate((element) => (element as HTMLElement).offsetTop);
-  await page.getByRole("button", { name: "Next month" }).click();
-  await expect.poll(async () => {
-    const top = await feed(page).evaluate((element) => element.scrollTop);
-    return top > start + 1 && top < target - 1;
-  }, { intervals: [16] }).toBe(true);
+  await page.locator("#day-2026-09-10").focus();
+  await page.keyboard.press("Shift+PageDown");
+  await expect(page.locator("#day-2027-09-10")).toBeFocused();
+  await expect.poll(() => feed(page).evaluate((element) => {
+    const target = element.querySelector<HTMLElement>('[data-month="2027-09-01"]');
+    if (!target) return false;
+    const remaining = Math.abs(target.offsetTop - element.scrollTop);
+    return remaining > 3 && remaining < element.clientHeight * 0.7 - 2;
+  }), { intervals: [16] }).toBe(true);
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(1);
   await expect(heading(page)).toHaveText("September");
@@ -180,25 +179,18 @@ test("Today interrupts an in-progress smooth month navigation", async ({ page })
   await expect(heading(page)).toHaveText("September");
 });
 
-test("repeated month arrows advance from the pending destination during smooth scrolling", async ({ page }) => {
+test("repeated keyboard year navigation follows the focused date during smooth scrolling", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  const start = await feed(page).evaluate((element) => element.scrollTop);
-  await page.getByRole("button", { name: "Next month" }).click();
-  await page.evaluate(async (start) => {
-    const root = document.querySelector<HTMLElement>(".month-feed")!;
-    for (let frame = 0; frame < 60; frame += 1) {
-      await new Promise(requestAnimationFrame);
-      if (root.scrollTop > start + 1 && document.querySelector("h1")!.textContent === "September") {
-        document.querySelector<HTMLButtonElement>('[aria-label="Next month"]')!.click();
-        return;
-      }
-    }
-    throw new Error("First month navigation did not enter the intermediate scroll state");
-  }, start);
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-11-01"))).toBeLessThanOrEqual(1);
-  await expect(heading(page)).toHaveText("November");
-  await page.getByRole("button", { name: "Previous month" }).click();
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-10-01"))).toBeLessThanOrEqual(1);
+  await page.locator("#day-2026-09-10").focus();
+  await page.keyboard.press("Shift+PageDown");
+  await expect(page.locator("#day-2027-09-10")).toBeFocused();
+  await page.keyboard.press("Shift+PageDown");
+  await expect(page.locator("#day-2028-09-10")).toBeFocused();
+  await expect(page.locator("#day-2028-09-10")).toBeInViewport({ ratio: 0.99 });
+  await expect(page.getByRole("button", { name: "Show 2028 year calendar" })).toBeVisible();
+  await page.keyboard.press("Shift+PageUp");
+  await expect(page.locator("#day-2027-09-10")).toBeFocused();
+  await expect(page.locator("#day-2027-09-10")).toBeInViewport({ ratio: 0.99 });
 });
 
 test("resizing during a smooth Today jump reaches the current month in the new layout", async ({ page }) => {
@@ -206,9 +198,9 @@ test("resizing during a smooth Today jump reaches the current month in the new l
   await page.setViewportSize({ width: 1000, height: 720 });
   await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
   await page.getByRole("button", { name: "Open June 2026" }).click();
-  await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
-  await page.getByRole("button", { name: "Next year" }).click();
-  await page.locator(".back-button").filter({ hasText: "Month" }).click();
+  await page.locator("#day-2026-06-10").focus();
+  await page.keyboard.press("Shift+PageDown");
+  await expect(page.locator("#day-2027-06-10")).toBeFocused();
   await expect(page.getByRole("button", { name: "Show 2027 year calendar" })).toBeVisible();
   await expect(heading(page)).toHaveText("June");
   await page.getByRole("button", { name: "Today", exact: true }).click();
@@ -226,44 +218,79 @@ test("resizing during a smooth Today jump reaches the current month in the new l
   await expect(page.locator("#day-2026-09-10")).toHaveAttribute("aria-current", "date");
 });
 
-test("search opens the matching day and closing restores focus to its calendar button", async ({ page }) => {
-  await page.getByRole("searchbox").fill("Football fixture 04");
-  await expect(page.getByRole("status")).toHaveText("1 matches in 2026");
-  await page.getByRole("button", { name: /2026-04-10.*Football fixture 04/ }).click();
+test("year overview opens a day and closing restores focus to its calendar button", async ({ page }) => {
+  await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
+  await page.getByRole("button", { name: "Open April 2026" }).click();
+  await page.locator("#day-2026-04-10").click();
   const inspector = page.getByRole("complementary", { name: "Day events" });
   await expect(inspector.getByRole("heading", { name: "April 10", exact: true })).toBeFocused();
   await expect(inspector.getByRole("heading", { name: "Football fixture 04" })).toBeVisible();
   await expect(inspector.getByRole("heading", { name: "Grand Prix 04" })).toBeVisible();
-  await expect(page.getByRole("searchbox")).toHaveValue("");
   await expect(heading(page)).toHaveText("April");
   await page.keyboard.press("Escape");
   await expect(inspector).toHaveCount(0);
   await expect(page.locator("#day-2026-04-10")).toBeFocused();
 });
 
-test("clearing search restores the month reached by scrolling", async ({ page }) => {
+test("About kickoff opens and closes without moving the scrolled calendar", async ({ page }) => {
   await nativeScrollTo(page, "2026-11-01", 65);
-  await page.getByRole("searchbox").fill("Football fixture");
-  await expect(page.getByRole("status")).toHaveText("12 matches in 2026");
-  await page.getByRole("searchbox").fill("");
+  const before = await monthPosition(page, "2026-11-01");
+  const infoButton = page.getByRole("button", { name: "About kickoff and schedule coverage" });
+  const info = page.getByRole("dialog", { name: "About kickoff", exact: true });
+  await infoButton.click();
+  await expect(info).toBeVisible();
+  await info.getByRole("button", { name: "Close", exact: true }).click();
+  await expect(info).toHaveCount(0);
+  await expect(infoButton).toBeFocused();
+  await infoButton.click();
+  await page.keyboard.press("Escape");
+  await expect(info).toHaveCount(0);
+  await expect(infoButton).toBeFocused();
   await expect(feed(page)).toBeVisible();
   await expect(heading(page)).toHaveText("November");
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-11-01"))).toBeLessThanOrEqual(1);
+  expect(Math.abs(await monthPosition(page, "2026-11-01") - before)).toBeLessThanOrEqual(1);
 });
 
-test("year overview opens a month and navigation arrows traverse the visible month", async ({ page }) => {
+test("year overview and keyboard navigation work without search or heading arrows", async ({ page }) => {
+  await expect(page.getByRole("searchbox")).toHaveCount(0);
+  await expect(page.getByPlaceholder("Search events")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /^(Previous|Next) (month|year)$/ })).toHaveCount(0);
   await nativeScrollTo(page, "2026-11-01");
   await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
   await expect(page.locator(".mini-month")).toHaveCount(12);
   await expect(page.locator(".mini-today")).toHaveAttribute("aria-current", "date");
+  await expect(page.getByRole("searchbox")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /^(Previous|Next) (month|year)$/ })).toHaveCount(0);
   await page.getByRole("button", { name: "Open June 2026" }).click();
   await expect(heading(page)).toHaveText("June");
-  await expect.poll(() => monthPosition(page, "2026-06-01")).toBeLessThanOrEqual(1);
-  await page.getByRole("button", { name: "Next month" }).click();
-  await expect(heading(page)).toHaveText("July");
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-07-01"))).toBeLessThanOrEqual(1);
-  await page.getByRole("button", { name: "Previous month" }).click();
-  await expect(heading(page)).toHaveText("June");
+  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-06-01"))).toBeLessThanOrEqual(1);
+  await page.locator("#day-2026-06-10").focus();
+  await page.keyboard.press("PageDown");
+  await expect(page.locator("#day-2026-07-10")).toBeFocused();
+  await expect(page.locator("#day-2026-07-10")).toBeInViewport({ ratio: 0.99 });
+  await page.keyboard.press("PageUp");
+  await expect(page.locator("#day-2026-06-10")).toBeFocused();
+  await expect(page.locator("#day-2026-06-10")).toBeInViewport({ ratio: 0.99 });
+});
+
+test("year overview keyboard navigation reaches unavailable years", async ({ page }) => {
+  await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
+  await page.getByRole("button", { name: "Open September 2026" }).focus();
+  await page.keyboard.press("PageDown");
+  await expect(heading(page)).toHaveText("2027");
+  await expect(page.getByRole("alert")).toContainText("Schedule unavailable for 2027");
+  await expect(page.getByRole("region", { name: "2027 calendar", exact: true })).toBeFocused();
+  await page.keyboard.press("PageDown");
+  await expect(heading(page)).toHaveText("2028");
+  await expect(page.getByRole("alert")).toContainText("Schedule unavailable for 2028");
+  await page.keyboard.press("PageUp");
+  await expect(heading(page)).toHaveText("2027");
+  await page.keyboard.press("PageUp");
+  await expect(heading(page)).toHaveText("2026");
+  await expect(page.getByRole("button", { name: "Open September 2026" })).toBeVisible();
+  await page.getByRole("button", { name: "Today", exact: true }).click();
+  await expect(heading(page)).toHaveText("September");
+  await expect(page.getByRole("button", { name: "Show 2026 year calendar" })).toBeVisible();
 });
 
 test("changing interests updates pills while preserving the visible scroll position", async ({ page }) => {
@@ -436,18 +463,65 @@ async function stallSmoothJump(page: Page) {
 }
 
 test('a stalled browser jump reaches its bounded destination within the deadline', async ({ page }) => {
+  await nativeScrollTo(page, '2026-06-01');
   await stallSmoothJump(page);
-  await page.getByRole('button', { name: 'Next month' }).click();
-  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-10-01')), { timeout: 5000 }).toBeLessThanOrEqual(2);
-  await expect(heading(page)).toHaveText('October');
+  await page.getByRole('button', { name: 'Today', exact: true }).click();
+  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-09-01')), { timeout: 5000 }).toBeLessThanOrEqual(2);
+  await expect(heading(page)).toHaveText('September');
 });
 
 test('manual wheel interruption prevents a stalled jump from snapping later', async ({ page }) => {
+  await nativeScrollTo(page, '2026-06-01');
   await stallSmoothJump(page);
-  await page.getByRole('button', { name: 'Next month' }).click();
+  await page.getByRole('button', { name: 'Today', exact: true }).click();
   await feed(page).hover();
   await page.mouse.wheel(0, 60);
   // Observe past the programmatic fallback deadline after explicit user input.
   await page.waitForTimeout(2200);
-  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-10-01'))).toBeGreaterThan(100);
+  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-09-01'))).toBeGreaterThan(100);
 });
+
+for (const fixture of [
+  { timezone: "America/Los_Angeles", city: "Los Angeles", instant: "2026-09-10T00:30:00Z", date: "2026-09-09", heading: "September 9", time: /5:30\s*PM/ },
+  { timezone: "Asia/Tokyo", city: "Tokyo", instant: "2026-09-10T23:30:00Z", date: "2026-09-11", heading: "September 11", time: /8:30\s*AM/ },
+]) {
+  test.describe(`browser timezone ${fixture.timezone}`, () => {
+    test.use({ timezoneId: fixture.timezone });
+    test("timed fixtures cross the local date boundary while date-only events keep their source date", async ({ page }) => {
+      await page.route("**/data/2026.json", async (route) => {
+        await route.fulfill({ json: {
+          schema_version: "1",
+          season: 2026,
+          available_seasons: [2026],
+          providers: [],
+          updated_at: "2026-09-10T00:00:00Z",
+          events: [...events, {
+            ...events[0],
+            event_id: "timed-boundary-fixture",
+            title: "Timed boundary fixture",
+            calendar_date: "2026-09-10",
+            end_calendar_date: "2026-09-10",
+            start_time_utc: fixture.instant,
+            timezone: "UTC",
+          }],
+        } });
+      });
+      await page.reload();
+      const timed = page.locator(`#day-${fixture.date} .event-pill`).filter({ hasText: "Timed boundary fixture" });
+      await expect(timed).toHaveCount(1);
+      await expect(page.locator("#day-2026-09-10 .event-pill")).toHaveCount(2);
+      await expect(page.locator("#day-2026-09-10 .event-pill").filter({ hasText: "Football fixture 09" })).toHaveCount(1);
+      const localTime = page.locator(".footer-meta").getByText(`Local time · ${fixture.city}`, { exact: true });
+      await expect(localTime).toBeVisible();
+      await expect(localTime).toHaveAttribute("title", `Browser timezone: ${fixture.timezone}`);
+      await timed.click();
+      const detail = page.getByRole("complementary", { name: "Day events" });
+      await expect(detail.getByRole("heading", { name: fixture.heading, exact: true })).toBeVisible();
+      await expect(detail).toContainText("Timed boundary fixture");
+      await expect(detail.locator(".event-time")).toHaveText(fixture.time);
+      await page.getByRole("button", { name: "Close day" }).click();
+      await page.locator("#day-2026-09-10").click();
+      await expect(detail).toContainText("Time TBD");
+    });
+  });
+}

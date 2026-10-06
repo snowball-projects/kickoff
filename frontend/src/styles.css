@@ -156,16 +156,6 @@ button,
   font-size: 36px;
   line-height: 1.15;
 }
-.heading-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.search input {
-  background: transparent;
-  width: 195px;
-  font-size: 14px;
-}
 .calendar-body {
   display: flex;
   min-height: 0;
@@ -509,38 +499,6 @@ button,
   color: var(--muted);
   padding-top: 8px;
 }
-.search-results {
-  padding: 10px 0 20px;
-}
-.search-results > p {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 16px;
-}
-.search-result {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  border-bottom: 1px solid var(--line);
-  width: 100%;
-  padding: 14px;
-  text-align: left;
-}
-.search-result time {
-  font-size: 12px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-.search-result .event-pill {
-  font-size: 14px;
-  padding: 8px 12px;
-}
-.search-result .event-pill b {
-  font-size: 11px;
-}
-.search-result .event-pill > span {
-  white-space: normal;
-}
 dialog {
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -655,6 +613,7 @@ dialog p {
   margin-top: 16px;
 }
 .option-row select {
+  width: 180px;
   max-width: 62%;
   font-size: 13px;
 }
@@ -838,18 +797,6 @@ dialog p {
   .calendar-heading h1 {
     font-size: 29px;
   }
-  .search input {
-    width: 115px;
-    font-size: 12px;
-    padding: 7px;
-  }
-  .heading-actions {
-    gap: 1px;
-  }
-  .heading-actions .icon-button {
-    width: 30px;
-    min-width: 30px;
-  }
   .weekday-row {
     font-size: 10px;
   }
@@ -912,17 +859,6 @@ dialog p {
   .day-inspector {
     width: 100%;
     max-width: none;
-  }
-  .search-result {
-    padding: 12px 3px;
-    gap: 8px;
-  }
-  .search-result .event-pill {
-    font-size: 12px;
-    padding: 6px;
-  }
-  .search-result time {
-    font-size: 10px;
   }
   .interest-grid {
     gap: 7px;
@@ -1004,8 +940,3 @@ dialog p {
     font-size: 11px;
   }
 }
-
-
-.boxing-options { border: 0; padding: 0; margin: 1rem 0 0; }
-.boxing-options legend { font-weight: 600; margin-bottom: .5rem; }
-.boxing-options > label { display: flex; align-items: center; gap: .6rem; padding: .4rem 0; }
