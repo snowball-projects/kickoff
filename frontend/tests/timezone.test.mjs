@@ -263,3 +263,57 @@ test("changing timezone while a neighbor loads cannot restore stale boundary pla
   assert.equal(month.timezone, "America/Los_Angeles");
   assert.equal(month.total_events, 0);
 });
+
+test("a failed neighbor cannot block scrolling to June or recomputing interests", async (t) => {
+  const current = bundle(2027, [
+    event("january-football", "2027-01-02"),
+    event("january-race", "2027-01-03", null, { league: "F1" }),
+    event("june-football", "2027-06-02"),
+    event("june-race", "2027-06-03", null, { league: "F1" }),
+  ]);
+  t.mock.method(globalThis, "fetch", async (url) => url.endsWith("2026.json")
+    ? new Response("failure", { status: 503 }) : Response.json(current));
+  const { CalendarDataStore } = await loadModule("data");
+  const store = new CalendarDataStore();
+  t.after(() => store.cancel());
+  store.update(["2027-01-01"], signature, "UTC", 0);
+  const failed = await until(store, (state) => Boolean(state.errors[2027]));
+  assert.match(failed.errors[2027], /Some year-boundary events could not be loaded/);
+  assert.equal(failed.months["2027-01-01"].total_events, 2);
+
+  const footballOnly = JSON.stringify({ ...filters, followed_leagues: ["EPL"] });
+  store.update(["2027-01-01"], footballOnly, "UTC", 0);
+  const changed = await until(store, (state) => !state.loadingYears.length);
+  assert.equal(changed.months["2027-01-01"].total_events, 1);
+  assert.equal(on(changed.months["2027-01-01"], "2027-01-02")[0].event_id, "january-football");
+
+  store.update(["2027-06-01"], footballOnly, "UTC", 0);
+  const june = await until(store, (state) => !state.loadingYears.length);
+  assert.equal(june.months["2027-06-01"].total_events, 1);
+  assert.equal(on(june.months["2027-06-01"], "2027-06-02")[0].event_id, "june-football");
+  assert.deepEqual(june.errors, {});
+  store.update(["2027-06-01"], signature, "UTC", 0);
+  const all = await until(store, (state) => !state.loadingYears.length);
+  assert.equal(all.months["2027-06-01"].total_events, 2);
+});
+
+test("December spillovers publish while January's unrelated neighbor is still loading", async (t) => {
+  let resolvePrevious;
+  const previous = new Promise((resolve) => { resolvePrevious = resolve; });
+  t.mock.method(globalThis, "fetch", async (url) => {
+    if (url.endsWith("2025.json")) return previous;
+    if (url.endsWith("2027.json")) return Response.json(bundle(2027, [event("december-spillover", "2027-01-01", "2027-01-01T01:00:00Z")]));
+    return Response.json(bundle(2026));
+  });
+  const { CalendarDataStore } = await loadModule("data");
+  const store = new CalendarDataStore();
+  t.after(() => { store.cancel(); resolvePrevious(Response.json(bundle(2025))); });
+  store.update(["2026-01-01", "2026-12-01"], signature, "America/Los_Angeles", 0);
+  const state = await until(store, (snapshot) => snapshot.months["2026-12-01"]?.total_events === 1);
+  assert.equal(on(state.months["2026-12-01"], "2026-12-31")[0].event_id, "december-spillover");
+  assert.equal(state.months["2026-01-01"].total_events, 0);
+  assert.deepEqual(state.errors, {});
+  resolvePrevious(Response.json(bundle(2025)));
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(store.getSnapshot().months["2026-12-01"].total_events, 1);
+});

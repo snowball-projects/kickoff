@@ -401,6 +401,7 @@ type YearLoad = {
   pending?: AbortController;
   boundaryPending?: AbortController;
   error?: string;
+  boundaryError?: string;
   manifest?: ManifestResponse;
   facets?: FiltersResponse;
 };
@@ -500,7 +501,10 @@ export class CalendarDataStore {
       }
       if (!years.has(year)) this.years.delete(year);
       // Changing interests cannot make an unpublished year available.
-      else if (retryChanged) record.error = undefined;
+      else if (retryChanged) {
+        record.error = undefined;
+        record.boundaryError = undefined;
+      }
     }
     for (const year of years) {
       if (!this.years.has(year)) this.years.set(year, {});
@@ -571,22 +575,25 @@ export class CalendarDataStore {
     record.boundaryPending = request;
     // Render the year's own data first. A neighboring request must never hold
     // up an otherwise available year; merge its boundary events when it settles.
-    Promise.allSettled(anchors.map(async (anchor) => [anchor,
-      await getCalendar("month", year, anchor, this.filters, this.timezone, request.signal),
-    ] as const))
-      .then((results) => {
-        if (this.years.get(year) !== record || record.boundaryPending !== request) return;
-        record.boundaryPending = undefined;
-        for (const result of results) {
-          if (result.status === "fulfilled") {
-            const [anchor, month] = result.value;
-            if (this.anchors.has(anchor)) this.months[anchor] = month;
-          } else if (!(result.reason instanceof UnpublishedScheduleError)) {
-            record.error = `Some year-boundary events could not be loaded. ${result.reason instanceof Error ? result.reason.message : "Please retry."}`;
-          }
-        }
-        this.publish();
-      });
+    let remaining = anchors.length;
+    const failures = new Set<string>();
+    const settle = (anchor: string, month?: CalendarResponse, error?: unknown) => {
+      if (this.years.get(year) !== record || record.boundaryPending !== request) return;
+      if (month && this.anchors.has(anchor)) this.months[anchor] = month;
+      if (error && !(error instanceof UnpublishedScheduleError)) {
+        failures.add(error instanceof Error ? error.message : "Please retry.");
+      }
+      record.boundaryError = failures.size
+        ? `Some year-boundary events could not be loaded. ${[...failures].join(" ")}`
+        : undefined;
+      remaining -= 1;
+      if (!remaining) record.boundaryPending = undefined;
+      this.publish();
+    };
+    for (const anchor of anchors) {
+      getCalendar("month", year, anchor, this.filters, this.timezone, request.signal)
+        .then((month) => settle(anchor, month), (error: unknown) => settle(anchor, undefined, error));
+    }
   }
 
   private publish() {
@@ -596,9 +603,14 @@ export class CalendarDataStore {
     this.state = {
       months: { ...this.months },
       errors: Object.fromEntries(
-        [...this.years].flatMap(([year, record]) =>
-          record.error ? [[year, record.error]] : [],
-        ),
+        [...this.years].flatMap(([year, record]) => {
+          const boundaryVisible = [...this.anchors].some((anchor) =>
+            Number(anchor.slice(0, 4)) === year && ["01", "12"].includes(anchor.slice(5, 7)),
+          );
+          const notice = [record.error, boundaryVisible ? record.boundaryError : undefined]
+            .filter(Boolean).join(" ");
+          return notice ? [[year, notice]] : [];
+        }),
       ),
       manifests: Object.fromEntries(
         [...this.years].flatMap(([year, record]) =>
