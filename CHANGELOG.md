@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Keep event previews concise and modal close buttons visible while About or
+  Interests content scrolls. Preserve keyboard access and day-level sources.
+
 - Streamline Interests and Advanced options; move golf, boxing and privacy
   disclosures into About. Retire boxing category filters without retaining
   hidden saved exclusions. Remove search and month arrows, retaining scrolling,

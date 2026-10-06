@@ -42,6 +42,13 @@ function Modal({
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const backdropPress = useRef(false);
+  function isBackdrop(event: React.PointerEvent<HTMLDialogElement>) {
+    const box = event.currentTarget.getBoundingClientRect();
+    return event.target === event.currentTarget &&
+      (event.clientX < box.left || event.clientX > box.right ||
+       event.clientY < box.top || event.clientY > box.bottom);
+  }
   useEffect(() => {
     const dialog = ref.current;
     const opener = document.activeElement;
@@ -52,14 +59,20 @@ function Modal({
     };
   }, []);
   return (
-    <dialog ref={ref} aria-label={title} onCancel={onClose}>
+    <dialog ref={ref} aria-label={title} onCancel={onClose}
+      onPointerDown={(event) => { backdropPress.current = isBackdrop(event); }}
+      onPointerUp={(event) => {
+        if (backdropPress.current && isBackdrop(event)) onClose();
+        backdropPress.current = false;
+      }}
+      onPointerCancel={() => { backdropPress.current = false; }}>
       <header>
         <h2>{title}</h2>
         <button className="icon-button" onClick={onClose} aria-label="Close">
           ×
         </button>
       </header>
-      {children}
+      <div className="modal-body">{children}</div>
     </dialog>
   );
 }
