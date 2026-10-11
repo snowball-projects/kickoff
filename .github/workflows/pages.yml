@@ -15,23 +15,63 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+          fetch-depth: 0
+      - name: Select checks for changed files
+        id: changes
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          app=false
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            app=true
+          else
+            git diff --name-only -z "$BASE" "$HEAD" > "$RUNNER_TEMP/changed-files"
+            while IFS= read -r -d '' path; do
+              case "$path" in
+                data/*|docs/sources/*|CHANGELOG.md) : ;;
+                *) app=true ;;
+              esac
+            done < "$RUNNER_TEMP/changed-files"
+          fi
+          echo "app=$app" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: requirements-dev.lock
       - run: python -m pip install -r requirements-dev.lock -e '.[dev]'
-      - run: python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m pytest
+      - name: Validate reviewed registries
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'CHECK'
+          from pathlib import Path
+          from kickoff.reviewed_schedules import load_reviewed_schedules
+          directory = Path("data/reviewed")
+          years = {int(path.name.split("-", 1)[0]) for path in directory.glob("*.json")}
+          for year in sorted(years):
+              load_reviewed_schedules(directory, int(year))
+          CHECK
+      - if: steps.changes.outputs.app == 'true'
+        run: python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m pytest
+      - name: Build Python package
+        run: python -m build --no-isolation
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: "24"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-      - run: npm ci && npm test
+      - run: npm ci
         working-directory: frontend
-      - run: npx playwright install --with-deps chromium
+      - if: steps.changes.outputs.app == 'true'
+        run: npm test
         working-directory: frontend
-      - run: npm run test:browser
+      - if: steps.changes.outputs.app == 'true'
+        run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - if: steps.changes.outputs.app == 'true'
+        run: npm run test:browser
         working-directory: frontend
       - run: npm run build
         working-directory: frontend
