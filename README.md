@@ -20,6 +20,8 @@ seven days). Both views share your interests and published schedules. Timed
 events use your browser's local date and time; date-only events keep their
 source dates. Tap a row for the same day details and source links. The view
 preference stays on your device, with Calendar as the default.
+In Upcoming, **Show more** reveals the next seven dates with matching events,
+skipping empty stretches and stopping when the published schedules run out.
 
 With a day focused, arrow keys move between days, Page Up/Down changes month,
 and Shift + Page Up/Down changes year. In the year overview, Page Up/Down

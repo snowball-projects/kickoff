@@ -29,7 +29,9 @@ const events = [
   event("Regular tour stop", "2026-12-31", { league: "PGA_TOUR", sport: "golf" }),
 ];
 
-async function setup(page: Page, options: { saveInterests?: boolean; missingYear?: number } = {}) {
+async function setup(page: Page, options: {
+  saveInterests?: boolean; missingYear?: number; publishedYears?: number[]; extraEvents?: ReturnType<typeof event>[];
+} = {}) {
   if (options.saveInterests !== false) await page.addInitScript(() => {
     if (!localStorage.getItem("kickoff.interests.v2")) localStorage.setItem("kickoff.interests.v2", JSON.stringify({
       leagues: ["EPL"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only",
@@ -37,10 +39,11 @@ async function setup(page: Page, options: { saveInterests?: boolean; missingYear
   });
   await page.route("**/data/*.json", async (route) => {
     const year = Number(new URL(route.request().url()).pathname.match(/(\d{4})\.json$/)?.[1]);
-    if (![2026, 2027].includes(year) || year === options.missingYear) return route.fulfill({ status: 404, body: "missing" });
+    const publishedYears = options.publishedYears || [2026, 2027];
+    if (!publishedYears.includes(year) || year === options.missingYear) return route.fulfill({ status: 404, body: "missing" });
     await route.fulfill({ json: {
-      schema_version: "1", season: year, available_seasons: [2026, 2027], providers: [],
-      updated_at: "2026-12-30T00:00:00Z", events: events.filter((item) => item.calendar_date.startsWith(String(year))),
+      schema_version: "1", season: year, available_seasons: publishedYears, providers: [],
+      updated_at: "2026-12-30T00:00:00Z", events: [...events, ...(options.extraEvents || [])].filter((item) => item.calendar_date.startsWith(String(year))),
     } });
   });
   await page.goto("/");
@@ -247,6 +250,113 @@ test.describe("touch agenda", () => {
   });
 });
 
+test("Show more appends later event dates, skips empty months, preserves position and ends", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
+  await setup(page, { extraEvents: [
+    ...Array.from({ length: 6 }, (_, i) => event(`Later fixture ${i + 9}`, `2027-01-${String(i + 9).padStart(2, "0")}`)),
+    event("Spring fixture", "2027-04-12"), event("Summer fixture", "2027-07-01"),
+  ] });
+  await viewSwitch(page, "Agenda").click();
+  await periodSwitch(page, "Upcoming").click();
+  const scroll = agenda(page).locator(".agenda-scroll");
+  await scroll.evaluate((element) => { element.scrollTop = 80; });
+  const before = await scroll.evaluate((element) => element.scrollTop);
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(row(page, "Later fixture 14")).toHaveCount(1);
+  await expect(agenda(page)).toContainText("Jan 1 – Jan 14");
+  await expect(agenda(page).getByText("Next 7 days", { exact: false })).toHaveCount(0);
+  expect(await scroll.evaluate((element) => element.scrollTop)).toBe(before);
+  await expect(row(page, "Spring fixture")).toHaveCount(0);
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(row(page, "Summer fixture")).toHaveCount(1);
+  await expect(agenda(page)).toContainText("Jan 1 – Jul 1");
+  await expect(agenda(page).getByRole("button", { name: "Show more", exact: true })).toHaveCount(0);
+  await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toBeVisible();
+  await expect(agenda(page).getByText(/Loading/)).toHaveCount(0);
+  await row(page, "Summer fixture").scrollIntoViewIfNeeded();
+  await row(page, "Summer fixture").click();
+  await expect(page.getByRole("complementary", { name: "Day events" })).toContainText("Summer fixture");
+  await page.getByRole("button", { name: "Close day", exact: true }).click();
+  await expect(row(page, "Summer fixture")).toBeFocused();
+});
+
+test("filter changes reset the seven-day scope and reveal sparse later matches", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
+  await setup(page, { extraEvents: [event("Later NBA fixture", "2027-03-15", { league: "NBA", sport: "basketball" })] });
+  await viewSwitch(page, "Agenda").click();
+  await periodSwitch(page, "Upcoming").click();
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(row(page, "Outside next week")).toHaveCount(1);
+  await page.getByRole("button", { name: "Interests · 1", exact: true }).click();
+  const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
+  await chooser.getByRole("button", { name: "Clear", exact: true }).click();
+  await chooser.getByRole("checkbox", { name: "Select all Basketball", exact: true }).check();
+  await chooser.getByRole("button", { name: "Show my calendar", exact: true }).click();
+  await expect(agenda(page)).toContainText("Jan 1 – Jan 7 · Next 7 days");
+  await expect(row(page, "Outside next week")).toHaveCount(0);
+  await expect(agenda(page).getByText("No published events match your interests in the next 7 days.", { exact: true })).toBeVisible();
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(row(page, "Later NBA fixture")).toHaveCount(1);
+  await expect(agenda(page)).toContainText("Jan 1 – Mar 15");
+  await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Interests · 1", exact: true }).click();
+  await chooser.getByRole("button", { name: "Clear", exact: true }).click();
+  await chooser.getByRole("button", { name: "Show my calendar", exact: true }).click();
+  await expect(agenda(page).getByRole("button", { name: "Show more", exact: true })).toHaveCount(0);
+  await expect(agenda(page).getByText("Loading…", { exact: true })).toHaveCount(0);
+});
+
+test("published year gaps are skipped and discovery failures terminate with Retry", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
+  const options = { publishedYears: [2026, 2029], missingYear: 2029 as number | undefined,
+    extraEvents: [event("Future published fixture", "2029-02-10")] };
+  await setup(page, options);
+  await viewSwitch(page, "Agenda").click();
+  await periodSwitch(page, "Upcoming").click();
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(agenda(page)).toContainText("No published schedule for 2029.");
+  await expect(agenda(page).getByText(/Loading/)).toHaveCount(0);
+  await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toHaveCount(0);
+  options.missingYear = undefined;
+  await agenda(page).getByRole("button", { name: "Retry", exact: true }).click();
+  await expect(agenda(page).getByRole("button", { name: "Show more", exact: true })).toBeEnabled();
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(row(page, "Future published fixture")).toHaveCount(1);
+  await expect(agenda(page).getByText(/No published schedule for 2027|No published schedule for 2028|Loading/)).toHaveCount(0);
+  await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toBeVisible();
+});
+
+test("Show more ends when the selected interest has no later published events", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["NBA"] })));
+  await setup(page);
+  await viewSwitch(page, "Agenda").click();
+  await periodSwitch(page, "Upcoming").click();
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toBeVisible();
+  await expect(agenda(page).getByRole("button", { name: "Show more", exact: true })).toHaveCount(0);
+  await expect(agenda(page).getByText(/Loading/)).toHaveCount(0);
+  await expect(agenda(page).locator(".agenda-row")).toHaveCount(0);
+});
+
+test.describe("last published year boundary", () => {
+  test.use({ timezoneId: "Asia/Tokyo" });
+  test("Show more retains the final source year's events that move into local January", async ({ page }) => {
+    await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
+    await setup(page, { extraEvents: [event("Last published timed fixture", "2027-12-31", {
+      start_time_utc: "2027-12-31T23:30:00Z",
+    })] });
+    await viewSwitch(page, "Agenda").click();
+    await periodSwitch(page, "Upcoming").click();
+    await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+    await expect(row(page, "Last published timed fixture")).toContainText("8:30 AM");
+    await expect(agenda(page).getByRole("heading", { name: "Saturday, January 1, 2028", exact: true })).toBeVisible();
+    await expect(agenda(page).getByText(/No published schedule for 2028|Loading/)).toHaveCount(0);
+    await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toBeVisible();
+  });
+});
+
 test("reviewed public snapshots render compact agenda rows on desktop and mobile", async ({ page }) => {
   const pageErrors: string[] = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
@@ -274,6 +384,15 @@ test("reviewed public snapshots render compact agenda rows on desktop and mobile
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: "test-results/agenda-upcoming-mobile.png" });
+  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
+  await expect(agenda(page).getByText("Next 7 days", { exact: false })).toHaveCount(0);
+  await expect(agenda(page).getByRole("button", { name: "Show more", exact: true })).toBeEnabled();
+  const firstLater = agenda(page).locator(".agenda-day").filter({ has: page.getByRole("heading", { name: /October 19, 2026/ }) });
+  await firstLater.locator("h2").evaluate((heading) => {
+    const scroll = heading.closest(".agenda-scroll")!;
+    scroll.scrollTop += heading.getBoundingClientRect().top - scroll.getBoundingClientRect().top;
+  });
+  await page.screenshot({ path: "test-results/agenda-show-more-mobile.png" });
   await periodSwitch(page, "Today").click();
   await page.screenshot({ path: "test-results/agenda-today-mobile.png" });
   await agenda(page).locator(".agenda-row").first().click();

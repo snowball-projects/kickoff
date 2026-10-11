@@ -1,4 +1,4 @@
-import { firstOfMonth, monthAnchorsInRange, eventInstant, formatShortDate } from "./date-utils";
+import { addMonths, firstOfMonth, monthAnchorsInRange, eventInstant, formatShortDate, yearMonthAnchors } from "./date-utils";
 import { dayAfter } from "./month-feed-state";
 import type { CalendarResponse, EventCard } from "./types";
 
@@ -12,13 +12,31 @@ export function readScheduleView(storage: Pick<Storage, "getItem">): ScheduleVie
 }
 
 // Calendar arithmetic on local date labels, not 24-hour durations (DST).
-export function agendaDates(today: string, period: AgendaPeriod) {
-  const offsets = period === "yesterday" ? [-1] : period === "today" ? [0] : [1, 2, 3, 4, 5, 6, 7];
-  return offsets.map((offset) => dayAfter(today, offset));
+export function agendaDates(today: string, period: AgendaPeriod, until = dayAfter(today, 7)) {
+  if (period !== "upcoming") return [dayAfter(today, period === "yesterday" ? -1 : 0)];
+  const dates: string[] = [];
+  for (let date = dayAfter(today, 1); date <= until; date = dayAfter(date, 1)) dates.push(date);
+  return dates;
 }
 
 export function agendaAnchors(today: string) {
   return monthAnchorsInRange(dayAfter(today, -1), dayAfter(today, 7));
+}
+
+// Bundle metadata bounds discovery; never probe successive unpublished years.
+export function laterAgendaAnchors(today: string, publishedYears: number[]) {
+  const years = [...new Set(publishedYears)].filter((year) => Number.isInteger(year) && year >= 1900 && year <= 2100);
+  // The source's last December can move into local January or contain a span.
+  return [...new Set(years.flatMap((year) => [
+    ...yearMonthAnchors(year), ...(year < 2100 ? [addMonths(`${year}-12-01`, 1)] : []),
+  ]))].filter((anchor) => anchor >= firstOfMonth(dayAfter(today, -1))).sort();
+}
+
+// Extend by occupied dates, so sparse interests do not require clicking through empty weeks.
+export function nextAgendaEnd(months: Record<string, CalendarResponse>, until: string) {
+  return [...new Set(Object.values(months).flatMap((month) => month.groups)
+    .filter((group) => group.date > until && group.items.length).map((group) => group.date))]
+    .sort().slice(0, 7).at(-1) || null;
 }
 
 export function agendaGroups(months: Record<string, CalendarResponse>, dates: string[]) {

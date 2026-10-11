@@ -17,10 +17,12 @@ import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
 import InterestGroups from "./InterestGroups";
 import { defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
-import { monthAt, monthIndex, monthWindow } from "./month-feed-state";
+import { dayAfter, monthAt, monthIndex, monthWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
 import Agenda from "./Agenda";
-import { agendaAnchors, readScheduleView, VIEW_KEY, type AgendaPeriod, type ScheduleView } from "./agenda-state";
+import { agendaAnchors, laterAgendaAnchors, nextAgendaEnd, readScheduleView, VIEW_KEY, type AgendaPeriod, type ScheduleView } from "./agenda-state";
+
+type UpcomingWindow = { key: string; end: string; expanded: boolean; pending: boolean; done: boolean };
 
 const EMPTY: FilterState = {
   sport: "",
@@ -131,6 +133,8 @@ export default function App() {
     try { return readScheduleView(localStorage); } catch { return "calendar"; }
   });
   const [period, setPeriod] = useState<AgendaPeriod>("today");
+  const [publishedYears, setPublishedYears] = useState<number[]>([]);
+  const [savedUpcoming, setUpcoming] = useState<UpcomingWindow | null>(null);
   const [day, setDay] = useState<string | null>(null);
   const [detailEventId, setDetailEventId] = useState<string | undefined>();
   const dayOpener = useRef<HTMLElement | null>(null);
@@ -152,14 +156,50 @@ export default function App() {
     followed_leagues: interests ?? undefined,
   };
   const signature = JSON.stringify(activeFilters);
+  const upcomingKey = `${today}:${signature}`;
+  const upcoming: UpcomingWindow = savedUpcoming?.key === upcomingKey ? savedUpcoming : {
+    key: upcomingKey, end: dayAfter(today, 7), expanded: false, pending: false, done: false,
+  };
+  const laterAnchors = laterAgendaAnchors(today, publishedYears);
   const anchors = yearMonthAnchors(Number(month.slice(0, 4)));
   const feedAnchors = monthWindow(feedCenter);
+  // Snapshots are fetched per year. Group later published months on demand to
+  // find occupied dates without probing successive empty or unpublished years.
   const requestedAnchors = [...new Set([
     ...(view === "year" ? anchors : feedAnchors),
     ...(scheduleView === "agenda" ? agendaAnchors(today) : []),
+    ...(scheduleView === "agenda" && upcoming.expanded ? laterAnchors : []),
     ...(day ? [firstOfMonth(day)] : []),
   ])].sort();
-  const { months, errors, loadingYears, manifests, facets } = useCalendarData(requestedAnchors, signature, timezone, retry);
+  const { months, errors, loadingYears, boundaryLoadingYears, manifests, facets } = useCalendarData(requestedAnchors, signature, timezone, retry);
+  const laterLoading = upcoming.expanded && laterAnchors.some((anchor) => {
+    const year = Number(anchor.slice(0, 4));
+    return loadingYears.includes(year) || boundaryLoadingYears.includes(year) || (!months[anchor] && !errors[year]);
+  });
+  const laterErrors = upcoming.expanded ? [...new Set(publishedYears.map((year) => errors[year]).filter(Boolean))] : [];
+  const canShowMore = !upcoming.done && interests?.length !== 0 && laterAnchors.some((anchor) =>
+    `${anchor.slice(0, 4)}-12-31` > upcoming.end);
+  useEffect(() => {
+    const available = [...new Set([
+      ...(facets?.available_seasons || []),
+      ...Object.values(manifests).flatMap((item) => item.available_seasons),
+    ])].sort((a, b) => a - b);
+    if (available.length) setPublishedYears((previous) => previous.join() === available.join() ? previous : available);
+  }, [facets, manifests]);
+  function extendUpcoming() {
+    const next = nextAgendaEnd(months, upcoming.end);
+    setUpcoming({ ...upcoming, expanded: true, pending: false, end: next || upcoming.end,
+      done: !next || !nextAgendaEnd(months, next) });
+  }
+  useEffect(() => {
+    if (scheduleView !== "agenda" || !upcoming.pending || laterLoading) return;
+    if (laterErrors.length) setUpcoming({ ...upcoming, pending: false });
+    else extendUpcoming();
+  }, [scheduleView, upcoming.key, upcoming.pending, laterLoading, months, errors]);
+  function showMore() {
+    if (!upcoming.expanded) setUpcoming({ ...upcoming, expanded: true, pending: true });
+    else extendUpcoming();
+  }
   const manifest = manifests[year];
   const error = errors[year] || "";
   const loading = loadingYears.includes(year);
@@ -380,6 +420,9 @@ export default function App() {
           )}
         </section>
         {scheduleView === "agenda" && <Agenda today={today} period={period} onPeriod={(value) => { setPeriod(value); setDay(null); }}
+          upcomingEnd={upcoming.end} onShowMore={showMore} canShowMore={canShowMore}
+          expandedYears={upcoming.expanded ? publishedYears : undefined}
+          moreLoading={upcoming.pending || laterLoading} moreErrors={laterErrors} noMore={upcoming.done}
           months={months} errors={errors} timezone={timezone} resetKey={signature} onOpenDay={openDay} onRetry={() => setRetry((value) => value + 1)} />}
         {day && (
           <aside
