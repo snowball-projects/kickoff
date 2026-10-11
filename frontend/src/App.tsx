@@ -19,6 +19,8 @@ import { defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPre
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { monthAt, monthIndex, monthWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
+import Agenda from "./Agenda";
+import { agendaAnchors, readScheduleView, VIEW_KEY, type AgendaPeriod, type ScheduleView } from "./agenda-state";
 
 const EMPTY: FilterState = {
   sport: "",
@@ -91,7 +93,7 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
     .filter(Boolean)
     .join(" · ");
   return (
-    <article className="agenda-event">
+    <article className="agenda-event" id={`details-${event.event_id}`}>
       <div className="event-time">{eventTimeLabel(event, timezone)}</div>
       <div>
         <span
@@ -125,7 +127,13 @@ export default function App() {
   const [feedCenter, setFeedCenter] = useState(() => firstOfMonth(today));
   const [navigation, setNavigation] = useState<MonthNavigation>(() => ({ anchor: firstOfMonth(today), id: 0 }));
   const [view, setView] = useState<"month" | "year">("month");
+  const [scheduleView, setScheduleView] = useState<ScheduleView>(() => {
+    try { return readScheduleView(localStorage); } catch { return "calendar"; }
+  });
+  const [period, setPeriod] = useState<AgendaPeriod>("today");
   const [day, setDay] = useState<string | null>(null);
+  const [detailEventId, setDetailEventId] = useState<string | undefined>();
+  const dayOpener = useRef<HTMLElement | null>(null);
   const [preferences, setPreferences] = useState<InterestPreferences>(savedPreferences);
   const interests = preferences.leagues;
   const [draftPreferences, setDraftPreferences] = useState<InterestPreferences>(savedPreferences);
@@ -135,7 +143,7 @@ export default function App() {
   const filters = EMPTY;
   const [retry, setRetry] = useState(0);
   const [storageNote, setStorageNote] = useState("");
-  const year = Number(month.slice(0, 4));
+  const year = Number((scheduleView === "agenda" ? today : month).slice(0, 4));
   const timezone = browserTimezone();
   const activeFilters = {
     ...filters,
@@ -144,10 +152,11 @@ export default function App() {
     followed_leagues: interests ?? undefined,
   };
   const signature = JSON.stringify(activeFilters);
-  const anchors = yearMonthAnchors(year);
+  const anchors = yearMonthAnchors(Number(month.slice(0, 4)));
   const feedAnchors = monthWindow(feedCenter);
   const requestedAnchors = [...new Set([
     ...(view === "year" ? anchors : feedAnchors),
+    ...(scheduleView === "agenda" ? agendaAnchors(today) : []),
     ...(day ? [firstOfMonth(day)] : []),
   ])].sort();
   const { months, errors, loadingYears, manifests, facets } = useCalendarData(requestedAnchors, signature, timezone, retry);
@@ -165,13 +174,19 @@ export default function App() {
   useEffect(() => {
     if (day) dayHeading.current?.focus();
   }, [day]);
+  useEffect(() => {
+    if (day && detailEventId) document.getElementById(`details-${detailEventId}`)?.scrollIntoView({ block: "nearest" });
+  }, [day, detailEventId, selected]);
   function navigateMonth(anchor: string, focusDate?: string) {
     const bounded = monthAt(monthIndex(anchor));
     if (!feedAnchors.includes(bounded)) setFeedCenter(bounded);
     setNavigation((previous) => ({ anchor: bounded, id: previous.id + 1, focusDate }));
     setMonth(bounded);
   }
-  function openDay(date: string) {
+  function openDay(date: string, eventId?: string) {
+    dayOpener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setDetailEventId(eventId);
+    if (scheduleView === "agenda") { setDay(date); return; }
     if (view === "year") navigateMonth(firstOfMonth(date));
     setDay(date);
     setView("month");
@@ -184,7 +199,13 @@ export default function App() {
   function jumpToday() {
     const now = todayIso();
     setToday(now);
+    if (scheduleView === "agenda") { setPeriod("today"); setDay(null); return; }
     openMonth(firstOfMonth(now));
+  }
+  function changeScheduleView(next: ScheduleView) {
+    setDay(null);
+    setScheduleView(next);
+    try { localStorage.setItem(VIEW_KEY, next); } catch { /* View stays active for this visit. */ }
   }
   function save() {
     const next = { ...draftPreferences, leagues: draft };
@@ -201,6 +222,10 @@ export default function App() {
   }
   function closeDay() {
     setDay(null);
+    if (scheduleView === "agenda") {
+      dayOpener.current?.focus({ preventScroll: true });
+      return;
+    }
     const target = document.getElementById(`day-${day}`);
     if (target) {
       target.focus({ preventScroll: true });
@@ -212,7 +237,7 @@ export default function App() {
     <div className="app-shell">
       <header className="topbar">
         <div className="nav-left">
-          {view === "month" ? (
+          {scheduleView === "agenda" ? null : view === "month" ? (
             <button
               className="back-button"
               onClick={() => {
@@ -259,11 +284,16 @@ export default function App() {
         </div>
       </header>
       <div className="calendar-heading">
-        <h1 aria-live="polite" aria-atomic="true">{view === "year" ? year : monthTitle(month)}</h1>
+        <h1 aria-live="polite" aria-atomic="true">{scheduleView === "agenda" ? "Agenda" : view === "year" ? year : monthTitle(month)}</h1>
+        <div className="segmented-control" role="group" aria-label="Schedule view">
+          <button aria-pressed={scheduleView === "calendar"} onClick={() => changeScheduleView("calendar")}>Calendar</button>
+          <button aria-pressed={scheduleView === "agenda"} onClick={() => changeScheduleView("agenda")}>Agenda</button>
+        </div>
       </div>
       <main className={`calendar-body ${day ? "with-day" : ""}`}>
         <section
           className="calendar-stage"
+          hidden={scheduleView !== "calendar"}
           aria-label={view === "year" ? `${year} calendar` : monthLabel(month)}
           tabIndex={view === "year" ? 0 : undefined}
           onKeyDown={(event) => {
@@ -327,6 +357,7 @@ export default function App() {
                 ))}
               </div>
               <MonthFeed
+                active={scheduleView === "calendar"}
                 anchors={feedAnchors}
                 months={months}
                 errors={errors}
@@ -348,6 +379,8 @@ export default function App() {
             <div className="loading-note" role="status">Loading schedule…</div>
           )}
         </section>
+        {scheduleView === "agenda" && <Agenda today={today} period={period} onPeriod={(value) => { setPeriod(value); setDay(null); }}
+          months={months} errors={errors} timezone={timezone} resetKey={signature} onOpenDay={openDay} onRetry={() => setRetry((value) => value + 1)} />}
         {day && (
           <aside
             className="day-inspector"

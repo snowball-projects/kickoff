@@ -15,6 +15,12 @@ Boxing includes all covered three-belt unifications and four-belt undisputed bou
 tournaments. Interests and these options stay on your device; no account, analytics, live scores
 or betting features.
 
+Switch to **Agenda** for **Yesterday**, **Today**, or **Upcoming** (the next
+seven days). Both views share your interests and published schedules. Timed
+events use your browser's local date and time; date-only events keep their
+source dates. Tap a row for the same day details and source links. The view
+preference stays on your device, with Calendar as the default.
+
 With a day focused, arrow keys move between days, Page Up/Down changes month,
 and Shift + Page Up/Down changes year. In the year overview, Page Up/Down
 changes year. Times automatically use the browser timezone without location

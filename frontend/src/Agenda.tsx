@@ -1,0 +1,89 @@
+import { useEffect, useRef } from "react";
+import { agendaDates, agendaGroups, agendaScopeLabel, type AgendaPeriod } from "./agenda-state";
+import { firstOfMonth, eventTimeLabel, formatLongDate, formatShortDate } from "./date-utils";
+import { leagueVisual } from "./calendar-helpers";
+import EventPreview, { useEventPreview } from "./EventPreview";
+import type { CalendarResponse } from "./types";
+
+export default function Agenda({ today, period, onPeriod, months, errors, timezone, resetKey, onOpenDay, onRetry }: {
+  today: string;
+  period: AgendaPeriod;
+  onPeriod: (period: AgendaPeriod) => void;
+  months: Record<string, CalendarResponse>;
+  errors: Record<number, string>;
+  timezone: string;
+  resetKey: string;
+  onOpenDay: (date: string, eventId?: string) => void;
+  onRetry: () => void;
+}) {
+  const preview = useEventPreview();
+  const scroller = useRef<HTMLDivElement>(null);
+  const dates = agendaDates(today, period);
+  const groups = agendaGroups(months, dates);
+  const messages = [...new Set(dates.map((date) => errors[Number(date.slice(0, 4))]).filter(Boolean))];
+  const loading = dates.some((date) => !months[firstOfMonth(date)] && !errors[Number(date.slice(0, 4))]);
+  const hasEvents = groups.some((group) => group.items.length);
+  useEffect(() => {
+    preview.close();
+    scroller.current?.scrollTo({ top: 0, behavior: "instant" });
+  }, [period, today, resetKey]);
+
+  return (
+    <section className="agenda-stage" aria-label="Agenda">
+      <div className="agenda-toolbar">
+        <div className="segmented-control agenda-periods" role="group" aria-label="Agenda days">
+          {(["yesterday", "today", "upcoming"] as const).map((value) => (
+            <button key={value} aria-pressed={period === value} onClick={() => onPeriod(value)}>
+              {value === "yesterday" ? "Yesterday" : value === "today" ? "Today" : "Upcoming"}
+            </button>
+          ))}
+        </div>
+        <p className="agenda-range" aria-live="polite">
+          {period === "upcoming" ? `${formatShortDate(dates[0])} – ${formatShortDate(dates.at(-1)!)} · Next 7 days` : formatLongDate(dates[0])}
+        </p>
+      </div>
+      <div className="agenda-scroll" ref={scroller} onScroll={preview.close}>
+        {!!messages.length && <div className="agenda-notice" role="status">
+          {messages.map((message) => <p key={message}>{message}</p>)}
+          <button onClick={onRetry}>Retry</button>
+        </div>}
+        {loading && <p className="empty-state" role="status">Loading schedule…</p>}
+        {!loading && !hasEvents && !messages.length && <p className="empty-state">
+          {period === "upcoming" ? "No published events match your interests in the next 7 days."
+            : `No published events match your interests ${period}.`}
+        </p>}
+        {groups.filter((group) => group.items.length).map((group) => (
+          <section className="agenda-day" key={group.date} aria-label={formatLongDate(group.date)}>
+            {period === "upcoming" && <h2>{formatLongDate(group.date)}</h2>}
+            {group.items.map((event) => {
+              const scope = agendaScopeLabel(event, group.date);
+              const status = event.status === "scheduled" ? "" : event.status.replaceAll("_", " ");
+              const location = event.venue || [event.city, event.country].filter(Boolean).join(" · ");
+              return (
+                <button className="agenda-row" key={event.event_id} id={`agenda-${group.date}-${event.event_id}`}
+                  onClick={() => { preview.close(); onOpenDay(group.date, event.event_id); }}
+                  onPointerEnter={(pointer) => {
+                    if (pointer.pointerType !== "touch") preview.show({ event, date: group.date, target: pointer.currentTarget });
+                  }} onPointerLeave={preview.leave}
+                  onFocus={(focus) => {
+                    if (focus.currentTarget.matches(":focus-visible")) preview.show({ event, date: group.date, target: focus.currentTarget });
+                  }} onBlur={preview.close}
+                  aria-describedby={preview.preview?.event.event_id === event.event_id && preview.preview.date === group.date ? "event-preview" : undefined}>
+                  <span className="agenda-clock">{eventTimeLabel(event, timezone)}</span>
+                  <span className="agenda-summary">
+                    <span className={`league-label ${leagueVisual(event.league).className}`}>{leagueVisual(event.league).shortLabel}</span>
+                    <span className="agenda-title">{event.title}</span>
+                    {location && <span className="agenda-location">{location}</span>}
+                    {(scope || status) && <span className="agenda-status">{[scope, status].filter(Boolean).join(" · ")}</span>}
+                  </span>
+                  <span className="agenda-chevron" aria-hidden="true">›</span>
+                </button>
+              );
+            })}
+          </section>
+        ))}
+      </div>
+      {preview.preview && <EventPreview preview={preview.preview} timezone={timezone} onEnter={preview.keep} onLeave={preview.leave} />}
+    </section>
+  );
+}

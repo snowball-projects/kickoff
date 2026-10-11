@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { firstOfMonth, formatLongDate, monthLabel, monthWeeksSunStart } from "./date-utils";
 import { dayAfter, dayInMonth, FIRST_MONTH, LAST_MONTH, monthWindow, scrollBehavior, shouldRecenter, visibleMonthAt } from "./month-feed-state";
 import type { CalendarResponse, EventCard } from "./types";
@@ -6,6 +6,7 @@ import EventPreview, { useEventPreview } from "./EventPreview";
 
 export type MonthNavigation = { anchor: string; id: number; focusDate?: string };
 type Props = {
+  active: boolean;
   anchors: string[];
   months: Record<string, CalendarResponse>;
   errors: Record<number, string>;
@@ -36,6 +37,14 @@ export default function MonthFeed(props: Props) {
   const frame = useRef(0);
   const idle = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const jumpFrame = useRef(0);
+  useEffect(() => {
+    if (!props.active) {
+      preview.close();
+      focusPreviewAllowed.current = false;
+      interruptNavigation();
+      clearTimeout(idle.current);
+    }
+  }, [props.active]);
 
   function sections() {
     return [...scroller.current!.querySelectorAll<HTMLElement>("[data-month]")];
@@ -95,6 +104,7 @@ export default function MonthFeed(props: Props) {
     latest.current.onRecenter(anchor);
   }
   function onScroll() {
+    if (!latest.current.active) return;
     preview.close();
     cancelAnimationFrame(frame.current);
     frame.current = requestAnimationFrame(measure);
@@ -109,6 +119,7 @@ export default function MonthFeed(props: Props) {
 
   useLayoutEffect(() => {
     const root = scroller.current!;
+    if (!props.active) return;
     const navigation = props.navigation;
     if (lastNavigation.current !== navigation.id) {
       const target = destination(root, navigation);
@@ -146,12 +157,14 @@ export default function MonthFeed(props: Props) {
       if (target) root.scrollTo({ top: target.offsetTop - position.current.offset, behavior: "instant" });
     }
     previousAnchors.current = props.anchors;
-  }, [props.anchors.join(), props.navigation.id]);
+  }, [props.active, props.anchors.join(), props.navigation.id]);
 
   useLayoutEffect(() => {
     const root = scroller.current!;
     let size = { width: root.clientWidth, height: root.clientHeight };
     const resize = new ResizeObserver(() => {
+      // Hiding the calendar preserves its measured position for the view switch.
+      if (!latest.current.active || !root.clientHeight) return;
       if (root.clientWidth === size.width && root.clientHeight === size.height) return;
       size = { width: root.clientWidth, height: root.clientHeight };
       if (moving.current) {
