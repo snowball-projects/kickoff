@@ -393,6 +393,7 @@ export type CalendarDataState = {
   months: Record<string, CalendarResponse>;
   errors: Record<number, string>;
   loadingYears: number[];
+  boundaryLoadingYears: number[];
   manifests: Record<number, ManifestResponse>;
   facets: FiltersResponse | null;
 };
@@ -460,6 +461,7 @@ export class CalendarDataStore {
     months: {},
     errors: {},
     loadingYears: [],
+    boundaryLoadingYears: [],
     manifests: {},
     facets: null,
   };
@@ -619,6 +621,9 @@ export class CalendarDataStore {
       ),
       loadingYears: [...this.years]
         .filter(([, record]) => record.pending)
+        .map(([year]) => year),
+      boundaryLoadingYears: [...this.years]
+        .filter(([, record]) => record.boundaryPending)
         .map(([year]) => year),
       // Keep the last useful interests even when the entire window is missing.
       facets: responses.length ? combinedFacets(responses) : this.state.facets,

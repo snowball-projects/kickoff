@@ -17,8 +17,12 @@ import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
 import InterestGroups from "./InterestGroups";
 import { defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
-import { monthAt, monthIndex, monthWindow } from "./month-feed-state";
+import { dayAfter, monthAt, monthIndex, monthWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
+import Agenda from "./Agenda";
+import { agendaAnchors, laterAgendaAnchors, nextAgendaEnd, readScheduleView, VIEW_KEY, type AgendaPeriod, type ScheduleView } from "./agenda-state";
+
+type UpcomingWindow = { key: string; end: string; expanded: boolean; pending: boolean; done: boolean };
 
 const EMPTY: FilterState = {
   sport: "",
@@ -91,7 +95,7 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
     .filter(Boolean)
     .join(" · ");
   return (
-    <article className="agenda-event">
+    <article className="agenda-event" id={`details-${event.event_id}`}>
       <div className="event-time">{eventTimeLabel(event, timezone)}</div>
       <div>
         <span
@@ -125,7 +129,15 @@ export default function App() {
   const [feedCenter, setFeedCenter] = useState(() => firstOfMonth(today));
   const [navigation, setNavigation] = useState<MonthNavigation>(() => ({ anchor: firstOfMonth(today), id: 0 }));
   const [view, setView] = useState<"month" | "year">("month");
+  const [scheduleView, setScheduleView] = useState<ScheduleView>(() => {
+    try { return readScheduleView(localStorage); } catch { return "calendar"; }
+  });
+  const [period, setPeriod] = useState<AgendaPeriod>("today");
+  const [publishedYears, setPublishedYears] = useState<number[]>([]);
+  const [savedUpcoming, setUpcoming] = useState<UpcomingWindow | null>(null);
   const [day, setDay] = useState<string | null>(null);
+  const [detailEventId, setDetailEventId] = useState<string | undefined>();
+  const dayOpener = useRef<HTMLElement | null>(null);
   const [preferences, setPreferences] = useState<InterestPreferences>(savedPreferences);
   const interests = preferences.leagues;
   const [draftPreferences, setDraftPreferences] = useState<InterestPreferences>(savedPreferences);
@@ -135,7 +147,7 @@ export default function App() {
   const filters = EMPTY;
   const [retry, setRetry] = useState(0);
   const [storageNote, setStorageNote] = useState("");
-  const year = Number(month.slice(0, 4));
+  const year = Number((scheduleView === "agenda" ? today : month).slice(0, 4));
   const timezone = browserTimezone();
   const activeFilters = {
     ...filters,
@@ -144,13 +156,50 @@ export default function App() {
     followed_leagues: interests ?? undefined,
   };
   const signature = JSON.stringify(activeFilters);
-  const anchors = yearMonthAnchors(year);
+  const upcomingKey = `${today}:${signature}`;
+  const upcoming: UpcomingWindow = savedUpcoming?.key === upcomingKey ? savedUpcoming : {
+    key: upcomingKey, end: dayAfter(today, 7), expanded: false, pending: false, done: false,
+  };
+  const laterAnchors = laterAgendaAnchors(today, publishedYears);
+  const anchors = yearMonthAnchors(Number(month.slice(0, 4)));
   const feedAnchors = monthWindow(feedCenter);
+  // Snapshots are fetched per year. Group later published months on demand to
+  // find occupied dates without probing successive empty or unpublished years.
   const requestedAnchors = [...new Set([
     ...(view === "year" ? anchors : feedAnchors),
+    ...(scheduleView === "agenda" ? agendaAnchors(today) : []),
+    ...(scheduleView === "agenda" && upcoming.expanded ? laterAnchors : []),
     ...(day ? [firstOfMonth(day)] : []),
   ])].sort();
-  const { months, errors, loadingYears, manifests, facets } = useCalendarData(requestedAnchors, signature, timezone, retry);
+  const { months, errors, loadingYears, boundaryLoadingYears, manifests, facets } = useCalendarData(requestedAnchors, signature, timezone, retry);
+  const laterLoading = upcoming.expanded && laterAnchors.some((anchor) => {
+    const year = Number(anchor.slice(0, 4));
+    return loadingYears.includes(year) || boundaryLoadingYears.includes(year) || (!months[anchor] && !errors[year]);
+  });
+  const laterErrors = upcoming.expanded ? [...new Set(publishedYears.map((year) => errors[year]).filter(Boolean))] : [];
+  const canShowMore = !upcoming.done && interests?.length !== 0 && laterAnchors.some((anchor) =>
+    `${anchor.slice(0, 4)}-12-31` > upcoming.end);
+  useEffect(() => {
+    const available = [...new Set([
+      ...(facets?.available_seasons || []),
+      ...Object.values(manifests).flatMap((item) => item.available_seasons),
+    ])].sort((a, b) => a - b);
+    if (available.length) setPublishedYears((previous) => previous.join() === available.join() ? previous : available);
+  }, [facets, manifests]);
+  function extendUpcoming() {
+    const next = nextAgendaEnd(months, upcoming.end);
+    setUpcoming({ ...upcoming, expanded: true, pending: false, end: next || upcoming.end,
+      done: !next || !nextAgendaEnd(months, next) });
+  }
+  useEffect(() => {
+    if (scheduleView !== "agenda" || !upcoming.pending || laterLoading) return;
+    if (laterErrors.length) setUpcoming({ ...upcoming, pending: false });
+    else extendUpcoming();
+  }, [scheduleView, upcoming.key, upcoming.pending, laterLoading, months, errors]);
+  function showMore() {
+    if (!upcoming.expanded) setUpcoming({ ...upcoming, expanded: true, pending: true });
+    else extendUpcoming();
+  }
   const manifest = manifests[year];
   const error = errors[year] || "";
   const loading = loadingYears.includes(year);
@@ -165,13 +214,19 @@ export default function App() {
   useEffect(() => {
     if (day) dayHeading.current?.focus();
   }, [day]);
+  useEffect(() => {
+    if (day && detailEventId) document.getElementById(`details-${detailEventId}`)?.scrollIntoView({ block: "nearest" });
+  }, [day, detailEventId, selected]);
   function navigateMonth(anchor: string, focusDate?: string) {
     const bounded = monthAt(monthIndex(anchor));
     if (!feedAnchors.includes(bounded)) setFeedCenter(bounded);
     setNavigation((previous) => ({ anchor: bounded, id: previous.id + 1, focusDate }));
     setMonth(bounded);
   }
-  function openDay(date: string) {
+  function openDay(date: string, eventId?: string) {
+    dayOpener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setDetailEventId(eventId);
+    if (scheduleView === "agenda") { setDay(date); return; }
     if (view === "year") navigateMonth(firstOfMonth(date));
     setDay(date);
     setView("month");
@@ -184,7 +239,13 @@ export default function App() {
   function jumpToday() {
     const now = todayIso();
     setToday(now);
+    if (scheduleView === "agenda") { setPeriod("today"); setDay(null); return; }
     openMonth(firstOfMonth(now));
+  }
+  function changeScheduleView(next: ScheduleView) {
+    setDay(null);
+    setScheduleView(next);
+    try { localStorage.setItem(VIEW_KEY, next); } catch { /* View stays active for this visit. */ }
   }
   function save() {
     const next = { ...draftPreferences, leagues: draft };
@@ -201,6 +262,10 @@ export default function App() {
   }
   function closeDay() {
     setDay(null);
+    if (scheduleView === "agenda") {
+      dayOpener.current?.focus({ preventScroll: true });
+      return;
+    }
     const target = document.getElementById(`day-${day}`);
     if (target) {
       target.focus({ preventScroll: true });
@@ -212,7 +277,7 @@ export default function App() {
     <div className="app-shell">
       <header className="topbar">
         <div className="nav-left">
-          {view === "month" ? (
+          {scheduleView === "agenda" ? null : view === "month" ? (
             <button
               className="back-button"
               onClick={() => {
@@ -259,11 +324,16 @@ export default function App() {
         </div>
       </header>
       <div className="calendar-heading">
-        <h1 aria-live="polite" aria-atomic="true">{view === "year" ? year : monthTitle(month)}</h1>
+        <h1 aria-live="polite" aria-atomic="true">{scheduleView === "agenda" ? "Agenda" : view === "year" ? year : monthTitle(month)}</h1>
+        <div className="segmented-control" role="group" aria-label="Schedule view">
+          <button aria-pressed={scheduleView === "calendar"} onClick={() => changeScheduleView("calendar")}>Calendar</button>
+          <button aria-pressed={scheduleView === "agenda"} onClick={() => changeScheduleView("agenda")}>Agenda</button>
+        </div>
       </div>
       <main className={`calendar-body ${day ? "with-day" : ""}`}>
         <section
           className="calendar-stage"
+          hidden={scheduleView !== "calendar"}
           aria-label={view === "year" ? `${year} calendar` : monthLabel(month)}
           tabIndex={view === "year" ? 0 : undefined}
           onKeyDown={(event) => {
@@ -327,6 +397,7 @@ export default function App() {
                 ))}
               </div>
               <MonthFeed
+                active={scheduleView === "calendar"}
                 anchors={feedAnchors}
                 months={months}
                 errors={errors}
@@ -348,6 +419,11 @@ export default function App() {
             <div className="loading-note" role="status">Loading schedule…</div>
           )}
         </section>
+        {scheduleView === "agenda" && <Agenda today={today} period={period} onPeriod={(value) => { setPeriod(value); setDay(null); }}
+          upcomingEnd={upcoming.end} onShowMore={showMore} canShowMore={canShowMore}
+          expandedYears={upcoming.expanded ? publishedYears : undefined}
+          moreLoading={upcoming.pending || laterLoading} moreErrors={laterErrors} noMore={upcoming.done}
+          months={months} errors={errors} timezone={timezone} resetKey={signature} onOpenDay={openDay} onRetry={() => setRetry((value) => value + 1)} />}
         {day && (
           <aside
             className="day-inspector"

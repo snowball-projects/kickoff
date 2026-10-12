@@ -32,6 +32,8 @@ export function useCalendarData(
     loadingYears: matching
       ? state.loadingYears.filter((year) => years.has(year))
       : [...years],
+    boundaryLoadingYears: matching
+      ? state.boundaryLoadingYears.filter((year) => years.has(year)) : [],
     manifests: Object.fromEntries(
       Object.entries(state.manifests).filter(([year]) => years.has(Number(year))),
     ),
