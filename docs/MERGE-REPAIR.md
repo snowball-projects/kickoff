@@ -32,6 +32,8 @@ including `original-checkout.git`, `repaired-private-history.bundle` and
 `releases/`. The separately authorized September 11 local cleanup moved that
 collection into the private preservation archive after verification and removed
 the old folders. Its private index owns restore paths. Preserve these archives.
+The [repair record before the naming cleanup](https://github.com/snowball-projects/kickoff/blob/ceba5bed5bc9d655e59b265312aa1db57b6bd86c/docs/MERGE-REPAIR.md)
+preserves the exact original repository and former collection identifiers.
 
 The public source snapshot starts from reviewed repaired source in the
 owner-approved repository, now `snowball-projects/kickoff`. It is not an assertion
