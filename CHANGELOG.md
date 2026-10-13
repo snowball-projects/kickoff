@@ -22,7 +22,7 @@
   the previous data if a feed fails or shrinks. 2026 now has 9,274 events
   and 2027 5,537.
 - Add Basketball, Baseball, Hockey and Climbing and weightlifting interest groups.
-- Rename the project from sportsbro to kickoff. The Python package, the
+- Standardize the project name as kickoff. The Python package, the
   frontend package and the KICKOFF_ environment variables follow.
 
 

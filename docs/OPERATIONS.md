@@ -151,7 +151,7 @@ components to match the combined calendar exactly. It never copies raw caches.
 
 ## Historical preservation
 
-The owner approved deletion of the original `adelevski/kickoff` GitHub
+The owner approved deletion of the original owner's GitHub
 repository after preservation checks, and that remote has been deleted.
 Original and repaired Git history and old release artifacts are retained in the
 private preservation archive, including `original-checkout.git`,
