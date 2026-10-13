@@ -25,13 +25,14 @@ those adapters is claimed as an approved public feed. Historical reference CSVs
 and caches are not included in the public source snapshot.
 
 No pre-repair commits were rewritten or force-pushed. After preservation checks,
-the owner approved deletion of the original owner's GitHub
+the owner approved deletion of the original `adelevski/sportsbro` GitHub
 repository, and that remote has been deleted. Original and repaired Git history
-and old release artifacts were retained in a private retirement-review collection,
+and old release artifacts were retained in `retirement-review/sportsbro/`,
 including `original-checkout.git`, `repaired-private-history.bundle` and
 `releases/`. The separately authorized September 11 local cleanup moved that
 collection into the private preservation archive after verification and removed
-the old folders. Its private index owns restore paths. Preserve these archives.
+the old folders. These former repository and collection names identify preserved
+history; the private archive index owns current restore paths. Preserve these archives.
 
 The public source snapshot starts from reviewed repaired source in the
 owner-approved repository, now `snowball-projects/kickoff`. It is not an assertion
