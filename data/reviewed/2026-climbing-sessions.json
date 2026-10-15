@@ -18,7 +18,7 @@
           "description": "Organizer information sheet v2.0, October 8, 2026"
         }
       ],
-      "changes": "Manually reviewed factual session identities, dates and agreed start clocks only. Normalized local clocks with America/Denver; withheld disputed or unconfirmed clocks. No prose, media, results, raw payloads or durations republished. See docs/sources/climbing-sessions.md for conflicts and timezone evidence."
+      "changes": "Manually reviewed factual session identities, dates and agreed start clocks only. Normalized local clocks with America/Denver; withheld disputed or unconfirmed clocks. No prose, media, results, raw payloads or durations republished. See docs/sources/climbing-sessions.md for conflicts and timezone evidence. Gender/round review: separate women’s and men’s records; shared-session starts are explicitly identified and do not establish individual gender start times."
     },
     {
       "id": "santiago",
@@ -42,7 +42,7 @@
           "description": "Organizer programme and JSON-LD explicit -03:00 offset"
         }
       ],
-      "changes": "Manually reviewed factual session identities, dates and agreed start clocks only. Normalized local clocks with America/Santiago; withheld disputed or unconfirmed clocks. No prose, media, results, raw payloads or durations republished. See docs/sources/climbing-sessions.md for conflicts and timezone evidence."
+      "changes": "Manually reviewed factual session identities, dates and agreed start clocks only. Normalized local clocks with America/Santiago; withheld disputed or unconfirmed clocks. No prose, media, results, raw payloads or durations republished. See docs/sources/climbing-sessions.md for conflicts and timezone evidence. Gender/round review: separate women’s and men’s records; shared-session starts are explicitly identified and do not establish individual gender start times."
     }
   ],
   "events": [
@@ -62,7 +62,8 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "09:00",
-      "notes": "Provisional competition session. Venue local time: America/Denver."
+      "notes": "Provisional competition session. Venue local time: America/Denver.",
+      "gender": "men"
     },
     {
       "id": "world-climbing-series-2026-salt-lake-city-boulder-womens-qualification",
@@ -80,7 +81,8 @@
       ],
       "round_or_stage": "qualification",
       "local_time": null,
-      "notes": "Provisional competition session. Venue local time: America/Denver. Time withheld: World Climbing lists 16:00; organizer information sheet v2.0 lists 15:30. Awaiting agreement."
+      "notes": "Provisional competition session. Venue local time: America/Denver. Time withheld: World Climbing lists 16:00; organizer information sheet v2.0 lists 15:30. Awaiting agreement.",
+      "gender": "women"
     },
     {
       "id": "world-climbing-series-2026-salt-lake-city-boulder-mens-semi-final",
@@ -98,7 +100,8 @@
       ],
       "round_or_stage": "semi-final",
       "local_time": "10:00",
-      "notes": "Provisional competition session. Venue local time: America/Denver."
+      "notes": "Provisional competition session. Venue local time: America/Denver.",
+      "gender": "men"
     },
     {
       "id": "world-climbing-series-2026-salt-lake-city-boulder-mens-final",
@@ -116,7 +119,8 @@
       ],
       "round_or_stage": "final",
       "local_time": "19:00",
-      "notes": "Provisional competition session. Venue local time: America/Denver."
+      "notes": "Provisional competition session. Venue local time: America/Denver.",
+      "gender": "men"
     },
     {
       "id": "world-climbing-series-2026-salt-lake-city-boulder-womens-semi-final",
@@ -134,7 +138,8 @@
       ],
       "round_or_stage": "semi-final",
       "local_time": "10:00",
-      "notes": "Provisional competition session. Venue local time: America/Denver."
+      "notes": "Provisional competition session. Venue local time: America/Denver.",
+      "gender": "women"
     },
     {
       "id": "world-climbing-series-2026-salt-lake-city-boulder-womens-final",
@@ -152,7 +157,8 @@
       ],
       "round_or_stage": "final",
       "local_time": "19:00",
-      "notes": "Provisional competition session. Venue local time: America/Denver."
+      "notes": "Provisional competition session. Venue local time: America/Denver.",
+      "gender": "women"
     },
     {
       "id": "world-climbing-series-2026-santiago-lead-womens-qualification",
@@ -170,7 +176,8 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "09:00",
-      "notes": "Provisional competition session. Venue local time: America/Santiago."
+      "notes": "Provisional competition session. Venue local time: America/Santiago.",
+      "gender": "women"
     },
     {
       "id": "world-climbing-series-2026-santiago-speed-mens-qualification",
@@ -188,7 +195,8 @@
       ],
       "round_or_stage": "qualification",
       "local_time": null,
-      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing and the information sheet list 18:30 for this category; the organizer website instead lists a combined Speed qualification at 19:15 without gender-specific clocks."
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing and the information sheet list 18:30 for this category; the organizer website instead lists a combined Speed qualification at 19:15 without gender-specific clocks.",
+      "gender": "men"
     },
     {
       "id": "world-climbing-series-2026-santiago-speed-womens-qualification",
@@ -206,7 +214,8 @@
       ],
       "round_or_stage": "qualification",
       "local_time": null,
-      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing and the information sheet list 21:00 for this category; the organizer website instead lists a combined Speed qualification at 19:15 without gender-specific clocks."
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing and the information sheet list 21:00 for this category; the organizer website instead lists a combined Speed qualification at 19:15 without gender-specific clocks.",
+      "gender": "women"
     },
     {
       "id": "world-climbing-series-2026-santiago-lead-mens-qualification",
@@ -224,14 +233,15 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "09:00",
-      "notes": "Provisional competition session. Venue local time: America/Santiago."
+      "notes": "Provisional competition session. Venue local time: America/Santiago.",
+      "gender": "men"
     },
     {
-      "id": "world-climbing-series-2026-santiago-speed-mens-womens-finals",
+      "id": "world-climbing-series-2026-santiago-speed-mens-final",
       "source_id": "santiago",
       "sport": "climbing",
       "league": "IFSC_WORLD_CUP",
-      "title": "Santiago — Men's & Women's Speed finals",
+      "title": "Santiago — Men's Speed final",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
       "event_type": "session",
@@ -240,16 +250,38 @@
       "disciplines": [
         "Speed"
       ],
-      "round_or_stage": "finals",
+      "round_or_stage": "final",
       "local_time": "18:00",
-      "notes": "Provisional competition session. Venue local time: America/Santiago. Combined finals session start; first race is later. No separate gender start is inferred."
+      "notes": "Provisional competition round. Venue local time: America/Santiago. The clock is the shared men’s and women’s session start; this gender’s individual start time is not separately published.",
+      "gender": "men",
+      "start_time_scope": "shared_session"
     },
     {
-      "id": "world-climbing-series-2026-santiago-lead-mens-womens-semi-finals",
+      "id": "world-climbing-series-2026-santiago-speed-womens-final",
       "source_id": "santiago",
       "sport": "climbing",
       "league": "IFSC_WORLD_CUP",
-      "title": "Santiago — Men's & Women's Lead semi-finals",
+      "title": "Santiago — Women's Speed final",
+      "start_date": "2026-10-24",
+      "end_date": "2026-10-24",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "final",
+      "local_time": "18:00",
+      "notes": "Provisional competition round. Venue local time: America/Santiago. The clock is the shared men’s and women’s session start; this gender’s individual start time is not separately published.",
+      "gender": "women",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-lead-mens-semi-final",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Men's Lead semi-final",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
       "event_type": "session",
@@ -258,16 +290,18 @@
       "disciplines": [
         "Lead"
       ],
-      "round_or_stage": "semi-finals",
+      "round_or_stage": "semi-final",
       "local_time": "09:00",
-      "notes": "Provisional competition session. Venue local time: America/Santiago. Combined semi-finals start; no separate gender start is inferred."
+      "notes": "Provisional competition round. Venue local time: America/Santiago. The clock is the shared men’s and women’s session start; this gender’s individual start time is not separately published.",
+      "gender": "men",
+      "start_time_scope": "shared_session"
     },
     {
-      "id": "world-climbing-series-2026-santiago-lead-mens-womens-finals",
+      "id": "world-climbing-series-2026-santiago-lead-womens-semi-final",
       "source_id": "santiago",
       "sport": "climbing",
       "league": "IFSC_WORLD_CUP",
-      "title": "Santiago — Men's & Women's Lead finals",
+      "title": "Santiago — Women's Lead semi-final",
       "start_date": "2026-10-25",
       "end_date": "2026-10-25",
       "event_type": "session",
@@ -276,9 +310,49 @@
       "disciplines": [
         "Lead"
       ],
-      "round_or_stage": "finals",
+      "round_or_stage": "semi-final",
+      "local_time": "09:00",
+      "notes": "Provisional competition round. Venue local time: America/Santiago. The clock is the shared men’s and women’s session start; this gender’s individual start time is not separately published.",
+      "gender": "women",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-lead-mens-final",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Men's Lead final",
+      "start_date": "2026-10-25",
+      "end_date": "2026-10-25",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "final",
       "local_time": null,
-      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing lists 18:00; the information sheet lists women at 18:00 and men not before 19:00; the organizer website still marks the final time to be confirmed."
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing lists 18:00; the information sheet lists women at 18:00 and men not before 19:00; the organizer website still marks the final time to be confirmed.",
+      "gender": "men"
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-lead-womens-final",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Women's Lead final",
+      "start_date": "2026-10-25",
+      "end_date": "2026-10-25",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "final",
+      "local_time": null,
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing lists 18:00; the information sheet lists women at 18:00 and men not before 19:00; the organizer website still marks the final time to be confirmed.",
+      "gender": "women"
     }
   ]
 }

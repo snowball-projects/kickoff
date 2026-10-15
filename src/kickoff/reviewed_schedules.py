@@ -100,6 +100,8 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Unknown climbing discipline")
         local = None
         zone = None
+        gender_tags = []
+        time_scope = row.get("start_time_scope", "event")
         if source["kind"] == "world_climbing":
             zone, first, last, allowed = CLIMBING_SOURCES[source["url"]]
             if (
@@ -110,6 +112,13 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 or disciplines[0] not in allowed
             ):
                 raise ValueError("Official climbing registry only accepts single-discipline sessions")
+            if row.get("gender") not in {"men", "women"} or row.get("round_or_stage") not in {
+                "qualification",
+                "semi-final",
+                "final",
+            }:
+                raise ValueError("Official climbing round needs one gender and a scheduled stage")
+            gender_tags = [row["gender"].title()]
             if start != end or not first <= start.isoformat() <= last:
                 raise ValueError("Official climbing session outside reviewed stop dates")
             if row.get("local_time") is not None:
@@ -118,7 +127,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 local = datetime.combine(start, time.fromisoformat(row["local_time"]), get_zoneinfo(zone))
             elif not row.get("notes"):
                 raise ValueError("Unknown climbing time needs an explanation")
-        elif row.get("local_time") is not None:
+        elif row.get("local_time") is not None or time_scope != "event":
             raise ValueError("Reviewed date registry cannot establish a clock time")
         phase = row.get("competition_phase", "regular_season")
         if phase not in COMPETITION_PHASES:
@@ -144,6 +153,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 start_time_utc=isoformat_z(local),
                 start_time_local=local.isoformat() if local else None,
                 timezone=zone if local else None,
+                start_time_scope=time_scope,
                 status="past schedule" if end < datetime.now(timezone.utc).date() else "scheduled",
                 venue=row.get("venue"),
                 city=None,
@@ -161,6 +171,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 round_or_stage=row.get("round_or_stage"),
                 tags=(["session"] if source["kind"] == "world_climbing" else ["event dates"])
                 + disciplines
+                + gender_tags
                 + (["final date only"] if date_scope == "final_date" else []),
             )
         )

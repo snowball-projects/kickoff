@@ -16,7 +16,9 @@ license links provide the applicable terms.
 The October climbing registry contains manually reviewed facts from two
 explicitly allowlisted official event pages, with source/PDF/organizer byte
 hashes and no data license grant. Its optional `local_time` is a verified venue
-wall clock; the importer derives an offset and UTC instant using the stop’s
+wall clock; `start_time_scope: "shared_session"` explicitly marks the shared
+session start for separate women’s and men’s round records. It does not
+establish a gender-specific start. The importer derives an offset and UTC instant using the stop’s
 reviewed IANA zone. Unknown or disputed clocks stay null. See the
 [session evidence](../../docs/sources/climbing-sessions.md).
 

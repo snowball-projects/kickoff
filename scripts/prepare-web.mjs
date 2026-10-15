@@ -49,6 +49,10 @@ for (const name of names) {
         throw Error("Unreviewed official climbing source");
       if (event.calendar_date < stop[1] || event.calendar_date > stop[2] || event.end_calendar_date !== event.calendar_date || !event.tags?.includes("session") || event.tags.filter((t) => ["Boulder", "Lead", "Speed"].includes(t)).length !== 1 || event.tags.some((t) => ["Boulder", "Lead", "Speed"].includes(t) && !stop[3].includes(t)))
         throw Error("Invalid official climbing session");
+      if (event.tags.filter((t) => ["Men", "Women"].includes(t)).length !== 1 || !["qualification", "semi-final", "final"].includes(event.round_or_stage))
+        throw Error("Invalid climbing gender or stage");
+      if (![undefined, "event", "shared_session"].includes(event.start_time_scope) || (event.start_time_scope === "shared_session" && !event.start_time_utc))
+        throw Error("Invalid shared session clock scope");
       if (event.start_time_utc ? event.timezone !== stop[0] || !event.start_time_local || Date.parse(event.start_time_utc) !== Date.parse(event.start_time_local) : event.start_time_local || event.timezone || !event.subtitle)
         throw Error("Invalid official climbing time");
     } else if (["espn", "mlb", "nhl"].includes(event.source)) {

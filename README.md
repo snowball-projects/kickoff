@@ -29,14 +29,16 @@ changes year. Times automatically use the browser timezone without location
 access; date-only events retain their source dates. Calendar navigation spans 1900–2100; years without a published schedule
 are marked unavailable.
 
-The 2026 calendar has 9,277 events across 28 competitions, and
+The 2026 calendar has 9,280 events across 28 competitions, and
 2027 is filling in as leagues publish. Full schedules for the NFL, NBA, MLB, NHL,
 UEFA Champions League, PGA Tour, UFC, NASCAR Cup and IndyCar come from official
 league feeds (MLB, NHL) and ESPN's public schedule data, refreshed weekly. Nine
 football leagues and F1 come from open datasets; World Climbing, IWF Worlds,
 golf majors, LPGA final dates and other combat cards are hand-reviewed. Climbing
 sessions at the October Salt Lake City and Santiago stops include agreed local
-start times and explicit discipline labels; disputed clocks stay Time TBD. No live
+start times and explicit gender, discipline and round labels. Each scheduled
+combination has its own pill; shared session starts are labeled, and disputed
+individual clocks stay Time TBD. No live
 scores. [Coverage and data sources](docs/PUBLIC_RELEASE.md) give exact
 inclusions, omissions and terms. Software is MIT; schedule data keeps its
 sources' terms, and league and team names belong to their owners.

@@ -200,7 +200,9 @@ function timeFormatter(timezone: string) {
 
 export function eventTimeLabel(event: EventCard, timezone: string) {
   const instant = eventInstant(event);
-  return instant === null ? "Time TBD" : timeFormatter(timezone).format(new Date(instant));
+  if (instant === null) return "Time TBD";
+  const clock = timeFormatter(timezone).format(new Date(instant));
+  return event.start_time_scope === "shared_session" ? `Session starts ${clock}` : clock;
 }
 
 export function eventTimeBucket(event: EventCard, timezone: string) {

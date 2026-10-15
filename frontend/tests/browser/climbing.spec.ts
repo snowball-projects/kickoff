@@ -22,7 +22,23 @@ test("official climbing disciplines, time rollover, withheld clocks and sources 
   await page.getByRole("button", { name: "Close day" }).click();
   await page.locator("#day-2026-10-24").click();
   await expect(detail).toContainText("Men's Lead qualification");
-  await expect(detail).toContainText("Men's & Women's Speed finals");
-  await expect(detail).toContainText("9:00 PM");
+  await expect(detail).toContainText("Men's Speed final");
+  await expect(detail).toContainText("Women's Speed final");
+  await expect(detail.getByText("Session starts 9:00 PM", { exact: true })).toHaveCount(2);
+  await expect(page.locator("#day-2026-10-24 .event-pill")).toHaveCount(3);
+
   await expect(detail.getByRole("link", { name: "Schedule source" }).first()).toHaveAttribute("href", /worldclimbing.com\/events\/world-climbing-series-santiago-2026$/);
+  await page.getByRole("button", { name: "Close day" }).click();
+  await page.locator("#day-2026-10-25").click();
+  // Month cells retain their existing three-pill limit and disclose overflow.
+  await expect(page.locator("#day-2026-10-25 .event-pill")).toHaveCount(3);
+  await expect(page.locator("#day-2026-10-25 .more-events")).toHaveText("+1 more");
+  await expect(detail.locator("article")).toHaveCount(4);
+  for (const gender of ["Men's", "Women's"]) {
+    await expect(detail).toContainText(`${gender} Lead semi-final`);
+    await expect(detail).toContainText(`${gender} Lead final`);
+  }
+  await expect(detail.getByText("Session starts 12:00 PM", { exact: true })).toHaveCount(2);
+  await expect(detail.getByText("Time TBD", { exact: true })).toHaveCount(2);
+  await page.screenshot({ path: "test-results/climbing-separated-rounds.png" });
 });

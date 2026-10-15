@@ -7,9 +7,11 @@ stop identities are confirmed independently of the reported dates:
 - [Salt Lake City](https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026): **October 16–18**, **Boulder only**. [USA Climbing](https://usaclimbing.org/world-climbing-series-salt-lake-city-2026/) confirms Smith's Ballpark and all three dates. This is separate from the May para and July continental events.
 - [Santiago](https://www.worldclimbing.com/events/world-climbing-series-santiago-2026): **October 23–25**, **Lead and Speed**, with no Boulder competition. The [local organizer](https://www.worldclimbingsantiago.cl/) independently confirms both disciplines, dates and Parque Bicentenario de Cerrillos.
 
-The two whole-stop rows are replaced by **13 session rows**; 11 earlier stops
-remain inclusive date-only spans. The resulting calendar has **24 climbing
-records representing the same 13 stops**. Discipline tags (`Boulder`, `Lead`,
+The two whole-stop rows are replaced by **16 gender/discipline/round rows**; 11 earlier stops
+remain inclusive date-only spans. The resulting calendar has **27 climbing
+records representing the same 13 stops**. Each actually scheduled combination
+of women/men, discipline and round has its own pill; no separate Speed
+semi-final is invented inside the finals session. Discipline tags (`Boulder`, `Lead`,
 `Speed`) use the existing tag representation and appear alongside discipline
 names in session titles. Earlier stops' tags come from their existing pinned
 Wikipedia extraction, without a new source or inferred disciplines.
@@ -33,9 +35,12 @@ Only clocks that agree across the reviewed detailed sources are published.
 | October 23 | Santiago men's Speed qualification | Time TBD: event page/sheet 18:30; organizer has combined qualification 19:15 |
 | October 23 | Santiago women's Speed qualification | Time TBD: event page/sheet 21:00; organizer has combined qualification 19:15 |
 | October 24 | Santiago men's Lead qualification | 09:00 UTC−03:00 |
-| October 24 | Santiago men's and women's Speed finals | 18:00 UTC−03:00 |
-| October 25 | Santiago men's and women's Lead semi-finals | 09:00 UTC−03:00 |
-| October 25 | Santiago men's and women's Lead finals | Time TBD: event page 18:00; sheet women 18:00, men not before 19:00; organizer time unconfirmed |
+| October 24 | Santiago men's Speed final | Shared session starts 18:00 UTC−03:00; individual start unknown |
+| October 24 | Santiago women's Speed final | Shared session starts 18:00 UTC−03:00; individual start unknown |
+| October 25 | Santiago men's Lead semi-final | Shared session starts 09:00 UTC−03:00; individual start unknown |
+| October 25 | Santiago women's Lead semi-final | Shared session starts 09:00 UTC−03:00; individual start unknown |
+| October 25 | Santiago men's Lead final | Time TBD: sheet says not before 19:00; organizer time unconfirmed |
+| October 25 | Santiago women's Lead final | Time TBD: event page/sheet 18:00; organizer time unconfirmed |
 
 The Santiago organizer home page and its structured event data both establish
 UTC−03:00, including `2026-10-23T09:00:00-03:00`. Its programme is more specific
@@ -57,7 +62,15 @@ extends the seasonal regime from September 2026.
 
 Session starts are not first-athlete, first-race, broadcast or warmup clocks.
 No end times, durations, practice, isolation, medals or separate gender clocks
-for combined sessions are inferred. Unknown clocks have null UTC/local/zone
+for combined sessions are inferred. Four round records carry
+`start_time_scope: "shared_session"`: the two Speed finals and two Lead
+semi-finals. Their UTC/local timestamps represent the agreed shared session
+start, and the UI says **Session starts …** in previews, details and agendas.
+Their notes explicitly say the individual gender start is not separately
+published. There are seven individual starts, four shared-session markers and
+five unknown clocks across 16 round records.
+
+Unknown clocks have null UTC/local/zone
 fields and a visible explanation, never a synthetic midnight. The existing UI
 converts agreed instants to the visitor's timezone; Salt Lake's 19:00 finals
 therefore appear on October 18 and 19 in UTC. Unknown clocks stay on the venue
