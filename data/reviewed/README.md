@@ -1,7 +1,8 @@
 # Reviewed event registries
 
-These are deliberately selected date-only publication inputs, reviewed on
-September 11, 2026. They are not refreshed by a normal build or a network
+These are deliberately selected publication inputs. Wikimedia date registries
+were reviewed September 11, 2026; the official October climbing session registry
+was reviewed October 15, 2026. They are not refreshed by a normal build or a network
 schedule refresh. Each row references a source receipt with contributor
 attribution, license, exact revision, input URL, raw-byte hash, retrieval time
 and transformation notes.
@@ -11,6 +12,13 @@ THE PLAYERS Wikidata structured records retain **CC0 1.0**. These data terms are
 from the software's MIT license. Preserve the source receipts and applicable
 share-alike obligations on reuse. The source URLs identify contributors and
 license links provide the applicable terms.
+
+The October climbing registry contains manually reviewed facts from two
+explicitly allowlisted official event pages, with source/PDF/organizer byte
+hashes and no data license grant. Its optional `local_time` is a verified venue
+wall clock; the importer derives an offset and UTC instant using the stop’s
+reviewed IANA zone. Unknown or disputed clocks stay null. See the
+[session evidence](../../docs/sources/climbing-sessions.md).
 
 The `start_date` and `end_date` fields are inclusive calendar dates, never
 synthetic midnight timestamps. A row with `date_scope: "final_date"` has equal

@@ -44,6 +44,16 @@ its source with a link, and omits logos, scores, odds, articles and raw payloads
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
 its data is republished.
 
+World Climbing / USA Climbing / Federación de Andinismo de Chile — October
+2026 Salt Lake City and Santiago session facts; no data license granted.
+https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026
+https://www.worldclimbing.com/events/world-climbing-series-santiago-2026
+https://www.worldclimbingsantiago.cl/
+Manually reviewed dates, discipline labels and agreed venue-local start clocks.
+Disputed clocks are withheld. Source response hashes and review notes accompany
+the registry. No raw payloads, prose, results or media are republished; no
+automated collection from these sites is configured. See docs/sources/climbing-sessions.md.
+
 League/team names identify scheduled events; no official team or league logos
 are included and no endorsement is implied.
 

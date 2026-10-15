@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "slc",
+      "name": "World Climbing / USA Climbing — Salt Lake City 2026",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026",
+      "revision": "reviewed-2026-10-15",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "retrieved_at": "2026-10-15T20:18:13Z",
+      "sha256": "057fe566db8e12cc37667c6e23ea4c6d7330fba5f3eb7fb9749e9f5ff2940ed1",
+      "input_url": "https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026",
+      "evidence": [
+        {
+          "url": "https://ifsc.results.info/events/1488/infosheet",
+          "sha256": "26cf800de9fffc22b9905490927a090b16fb86d84cf58995ababe9275ba12b72",
+          "description": "Organizer information sheet v2.0, October 8, 2026"
+        }
+      ],
+      "changes": "Manually reviewed factual session identities, dates and agreed start clocks only. Normalized local clocks with America/Denver; withheld disputed or unconfirmed clocks. No prose, media, results, raw payloads or durations republished. See docs/sources/climbing-sessions.md for conflicts and timezone evidence."
+    },
+    {
+      "id": "santiago",
+      "name": "World Climbing / Federación de Andinismo de Chile — Santiago 2026",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-santiago-2026",
+      "revision": "reviewed-2026-10-15",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "retrieved_at": "2026-10-15T20:18:13Z",
+      "sha256": "9c35325379d2e04665c8c28c946f3b3c2aff8f3939e308dda3d98782df177cba",
+      "input_url": "https://www.worldclimbing.com/events/world-climbing-series-santiago-2026",
+      "evidence": [
+        {
+          "url": "https://ifsc.results.info/events/1489/infosheet",
+          "sha256": "e7d880354fdf8d0d838ce7bc3048209b630dcd1998ec632362c4df749e4d9b17",
+          "description": "Organizer information sheet v3.1, September 18, 2026"
+        },
+        {
+          "url": "https://www.worldclimbingsantiago.cl/",
+          "sha256": "99e92e19147b75f9fc8725b24cd0da5b0734f82a52a1beb2360c3016fbb551f2",
+          "description": "Organizer programme and JSON-LD explicit -03:00 offset"
+        }
+      ],
+      "changes": "Manually reviewed factual session identities, dates and agreed start clocks only. Normalized local clocks with America/Santiago; withheld disputed or unconfirmed clocks. No prose, media, results, raw payloads or durations republished. See docs/sources/climbing-sessions.md for conflicts and timezone evidence."
+    }
+  ],
+  "events": [
+    {
+      "id": "world-climbing-series-2026-salt-lake-city-boulder-mens-qualification",
+      "source_id": "slc",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Salt Lake City — Men's Boulder qualification",
+      "start_date": "2026-10-16",
+      "end_date": "2026-10-16",
+      "event_type": "session",
+      "venue": "Smith’s Ballpark",
+      "country": "USA",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "qualification",
+      "local_time": "09:00",
+      "notes": "Provisional competition session. Venue local time: America/Denver."
+    },
+    {
+      "id": "world-climbing-series-2026-salt-lake-city-boulder-womens-qualification",
+      "source_id": "slc",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Salt Lake City — Women's Boulder qualification",
+      "start_date": "2026-10-16",
+      "end_date": "2026-10-16",
+      "event_type": "session",
+      "venue": "Smith’s Ballpark",
+      "country": "USA",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "qualification",
+      "local_time": null,
+      "notes": "Provisional competition session. Venue local time: America/Denver. Time withheld: World Climbing lists 16:00; organizer information sheet v2.0 lists 15:30. Awaiting agreement."
+    },
+    {
+      "id": "world-climbing-series-2026-salt-lake-city-boulder-mens-semi-final",
+      "source_id": "slc",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Salt Lake City — Men's Boulder semi-final",
+      "start_date": "2026-10-17",
+      "end_date": "2026-10-17",
+      "event_type": "session",
+      "venue": "Smith’s Ballpark",
+      "country": "USA",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "semi-final",
+      "local_time": "10:00",
+      "notes": "Provisional competition session. Venue local time: America/Denver."
+    },
+    {
+      "id": "world-climbing-series-2026-salt-lake-city-boulder-mens-final",
+      "source_id": "slc",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Salt Lake City — Men's Boulder final",
+      "start_date": "2026-10-17",
+      "end_date": "2026-10-17",
+      "event_type": "session",
+      "venue": "Smith’s Ballpark",
+      "country": "USA",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "final",
+      "local_time": "19:00",
+      "notes": "Provisional competition session. Venue local time: America/Denver."
+    },
+    {
+      "id": "world-climbing-series-2026-salt-lake-city-boulder-womens-semi-final",
+      "source_id": "slc",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Salt Lake City — Women's Boulder semi-final",
+      "start_date": "2026-10-18",
+      "end_date": "2026-10-18",
+      "event_type": "session",
+      "venue": "Smith’s Ballpark",
+      "country": "USA",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "semi-final",
+      "local_time": "10:00",
+      "notes": "Provisional competition session. Venue local time: America/Denver."
+    },
+    {
+      "id": "world-climbing-series-2026-salt-lake-city-boulder-womens-final",
+      "source_id": "slc",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Salt Lake City — Women's Boulder final",
+      "start_date": "2026-10-18",
+      "end_date": "2026-10-18",
+      "event_type": "session",
+      "venue": "Smith’s Ballpark",
+      "country": "USA",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "final",
+      "local_time": "19:00",
+      "notes": "Provisional competition session. Venue local time: America/Denver."
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-lead-womens-qualification",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Women's Lead qualification",
+      "start_date": "2026-10-23",
+      "end_date": "2026-10-23",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "qualification",
+      "local_time": "09:00",
+      "notes": "Provisional competition session. Venue local time: America/Santiago."
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-speed-mens-qualification",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Men's Speed qualification",
+      "start_date": "2026-10-23",
+      "end_date": "2026-10-23",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "qualification",
+      "local_time": null,
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing and the information sheet list 18:30 for this category; the organizer website instead lists a combined Speed qualification at 19:15 without gender-specific clocks."
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-speed-womens-qualification",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Women's Speed qualification",
+      "start_date": "2026-10-23",
+      "end_date": "2026-10-23",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "qualification",
+      "local_time": null,
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing and the information sheet list 21:00 for this category; the organizer website instead lists a combined Speed qualification at 19:15 without gender-specific clocks."
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-lead-mens-qualification",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Men's Lead qualification",
+      "start_date": "2026-10-24",
+      "end_date": "2026-10-24",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "qualification",
+      "local_time": "09:00",
+      "notes": "Provisional competition session. Venue local time: America/Santiago."
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-speed-mens-womens-finals",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Men's & Women's Speed finals",
+      "start_date": "2026-10-24",
+      "end_date": "2026-10-24",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "finals",
+      "local_time": "18:00",
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Combined finals session start; first race is later. No separate gender start is inferred."
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-lead-mens-womens-semi-finals",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Men's & Women's Lead semi-finals",
+      "start_date": "2026-10-25",
+      "end_date": "2026-10-25",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "semi-finals",
+      "local_time": "09:00",
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Combined semi-finals start; no separate gender start is inferred."
+    },
+    {
+      "id": "world-climbing-series-2026-santiago-lead-mens-womens-finals",
+      "source_id": "santiago",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Santiago — Men's & Women's Lead finals",
+      "start_date": "2026-10-25",
+      "end_date": "2026-10-25",
+      "event_type": "session",
+      "venue": "Parque Bicentenario de Cerrillos",
+      "country": "Chile",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "finals",
+      "local_time": null,
+      "notes": "Provisional competition session. Venue local time: America/Santiago. Time withheld: World Climbing lists 18:00; the information sheet lists women at 18:00 and men not before 19:00; the organizer website still marks the final time to be confirmed."
+    }
+  ]
+}

@@ -1,15 +1,16 @@
-"""Small, explicitly reviewed date registries; never scrape them during a build."""
+"""Small, explicitly reviewed schedule registries; never scrape them during a build."""
 
 from __future__ import annotations
 
 import json
 import re
-from datetime import date, datetime, timezone
+from datetime import date, datetime, time, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from kickoff.models import CalendarEvent, Participant
 from kickoff.semantics import COMPETITION_PHASES, classification_fields
+from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
 
 LICENSES = {
@@ -18,19 +19,41 @@ LICENSES = {
 }
 
 
+# Owner-requested October 15 review: factual sessions from these two stops only.
+CLIMBING_SOURCES = {
+    "https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026": (
+        "America/Denver",
+        "2026-10-16",
+        "2026-10-18",
+        {"Boulder"},
+    ),
+    "https://www.worldclimbing.com/events/world-climbing-series-santiago-2026": (
+        "America/Santiago",
+        "2026-10-23",
+        "2026-10-25",
+        {"Lead", "Speed"},
+    ),
+}
+CLIMBING_LICENSE = "Schedule facts; no data license granted"
+CLIMBING_TERMS = "https://www.worldclimbing.com/terms-and-conditions/index"
+
+
 def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list[dict]]:
-    """Validate the publication boundary before converting inclusive calendar dates."""
+    """Validate reviewed dates and the explicitly allowed official session clocks."""
     if payload.get("schema_version") != 1 or not payload.get("events") or not payload.get("sources"):
         raise ValueError("Invalid or empty reviewed registry")
     sources = {}
     for source in payload["sources"]:
         url = urlparse(source["url"])
         policy = LICENSES.get(url.netloc)
+        official = source["url"] in CLIMBING_SOURCES
+        if official:
+            policy = ("world_climbing", CLIMBING_LICENSE, CLIMBING_TERMS)
         if not policy or url.scheme != "https":
             raise ValueError("Unreviewed registry source")
         kind, license_name, license_url = policy
         titles = parse_qs(url.query).get("title", [])
-        if url.path != "/w/index.php" or len(titles) != 1:
+        if not official and (url.path != "/w/index.php" or len(titles) != 1):
             raise ValueError("Registry source needs a pinned article or entity URL")
         if kind == "wikidata" and not re.fullmatch(r"Q[1-9][0-9]*", titles[0]):
             raise ValueError("Only structured Wikidata items carry the reviewed CC0 grant")
@@ -48,7 +71,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         }:
             raise ValueError("Registry expects a Wikipedia article")
         revision = str(source["revision"])
-        if not revision.isdigit() or parse_qs(url.query).get("oldid") != [revision]:
+        if not official and (not revision.isdigit() or parse_qs(url.query).get("oldid") != [revision]):
             raise ValueError("Registry source must pin its exact revision")
         if source["license"] != license_name or source["license_url"] != license_url:
             raise ValueError("Incorrect registry data license")
@@ -72,6 +95,31 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Invalid reviewed date scope")
         if any(row.get(key) for key in ("start_time_utc", "start_time_local", "timezone")):
             raise ValueError("Reviewed date registry cannot establish a clock time")
+        disciplines = row.get("disciplines", [])
+        if not isinstance(disciplines, list) or any(d not in {"Boulder", "Lead", "Speed"} for d in disciplines):
+            raise ValueError("Unknown climbing discipline")
+        local = None
+        zone = None
+        if source["kind"] == "world_climbing":
+            zone, first, last, allowed = CLIMBING_SOURCES[source["url"]]
+            if (
+                row["league"] != "IFSC_WORLD_CUP"
+                or row["sport"] != "climbing"
+                or row["event_type"] != "session"
+                or len(disciplines) != 1
+                or disciplines[0] not in allowed
+            ):
+                raise ValueError("Official climbing registry only accepts single-discipline sessions")
+            if start != end or not first <= start.isoformat() <= last:
+                raise ValueError("Official climbing session outside reviewed stop dates")
+            if row.get("local_time") is not None:
+                if not re.fullmatch(r"(?:[01][0-9]|2[0-3]):[0-5][0-9]", row["local_time"]):
+                    raise ValueError("Invalid climbing session clock")
+                local = datetime.combine(start, time.fromisoformat(row["local_time"]), get_zoneinfo(zone))
+            elif not row.get("notes"):
+                raise ValueError("Unknown climbing time needs an explanation")
+        elif row.get("local_time") is not None:
+            raise ValueError("Reviewed date registry cannot establish a clock time")
         phase = row.get("competition_phase", "regular_season")
         if phase not in COMPETITION_PHASES:
             raise ValueError("Unknown reviewed competition phase")
@@ -93,9 +141,9 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 event_type=row["event_type"],
                 title=row["title"],
                 subtitle=row.get("notes"),
-                start_time_utc=None,
-                start_time_local=None,
-                timezone=None,
+                start_time_utc=isoformat_z(local),
+                start_time_local=local.isoformat() if local else None,
+                timezone=zone if local else None,
                 status="past schedule" if end < datetime.now(timezone.utc).date() else "scheduled",
                 venue=row.get("venue"),
                 city=None,
@@ -110,7 +158,10 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 **classification_fields(
                     "championship" if row["league"] in {"IWF_WORLDS", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"} else phase
                 ),
-                tags=["event dates"] + (["final date only"] if date_scope == "final_date" else []),
+                round_or_stage=row.get("round_or_stage"),
+                tags=(["session"] if source["kind"] == "world_climbing" else ["event dates"])
+                + disciplines
+                + (["final date only"] if date_scope == "final_date" else []),
             )
         )
     errors = validate_batch(events)

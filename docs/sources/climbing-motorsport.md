@@ -1,5 +1,10 @@
 # kickoff: reviewed climbing and motorsport extraction
 
+October 15 update: the two remaining climbing stops now use separately
+attributed [official session records](climbing-sessions.md); earlier stops
+retain their licensed date spans and gain discipline tags. The original review
+below documents the September extraction.
+
 Reviewed September 11, 2026. The owner-authorized first scope is **67 date-only
 events**: 13 senior World Climbing Series stops, 36 NASCAR Cup points races and
 18 IndyCar championship races. All are an adapted **CC BY-SA 4.0** data component,
