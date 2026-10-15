@@ -1,6 +1,6 @@
 # Public schedule boundary
 
-The 2026 calendar contains **9,274 records across 28 source competitions**;
+The 2026 calendar contains **9,280 records across 28 source competitions**;
 2027 contains 5,537 so far. League feeds are checked weekly; open
 datasets are pinned to upstream commits; reviewed registries change only by
 review. It is not a live feed. Dates can move. An empty day means no matching
@@ -44,7 +44,7 @@ tour means all published coverage, not a promise of complete LPGA coverage.
 | Premier League / Bundesliga / La Liga / Serie A / Ligue 1 | 374 / 297 / 379 / 374 / 287 | Dated openfootball fixtures in calendar 2026 from the overlapping 2025–26 and 2026–27 files |
 | EFL Championship (England) / Eredivisie / Primeira Liga / Brazil Série A | 559 / 305 / 307 / 377 | Same scope; Championship includes five classified playoff games, Brazil uses its single-year file |
 | Formula 1 | 115 | Source-provided races, practice, qualifying and sprint sessions; Races only is the initial UI setting |
-| World Climbing | 13 | Senior 2026 World Climbing Series stops, inclusive event spans, not timed rounds |
+| World Climbing | 27 | All 13 senior stops: 11 inclusive date spans and 16 gender/discipline/round records for Salt Lake City (October 16–18, Boulder) and Santiago (October 23–25, Lead/Speed); 11 clocked records including 4 shared-session markers, 5 withheld |
 | NASCAR Cup | 36 | Numbered points races; ten Chase races classified as postseason; no exhibitions or practice/qualifying |
 | IndyCar | 18 | Championship races; archive coverage, season ended September 6 |
 | NFL | 19 | **Selected opener, international and holiday games**, not the full schedule |
@@ -59,6 +59,13 @@ Canceled or postponed fixtures with old dates are withheld until the source
 supplies a usable schedule. This excludes seven such rows in the current
 calendar-year inputs, including one from the original five-league collection.
 F1DB explicitly defines its times as UTC; the UI converts those to the device zone.
+
+[October climbing sessions](sources/climbing-sessions.md) use manually reviewed
+official schedule facts, attributed without a data license grant. Their IANA
+local clocks convert to the visitor’s timezone. Source disagreements leave
+clocks unknown with visible notes. Each scheduled gender/discipline/round has its
+own pill. Shared session starts are labeled explicitly; they do not establish
+individual gender start times. No automatic official climbing fetch is added.
 
 All Wikimedia additions are **date-only** and stay on their source calendar dates.
 Known inclusive spans are preserved. Golf's **63 final-date-only markers** appear

@@ -38,6 +38,23 @@ for (const name of names) {
         throw Error("Reviewed date-only event has unsupported clock semantics");
       if (bundle.data_licenses?.[event.source] !== license)
         throw Error("Missing data license mapping");
+    } else if (event.source === "world_climbing") {
+      const stops = {
+        "https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026": ["America/Denver", "2026-10-16", "2026-10-18", ["Boulder"]],
+        "https://www.worldclimbing.com/events/world-climbing-series-santiago-2026": ["America/Santiago", "2026-10-23", "2026-10-25", ["Lead", "Speed"]],
+      };
+      const stop = stops[event.source_url];
+      const notice = bundle.sources.find((s) => s.kind === event.source && s.url === event.source_url);
+      if (!stop || event.league !== "IFSC_WORLD_CUP" || event.sport !== "climbing" || !notice?.name || !notice.changes || !notice.retrieved_at || !/^[a-f0-9]{64}$/.test(notice.sha256) || notice.license !== "Schedule facts; no data license granted" || bundle.data_licenses?.world_climbing !== notice.license)
+        throw Error("Unreviewed official climbing source");
+      if (event.calendar_date < stop[1] || event.calendar_date > stop[2] || event.end_calendar_date !== event.calendar_date || !event.tags?.includes("session") || event.tags.filter((t) => ["Boulder", "Lead", "Speed"].includes(t)).length !== 1 || event.tags.some((t) => ["Boulder", "Lead", "Speed"].includes(t) && !stop[3].includes(t)))
+        throw Error("Invalid official climbing session");
+      if (event.tags.filter((t) => ["Men", "Women"].includes(t)).length !== 1 || !["qualification", "semi-final", "final"].includes(event.round_or_stage))
+        throw Error("Invalid climbing gender or stage");
+      if (![undefined, "event", "shared_session"].includes(event.start_time_scope) || (event.start_time_scope === "shared_session" && !event.start_time_utc))
+        throw Error("Invalid shared session clock scope");
+      if (event.start_time_utc ? event.timezone !== stop[0] || !event.start_time_local || Date.parse(event.start_time_utc) !== Date.parse(event.start_time_local) : event.start_time_local || event.timezone || !event.subtitle)
+        throw Error("Invalid official climbing time");
     } else if (["espn", "mlb", "nhl"].includes(event.source)) {
       // Scheduled league feeds: attributed facts with an https link back, never raw payloads.
       const notice = bundle.sources.find((s) => s.kind === event.source);

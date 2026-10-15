@@ -16,7 +16,7 @@ from kickoff import feeds as league_feeds
 from kickoff.dataset import event_from_dict
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import stable_event_id
-from kickoff.reviewed_schedules import load_reviewed_schedules
+from kickoff.reviewed_schedules import CLIMBING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
 from kickoff.settings import Settings
 from kickoff.validation import validate_batch
@@ -48,7 +48,7 @@ SOURCES = [
     },
 ]
 REVIEWED_LABELS = {
-    "IFSC_WORLD_CUP": "World Climbing stops",
+    "IFSC_WORLD_CUP": "World Climbing stop/session records",
     "NASCAR_CUP": "NASCAR Cup races",
     "INDYCAR": "IndyCar races",
     "IWF_WORLDS": "IWF Worlds span",
@@ -431,7 +431,7 @@ def refresh_open_schedules(
             else ""
         )
         + (
-            f"Reviewed event dates: {reviewed_coverage}. See coverage details for inclusions and omissions. "
+            f"Reviewed events: {reviewed_coverage}. See coverage details for inclusions and omissions. "
             if reviewed
             else ""
         )
@@ -451,6 +451,7 @@ def refresh_open_schedules(
         "f1db": "CC BY 4.0",
         "wikipedia": "CC BY-SA 4.0",
         "wikidata": "CC0 1.0",
+        **({"world_climbing": CLIMBING_LICENSE} if any(s["kind"] == "world_climbing" for s in notices) else {}),
         **{kind: league_feeds.SOURCES[kind]["license"] for kind in feed_kinds},
     }
     bundle["data_license_notice"] = (

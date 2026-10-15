@@ -10,6 +10,10 @@ const script = await readFile(new URL("../../scripts/prepare-web.mjs", import.me
 
 for (const [name, mutate, message] of [
   ["unreviewed source", (b) => { b.events[0].source = "unreviewed"; }, /Unreviewed public data source/],
+  ["unreviewed official climbing stop", (b) => { b.events.find((e) => e.source === "world_climbing").source_url = "https://www.worldclimbing.com/events/unreviewed"; }, /Unreviewed official climbing source/],
+  ["invented climbing discipline", (b) => { b.events.find((e) => e.source === "world_climbing").tags = ["session", "invalid"]; }, /Invalid official climbing session/],
+  ["invalid shared clock scope", (b) => { b.events.find((e) => e.source === "world_climbing").start_time_scope = "guessed"; }, /Invalid shared session clock scope/],
+  ["missing climbing gender", (b) => { const e = b.events.find((e) => e.source === "world_climbing"); e.tags = e.tags.filter((t) => !["Men", "Women"].includes(t)); }, /Invalid climbing gender or stage/],
   ["invented clock", (b) => { b.events.find((e) => e.source === "wikidata").start_time_utc = "2026-10-27T00:00:00Z"; }, /unsupported clock semantics/],
   ["Wikidata prose labeled CC0", (b) => {
     const event = b.events.find((e) => e.source === "wikidata");

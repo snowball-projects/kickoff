@@ -24,6 +24,7 @@ export type EventCard = {
   event_type: string;
   title: string;
   subtitle: string | null;
+  start_time_scope?: "event" | "shared_session";
   start_time_utc: string | null;
   start_time_local: string | null;
   timezone: string | null;

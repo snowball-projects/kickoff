@@ -28,6 +28,11 @@ def validate_event(event: CalendarEvent) -> list[str]:
     if event.calendar_date is None:
         errors.append(f"{event.event_id}: missing calendar_date")
 
+    if event.start_time_scope not in {"event", "shared_session"}:
+        errors.append(f"{event.event_id}: invalid start_time_scope")
+    if event.start_time_scope == "shared_session" and not event.start_time_utc:
+        errors.append(f"{event.event_id}: shared session scope needs a known session start")
+
     if event.start_time_local and not event.timezone:
         errors.append(f"{event.event_id}: start_time_local present without timezone")
 
