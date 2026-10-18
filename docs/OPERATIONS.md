@@ -85,8 +85,10 @@ that replacement is verified and activated.
 `refresh-pr.yml` is manual-only and defaults to `verify_only: true`. It uses the
 same approved sources and validation but one reusable `automation/schedule-refresh`
 branch, merging current main normally without force-push or discarding pending
-work. A non-data difference or merge conflict stops the run. No-change runs with
-no pending data need no PR. Subsequent runs reuse the branch and its existing PR.
+work. The workflow checks out full history; the coordinator also unshallows a
+shallow checkout before finding the reusable branch's merge base. A non-data
+difference or merge conflict stops the run. No-change runs with no pending data
+need no PR. Subsequent runs reuse the branch and its existing PR.
 
 The coordinator creates the PR with the existing `GITHUB_TOKEN`, explicitly
 workflow-dispatches CI on the exact refresh head, and waits for that run to pass.
@@ -120,6 +122,63 @@ path be retired through reviewed code. Then apply kickoff's approved main rules.
 Until that activation, existing weekly publication continues. The rehearsal PR
 and branch remain available for recovery; they are not deleted or multiplied
 per run.
+
+### Recover a checked merge without confirmed publication
+
+Source merge, Pages dispatch acceptance and successful live publication are
+separate stages. The coordinator records the last known stage in the run's
+failure issue. An interrupted merge request may already have merged; an
+interrupted dispatch request may already have started Pages. An accepted
+dispatch does not confirm a successful deployment. A no-change refresh does
+**not** retry publication: rerunning ingestion is not this recovery procedure.
+
+Recovery is an explicit operator action, bounded to **one Pages dispatch after
+inspection**, with no automatic retry loop or source changes:
+
+1. Open the failed refresh run and its recorded PR. Check the PR's actual merge
+   state and merge commit before doing anything else:
+
+   ```sh
+   gh pr view <PR_NUMBER> --repo snowball-projects/kickoff --json state,mergedAt,mergeCommit,url
+   gh api repos/snowball-projects/kickoff/commits/main --jq .sha
+   ```
+
+   If the PR is still open or the merge outcome is unclear, stop and resolve that
+   state; do not publish an unmerged branch or request another merge blindly.
+   Record the confirmed merge SHA. If main has advanced, review its newer changes
+   and publication runs before deciding whether its current state needs recovery.
+
+2. Inspect Pages runs for that commit, including any request whose response was
+   lost, and inspect the failed refresh logs:
+
+   ```sh
+   gh run list --repo snowball-projects/kickoff --workflow pages.yml --branch main --commit <MERGE_SHA> --limit 100 --json databaseId,headSha,status,conclusion,url
+   gh run view <PAGES_RUN_ID> --repo snowball-projects/kickoff
+   ```
+
+   Wait for a queued/in-progress run. For a successful run, verify live data and
+   assets; no new dispatch is needed. For a failed run, resolve its cause before
+   recovery. If dispatch acceptance remains ambiguous, stop and resolve it in
+   Actions rather than repeating requests. The list is a bounded view, so inspect
+   additional run history in Actions if necessary; absence alone is not proof of
+   rejection.
+
+3. Only after confirming that publication is missing or failed, and that no Pages
+   run is active, recheck main's SHA and manually dispatch its existing verified
+   publication workflow **once**:
+
+   ```sh
+   gh api repos/snowball-projects/kickoff/commits/main --jq .sha
+   gh workflow run pages.yml --repo snowball-projects/kickoff --ref main
+   ```
+
+   Dispatch resolves `main` at request time. If it advances between inspection
+   and dispatch, inspect the actual run's `headSha` and review that revision.
+   Record the resulting run URL/SHA in the failure issue, wait for its conclusion,
+   and verify live data and assets before marking recovery complete. A lost
+   response or another failure returns to inspection; do not automatically repeat
+   the dispatch. No force-push, data rewrite, permission change or bypass is part
+   of recovery.
 
 A refresh makes roughly 250 small requests (about
 90 ESPN NBA team schedules, 53 NHL weeks, 31 NFL weeks and a few dozen others)

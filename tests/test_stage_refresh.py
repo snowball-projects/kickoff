@@ -37,6 +37,7 @@ def coordinator(tmp_path, monkeypatch):
     spec.loader.exec_module(module)
     monkeypatch.chdir(work)
     monkeypatch.setenv("GITHUB_REPOSITORY", "snowball-projects/kickoff")
+    monkeypatch.setenv("REFRESH_STATUS_PATH", str(tmp_path / "publication-status.md"))
     return module, work, origin
 
 
@@ -136,13 +137,14 @@ def test_non_publishing_rehearsal_does_not_merge_or_dispatch_pages(coordinator, 
     assert not any(path.endswith(("/merge", "pages.yml/dispatches")) for path, _ in github.mutations())
 
 
-def test_no_pending_data_creates_no_remote_branch_or_api_calls(coordinator, monkeypatch):
+def test_no_pending_data_creates_no_remote_branch_or_api_calls(coordinator, monkeypatch, capsys):
     module, _, origin = coordinator
     module.prepare()
     github = GitHub(module, monkeypatch)
     module.publish()
     assert not github.calls
     assert git(origin, "for-each-ref", "--format=%(refname)", "refs/heads").stdout.strip() == "refs/heads/main"
+    assert "previous publication failure is not retried" in capsys.readouterr().out
 
 
 def test_same_branch_and_pr_are_reused_without_force(coordinator, monkeypatch, tmp_path):
@@ -164,6 +166,169 @@ def test_same_branch_and_pr_are_reused_without_force(coordinator, monkeypatch, t
         f"refs/heads/{module.BRANCH}",
         "refs/heads/main",
     ]
+
+
+def test_shallow_runner_recovers_merge_base_after_main_advances(coordinator, monkeypatch, tmp_path):
+    module, work, origin = coordinator
+    changed(coordinator)
+    GitHub(module, monkeypatch)
+    module.publish(verify_only=True)
+    pending = git(origin, "rev-parse", module.BRANCH).stdout.strip()
+    git(work, "switch", "main")
+    (work / "README.md").write_text("Main advanced after the pending refresh\n")
+    git(work, "add", "README.md")
+    git(work, "commit", "-m", "Advance main independently")
+    # Model an owner merge on the fixture server; retain the hook forbidding runtime main pushes.
+    git(origin, "fetch", str(work), "main:refs/heads/main")
+    main = git(origin, "rev-parse", "main").stdout.strip()
+    shallow = tmp_path / "shallow-runner"
+    # Local-path clones ignore --depth, so use file:// to exercise a real shallow runner.
+    subprocess.run(
+        ["git", "clone", "--depth=1", "--branch=main", origin.as_uri(), str(shallow)],
+        check=True,
+        capture_output=True,
+    )
+    assert git(shallow, "rev-parse", "--is-shallow-repository").stdout.strip() == "true"
+    git(shallow, "fetch", "origin", module.BRANCH)
+    assert git(shallow, "merge-base", "HEAD", "FETCH_HEAD", check=False).returncode == 1
+    monkeypatch.chdir(shallow)
+    module.prepare()
+    assert git(shallow, "rev-parse", "--is-shallow-repository").stdout.strip() == "false"
+    git(shallow, "merge-base", "--is-ancestor", pending, "HEAD")
+    git(shallow, "merge-base", "--is-ancestor", main, "HEAD")
+    assert (shallow / "README.md").read_text() == "Main advanced after the pending refresh\n"
+    assert "reviewed fixture" in (shallow / "data/published/2026.json").read_text()
+    assert module.data_changes() == ["data/published/2026.json"]
+
+
+@pytest.mark.parametrize("failed_request", ["/merge", "pages.yml/dispatches"])
+def test_lost_merge_or_dispatch_response_records_uncertainty_without_retry(coordinator, monkeypatch, failed_request):
+    module, work, _ = coordinator
+    changed(coordinator)
+    github = GitHub(module, monkeypatch)
+    original = github.api
+
+    def lost_response(path, method="GET", payload=None):
+        response = original(path, method, payload)  # Request can succeed before its response is lost.
+        if path.endswith(failed_request):
+            raise subprocess.CalledProcessError(1, ["gh", "api"], stderr="connection lost after request")
+        return response
+
+    monkeypatch.setattr(module, "api", lost_response)
+    with pytest.raises(subprocess.CalledProcessError):
+        module.publish()
+    status = (work.parent / "publication-status.md").read_text()
+    assert "unchanged" not in status or "do not assume the calendar is unchanged" in status
+    assert module.RECOVERY in status
+    if failed_request == "/merge":
+        assert "outcome is not confirmed" in status
+        assert "No Pages dispatch has been attempted" in status
+        assert not any(path.endswith("pages.yml/dispatches") for path, _ in github.mutations())
+    else:
+        assert f"confirmed merged at {'a' * 40}" in status
+        assert "acceptance and deployment are not confirmed" in status
+        assert sum(path.endswith("pages.yml/dispatches") for path, _ in github.mutations()) == 1
+
+
+def test_accepted_dispatch_does_not_claim_live_publication(coordinator, monkeypatch):
+    module, work, _ = coordinator
+    changed(coordinator)
+    GitHub(module, monkeypatch)
+    module.publish()
+    status = (work.parent / "publication-status.md").read_text()
+    assert "Pages dispatch was accepted" in status
+    assert "deployment and live publication still require verification" in status
+
+
+def test_merged_data_with_failed_dispatch_does_not_disappear_into_no_change_success(
+    coordinator, monkeypatch, tmp_path, capsys
+):
+    module, work, origin = coordinator
+    changed(coordinator)
+    github = GitHub(module, monkeypatch)
+    original = github.api
+
+    def merged_then_failed_dispatch(path, method="GET", payload=None):
+        response = original(path, method, payload)
+        if path.endswith("/merge"):
+            head = git(work, "rev-parse", "HEAD").stdout.strip()
+            base = git(origin, "rev-parse", "main").stdout.strip()
+            merged = git(
+                work,
+                *module.IDENTITY,
+                "commit-tree",
+                f"{head}^{{tree}}",
+                "-p",
+                base,
+                "-p",
+                head,
+                "-m",
+                "Fixture GitHub server merge",
+            ).stdout.strip()
+            # Simulate GitHub's server merge, retaining the runtime main-push rejection hook.
+            git(origin, "fetch", str(work), f"{merged}:refs/heads/main")
+            return {"merged": True, "sha": merged}
+        if path.endswith("pages.yml/dispatches"):
+            raise subprocess.CalledProcessError(1, ["gh", "api"], stderr="dispatch response unavailable")
+        return response
+
+    monkeypatch.setattr(module, "api", merged_then_failed_dispatch)
+    with pytest.raises(subprocess.CalledProcessError):
+        module.publish()
+    failed_status = (work.parent / "publication-status.md").read_text()
+    assert git(origin, "rev-parse", "main").stdout.strip() in failed_status
+    second = tmp_path / "next-runner"
+    subprocess.run(["git", "clone", str(origin), str(second)], check=True, capture_output=True)
+    monkeypatch.chdir(second)
+    monkeypatch.setenv("REFRESH_STATUS_PATH", str(tmp_path / "next-run-status.md"))
+    module.prepare()
+    calls_before = len(github.calls)
+    capsys.readouterr()
+    module.publish()
+    assert len(github.calls) == calls_before  # No duplicate merge or blind redispatch.
+    output = capsys.readouterr().out
+    assert "this run does not merge or dispatch Pages" in output
+    assert "previous publication failure is not retried" in output
+    assert module.RECOVERY in output
+    assert (work.parent / "publication-status.md").read_text() == failed_status
+
+
+@pytest.mark.parametrize(
+    "stage",
+    [
+        None,
+        "Merge request outcome is not confirmed. No Pages dispatch has been attempted.",
+        "PR #17 is confirmed merged. Pages dispatch acceptance is not confirmed.",
+        "Pages dispatch was accepted; deployment requires verification.",
+    ],
+)
+def test_failure_issue_reports_actual_stage_without_claiming_calendar_unchanged(tmp_path, stage):
+    workflow = (SCRIPT.parents[1] / ".github/workflows/refresh-pr.yml").read_text()
+    # Execute the actual reporting shell with a fake gh; it cannot contact GitHub.
+    report = workflow.split("      - name: Report failure\n", 1)[1].split("        run: |\n", 1)[1]
+    shell = "\n".join(line.removeprefix("          ") for line in report.splitlines())
+    status = tmp_path / "status.md"
+    if stage is not None:
+        status.write_text(stage + "\n")
+    subprocess.run(
+        ["bash", "-e", "-c", 'gh() { printf "%s\\n" "$@"; }\n' + shell],
+        check=True,
+        capture_output=True,
+        text=True,
+        env={
+            "PATH": "/usr/bin:/bin",
+            "RUNNER_TEMP": str(tmp_path),
+            "REFRESH_STATUS_PATH": str(status),
+            "GITHUB_SERVER_URL": "https://github.com",
+            "GITHUB_REPOSITORY": "snowball-projects/kickoff",
+            "GITHUB_RUN_ID": "1234",
+        },
+    )
+    body = (tmp_path / "refresh-failure.md").read_text()
+    assert "The published calendar is unchanged" not in body
+    assert (stage or "No publication stage was recorded") in body
+    assert "A no-change refresh does not retry publication" in body
+    assert "bounded operator recovery procedure" in body
 
 
 @pytest.mark.parametrize(

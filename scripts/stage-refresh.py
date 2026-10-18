@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 import time
+from pathlib import Path
 from urllib.parse import quote
 
 BRANCH = "automation/schedule-refresh"
@@ -17,6 +18,14 @@ IDENTITY = [
     "-c",
     "user.email=41898282+github-actions[bot]@users.noreply.github.com",
 ]
+RECOVERY = "docs/OPERATIONS.md#recover-a-checked-merge-without-confirmed-publication"
+
+
+def publication_status(message: str) -> None:
+    """Persist the last known stage before requests whose responses can be lost."""
+    print(message, flush=True)
+    if status_path := os.environ.get("REFRESH_STATUS_PATH"):
+        Path(status_path).write_text(message + "\n", encoding="utf-8")
 
 
 def git(*arguments: str, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -56,7 +65,11 @@ def prepare() -> None:
         raise ValueError("Preparation must start on main.")
     if git("status", "--porcelain", "--untracked-files=no").stdout:
         raise ValueError("Preparation requires a clean tracked working tree and index.")
-    git("fetch", "origin", "main")
+    if git("rev-parse", "--is-shallow-repository").stdout.strip() == "true":
+        # A depth-one main checkout otherwise hides the reusable branch's merge base.
+        git("fetch", "--unshallow", "origin", "main")
+    else:
+        git("fetch", "origin", "main")
     remote = git("ls-remote", "--heads", "origin", f"refs/heads/{BRANCH}").stdout.strip()
     if remote:
         git("fetch", "origin", BRANCH)
@@ -92,6 +105,7 @@ def wait_for_ci(repo: str, head: str, previous: set[int]) -> None:
 
 
 def publish(*, verify_only: bool = False) -> None:
+    publication_status("No merge or Pages dispatch has been attempted by this run.")
     repo = repository()
     if git("branch", "--show-current").stdout.strip() != BRANCH:
         raise ValueError("Publication must use the prepared refresh branch.")
@@ -104,7 +118,10 @@ def publish(*, verify_only: bool = False) -> None:
     elif staged.returncode != 0:
         staged.check_returncode()
     if not data_changes():
-        print("No pending published schedule changes; no PR or publication needed.")
+        publication_status(
+            "No pending published schedule changes; this run does not merge or dispatch Pages. "
+            f"A previous publication failure is not retried here; follow {RECOVERY}."
+        )
         return
     git("push", "origin", f"HEAD:refs/heads/{BRANCH}")
     head = git("rev-parse", "HEAD").stdout.strip()
@@ -146,14 +163,29 @@ def publish(*, verify_only: bool = False) -> None:
     if current["state"] != "open" or current.get("draft") or current["mergeable_state"] != "clean":
         raise RuntimeError("GitHub does not report the refresh PR mergeable; no approval or bypass will be attempted.")
     if verify_only:
-        print(f"Rehearsal passed for PR #{number} at {head}; no merge or Pages dispatch.")
+        publication_status(f"Rehearsal passed for PR #{number} at {head}; no merge or Pages dispatch.")
         return
+    publication_status(
+        f"The checked merge request for PR #{number} at {head} is about to be sent. "
+        "Its outcome is not confirmed. No Pages dispatch has been attempted by this run. "
+        f"If interrupted, inspect the PR before retrying; follow {RECOVERY}."
+    )
     merged = api(f"{repo}/pulls/{number}/merge", "PUT", {"sha": head, "merge_method": "merge"})
     if not merged.get("merged"):
+        publication_status(f"GitHub refused the merge of PR #{number}; no Pages dispatch was attempted by this run.")
         raise RuntimeError("GitHub refused the normal checked merge; no publication dispatched.")
     # GITHUB_TOKEN merges do not trigger push workflows; dispatch publication explicitly.
+    publication_status(
+        f"PR #{number} is confirmed merged at {merged['sha']}. "
+        "The Pages dispatch request is about to be sent; its acceptance and deployment are not confirmed. "
+        f"If interrupted, do not assume the calendar is unchanged or retry blindly; follow {RECOVERY}."
+    )
     api(f"{repo}/actions/workflows/pages.yml/dispatches", "POST", {"ref": "main"})
-    print(f"Merged PR #{number} at {merged['sha']}; Pages publication dispatched.")
+    publication_status(
+        f"PR #{number} is confirmed merged at {merged['sha']}. Pages dispatch was accepted; "
+        "deployment and live publication still require verification. "
+        f"For a failed deployment, follow {RECOVERY}."
+    )
 
 
 if __name__ == "__main__":
