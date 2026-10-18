@@ -3,6 +3,16 @@ name: CI
 # Main publishes through pages.yml, which retains code tests and both builds.
 on:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: Main commit used to prepare the refresh PR
+        required: true
+        type: string
+      expected_head:
+        description: Exact refresh commit that must receive these checks
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -18,10 +28,18 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Verify dispatched commit identity
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          EXPECTED_HEAD: ${{ inputs.expected_head }}
+          BASE_SHA: ${{ inputs.base_sha }}
+        run: |
+          [[ "$EXPECTED_HEAD" =~ ^[0-9a-f]{40}$ && "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_HEAD"
       - name: Select checks for changed files
         id: changes
         env:
-          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          BASE: ${{ github.event.pull_request.base.sha || inputs.base_sha || github.event.before }}
           HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           app=false

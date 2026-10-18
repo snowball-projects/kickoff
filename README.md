@@ -77,9 +77,10 @@ python3 -m venv .venv
 .venv/bin/python -m build --no-isolation
 ```
 
-A scheduled workflow (`.github/workflows/refresh.yml`) stages refreshed schedules
-on a review branch every Monday. The run summary links to a PR the owner opens
-and merges after checks; the live calendar changes only after merge.
+A scheduled workflow (`.github/workflows/refresh.yml`) refreshes every Monday.
+A separate manual `refresh-pr.yml` workflow rehearses an automated checked-PR
+replacement; the weekly publication path remains unchanged until that
+replacement is approved and verified.
 To refresh by hand:
 
 ```sh

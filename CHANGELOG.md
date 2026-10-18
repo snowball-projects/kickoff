@@ -2,8 +2,8 @@
 
 ## Unreleased
 
-- Stage scheduled snapshot updates on unique review branches instead of pushing
-  to main; publish after the owner opens and merges a checked pull request.
+- Prepare a reusable automated PR/check refresh rehearsal. Keep the existing
+  weekly publication path until separate permission approval and live acceptance.
 
 ## 0.6.0 — 2026-10-18
 
