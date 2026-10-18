@@ -59,6 +59,8 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "24"
+      - name: Test publication and climbing data contracts
+        run: node --test frontend/tests/publication.test.mjs frontend/tests/climbing.test.mjs
       - name: Validate published snapshots and pinned references
         run: node scripts/prepare-web.mjs
       - if: steps.changes.outputs.app == 'true'

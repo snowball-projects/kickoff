@@ -252,3 +252,29 @@ test("a year removed while loading cannot repopulate the current window", async 
     globalThis.fetch = originalFetch;
   }
 });
+
+
+test("malformed snapshots fail cleanly and can retry after correction", async (t) => {
+  for (const mutate of [
+    (b) => { delete b.events[0].tags; },
+    (b) => { b.events[0].title = null; },
+    (b) => { b.events[0].participants = {}; },
+    (b) => { b.events[0].calendar_date = "2026-02-30"; },
+    (b) => { b.events = null; },
+    (b) => { b.providers = {}; },
+    (b) => { b.sources = {}; },
+    (b) => { b.sources = [null]; },
+    (b) => { b.components = {}; },
+    (b) => { b.components = [{ path: "../private.json" }]; },
+  ]) {
+    const { getManifest } = await loadModule("data");
+    const valid = bundle(2026, [event("test")]);
+    const broken = structuredClone(valid);
+    mutate(broken);
+    t.mock.method(globalThis, "fetch", async () => Response.json(broken));
+    await assert.rejects(getManifest(2026), /invalid snapshot.*retry/);
+    t.mock.method(globalThis, "fetch", async () => Response.json(valid));
+    assert.equal((await getManifest(2026)).all_events, 1);
+    t.mock.restoreAll();
+  }
+});

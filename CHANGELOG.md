@@ -1,6 +1,23 @@
 # Changes
 
-## Unreleased
+## 0.6.0 (prepared; pending review and release)
+
+- Add Agenda with Yesterday, Today and Upcoming, shared interests, device-local
+  dates and bounded Show more through later published dates.
+- Publish 16 sourced October climbing gender/discipline/round sessions. Eleven
+  clocks include four explicitly shared session starts; five disputed clocks stay
+  Time TBD. Preserve all 11 other senior stop spans and source attribution.
+- Convert offset-aware league timestamps to UTC before writing `Z`, including
+  date/year rollover, and reject timestamps without an offset.
+- Validate event titles, dates, spans, tags, participants and known clocks with
+  one schema at publication and browser loading. Invalid cached-year candidates
+  show a retryable data error. Run publication and climbing data tests even for
+  data-only pull requests and Pages updates.
+- Bound both downloaded and gzip-expanded responses to 80 MB for league feeds
+  and retained local provider adapters.
+- Update pypdf to 6.19.0 and transitive source-map-js to 1.2.2 to resolve the
+  dependency advisories found in the October 2026 review. Align both package
+  versions at 0.6.0; this entry prepares a release and does not publish one.
 
 - Keep event previews concise and modal close buttons visible while About or
   Interests content scrolls. Preserve keyboard access and day-level sources.
@@ -19,7 +36,7 @@
 - Publish full NFL, NBA, MLB, NHL, UEFA Champions League, PGA Tour, UFC,
   NASCAR Cup and IndyCar schedules from official league feeds and ESPN, refreshed
   every Monday by a scheduled workflow that commits only real changes and keeps
-  the previous data if a feed fails or shrinks. 2026 now has 9,274 events
+  the previous data if a feed fails or shrinks. 2026 now has 9,280 events
   and 2027 5,537.
 - Add Basketball, Baseball, Hockey and Climbing and weightlifting interest groups.
 - Standardize the project name as kickoff. The Python package, the

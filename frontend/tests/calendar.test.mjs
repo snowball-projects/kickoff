@@ -11,6 +11,7 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
       sport: "soccer",
       league: "EPL",
       title: "Fixture",
+      event_type: "game",
       subtitle: null,
       country: "England",
       city: null,

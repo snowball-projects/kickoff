@@ -1,3 +1,4 @@
+import { validateBundle } from "../frontend/src/bundle-schema.ts";
 import { readFile, mkdir, cp, readdir, rm } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -11,14 +12,11 @@ const publishedNames = new Set(names);
 for (const name of names) {
   const text = await readFile(join(root, "data/published", name), "utf8");
   const bundle = JSON.parse(text);
-  if (bundle.schema_version !== "1" || !bundle.events?.length || !bundle.sources?.length || !bundle.updated_at)
-    throw Error("Invalid public snapshot");
+  validateBundle(bundle, true);
+  if (bundle.season !== Number(name.slice(0, 4))) throw Error("Snapshot filename and season differ");
   if (/"(?:raw_source_payload|raw_artifacts|metadata|password|token|api_key)"\s*:/.test(text))
     throw Error("Private fields in public bundle");
-  const ids = new Set();
   for (const event of bundle.events) {
-    if (ids.has(event.event_id)) throw Error("Duplicate event");
-    ids.add(event.event_id);
     if (["openfootball", "f1db"].includes(event.source)) {
       const repo = event.source === "f1db" ? "f1db/f1db" : "openfootball/football.json";
       const notice = bundle.sources.find((s) => s.url === `https://github.com/${repo}`);

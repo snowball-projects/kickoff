@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kickoff"
-version = "0.5.0"
+version = "0.6.0"
 description = "A static-first sports calendar by snowball."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -12,7 +12,7 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Nas Delevski" }]
 dependencies = [
-    "pypdf>=6.17,<7",
+    "pypdf>=6.19,<7",
     "tzdata>=2024.1",
 ]
 
@@ -39,7 +39,7 @@ kickoff = ["config/*.json"]
 testpaths = ["tests"]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 line-length = 120
 
 [tool.ruff.lint]
