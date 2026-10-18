@@ -1,6 +1,6 @@
 # Changes
 
-## 0.6.0 (prepared; pending review and release)
+## 0.6.0 — 2026-10-18
 
 - Add Agenda with Yesterday, Today and Upcoming, shared interests, device-local
   dates and bounded Show more through later published dates.
@@ -9,15 +9,16 @@
   Time TBD. Preserve all 11 other senior stop spans and source attribution.
 - Convert offset-aware league timestamps to UTC before writing `Z`, including
   date/year rollover, and reject timestamps without an offset.
-- Validate event titles, dates, spans, tags, participants and known clocks with
-  one schema at publication and browser loading. Invalid cached-year candidates
-  show a retryable data error. Run publication and climbing data tests even for
+- Validate event titles, statuses, dates, spans, tags, participants and known clocks with
+  one schema at publication and browser loading. Invalid snapshots show a
+  retryable data error. Run publication and climbing data tests even for
   data-only pull requests and Pages updates.
 - Bound both downloaded and gzip-expanded responses to 80 MB for league feeds
-  and retained local provider adapters.
+  and retained local provider adapters. Preserve provider recovery by reporting
+  size-limit and corrupt-gzip failures as fetch errors.
 - Update pypdf to 6.19.0 and transitive source-map-js to 1.2.2 to resolve the
   dependency advisories found in the October 2026 review. Align both package
-  versions at 0.6.0; this entry prepares a release and does not publish one.
+  versions at 0.6.0.
 
 - Keep event previews concise and modal close buttons visible while About or
   Interests content scrolls. Preserve keyboard access and day-level sources.

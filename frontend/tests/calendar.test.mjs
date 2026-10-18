@@ -8,6 +8,8 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
     const { getCalendar, searchEvents } = await loadModule("data");
     const base = {
       source: "test",
+      season: "2026",
+      status: "scheduled",
       sport: "soccer",
       league: "EPL",
       title: "Fixture",

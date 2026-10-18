@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import gzip
 import json
+import zlib
 from io import BytesIO
 from typing import Any
-from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
@@ -44,7 +44,7 @@ def fetch_bytes(url: str, settings: Settings) -> bytes:
     try:
         with urlopen(_request(url, settings), timeout=settings.timeout_seconds) as response:
             return read_bounded_response(response)
-    except (HTTPError, URLError, TimeoutError) as exc:
+    except (OSError, ValueError, EOFError, zlib.error) as exc:
         raise FetchError(f"failed to fetch {url}: {exc}") from exc
 
 

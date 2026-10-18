@@ -7,7 +7,7 @@ const filters = { sport: "", league: "", competition_phase: "", country: "", cit
 const signature = JSON.stringify(filters);
 function event(id, date, instant = null, extra = {}) {
   return {
-    event_id: id, source: "test", sport: "soccer", league: "EPL", event_type: "game",
+    event_id: id, season: date.slice(0, 4), status: "scheduled", competition_phase: "regular_season", source: "test", sport: "soccer", league: "EPL", event_type: "game",
     title: `Fixture ${id}`, calendar_date: date, end_calendar_date: date,
     start_time_utc: instant, start_time_local: null, participants: [], tags: [], ...extra,
   };

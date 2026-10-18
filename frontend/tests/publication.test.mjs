@@ -11,6 +11,7 @@ const script = await readFile(new URL("../../scripts/prepare-web.mjs", import.me
 
 for (const [name, mutate, message] of [
   ...[
+    ["missing status", (e) => { delete e.status; }, /invalid status/],
     ["missing title", (e) => { delete e.title; }, /invalid title/],
     ["missing date", (e) => { delete e.calendar_date; }, /invalid calendar_date/],
     ["impossible date", (e) => { e.calendar_date = "2026-02-30"; }, /invalid calendar_date/],

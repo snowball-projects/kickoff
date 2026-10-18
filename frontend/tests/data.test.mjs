@@ -15,7 +15,7 @@ function bundle(season, events = []) {
 
 function event(id, league = "EPL") {
   return {
-    event_id: id, league, sport: "soccer", event_type: "game", title: id,
+    event_id: id, source: "fixture", season: "2026", status: "scheduled", competition_phase: "regular_season", league, sport: "soccer", event_type: "game", title: id,
     calendar_date: "2026-09-12", start_time_utc: null, participants: [], tags: [],
   };
 }
@@ -257,6 +257,9 @@ test("a year removed while loading cannot repopulate the current window", async 
 test("malformed snapshots fail cleanly and can retry after correction", async (t) => {
   for (const mutate of [
     (b) => { delete b.events[0].tags; },
+    ...["source", "season", "status", "competition_phase"].map((key) => (b) => { delete b.events[0][key]; }),
+    (b) => { b.events[0].status = ""; },
+    (b) => { b.events[0].status = 1; },
     (b) => { b.events[0].title = null; },
     (b) => { b.events[0].participants = {}; },
     (b) => { b.events[0].calendar_date = "2026-02-30"; },

@@ -43,7 +43,7 @@ export function validateBundle(payload: unknown, published = false): void {
     if (!object(value)) fail("invalid event");
     const label = text(value.event_id) ? value.event_id : "<missing-id>";
     const invalid = (field: string) => fail(`${label}: invalid ${field}`);
-    for (const key of ["event_id", "sport", "league", "event_type", "title", ...(published ? ["source", "season", "status", "competition_phase"] : [])]) {
+    for (const key of ["event_id", "source", "sport", "league", "season", "event_type", "title", "status", "competition_phase"]) {
       if (!text(value[key])) invalid(key);
     }
     if (ids.has(value.event_id)) fail("Duplicate event");

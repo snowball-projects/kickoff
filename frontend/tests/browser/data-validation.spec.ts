@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-for (const field of ["title", "calendar_date", "tags", "participants"]) {
+for (const field of ["title", "calendar_date", "tags", "participants", "status"]) {
   test(`missing ${field} shows a data error and Retry recovers`, async ({ page }) => {
     await page.clock.setFixedTime(new Date("2026-09-10T17:00:00Z"));
     await page.addInitScript(() => localStorage.setItem("kickoff.interests.v1", JSON.stringify(["EPL"])));
@@ -10,7 +10,7 @@ for (const field of ["title", "calendar_date", "tags", "participants"]) {
     await page.route("**/data/*.json", (route) => {
       if (!route.request().url().endsWith("/2026.json")) return route.fulfill({ status: 404, body: "missing" });
       const event: Record<string, unknown> = {
-        event_id: "schema-retry", title: "Recovered fixture", sport: "soccer", league: "EPL", event_type: "match",
+        event_id: "schema-retry", source: "fixture", season: "2026", status: "scheduled", competition_phase: "regular_season", title: "Recovered fixture", sport: "soccer", league: "EPL", event_type: "match",
         calendar_date: "2026-09-10", end_calendar_date: "2026-09-10", tags: [], participants: [],
         start_time_utc: null,
       };

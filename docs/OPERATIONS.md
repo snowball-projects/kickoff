@@ -91,7 +91,9 @@ League timestamps must carry an explicit offset. They convert to UTC before a
 data through the existing refresh guard. HTTP reads cap both transfer bytes and
 gzip expansion at 80,000,000 bytes, including concatenated gzip members. Six
 original local provider adapters still import `kickoff.http`; retain that helper
-and its shared bounded reader rather than deleting it as unused.
+and its shared bounded reader rather than deleting it as unused. The legacy HTTP
+wrapper reports size-limit and corrupt-gzip failures as `FetchError` so providers
+can warn and continue through their existing recovery paths.
 
 ESPN team schedules place status inside the competition; both status locations
 are checked before publishing a game. Missing previously published open-data

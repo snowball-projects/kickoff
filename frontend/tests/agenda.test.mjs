@@ -19,7 +19,7 @@ test("agenda uses the calendar's timezone, span and filter semantics; unknown cl
   const { getCalendar } = await loadModule("data");
   const { agendaGroups, agendaScopeLabel } = await loadModule("agenda-state");
   const original = globalThis.fetch;
-  const base = { title: "Fixture", event_type: "game", source: "fixture", sport: "soccer", league: "EPL", tags: [], participants: [],
+  const base = { status: "scheduled", season: "2026", competition_phase: "regular_season", title: "Fixture", event_type: "game", source: "fixture", sport: "soccer", league: "EPL", tags: [], participants: [],
     calendar_date: "2026-12-31", start_time_utc: null, start_time_local: null };
   try {
     globalThis.fetch = async (url) => url.endsWith("/2026.json") ? Response.json({
