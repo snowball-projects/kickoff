@@ -252,3 +252,36 @@ def test_feed_league_replaces_reviewed_selection_and_unchanged_refresh_skips_wri
 def test_every_feed_has_attribution(league):
     kind, fetch = feeds.FEEDS[league]
     assert kind in feeds.SOURCES and callable(fetch)
+
+
+@pytest.mark.parametrize(
+    "value, expected",
+    [
+        ("2026-10-17T19:00-06:00", "2026-10-18T01:00:00Z"),
+        ("2026-01-01T00:15+05:30", "2025-12-31T18:45:00Z"),
+        ("2026-12-31T23:45-03:00", "2027-01-01T02:45:00Z"),
+        ("2026-10-17T23:30Z", "2026-10-17T23:30:00Z"),
+        ("2026-10-17T23:30:12.345+00:00", "2026-10-17T23:30:12Z"),
+    ],
+)
+def test_source_offsets_convert_to_utc(value, expected):
+    assert feeds._iso_utc(value) == expected
+    event = feeds.make_event(
+        source="espn",
+        league="NBA",
+        sport="basketball",
+        upstream_id=1,
+        season="2026",
+        title="Offset game",
+        utc=value,
+        day="2026-10-17",
+    )
+    assert event.start_time_utc == expected
+
+
+@pytest.mark.parametrize("value", ["2026-10-17", "2026-10-17T19:00:00"])
+def test_source_timestamps_without_offsets_are_rejected(value):
+    with pytest.raises(ValueError, match="timezone offset"):
+        feeds._iso_utc(value)
+    with pytest.raises(ValueError, match="timezone offset"):
+        feeds._local_date(value, feeds.EASTERN)

@@ -47,7 +47,7 @@ tour means all published coverage, not a promise of complete LPGA coverage.
 | World Climbing | 27 | All 13 senior stops: 11 inclusive date spans and 16 gender/discipline/round records for Salt Lake City (October 16–18, Boulder) and Santiago (October 23–25, Lead/Speed); 11 clocked records including 4 shared-session markers, 5 withheld |
 | NASCAR Cup | 36 | Numbered points races; ten Chase races classified as postseason; no exhibitions or practice/qualifying |
 | IndyCar | 18 | Championship races; archive coverage, season ended September 6 |
-| NFL | 19 | **Selected opener, international and holiday games**, not the full schedule |
+| NFL | 19 | **Selected opener, international and holiday games** in the reviewed archive; the approved league feed supplies the published full schedule |
 | UFC / PFL / RIZIN / ONE | 42 / 16 / 9 / 16 | Reviewed annual rows; PFL global cards only; ONE whole Fight Night/Samurai cards classified as combat sports |
 | IWF Worlds | 1 | Senior championship span, October 27–November 8; not a promise of lifting on every day |
 | Men's / women's golf majors | 4 / 5 | Competitive tournament spans; all 2026 majors are past |
@@ -103,10 +103,12 @@ were used for verification, not claimed as open redistribution grants.
 
 - [Climbing and motorsport evidence](sources/climbing-motorsport.md): senior stops
   only; no youth/para/continental climbing or invented 2026 senior Worlds.
-- [NFL evidence](sources/nfl.md): 19 licensed community selections are published.
+- [NFL evidence](sources/nfl.md): 19 licensed community selections remain in the
+  reviewed archive and are superseded by the league feed in the combined calendar.
   The automated nflverse feed remains blocked by unresolved upstream provenance;
   its data-repository CC BY declaration does not answer that specific gap.
-  No Week 18 placeholder dates, full regular season or postseason are supplied.
+  This limitation concerns the reviewed registry; the approved ESPN league feed
+  supplies regular season and postseason schedules while withholding unset clocks.
 - [Combat and IWF evidence](sources/combat-iwf.md): UFC October 3 and PFL Chicago
   conflicts are resolved. RIZIN November 8 remains held while official pages
   disagree on identity. PFL regional cards and ONE Friday Fights/Inner Circle
@@ -129,8 +131,9 @@ were used for verification, not claimed as open redistribution grants.
   score shapes and Championship playoff classification.
 
 Existing official-source adapters remain local experiments, outside public
-publication. This includes MLB, NBA, NHL, official NASCAR/IndyCar/UFC/ONE/PGA/IFSC
-feeds and other unreviewed inputs. No paid service or backend was added.
+publication. These original adapters are distinct from the approved weekly league
+sources in `src/kickoff/feeds.py`; their raw outputs and unreviewed inputs stay
+local. No paid service or backend was added.
 
 A normal build makes no provider requests. New sources require a documented
 rights, provenance, coverage and date-semantics review, offline fixtures and a

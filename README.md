@@ -90,7 +90,8 @@ locally, normalizes approved sources and passes through the sanitized web export
 A failed fetch does not replace
 the last published snapshot. Original official-source adapters remain available
 through `kickoff fetch`, `validate`, `audit` and `export-web` for local use;
-the public frontend build accepts only reviewed open-source datasets.
+the public frontend build accepts only approved published snapshots, including
+the attributed league feeds above.
 
 - [Operation and next steps](docs/OPERATIONS.md)
 - [Windows merge reconciliation](docs/MERGE-REPAIR.md)

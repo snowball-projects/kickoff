@@ -1,3 +1,4 @@
+import { validateBundle } from "./bundle-schema";
 import { matchesInterestOptions, uniqueGolfEvents } from "./interest-preferences";
 import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
 import type {
@@ -60,7 +61,7 @@ function loadBundle(season: number) {
           );
         }
         const payload = (await response.json()) as DashboardBundle;
-        if (payload.schema_version !== "1") {
+        if (!payload || payload.schema_version !== "1") {
           throw new ScheduleDataError(
             `Schedule data for ${season} is unavailable: unsupported bundle version.`,
           );
@@ -68,6 +69,13 @@ function loadBundle(season: number) {
         if (payload.season !== season) {
           throw new ScheduleDataError(
             `Schedule data for ${season} is unavailable: the bundle belongs to ${payload.season}.`,
+          );
+        }
+        try {
+          validateBundle(payload);
+        } catch {
+          throw new ScheduleDataError(
+            `Schedule data for ${season} is unavailable: invalid snapshot. Please retry.`,
           );
         }
         unpublishedSeasons.delete(season);

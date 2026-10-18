@@ -2,12 +2,28 @@ from __future__ import annotations
 
 import gzip
 import json
+import zlib
+from io import BytesIO
 from typing import Any
-from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 from kickoff.settings import Settings
+
+# Bound both wire bytes and expanded bodies, including legacy local adapters.
+MAX_BYTES = 80_000_000
+
+
+def read_bounded_response(response: Any, *, max_bytes: int = MAX_BYTES) -> bytes:
+    payload = response.read(max_bytes + 1)
+    if len(payload) > max_bytes:
+        raise ValueError("Source exceeds compressed/transfer size limit")
+    if response.headers.get("Content-Encoding", "").strip().lower() == "gzip" or payload[:2] == b"\x1f\x8b":
+        with gzip.GzipFile(fileobj=BytesIO(payload)) as stream:
+            payload = stream.read(max_bytes + 1)
+        if len(payload) > max_bytes:
+            raise ValueError("Source exceeds expanded size limit")
+    return payload
 
 
 class FetchError(RuntimeError):
@@ -27,11 +43,8 @@ def _request(url: str, settings: Settings) -> Request:
 def fetch_bytes(url: str, settings: Settings) -> bytes:
     try:
         with urlopen(_request(url, settings), timeout=settings.timeout_seconds) as response:
-            payload = response.read()
-            if response.headers.get("Content-Encoding", "").lower() == "gzip" or payload[:2] == b"\x1f\x8b":
-                return gzip.decompress(payload)
-            return payload
-    except (HTTPError, URLError, TimeoutError) as exc:
+            return read_bounded_response(response)
+    except (OSError, ValueError, EOFError, zlib.error) as exc:
         raise FetchError(f"failed to fetch {url}: {exc}") from exc
 
 

@@ -62,6 +62,8 @@ jobs:
           node-version: "24"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
+      - name: Test publication and climbing data contracts
+        run: node --test frontend/tests/publication.test.mjs frontend/tests/climbing.test.mjs
       - run: npm ci
         working-directory: frontend
       - if: steps.changes.outputs.app == 'true'

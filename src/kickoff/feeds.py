@@ -7,18 +7,18 @@ them, links back, and carries no logos, scores, odds or article content.
 
 from __future__ import annotations
 
-import gzip
 import json
 import re
 import time
 from collections.abc import Callable
-from datetime import date, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from functools import cache
 from importlib.resources import files
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
+from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
 from kickoff.semantics import classification_fields
 
@@ -57,11 +57,7 @@ def get_json(url: str, *, retries: int = 3, missing_ok: bool = False) -> dict | 
     for attempt in range(retries):
         try:
             with urlopen(request, timeout=60) as response:
-                data = response.read(MAX_BYTES + 1)
-                if response.headers.get("Content-Encoding") == "gzip":
-                    data = gzip.decompress(data)
-            if len(data) > MAX_BYTES:
-                raise ValueError(f"Source exceeds size limit: {url}")
+                data = read_bounded_response(response, max_bytes=MAX_BYTES)
             return json.loads(data)
         except HTTPError as error:
             if missing_ok and error.code in {400, 404}:
@@ -76,13 +72,15 @@ def get_json(url: str, *, retries: int = 3, missing_ok: bool = False) -> dict | 
 
 
 def _local_date(utc: str, zone: ZoneInfo) -> str:
-    return datetime.fromisoformat(utc.replace("Z", "+00:00")).astimezone(zone).date().isoformat()
+    return datetime.fromisoformat(_iso_utc(utc).replace("Z", "+00:00")).astimezone(zone).date().isoformat()
 
 
 def _iso_utc(value: str) -> str:
-    """Normalize '2026-10-07T23:30Z' and '...:00Z' forms to seconds precision."""
+    """Convert an explicit source offset to UTC, retaining seconds precision."""
     parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
-    return parsed.strftime("%Y-%m-%dT%H:%M:%SZ")
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise ValueError("Source timestamp must include a timezone offset")
+    return parsed.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def make_event(

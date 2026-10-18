@@ -86,6 +86,15 @@ do not silently fabricate missing events or infer season milestones from partial
 data. Clients derive not started, live and over from start times; no live state
 is fetched.
 
+League timestamps must carry an explicit offset. They convert to UTC before a
+`Z` suffix is written; naive timestamps fail the fetch and retain previous league
+data through the existing refresh guard. HTTP reads cap both transfer bytes and
+gzip expansion at 80,000,000 bytes, including concatenated gzip members. Six
+original local provider adapters still import `kickoff.http`; retain that helper
+and its shared bounded reader rather than deleting it as unused. The legacy HTTP
+wrapper reports size-limit and corrupt-gzip failures as `FetchError` so providers
+can warn and continue through their existing recovery paths.
+
 ESPN team schedules place status inside the competition; both status locations
 are checked before publishing a game. Missing previously published open-data
 inputs fail the refresh, and every race referenced by an F1 listing is required.
@@ -102,9 +111,9 @@ name variants are classified as exhibitions separately.
 ## Reviewed registry maintenance
 
 `data/reviewed/2026-*.json` holds deliberately reviewed event selections. The
-public refresh fetches only the openfootball/F1DB sources; it reads these
-registries locally. Updating the snapshot timestamp does not refresh a pinned
-Wikimedia review. Check upcoming cards/stops periodically and near the event,
+public refresh fetches openfootball/F1DB and the approved league feeds; it reads
+these registries locally. Updating the snapshot timestamp does not refresh a
+pinned Wikimedia review. Check upcoming cards/stops periodically and near the event,
 especially boxing title eligibility. A dormant calendar should be treated as
 an archive until its sources are reviewed again.
 
@@ -131,7 +140,15 @@ Keep the previous snapshot in Git for rollback.
 
 Run Python checks, frontend data tests/build and browser tests. Review counts,
 exclusions, timezone behavior and source/component license notices in the diff.
-The build validates each public source and requires attributed licensed
+The shared `frontend/src/bundle-schema.ts` validator checks event shape, required
+labels, real calendar dates, inclusive spans, string tags, participants and known
+clocks before publication and before the browser caches a year. A malformed year
+shows the existing retryable data error; correcting the response can recover
+without reloading. Legacy unverified local-only clocks remain Time TBD in the
+browser; publication requires explicit offsets and matching UTC instants.
+`node --test frontend/tests/publication.test.mjs frontend/tests/climbing.test.mjs`
+runs without npm dependencies, including on data-only CI and Pages changes.
+The build also validates each public source and requires attributed licensed
 components to match the combined calendar exactly. It never copies raw caches.
 
 ## Next
@@ -144,8 +161,6 @@ components to match the combined calendar exactly. It never copies raw caches.
 - Backfill 2025 so the calendar reaches a full year back.
 - Add 2027 registries for World Climbing, IWF and other reviewed events as
   their calendars publish.
-- Consider a scheduled refresh only after source stability and review needs are
-  understood. Preserve the previous snapshot on failure and show retrieval time.
 - Team-level interests and calendar subscriptions are possible later additions;
   the first release deliberately selects leagues.
 
