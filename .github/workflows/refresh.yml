@@ -1,7 +1,7 @@
 name: Refresh schedules
 
-# Weekly league refresh. Commits only when published schedules change, then
-# dispatches the Pages workflow (pushes made with GITHUB_TOKEN do not trigger it).
+# Weekly league refresh. Changed published schedules go to a unique review branch.
+# The owner opens a PR; merging it to main triggers the Pages workflow.
 # Feed problems keep the previous data and open an issue instead of publishing gaps.
 on:
   schedule:
@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
   issues: write
 
 concurrency:
@@ -19,6 +18,7 @@ concurrency:
 
 jobs:
   refresh:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -36,25 +36,8 @@ jobs:
         run: python scripts/refresh-public.py --warnings "$RUNNER_TEMP/warnings.md"
       - name: Validate public snapshots
         run: node scripts/prepare-web.mjs
-      - name: Commit changes
-        id: commit
-        run: |
-          git add data/published
-          if git diff --cached --quiet; then
-            echo "No schedule changes."
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Refresh published schedules"
-          git push
-          echo "changed=true" >> "$GITHUB_OUTPUT"
-      - name: Publish
-        if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main
+      - name: Stage published schedules for a pull request
+        run: python scripts/stage-refresh.py
       - name: Report warnings
         env:
           GH_TOKEN: ${{ github.token }}

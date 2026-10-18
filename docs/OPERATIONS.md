@@ -75,8 +75,25 @@ provider fetches or nested interactive controls are needed for previews.
 
 The refresh workflow runs every Monday at 09:17 UTC and on demand
 (`workflow_dispatch`). It fetches this year and next, validates the snapshots with
-`scripts/prepare-web.mjs`, commits only when published data changes, and then
-dispatches the Pages workflow. A run makes roughly 250 small requests (about
+`scripts/prepare-web.mjs`, and commits changed published data to a unique
+`automation/schedules-<run-id>-<attempt>` branch. It never pushes to `main` or
+force-pushes a branch. No-change runs create no branch. The run summary contains
+a compare link for the owner to open a PR against `main`; after checking the
+schedule diff and passing CI, the owner can merge their own PR. No second human
+reviewer is required. Normal merge-to-main publication then runs Pages.
+
+The repository currently disallows Actions-created PRs, so opening the PR is a
+manual owner step; this flow needs no new credentials or policy exception. If
+`main` advances before merge, bring the review branch up to date and rerun its
+checks as required by branch protection. Pending refresh branches remain intact;
+a later run creates a new branch instead of rewriting one under review. Until a
+reviewed update merges, the last published snapshot remains live.
+
+The workflow retains only `contents: write` for its review branch and
+`issues: write` for refresh warnings/failures. It no longer needs `actions: write`
+or dispatches publication before review. Manual workflow runs must target `main`.
+
+A refresh makes roughly 250 small requests (about
 90 ESPN NBA team schedules, 53 NHL weeks, 31 NFL weeks and a few dozen others)
 and costs nothing on GitHub's free Actions minutes for public repositories.
 Feed failures and suspicious drops keep the previous events and open an issue;

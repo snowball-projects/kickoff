@@ -1,5 +1,10 @@
 # Changes
 
+## Unreleased
+
+- Stage scheduled snapshot updates on unique review branches instead of pushing
+  to main; publish after the owner opens and merges a checked pull request.
+
 ## 0.6.0 — 2026-10-18
 
 - Add Agenda with Yesterday, Today and Upcoming, shared interests, device-local
