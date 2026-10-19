@@ -74,9 +74,113 @@ provider fetches or nested interactive controls are needed for previews.
    static host can serve the build under any path; no vendor-specific backend.
 
 The refresh workflow runs every Monday at 09:17 UTC and on demand
-(`workflow_dispatch`). It fetches this year and next, validates the snapshots with
-`scripts/prepare-web.mjs`, commits only when published data changes, and then
-dispatches the Pages workflow. A run makes roughly 250 small requests (about
+(`workflow_dispatch`). It fetches this year and next, validates snapshots with
+`scripts/prepare-web.mjs`, commits changed published data and explicitly dispatches
+Pages. This existing production behavior is unchanged while the checked-PR
+replacement is being prepared; do not enable kickoff main PR protection until
+that replacement is verified and activated.
+
+### Checked-PR replacement rehearsal
+
+`refresh-pr.yml` is manual-only and defaults to `verify_only: true`. It uses the
+same approved sources and validation but one reusable `automation/schedule-refresh`
+branch, merging current main normally without force-push or discarding pending
+work. The workflow checks out full history; the coordinator also unshallows a
+shallow checkout before finding the reusable branch's merge base. A non-data
+difference or merge conflict stops the run. No-change runs with no pending data
+need no PR. Subsequent runs reuse the branch and its existing PR.
+
+The coordinator creates the PR with the existing `GITHUB_TOKEN`, explicitly
+workflow-dispatches CI on the exact refresh head, and waits for that run to pass.
+CI checks both its expected head and supplied base commit. The coordinator then
+requires unchanged PR head/base and GitHub's normal clean merge eligibility.
+Verification-only mode stops there without merging or dispatching Pages. With
+`verify_only: false`, it requests a normal SHA-guarded merge under branch rules,
+then explicitly dispatches Pages because token-generated merges do not trigger
+ordinary push workflows. It never approves reviews/workflows, sets fake check
+statuses, requests an admin bypass, or falls back to a direct main push.
+
+This path needs **separate owner approval** to enable the repository's **Allow
+GitHub Actions to create and approve pull requests** setting
+(`can_approve_pull_request_reviews: true`) and to accept the new rehearsal
+workflow's scoped `pull-requests: write` permission. Its contents/actions/issues
+permissions match the existing refresh job. Default workflow permissions can
+stay read-only. No PAT, new GitHub App, credential, bypass or `allow_auto_merge`
+setting is needed: normal checked merging is requested only after CI.
+
+GitHub documents approval-required PR workflow runs for token-created PRs;
+explicit `workflow_dispatch` runs are supported independently. The live rehearsal
+must confirm that dispatched head checks produce normal merge eligibility under
+the intended protection. If an approval-required PR run still blocks that gate,
+the coordinator stops and reports the platform limitation; it must not approve
+or bypass it automatically. Do not activate the replacement on assumptions.
+
+After approval, merge the additive preparation, run the non-publishing rehearsal,
+and inspect the actual PR/check identities and merge eligibility. Only after it
+works should the weekly trigger move to this coordinator and the old direct-main
+path be retired through reviewed code. Then apply kickoff's approved main rules.
+Until that activation, existing weekly publication continues. The rehearsal PR
+and branch remain available for recovery; they are not deleted or multiplied
+per run.
+
+### Recover a checked merge without confirmed publication
+
+Source merge, Pages dispatch acceptance and successful live publication are
+separate stages. The coordinator records the last known stage in the run's
+failure issue. An interrupted merge request may already have merged; an
+interrupted dispatch request may already have started Pages. An accepted
+dispatch does not confirm a successful deployment. A no-change refresh does
+**not** retry publication: rerunning ingestion is not this recovery procedure.
+
+Recovery is an explicit operator action, bounded to **one Pages dispatch after
+inspection**, with no automatic retry loop or source changes:
+
+1. Open the failed refresh run and its recorded PR. Check the PR's actual merge
+   state and merge commit before doing anything else:
+
+   ```sh
+   gh pr view <PR_NUMBER> --repo snowball-projects/kickoff --json state,mergedAt,mergeCommit,url
+   gh api repos/snowball-projects/kickoff/commits/main --jq .sha
+   ```
+
+   If the PR is still open or the merge outcome is unclear, stop and resolve that
+   state; do not publish an unmerged branch or request another merge blindly.
+   Record the confirmed merge SHA. If main has advanced, review its newer changes
+   and publication runs before deciding whether its current state needs recovery.
+
+2. Inspect Pages runs for that commit, including any request whose response was
+   lost, and inspect the failed refresh logs:
+
+   ```sh
+   gh run list --repo snowball-projects/kickoff --workflow pages.yml --branch main --commit <MERGE_SHA> --limit 100 --json databaseId,headSha,status,conclusion,url
+   gh run view <PAGES_RUN_ID> --repo snowball-projects/kickoff
+   ```
+
+   Wait for a queued/in-progress run. For a successful run, verify live data and
+   assets; no new dispatch is needed. For a failed run, resolve its cause before
+   recovery. If dispatch acceptance remains ambiguous, stop and resolve it in
+   Actions rather than repeating requests. The list is a bounded view, so inspect
+   additional run history in Actions if necessary; absence alone is not proof of
+   rejection.
+
+3. Only after confirming that publication is missing or failed, and that no Pages
+   run is active, recheck main's SHA and manually dispatch its existing verified
+   publication workflow **once**:
+
+   ```sh
+   gh api repos/snowball-projects/kickoff/commits/main --jq .sha
+   gh workflow run pages.yml --repo snowball-projects/kickoff --ref main
+   ```
+
+   Dispatch resolves `main` at request time. If it advances between inspection
+   and dispatch, inspect the actual run's `headSha` and review that revision.
+   Record the resulting run URL/SHA in the failure issue, wait for its conclusion,
+   and verify live data and assets before marking recovery complete. A lost
+   response or another failure returns to inspection; do not automatically repeat
+   the dispatch. No force-push, data rewrite, permission change or bypass is part
+   of recovery.
+
+A refresh makes roughly 250 small requests (about
 90 ESPN NBA team schedules, 53 NHL weeks, 31 NFL weeks and a few dozen others)
 and costs nothing on GitHub's free Actions minutes for public repositories.
 Feed failures and suspicious drops keep the previous events and open an issue;

@@ -1,5 +1,10 @@
 # Changes
 
+## Unreleased
+
+- Prepare a reusable automated PR/check refresh rehearsal. Keep the existing
+  weekly publication path until separate permission approval and live acceptance.
+
 ## 0.6.0 — 2026-10-18
 
 - Add Agenda with Yesterday, Today and Upcoming, shared interests, device-local

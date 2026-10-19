@@ -78,6 +78,9 @@ python3 -m venv .venv
 ```
 
 A scheduled workflow (`.github/workflows/refresh.yml`) refreshes every Monday.
+A separate manual `refresh-pr.yml` workflow rehearses an automated checked-PR
+replacement; the weekly publication path remains unchanged until that
+replacement is approved and verified.
 To refresh by hand:
 
 ```sh
