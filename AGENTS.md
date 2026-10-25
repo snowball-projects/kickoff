@@ -1,61 +1,53 @@
-# kickoff
+# snowball rules
 
-A static sports calendar built from reviewed schedule snapshots. No live
-scores, betting or backend by default.
+Stage
 
-## Scope and sources
+- Early-stage project with one user, the founder. Build for that.
+  No guards, migrations, compatibility code, release processes or docs
+  for users who don't exist yet.
 
-- Read `README.md` and `docs/PUBLIC_RELEASE.md` before editing ingestion or
-  public output.
-- Read the [snowball principles](https://snowball-projects.github.io/principles/)
-  before public claims or product, data and architecture decisions.
-- Keep Python ingestion, normalization, validation and export separate from the
-  static React calendar.
+Design
 
-## Development and verification
+- Choose the simplest, least costly design that works, in everything:
+  architecture, hosting, backend, frontend and data.
+- Within that, make it as fast and light as possible.
+- When there are several reasonable ways to do something that matters,
+  propose the best 2 or 3 with their trade-offs, recommend one, and
+  wait for the founder to choose. Make small choices yourself and
+  mention them.
 
-- Python: install the locked requirements and the editable dev package. In
-  `.venv`, run `ruff check src tests scripts`,
-  `ruff format --check src tests scripts`, `pytest`, and
-  `python -m build --no-isolation`.
-- Frontend: Node 24. From `frontend`, run `npm ci`, `npm test`,
-  `npx playwright install chromium`, `npm run test:browser` and
-  `npm run build`. Keep the lockfile. `PLAYWRIGHT_CHROME=1` uses installed
-  Chrome; `npm run dev` supplies a preview. Tests use offline fixtures.
+Less is more
 
-## Interface behavior
+- Prefer deleting to adding. At the end of each task, say what can now
+  be removed, and remove it if it is in scope.
+- No dead code, old experiments, research notes or drafts in the repo.
+  Tag anything worth keeping, then delete it.
+- Validate data once, where it is produced. Trust our own files.
+- Keep the README to one screen, written for a person. Add no other
+  docs unless asked, and don't edit AGENTS.md unless asked.
 
-- Keep month scrolling native and bounded, preserve the visible position when
-  recycling months, honor reduced motion, and retain keyboard day navigation.
-- Missing years must not hide available schedules or imply there are no events.
-- Keep end-date spans and display-zone date conversions intact.
+Work
 
-## Data and privacy
+- Keep each PR to one coherent piece of work, then stop and report.
+- Ask the founder first before anything irreversible (force-push,
+  deleting unmerged work, changing repo settings, spending money) or
+  any change of direction (new architecture, new service, change of
+  scope). Otherwise proceed, and merge when checks pass.
+- GitHub is the source of truth. Push all work; nothing lives only on
+  one machine.
 
-- Public builds accept only published snapshots from approved sources: open
-  datasets, reviewed registries and, since the owner's October 1, 2026 decision,
-  the league feeds in `src/kickoff/feeds.py` (official league APIs and ESPN's
-  public JSON, for factual schedules only). Revalidate rights, coverage and
-  timezones before adding a source. Never publish logos or raw feed payloads.
-- The code's MIT license does not license raw schedules. Preserve citations,
-  upstream commits, hashes and dates.
-- Raw source and cache data stays local and ignored. Never expose secrets,
-  historical private payloads or unfiltered normalized files. Public export
-  passes through `kickoff.web`.
+Public copy and data
 
-## Publication
+- Write snowball and every project name in lowercase.
+- Never label anything as made by or with AI, anywhere.
+- Never use em dashes.
+- Code is MIT. Data we create is CC0. Data from others keeps its
+  source's license and credit.
+- Store each fact with its source link and the date checked, never
+  copies of other sites' pages.
+- Principles: https://snowball-projects.github.io/principles/
 
-- `snowball-projects/kickoff` is the canonical home; publish only reviewed
-  clean source there.
-- Review staged changes, then verify the Pages workflow and live assets before
-  calling a release published. Do not force-push.
-- `docs/MERGE-REPAIR.md` records the September 2026 history repair. Preserve
-  both sides of that merge work.
-
-## Stewardship
-
-- Write `kickoff` and `snowball` in lowercase.
-- Original software is MIT; data and dependencies retain their own terms.
-- Do not add AI-builder labels or production credits to public copy.
-- `CLAUDE.md` imports this file. Keep operational detail in docs rather than
-  duplicating agent instructions.
+## Repo notes
+A static sports calendar built from reviewed schedule snapshots.
+Python: `.venv/bin/python -m ruff check src tests scripts`; `.venv/bin/python -m ruff format --check src tests scripts`; `.venv/bin/python -m pytest`; `.venv/bin/python -m build --no-isolation`.
+Frontend: `npm --prefix frontend test`; `npm --prefix frontend run build`.
