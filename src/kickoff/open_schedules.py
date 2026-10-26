@@ -16,6 +16,7 @@ from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
 from kickoff.reviewed_schedules import CLIMBING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
+from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
 from kickoff.web import SCHEMA_VERSION, _event_payload
 
@@ -157,7 +158,9 @@ def _event(
     )
 
 
-def football_events(payload: dict, key: str, season: str, source_url: str) -> list[CalendarEvent]:
+def football_events(
+    payload: dict, key: str, season: str, source_url: str, timezone_name: str | None = None
+) -> list[CalendarEvent]:
     league, label, country = FOOTBALL[key]
     rows = payload.get("matches")
     if not isinstance(rows, list) or not rows:
@@ -172,6 +175,18 @@ def football_events(payload: dict, key: str, season: str, source_url: str) -> li
         score = row.get("score")
         full_time = score.get("ft") if isinstance(score, dict) else score
         finished = isinstance(full_time, list) and len(full_time) == 2 and all(isinstance(x, int) for x in full_time)
+        local = None
+        if timezone_name and re.fullmatch(r"\d{2}:\d{2}", row.get("time") or ""):
+            # Only a reviewed source clock can become an instant. Repeated or skipped
+            # civil clocks stay date-only rather than choosing a DST interpretation.
+            naive = datetime.fromisoformat(f"{day}T{row['time']}")
+            zone = get_zoneinfo(timezone_name)
+            candidate = naive.replace(tzinfo=zone)
+            if (
+                candidate.utcoffset() == naive.replace(tzinfo=zone, fold=1).utcoffset()
+                and candidate.astimezone(timezone.utc).astimezone(zone).replace(tzinfo=None) == naive
+            ):
+                local = candidate
         events.append(
             _event(
                 event_id=stable_event_id("openfootball", key, season, home, away, row.get("round")),
@@ -181,6 +196,7 @@ def football_events(payload: dict, key: str, season: str, source_url: str) -> li
                 season=season,
                 title=f"{home} vs {away}",
                 day=day,
+                utc=isoformat_z(local),
                 country=country,
                 subtitle=row.get("round"),
                 status="finished" if finished else "scheduled",
@@ -193,6 +209,9 @@ def football_events(payload: dict, key: str, season: str, source_url: str) -> li
                 round_or_stage=row.get("round"),
             )
         )
+        if local:
+            events[-1].start_time_local = local.isoformat()
+            events[-1].timezone = timezone_name
     return events
 
 
@@ -262,6 +281,14 @@ def refresh_open_schedules(
     now = datetime.now(timezone.utc)
     retrieved = now.isoformat(timespec="seconds")
     events, evidence, source_notices = [], [], []
+    reviewed_dir = reviewed_dir or output_dir.parent / "reviewed"
+    timezone_path = reviewed_dir / "football-timezones.json"
+    timezone_reviews = json.loads(timezone_path.read_text())["reviews"] if timezone_path.exists() else []
+    football_zones = {
+        (review["league"], review["season"]): review["timezone"]
+        for review in timezone_reviews
+        if review.get("timezone")
+    }
 
     def collect(league, kind, fetch):
         fresh, notices, inputs = fetch()
@@ -295,7 +322,11 @@ def refresh_open_schedules(
             if body is None:
                 continue
             parsed = football_events(
-                json.loads(body), key, path.split("/")[0], f"https://github.com/{repo}/blob/{revision}/{path}"
+                json.loads(body),
+                key,
+                path.split("/")[0],
+                f"https://github.com/{repo}/blob/{revision}/{path}",
+                football_zones.get((key, path.split("/")[0])),
             )
             result.extend(e for e in parsed if e.calendar_date.startswith(str(year)))
             inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)})
@@ -337,7 +368,7 @@ def refresh_open_schedules(
 
         collect(league, kind, league_feed)
     fed_leagues = {event.league for event in events if event.source in league_feeds.SOURCES}
-    reviewed, notices, exclusions = load_reviewed_schedules(reviewed_dir or output_dir.parent / "reviewed", year)
+    reviewed, notices, exclusions = load_reviewed_schedules(reviewed_dir, year)
     # A full league feed supersedes the hand-reviewed selection for the same league.
     reviewed = [event for event in reviewed if event.league not in fed_leagues]
     kept_sources = {event.source_url for event in reviewed}
@@ -376,8 +407,8 @@ def refresh_open_schedules(
             if reviewed
             else ""
         )
-        + "No live scores. Football league kickoff times are withheld "
-        "because the JSON does not explicitly declare their timezone. F1 times use the source's UTC fields."
+        + "No live scores. Football kickoff times use reviewed league and season timezone conventions; "
+        "unconfirmed or missing clocks remain date-only. F1 times use the source's UTC fields."
     )
     feed_kinds = sorted({event["source"] for event in bundle["events"]} & set(league_feeds.SOURCES))
     bundle["sources"] = list({json.dumps(s, sort_keys=True): s for s in source_notices + notices}.values())
