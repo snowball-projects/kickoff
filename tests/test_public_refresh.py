@@ -49,7 +49,7 @@ def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatc
     )
 
 
-@pytest.mark.parametrize("failed", ["EPL", "F1", "F1_404", *feeds.FEEDS])
+@pytest.mark.parametrize("failed", ["EPL", "F1", *feeds.FEEDS])
 def test_feed_failure_stops_before_build_or_deploy(tmp_path, failed):
     workflow = (ROOT / ".github/workflows/publish.yml").read_text()
     assert workflow.index("Fetch every schedule") < workflow.index("Build site") < workflow.index("Deploy Pages")
@@ -61,22 +61,19 @@ def test_feed_failure_stops_before_build_or_deploy(tmp_path, failed):
     bootstrap.write_text("""
 import runpy
 import sys
-from urllib.error import HTTPError
 from kickoff import feeds, open_schedules
 from tests.test_reviewed_schedules import ROOT, fake_open_read
 failed = sys.argv[1]
 def broken(_):
     raise OSError(f"{failed}: source offline")
 def read(url):
-    if failed == "F1_404" and "/contents/" in url:
-        raise HTTPError(url, 404, f"{failed}: source offline", {}, None)
     if (failed == "EPL" and url.endswith("en.1.json")) or (failed == "F1" and "f1db/f1db" in url):
         return broken(url)
     return fake_open_read(url)
 open_schedules.read_url = read
 feeds.FEEDS = {league: (kind, broken if league == failed else lambda _: [])
                for league, (kind, _) in feeds.FEEDS.items()}
-sys.argv = ["scripts/refresh-public.py", "--year", "2027" if failed == "F1_404" else "2026"]
+sys.argv = ["scripts/refresh-public.py", "--year", "2026"]
 runpy.run_path(str(ROOT / "scripts/refresh-public.py"), run_name="__main__")
 """)
     result = subprocess.run(

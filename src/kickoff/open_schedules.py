@@ -8,6 +8,7 @@ import re
 from collections import Counter
 from datetime import date, datetime, timezone
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 from kickoff import feeds as league_feeds
@@ -79,6 +80,16 @@ def read_url(url: str) -> bytes:
     if len(data) > 20_000_000:
         raise ValueError(f"Source exceeds size limit: {url}")
     return data
+
+
+def read_optional(url: str) -> bytes | None:
+    """Only an unpublished season's 404 is optional; every other error propagates."""
+    try:
+        return read_url(url)
+    except HTTPError as error:
+        if error.code == 404:
+            return None
+        raise
 
 
 def _check_feed(events: list[CalendarEvent], year: int, league: str, kind: str) -> None:
@@ -277,7 +288,12 @@ def refresh_open_schedules(
         result, inputs = [], []
         for path in paths:
             url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
-            body = read_url(url)
+            start = int(path[:4])
+            # European seasons run July-June; Brazil uses the calendar year.
+            current_start = now.year if key == "br.1" else now.year - (now.month < 7)
+            body = read_optional(url) if start > current_start else read_url(url)
+            if body is None:
+                continue
             parsed = football_events(
                 json.loads(body), key, path.split("/")[0], f"https://github.com/{repo}/blob/{revision}/{path}"
             )
@@ -293,7 +309,9 @@ def refresh_open_schedules(
         revision = revisions[repo]
         directory = f"src/data/seasons/{year}/races"
         url = f"https://api.github.com/repos/{repo}/contents/{directory}?ref={revision}"
-        body = read_url(url)
+        body = read_optional(url) if year > now.year else read_url(url)
+        if body is None:
+            return [], [], []
         listing = json.loads(body)
         if not isinstance(listing, list) or not listing:
             raise ValueError("No F1 races returned")
