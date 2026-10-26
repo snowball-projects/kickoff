@@ -29,7 +29,7 @@ test("full PGA Tour spans stay separate from LPGA final-date markers and majors"
   await expect(detail.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", /espn\.com/);
 });
 
-test("reviewed expansion works with scrolling, inclusive spans and attribution downloads", async ({ page, request }) => {
+test("reviewed expansion keeps attribution and exports without download links", async ({ page, request }) => {
   await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
   await page.goto("/");
   const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
@@ -71,14 +71,22 @@ test("reviewed expansion works with scrolling, inclusive spans and attribution d
   await expect(about).toContainText("WBA, WBC, IBF or WBO");
   await expect(about).toContainText("Coverage is incomplete");
   await expect(about).toContainText("Verified times use your browser’s timezone automatically");
-  const download = about.getByRole("link", { name: "Download Wikipedia schedule data" });
-  const href = await download.getAttribute("href");
-  expect(href).toMatch(/2026-wikipedia-[a-f0-9]{64}\.json$/);
-  const response = await request.get(href!);
-  expect(response.ok()).toBeTruthy();
-  const component = await response.json();
-  expect(component.license).toBe("CC BY-SA 4.0");
-  expect(component.events.filter((e: { league: string }) => e.league === "NFL")).toHaveLength(0);
+  await expect(about.getByRole("link", { name: /Download/ })).toHaveCount(0);
+  await expect(about.locator("a[download]")).toHaveCount(0);
+  await expect(about.getByRole("link", { name: "Licenses", exact: true })).toBeVisible();
+  const snapshot = await request.get("data/2026.json");
+  expect(snapshot.ok()).toBeTruthy();
+  const manifest = await snapshot.json();
+  for (const kind of ["wikipedia", "wikidata"]) {
+    const entry = manifest.components.find((item: { path: string }) => item.path.includes(kind));
+    expect(entry.path).toMatch(new RegExp(`2026-${kind}-[a-f0-9]{64}\\.json$`));
+    const response = await request.get(`data/${entry.path}`);
+    expect(response.ok()).toBeTruthy();
+    const component = await response.json();
+    expect(component.license).toBe(kind === "wikipedia" ? "CC BY-SA 4.0" : "CC0 1.0");
+    expect(component.sources.length).toBeGreaterThan(0);
+    expect(component.events.filter((e: { league: string }) => e.league === "NFL")).toHaveLength(0);
+  }
   await about.getByRole("button", { name: "Close", exact: true }).click();
   await expect(about).toHaveCount(0);
   await expect(page.getByRole("button", { name: "About kickoff and schedule coverage" })).toBeFocused();

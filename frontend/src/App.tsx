@@ -573,13 +573,6 @@ export default function App() {
           </p>
           <h3>Sources</h3>
           {manifest?.data_license_notice && <p>{manifest.data_license_notice}</p>}
-          {manifest?.components?.map((component) => (
-            <p key={component.path}>
-              <a href={`${import.meta.env.BASE_URL}data/${component.path}`} download>
-                Download {component.path.includes("wikipedia") ? "Wikipedia" : "Wikidata"} schedule data
-              </a>
-            </p>
-          ))}
           {manifest?.sources?.map((s) => (
             <p key={s.name}>
               <a href={s.url} target="_blank" rel="noreferrer">
@@ -600,11 +593,6 @@ export default function App() {
           </p>
           {storageNote && <p>{storageNote}</p>}
           <p>
-            {manifest && <>
-              <a href={`${import.meta.env.BASE_URL}data/${year}.json`} download>
-                Download schedule JSON
-              </a>{" · "}
-            </>}
             <a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.md`}>
               Licenses
             </a>

@@ -6,15 +6,62 @@ import pytest
 
 from kickoff import open_schedules
 from kickoff.open_schedules import f1_events, football_events
+from kickoff.validation import validate_batch
+from kickoff.web import _event_payload
 
 
-def test_football_keeps_unzoned_times_unknown_and_stable_identity():
+@pytest.mark.parametrize("key", ["en.2", "es.1", "nl.1"])
+def test_football_keeps_unconfirmed_leagues_date_only_and_stable_identity(key):
     match = {"date": "2026-09-12", "time": "15:00", "team1": "Home", "team2": "Away", "round": "Matchday 1"}
-    first = football_events({"matches": [match]}, "en.1", "2026-27", "https://example.org")[0]
-    moved = football_events({"matches": [{**match, "date": "2026-09-13"}]}, "en.1", "2026-27", "https://example.org")[0]
+    first = football_events({"matches": [match]}, key, "2026-27", "https://example.org")[0]
+    moved = football_events({"matches": [{**match, "date": "2026-09-13"}]}, key, "2026-27", "https://example.org")[0]
     assert first.start_time_utc is None
     assert first.calendar_date == "2026-09-12"
     assert first.event_id == moved.event_id
+    assert first.start_time_local is first.timezone is None
+
+
+@pytest.mark.parametrize(
+    "key,day,clock,zone,utc,offset",
+    [
+        ("en.1", "2026-01-10", "15:00", "Europe/London", "2026-01-10T15:00:00Z", "+00:00"),
+        ("en.1", "2026-07-10", "15:00", "Europe/London", "2026-07-10T14:00:00Z", "+01:00"),
+        ("en.1", "2026-03-29", "15:00", "Europe/London", "2026-03-29T14:00:00Z", "+01:00"),
+        ("en.1", "2026-10-25", "15:00", "Europe/London", "2026-10-25T15:00:00Z", "+00:00"),
+        ("br.1", "2026-12-31", "23:30", "America/Sao_Paulo", "2027-01-01T02:30:00Z", "-03:00"),
+        ("de.1", "2026-01-01", "00:30", "Europe/Berlin", "2025-12-31T23:30:00Z", "+01:00"),
+        ("it.1", "2026-07-10", "15:00", "Europe/Rome", "2026-07-10T13:00:00Z", "+02:00"),
+        ("fr.1", "2026-01-10", "15:00", "Europe/Paris", "2026-01-10T14:00:00Z", "+01:00"),
+        ("pt.1", "2026-07-10", "15:00", "Europe/Lisbon", "2026-07-10T14:00:00Z", "+01:00"),
+    ],
+)
+def test_confirmed_football_clock_preserves_source_date_and_identity(key, day, clock, zone, utc, offset):
+    # Synthetic clocks test conversion, not evidence for any league's convention.
+    payload = {"matches": [{"date": day, "time": clock, "team1": "Home", "team2": "Away"}]}
+    unknown = football_events(
+        {"matches": [{**payload["matches"][0], "time": None}]}, key, "2026-27", "https://example.org"
+    )[0]
+    event = football_events(payload, key, "2026-27", "https://example.org")[0]
+    assert event.start_time_utc == utc
+    assert event.start_time_local == f"{day}T{clock}:00{offset}"
+    assert event.timezone == zone
+    assert event.calendar_date == event.end_calendar_date == day
+    assert event.event_id == unknown.event_id
+    assert validate_batch([event]) == []
+    published = _event_payload(event)
+    assert published["start_time_utc"] == utc
+    assert datetime.fromisoformat(published["start_time_local"]) == datetime.fromisoformat(utc)
+
+
+@pytest.mark.parametrize(
+    "day,clock",
+    [("2026-03-29", "01:30"), ("2026-10-25", "01:30"), ("2026-07-10", None)],
+)
+def test_confirmed_football_missing_or_uncertain_dst_clock_stays_date_only(day, clock):
+    payload = {"matches": [{"date": day, "time": clock, "team1": "Home", "team2": "Away"}]}
+    event = football_events(payload, "en.1", "2026-27", "https://example.org")[0]
+    assert event.start_time_utc is event.start_time_local is event.timezone is None
+    assert event.calendar_date == event.end_calendar_date == day
 
 
 def test_football_accepts_both_recorded_score_shapes():

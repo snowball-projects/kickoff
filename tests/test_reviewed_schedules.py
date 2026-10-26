@@ -106,7 +106,10 @@ def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
         for season in ("2025-26", "2026-27")
         for league in ("en.2", "nl.1", "pt.1")
     )
-    assert all(e["start_time_utc"] is None for e in bundle["events"] if e["source"] == "openfootball")
+    football = [e for e in bundle["events"] if e["source"] == "openfootball"]
+    confirmed = {"EPL", "BUNDESLIGA", "SERIE_A", "LIGUE_1", "PRIMEIRA_LIGA", "BRASILEIRAO"}
+    assert all(bool(e["start_time_utc"]) == (e["league"] in confirmed) for e in football)
+    assert all(bool(e["start_time_local"]) == (e["league"] in confirmed) for e in football)
 
 
 def fake_open_read(url):
