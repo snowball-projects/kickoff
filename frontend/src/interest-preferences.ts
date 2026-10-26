@@ -1,7 +1,6 @@
 import type { EventDetail, FilterState } from "./types";
 
 export const INTERESTS_KEY = "kickoff.interests.v2";
-export const LEGACY_INTERESTS_KEY = "kickoff.interests.v1";
 export const GOLF_TOURS = ["PGA_TOUR", "LPGA_TOUR"] as const;
 export type GolfView = "majors_only" | "full_tour";
 export type InterestPreferences = {
@@ -23,14 +22,6 @@ export function interestLeagues(leagues: { value: string }[]) {
 function stringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
-export function migrateInterests(leagues: string[]): InterestPreferences {
-  const preferences = defaultPreferences();
-  preferences.leagues = [...new Set(leagues.map(interestLeague))];
-  for (const [major, tour] of [["GOLF_MAJORS_MEN", "PGA_TOUR"], ["GOLF_MAJORS_WOMEN", "LPGA_TOUR"]] as const) {
-    if (leagues.includes(major) && !leagues.includes(tour)) preferences.golf_views[tour] = "majors_only";
-  }
-  return preferences;
-}
 export function readPreferences(storage: Pick<Storage, "getItem">): InterestPreferences {
   const read = (key: string) => {
     try { return JSON.parse(storage.getItem(key) || "null"); } catch { return null; }
@@ -38,17 +29,15 @@ export function readPreferences(storage: Pick<Storage, "getItem">): InterestPref
   try {
     const value = read(INTERESTS_KEY);
     if (value && stringArray(value.leagues)) {
-      const preferences = migrateInterests(value.leagues);
+      const preferences = defaultPreferences();
+      preferences.leagues = value.leagues;
       for (const tour of GOLF_TOURS) {
         if (["majors_only", "full_tour"].includes(value.golf_views?.[tour]))
           preferences.golf_views[tour] = value.golf_views[tour];
       }
       if (value.motorsport_view === "full_weekend") preferences.motorsport_view = "full_weekend";
-      // Retired boxing filters are deliberately ignored, including empty selections.
       return preferences;
     }
-    const legacy = read(LEGACY_INTERESTS_KEY);
-    if (stringArray(legacy)) return migrateInterests(legacy);
   } catch { /* Storage can be unavailable or malformed. Keep onboarding usable. */ }
   return defaultPreferences();
 }

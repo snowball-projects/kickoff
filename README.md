@@ -1,106 +1,38 @@
 # kickoff
 
-A calendar for the sports you follow, by snowball.
+[A calendar for the sports you follow](https://snowball-projects.github.io/kickoff/), by snowball.
+Choose leagues, browse Calendar or Agenda, and open an event for its sources.
+Interests stay on your device. Times use your timezone; date-only events keep their source dates.
 
-**[Open kickoff](https://snowball-projects.github.io/kickoff/)**
-
-Choose individual leagues or whole collapsible sport groups, scroll up or down
-through months, zoom out to the year, or open a day's events. Hover an event for
-its title, dates, time and location. Focusing a day previews its first event;
-Enter or a tap opens all events and sources, and Escape dismisses the preview.
-The heading follows the visible month; **Today** at the
-bottom left returns smoothly to the current month. Reduced-motion settings skip
-the animation. Advanced options include per-tour golf scope and motorsport sessions.
-Boxing includes all covered three-belt unifications and four-belt undisputed bouts. Golf interests combine majors with their tour, without duplicate
-tournaments. Interests and these options stay on your device; no account, analytics, live scores
-or betting features.
-
-Switch to **Agenda** for **Yesterday**, **Today**, or **Upcoming** (the next
-seven days). Both views share your interests and published schedules. Timed
-events use your browser's local date and time; date-only events keep their
-source dates. Tap a row for the same day details and source links. The view
-preference stays on your device, with Calendar as the default.
-In Upcoming, **Show more** reveals the next seven dates with matching events,
-skipping empty stretches and stopping when the published schedules run out.
-
-With a day focused, arrow keys move between days, Page Up/Down changes month,
-and Shift + Page Up/Down changes year. In the year overview, Page Up/Down
-changes year. Times automatically use the browser timezone without location
-access; date-only events retain their source dates. Calendar navigation spans 1900–2100; years without a published schedule
-are marked unavailable.
-
-The 2026 calendar has 9,280 events across 28 competitions, and
-2027 is filling in as leagues publish. Full schedules for the NFL, NBA, MLB, NHL,
-UEFA Champions League, PGA Tour, UFC, NASCAR Cup and IndyCar come from official
-league feeds (MLB, NHL) and ESPN's public schedule data, refreshed weekly. Nine
-football leagues and F1 come from open datasets; World Climbing, IWF Worlds,
-golf majors, LPGA final dates and other combat cards are hand-reviewed. Climbing
-sessions at the October Salt Lake City and Santiago stops include agreed local
-start times and explicit gender, discipline and round labels. Each scheduled
-combination has its own pill; shared session starts are labeled, and disputed
-individual clocks stay Time TBD. No live
-scores. [Coverage and data sources](docs/PUBLIC_RELEASE.md) give exact
-inclusions, omissions and terms. Software is MIT; schedule data keeps its
-sources' terms, and league and team names belong to their owners.
-
-## Run
-
-```sh
-cd frontend
-npm ci
-npm run dev
-```
-
-Node 24 is used for deployment. From `frontend`, verify the calendar with:
-
-```sh
-npm test
-npx playwright install chromium
-npm run test:browser
-npm run build
-```
-
-Unit tests check dates, navigation, scroll state and schedule loading. Browser
-tests exercise the scrolling calendar; `PLAYWRIGHT_CHROME=1 npm run test:browser`
-uses an installed Google Chrome instead of Playwright's Chromium. The build
-prepares the checked-in reviewed snapshot and writes static `frontend/dist/`.
-Normal builds make no schedule-provider requests.
-
-## Ingestion and verification
+Use Python 3.12+ and Node 24:
 
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.lock -e '.[dev]'
+npm ci --prefix frontend
+.venv/bin/python scripts/refresh-public.py
+npm --prefix frontend run dev
+```
+
+Check and build:
+
+```sh
 .venv/bin/python -m ruff check src tests scripts
 .venv/bin/python -m ruff format --check src tests scripts
 .venv/bin/python -m pytest
-.venv/bin/python -m build --no-isolation
+npm --prefix frontend test
+npm --prefix frontend exec playwright install chromium
+npm --prefix frontend run test:browser
+npm --prefix frontend run build
 ```
 
-A scheduled workflow (`.github/workflows/refresh.yml`) refreshes every Monday.
-To refresh by hand:
+Pages fetches all schedules, builds and deploys daily at 09:17 UTC, on pushes to
+main and on demand. Any feed failure stops the run before build/deployment,
+leaving the live site unchanged. Nothing is committed back. Checks run in CI on
+pull requests. Local refresh accepts `--year 2026`.
 
-```sh
-.venv/bin/python scripts/refresh-public.py            # this year and next
-.venv/bin/python scripts/refresh-public.py --year 2026
-```
-
-This pins open-data upstream commits, fetches the league feeds, retains raw inputs
-locally, normalizes approved sources and passes through the sanitized web exporter.
-A failed fetch does not replace
-the last published snapshot. Original official-source adapters remain available
-through `kickoff fetch`, `validate`, `audit` and `export-web` for local use;
-the public frontend build accepts only approved published snapshots, including
-the attributed league feeds above.
-
-- [Operation and next steps](docs/OPERATIONS.md)
-- [Windows merge reconciliation](docs/MERGE-REPAIR.md)
-- [Icon source and prompt](assets/PROMPT.md)
-
-## License
-
-Original code: [MIT](LICENSE). Third-party schedules and dependencies retain
-[their licenses](THIRD-PARTY-NOTICES.md). No official league affiliation.
-
-[Operations](https://snowball-projects.github.io/operations/#kickoff)
-
+Reviewed facts, source links and historical check dates live in `data/reviewed`;
+edit records and their receipts together, preserving IDs and uncertainty.
+Generated data lives in `frontend/public/data`, and the build writes `frontend/dist`.
+The original local adapters remain available through `kickoff fetch`, `validate`,
+`audit` and `export-web`. Code is [MIT](LICENSE); data retains its [source terms](THIRD-PARTY-NOTICES.md).

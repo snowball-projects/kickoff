@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { reviewedBundle } from "./reviewed-fixture.mjs";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
 
-const bundle = JSON.parse(await readFile(new URL("../../data/published/2026.json", import.meta.url), "utf8"));
+const bundle = reviewedBundle();
 const sessions = bundle.events.filter((event) => event.source === "world_climbing");
 const dates = await loadModule("date-utils");
 

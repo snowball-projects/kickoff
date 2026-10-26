@@ -108,7 +108,7 @@ test("expanded interest labels and date-only card details fit a mobile viewport"
 test("calendar, advanced options and About kickoff fit a narrow mobile viewport", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
-  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v1", JSON.stringify(["F1"])));
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["F1"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only" })));
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("September");
   await expect(page.getByRole("searchbox")).toHaveCount(0);

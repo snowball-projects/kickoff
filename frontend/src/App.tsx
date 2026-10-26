@@ -560,7 +560,7 @@ export default function App() {
             No interim or secondary titles, exhibitions or influencer cards.
           </p>
           <p>
-            <a href="https://github.com/snowball-projects/kickoff/blob/main/docs/PUBLIC_RELEASE.md" target="_blank" rel="noreferrer">
+            <a href="https://github.com/snowball-projects/kickoff/tree/main/data/reviewed" target="_blank" rel="noreferrer">
               Coverage details and omitted events ↗
             </a>
           </p>

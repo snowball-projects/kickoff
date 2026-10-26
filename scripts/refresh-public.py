@@ -1,34 +1,31 @@
-"""Explicit network refresh; never invoked by the ordinary frontend build.
-
-Scheduled weekly by .github/workflows/refresh.yml. Warnings mean some data was
-kept from the previous snapshot; they are written to --warnings for the workflow.
-"""
+"""Fetch every schedule into generated static assets; any failure stops publication."""
 
 import argparse
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
 from kickoff.feeds import FEEDS
 from kickoff.open_schedules import refresh_open_schedules
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--year", type=int, action="append", help="Calendar year; repeatable. Default: this year and next")
-parser.add_argument("--no-feeds", action="store_true", help="Skip the scheduled league feeds")
-parser.add_argument("--warnings", type=Path, help="Write refresh warnings to this file")
-args = parser.parse_args()
-this_year = datetime.now(timezone.utc).year
-root = Path(__file__).resolve().parents[1]
-warnings: list[str] = []
-for year in args.year or [this_year, this_year + 1]:
-    path = refresh_open_schedules(
-        year,
-        root / "data" / "open-working" / str(year),
-        root / "data" / "published",
-        feeds=None if args.no_feeds else FEEDS,
-        warnings=warnings,
+
+def refresh(years: list[int], output: Path, reviewed: Path) -> None:
+    for year in years:
+        print(refresh_open_schedules(year, output, reviewed, feeds=FEEDS, available_seasons=years))
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--year", type=int, action="append", help="Calendar year; repeatable. Default: this year and next"
     )
-    print(path)
-for warning in warnings:
-    print(f"warning: {warning}")
-if args.warnings:
-    args.warnings.write_text("".join(f"- {warning}\n" for warning in warnings))
+    args = parser.parse_args()
+    root = Path(__file__).resolve().parents[1]
+    year = datetime.now(timezone.utc).year
+    refresh(args.year or [year, year + 1], root / "frontend/public/data", root / "data/reviewed")
+    for name in ["LICENSE", "THIRD-PARTY-NOTICES.md"]:
+        shutil.copyfile(root / name, root / "frontend/public" / name)
+
+
+if __name__ == "__main__":
+    main()

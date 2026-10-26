@@ -190,7 +190,6 @@ def load_reviewed_schedules(directory: Path, year: int) -> tuple[list[CalendarEv
         events.extend(parsed)
         sources.extend(notices)
         exclusions.extend(payload.get("exclusions", []))
-    errors = validate_batch(events)
-    if errors:
-        raise ValueError("\n".join(errors))
+    if len({event.event_id for event in events}) != len(events):
+        raise ValueError("Duplicate event identity across reviewed registries")
     return events, sources, exclusions

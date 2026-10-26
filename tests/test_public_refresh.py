@@ -1,0 +1,109 @@
+import importlib.util
+import json
+import os
+import subprocess
+import sys
+
+import pytest
+
+from kickoff import feeds, open_schedules
+from tests.test_reviewed_schedules import ROOT, fake_open_read
+
+spec = importlib.util.spec_from_file_location("refresh_public", ROOT / "scripts/refresh-public.py")
+runner = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(runner)
+
+
+def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatch, tmp_path):
+    monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
+    calls = []
+
+    def fetch(league, kind, year):
+        calls.append((league, year))
+        return [
+            feeds.make_event(
+                source=kind,
+                league=league,
+                sport="test",
+                upstream_id="fresh",
+                season=str(year),
+                title=f"{league} fixture",
+                day=f"{year}-11-01",
+                utc=None,
+                source_url="https://example.test/schedule",
+            )
+        ]
+
+    configured = {
+        league: (kind, lambda year, league=league, kind=kind: fetch(league, kind, year))
+        for league, (kind, _) in feeds.FEEDS.items()
+    }
+    monkeypatch.setattr(runner, "FEEDS", configured)
+    runner.refresh([2026], tmp_path, ROOT / "data/reviewed")
+    bundle = json.loads((tmp_path / "2026.json").read_text())
+    assert calls == [(league, 2026) for league in feeds.FEEDS]
+    assert bundle["available_seasons"] == [2026]
+    assert all(
+        any(e["league"] == league and e["event_id"].endswith("fresh") for e in bundle["events"])
+        for league in feeds.FEEDS
+    )
+
+
+@pytest.mark.parametrize("failed", ["EPL", "F1", "F1_404", *feeds.FEEDS])
+def test_feed_failure_stops_before_build_or_deploy(tmp_path, failed):
+    workflow = (ROOT / ".github/workflows/publish.yml").read_text()
+    assert workflow.index("Fetch every schedule") < workflow.index("Build site") < workflow.index("Deploy Pages")
+    assert "continue-on-error" not in workflow and "always()" not in workflow
+    assert "python scripts/refresh-public.py" in workflow
+    # Execute the actual refresh entry point with offline sources. Bash's fail-fast
+    # execution models the workflow's default success gating for build/deployment.
+    bootstrap = tmp_path / "refresh.py"
+    bootstrap.write_text("""
+import runpy
+import sys
+from urllib.error import HTTPError
+from kickoff import feeds, open_schedules
+from tests.test_reviewed_schedules import ROOT, fake_open_read
+failed = sys.argv[1]
+def broken(_):
+    raise OSError(f"{failed}: source offline")
+def read(url):
+    if failed == "F1_404" and "/contents/" in url:
+        raise HTTPError(url, 404, f"{failed}: source offline", {}, None)
+    if (failed == "EPL" and url.endswith("en.1.json")) or (failed == "F1" and "f1db/f1db" in url):
+        return broken(url)
+    return fake_open_read(url)
+open_schedules.read_url = read
+feeds.FEEDS = {league: (kind, broken if league == failed else lambda _: [])
+               for league, (kind, _) in feeds.FEEDS.items()}
+sys.argv = ["scripts/refresh-public.py", "--year", "2027" if failed == "F1_404" else "2026"]
+runpy.run_path(str(ROOT / "scripts/refresh-public.py"), run_name="__main__")
+""")
+    result = subprocess.run(
+        ["bash", "-e", "-c", '"$PYTHON" "$BOOTSTRAP" "$FAILED"\ntouch "$BUILD"\ntouch "$DEPLOY"'],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        env={
+            **os.environ,
+            "PYTHON": sys.executable,
+            "PYTHONPATH": os.pathsep.join([str(ROOT), str(ROOT / "src")]),
+            "BOOTSTRAP": str(bootstrap),
+            "FAILED": failed,
+            "BUILD": str(tmp_path / "built"),
+            "DEPLOY": str(tmp_path / "deployed"),
+        },
+    )
+    assert result.returncode != 0
+    assert f"{failed}: source offline" in result.stderr
+    assert not (tmp_path / "built").exists()
+    assert not (tmp_path / "deployed").exists()
+
+
+@pytest.mark.parametrize(
+    "fetch", [feeds.nfl_events, feeds.nhl_events, feeds.mlb_events, feeds.ucl_events, feeds.FEEDS["PGA_TOUR"][1]]
+)
+def test_malformed_payload_never_becomes_successful_empty_feed(monkeypatch, fetch):
+    monkeypatch.setattr(feeds, "get_json", lambda *_, **__: {})
+    with pytest.raises((ValueError, KeyError)):
+        fetch(2026)

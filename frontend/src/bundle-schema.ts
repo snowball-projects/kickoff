@@ -1,5 +1,4 @@
-// Shared by the offline publication gate and the browser before caching a year.
-// Provenance and license checks remain in prepare-web.mjs.
+// Check external schedule responses before the browser caches a year.
 type ObjectValue = Record<string, unknown>;
 const object = (value: unknown): value is ObjectValue =>
   value !== null && typeof value === "object" && !Array.isArray(value);
@@ -17,7 +16,7 @@ const participant = (value: unknown): boolean => object(value) && text(value.nam
   ["participant_id", "short_name", "role", "entity_type"].every((key) =>
     value[key] == null || typeof value[key] === "string");
 
-export function validateBundle(payload: unknown, published = false): void {
+export function validateBundle(payload: unknown): void {
   function fail(detail: string): never {
     throw new Error(`Invalid public snapshot: ${detail}`);
   }
@@ -25,8 +24,6 @@ export function validateBundle(payload: unknown, published = false): void {
   if (!Number.isInteger(payload.season) || !Array.isArray(payload.available_seasons) ||
       !payload.available_seasons.every(Number.isInteger) || !payload.available_seasons.includes(payload.season) ||
       !Array.isArray(payload.providers) || !Array.isArray(payload.events)) fail("invalid year or collections");
-  if (published && (!Array.isArray(payload.sources) || !payload.sources.length ||
-      !instant(payload.updated_at) || !(payload.events as unknown[]).length)) fail("missing publication metadata");
   if (!(payload.providers as unknown[]).every(object)) fail("invalid providers");
   for (const key of ["updated_at", "coverage", "data_license_notice"]) {
     if (payload[key] != null && typeof payload[key] !== "string") fail(`invalid ${key}`);
@@ -49,7 +46,7 @@ export function validateBundle(payload: unknown, published = false): void {
     if (ids.has(value.event_id)) fail("Duplicate event");
     ids.add(value.event_id);
     if (!day(value.calendar_date)) invalid("calendar_date");
-    if ((published || value.end_calendar_date != null) &&
+    if ((value.end_calendar_date != null) &&
         (!day(value.end_calendar_date) || value.end_calendar_date < (value.calendar_date as string))) invalid("end_calendar_date");
     if (!strings(value.tags)) invalid("tags");
     if (!Array.isArray(value.participants) || !value.participants.every(participant)) invalid("participants");
@@ -60,17 +57,16 @@ export function validateBundle(payload: unknown, published = false): void {
       if (value[key] != null && typeof value[key] !== "string") invalid(key);
     }
     if (value.start_time_utc != null && !instant(value.start_time_utc)) invalid("start_time_utc");
-    // Older bundles can carry an unverified local clock. The UI keeps it Time TBD;
-    // publication requires an explicit offset and matching UTC instant.
+    // A local clock without a verified UTC instant remains Time TBD in the UI.
     if (value.start_time_local != null && (typeof value.start_time_local !== "string" ||
-        ((published || value.start_time_utc != null) && !instant(value.start_time_local)))) invalid("start_time_local");
+        ((value.start_time_utc != null) && !instant(value.start_time_local)))) invalid("start_time_local");
     if (value.start_time_utc != null && !(value.start_time_utc as string).endsWith("Z")) invalid("start_time_utc");
-    if (value.start_time_local != null && (published || value.start_time_utc != null) && (!value.start_time_utc || !text(value.timezone) ||
+    if (value.start_time_local != null && (value.start_time_utc != null) && (!value.start_time_utc || !text(value.timezone) ||
         Date.parse(value.start_time_local as string) !== Date.parse(value.start_time_utc as string))) invalid("start_time_local");
     if (value.start_time_scope != null && !["event", "shared_session"].includes(value.start_time_scope as string)) invalid("shared session clock scope");
     if (value.start_time_scope === "shared_session" && !value.start_time_utc) invalid("shared session clock scope");
     for (const key of ["is_regular_season", "is_postseason", "is_exhibition", "is_support_event"]) {
-      if ((published || value[key] != null) && typeof value[key] !== "boolean") invalid(key);
+      if ((value[key] != null) && typeof value[key] !== "boolean") invalid(key);
     }
   }
 }

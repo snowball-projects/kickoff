@@ -1,26 +1,19 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { reviewedBundle } from "./reviewed-fixture.mjs";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
 
 const empty = { sport: "", league: "", country: "", city: "", competition_phase: "", tags: [] };
 const storage = (values) => ({ getItem: (key) => values[key] || null });
 
-test("legacy majors migrate per tour, deduplicate interests and retain unrelated and empty selections", async () => {
-  const { migrateInterests, readPreferences, INTERESTS_KEY, LEGACY_INTERESTS_KEY } = await loadModule("interest-preferences");
-  const migrated = migrateInterests(["GOLF_MAJORS_MEN", "LPGA_TOUR", "GOLF_MAJORS_WOMEN", "F1", "FUTURE"]);
-  assert.deepEqual(migrated.leagues, ["PGA_TOUR", "LPGA_TOUR", "F1", "FUTURE"]);
-  assert.deepEqual(migrated.golf_views, { PGA_TOUR: "majors_only", LPGA_TOUR: "full_tour" });
-  assert.equal(migrated.motorsport_view, "race_only");
-  assert.deepEqual(migrateInterests([]).leagues, []);
+test("current preferences preserve empty selections and all current options", async () => {
+  const { readPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
+  const saved = { leagues: ["PGA_TOUR", "LPGA_TOUR", "F1", "FUTURE"],
+    golf_views: { PGA_TOUR: "majors_only", LPGA_TOUR: "full_tour" }, motorsport_view: "full_weekend" };
+  assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(saved) })), saved);
+  assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify({ ...saved, leagues: [] }) })).leagues, []);
   assert.equal(readPreferences(storage({})).leagues, null);
-  assert.equal(readPreferences(storage({ [LEGACY_INTERESTS_KEY]: "bad json" })).leagues, null);
-  assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: "broken", [LEGACY_INTERESTS_KEY]: '["NFL"]' })).leagues, ["NFL"]);
-  const saved = { ...migrated, motorsport_view: "full_weekend" };
-  assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(saved),
-    [LEGACY_INTERESTS_KEY]: '["NFL"]' })), saved);
-  assert.deepEqual(readPreferences(storage({ [LEGACY_INTERESTS_KEY]: '["GOLF_MAJORS_WOMEN"]' })).golf_views,
-    { PGA_TOUR: "full_tour", LPGA_TOUR: "majors_only" });
+  assert.equal(readPreferences(storage({ [INTERESTS_KEY]: "broken" })).leagues, null);
 });
 
 test("golf interests expose only tours even when a year publishes only majors", async () => {
@@ -32,7 +25,7 @@ test("golf interests expose only tours even when a year publishes only majors", 
 });
 
 test("golf modes apply equally to search and calendar with no duplicate majors or football leakage", async () => {
-  const bundle = JSON.parse(await readFile(new URL("../../data/published/2026.json", import.meta.url), "utf8"));
+  const bundle = reviewedBundle();
   const original = globalThis.fetch;
   try {
     globalThis.fetch = async (url) => String(url).endsWith("/2026.json")
@@ -48,7 +41,7 @@ test("golf modes apply equally to search and calendar with no duplicate majors o
     assert.equal(calendar.groups.find((group) => group.date === "2026-04-09").items.length, 1);
     assert.equal((await searchEvents(2026, "Sony", filters, "UTC")).total, 0);
     const full = { ...filters, golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" } };
-    assert.equal((await searchEvents(2026, "", full, "UTC")).total, 79);
+    assert.equal((await searchEvents(2026, "", full, "UTC")).total, 76);
     assert.equal((await searchEvents(2026, "Masters Tournament", full, "UTC")).total, 1);
     assert.equal((await searchEvents(2026, "Walmart", full, "UTC")).items[0].tags.includes("final date only"), true);
     // Underlying league and phase filtering remains usable outside the chooser.

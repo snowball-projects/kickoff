@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 for (const field of ["title", "calendar_date", "tags", "participants", "status"]) {
   test(`missing ${field} shows a data error and Retry recovers`, async ({ page }) => {
     await page.clock.setFixedTime(new Date("2026-09-10T17:00:00Z"));
-    await page.addInitScript(() => localStorage.setItem("kickoff.interests.v1", JSON.stringify(["EPL"])));
+    await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["EPL"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only" })));
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     let broken = true;

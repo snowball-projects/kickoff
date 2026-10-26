@@ -4,7 +4,7 @@ test.use({ timezoneId: "UTC" });
 
 test("official climbing disciplines, time rollover, withheld clocks and sources render", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-10-15T17:00:00Z"));
-  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v1", JSON.stringify(["IFSC_WORLD_CUP"])));
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["IFSC_WORLD_CUP"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only" })));
   await page.goto("/");
   await expect(page.locator("#day-2026-10-17 .event-pill")).toContainText("Men's Boulder semi-final");
   await page.locator("#day-2026-10-18").click();

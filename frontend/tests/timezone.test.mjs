@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
 
@@ -179,19 +178,6 @@ test("a slow neighboring year merges later without blocking the current year", a
   resolvePrevious(Response.json(bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")])));
   const merged = await until(store, (state) => on(state.months["2027-01-01"], "2027-01-01").length === 1);
   assert.equal(on(merged.months["2027-01-01"], "2027-01-01")[0].event_id, "spillover");
-});
-
-test("published January 2027 includes all six real events from the 2026 bundle", async (t) => {
-  const bundles = Object.fromEntries(await Promise.all([2026, 2027].map(async (year) => [year,
-    JSON.parse(await readFile(new URL(`../../data/published/${year}.json`, import.meta.url), "utf8")),
-  ])));
-  fixtures(t, bundles);
-  const { getCalendar } = await loadModule("data");
-  const january = await getCalendar("month", 2027, "2027-01-01", filters, "UTC");
-  const actual = new Set(on(january, "2027-01-01").map((item) => item.event_id));
-  const spillovers = bundles[2026].events.filter((item) => item.start_time_utc?.startsWith("2027-01-01"));
-  assert.equal(spillovers.length, 6);
-  for (const item of spillovers) assert.ok(actual.has(item.event_id), item.event_id);
 });
 
 test("an unpublished year still exposes neighboring spillovers and keeps its notice", async (t) => {

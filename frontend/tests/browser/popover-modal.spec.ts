@@ -10,7 +10,7 @@ const fixture = {
 
 async function openCalendar(page: Page, status = "scheduled") {
   await page.clock.setFixedTime(new Date("2026-09-10T17:00:00Z"));
-  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v1", JSON.stringify(["EPL"])));
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["EPL"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only" })));
   await page.route("**/data/*.json", (route) => route.fulfill(new URL(route.request().url()).pathname.endsWith("/2026.json")
     ? { json: { schema_version: "1", season: 2026, providers: [], available_seasons: [2026], events: [{ ...fixture, status }] } }
     : { status: 404, body: "Unavailable" }));

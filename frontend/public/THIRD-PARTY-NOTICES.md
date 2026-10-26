@@ -52,7 +52,7 @@ https://www.worldclimbingsantiago.cl/
 Manually reviewed dates, discipline labels and agreed venue-local start clocks.
 Disputed clocks are withheld. Source response hashes and review notes accompany
 the registry. No raw payloads, prose, results or media are republished; no
-automated collection from these sites is configured. See docs/sources/climbing-sessions.md.
+automated collection from these sites is configured. See data/reviewed/2026-climbing-sessions.json.
 
 League/team names identify scheduled events; no official team or league logos
 are included and no endorsement is implied.
