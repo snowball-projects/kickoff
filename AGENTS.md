@@ -49,6 +49,6 @@ Public copy and data
 - Principles: https://snowball-projects.github.io/principles/
 
 ## Repo notes
-A static sports calendar built from reviewed schedule snapshots.
-Python: `.venv/bin/python -m ruff check src tests scripts`; `.venv/bin/python -m ruff format --check src tests scripts`; `.venv/bin/python -m pytest`; `.venv/bin/python -m build --no-isolation`.
-Frontend: `npm --prefix frontend test`; `npm --prefix frontend run build`.
+A static sports calendar rebuilt daily from public schedule feeds.
+Python: `.venv/bin/python -m ruff check src tests scripts`; `.venv/bin/python -m ruff format --check src tests scripts`; `.venv/bin/python -m pytest`.
+Frontend: `npm --prefix frontend test`; `npm --prefix frontend run test:browser`; `npm --prefix frontend run build`.
