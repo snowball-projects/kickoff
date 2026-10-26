@@ -8,11 +8,9 @@ import re
 from collections import Counter
 from datetime import date, datetime, timezone
 from pathlib import Path
-from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 from kickoff import feeds as league_feeds
-from kickoff.dataset import event_from_dict
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
 from kickoff.reviewed_schedules import CLIMBING_LICENSE, load_reviewed_schedules
@@ -83,22 +81,6 @@ def read_url(url: str) -> bytes:
     return data
 
 
-def read_optional(url: str) -> bytes | None:
-    """A future input may explicitly be unpublished; malformed responses still fail."""
-    try:
-        return read_url(url)
-    except HTTPError as error:
-        if error.code == 404:
-            return None
-        raise
-
-
-def _restore(payload: dict) -> CalendarEvent:
-    return event_from_dict(
-        {k: v for k, v in payload.items() if k not in {"home_participant_name", "away_participant_name"}}
-    )
-
-
 def _check_feed(events: list[CalendarEvent], year: int, league: str, kind: str) -> None:
     if not isinstance(events, list):
         raise ValueError("Feed did not return an event list")
@@ -122,43 +104,6 @@ def _check_feed(events: list[CalendarEvent], year: int, league: str, kind: str) 
             errors.append(f"Missing source link: {event.event_id}")
     if errors:
         raise ValueError("; ".join(errors))
-
-
-def _prior_feed(previous: dict, year: int, league: str, kind: str) -> tuple[list, list, list, str]:
-    if previous.get("schema_version") != SCHEMA_VERSION or previous.get("season") != year:
-        raise ValueError("Live bundle has the wrong schema or year")
-    rows = [event for event in previous["events"] if event["league"] == league and event["source"] == kind]
-    receipt = next((r for r in previous.get("feed_status", []) if r["league"] == league), None)
-    if not rows and receipt is None:
-        raise ValueError(f"Live bundle has no previous events or successful empty-feed receipt for {league}")
-    events = [_restore(row) for row in rows]
-    _check_feed(events, year, league, kind)
-    urls = {event.source_url for event in events}
-    if kind in {"openfootball", "f1db"}:
-        repo = "openfootball/football.json" if kind == "openfootball" else "f1db/f1db"
-        notices = [
-            source
-            for source in previous["sources"]
-            if source["url"] == f"https://github.com/{repo}"
-            and any(f"/blob/{source.get('revision')}/" in url for url in urls)
-        ]
-        if events and any(not any(f"/blob/{source['revision']}/" in url for source in notices) for url in urls):
-            raise ValueError("Missing live pinned-source attribution")
-    else:
-        notices = [source for source in previous["sources"] if source.get("kind") == kind]
-    if events and (not notices or any(not all(s.get(k) for k in ("name", "url", "license")) for s in notices)):
-        raise ValueError("Missing live source attribution")
-    evidence = [
-        item
-        for item in previous.get("input_evidence", [])
-        if any(
-            item["url"]
-            == url.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob/", "/")
-            for url in urls
-        )
-    ]
-    checked = receipt["checked_at"] if receipt else previous["updated_at"]
-    return events, notices, evidence, checked
 
 
 def _event(
@@ -300,72 +245,30 @@ def refresh_open_schedules(
     output_dir: Path,
     reviewed_dir: Path | None = None,
     feeds: dict | None = None,
-    warnings: list[str] | None = None,
-    previous: dict | None = None,
-    previous_error: str | None = None,
-    published_inputs: set[str] | None = None,
+    available_seasons: list[int] | None = None,
 ) -> Path:
-    """Fetch every feed independently, then export directly to the static site's data directory.
-
-    Recovered failures are warnings for the workflow to fail AFTER deployment.
-    Missing or invalid fallback blocks publication, preserving the existing live site.
-    """
-    warnings = warnings if warnings is not None else []
+    """Fetch all configured schedules and export; any feed failure aborts publication."""
     now = datetime.now(timezone.utc)
     retrieved = now.isoformat(timespec="seconds")
-    events, evidence, source_notices, statuses, unrecovered = [], [], [], [], []
-    known_inputs = (published_inputs or set()) | {
-        row.get("url") or row.get("source_url") or ""
-        for row in (previous or {}).get("input_evidence", []) + (previous or {}).get("events", [])
-    }
+    events, evidence, source_notices = [], [], []
 
     def collect(league, kind, fetch):
-        try:
-            fresh, notices, inputs = fetch()
-            _check_feed(fresh, year, league, kind)
-            if not fresh and any(
-                e["league"] == league and e["source"] == kind for e in (previous or {}).get("events", [])
-            ):
-                raise ValueError("Feed returned no events after previously publishing events")
-            checked = retrieved
-            status = "fresh"
-        except Exception as error:
-            try:
-                if previous is None:
-                    raise ValueError(previous_error or "Live bundle unavailable")
-                fresh, notices, inputs, checked = _prior_feed(previous, year, league, kind)
-            except Exception as fallback_error:
-                message = f"{league} {year}: {error}; fallback unavailable: {fallback_error}"
-                warnings.append(message)
-                unrecovered.append(message)
-                return
-            warnings.append(f"{league} {year}: {error}; reused {len(fresh)} live events (checked {checked})")
-            status = "fallback"
+        fresh, notices, inputs = fetch()
+        _check_feed(fresh, year, league, kind)
         events.extend(fresh)
         evidence.extend(inputs)
         source_notices.extend(notices)
-        statuses.append({"league": league, "source": kind, "status": status, "checked_at": checked})
 
-    # A revision lookup failure belongs to that repository's feeds, not other schedules.
     revisions = {}
     for repo, branch in [("openfootball/football.json", "master"), ("f1db/f1db", "main")]:
-        try:
-            revision = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
-            if not re.fullmatch(r"[a-f0-9]{40}", revision):
-                raise ValueError("Invalid upstream revision")
-            revisions[repo] = revision
-        except Exception as error:
-            revisions[repo] = error
-
-    def revision_for(repo):
-        revision = revisions[repo]
-        if isinstance(revision, Exception):
-            raise revision
-        return revision
+        revision = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
+        if not re.fullmatch(r"[a-f0-9]{40}", revision):
+            raise ValueError("Invalid upstream revision")
+        revisions[repo] = revision
 
     def football(key):
         repo = "openfootball/football.json"
-        revision = revision_for(repo)
+        revision = revisions[repo]
         paths = (
             [f"{year}/br.1.json"]
             if key == "br.1"
@@ -374,12 +277,7 @@ def refresh_open_schedules(
         result, inputs = [], []
         for path in paths:
             url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
-            # A previously published input disappearing is a failure, even for a future season.
-            known = any(url.endswith("/" + path) for url in known_inputs)
-            future = int(path[:4]) > now.year if key == "br.1" else int(path[:4]) >= now.year
-            body = read_optional(url) if future and not known else read_url(url)
-            if body is None:
-                continue
+            body = read_url(url)
             parsed = football_events(
                 json.loads(body), key, path.split("/")[0], f"https://github.com/{repo}/blob/{revision}/{path}"
             )
@@ -392,13 +290,10 @@ def refresh_open_schedules(
 
     def formula_one():
         repo = "f1db/f1db"
-        revision = revision_for(repo)
+        revision = revisions[repo]
         directory = f"src/data/seasons/{year}/races"
         url = f"https://api.github.com/repos/{repo}/contents/{directory}?ref={revision}"
-        known = any(e.get("source") == "f1db" for e in (previous or {}).get("events", []))
-        body = read_optional(url) if year > now.year and not known else read_url(url)
-        if body is None:
-            return [], [], []
+        body = read_url(url)
         listing = json.loads(body)
         if not isinstance(listing, list) or not listing:
             raise ValueError("No F1 races returned")
@@ -423,8 +318,6 @@ def refresh_open_schedules(
             return fetch(year), [{**league_feeds.SOURCES[kind], "kind": kind}], []
 
         collect(league, kind, league_feed)
-    if unrecovered:
-        raise ValueError("Cannot publish without fallback for: " + "; ".join(unrecovered))
     fed_leagues = {event.league for event in events if event.source in league_feeds.SOURCES}
     reviewed, notices, exclusions = load_reviewed_schedules(reviewed_dir or output_dir.parent / "reviewed", year)
     # A full league feed supersedes the hand-reviewed selection for the same league.
@@ -440,7 +333,7 @@ def refresh_open_schedules(
     bundle = {
         "schema_version": SCHEMA_VERSION,
         "season": year,
-        "available_seasons": [year],
+        "available_seasons": available_seasons or [year],
         "providers": [],
         "events": [_event_payload(e) for e in sort_events(events)],
     }
@@ -470,7 +363,6 @@ def refresh_open_schedules(
     )
     feed_kinds = sorted({event["source"] for event in bundle["events"]} & set(league_feeds.SOURCES))
     bundle["sources"] = list({json.dumps(s, sort_keys=True): s for s in source_notices + notices}.values())
-    bundle["feed_status"] = statuses
     bundle["input_evidence"] = evidence
     bundle["exclusions"] = exclusions
     bundle["data_licenses"] = {

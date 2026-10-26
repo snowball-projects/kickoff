@@ -26,11 +26,10 @@ npm --prefix frontend run test:browser
 npm --prefix frontend run build
 ```
 
-Pages runs checks, fetches all schedules, builds and deploys daily at 09:17 UTC,
-on pushes to main and on demand. Nothing is committed back. A failed feed reuses
-only its events and provenance from the live site's data; after deployment the
-run fails with a summary naming each failed feed. Missing or invalid fallback
-stops publication, preserving the live site. Local refresh accepts `--year 2026`.
+Pages fetches all schedules, builds and deploys daily at 09:17 UTC, on pushes to
+main and on demand. Any feed failure stops the run before build/deployment,
+leaving the live site unchanged. Nothing is committed back. Checks run in CI on
+pull requests. Local refresh accepts `--year 2026`.
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;
 edit records and their receipts together, preserving IDs and uncertainty.
