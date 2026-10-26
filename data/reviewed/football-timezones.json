@@ -425,7 +425,26 @@
       "timezone": null,
       "checked_on": "2026-10-26",
       "source_url": "https://github.com/openfootball/football.json/blob/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/en.2.json",
-      "conclusion": "Five 2025-26 EFL editorial references match London clocks, but no current-season or sufficiently explicit official schedule timezone was established."
+      "conclusion": "Five 2025-26 EFL editorial references match London clocks. These were previews or a next-leg announcement reviewed using search body extraction, not sufficiently strong official schedule evidence for enabling a timezone. No current-season or sufficiently explicit official schedule timezone was established.",
+      "official_source_url": "https://www.efl.com/news/2025/december/28/final-efl-matchday-2025-preview--championship--league-one---league-two-fixtures/",
+      "supporting_sources": [
+        {
+          "url": "https://www.efl.com/news/2026/january/14/fantasy-efl--gw25-everything-you-need-to-know/",
+          "fact": "EFL editorial preview or next-leg announcement; reviewed using search body extraction, not a sufficiently strong official schedule timezone statement."
+        },
+        {
+          "url": "https://www.efl.com/news/2026/january/28/fantasy-efl--everything-you-need-to-know-about-gameweek-27/",
+          "fact": "EFL editorial preview or next-leg announcement; reviewed using search body extraction, not a sufficiently strong official schedule timezone statement."
+        },
+        {
+          "url": "https://www.efl.com/news/2026/february/19/fantasy-efl-/",
+          "fact": "EFL editorial preview or next-leg announcement; reviewed using search body extraction, not a sufficiently strong official schedule timezone statement."
+        },
+        {
+          "url": "https://www.efl.com/news/2026/may/09/middlesbrough-and-southampton-set-for-decisive-second-leg-/",
+          "fact": "EFL editorial preview or next-leg announcement; reviewed using search body extraction, not a sufficiently strong official schedule timezone statement."
+        }
+      ]
     },
     {
       "league": "nl.1",
@@ -433,7 +452,14 @@
       "timezone": null,
       "checked_on": "2026-10-26",
       "source_url": "https://github.com/openfootball/football.json/blob/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/nl.1.json",
-      "conclusion": "Five 2025-26 opening clocks match the KNVB schedule, but no explicit official timezone was established."
+      "conclusion": "Five 2025-26 opening clocks match the KNVB schedule, but no explicit official timezone was established.",
+      "official_source_url": "https://www.knvb.nl/downloads/bestand/29586/programmavriendenloterijeredivisiekeukenkampioendivisie8tm11augustus",
+      "supporting_sources": [
+        {
+          "url": "https://eredivisie.nl/nieuws/definitief-competitieprogramma-vriendenloterij-eredivisie-2025-26-bekend/",
+          "fact": "Official 2025-26 competition-programme announcement supporting the KNVB opening-round schedule."
+        }
+      ]
     }
   ]
 }
