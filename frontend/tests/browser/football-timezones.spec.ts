@@ -3,16 +3,13 @@ import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 
-// Exercise the real importer and reviewed mappings with synthetic clocks.
+// Exercise the real importer and confirmed league mappings with synthetic clocks.
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const python = existsSync(`${root}.venv/bin/python`) ? `${root}.venv/bin/python` : "python";
 const events = JSON.parse(execFileSync(python, ["-c", `
 import json
-from pathlib import Path
 from kickoff.open_schedules import football_events
 from kickoff.web import _event_payload
-reviews = json.loads(Path('data/reviewed/football-timezones.json').read_text())['reviews']
-zones = {(r['league'], r['season']): r['timezone'] for r in reviews}
 events = []
 for key, season, day, clock, name in [
     ('en.1', '2026-27', '2026-10-24', '20:00', 'Summer clock'),
@@ -20,11 +17,11 @@ for key, season, day, clock, name in [
     ('en.1', '2026-27', '2026-10-25', '01:30', 'Repeated clock'),
     ('es.1', '2026-27', '2026-10-25', '20:00', 'Unconfirmed league'),
     ('br.1', '2026', '2026-12-31', '23:30', 'Year boundary'),
-    ('en.1', '2025-26', '2026-12-31', '23:30', 'Unreviewed season'),
+    ('es.1', '2026-27', '2026-12-31', '23:30', 'Date-only clock'),
 ]:
     row = dict(date=day, time=clock, team1=name, team2='Away')
     events.extend(_event_payload(e) for e in football_events(
-        {'matches': [row]}, key, season, 'https://example.org/synthetic', zones.get((key, season))))
+        {'matches': [row]}, key, season, 'https://example.org/synthetic')))
 print(json.dumps(events))
 `], { cwd: root, encoding: "utf8" }));
 
@@ -57,10 +54,10 @@ for (const scenario of [
         await expect(agenda.getByRole("button").filter({ hasText: `${name} vs Away` })).toContainText("Time TBD");
     }
     if (scenario.name === "Year boundary") {
-      await expect(agenda).not.toContainText("Unreviewed season");
+      await expect(agenda).not.toContainText("Date-only clock");
       await page.getByRole("group", { name: "Agenda days", exact: true }).getByRole("button", { name: "Yesterday", exact: true }).click();
       await expect(agenda).toContainText("Thursday, December 31, 2026");
-      await expect(agenda.getByRole("button").filter({ hasText: "Unreviewed season vs Away" })).toContainText("Time TBD");
+      await expect(agenda.getByRole("button").filter({ hasText: "Date-only clock vs Away" })).toContainText("Time TBD");
     }
   });
 }

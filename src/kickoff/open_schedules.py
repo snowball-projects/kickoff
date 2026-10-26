@@ -31,6 +31,14 @@ FOOTBALL = {
     "pt.1": ("PRIMEIRA_LIGA", "Primeira Liga", "Portugal"),
     "br.1": ("BRASILEIRAO", "Brazil Série A", "Brazil"),
 }
+FOOTBALL_TIMEZONES = {
+    "en.1": "Europe/London",
+    "de.1": "Europe/Berlin",
+    "it.1": "Europe/Rome",
+    "fr.1": "Europe/Paris",
+    "pt.1": "Europe/Lisbon",
+    "br.1": "America/Sao_Paulo",
+}
 SOURCES = [
     {
         "name": "openfootball contributors",
@@ -158,10 +166,9 @@ def _event(
     )
 
 
-def football_events(
-    payload: dict, key: str, season: str, source_url: str, timezone_name: str | None = None
-) -> list[CalendarEvent]:
+def football_events(payload: dict, key: str, season: str, source_url: str) -> list[CalendarEvent]:
     league, label, country = FOOTBALL[key]
+    timezone_name = FOOTBALL_TIMEZONES.get(key)
     rows = payload.get("matches")
     if not isinstance(rows, list) or not rows:
         raise ValueError(f"Missing matches: {key} {season}")
@@ -281,14 +288,6 @@ def refresh_open_schedules(
     now = datetime.now(timezone.utc)
     retrieved = now.isoformat(timespec="seconds")
     events, evidence, source_notices = [], [], []
-    reviewed_dir = reviewed_dir or output_dir.parent / "reviewed"
-    timezone_path = reviewed_dir / "football-timezones.json"
-    timezone_reviews = json.loads(timezone_path.read_text())["reviews"] if timezone_path.exists() else []
-    football_zones = {
-        (review["league"], review["season"]): review["timezone"]
-        for review in timezone_reviews
-        if review.get("timezone")
-    }
 
     def collect(league, kind, fetch):
         fresh, notices, inputs = fetch()
@@ -322,11 +321,7 @@ def refresh_open_schedules(
             if body is None:
                 continue
             parsed = football_events(
-                json.loads(body),
-                key,
-                path.split("/")[0],
-                f"https://github.com/{repo}/blob/{revision}/{path}",
-                football_zones.get((key, path.split("/")[0])),
+                json.loads(body), key, path.split("/")[0], f"https://github.com/{repo}/blob/{revision}/{path}"
             )
             result.extend(e for e in parsed if e.calendar_date.startswith(str(year)))
             inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)})
@@ -368,7 +363,7 @@ def refresh_open_schedules(
 
         collect(league, kind, league_feed)
     fed_leagues = {event.league for event in events if event.source in league_feeds.SOURCES}
-    reviewed, notices, exclusions = load_reviewed_schedules(reviewed_dir, year)
+    reviewed, notices, exclusions = load_reviewed_schedules(reviewed_dir or output_dir.parent / "reviewed", year)
     # A full league feed supersedes the hand-reviewed selection for the same league.
     reviewed = [event for event in reviewed if event.league not in fed_leagues]
     kept_sources = {event.source_url for event in reviewed}
@@ -407,7 +402,7 @@ def refresh_open_schedules(
             if reviewed
             else ""
         )
-        + "No live scores. Football kickoff times use reviewed league and season timezone conventions; "
+        + "No live scores. Football kickoff times use confirmed league timezone conventions; "
         "unconfirmed or missing clocks remain date-only. F1 times use the source's UTC fields."
     )
     feed_kinds = sorted({event["source"] for event in bundle["events"]} & set(league_feeds.SOURCES))
