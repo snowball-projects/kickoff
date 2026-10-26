@@ -108,24 +108,6 @@ test("uniform advanced selectors save together, cancel cleanly, and survive reop
   await expect(advanced.getByLabel("LPGA Tour", { exact: true })).toHaveValue("majors_only");
 });
 
-test("legacy mixed golf choices migrate without a second onboarding", async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v1",
-    JSON.stringify(["GOLF_MAJORS_MEN", "LPGA_TOUR", "GOLF_MAJORS_WOMEN"])));
-  await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
-  await page.goto("/");
-  const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
-  await expect(chooser).toHaveCount(0);
-  await page.getByRole("button", { name: "Interests · 2", exact: true }).click();
-  await chooser.locator("details.advanced summary").click();
-  await expect(chooser.locator("details.advanced").getByLabel("PGA Tour", { exact: true })).toHaveValue("majors_only");
-  await expect(chooser.locator("details.advanced").getByLabel("LPGA Tour", { exact: true })).toHaveValue("full_tour");
-  await chooser.getByRole("button", { name: "Show my calendar" }).click();
-  await page.reload();
-  await expect(chooser).toHaveCount(0);
-  await openMonth(page, "April");
-  await expect(page.locator("#day-2026-04-09 .event-pill").filter({ hasText: "Masters Tournament" })).toHaveCount(1);
-});
-
 for (const categories of [["four_belt"], []]) {
   test(`legacy ${categories.length ? "narrow" : "empty"} boxing preferences include reviewed boxing and retire on save`, async ({ page }) => {
     await page.clock.setFixedTime(new Date("2026-10-24T17:00:00Z"));

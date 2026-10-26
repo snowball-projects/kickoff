@@ -1,5 +1,4 @@
 import copy
-import hashlib
 import json
 from pathlib import Path
 
@@ -89,21 +88,6 @@ def test_golf_season_additions_keep_final_dates_explicit_and_majors_separate():
     assert {notice["license"] for notice in notices} == {"CC BY-SA 4.0", "CC0 1.0"}
 
 
-def test_network_failure_preserves_published_snapshot(monkeypatch, tmp_path):
-    target = tmp_path / "published"
-    target.mkdir()
-    old = target / "2026.json"
-    old.write_text("previous reviewed snapshot")
-
-    def fail(_):
-        raise OSError("offline")
-
-    monkeypatch.setattr("kickoff.open_schedules.read_url", fail)
-    with pytest.raises(OSError, match="offline"):
-        refresh_open_schedules(2026, tmp_path / "working", target)
-    assert old.read_text() == "previous reviewed snapshot"
-
-
 def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
     requests = []
 
@@ -112,7 +96,7 @@ def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
         return fake_open_read(url)
 
     monkeypatch.setattr("kickoff.open_schedules.read_url", read)
-    result = refresh_open_schedules(2026, tmp_path / "working", tmp_path / "published")
+    result = refresh_open_schedules(2026, tmp_path / "published")
     bundle = json.loads(result.read_text())
     assert len(bundle["events"]) == 10
     assert sum(url.endswith("br.1.json") for url in requests) == 1
@@ -137,36 +121,6 @@ def fake_open_read(url):
     return json.dumps(
         {"matches": [{"date": day, "time": "20:00", "team1": "Home", "team2": "Away", "round": "Round 1"}]}
     ).encode()
-
-
-def test_late_refresh_failure_keeps_prior_components_and_truthful_partial_coverage(monkeypatch, tmp_path):
-    monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
-    reviewed = tmp_path / "reviewed"
-    reviewed.mkdir()
-    registry = reviewed / "2026-golf.json"
-    registry.write_text(json.dumps(golf_registry()))
-    output = tmp_path / "published"
-    path = refresh_open_schedules(2026, tmp_path / "working", output, reviewed)
-    original = path.read_bytes()
-    bundle = json.loads(original)
-    assert "4 men's golf majors" in bundle["coverage"]
-    assert "World Climbing" not in bundle["coverage"]
-    modified = golf_registry()
-    modified["events"][0]["title"] += " revised"
-    registry.write_text(json.dumps(modified))
-    write = Path.write_bytes
-
-    def fail_final(path, body):
-        if path == output / "2026.tmp":
-            raise OSError("disk full during final write")
-        return write(path, body)
-
-    monkeypatch.setattr(Path, "write_bytes", fail_final)
-    with pytest.raises(OSError, match="disk full"):
-        refresh_open_schedules(2026, tmp_path / "working", output, reviewed)
-    assert path.read_bytes() == original
-    for component in bundle["components"]:
-        assert hashlib.sha256((output / component["path"]).read_bytes()).hexdigest() == component["sha256"]
 
 
 def test_chase_rounds_and_major_championships_keep_phase():

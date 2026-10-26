@@ -71,6 +71,13 @@ def get_json(url: str, *, retries: int = 3, missing_ok: bool = False) -> dict | 
     return None
 
 
+def rows(payload: dict, key: str) -> list:
+    """Missing collections are malformed, never a successful empty schedule."""
+    if not isinstance(payload, dict) or not isinstance(payload.get(key), list):
+        raise ValueError(f"Missing or invalid {key} collection")
+    return payload[key]
+
+
 def _local_date(utc: str, zone: ZoneInfo) -> str:
     return datetime.fromisoformat(_iso_utc(utc).replace("Z", "+00:00")).astimezone(zone).date().isoformat()
 
@@ -228,7 +235,7 @@ def espn_season_feed(path: str, league: str, sport: str, event_type: str, fallba
     def fetch(year: int) -> list[CalendarEvent]:
         payload = get_json(f"{ESPN}/{path}/scoreboard?dates={year}&limit=500")
         events = []
-        for row in payload.get("events") or []:
+        for row in rows(payload, "events"):
             name = row.get("name", "")
             season = str((row.get("season") or {}).get("year") or _local_date(row["date"], EASTERN)[:4])
             phase = espn_calendar_phase(league, row["id"], season, name)
@@ -258,7 +265,7 @@ def nfl_events(year: int) -> list[CalendarEvent]:
         payload = get_json(
             f"{ESPN}/football/nfl/scoreboard?dates={season}&seasontype={season_type}&week={week}", missing_ok=True
         )
-        for row in (payload or {}).get("events") or []:
+        for row in rows(payload, "events") if payload is not None else []:
             name = row.get("name", "")
             if "Pro Bowl" in name:
                 phase = "exhibition"
@@ -292,7 +299,7 @@ def nba_events(year: int) -> list[CalendarEvent]:
                 f"{ESPN}/basketball/nba/teams/{team_id}/schedule?season={season}&seasontype={season_type}",
                 missing_ok=True,
             )
-            for row in (payload or {}).get("events") or []:
+            for row in rows(payload, "events") if payload is not None else []:
                 event = _espn_event(
                     row,
                     league="NBA",
@@ -313,7 +320,11 @@ def ucl_events(year: int) -> list[CalendarEvent]:
     """OpenLigaDB lists the match dates; ESPN supplies English names and kickoff times."""
     days = set()
     for season in (year - 1, year):
-        matches = get_json(f"https://api.openligadb.de/getmatchdata/ucl/{season}", missing_ok=True) or []
+        matches = get_json(f"https://api.openligadb.de/getmatchdata/ucl/{season}", missing_ok=True)
+        if matches is None:
+            continue
+        if not isinstance(matches, list):
+            raise ValueError("Invalid OpenLigaDB match list")
         for match in matches:
             utc = match.get("matchDateTimeUTC")
             if utc and not utc.startswith("1970"):
@@ -323,7 +334,7 @@ def ucl_events(year: int) -> list[CalendarEvent]:
     events = []
     for day in sorted(days):
         payload = get_json(f"{ESPN}/soccer/uefa.champions/scoreboard?dates={day.replace('-', '')}", missing_ok=True)
-        for row in (payload or {}).get("events") or []:
+        for row in rows(payload, "events") if payload is not None else []:
             slug = (row.get("season") or {}).get("slug", "")
             event = _espn_event(
                 row,
@@ -346,8 +357,8 @@ MLB_PHASES = {"R": "regular_season", "F": "postseason", "D": "postseason", "L": 
 def mlb_events(year: int) -> list[CalendarEvent]:
     payload = get_json(f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W")
     events = []
-    for day in payload.get("dates") or []:
-        for game in day.get("games") or []:
+    for day in rows(payload, "dates"):
+        for game in rows(day, "games"):
             status = game.get("status") or {}
             if status.get("detailedState") in {"Postponed", "Cancelled", "Suspended"}:
                 continue
@@ -392,8 +403,8 @@ def nhl_events(year: int) -> list[CalendarEvent]:
     end = date(year, 12, 31)
     while cursor <= end:
         payload = get_json(f"https://api-web.nhle.com/v1/schedule/{cursor.isoformat()}")
-        for week in payload.get("gameWeek") or []:
-            for game in week.get("games") or []:
+        for week in rows(payload, "gameWeek"):
+            for game in rows(week, "games"):
                 if game.get("gameType") not in (2, 3) or game.get("gameScheduleState") not in (None, "OK"):
                     continue
                 away = _nhl_team(game["awayTeam"])

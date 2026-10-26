@@ -3,6 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 const port = Number(process.env.KICKOFF_TEST_PORT || 5173);
 
 export default defineConfig({
+  globalSetup: "./tests/browser/setup.ts",
   testDir: "./tests/browser",
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),

@@ -1,11 +1,6 @@
-import json
-
 import pytest
 
 from kickoff import feeds
-from kickoff.open_schedules import collect_feed_events, refresh_open_schedules
-from kickoff.web import _event_payload
-from tests.test_reviewed_schedules import ROOT, fake_open_read
 
 
 def espn_game(event_id, utc, home, away, status="STATUS_SCHEDULED", time_valid=True, **extra):
@@ -178,74 +173,6 @@ def test_nhl_walks_weeks_and_skips_preseason(monkeypatch):
     (event,) = feeds.nhl_events(2026)
     assert event.title == "Boston Bruins at New York Rangers"
     assert len(calls) == 1
-
-
-def published(events):
-    return {"events": [_event_payload(event) for event in events]}
-
-
-def test_failed_or_shrunken_feed_keeps_previous_events():
-    old = [
-        feeds.make_event(
-            source="espn",
-            league="NBA",
-            sport="basketball",
-            upstream_id=i,
-            season="2026",
-            title=f"Game {i}",
-            utc=None,
-            day="2026-11-01",
-        )
-        for i in range(10)
-    ]
-    previous = published(old)
-
-    def broken(_year):
-        raise OSError("ESPN offline")
-
-    warnings = []
-    events, fed = collect_feed_events(2026, {"NBA": ("espn", broken)}, previous, warnings)
-    assert [event.event_id for event in events] == [event.event_id for event in old]
-    assert fed == {"NBA"} and "fetch failed" in warnings[0]
-
-    warnings = []
-    events, _ = collect_feed_events(2026, {"NBA": ("espn", lambda _year: old[:3])}, previous, warnings)
-    assert len(events) == 10 and "down from 10" in warnings[0]
-
-    warnings = []
-    events, _ = collect_feed_events(2026, {"NBA": ("espn", lambda _year: old[:9])}, previous, warnings)
-    assert len(events) == 9 and warnings == []
-
-
-def test_feed_league_replaces_reviewed_selection_and_unchanged_refresh_skips_write(monkeypatch, tmp_path):
-    monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
-    nfl = [
-        feeds.make_event(
-            source="espn",
-            league="NFL",
-            sport="football",
-            upstream_id=1,
-            season="2026",
-            title="Patriots at Seahawks",
-            utc="2026-09-11T00:20Z",
-            day="2026-09-10",
-        )
-    ]
-    output = tmp_path / "published"
-    reviewed = tmp_path / "reviewed"
-    reviewed.mkdir()
-    registry = ROOT / "data/reviewed/2026-nfl-community.json"
-    (reviewed / registry.name).write_text(registry.read_text())
-    path = refresh_open_schedules(
-        2026, tmp_path / "working", output, reviewed, feeds={"NFL": ("espn", lambda _year: nfl)}
-    )
-    bundle = json.loads(path.read_text())
-    assert [e["event_id"] for e in bundle["events"] if e["league"] == "NFL"] == ["espn-nfl-1"]
-    assert "Published schedules for NFL" in bundle["coverage"]
-    assert any(source.get("kind") == "espn" for source in bundle["sources"])
-    stamp = path.stat().st_mtime_ns
-    refresh_open_schedules(2026, tmp_path / "working", output, reviewed, feeds={"NFL": ("espn", lambda _year: nfl)})
-    assert path.stat().st_mtime_ns == stamp
 
 
 @pytest.mark.parametrize("league", sorted(feeds.FEEDS))

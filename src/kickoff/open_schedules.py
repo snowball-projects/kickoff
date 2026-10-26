@@ -6,7 +6,6 @@ import hashlib
 import json
 import re
 from collections import Counter
-from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError
@@ -15,12 +14,11 @@ from urllib.request import Request, urlopen
 from kickoff import feeds as league_feeds
 from kickoff.dataset import event_from_dict
 from kickoff.models import CalendarEvent, Participant
-from kickoff.normalize import stable_event_id
+from kickoff.normalize import sort_events, stable_event_id
 from kickoff.reviewed_schedules import CLIMBING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
-from kickoff.settings import Settings
 from kickoff.validation import validate_batch
-from kickoff.web import export_web_bundle
+from kickoff.web import SCHEMA_VERSION, _event_payload
 
 FOOTBALL = {
     "en.1": ("EPL", "Premier League", "England"),
@@ -74,23 +72,19 @@ FEED_LABELS = {
     "NASCAR_CUP": "NASCAR Cup",
     "INDYCAR": "IndyCar",
 }
-# A feed that suddenly returns far fewer events than last time is treated as broken.
-MIN_FEED_RATIO = 0.7
 
 
 def read_url(url: str) -> bytes:
-    request = Request(
-        url, headers={"User-Agent": "kickoff-open-schedule/0.2 (https://github.com/snowball-projects/kickoff)"}
-    )
+    request = Request(url, headers={"User-Agent": "kickoff (https://github.com/snowball-projects/kickoff)"})
     with urlopen(request, timeout=40) as response:
-        data = response.read(5_000_001)
-    if len(data) > 5_000_000:
+        data = response.read(20_000_001)
+    if len(data) > 20_000_000:
         raise ValueError(f"Source exceeds size limit: {url}")
     return data
 
 
 def read_optional(url: str) -> bytes | None:
-    """Allow a 404 only for an input the caller knows may not be published yet."""
+    """A future input may explicitly be unpublished; malformed responses still fail."""
     try:
         return read_url(url)
     except HTTPError as error:
@@ -99,70 +93,72 @@ def read_optional(url: str) -> bytes | None:
         raise
 
 
-def _published_input_paths(previous: dict | None, repository: str) -> set[str]:
-    """Identify prior inputs across pinned revisions, including older bundles."""
-    paths = set()
-    prefixes = (
-        f"https://raw.githubusercontent.com/{repository}/",
-        f"https://github.com/{repository}/blob/",
-    )
-    for item in (previous or {}).get("input_evidence", []) + (previous or {}).get("events", []):
-        url = item.get("url") or item.get("source_url") or ""
-        for prefix in prefixes:
-            if url.startswith(prefix):
-                _revision, separator, path = url[len(prefix) :].partition("/")
-                if separator:
-                    paths.add(path)
-    return paths
-
-
-def _previous_bundle(path: Path) -> dict | None:
-    try:
-        bundle = json.loads(path.read_text())
-    except (OSError, ValueError):
-        return None
-    return bundle if isinstance(bundle, dict) and isinstance(bundle.get("events"), list) else None
-
-
-def _stable_view(bundle: dict) -> dict:
-    """Everything except retrieval times and input hashes, which change on every run."""
-    view = {key: value for key, value in bundle.items() if key not in {"updated_at", "input_evidence"}}
-    view["sources"] = [{k: v for k, v in source.items() if k != "retrieved_at"} for source in bundle.get("sources", [])]
-    return view
-
-
 def _restore(payload: dict) -> CalendarEvent:
-    fields = {k: v for k, v in payload.items() if k not in {"home_participant_name", "away_participant_name"}}
-    return event_from_dict(fields)
+    return event_from_dict(
+        {k: v for k, v in payload.items() if k not in {"home_participant_name", "away_participant_name"}}
+    )
 
 
-def collect_feed_events(
-    year: int, feeds: dict, previous: dict | None, warnings: list[str]
-) -> tuple[list[CalendarEvent], set[str]]:
-    """Fetch each league independently; a failing or shrunken feed keeps its last published events."""
-    old_by_league: dict[str, list[dict]] = {}
-    for event in (previous or {}).get("events", []):
-        if event.get("source") in league_feeds.SOURCES:
-            old_by_league.setdefault(event["league"], []).append(event)
-    events: list[CalendarEvent] = []
-    fed_leagues: set[str] = set()
-    for league, (_kind, fetch) in feeds.items():
-        old = old_by_league.get(league, [])
-        try:
-            fresh = fetch(year)
-        except Exception as error:  # noqa: BLE001 - any feed failure falls back the same way
-            warnings.append(f"{league} {year}: fetch failed ({error}); kept {len(old)} previously published events")
-            fresh = None
-        if fresh is not None and old and len(fresh) < MIN_FEED_RATIO * len(old):
-            warnings.append(
-                f"{league} {year}: returned {len(fresh)} events, down from {len(old)}; kept the previous events"
+def _check_feed(events: list[CalendarEvent], year: int, league: str, kind: str) -> None:
+    if not isinstance(events, list):
+        raise ValueError("Feed did not return an event list")
+    errors = validate_batch(events)
+    for event in events:
+        if (
+            event.league != league
+            or event.source != kind
+            or not (
+                (event.calendar_date or "").startswith(str(year))
+                or (event.end_calendar_date or "").startswith(str(year))
             )
-            fresh = None
-        chosen = fresh if fresh is not None else [_restore(event) for event in old]
-        if chosen:
-            fed_leagues.add(league)
-        events.extend(chosen)
-    return events, fed_leagues
+        ):
+            errors.append(f"Unexpected event in {league} {year}: {event.event_id}")
+        if not isinstance(event.tags, list) or any(not isinstance(tag, str) for tag in event.tags):
+            errors.append(f"Invalid tags: {event.event_id}")
+        for stamp in (event.start_time_utc, event.start_time_local):
+            if stamp and datetime.fromisoformat(stamp.replace("Z", "+00:00")).tzinfo is None:
+                errors.append(f"Timestamp has no offset: {event.event_id}")
+        if not event.source_url or not event.source_url.startswith("https://"):
+            errors.append(f"Missing source link: {event.event_id}")
+    if errors:
+        raise ValueError("; ".join(errors))
+
+
+def _prior_feed(previous: dict, year: int, league: str, kind: str) -> tuple[list, list, list, str]:
+    if previous.get("schema_version") != SCHEMA_VERSION or previous.get("season") != year:
+        raise ValueError("Live bundle has the wrong schema or year")
+    rows = [event for event in previous["events"] if event["league"] == league and event["source"] == kind]
+    receipt = next((r for r in previous.get("feed_status", []) if r["league"] == league), None)
+    if not rows and receipt is None:
+        raise ValueError(f"Live bundle has no previous events or successful empty-feed receipt for {league}")
+    events = [_restore(row) for row in rows]
+    _check_feed(events, year, league, kind)
+    urls = {event.source_url for event in events}
+    if kind in {"openfootball", "f1db"}:
+        repo = "openfootball/football.json" if kind == "openfootball" else "f1db/f1db"
+        notices = [
+            source
+            for source in previous["sources"]
+            if source["url"] == f"https://github.com/{repo}"
+            and any(f"/blob/{source.get('revision')}/" in url for url in urls)
+        ]
+        if events and any(not any(f"/blob/{source['revision']}/" in url for source in notices) for url in urls):
+            raise ValueError("Missing live pinned-source attribution")
+    else:
+        notices = [source for source in previous["sources"] if source.get("kind") == kind]
+    if events and (not notices or any(not all(s.get(k) for k in ("name", "url", "license")) for s in notices)):
+        raise ValueError("Missing live source attribution")
+    evidence = [
+        item
+        for item in previous.get("input_evidence", [])
+        if any(
+            item["url"]
+            == url.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob/", "/")
+            for url in urls
+        )
+    ]
+    checked = receipt["checked_at"] if receipt else previous["updated_at"]
+    return events, notices, evidence, checked
 
 
 def _event(
@@ -301,119 +297,153 @@ def f1_events(text: str, year: int, source_url: str) -> list[CalendarEvent]:
 
 def refresh_open_schedules(
     year: int,
-    working_dir: Path,
     output_dir: Path,
     reviewed_dir: Path | None = None,
     feeds: dict | None = None,
     warnings: list[str] | None = None,
+    previous: dict | None = None,
+    previous_error: str | None = None,
+    published_inputs: set[str] | None = None,
 ) -> Path:
-    """Fetch at fixed upstream commits; export only approved source records.
+    """Fetch every feed independently, then export directly to the static site's data directory.
 
-    `feeds` maps league -> (source kind, fetcher) for the scheduled league feeds.
-    Problems that leave the previous data in place are appended to `warnings`.
+    Recovered failures are warnings for the workflow to fail AFTER deployment.
+    Missing or invalid fallback blocks publication, preserving the existing live site.
     """
     warnings = warnings if warnings is not None else []
-    previous = _previous_bundle(output_dir / f"{year}.json")
-    published_football = _published_input_paths(previous, "openfootball/football.json")
-    # Split-year inputs are shared by adjacent calendar snapshots. A first refresh
-    # for this year must also preserve publication evidence from those snapshots.
-    for adjacent_year in (year - 1, year + 1):
-        adjacent = _previous_bundle(output_dir / f"{adjacent_year}.json")
-        published_football.update(_published_input_paths(adjacent, "openfootball/football.json"))
-    published_f1 = _published_input_paths(previous, "f1db/f1db")
-    working_dir.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc)
     retrieved = now.isoformat(timespec="seconds")
+    events, evidence, source_notices, statuses, unrecovered = [], [], [], [], []
+    known_inputs = (published_inputs or set()) | {
+        row.get("url") or row.get("source_url") or ""
+        for row in (previous or {}).get("input_evidence", []) + (previous or {}).get("events", [])
+    }
+
+    def collect(league, kind, fetch):
+        try:
+            fresh, notices, inputs = fetch()
+            _check_feed(fresh, year, league, kind)
+            if not fresh and any(
+                e["league"] == league and e["source"] == kind for e in (previous or {}).get("events", [])
+            ):
+                raise ValueError("Feed returned no events after previously publishing events")
+            checked = retrieved
+            status = "fresh"
+        except Exception as error:
+            try:
+                if previous is None:
+                    raise ValueError(previous_error or "Live bundle unavailable")
+                fresh, notices, inputs, checked = _prior_feed(previous, year, league, kind)
+            except Exception as fallback_error:
+                message = f"{league} {year}: {error}; fallback unavailable: {fallback_error}"
+                warnings.append(message)
+                unrecovered.append(message)
+                return
+            warnings.append(f"{league} {year}: {error}; reused {len(fresh)} live events (checked {checked})")
+            status = "fallback"
+        events.extend(fresh)
+        evidence.extend(inputs)
+        source_notices.extend(notices)
+        statuses.append({"league": league, "source": kind, "status": status, "checked_at": checked})
+
+    # A revision lookup failure belongs to that repository's feeds, not other schedules.
     revisions = {}
     for repo, branch in [("openfootball/football.json", "master"), ("f1db/f1db", "main")]:
-        revisions[repo] = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
-    jobs = []
-    for start in [year - 1, year]:
-        season = f"{start}-{str(start + 1)[-2:]}"
-        for key in FOOTBALL:
-            if key == "br.1":
-                continue
-            path = f"{season}/{key}.json"
-            jobs.append(
-                (
-                    "football",
-                    key,
-                    season,
-                    path,
-                    f"https://raw.githubusercontent.com/openfootball/football.json/{revisions['openfootball/football.json']}/{path}",
-                )
-            )
-    path = f"{year}/br.1.json"
-    jobs.append(
-        (
-            "football",
-            "br.1",
-            str(year),
-            path,
-            f"https://raw.githubusercontent.com/openfootball/football.json/{revisions['openfootball/football.json']}/{path}",
+        try:
+            revision = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
+            if not re.fullmatch(r"[a-f0-9]{40}", revision):
+                raise ValueError("Invalid upstream revision")
+            revisions[repo] = revision
+        except Exception as error:
+            revisions[repo] = error
+
+    def revision_for(repo):
+        revision = revisions[repo]
+        if isinstance(revision, Exception):
+            raise revision
+        return revision
+
+    def football(key):
+        repo = "openfootball/football.json"
+        revision = revision_for(repo)
+        paths = (
+            [f"{year}/br.1.json"]
+            if key == "br.1"
+            else [f"{start}-{str(start + 1)[-2:]}/{key}.json" for start in (year - 1, year)]
         )
-    )
-    f1dir = f"src/data/seasons/{year}/races"
-    f1rev = revisions["f1db/f1db"]
-    optional_f1 = year > now.year and not any(path.startswith(f"{f1dir}/") for path in published_f1)
-    listing_url = f"https://api.github.com/repos/f1db/f1db/contents/{f1dir}?ref={f1rev}"
-    listing = read_optional(listing_url) if optional_f1 else read_url(listing_url)
-    races = json.loads(listing) if listing is not None else []
-    for item in races:
-        if item["type"] == "dir":
-            path = item["path"] + "/race.yml"
-            jobs.append(("f1", "", str(year), path, f"https://raw.githubusercontent.com/f1db/f1db/{f1rev}/{path}"))
-    if not races and not optional_f1:
-        raise ValueError("No F1 races returned")
+        result, inputs = [], []
+        for path in paths:
+            url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
+            # A previously published input disappearing is a failure, even for a future season.
+            known = any(url.endswith("/" + path) for url in known_inputs)
+            future = int(path[:4]) > now.year if key == "br.1" else int(path[:4]) >= now.year
+            body = read_optional(url) if future and not known else read_url(url)
+            if body is None:
+                continue
+            parsed = football_events(
+                json.loads(body), key, path.split("/")[0], f"https://github.com/{repo}/blob/{revision}/{path}"
+            )
+            result.extend(e for e in parsed if e.calendar_date.startswith(str(year)))
+            inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)})
+        return result, [{**SOURCES[0], "revision": revision}], inputs
 
-    def fetch_input(job):
-        kind, key, season, path, url = job
-        # A split-year season may be unpublished early in its starting year;
-        # Brazil's current calendar-year schedule and every listed F1 race are required.
-        future_football = int(season[:4]) > now.year if key == "br.1" else int(season[:4]) >= now.year
-        if kind == "football" and future_football and path not in published_football:
-            return read_optional(url)
-        return read_url(url)
+    for key, (league, _label, _country) in FOOTBALL.items():
+        collect(league, "openfootball", lambda key=key: football(key))
 
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        bodies = list(pool.map(fetch_input, jobs))
-    events, evidence = [], []
-    for job, body in zip(jobs, bodies, strict=True):
-        kind, key, season, path, url = job
+    def formula_one():
+        repo = "f1db/f1db"
+        revision = revision_for(repo)
+        directory = f"src/data/seasons/{year}/races"
+        url = f"https://api.github.com/repos/{repo}/contents/{directory}?ref={revision}"
+        known = any(e.get("source") == "f1db" for e in (previous or {}).get("events", []))
+        body = read_optional(url) if year > now.year and not known else read_url(url)
         if body is None:
-            # Next season's file appears when upstream publishes it; coverage reflects its absence.
-            continue
-        digest = hashlib.sha256(body).hexdigest()
-        raw = working_dir / "raw" / digest
-        raw.parent.mkdir(exist_ok=True)
-        raw.write_bytes(body)
-        if kind == "football":
-            src = f"https://github.com/openfootball/football.json/blob/{revisions['openfootball/football.json']}/{path}"
-            parsed = football_events(json.loads(body), key, season, src)
-        else:
-            src = f"https://github.com/f1db/f1db/blob/{f1rev}/{path}"
-            parsed = f1_events(body.decode(), year, src)
-        events.extend(e for e in parsed if e.calendar_date and e.calendar_date.startswith(str(year)))
-        evidence.append({"url": url, "sha256": digest, "parsed_events": len(parsed)})
-    fed, fed_leagues = collect_feed_events(year, feeds or {}, previous, warnings)
-    events.extend(fed)
+            return [], [], []
+        listing = json.loads(body)
+        if not isinstance(listing, list) or not listing:
+            raise ValueError("No F1 races returned")
+        result, inputs = [], []
+        for item in listing:
+            if item["type"] != "dir":
+                continue
+            path = item["path"] + "/race.yml"
+            url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
+            body = read_url(url)
+            parsed = f1_events(body.decode(), year, f"https://github.com/{repo}/blob/{revision}/{path}")
+            result.extend(e for e in parsed if e.calendar_date.startswith(str(year)))
+            inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)})
+        if not result:
+            raise ValueError("No F1 races parsed")
+        return result, [{**SOURCES[1], "revision": revision}], inputs
+
+    collect("F1", "f1db", formula_one)
+    for league, (kind, fetch) in (feeds or {}).items():
+
+        def league_feed(fetch=fetch, kind=kind):
+            return fetch(year), [{**league_feeds.SOURCES[kind], "kind": kind}], []
+
+        collect(league, kind, league_feed)
+    if unrecovered:
+        raise ValueError("Cannot publish without fallback for: " + "; ".join(unrecovered))
+    fed_leagues = {event.league for event in events if event.source in league_feeds.SOURCES}
     reviewed, notices, exclusions = load_reviewed_schedules(reviewed_dir or output_dir.parent / "reviewed", year)
     # A full league feed supersedes the hand-reviewed selection for the same league.
     reviewed = [event for event in reviewed if event.league not in fed_leagues]
     kept_sources = {event.source_url for event in reviewed}
     notices = [notice for notice in notices if notice["url"] in kept_sources]
     events.extend(reviewed)
-    errors = validate_batch(events)
-    if errors:
-        raise ValueError("\n".join(errors))
+    # Each input was validated where it was produced. Check only cross-feed identity here.
+    if len({e.event_id for e in events}) != len(events):
+        raise ValueError("Duplicate event identity across feeds")
     if not events:
-        raise ValueError("Refusing to replace the calendar with an empty schedule")
-    target = working_dir / "data" / "normalized" / str(year)
-    target.mkdir(parents=True, exist_ok=True)
-    (target / "all_events.json").write_text(json.dumps([e.to_dict() for e in events]))
-    (target / "manifest.json").write_text(json.dumps({"providers": []}))
-    bundle_path = export_web_bundle(Settings.load(working_dir), year, working_dir / "public")
-    bundle = json.loads(bundle_path.read_text())
+        raise ValueError("No events to publish")
+    bundle = {
+        "schema_version": SCHEMA_VERSION,
+        "season": year,
+        "available_seasons": [year],
+        "providers": [],
+        "events": [_event_payload(e) for e in sort_events(events)],
+    }
     bundle["updated_at"] = retrieved
     reviewed_counts = Counter(event.league for event in reviewed)
     reviewed_coverage = ", ".join(
@@ -426,7 +456,7 @@ def refresh_open_schedules(
     bundle["coverage"] = (
         f"{year}: {' and '.join(open_coverage) or 'no open-data leagues yet'}. "
         + (
-            f"Published schedules for {fed_coverage} from official league feeds and ESPN, checked weekly. "
+            f"Published schedules for {fed_coverage} from official league feeds and ESPN, checked daily. "
             if fed_coverage
             else ""
         )
@@ -439,11 +469,8 @@ def refresh_open_schedules(
         "because the JSON does not explicitly declare their timezone. F1 times use the source's UTC fields."
     )
     feed_kinds = sorted({event["source"] for event in bundle["events"]} & set(league_feeds.SOURCES))
-    bundle["sources"] = (
-        [{**source, "revision": revisions[repo]} for source, repo in zip(SOURCES, revisions, strict=True)]
-        + [{**league_feeds.SOURCES[kind], "kind": kind} for kind in feed_kinds]
-        + notices
-    )
+    bundle["sources"] = list({json.dumps(s, sort_keys=True): s for s in source_notices + notices}.values())
+    bundle["feed_status"] = statuses
     bundle["input_evidence"] = evidence
     bundle["exclusions"] = exclusions
     bundle["data_licenses"] = {
@@ -480,23 +507,9 @@ def refresh_open_schedules(
     bundle["components"] = [
         {"path": name, "sha256": hashlib.sha256(body).hexdigest()} for name, body in components.items()
     ]
-    bundle_path.write_text(json.dumps(bundle, ensure_ascii=True, separators=(",", ":")) + "\n")
-    destination = output_dir / bundle_path.name
-    if previous is not None and _stable_view(previous) == _stable_view(bundle):
-        # Unchanged schedules leave the published file alone, so quiet weeks make no commit.
-        return destination
     output_dir.mkdir(parents=True, exist_ok=True)
     for name, body in components.items():
-        component_path = output_dir / name
-        component_path.with_suffix(".tmp").write_bytes(body)
-        component_path.with_suffix(".tmp").replace(component_path)
-    destination.with_suffix(".tmp").write_bytes(bundle_path.read_bytes())
-    destination.with_suffix(".tmp").replace(destination)
-    # Superseded components stay recoverable from Git history.
-    for stale in output_dir.glob(f"{year}-*.json"):
-        if (
-            re.fullmatch(rf"{year}-(?:wikipedia|wikidata)-[a-f0-9]{{64}}\.json", stale.name)
-            and stale.name not in components
-        ):
-            stale.unlink()
+        (output_dir / name).write_bytes(body)
+    destination = output_dir / f"{year}.json"
+    destination.write_text(json.dumps(bundle, ensure_ascii=True, separators=(",", ":")) + "\n")
     return destination

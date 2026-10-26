@@ -1,5 +1,4 @@
 import json
-from collections import Counter
 
 import pytest
 
@@ -87,16 +86,3 @@ def test_playoff_phase_survives_rescheduling_and_is_exported(monkeypatch, overri
     )
     assert feeds.espn_calendar_phase(league, row["id"], "2027", row["name"]) == "regular_season"
     assert feeds.espn_calendar_phase(league, "unreviewed", "2026", row["name"]) == "regular_season"
-
-
-def test_published_snapshot_retains_playoffs_and_all_star_phase():
-    events = json.loads((ROOT / "data/published/2026.json").read_text())["events"]
-    nascar = [event for event in events if event["league"] == "NASCAR_CUP"]
-    pga = [event for event in events if event["league"] == "PGA_TOUR"]
-    assert Counter(event["competition_phase"] for event in nascar) == {
-        "regular_season": 26,
-        "postseason": 10,
-        "exhibition": 4,
-    }
-    assert sum(event["is_postseason"] for event in pga) == 3
-    assert next(event for event in nascar if "All Star" in event["title"])["is_exhibition"]

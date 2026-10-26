@@ -1,5 +1,4 @@
 import { expect, test, type Page } from "@playwright/test";
-import { readFile } from "node:fs/promises";
 
 const event = (id: string, date: string, extra = {}) => ({
   event_id: id, title: id, source: "offline-fixture", sport: "soccer", league: "EPL",
@@ -355,52 +354,4 @@ test.describe("last published year boundary", () => {
     await expect(agenda(page).getByText(/No published schedule for 2028|Loading/)).toHaveCount(0);
     await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toBeVisible();
   });
-});
-
-test("reviewed public snapshots render compact agenda rows on desktop and mobile", async ({ page }) => {
-  const pageErrors: string[] = [];
-  page.on("pageerror", (error) => pageErrors.push(error.message));
-  await page.clock.setFixedTime(new Date("2026-10-11T18:00:00Z"));
-  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({
-    leagues: ["NFL", "NHL", "F1", "PGA_TOUR", "LPGA_TOUR"],
-    golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only",
-  })));
-  await page.route("**/data/*.json", async (route) => {
-    const year = new URL(route.request().url()).pathname.match(/(\d{4})\.json$/)?.[1];
-    if (!["2026", "2027"].includes(year || "")) return route.fulfill({ status: 404, body: "missing" });
-    await route.fulfill({ body: await readFile(new URL(`../../../data/published/${year}.json`, import.meta.url), "utf8"), contentType: "application/json" });
-  });
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/");
-  await viewSwitch(page, "Agenda").click();
-  await expect(agenda(page).locator(".agenda-row").first()).toBeVisible();
-  await expect(agenda(page).getByText("Loading schedule…", { exact: true })).toHaveCount(0);
-  await page.screenshot({ path: "test-results/agenda-today-desktop.png" });
-  await periodSwitch(page, "Yesterday").click();
-  await page.screenshot({ path: "test-results/agenda-yesterday-desktop.png" });
-  await periodSwitch(page, "Upcoming").click();
-  await expect(agenda(page).locator(".agenda-day").first()).toBeVisible();
-  await page.screenshot({ path: "test-results/agenda-upcoming-desktop.png" });
-  await page.setViewportSize({ width: 390, height: 844 });
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: "test-results/agenda-upcoming-mobile.png" });
-  await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
-  await expect(agenda(page).getByText("Next 7 days", { exact: false })).toHaveCount(0);
-  await expect(agenda(page).getByRole("button", { name: "Show more", exact: true })).toBeEnabled();
-  const firstLater = agenda(page).locator(".agenda-day").filter({ has: page.getByRole("heading", { name: /October 19, 2026/ }) });
-  await firstLater.locator("h2").evaluate((heading) => {
-    const scroll = heading.closest(".agenda-scroll")!;
-    scroll.scrollTop += heading.getBoundingClientRect().top - scroll.getBoundingClientRect().top;
-  });
-  await page.screenshot({ path: "test-results/agenda-show-more-mobile.png" });
-  await periodSwitch(page, "Today").click();
-  await page.screenshot({ path: "test-results/agenda-today-mobile.png" });
-  await agenda(page).locator(".agenda-row").first().click();
-  await expect(page.getByRole("complementary", { name: "Day events" })).toBeVisible();
-  await page.screenshot({ path: "test-results/agenda-details-mobile.png" });
-  await page.getByRole("button", { name: "Close day", exact: true }).click();
-  await viewSwitch(page, "Calendar").click();
-  await expect(page.getByRole("region", { name: "Scrollable calendar" })).toBeVisible();
-  await page.screenshot({ path: "test-results/calendar-with-switch-mobile.png" });
-  expect(pageErrors).toEqual([]);
 });

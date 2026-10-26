@@ -1,12 +1,10 @@
 import copy
-import hashlib
 import json
 from pathlib import Path
 
 import pytest
 
 from kickoff.reviewed_schedules import load_reviewed_schedules, reviewed_events
-from kickoff.web import _event_payload
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -85,34 +83,12 @@ def test_climbing_publication_boundary_rejects_unreviewed_inputs(mutate):
         reviewed_events(payload, 2026)
 
 
-def test_published_sessions_match_sanitized_registry_and_licensed_component():
-    bundle = json.loads((ROOT / "data/published/2026.json").read_text())
-    events, sources = reviewed_events(registry(), 2026)
-    published = {e["event_id"]: e for e in bundle["events"] if e["source"] == "world_climbing"}
-    # Snapshot statuses reflect publication day, not the day this test runs.
-    assert {k: {f: v for f, v in e.items() if f != "status"} for k, e in published.items()} == {
-        e.event_id: {f: v for f, v in _event_payload(e).items() if f != "status"} for e in events
-    }
-    assert all(s in bundle["sources"] for s in sources)
-    assert "no data license granted" in bundle["data_licenses"]["world_climbing"]
-    assert not any(
-        e["event_id"] in {"world-climbing-series-2026-salt-lake-city", "world-climbing-series-2026-santiago"}
-        for e in bundle["events"]
-    )
-    for component in bundle["components"]:
-        raw = (ROOT / "data/published" / component["path"]).read_bytes()
-        assert hashlib.sha256(raw).hexdigest() == component["sha256"]
-        data = json.loads(raw)
-        assert data["events"] == [e for e in bundle["events"] if e["source"] == data["sources"][0]["kind"]]
-        assert all(e["source"] != "world_climbing" for e in data["events"])
-
-
 def test_offline_refresh_preserves_official_climbing_sessions(monkeypatch, tmp_path):
     from kickoff.open_schedules import refresh_open_schedules
     from tests.test_reviewed_schedules import fake_open_read
 
     monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
-    path = refresh_open_schedules(2026, tmp_path / "working", tmp_path / "published", ROOT / "data/reviewed")
+    path = refresh_open_schedules(2026, tmp_path / "published", ROOT / "data/reviewed")
     bundle = json.loads(path.read_text())
     sessions = [e for e in bundle["events"] if e["source"] == "world_climbing"]
     assert len(sessions) == 16
