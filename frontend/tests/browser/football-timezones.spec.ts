@@ -21,7 +21,7 @@ for key, season, day, clock, name in [
 ]:
     row = dict(date=day, time=clock, team1=name, team2='Away')
     events.extend(_event_payload(e) for e in football_events(
-        {'matches': [row]}, key, season, 'https://example.org/synthetic')))
+        {'matches': [row]}, key, season, 'https://example.org/synthetic'))
 print(json.dumps(events))
 `], { cwd: root, encoding: "utf8" }));
 
