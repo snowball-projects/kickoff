@@ -15,9 +15,9 @@ for key, season, day, clock, name in [
     ('en.1', '2026-27', '2026-10-24', '20:00', 'Summer clock'),
     ('en.1', '2026-27', '2026-10-25', '20:00', 'Winter clock'),
     ('en.1', '2026-27', '2026-10-25', '01:30', 'Repeated clock'),
-    ('es.1', '2026-27', '2026-10-25', '20:00', 'Unconfirmed league'),
+    ('es.1', '2026-27', '2026-10-25', None, 'Missing clock'),
     ('br.1', '2026', '2026-12-31', '23:30', 'Year boundary'),
-    ('es.1', '2026-27', '2026-12-31', '23:30', 'Date-only clock'),
+    ('es.1', '2026-27', '2026-12-31', None, 'Date-only clock'),
 ]:
     row = dict(date=day, time=clock, team1=name, team2='Away')
     events.extend(_event_payload(e) for e in football_events(
@@ -50,7 +50,7 @@ for (const scenario of [
     await expect(agenda).toContainText(scenario.date);
     await expect(agenda.getByRole("button").filter({ hasText: `${scenario.name} vs Away` })).toContainText(scenario.time);
     if (scenario.name === "Summer clock") {
-      for (const name of ["Repeated clock", "Unconfirmed league"])
+      for (const name of ["Repeated clock", "Missing clock"])
         await expect(agenda.getByRole("button").filter({ hasText: `${name} vs Away` })).toContainText("Time TBD");
     }
     if (scenario.name === "Year boundary") {
