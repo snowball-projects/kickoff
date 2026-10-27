@@ -17,7 +17,7 @@ import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
 import InterestGroups from "./InterestGroups";
 import { defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
-import { dayAfter, monthAt, monthIndex, monthWindow } from "./month-feed-state";
+import { boundMonth, dayAfter, monthAt, monthIndex, monthWindow, scheduleWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
 import Agenda from "./Agenda";
 import { agendaAnchors, laterAgendaAnchors, nextAgendaEnd, readScheduleView, VIEW_KEY, type AgendaPeriod, type ScheduleView } from "./agenda-state";
@@ -160,9 +160,11 @@ export default function App() {
   const upcoming: UpcomingWindow = savedUpcoming?.key === upcomingKey ? savedUpcoming : {
     key: upcomingKey, end: dayAfter(today, 7), expanded: false, pending: false, done: false,
   };
+  const bounds = scheduleWindow(today);
   const laterAnchors = laterAgendaAnchors(today, publishedYears);
-  const anchors = yearMonthAnchors(Number(month.slice(0, 4)));
-  const feedAnchors = monthWindow(feedCenter);
+  const anchors = yearMonthAnchors(Number(month.slice(0, 4)))
+    .filter((anchor) => anchor >= firstOfMonth(bounds.start) && anchor <= firstOfMonth(bounds.end));
+  const feedAnchors = monthWindow(feedCenter, today);
   // Snapshots are fetched per year. Group later published months on demand to
   // find occupied dates without probing successive empty or unpublished years.
   const requestedAnchors = [...new Set([
@@ -187,9 +189,9 @@ export default function App() {
     if (available.length) setPublishedYears((previous) => previous.join() === available.join() ? previous : available);
   }, [facets, manifests]);
   function extendUpcoming() {
-    const next = nextAgendaEnd(months, upcoming.end);
+    const next = nextAgendaEnd(months, upcoming.end, bounds.end);
     setUpcoming({ ...upcoming, expanded: true, pending: false, end: next || upcoming.end,
-      done: !next || !nextAgendaEnd(months, next) });
+      done: !next || !nextAgendaEnd(months, next, bounds.end) });
   }
   useEffect(() => {
     if (scheduleView !== "agenda" || !upcoming.pending || laterLoading) return;
@@ -217,13 +219,20 @@ export default function App() {
   useEffect(() => {
     if (day && detailEventId) document.getElementById(`details-${detailEventId}`)?.scrollIntoView({ block: "nearest" });
   }, [day, detailEventId, selected]);
+  useEffect(() => {
+    const bounded = boundMonth(month, today);
+    if (bounded !== month) navigateMonth(bounded);
+    if (day && (day < bounds.start || day > bounds.end)) setDay(null);
+  }, [today]);
   function navigateMonth(anchor: string, focusDate?: string) {
-    const bounded = monthAt(monthIndex(anchor));
+    const bounded = boundMonth(anchor, today);
+    if (focusDate) focusDate = focusDate < bounds.start ? bounds.start : focusDate > bounds.end ? bounds.end : focusDate;
     if (!feedAnchors.includes(bounded)) setFeedCenter(bounded);
     setNavigation((previous) => ({ anchor: bounded, id: previous.id + 1, focusDate }));
     setMonth(bounded);
   }
   function openDay(date: string, eventId?: string) {
+    if (date < bounds.start || date > bounds.end) return;
     dayOpener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setDetailEventId(eventId);
     if (scheduleView === "agenda") { setDay(date); return; }
@@ -340,7 +349,7 @@ export default function App() {
             if (view !== "year" || (event.key !== "PageUp" && event.key !== "PageDown")) return;
             event.preventDefault();
             event.currentTarget.focus();
-            setMonth(monthAt(monthIndex(month) + (event.key === "PageUp" ? -12 : 12)));
+            setMonth(boundMonth(monthAt(monthIndex(month) + (event.key === "PageUp" ? -12 : 12)), today));
           }}
         >
           {error && view === "year" && (
@@ -376,12 +385,12 @@ export default function App() {
                       {mini.flat().map((cell, i) => (
                         <span
                           key={i}
-                          className={`${cell.date === today ? "mini-today" : ""} ${cell.group?.event_count ? "has-events" : ""}`}
+                          className={`${cell.date === today ? "mini-today" : ""} ${cell.date && cell.date >= bounds.start && cell.date <= bounds.end && cell.group?.event_count ? "has-events" : ""}`}
                           aria-current={
                             cell.date === today ? "date" : undefined
                           }
                         >
-                          {cell.date ? Number(cell.date.slice(-2)) : ""}
+                          {cell.date && cell.date >= bounds.start && cell.date <= bounds.end ? Number(cell.date.slice(-2)) : ""}
                         </span>
                       ))}
                     </div>
