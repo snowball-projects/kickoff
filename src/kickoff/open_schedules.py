@@ -33,7 +33,10 @@ FOOTBALL = {
 }
 FOOTBALL_TIMEZONES = {
     "en.1": "Europe/London",
+    "en.2": "Europe/London",
     "de.1": "Europe/Berlin",
+    "nl.1": "Europe/Amsterdam",
+    "es.1": "Europe/Madrid",
     "it.1": "Europe/Rome",
     "fr.1": "Europe/Paris",
     "pt.1": "Europe/Lisbon",

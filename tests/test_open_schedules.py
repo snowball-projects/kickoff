@@ -10,15 +10,23 @@ from kickoff.validation import validate_batch
 from kickoff.web import _event_payload
 
 
-@pytest.mark.parametrize("key", ["en.2", "es.1", "nl.1"])
-def test_football_keeps_unconfirmed_leagues_date_only_and_stable_identity(key):
+@pytest.mark.parametrize(
+    "key,zone,utc,offset",
+    [
+        ("en.2", "Europe/London", "2026-09-12T14:00:00Z", "+01:00"),
+        ("es.1", "Europe/Madrid", "2026-09-12T13:00:00Z", "+02:00"),
+        ("nl.1", "Europe/Amsterdam", "2026-09-12T13:00:00Z", "+02:00"),
+    ],
+)
+def test_football_newly_confirmed_leagues_convert_times_and_keep_stable_identity(key, zone, utc, offset):
     match = {"date": "2026-09-12", "time": "15:00", "team1": "Home", "team2": "Away", "round": "Matchday 1"}
     first = football_events({"matches": [match]}, key, "2026-27", "https://example.org")[0]
     moved = football_events({"matches": [{**match, "date": "2026-09-13"}]}, key, "2026-27", "https://example.org")[0]
-    assert first.start_time_utc is None
+    assert first.start_time_utc == utc
     assert first.calendar_date == "2026-09-12"
     assert first.event_id == moved.event_id
-    assert first.start_time_local is first.timezone is None
+    assert first.start_time_local == f"2026-09-12T15:00:00{offset}"
+    assert first.timezone == zone
 
 
 @pytest.mark.parametrize(
