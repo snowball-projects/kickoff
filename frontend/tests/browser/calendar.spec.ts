@@ -104,13 +104,13 @@ test("native wheel scrolling updates the month and year without replacing adjace
   await expect(page.locator("#day-2027-01-10")).toHaveAttribute("aria-label", /schedule unavailable/);
 });
 
-test("Today returns from a distant missing year, closes day details, and keeps the current date highlighted", async ({ page }) => {
+test("Today returns from the last covered year, closes day details, and keeps the current date highlighted", async ({ page }) => {
   await page.locator("#day-2026-09-10").focus();
   await page.keyboard.press("Shift+PageDown");
   await expect(page.locator("#day-2027-09-10")).toBeFocused();
   await page.keyboard.press("Shift+PageDown");
-  await expect(page.locator("#day-2028-09-10")).toBeFocused();
-  await expect(page.getByRole("button", { name: "Show 2028 year calendar" })).toBeVisible();
+  await expect(page.locator("#day-2027-09-10")).toBeFocused();
+  await expect(page.getByRole("button", { name: "Show 2027 year calendar" })).toBeVisible();
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await expect(heading(page)).toHaveText("September");
   await expect(page.getByRole("button", { name: "Show 2026 year calendar" })).toBeVisible();
@@ -143,12 +143,11 @@ test("day keyboard navigation crosses months and years and clamps leap-month dat
   await expect(page.locator("#day-2027-01-31")).toBeFocused();
   await expect(page.locator("#day-2027-01-31")).toBeInViewport({ ratio: 0.99 });
   await page.keyboard.press("Shift+PageDown");
-  await expect(page.locator("#day-2028-01-31")).toBeFocused();
-  await expect(page.locator("#day-2028-01-31")).toBeInViewport({ ratio: 0.99 });
+  await expect(page.locator("#day-2027-01-31")).toBeFocused();
   await page.keyboard.press("PageDown");
-  await expect(page.locator("#day-2028-02-29")).toBeFocused();
+  await expect(page.locator("#day-2027-02-28")).toBeFocused();
   await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#day-2028-03-01")).toBeFocused();
+  await expect(page.locator("#day-2027-03-01")).toBeFocused();
 });
 
 test("Today interrupts an in-progress smooth keyboard year navigation", async ({ page }) => {
@@ -185,12 +184,12 @@ test("repeated keyboard year navigation follows the focused date during smooth s
   await page.keyboard.press("Shift+PageDown");
   await expect(page.locator("#day-2027-09-10")).toBeFocused();
   await page.keyboard.press("Shift+PageDown");
-  await expect(page.locator("#day-2028-09-10")).toBeFocused();
-  await expect(page.locator("#day-2028-09-10")).toBeInViewport({ ratio: 0.99 });
-  await expect(page.getByRole("button", { name: "Show 2028 year calendar" })).toBeVisible();
-  await page.keyboard.press("Shift+PageUp");
   await expect(page.locator("#day-2027-09-10")).toBeFocused();
   await expect(page.locator("#day-2027-09-10")).toBeInViewport({ ratio: 0.99 });
+  await expect(page.getByRole("button", { name: "Show 2027 year calendar" })).toBeVisible();
+  await page.keyboard.press("Shift+PageUp");
+  await expect(page.locator("#day-2026-09-10")).toBeFocused();
+  await expect(page.locator("#day-2026-09-10")).toBeInViewport({ ratio: 0.99 });
 });
 
 test("resizing during a smooth Today jump reaches the current month in the new layout", async ({ page }) => {
@@ -281,10 +280,8 @@ test("year overview keyboard navigation reaches unavailable years", async ({ pag
   await expect(page.getByRole("alert")).toContainText("Schedule unavailable for 2027");
   await expect(page.getByRole("region", { name: "2027 calendar", exact: true })).toBeFocused();
   await page.keyboard.press("PageDown");
-  await expect(heading(page)).toHaveText("2028");
-  await expect(page.getByRole("alert")).toContainText("Schedule unavailable for 2028");
-  await page.keyboard.press("PageUp");
   await expect(heading(page)).toHaveText("2027");
+  await expect(page.getByRole("button", { name: "Open October 2027" })).toHaveCount(0);
   await page.keyboard.press("PageUp");
   await expect(heading(page)).toHaveText("2026");
   await expect(page.getByRole("button", { name: "Open September 2026" })).toBeVisible();
@@ -381,11 +378,13 @@ test.describe("touch events", () => {
 });
 
 test("long native traversal recenters without growing the DOM or moving the visual anchor", async ({ page }) => {
-  for (const direction of [1, 1, 1, 1, -1, -1, -1, -1]) {
+  for (const direction of [1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1]) {
     const anchors = await page.locator("[data-month]").evaluateAll((items) => items.map((item) => (item as HTMLElement).dataset.month!));
     const anchor = anchors[direction === 1 ? 7 : 1];
     await nativeScrollTo(page, anchor, 73);
-    await expect.poll(() => page.locator("[data-month]").first().getAttribute("data-month")).not.toBe(anchors[0]);
+    const atBoundary = direction === 1 ? anchors.at(-1) === "2027-09-01" : anchors[0] === "2025-09-01";
+    if (!atBoundary) await expect.poll(() => page.locator("[data-month]").first().getAttribute("data-month")).not.toBe(anchors[0]);
+    else await expect(page.locator("[data-month]").first()).toHaveAttribute("data-month", anchors[0]);
     await expect(page.locator("[data-month]")).toHaveCount(9);
     expect(Math.abs(await monthPosition(page, anchor) + 73)).toBeLessThanOrEqual(1);
     const ids = await page.locator(".month-feed [id^='day-']").evaluateAll((items) => items.map((item) => item.id));

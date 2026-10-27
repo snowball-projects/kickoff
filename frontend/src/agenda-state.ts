@@ -1,5 +1,5 @@
 import { addMonths, firstOfMonth, monthAnchorsInRange, eventInstant, formatShortDate, yearMonthAnchors } from "./date-utils";
-import { dayAfter } from "./month-feed-state";
+import { dayAfter, scheduleWindow } from "./month-feed-state";
 import type { CalendarResponse, EventCard } from "./types";
 
 export type AgendaPeriod = "yesterday" | "today" | "upcoming";
@@ -25,17 +25,18 @@ export function agendaAnchors(today: string) {
 
 // Bundle metadata bounds discovery; never probe successive unpublished years.
 export function laterAgendaAnchors(today: string, publishedYears: number[]) {
+  const { end } = scheduleWindow(today);
   const years = [...new Set(publishedYears)].filter((year) => Number.isInteger(year) && year >= 1900 && year <= 2100);
   // The source's last December can move into local January or contain a span.
   return [...new Set(years.flatMap((year) => [
     ...yearMonthAnchors(year), ...(year < 2100 ? [addMonths(`${year}-12-01`, 1)] : []),
-  ]))].filter((anchor) => anchor >= firstOfMonth(dayAfter(today, -1))).sort();
+  ]))].filter((anchor) => anchor >= firstOfMonth(dayAfter(today, -1)) && anchor <= firstOfMonth(end)).sort();
 }
 
 // Extend by occupied dates, so sparse interests do not require clicking through empty weeks.
-export function nextAgendaEnd(months: Record<string, CalendarResponse>, until: string) {
+export function nextAgendaEnd(months: Record<string, CalendarResponse>, until: string, end: string) {
   return [...new Set(Object.values(months).flatMap((month) => month.groups)
-    .filter((group) => group.date > until && group.items.length).map((group) => group.date))]
+    .filter((group) => group.date > until && group.date <= end && group.items.length).map((group) => group.date))]
     .sort().slice(0, 7).at(-1) || null;
 }
 

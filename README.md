@@ -3,6 +3,8 @@
 [A calendar for the sports you follow](https://snowball-projects.github.io/kickoff/), by snowball.
 Choose leagues, browse Calendar or Agenda, and open an event for its sources.
 Interests stay on your device. Times use your timezone; date-only events keep their source dates.
+The calendar spans one year before today through one year after today,
+with events where sources provide them.
 
 Use Python 3.12+ and Node 24:
 

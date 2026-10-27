@@ -306,15 +306,15 @@ test("filter changes reset the seven-day scope and reveal sparse later matches",
   await expect(agenda(page).getByText("Loading…", { exact: true })).toHaveCount(0);
 });
 
-test("published year gaps are skipped and discovery failures terminate with Retry", async ({ page }) => {
+test("discovery failures within rolling coverage terminate with Retry", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
-  const options = { publishedYears: [2026, 2029], missingYear: 2029 as number | undefined,
-    extraEvents: [event("Future published fixture", "2029-02-10")] };
+  const options = { publishedYears: [2026, 2027], missingYear: 2027 as number | undefined,
+    extraEvents: [event("Future published fixture", "2027-02-10")] };
   await setup(page, options);
   await viewSwitch(page, "Agenda").click();
   await periodSwitch(page, "Upcoming").click();
   await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
-  await expect(agenda(page)).toContainText("No published schedule for 2029.");
+  await expect(agenda(page)).toContainText("No published schedule for 2027.");
   await expect(agenda(page).getByText(/Loading/)).toHaveCount(0);
   await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toHaveCount(0);
   options.missingYear = undefined;
@@ -322,7 +322,7 @@ test("published year gaps are skipped and discovery failures terminate with Retr
   await expect(agenda(page).getByRole("button", { name: "Show more", exact: true })).toBeEnabled();
   await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
   await expect(row(page, "Future published fixture")).toHaveCount(1);
-  await expect(agenda(page).getByText(/No published schedule for 2027|No published schedule for 2028|Loading/)).toHaveCount(0);
+  await expect(agenda(page).getByText(/No published schedule for 2028|Loading/)).toHaveCount(0);
   await expect(agenda(page).getByText("No later published events match your interests.", { exact: true })).toBeVisible();
 });
 

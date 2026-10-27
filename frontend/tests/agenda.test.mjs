@@ -55,16 +55,25 @@ test("view preference safely defaults to calendar", async () => {
 test("Show more is bounded by published years and advances through occupied dates", async () => {
   const { laterAgendaAnchors, nextAgendaEnd, agendaDates } = await loadModule("agenda-state");
   const anchors = laterAgendaAnchors("2026-12-31", [2029, 2026, 2029]);
-  assert.equal(anchors.length, 15);
+  assert.equal(anchors.length, 2);
   assert.equal(anchors[0], "2026-12-01");
-  assert.equal(anchors.at(-1), "2030-01-01");
+  assert.equal(anchors.at(-1), "2027-01-01");
   assert.deepEqual(anchors.filter((anchor) => anchor.startsWith("2027")), ["2027-01-01"]);
   assert.equal(anchors.some((anchor) => anchor.startsWith("2028")), false);
   const dates = ["2027-01-08", "2027-01-09", "2027-01-10", "2027-01-11", "2027-01-12", "2027-01-13", "2027-01-14", "2029-02-10"];
   const months = { fixture: { groups: dates.map((date) => ({ date, items: [{ event_id: date }] })) } };
-  assert.equal(nextAgendaEnd(months, "2027-01-07"), "2027-01-14");
-  assert.equal(nextAgendaEnd(months, "2027-01-14"), "2029-02-10");
-  assert.equal(nextAgendaEnd(months, "2029-02-10"), null);
-  assert.equal(nextAgendaEnd({ fixture: { groups: [{ date: "2030-01-01", items: [] }] } }, "2027-01-07"), null);
+  assert.equal(nextAgendaEnd(months, "2027-01-07", "2027-12-31"), "2027-01-14");
+  assert.equal(nextAgendaEnd(months, "2027-01-14", "2027-12-31"), null);
+  assert.equal(nextAgendaEnd(months, "2029-02-10", "2027-12-31"), null);
+  assert.equal(nextAgendaEnd({ fixture: { groups: [{ date: "2030-01-01", items: [] }] } }, "2027-01-07", "2027-12-31"), null);
   assert.equal(agendaDates("2026-12-31", "upcoming", "2027-01-14").at(-1), "2027-01-14");
+});
+
+test("Show more includes the rolling endpoint and excludes later dates in the same month", async () => {
+  const { laterAgendaAnchors, nextAgendaEnd } = await loadModule("agenda-state");
+  const anchors = laterAgendaAnchors("2026-10-27", [2025, 2026, 2027, 2028]);
+  assert.equal(anchors.at(-1), "2027-10-01");
+  const months = { fixture: { groups: ["2027-10-27", "2027-10-28"].map((date) => ({ date, items: [{}] })) } };
+  assert.equal(nextAgendaEnd(months, "2027-10-26", "2027-10-27"), "2027-10-27");
+  assert.equal(nextAgendaEnd(months, "2027-10-27", "2027-10-27"), null);
 });

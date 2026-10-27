@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+from datetime import date
 
 import pytest
 
@@ -104,3 +105,47 @@ def test_malformed_payload_never_becomes_successful_empty_feed(monkeypatch, fetc
     monkeypatch.setattr(feeds, "get_json", lambda *_, **__: {})
     with pytest.raises((ValueError, KeyError)):
         fetch(2026)
+
+
+@pytest.mark.parametrize(
+    "today,years",
+    [
+        (date(2026, 10, 27), [2025, 2026, 2027]),
+        (date(2028, 2, 29), [2027, 2028, 2029]),
+        # Source dates and local today can each differ from UTC at year boundaries.
+        (date(2027, 1, 1), [2025, 2026, 2027, 2028]),
+        (date(2026, 12, 31), [2025, 2026, 2027, 2028]),
+        (date(2027, 1, 3), [2026, 2027, 2028]),
+    ],
+)
+def test_default_coverage_contains_the_rolling_window_and_timezone_boundary_days(today, years):
+    assert runner.coverage_years(today) == years
+
+
+def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tmp_path):
+    from datetime import datetime, timezone
+
+    class Clock(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return datetime(2026, 10, 27, tzinfo=timezone.utc)
+
+    calls = []
+    monkeypatch.setattr(runner, "datetime", Clock)
+    monkeypatch.setattr(sys, "argv", ["refresh-public.py"])
+    monkeypatch.setattr(runner, "__file__", str(tmp_path / "scripts/refresh-public.py"))
+    monkeypatch.setattr(runner.shutil, "copyfile", lambda *_: None)
+    monkeypatch.setattr(runner, "refresh_open_schedules", lambda year, *_, **kwargs: calls.append((year, kwargs)))
+    runner.main()
+    assert [year for year, _ in calls] == [2025, 2026, 2027]
+    assert all(kwargs == {"feeds": runner.FEEDS, "available_seasons": [2025, 2026, 2027]} for _, kwargs in calls)
+
+
+def test_explicit_refresh_years_override_the_default_window(monkeypatch, tmp_path):
+    calls = []
+    monkeypatch.setattr(sys, "argv", ["refresh-public.py", "--year", "2024", "--year", "2026"])
+    monkeypatch.setattr(runner, "__file__", str(tmp_path / "scripts/refresh-public.py"))
+    monkeypatch.setattr(runner.shutil, "copyfile", lambda *_: None)
+    monkeypatch.setattr(runner, "refresh", lambda years, *_: calls.extend(years))
+    runner.main()
+    assert calls == [2024, 2026]

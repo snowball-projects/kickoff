@@ -1,26 +1,31 @@
-// Calendar bounds keep ISO years four digits and date navigation well-defined.
-export const FIRST_MONTH = "1900-01-01";
-export const LAST_MONTH = "2100-12-01";
 export const MONTH_WINDOW_SIZE = 9;
 
 export function monthIndex(anchor: string) {
   return Number(anchor.slice(0, 4)) * 12 + Number(anchor.slice(5, 7)) - 1;
 }
 export function monthAt(index: number) {
-  const bounded = Math.max(monthIndex(FIRST_MONTH), Math.min(monthIndex(LAST_MONTH), index));
-  return `${Math.floor(bounded / 12)}-${String(bounded % 12 + 1).padStart(2, "0")}-01`;
+  return `${Math.floor(index / 12)}-${String(index % 12 + 1).padStart(2, "0")}-01`;
 }
-export function monthWindow(center: string) {
-  const start = Math.max(monthIndex(FIRST_MONTH), Math.min(
-    monthIndex(LAST_MONTH) - MONTH_WINDOW_SIZE + 1,
+export function scheduleWindow(today: string) {
+  return { start: dayInMonth(today, -12), end: dayInMonth(today, 12) };
+}
+export function boundMonth(anchor: string, today: string) {
+  const { start, end } = scheduleWindow(today);
+  return monthAt(Math.max(monthIndex(start), Math.min(monthIndex(end), monthIndex(anchor))));
+}
+export function monthWindow(center: string, today: string) {
+  const bounds = scheduleWindow(today);
+  const start = Math.max(monthIndex(bounds.start), Math.min(
+    monthIndex(bounds.end) - MONTH_WINDOW_SIZE + 1,
     monthIndex(center) - Math.floor(MONTH_WINDOW_SIZE / 2),
   ));
   return Array.from({ length: MONTH_WINDOW_SIZE }, (_, i) => monthAt(start + i));
 }
-export function shouldRecenter(anchors: string[], visible: string) {
+export function shouldRecenter(anchors: string[], visible: string, today: string) {
+  const { start, end } = scheduleWindow(today);
   const index = anchors.indexOf(visible);
-  return (index < 2 && anchors[0] !== FIRST_MONTH) ||
-    (index >= anchors.length - 2 && anchors.at(-1) !== LAST_MONTH);
+  return (index < 2 && monthIndex(anchors[0]) !== monthIndex(start)) ||
+    (index >= anchors.length - 2 && monthIndex(anchors.at(-1)!) !== monthIndex(end));
 }
 export function visibleMonthAt(
   sections: { anchor: string; top: number }[],

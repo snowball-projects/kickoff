@@ -2,7 +2,8 @@
 
 import argparse
 import shutil
-from datetime import datetime, timezone
+from calendar import monthrange
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from kickoff.feeds import FEEDS
@@ -14,15 +15,29 @@ def refresh(years: list[int], output: Path, reviewed: Path) -> None:
         print(refresh_open_schedules(year, output, reviewed, feeds=FEEDS, available_seasons=years))
 
 
+def coverage_years(today: date) -> list[int]:
+    """Source years for the rolling window in every visitor timezone.
+
+    Two boundary days cover the UTC/local today difference plus an event's
+    source-date conversion. Annual bundles retain these boundary spillovers.
+    """
+    start = today.replace(year=today.year - 1, day=min(today.day, monthrange(today.year - 1, today.month)[1]))
+    end = today.replace(year=today.year + 1, day=min(today.day, monthrange(today.year + 1, today.month)[1]))
+    return list(range((start - timedelta(days=2)).year, (end + timedelta(days=2)).year + 1))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--year", type=int, action="append", help="Calendar year; repeatable. Default: this year and next"
+        "--year",
+        type=int,
+        action="append",
+        help="Calendar year; repeatable. Default: one year back through one year forward",
     )
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    year = datetime.now(timezone.utc).year
-    refresh(args.year or [year, year + 1], root / "frontend/public/data", root / "data/reviewed")
+    years = args.year or coverage_years(datetime.now(timezone.utc).date())
+    refresh(years, root / "frontend/public/data", root / "data/reviewed")
     for name in ["LICENSE", "THIRD-PARTY-NOTICES.md"]:
         shutil.copyfile(root / name, root / "frontend/public" / name)
 

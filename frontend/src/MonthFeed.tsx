@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { firstOfMonth, formatLongDate, monthLabel, monthWeeksSunStart } from "./date-utils";
-import { dayAfter, dayInMonth, FIRST_MONTH, LAST_MONTH, monthWindow, scrollBehavior, shouldRecenter, visibleMonthAt } from "./month-feed-state";
+import { dayAfter, dayInMonth, scheduleWindow, monthWindow, scrollBehavior, shouldRecenter, visibleMonthAt } from "./month-feed-state";
 import type { CalendarResponse, EventCard } from "./types";
 import EventPreview, { useEventPreview } from "./EventPreview";
 
@@ -24,6 +24,7 @@ type Props = {
 };
 
 export default function MonthFeed(props: Props) {
+  const bounds = scheduleWindow(props.today);
   const preview = useEventPreview();
   const focusPreviewAllowed = useRef(false);
   const scroller = useRef<HTMLDivElement>(null);
@@ -96,11 +97,11 @@ export default function MonthFeed(props: Props) {
         preview.show({ event, date: date!, target: target.querySelector<HTMLElement>(".event-pill") || target });
     }
     const anchor = position.current?.anchor;
-    if (!anchor || !shouldRecenter(latest.current.anchors, anchor)) return;
+    if (!anchor || !shouldRecenter(latest.current.anchors, anchor, latest.current.today)) return;
     // Keep focused days that overlap the new window. If native scrolling has
     // left focus far behind, return it to the scroller before recycling that day.
     const focusedMonth = document.activeElement?.closest<HTMLElement>("[data-month]")?.dataset.month;
-    if (focusedMonth && !monthWindow(anchor).includes(focusedMonth)) scroller.current?.focus({ preventScroll: true });
+    if (focusedMonth && !monthWindow(anchor, latest.current.today).includes(focusedMonth)) scroller.current?.focus({ preventScroll: true });
     latest.current.onRecenter(anchor);
   }
   function onScroll() {
@@ -202,8 +203,8 @@ export default function MonthFeed(props: Props) {
     if (event.key === "PageDown") next = dayInMonth(date, event.shiftKey ? 12 : 1);
     if (!next || event.altKey || event.ctrlKey || event.metaKey) return;
     event.preventDefault();
+    if (next < bounds.start || next > bounds.end) return;
     const anchor = firstOfMonth(next);
-    if (anchor < FIRST_MONTH || anchor > LAST_MONTH) return;
     const target = scroller.current?.querySelector<HTMLElement>(`#day-${next}`);
     if (target) {
       target.focus({ preventScroll: true });
@@ -222,7 +223,8 @@ export default function MonthFeed(props: Props) {
         const data = props.months[anchor];
         const error = props.errors[Number(anchor.slice(0, 4))];
         const weeks = monthWeeksSunStart(anchor, data?.groups || [], { showAdjacentDays: false });
-        const status = error || (!data ? "Loading schedule…" : data.total_events === 0 ? "No published events match this month and your interests." : "");
+        const hasEvents = data?.groups.some((group) => group.date >= bounds.start && group.date <= bounds.end && group.event_count);
+        const status = error || (!data ? "Loading schedule…" : !hasEvents ? "No published events match this month and your interests." : "");
         return (
           <section className="feed-month" data-month={anchor} key={anchor} aria-label={monthLabel(anchor)}>
             <h2>{monthLabel(anchor)}</h2>
@@ -231,7 +233,7 @@ export default function MonthFeed(props: Props) {
               {error && <button onClick={props.onRetry} aria-label={`Retry schedule for ${monthLabel(anchor)}`}>Retry</button>}
             </div>
             <div className="month-grid" style={{ gridTemplateRows: `repeat(${weeks.length}, var(--week-height))` }}>
-              {weeks.flat().map((cell, i) => cell.date ? (
+              {weeks.flat().map((cell, i) => cell.date && cell.date >= bounds.start && cell.date <= bounds.end ? (
                 <button id={`day-${cell.date}`} key={cell.date}
                   className={`day-cell ${cell.date === props.today ? "is-today" : ""} ${cell.date === props.day ? "selected" : ""}`}
                   onClick={() => { preview.close(); props.onOpenDay(cell.date!); }} onKeyDown={(event) => navigateDay(event, cell.date!)}
