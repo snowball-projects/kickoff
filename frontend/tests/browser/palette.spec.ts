@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 import { contrast, readPalette, simulate, simulations } from "../palette-audit.mjs";
 
 const categories = [
@@ -19,7 +19,7 @@ const events = [...categories, ["FUTURE_SERIES", "motorsport", "motorsport"]].ma
 }));
 const hex = (rgb: string) => "#" + rgb.match(/[\d.]+/g)!.slice(0, 3).map((part) => Number(part).toString(16).padStart(2, "0")).join("");
 
-for (const theme of ["light", "dark"] as const) for (const width of [1280, 390]) {
+for (const theme of ["light", "dark"] as const) for (const width of [1280, 390, 320]) {
   test(`${theme} ${width}px: family colours, text, controls and focus survive calendar/list/interests`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
     await page.setViewportSize({ width, height: 844 });
@@ -34,15 +34,19 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390])
     const day = page.locator("#day-2026-09-10");
     await expect(day.locator(".event-pill")).toHaveCount(11);
     const palette = await readPalette();
+    async function expectSportFill(element: Locator, category: string) {
+      const token = palette.find((entry: { key: string }) => entry.key === category)!;
+      const colors = await element.evaluate((node) => {
+        const style = getComputedStyle(node); return [style.backgroundColor, style.color];
+      });
+      expect(hex(colors[0])).toBe(token[`${theme}-bg`]);
+      expect(hex(colors[1])).toBe(token[`${theme}-ink`]);
+      expect(contrast(hex(colors[0]), hex(colors[1]))).toBeGreaterThanOrEqual(4.5);
+    }
     for (const [, , category] of categories) {
       const pill = day.locator(`.event-pill.category-${category}`).first();
       await expect(pill).toHaveText(/fixture/);
-      const token = palette.find((entry: { key: string }) => entry.key === category)!;
-      const colors = await pill.evaluate((element) => {
-        const style = getComputedStyle(element); return [style.backgroundColor, style.color];
-      });
-      expect(hex(colors[0])).toBe(token[`${theme}-bg`]);
-      expect(contrast(hex(colors[0]), hex(colors[1]))).toBeGreaterThanOrEqual(4.5);
+      await expectSportFill(pill, category);
     }
     const motorsport = await day.locator(".category-motorsport").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).backgroundColor));
     expect(motorsport.length).toBe(2);
@@ -55,8 +59,9 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390])
     await page.screenshot({ path: `test-results/palette-month-${theme}-${width}.png` });
     await day.click();
     await expect(page.getByRole("complementary", { name: "Day events" })).toBeVisible();
-    const labels = await page.locator(".day-inspector .league-label").evaluateAll((elements) => elements.map((element) => [getComputedStyle(element).color, getComputedStyle(document.documentElement).getPropertyValue("--page").trim()]));
-    for (const [color, background] of labels) expect(contrast(hex(color), background)).toBeGreaterThanOrEqual(4.5);
+    for (const [, , category] of categories)
+      await expectSportFill(page.locator(`.day-inspector .league-label.category-${category}`).first(), category);
+    await page.screenshot({ path: `test-results/palette-day-${theme}-${width}.png` });
     await page.getByRole("button", { name: "Close day", exact: true }).click();
     await page.getByRole("button", { name: /^Interests ·/ }).click();
     const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
@@ -79,11 +84,34 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390])
     await motorsports.locator("summary").click();
     const future = motorsports.getByRole("checkbox", { name: "FUTURE SERIES", exact: true });
     await expect(future).toBeChecked();
-    const futureDot = motorsports.locator("label.interest").filter({ has: page.getByRole("checkbox", { name: "FUTURE SERIES", exact: true }) }).locator(".interest-dot");
-    await expect(futureDot).toHaveClass(/category-motorsport/);
+    const futureSwatch = motorsports.locator("label.interest").filter({ has: future }).locator(".interest-swatch");
+    await expect(futureSwatch).toHaveClass(/category-motorsport/);
     await expect(chooser.getByRole("region", { name: "Miscellaneous interests" })).toHaveCount(0);
-    const futureColor = await futureDot.evaluate((element) => getComputedStyle(element).backgroundColor);
-    expect(hex(futureColor)).toBe(palette.find((entry: { key: string }) => entry.key === "motorsport")![`${theme}-accent`]);
+    const futureColor = await futureSwatch.evaluate((element) => getComputedStyle(element).backgroundColor);
+    expect(hex(futureColor)).toBe(palette.find((entry: { key: string }) => entry.key === "motorsport")![`${theme}-bg`]);
+    await expect(chooser.locator("summary .sport-chip")).toHaveCount(10);
+    for (const [, , category] of categories) {
+      const chip = chooser.locator(`summary .sport-chip.category-${category}`);
+      await expectSportFill(chip, category);
+      const summaryInk = await chip.locator("..").evaluate((element) => getComputedStyle(element).color);
+      expect(hex(summaryInk)).toBe(tokens.text);
+      const group = chip.locator("../..");
+      if (category !== "motorsport") await group.locator("summary").click();
+      const swatches = group.locator(".interest-swatch");
+      if (category === "soccer") {
+        await expect(group.getByRole("img", { name: "England", exact: true })).toHaveCount(1);
+      } else {
+        expect(await swatches.count()).toBeGreaterThan(0);
+        for (const swatch of await swatches.all()) {
+          const style = await swatch.evaluate((element) => {
+            const css = getComputedStyle(element);
+            return [css.backgroundColor, css.width, css.height, css.borderRadius];
+          });
+          expect(hex(style[0])).toBe(palette.find((entry: { key: string }) => entry.key === category)![`${theme}-bg`]);
+          expect(style.slice(1)).toEqual(["12px", "12px", "3px"]);
+        }
+      }
+    }
     await page.screenshot({ path: `test-results/palette-interests-${theme}-${width}.png` });
     expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
     await button.click();
@@ -92,9 +120,20 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390])
     const rows = page.locator(".agenda-row");
     await expect(rows).toHaveCount(11);
     await rows.filter({ hasText: "F1 fixture" }).hover();
-    const label = rows.filter({ hasText: "F1 fixture" }).locator(".league-label");
-    const labelColors = await label.evaluate((element) => [getComputedStyle(element).color, getComputedStyle(element.closest(".agenda-row")!).backgroundColor]);
-    expect(contrast(hex(labelColors[0]), hex(labelColors[1]))).toBeGreaterThanOrEqual(4.5);
+    const previewChip = page.getByRole("tooltip").locator(".sport-chip");
+    await expect(previewChip).toBeVisible();
+    await expectSportFill(previewChip, "motorsport");
+    await page.keyboard.press("Escape");
+    for (const [, , category] of categories)
+      await expectSportFill(rows.locator(`.league-label.category-${category}`).first(), category);
+    const f1Row = rows.filter({ hasText: "F1 fixture" });
+    await f1Row.focus();
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Shift+Tab");
+    await expect(f1Row).toBeFocused();
+    await expect(previewChip).toBeVisible();
+    await expectSportFill(previewChip, "motorsport");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `test-results/palette-list-${theme}-${width}.png` });
   });
 }
