@@ -37,6 +37,20 @@ def test_worlds_include_every_split_group_and_one_event_per_real_session():
         "110": set("ABC"),
         "+110": set("ABC"),
     }
+    women = {
+        w: {c["group"] for c in categories if c["gender"] == "women" and c["weight_class"] == w}
+        for w in ["49", "53", "57", "61", "69", "77", "86", "+86"]
+    }
+    assert women == {
+        "49": set("AB"),
+        "53": set("ABCD"),
+        "57": set("AB"),
+        "61": set("ABCD"),
+        "69": set("ABCD"),
+        "77": set("ABCD"),
+        "86": set("ABC"),
+        "+86": set("ABC"),
+    }
     combined = next(r for r in rows if len(r["categories"]) == 2)
     assert combined["title"].endswith("Women's 53 kg, Group D / Women's 57 kg, Group B")
     assert (combined["start_date"], combined["local_time"]) == ("2026-10-29", "11:00")
@@ -70,6 +84,7 @@ def test_coverage_has_official_receipts_all_groups_and_distinct_masters_platform
     assert sum(len(r["categories"]) for r in masters) == 167
     assert len({(r["start_date"], r["local_time"], r["title"].split("Platform ")[-1]) for r in masters}) == 111
     assert any("Group B" in r["title"] for r in masters)
+    assert all("Adaptive" in r["title"] for r in masters if any(c.get("adaptive") for c in r["categories"]))
     assert any(
         "53" in r["title"] and "58" in r["title"] and len(r["categories"]) == 2
         for r in payload["events"]
