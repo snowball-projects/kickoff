@@ -186,11 +186,12 @@ export default function MonthFeed(props: Props) {
     previousActive.current = props.active;
     if (previousContentKey.current !== props.contentKey) {
       previousContentKey.current = props.contentKey;
-      preservedPosition.current = position.current;
+      // Keep an untouched Today view centered as its filtered data arrives.
+      // Once the user browses, preserve the visible date and offset instead.
+      preservedPosition.current = centering.current ? null : position.current;
       cancelAnimationFrame(jumpFrame.current);
       clearTimeout(idle.current);
       moving.current = false;
-      centering.current = false;
     }
     if (lastNavigation.current !== navigation.id) {
       const target = destination(root, navigation);

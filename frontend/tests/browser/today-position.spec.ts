@@ -161,3 +161,35 @@ test("Today uses the new local date after midnight without moving a browsed mont
   await expect.poll(async () => Math.abs(await weekOffset(page, "2026-10-01"))).toBeLessThanOrEqual(2);
   await expect(feed(page)).toBeVisible();
 });
+
+test("first-time mobile onboarding keeps the local week centered after expanding the chooser", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.clock.setFixedTime(new Date("2026-09-22T12:00:00Z"));
+  await setup(page, undefined, false);
+  const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
+  await expect(chooser).toBeVisible();
+  for (const group of ["Soccer", "Motorsports"]) {
+    await chooser.locator("summary").filter({ hasText: new RegExp(`^${group}$`) }).click();
+    await chooser.getByRole("checkbox", { name: `Select all ${group}`, exact: true }).check();
+  }
+  await chooser.getByRole("button", { name: "Show my calendar", exact: true }).click();
+  await expect(chooser).toHaveCount(0);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("September");
+  await expect.poll(async () => Math.abs(await weekOffset(page, "2026-09-22"))).toBeLessThanOrEqual(2);
+});
+
+test("first-time mobile onboarding with published fixture coverage stays on today's centered week", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
+  await page.goto("/");
+  const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
+  for (const group of ["Golf", "Combat sports", "Motorsports"]) {
+    await chooser.getByRole("region", { name: `${group} interests` }).locator("summary").click();
+  }
+  await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).check();
+  await chooser.getByRole("checkbox", { name: "Boxing", exact: true }).check();
+  await chooser.getByRole("button", { name: "Show my calendar", exact: true }).click();
+  await expect(chooser).toHaveCount(0);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("September");
+  await expect.poll(async () => Math.abs(await weekOffset(page, "2026-09-11"))).toBeLessThanOrEqual(2);
+});
