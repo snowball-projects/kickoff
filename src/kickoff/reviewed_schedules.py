@@ -19,21 +19,8 @@ LICENSES = {
 }
 
 
-# Owner-requested October 15 review: factual sessions from these two stops only.
-CLIMBING_SOURCES = {
-    "https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026": (
-        "America/Denver",
-        "2026-10-16",
-        "2026-10-18",
-        {"Boulder"},
-    ),
-    "https://www.worldclimbing.com/events/world-climbing-series-santiago-2026": (
-        "America/Santiago",
-        "2026-10-23",
-        "2026-10-25",
-        {"Lead", "Speed"},
-    ),
-}
+# Reviewed factual schedules, with event metadata and evidence kept in data/reviewed.
+CLIMBING_HOSTS = {"www.worldclimbing.com", "worldclimbing.com", "www.ifsc-climbing.org", "ifsc.results.info"}
 CLIMBING_LICENSE = "Schedule facts; no data license granted"
 CLIMBING_TERMS = "https://www.worldclimbing.com/terms-and-conditions/index"
 WEIGHTLIFTING_LICENSE = "Schedule facts; no data license granted"
@@ -51,14 +38,14 @@ WEIGHTLIFTING_HOSTS = {
 
 
 def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list[dict]]:
-    """Validate reviewed dates and the explicitly allowed official session clocks."""
+    """Validate reviewed dates and source-backed official session clocks."""
     if payload.get("schema_version") != 1 or not payload.get("events") or not payload.get("sources"):
         raise ValueError("Invalid or empty reviewed registry")
     sources = {}
     for source in payload["sources"]:
         url = urlparse(source["url"])
         policy = LICENSES.get(url.netloc)
-        official = source["url"] in CLIMBING_SOURCES
+        official = source.get("kind") == "world_climbing" and url.netloc in CLIMBING_HOSTS
         if official:
             policy = ("world_climbing", CLIMBING_LICENSE, CLIMBING_TERMS)
         if source.get("kind") == "weightlifting" and url.netloc in WEIGHTLIFTING_HOSTS:
@@ -94,7 +81,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Missing source SHA-256")
         if not source.get("changes") or not source.get("name"):
             raise ValueError("Missing attribution or transformation notice")
-        if kind == "weightlifting":
+        if kind in {"weightlifting", "world_climbing"}:
             date.fromisoformat(source["checked_date"])
         elif datetime.fromisoformat(source["retrieved_at"].replace("Z", "+00:00")).tzinfo is None:
             raise ValueError("Source retrieval time needs an offset")
@@ -120,25 +107,36 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         gender_tags = []
         time_scope = row.get("start_time_scope", "event")
         if source["kind"] == "world_climbing":
-            zone, first, last, allowed = CLIMBING_SOURCES[source["url"]]
             if (
-                row["league"] != "IFSC_WORLD_CUP"
-                or row["sport"] != "climbing"
-                or row["event_type"] != "session"
-                or len(disciplines) != 1
-                or disciplines[0] not in allowed
+                row["sport"] != "climbing"
+                or not row["league"].startswith(("IFSC_", "CLIMBING_"))
+                or row["event_type"] not in {"session", "tournament"}
             ):
-                raise ValueError("Official climbing registry only accepts single-discipline sessions")
-            if row.get("gender") not in {"men", "women"} or row.get("round_or_stage") not in {
-                "qualification",
-                "semi-final",
-                "final",
-            }:
-                raise ValueError("Official climbing round needs one gender and a scheduled stage")
-            gender_tags = [row["gender"].title()]
-            if start != end or not first <= start.isoformat() <= last:
-                raise ValueError("Official climbing session outside reviewed stop dates")
+                raise ValueError("Climbing source needs a climbing session or date span")
+            date.fromisoformat(row["checked_date"])
+            if row.get("source_url") != source["url"]:
+                raise ValueError("Climbing event needs its reviewed source link")
+            if not disciplines:
+                raise ValueError("Reviewed climbing event needs its published disciplines")
+            if row.get("gender") and row.get("genders"):
+                raise ValueError("Climbing gender categories must have one representation")
+            genders = row.get("genders", [row["gender"]] if row.get("gender") else [])
+            if (
+                not isinstance(genders, list)
+                or len(set(genders)) != len(genders)
+                or any(gender not in {"men", "women"} for gender in genders)
+            ):
+                raise ValueError("Unknown climbing gender")
+            gender_tags = [gender.title() for gender in genders] + row.get("tags", [])
+            zone = row.get("event_timezone")
+            if zone:
+                get_zoneinfo(zone)
+            if row["event_type"] == "session":
+                if start != end or row.get("round_or_stage") not in {"qualification", "semi-final", "final"}:
+                    raise ValueError("Climbing round needs one published day and a scheduled stage")
             if row.get("local_time") is not None:
+                if row["event_type"] != "session" or not zone:
+                    raise ValueError("Climbing clock needs a single-day session and timezone")
                 if not re.fullmatch(r"(?:[01][0-9]|2[0-3]):[0-5][0-9]", row["local_time"]):
                     raise ValueError("Invalid climbing session clock")
                 local = datetime.combine(start, time.fromisoformat(row["local_time"]), get_zoneinfo(zone))
@@ -182,7 +180,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 subtitle=row.get("notes"),
                 start_time_utc=isoformat_z(local),
                 start_time_local=local.isoformat() if local else None,
-                timezone=zone if local or source["kind"] == "weightlifting" else None,
+                timezone=zone,
                 start_time_scope=time_scope,
                 status="past schedule" if end < datetime.now(timezone.utc).date() else "scheduled",
                 venue=row.get("venue"),

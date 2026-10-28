@@ -1,0 +1,1470 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "world-climbing-series-tokyo-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Tokyo 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-tokyo-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "8837f305dc019c5ea6a71099299063a5c2478aff5035e43576b4e5f03e864a15",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-shanghai-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Shanghai 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-shanghai-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "b7022ea39b2e5ceeb27c6b1bba75329c4f59c2b1342907eda18a421d6f80f40e",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-asia-qualifier-shanghai-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Asia Qualifier Shanghai 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-asia-qualifier-shanghai-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "76e70cb934c1309578eac5024e8d96bea0b6b888ed56f15609f621cd4343be91",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-gunsan-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Gunsan 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-gunsan-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "506732fe772ad4f67e3dc2629a9821a0cf20d2475f7c3388977683d96209b904",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-para-series-catania-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Para Series Catania 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-para-series-catania-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "30ff94d9dfd09f7a9741ec656e6c21024fa5e881cb3e0351e6a53d66d933bdb9",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-para-series-innsbruck-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Para Series Innsbruck 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-para-series-innsbruck-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "a63aca2fe983ccb76efb2c73008e37c38492bdcd542be36ed08df7ec5539b9ea",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-para-series-manchester-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Para Series Manchester 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-para-series-manchester-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "6a25e98e00c1403db685339f67ea30f069ea97a04f117e22021d351fd3ce760c",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-chamonix-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Chamonix 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-chamonix-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "5f8ca2cbfe47e1fa93e1fd443609a36fbafb64ae9b31315a724043ce3dc305d5",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-koper-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Koper 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-koper-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "75fb77e2defa097bcea8fa7fd3b4c48939443fa6a7cfe647d9e198ae6b3dc262",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-championship-brno-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Championship Brno 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-championship-brno-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "5610f38579c2dfd42ce9331cc74a2b70cf5d0601a9d42abfada23df7d3dc32ba",
+      "evidence": [
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-para-championsip-brno-2027/news/brno-2027-unveils-official-emblems-and-branding",
+          "sha256": "396d2f52ca764925d3c1abf276e5c47d5030aec7b69931b855770b9001da0f0e",
+          "checked_date": "2026-10-28"
+        }
+      ],
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-wujiang-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Wujiang 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-wujiang-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "d03b7cd17e883ac5670bde6253ddfc76ef4b16daf2c42960d313f2e36100cf7c",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-oceania-qualifier-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Oceania Qualifier 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-oceania-qualifier-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "93f4f958f8cdbbd3759c486949fed011918708575204a392f0f795b5e79eee3a",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-manchester-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Manchester 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-manchester-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "c9f402aaa35391728763fa6b72b10d0952e6566dbc11ef96cfd0ef8af76c122e",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-bern-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Bern 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-bern-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "10e0c87d42cd4ed63cb07768a2db97f565564189ff4f98b6d114f9e477cb5288",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-innsbruck-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Innsbruck 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-innsbruck-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "c8e7f26ede59bd81352caac6530bda96ac23d22acc566b26d2833e0f87bed0c6",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-para-series-los-angeles-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Para Series Los Angeles 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-para-series-los-angeles-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "6a08b8b6d7d5ec2ccb74ad54ec066395a85df30c784827ea6e1086a3f1130e6a",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-para-championsip-brno-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Para Championship Brno 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-para-championsip-brno-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "643c5e6ac854ddebbc766d84bba70cd5fcb2573593ab02cbbd2b4bca3d798138",
+      "evidence": [
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-para-championsip-brno-2027/news/brno-2027-unveils-official-emblems-and-branding",
+          "sha256": "396d2f52ca764925d3c1abf276e5c47d5030aec7b69931b855770b9001da0f0e",
+          "checked_date": "2026-10-28"
+        }
+      ],
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-keqiao-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Keqiao 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-keqiao-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "ee363284a3852b51e66f7551d7562e3928ee277fcd7334cd11d5e52ad8745e6a",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-los-angeles-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Los Angeles 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-los-angeles-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "39bc4146e065b0abbeb6202b18b687b416a269971e1a85e39b935e4403a138b5",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-comunidad-de-madrid-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Comunidad De Madrid 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-comunidad-de-madrid-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "ad453b614dd08d0918574a9c9956478508fb48ea72ffc80a882449ee2e5d2827",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-para-series-toulouse-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Para Series Toulouse 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-para-series-toulouse-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "9f01e0a3aeda9f14b273b67538461ad7c2ca40cc40a07d9d2e606d7b587ead57",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-oceania-qualifier-mount-maunganui-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Oceania Qualifier Mount Maunganui 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-oceania-qualifier-mount-maunganui-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "b6cd69b947b1aaf78ff9ea8d68e352ee8ad7fc046d11396a8b89f73883004cb5",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-youth-championship-jamshedpur-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Youth Championship Jamshedpur 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-youth-championship-jamshedpur-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "63a7454dbd6f0125d538d110707d8406c0de5b4d749da647e2280fa8e73416ca",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-series-paris-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Series Paris 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-series-paris-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "279d5cf8003eae99979d1898ae2db616a4eb2242c9c25b7bf9eb00b0b63580cc",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "world-climbing-africa-qualifier-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: World Climbing Africa Qualifier 2027",
+      "url": "https://www.worldclimbing.com/events/world-climbing-africa-qualifier-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "15cf8f602e7904f03d2df11d81b40e0030607717eb87b15982703af2976a0749",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "european-para-championships-geneva-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / event organizer: European Para Championship Geneva 2027",
+      "url": "https://www.worldclimbing.com/events/european-para-championships-geneva-2027",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "ea1993d884b9178c9ab945fb5fdf17c8f6b18a0ab74f8a6555e4d208d44b149c",
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "europe-calendar-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing Europe: 2027 calendar announced October 27",
+      "url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "3751d8ae0bea804ecd8081be84126aba98c9507e5e1fa3e8772d4f1b0c747876",
+      "changes": "Selected factual competition identities, venue locations, disciplines and date spans only. No clocks, gender categories or unconfirmed Boulder championship dates inferred."
+    },
+    {
+      "id": "climbing-european-games-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / Games organizer: European Games · Istanbul",
+      "url": "https://www.worldclimbing.com/news/world-climbing-unveils-2027-international-competition-calendar",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "97c98d2eb796a250b58079f6f1984d70bc1957b2eeaa05725e3abd58aa7b6cbc",
+      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred."
+    },
+    {
+      "id": "climbing-pan-am-games-2027",
+      "kind": "world_climbing",
+      "name": "World Climbing / Games organizer: Pan American Games · Lima",
+      "url": "https://www.worldclimbing.com/news/world-climbing-unveils-2027-international-competition-calendar",
+      "revision": "reviewed-2026-10-28",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
+      "checked_date": "2026-10-28",
+      "sha256": "97c98d2eb796a250b58079f6f1984d70bc1957b2eeaa05725e3abd58aa7b6cbc",
+      "evidence": [
+        {
+          "url": "https://www.panamsports.org/wp-content/uploads/2026/05/Calendario-Lima-2027_Comunicado-ENG_May14.pdf",
+          "sha256": "29ae451d619a435a34223a781498c6270fe95f5ec8e915f25ebf2aba5be8ce58",
+          "checked_date": "2026-10-28"
+        }
+      ],
+      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred."
+    }
+  ],
+  "events": [
+    {
+      "id": "world-climbing-europe-youth-series-lleida-boulder-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Lleida · Boulder",
+      "start_date": "2027-04-03",
+      "end_date": "2027-04-04",
+      "event_type": "tournament",
+      "venue": "Lleida, Spain",
+      "event_timezone": "Europe/Madrid",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-series-tokyo-2027",
+      "source_id": "world-climbing-series-tokyo-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-tokyo-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Tokyo",
+      "start_date": "2027-04-09",
+      "end_date": "2027-04-11",
+      "event_type": "tournament",
+      "venue": "Tokyo, Japan",
+      "event_timezone": "Asia/Tokyo",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-series-keqiao-2027",
+      "source_id": "world-climbing-series-keqiao-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-keqiao-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Keqiao",
+      "start_date": "2027-04-16",
+      "end_date": "2027-04-18",
+      "event_type": "tournament",
+      "venue": "Keqiao, China",
+      "event_timezone": "Asia/Shanghai",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-soure-boulder-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Soure · Boulder",
+      "start_date": "2027-04-17",
+      "end_date": "2027-04-18",
+      "event_type": "tournament",
+      "venue": "Soure, Portugal",
+      "event_timezone": "Europe/Lisbon",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-series-shanghai-2027",
+      "source_id": "world-climbing-series-shanghai-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-shanghai-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Shanghai",
+      "start_date": "2027-04-23",
+      "end_date": "2027-04-25",
+      "event_type": "tournament",
+      "venue": "Shanghai, China",
+      "event_timezone": "Asia/Shanghai",
+      "disciplines": [
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-mezzalombardo-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Mezzalombardo · Speed",
+      "start_date": "2027-04-24",
+      "end_date": "2027-04-24",
+      "event_type": "tournament",
+      "venue": "Mezzalombardo, Italy",
+      "event_timezone": "Europe/Rome",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-europe-series-mezzalombardo-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Mezzalombardo · Speed",
+      "start_date": "2027-04-25",
+      "end_date": "2027-04-25",
+      "event_type": "tournament",
+      "venue": "Mezzalombardo, Italy",
+      "event_timezone": "Europe/Rome",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-series-wujiang-2027",
+      "source_id": "world-climbing-series-wujiang-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-wujiang-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Wujiang",
+      "start_date": "2027-04-30",
+      "end_date": "2027-05-02",
+      "event_type": "tournament",
+      "venue": "Wujiang, China",
+      "event_timezone": "Asia/Shanghai",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-series-gothenburg-boulder-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Gothenburg · Boulder",
+      "start_date": "2027-05-01",
+      "end_date": "2027-05-02",
+      "event_type": "tournament",
+      "venue": "Gothenburg, Sweden",
+      "event_timezone": "Europe/Stockholm",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-series-gunsan-2027",
+      "source_id": "world-climbing-series-gunsan-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-gunsan-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Gunsan",
+      "start_date": "2027-05-07",
+      "end_date": "2027-05-09",
+      "event_type": "tournament",
+      "venue": "Gunsan, South Korea",
+      "event_timezone": "Asia/Seoul",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-series-nieuwegein-lead-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Nieuwegein · Lead",
+      "start_date": "2027-05-08",
+      "end_date": "2027-05-09",
+      "event_type": "tournament",
+      "venue": "Nieuwegein, Netherlands",
+      "event_timezone": "Europe/Amsterdam",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-europe-series-vienna-boulder-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Vienna · Boulder",
+      "start_date": "2027-05-15",
+      "end_date": "2027-05-16",
+      "event_type": "tournament",
+      "venue": "Vienna, Austria",
+      "event_timezone": "Europe/Vienna",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-europe-series-liptovsky-boulder-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Liptovsky · Boulder",
+      "start_date": "2027-05-22",
+      "end_date": "2027-05-23",
+      "event_type": "tournament",
+      "venue": "Liptovsky, Slovakia",
+      "event_timezone": "Europe/Bratislava",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-series-bern-2027",
+      "source_id": "world-climbing-series-bern-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-bern-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Bern",
+      "start_date": "2027-05-28",
+      "end_date": "2027-05-30",
+      "event_type": "tournament",
+      "venue": "Bern, Switzerland",
+      "event_timezone": "Europe/Zurich",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-duisburg-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Duisburg · Speed",
+      "start_date": "2027-05-29",
+      "end_date": "2027-05-29",
+      "event_type": "tournament",
+      "venue": "Duisburg, Germany",
+      "event_timezone": "Europe/Berlin",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-europe-series-duisburg-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Duisburg · Speed",
+      "start_date": "2027-05-30",
+      "end_date": "2027-05-30",
+      "event_type": "tournament",
+      "venue": "Duisburg, Germany",
+      "event_timezone": "Europe/Berlin",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-para-series-manchester-2027",
+      "source_id": "world-climbing-para-series-manchester-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-manchester-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_PARA_WORLD_CUP",
+      "title": "Para World Cup · Manchester",
+      "start_date": "2027-06-02",
+      "end_date": "2027-06-03",
+      "event_type": "tournament",
+      "venue": "Manchester, Great Britain",
+      "event_timezone": "Europe/London",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "tags": [
+        "Para"
+      ]
+    },
+    {
+      "id": "world-climbing-series-manchester-2027",
+      "source_id": "world-climbing-series-manchester-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-manchester-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Manchester",
+      "start_date": "2027-06-04",
+      "end_date": "2027-06-06",
+      "event_type": "tournament",
+      "venue": "Manchester, Great Britain",
+      "event_timezone": "Europe/London",
+      "disciplines": [
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-bucharest-boulder-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Bucharest · Boulder",
+      "start_date": "2027-06-05",
+      "end_date": "2027-06-06",
+      "event_type": "tournament",
+      "venue": "Bucharest, Romania",
+      "event_timezone": "Europe/Bucharest",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-para-series-innsbruck-2027",
+      "source_id": "world-climbing-para-series-innsbruck-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-innsbruck-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_PARA_WORLD_CUP",
+      "title": "Para World Cup · Innsbruck",
+      "start_date": "2027-06-07",
+      "end_date": "2027-06-08",
+      "event_type": "tournament",
+      "venue": "Innsbruck, Austria",
+      "event_timezone": "Europe/Vienna",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "tags": [
+        "Para"
+      ]
+    },
+    {
+      "id": "world-climbing-series-innsbruck-2027",
+      "source_id": "world-climbing-series-innsbruck-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-innsbruck-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Innsbruck",
+      "start_date": "2027-06-09",
+      "end_date": "2027-06-13",
+      "event_type": "tournament",
+      "venue": "Innsbruck, Austria",
+      "event_timezone": "Europe/Vienna",
+      "disciplines": [
+        "Boulder",
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "climbing-european-games-2027",
+      "source_id": "climbing-european-games-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-unveils-2027-international-competition-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_EUROPEAN_GAMES",
+      "title": "European Games · Istanbul",
+      "start_date": "2027-06-16",
+      "end_date": "2027-06-27",
+      "event_type": "tournament",
+      "venue": "Istanbul, Türkiye",
+      "event_timezone": "Europe/Istanbul",
+      "disciplines": [
+        "Boulder",
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Games date span only. Climbing round dates, clocks and gender categories are not yet published in the reviewed calendar."
+    },
+    {
+      "id": "world-climbing-europe-series-vendespace-boulder-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Vendespace · Boulder",
+      "start_date": "2027-07-02",
+      "end_date": "2027-07-03",
+      "event_type": "tournament",
+      "venue": "Vendespace, France",
+      "event_timezone": "Europe/Paris",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-series-chamonix-2027",
+      "source_id": "world-climbing-series-chamonix-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-chamonix-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Chamonix",
+      "start_date": "2027-07-09",
+      "end_date": "2027-07-11",
+      "event_type": "tournament",
+      "venue": "Chamonix, France",
+      "event_timezone": "Europe/Paris",
+      "disciplines": [
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-series-bytom-speed-speed-relay-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Bytom · Speed / Speed Relay",
+      "start_date": "2027-07-16",
+      "end_date": "2027-07-18",
+      "event_type": "tournament",
+      "venue": "Bytom, Poland",
+      "event_timezone": "Europe/Warsaw",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-series-comunidad-de-madrid-2027",
+      "source_id": "world-climbing-series-comunidad-de-madrid-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-comunidad-de-madrid-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Alcobendas",
+      "start_date": "2027-07-16",
+      "end_date": "2027-07-17",
+      "event_type": "tournament",
+      "venue": "Alcobendas, Spain",
+      "event_timezone": "Europe/Madrid",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-graz-lead-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Graz · Lead",
+      "start_date": "2027-07-17",
+      "end_date": "2027-07-18",
+      "event_type": "tournament",
+      "venue": "Graz, Austria",
+      "event_timezone": "Europe/Vienna",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "climbing-pan-am-games-2027",
+      "source_id": "climbing-pan-am-games-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-unveils-2027-international-competition-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_PAN_AM_GAMES",
+      "title": "Pan American Games · Lima",
+      "start_date": "2027-07-24",
+      "end_date": "2027-07-27",
+      "event_type": "tournament",
+      "venue": "Lima, Peru",
+      "event_timezone": "America/Lima",
+      "disciplines": [
+        "Boulder",
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Climbing sport dates are July 24–27 in the organizer calendar. Round dates and start clocks are not yet published.",
+      "genders": [
+        "men",
+        "women"
+      ],
+      "evidence_urls": [
+        "https://www.panamsports.org/wp-content/uploads/2026/05/Calendario-Lima-2027_Comunicado-ENG_May14.pdf"
+      ]
+    },
+    {
+      "id": "european-para-championships-geneva-2027",
+      "source_id": "european-para-championships-geneva-2027",
+      "source_url": "https://www.worldclimbing.com/events/european-para-championships-geneva-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_EUROPE",
+      "title": "European Para Championships · Geneva",
+      "start_date": "2027-08-02",
+      "end_date": "2027-08-04",
+      "event_type": "tournament",
+      "venue": "Geneva, Switzerland",
+      "event_timezone": "Europe/Zurich",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "tags": [
+        "Para"
+      ]
+    },
+    {
+      "id": "world-climbing-europe-series-zilina-lead-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Zilina · Lead",
+      "start_date": "2027-08-07",
+      "end_date": "2027-08-08",
+      "event_type": "tournament",
+      "venue": "Zilina, Slovakia",
+      "event_timezone": "Europe/Bratislava",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-europe-series-zilina-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Zilina · Speed",
+      "start_date": "2027-08-07",
+      "end_date": "2027-08-07",
+      "event_type": "tournament",
+      "venue": "Zilina, Slovakia",
+      "event_timezone": "Europe/Bratislava",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-championship-brno-2027",
+      "source_id": "world-climbing-championship-brno-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-championship-brno-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLDS",
+      "title": "World Championships · Brno",
+      "start_date": "2027-08-13",
+      "end_date": "2027-08-21",
+      "event_type": "tournament",
+      "venue": "Brno, Czechia",
+      "event_timezone": "Europe/Prague",
+      "disciplines": [
+        "Boulder",
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Competition dates 13–21 August confirmed by the newer October 17 official announcement, superseding September 30’s 13–22 August dates. Round schedule, clocks and gender categories are not published yet.",
+      "competition_phase": "championship"
+    },
+    {
+      "id": "world-climbing-para-championsip-brno-2027",
+      "source_id": "world-climbing-para-championsip-brno-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-para-championsip-brno-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_PARA_WORLDS",
+      "title": "Para World Championships · Brno",
+      "start_date": "2027-08-13",
+      "end_date": "2027-08-21",
+      "event_type": "tournament",
+      "venue": "Brno, Czechia",
+      "event_timezone": "Europe/Prague",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Competition dates 13–21 August confirmed by the newer October 17 official announcement, superseding September 30’s 13–22 August dates. Round schedule, clocks and gender categories are not published yet.",
+      "tags": [
+        "Para"
+      ],
+      "competition_phase": "championship"
+    },
+    {
+      "id": "world-climbing-europe-series-ostermundigen-lead-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Ostermundigen · Lead",
+      "start_date": "2027-08-27",
+      "end_date": "2027-08-28",
+      "event_type": "tournament",
+      "venue": "Ostermundigen, Switzerland",
+      "event_timezone": "Europe/Zurich",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-series-koper-2027",
+      "source_id": "world-climbing-series-koper-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-koper-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Koper",
+      "start_date": "2027-09-03",
+      "end_date": "2027-09-04",
+      "event_type": "tournament",
+      "venue": "Koper, Slovenia",
+      "event_timezone": "Europe/Ljubljana",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-bergen-lead-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Bergen · Lead",
+      "start_date": "2027-09-04",
+      "end_date": "2027-09-05",
+      "event_type": "tournament",
+      "venue": "Bergen, Norway",
+      "event_timezone": "Europe/Oslo",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-para-series-los-angeles-2027",
+      "source_id": "world-climbing-para-series-los-angeles-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-los-angeles-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_PARA_WORLD_CUP",
+      "title": "Para World Cup · Los Angeles",
+      "start_date": "2027-09-07",
+      "end_date": "2027-09-12",
+      "event_type": "tournament",
+      "venue": "Los Angeles",
+      "event_timezone": "America/Los_Angeles",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "tags": [
+        "Para"
+      ]
+    },
+    {
+      "id": "world-climbing-series-los-angeles-2027",
+      "source_id": "world-climbing-series-los-angeles-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-los-angeles-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Los Angeles",
+      "start_date": "2027-09-07",
+      "end_date": "2027-09-12",
+      "event_type": "tournament",
+      "venue": "Los Angeles, USA",
+      "event_timezone": "America/Los_Angeles",
+      "disciplines": [
+        "Boulder",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-imst-lead-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Imst · Lead",
+      "start_date": "2027-09-11",
+      "end_date": "2027-09-12",
+      "event_type": "tournament",
+      "venue": "Imst, Austria",
+      "event_timezone": "Europe/Vienna",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-series-paris-2027",
+      "source_id": "world-climbing-series-paris-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-series-paris-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_WORLD_CUP",
+      "title": "Paris",
+      "start_date": "2027-09-24",
+      "end_date": "2027-09-26",
+      "event_type": "tournament",
+      "venue": "Paris, France",
+      "event_timezone": "Europe/Paris",
+      "disciplines": [
+        "Boulder"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-slovenska-bistrica-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Slovenska Bistrica · Speed",
+      "start_date": "2027-09-25",
+      "end_date": "2027-09-25",
+      "event_type": "tournament",
+      "venue": "Slovenska Bistrica, Slovenia",
+      "event_timezone": "Europe/Ljubljana",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-youth-championship-augsburg-lead-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_EUROPE",
+      "title": "European Youth Championships · Augsburg · Lead",
+      "start_date": "2027-09-25",
+      "end_date": "2027-09-26",
+      "event_type": "tournament",
+      "venue": "Augsburg, Germany",
+      "event_timezone": "Europe/Berlin",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ],
+      "competition_phase": "championship"
+    },
+    {
+      "id": "world-climbing-para-series-catania-2027",
+      "source_id": "world-climbing-para-series-catania-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-catania-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_PARA_WORLD_CUP",
+      "title": "Para World Cup · Catania",
+      "start_date": "2027-10-02",
+      "end_date": "2027-10-03",
+      "event_type": "tournament",
+      "venue": "Catania, Italy",
+      "event_timezone": "Europe/Rome",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "tags": [
+        "Para"
+      ]
+    },
+    {
+      "id": "world-climbing-youth-championship-leipzig-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_EUROPE",
+      "title": "European Youth Championships · Leipzig · Speed",
+      "start_date": "2027-10-02",
+      "end_date": "2027-10-03",
+      "event_type": "tournament",
+      "venue": "Leipzig, Germany",
+      "event_timezone": "Europe/Berlin",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ],
+      "competition_phase": "championship"
+    },
+    {
+      "id": "world-climbing-africa-qualifier-2027",
+      "source_id": "world-climbing-africa-qualifier-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-africa-qualifier-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_OLYMPIC_QUALIFIERS",
+      "title": "World Climbing Africa Qualifier",
+      "start_date": "2027-10-07",
+      "end_date": "2027-10-10",
+      "event_type": "tournament",
+      "venue": "South Africa",
+      "event_timezone": "Africa/Johannesburg",
+      "disciplines": [
+        "Boulder",
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-oceania-qualifier-2027",
+      "source_id": "world-climbing-oceania-qualifier-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-oceania-qualifier-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_OLYMPIC_QUALIFIERS",
+      "title": "World Climbing Oceania Qualifier",
+      "start_date": "2027-10-14",
+      "end_date": "2027-10-17",
+      "event_type": "tournament",
+      "venue": "Australia",
+      "event_timezone": null,
+      "disciplines": [
+        "Boulder",
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-oceania-qualifier-mount-maunganui-2027",
+      "source_id": "world-climbing-oceania-qualifier-mount-maunganui-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-oceania-qualifier-mount-maunganui-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_OLYMPIC_QUALIFIERS",
+      "title": "World Climbing Oceania Qualifier Mount Maunganui",
+      "start_date": "2027-10-23",
+      "end_date": "2027-10-24",
+      "event_type": "tournament",
+      "venue": "Mount Maunganui, New Zealand",
+      "event_timezone": "Pacific/Auckland",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-europe-youth-series-toulouse-tournefeuille-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_YOUTH_CONTINENTAL_CUP",
+      "title": "European Youth Series · Toulouse/ Tournefeuille · Speed",
+      "start_date": "2027-10-29",
+      "end_date": "2027-10-29",
+      "event_type": "tournament",
+      "venue": "Toulouse/ Tournefeuille",
+      "event_timezone": "Europe/Paris",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "tags": [
+        "Youth"
+      ]
+    },
+    {
+      "id": "world-climbing-para-series-toulouse-2027",
+      "source_id": "world-climbing-para-series-toulouse-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-toulouse-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_PARA_WORLD_CUP",
+      "title": "Para World Cup · Toulouse",
+      "start_date": "2027-10-29",
+      "end_date": "2027-10-31",
+      "event_type": "tournament",
+      "venue": "Toulouse, France",
+      "event_timezone": "Europe/Paris",
+      "disciplines": [
+        "Lead"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "tags": [
+        "Para"
+      ]
+    },
+    {
+      "id": "world-climbing-europe-series-toulouse-tournefeuille-speed-2027",
+      "source_id": "europe-calendar-2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_CONTINENTAL_CUP",
+      "title": "European Series · Toulouse/ Tournefeuille · Speed",
+      "start_date": "2027-10-30",
+      "end_date": "2027-10-30",
+      "event_type": "tournament",
+      "venue": "Toulouse/ Tournefeuille",
+      "event_timezone": "Europe/Paris",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+    },
+    {
+      "id": "world-climbing-asia-qualifier-shanghai-2027",
+      "source_id": "world-climbing-asia-qualifier-shanghai-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-qualifier-shanghai-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_OLYMPIC_QUALIFIERS",
+      "title": "World Climbing Asia Qualifier Shanghai",
+      "start_date": "2027-11-10",
+      "end_date": "2027-11-14",
+      "event_type": "tournament",
+      "venue": "Shanghai, China",
+      "event_timezone": "Asia/Shanghai",
+      "disciplines": [
+        "Boulder",
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+    },
+    {
+      "id": "world-climbing-youth-championship-jamshedpur-2027",
+      "source_id": "world-climbing-youth-championship-jamshedpur-2027",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-youth-championship-jamshedpur-2027",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "IFSC_YOUTH_WORLDS",
+      "title": "Youth World Championships · Jamshedpur",
+      "start_date": "2027-11-21",
+      "end_date": "2027-11-28",
+      "event_type": "tournament",
+      "venue": "Jamshedpur, India",
+      "event_timezone": "Asia/Kolkata",
+      "disciplines": [
+        "Boulder",
+        "Lead",
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "tags": [
+        "Youth"
+      ],
+      "competition_phase": "championship"
+    }
+  ],
+  "exclusions": [
+    {
+      "sport": "climbing",
+      "competition": "European Youth Boulder Championships 2027",
+      "source_url": "https://www.worldclimbing.com/news/world-climbing-europe-releases-2027-calendar",
+      "checked_date": "2026-10-28",
+      "reason": "Official October 27 announcement leaves venue and dates to be confirmed. No dated event invented."
+    },
+    {
+      "sport": "climbing",
+      "competition": "Olympic Games and Olympic Q-Series",
+      "source_url": "https://www.worldclimbing.com/events/olympic-games-la28-x7861/news/climbing-confirmed-for-olympic-q-series-events-in-tokyo-shanghai-and-orlando",
+      "checked_date": "2026-10-28",
+      "reason": "The next Olympic climbing Games and Olympic Q-Series are in 2028, outside this registry year. Published 2027 qualification competitions are included under their actual identities."
+    }
+  ]
+}
