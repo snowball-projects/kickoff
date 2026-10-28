@@ -3,6 +3,15 @@ import { expect, test, type Page } from "@playwright/test";
 async function openMonth(page: Page, month: string) {
   await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
   await page.getByRole("button", { name: `Open ${month} 2026` }).click();
+  const calendar = page.getByRole("region", { name: "Scrollable calendar", exact: true });
+  const section = calendar.getByRole("region", { name: `${month} 2026`, exact: true });
+  // An absence assertion can pass while the old month is still scrolling.
+  // Wait for the requested month before starting another year-view jump.
+  await expect.poll(() => section.evaluate((element) => {
+    const root = element.parentElement!;
+    return Math.abs(root.scrollTop - (element as HTMLElement).offsetTop) < 2;
+  })).toBe(true);
+  await expect(page.getByRole("heading", { name: month, exact: true, level: 1 })).toBeVisible();
 }
 
 test("group choices are independent, mixed, collapsible and preserve saved leagues", async ({ page }) => {
