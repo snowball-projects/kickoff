@@ -32,7 +32,7 @@ test("old selections retain senior-only Worlds; facets save, cancel and intersec
   await edit(page);
   await expect(climbing(page).getByRole("checkbox", { name: "World Cups", exact: true })).toBeChecked();
   await expect(lifting(page).getByRole("checkbox", { name: "IWF Worlds", exact: true })).toBeChecked();
-  for (const name of ["Junior Worlds", "Youth Worlds", "Masters Worlds", "European Championships", "Asian Games"])
+  for (const name of ["Junior Worlds", "Youth Worlds", "Masters Worlds", "Continental championships", "Asian Games"])
     await expect(lifting(page).getByRole("checkbox", { name, exact: true })).not.toBeChecked();
   await expect(climbing(page).getByRole("group", { name: "Gender", exact: true }).getByRole("checkbox")).toHaveCount(2);
   await expect(climbing(page).getByRole("group", { name: "Discipline", exact: true }).getByRole("checkbox")).toHaveCount(3);

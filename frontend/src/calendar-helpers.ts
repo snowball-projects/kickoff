@@ -91,6 +91,20 @@ const SPORT_GROUPS = [
     "WEIGHTLIFTING_PAN_AMERICA", "WEIGHTLIFTING_COMMONWEALTH_GAMES", "WEIGHTLIFTING_ASIAN_GAMES", "WEIGHTLIFTING_PAN_AM_GAMES"] },
 ];
 
+const CONTINENTAL_CHAMPIONSHIPS: Record<string, string[]> = {
+  Weightlifting: ["WEIGHTLIFTING_AFRICA", "WEIGHTLIFTING_ASIA", "WEIGHTLIFTING_EUROPE",
+    "WEIGHTLIFTING_OCEANIA", "WEIGHTLIFTING_PAN_AMERICA"],
+};
+
+export function interestChoices(group: { name: string; leagues: string[] }) {
+  const continental = group.leagues.filter((league) => CONTINENTAL_CHAMPIONSHIPS[group.name]?.includes(league));
+  return group.leagues.flatMap((league) => {
+    if (continental.includes(league)) return league === continental[0]
+      ? [{ name: "Continental championships", leagues: continental }] : [];
+    return [{ name: league === "IFSC_WORLD_CUP" ? "World Cups" : leagueVisual(league).shortLabel, leagues: [league] }];
+  });
+}
+
 export function interestGroups(leagues: { value: string }[]) {
   const available = new Set(interestLeagues(leagues).map((league) => league.value));
   const groups = SPORT_GROUPS.map((group) => ({
