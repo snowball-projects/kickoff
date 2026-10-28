@@ -79,7 +79,7 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390])
     await motorsports.locator("summary").click();
     const future = motorsports.getByRole("checkbox", { name: "FUTURE SERIES", exact: true });
     await expect(future).toBeChecked();
-    const futureDot = motorsports.locator("label.interest").filter({ has: future }).locator(".interest-dot");
+    const futureDot = motorsports.locator("label.interest").filter({ has: page.getByRole("checkbox", { name: "FUTURE SERIES", exact: true }) }).locator(".interest-dot");
     await expect(futureDot).toHaveClass(/category-motorsport/);
     await expect(chooser.getByRole("region", { name: "Miscellaneous interests" })).toHaveCount(0);
     const futureColor = await futureDot.evaluate((element) => getComputedStyle(element).backgroundColor);
