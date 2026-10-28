@@ -184,6 +184,7 @@ def test_doubleheader_matches_primary_game_number_not_first_matching_pair(monkey
     game = {
         "gamePk": 824460,
         "gameNumber": 2,
+        "doubleHeader": "Y",
         "gameDate": "2026-04-05T17:10Z",
         "officialDate": "2026-04-05",
         "gameType": "R",
@@ -193,7 +194,7 @@ def test_doubleheader_matches_primary_game_number_not_first_matching_pair(monkey
     }
     monkeypatch.setattr(feeds, "get_json", lambda _: {"dates": [{"games": [game]}]})
     event = feeds.mlb_events(2026)[0]
-    assert event.raw_source_payload["game_number"] == 2
+    assert event.raw_source_payload == {"game_number": 2, "double_header": "Y"}
     rows = []
     for number, clock in [(1, "17:10"), (2, "20:30")]:
         row = espn(clock=f"2026-04-05T{clock}Z", identity=f"game-{number}")
@@ -212,6 +213,66 @@ def test_doubleheader_matches_primary_game_number_not_first_matching_pair(monkey
     event.raw_source_payload = {}
     fill_missing_start_times([event], 2026)
     assert event.start_time_utc is None
+
+
+@pytest.mark.parametrize(
+    "primary_number,double_header,espn_numbers,sibling_date,expected_utc",
+    [
+        # A unique same-day match is not enough to identify a doubleheader game.
+        (2, "Y", [1], None, None),
+        (2, "Y", [1, 2], "2026-04-06", None),
+        (2, "Y", [None], None, None),
+        (1, "Y", [None], None, None),
+        (1, "S", [2], None, None),
+        (None, "Y", [1], None, None),
+        # A game number alone also identifies a doubleheader, without the flag.
+        (2, None, [1], None, None),
+        (2, None, [None], None, None),
+        # Independent numbering can confirm a sole candidate without its sibling.
+        (2, "Y", [2], None, "2026-04-05T20:30:00Z"),
+        (1, "Y", [1], None, "2026-04-05T20:30:00Z"),
+        # Ordinary single games still use a unique exact team/date match.
+        (1, "N", [None], None, "2026-04-05T20:30:00Z"),
+    ],
+)
+def test_doubleheader_identity_is_required_when_sibling_is_missing(
+    monkeypatch, primary_number, double_header, espn_numbers, sibling_date, expected_utc
+):
+    event = feeds.make_event(
+        source="mlb",
+        league="MLB",
+        sport="baseball",
+        upstream_id="824460",
+        season="2026",
+        title="Chicago Cubs at Cleveland Guardians",
+        utc=None,
+        day="2026-04-05",
+        home="Cleveland Guardians",
+        away="Chicago Cubs",
+        source_url="https://www.mlb.com/gameday/824460",
+    )
+    event.raw_source_payload = {"game_number": primary_number, "double_header": double_header}
+    before = event.to_dict()
+    rows = []
+    for index, number in enumerate(espn_numbers):
+        day = sibling_date if index == 1 else "2026-04-05"
+        row = espn(clock=f"{day}T20:30Z", identity=f"candidate-{index}")
+        if number is not None:
+            row["competitions"][0]["notes"] = [{"headline": f"Doubleheader - Game {number}"}]
+        for competitor in row["competitions"][0]["competitors"]:
+            competitor["team"]["displayName"] = (
+                "Cleveland Guardians" if competitor["homeAway"] == "home" else "Chicago Cubs"
+            )
+        rows.append(row)
+    answer(monkeypatch, rows)
+    receipts = fill_missing_start_times([event], 2026)
+    assert event.start_time_utc == expected_utc
+    if expected_utc is None:
+        assert event.to_dict() == before
+        assert receipts[0]["clocks_added"] == []
+    else:
+        assert event.source == "espn"
+        assert event.event_id == before["event_id"] and event.calendar_date == before["calendar_date"]
 
 
 def test_export_keeps_both_source_receipts_and_espn_license(monkeypatch, tmp_path):

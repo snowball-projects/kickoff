@@ -124,17 +124,28 @@ def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dic
                         and feeds._local_date(row["date"], ZoneInfo(zone)) == event.calendar_date
                     ):
                         candidates.append(row)
-                if len(candidates) > 1:
-                    number = event.raw_source_payload.get("game_number")
-                    candidates = [
-                        row
-                        for row in candidates
-                        if number
-                        and any(
-                            re.search(rf"\bDoubleheader - Game {number}\b", note.get("headline", ""))
+                number = event.raw_source_payload.get("game_number")
+                numbered = [
+                    (
+                        row,
+                        {
+                            int(match)
                             for note in row["competitions"][0].get("notes", [])
-                        )
-                    ]
+                            for match in re.findall(r"\bDoubleheader - Game (\d+)\b", note.get("headline", ""))
+                        },
+                    )
+                    for row in candidates
+                ]
+                # A missing sibling must not turn the wrong numbered game into
+                # a unique match. Either feed's doubleheader evidence requires
+                # the same explicit game number, even for one candidate.
+                if (
+                    len(candidates) > 1
+                    or event.raw_source_payload.get("double_header") in {"Y", "S"}
+                    or number not in (None, 1)
+                    or any(numbers for _, numbers in numbered)
+                ):
+                    candidates = [row for row, numbers in numbered if number and numbers == {number}]
             else:
                 identity = identities[event.event_id]
                 zone = identity["timezone"]
