@@ -7,10 +7,10 @@ const empty = { sport: "", league: "", country: "", city: "", competition_phase:
 const storage = (values) => ({ getItem: (key) => values[key] || null });
 
 test("current preferences preserve empty selections and all current options", async () => {
-  const { readPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
+  const { readPreferences, defaultPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
   const saved = { leagues: ["PGA_TOUR", "LPGA_TOUR", "F1", "FUTURE"],
     golf_views: { PGA_TOUR: "majors_only", LPGA_TOUR: "full_tour" }, motorsport_view: "full_weekend" };
-  assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(saved) })), saved);
+  assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(saved) })), { ...defaultPreferences(), ...saved });
   assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify({ ...saved, leagues: [] }) })).leagues, []);
   assert.equal(readPreferences(storage({})).leagues, null);
   assert.equal(readPreferences(storage({ [INTERESTS_KEY]: "broken" })).leagues, null);
@@ -74,4 +74,62 @@ test("duplicate suppression needs a matching identity and full span and retains 
   assert.deepEqual(uniqueGolfEvents([reviewed, fed]), [fed]);
   assert.deepEqual(uniqueGolfEvents([reviewed]), [reviewed]);
   assert.equal(uniqueGolfEvents([reviewed, { ...fed, end_calendar_date: "2026-07-18" }]).length, 2);
+});
+
+test("session options default to all without changing existing competition selections", async () => {
+  const { readPreferences, INTERESTS_KEY, defaultPreferences, matchesInterestOptions } = await loadModule("interest-preferences");
+  const leagues = ["IFSC_WORLD_CUP", "IWF_WORLDS", "MASTERS_WORLDS", "FUTURE"];
+  const old = readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify({ leagues }) }));
+  assert.deepEqual(old.leagues, leagues);
+  assert.deepEqual(old.climbing, defaultPreferences().climbing);
+  assert.deepEqual(old.weightlifting, defaultPreferences().weightlifting);
+  assert.equal(matchesInterestOptions({ sport: "weightlifting", league: "IWF_JUNIOR_WORLDS", tags: ["Men"] },
+    { followed_leagues: ["IWF_WORLDS"] }), false);
+  const current = { ...old, climbing: { genders: [], disciplines: ["Lead"] }, weightlifting: { genders: ["Women"] } };
+  assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(current) })), current);
+});
+
+test("gender and discipline intersect, combined sessions match either, and unknowns remain visible", async () => {
+  const { matchesInterestOptions } = await loadModule("interest-preferences");
+  const filters = { climbing: { genders: ["Women"], disciplines: ["Lead"] }, weightlifting: { genders: ["Men"] } };
+  const climbing = (tags) => ({ sport: "climbing", league: "IFSC_WORLD_CUP", tags });
+  assert.equal(matchesInterestOptions(climbing(["Women", "Boulder", "Lead"]), filters), true);
+  assert.equal(matchesInterestOptions(climbing(["Women", "Boulder"]), filters), false);
+  assert.equal(matchesInterestOptions(climbing(["Men", "Lead"]), filters), false);
+  assert.equal(matchesInterestOptions(climbing(["Men", "Women", "Lead"]), filters), true);
+  assert.equal(matchesInterestOptions(climbing(["Lead"]), filters), true);
+  assert.equal(matchesInterestOptions(climbing(["Women"]), filters), true);
+  assert.equal(matchesInterestOptions(climbing([]), filters), true);
+  assert.equal(matchesInterestOptions(climbing([]), { climbing: { genders: [], disciplines: ["Lead"] } }), false);
+  assert.equal(matchesInterestOptions(climbing([]), { climbing: { genders: ["Women"], disciplines: [] } }), false);
+  const lifting = (tags) => ({ sport: "weightlifting", league: "MASTERS_WORLDS", tags });
+  assert.equal(matchesInterestOptions(lifting(["Men", "Women"]), filters), true);
+  assert.equal(matchesInterestOptions(lifting(["Women"]), filters), false);
+  assert.equal(matchesInterestOptions(lifting([]), filters), true);
+  assert.equal(matchesInterestOptions(lifting([]), { weightlifting: { genders: [] } }), false);
+  assert.equal(matchesInterestOptions({ sport: "soccer", league: "EPL", tags: [] }, filters), true);
+});
+
+test("reviewed session facets apply equally to list and calendar without altering source records", async () => {
+  const bundle = reviewedBundle();
+  const original = globalThis.fetch;
+  try {
+    globalThis.fetch = async (url) => String(url).endsWith("/2026.json")
+      ? Response.json(bundle) : new Response(null, { status: 404 });
+    const { searchEvents, getCalendar } = await loadModule("data");
+    const filters = { ...empty, followed_leagues: ["IFSC_WORLD_CUP", "IWF_WORLDS"],
+      climbing: { genders: ["Women"], disciplines: ["Boulder"] }, weightlifting: { genders: ["Women"] } };
+    const result = await searchEvents(2026, "", filters, "UTC");
+    const expected = bundle.events.filter((e) => (e.league === "IWF_WORLDS" && e.tags.includes("Women"))
+      || (e.league === "IFSC_WORLD_CUP" && e.tags.includes("Boulder") && !e.tags.includes("Men")));
+    assert.equal(result.total, expected.length);
+    assert.equal(result.items.length, Math.min(30, expected.length));
+    assert.ok(result.items.every((e) => expected.some((item) => item.event_id === e.event_id)));
+    const calendar = await getCalendar("month", 2026, "2026-10-01", filters, "UTC");
+    const ids = new Set(calendar.groups.flatMap((day) => day.items.map((e) => e.event_id)));
+    assert.deepEqual([...ids].sort(), expected.filter((e) => e.calendar_date.startsWith("2026-10")).map((e) => e.event_id).sort());
+    const worlds = result.items.find((e) => e.league === "IWF_WORLDS");
+    assert.deepEqual(worlds.tags, bundle.events.find((e) => e.event_id === worlds.event_id).tags);
+    assert.equal((await searchEvents(2026, "", { ...filters, climbing: { genders: [], disciplines: [] }, weightlifting: { genders: [] } }, "UTC")).total, 0);
+  } finally { globalThis.fetch = original; }
 });
