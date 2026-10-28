@@ -11,7 +11,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "8837f305dc019c5ea6a71099299063a5c2478aff5035e43576b4e5f03e864a15",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-shanghai-2027",
@@ -23,7 +23,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "b7022ea39b2e5ceeb27c6b1bba75329c4f59c2b1342907eda18a421d6f80f40e",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-asia-qualifier-shanghai-2027",
@@ -35,7 +35,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "76e70cb934c1309578eac5024e8d96bea0b6b888ed56f15609f621cd4343be91",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-gunsan-2027",
@@ -47,7 +47,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "506732fe772ad4f67e3dc2629a9821a0cf20d2475f7c3388977683d96209b904",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-para-series-catania-2027",
@@ -59,7 +59,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "30ff94d9dfd09f7a9741ec656e6c21024fa5e881cb3e0351e6a53d66d933bdb9",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-para-series-innsbruck-2027",
@@ -71,7 +71,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "a63aca2fe983ccb76efb2c73008e37c38492bdcd542be36ed08df7ec5539b9ea",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-para-series-manchester-2027",
@@ -83,7 +83,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "6a25e98e00c1403db685339f67ea30f069ea97a04f117e22021d351fd3ce760c",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-chamonix-2027",
@@ -95,7 +95,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "5f8ca2cbfe47e1fa93e1fd443609a36fbafb64ae9b31315a724043ce3dc305d5",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-koper-2027",
@@ -107,7 +107,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "75fb77e2defa097bcea8fa7fd3b4c48939443fa6a7cfe647d9e198ae6b3dc262",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-championship-brno-2027",
@@ -126,7 +126,7 @@
           "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-wujiang-2027",
@@ -138,7 +138,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "d03b7cd17e883ac5670bde6253ddfc76ef4b16daf2c42960d313f2e36100cf7c",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-oceania-qualifier-2027",
@@ -150,7 +150,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "93f4f958f8cdbbd3759c486949fed011918708575204a392f0f795b5e79eee3a",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-manchester-2027",
@@ -162,7 +162,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "c9f402aaa35391728763fa6b72b10d0952e6566dbc11ef96cfd0ef8af76c122e",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-bern-2027",
@@ -174,7 +174,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "10e0c87d42cd4ed63cb07768a2db97f565564189ff4f98b6d114f9e477cb5288",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-innsbruck-2027",
@@ -186,7 +186,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "c8e7f26ede59bd81352caac6530bda96ac23d22acc566b26d2833e0f87bed0c6",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-para-series-los-angeles-2027",
@@ -198,7 +198,14 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "6a08b8b6d7d5ec2ccb74ad54ec066395a85df30c784827ea6e1086a3f1130e6a",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header.",
+      "evidence": [
+        {
+          "url": "https://www.worldclimbing.com/news/world-climbing-unveils-2027-international-competition-calendar",
+          "sha256": "97c98d2eb796a250b58079f6f1984d70bc1957b2eeaa05725e3abd58aa7b6cbc",
+          "checked_date": "2026-10-28"
+        }
+      ]
     },
     {
       "id": "world-climbing-para-championsip-brno-2027",
@@ -217,7 +224,7 @@
           "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-keqiao-2027",
@@ -229,7 +236,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "ee363284a3852b51e66f7551d7562e3928ee277fcd7334cd11d5e52ad8745e6a",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-los-angeles-2027",
@@ -241,7 +248,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "39bc4146e065b0abbeb6202b18b687b416a269971e1a85e39b935e4403a138b5",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-comunidad-de-madrid-2027",
@@ -253,7 +260,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "ad453b614dd08d0918574a9c9956478508fb48ea72ffc80a882449ee2e5d2827",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-para-series-toulouse-2027",
@@ -265,7 +272,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "9f01e0a3aeda9f14b273b67538461ad7c2ca40cc40a07d9d2e606d7b587ead57",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-oceania-qualifier-mount-maunganui-2027",
@@ -277,7 +284,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "b6cd69b947b1aaf78ff9ea8d68e352ee8ad7fc046d11396a8b89f73883004cb5",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-youth-championship-jamshedpur-2027",
@@ -289,7 +296,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "63a7454dbd6f0125d538d110707d8406c0de5b4d749da647e2280fa8e73416ca",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-series-paris-2027",
@@ -301,7 +308,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "279d5cf8003eae99979d1898ae2db616a4eb2242c9c25b7bf9eb00b0b63580cc",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "world-climbing-africa-qualifier-2027",
@@ -313,7 +320,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "15cf8f602e7904f03d2df11d81b40e0030607717eb87b15982703af2976a0749",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "european-para-championships-geneva-2027",
@@ -325,7 +332,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "ea1993d884b9178c9ab945fb5fdf17c8f6b18a0ab74f8a6555e4d208d44b149c",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "europe-calendar-2027",
@@ -337,7 +344,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "3751d8ae0bea804ecd8081be84126aba98c9507e5e1fa3e8772d4f1b0c747876",
-      "changes": "Selected factual competition identities, venue locations, disciplines and date spans only. No clocks, gender categories or unconfirmed Boulder championship dates inferred."
+      "changes": "Selected factual competition identities, venue locations, disciplines and date spans only. No clocks, gender categories or unconfirmed Boulder championship dates inferred. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     },
     {
       "id": "climbing-european-games-2027",
@@ -349,7 +356,7 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "97c98d2eb796a250b58079f6f1984d70bc1957b2eeaa05725e3abd58aa7b6cbc",
-      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred.",
+      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred. Host country normalized from explicit reviewed venue text or the linked official location/calendar header.",
       "evidence": [
         {
           "url": "https://www.worldclimbing.com/events/olympic-games-la28-x7861/news/climbing-to-feature-in-expanded-olympic-q-series",
@@ -391,7 +398,7 @@
           "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred."
+      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
     }
   ],
   "events": [
@@ -415,7 +422,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Spain"
     },
     {
       "id": "world-climbing-series-tokyo-2027",
@@ -434,7 +442,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "Japan"
     },
     {
       "id": "world-climbing-series-keqiao-2027",
@@ -453,7 +462,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "China"
     },
     {
       "id": "world-climbing-europe-youth-series-soure-boulder-2027",
@@ -475,7 +485,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Portugal"
     },
     {
       "id": "world-climbing-series-shanghai-2027",
@@ -495,7 +506,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "China"
     },
     {
       "id": "world-climbing-europe-youth-series-mezzalombardo-speed-2027",
@@ -517,7 +529,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Italy"
     },
     {
       "id": "world-climbing-europe-series-mezzalombardo-speed-2027",
@@ -536,7 +549,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Italy"
     },
     {
       "id": "world-climbing-series-wujiang-2027",
@@ -555,7 +569,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "China"
     },
     {
       "id": "world-climbing-europe-series-gothenburg-boulder-2027",
@@ -574,7 +589,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Sweden"
     },
     {
       "id": "world-climbing-series-gunsan-2027",
@@ -593,7 +609,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "South Korea"
     },
     {
       "id": "world-climbing-europe-series-nieuwegein-lead-2027",
@@ -612,7 +629,8 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Netherlands"
     },
     {
       "id": "world-climbing-europe-series-vienna-boulder-2027",
@@ -631,7 +649,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Austria"
     },
     {
       "id": "world-climbing-europe-series-liptovsky-boulder-2027",
@@ -650,7 +669,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Slovakia"
     },
     {
       "id": "world-climbing-series-bern-2027",
@@ -669,7 +689,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "Switzerland"
     },
     {
       "id": "world-climbing-europe-youth-series-duisburg-speed-2027",
@@ -691,7 +712,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Germany"
     },
     {
       "id": "world-climbing-europe-series-duisburg-speed-2027",
@@ -710,7 +732,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Germany"
     },
     {
       "id": "world-climbing-para-series-manchester-2027",
@@ -732,7 +755,8 @@
       "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
       "tags": [
         "Para"
-      ]
+      ],
+      "country": "Great Britain"
     },
     {
       "id": "world-climbing-series-manchester-2027",
@@ -752,7 +776,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "Great Britain"
     },
     {
       "id": "world-climbing-europe-youth-series-bucharest-boulder-2027",
@@ -774,7 +799,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Romania"
     },
     {
       "id": "world-climbing-para-series-innsbruck-2027",
@@ -796,7 +822,8 @@
       "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
       "tags": [
         "Para"
-      ]
+      ],
+      "country": "Austria"
     },
     {
       "id": "world-climbing-series-innsbruck-2027",
@@ -816,7 +843,8 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "Austria"
     },
     {
       "id": "climbing-european-games-2027",
@@ -845,7 +873,8 @@
       "genders": [
         "men",
         "women"
-      ]
+      ],
+      "country": "Türkiye"
     },
     {
       "id": "world-climbing-europe-series-vendespace-boulder-2027",
@@ -864,7 +893,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "France"
     },
     {
       "id": "world-climbing-series-chamonix-2027",
@@ -884,7 +914,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "France"
     },
     {
       "id": "world-climbing-europe-series-bytom-speed-speed-relay-2027",
@@ -903,7 +934,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Poland"
     },
     {
       "id": "world-climbing-series-comunidad-de-madrid-2027",
@@ -922,7 +954,8 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "Spain"
     },
     {
       "id": "world-climbing-europe-youth-series-graz-lead-2027",
@@ -944,7 +977,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Austria"
     },
     {
       "id": "climbing-pan-am-games-2027",
@@ -974,7 +1008,8 @@
       "genders": [
         "men",
         "women"
-      ]
+      ],
+      "country": "Peru"
     },
     {
       "id": "european-para-championships-geneva-2027",
@@ -996,7 +1031,8 @@
       "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
       "tags": [
         "Para"
-      ]
+      ],
+      "country": "Switzerland"
     },
     {
       "id": "world-climbing-europe-series-zilina-lead-2027",
@@ -1015,7 +1051,8 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Slovakia"
     },
     {
       "id": "world-climbing-europe-series-zilina-speed-2027",
@@ -1034,7 +1071,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Slovakia"
     },
     {
       "id": "world-climbing-championship-brno-2027",
@@ -1056,7 +1094,8 @@
       ],
       "local_time": null,
       "notes": "Competition dates 13–21 August confirmed by the newer October 17 official announcement, superseding September 30’s 13–22 August dates. Round schedule, clocks and gender categories are not published yet.",
-      "competition_phase": "championship"
+      "competition_phase": "championship",
+      "country": "Czechia"
     },
     {
       "id": "world-climbing-para-championsip-brno-2027",
@@ -1079,7 +1118,8 @@
       "tags": [
         "Para"
       ],
-      "competition_phase": "championship"
+      "competition_phase": "championship",
+      "country": "Czechia"
     },
     {
       "id": "world-climbing-europe-series-ostermundigen-lead-2027",
@@ -1098,7 +1138,8 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "Switzerland"
     },
     {
       "id": "world-climbing-series-koper-2027",
@@ -1117,7 +1158,8 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "Slovenia"
     },
     {
       "id": "world-climbing-europe-youth-series-bergen-lead-2027",
@@ -1139,7 +1181,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Norway"
     },
     {
       "id": "world-climbing-para-series-los-angeles-2027",
@@ -1161,6 +1204,10 @@
       "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
       "tags": [
         "Para"
+      ],
+      "country": "United States",
+      "evidence_urls": [
+        "https://www.worldclimbing.com/news/world-climbing-unveils-2027-international-competition-calendar"
       ]
     },
     {
@@ -1181,7 +1228,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "USA"
     },
     {
       "id": "world-climbing-europe-youth-series-imst-lead-2027",
@@ -1203,7 +1251,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Austria"
     },
     {
       "id": "world-climbing-series-paris-2027",
@@ -1222,7 +1271,8 @@
         "Boulder"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "France"
     },
     {
       "id": "world-climbing-europe-youth-series-slovenska-bistrica-speed-2027",
@@ -1244,7 +1294,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "Slovenia"
     },
     {
       "id": "world-climbing-youth-championship-augsburg-lead-2027",
@@ -1267,7 +1318,8 @@
       "tags": [
         "Youth"
       ],
-      "competition_phase": "championship"
+      "competition_phase": "championship",
+      "country": "Germany"
     },
     {
       "id": "world-climbing-para-series-catania-2027",
@@ -1289,7 +1341,8 @@
       "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
       "tags": [
         "Para"
-      ]
+      ],
+      "country": "Italy"
     },
     {
       "id": "world-climbing-youth-championship-leipzig-speed-2027",
@@ -1312,7 +1365,8 @@
       "tags": [
         "Youth"
       ],
-      "competition_phase": "championship"
+      "competition_phase": "championship",
+      "country": "Germany"
     },
     {
       "id": "world-climbing-africa-qualifier-2027",
@@ -1333,7 +1387,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "South Africa"
     },
     {
       "id": "world-climbing-oceania-qualifier-2027",
@@ -1353,7 +1408,8 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar. The Australian host city is unpublished, so its venue timezone is not assigned."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar. The Australian host city is unpublished, so its venue timezone is not assigned.",
+      "country": "Australia"
     },
     {
       "id": "world-climbing-oceania-qualifier-mount-maunganui-2027",
@@ -1372,7 +1428,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "New Zealand"
     },
     {
       "id": "world-climbing-europe-youth-series-toulouse-tournefeuille-speed-2027",
@@ -1394,7 +1451,8 @@
       "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
       "tags": [
         "Youth"
-      ]
+      ],
+      "country": "France"
     },
     {
       "id": "world-climbing-para-series-toulouse-2027",
@@ -1416,7 +1474,8 @@
       "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
       "tags": [
         "Para"
-      ]
+      ],
+      "country": "France"
     },
     {
       "id": "world-climbing-europe-series-toulouse-tournefeuille-speed-2027",
@@ -1435,7 +1494,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet."
+      "notes": "Published competition dates and disciplines only. Round schedule, local clocks and gender categories are not published yet.",
+      "country": "France"
     },
     {
       "id": "world-climbing-asia-qualifier-shanghai-2027",
@@ -1456,7 +1516,8 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar.",
+      "country": "China"
     },
     {
       "id": "world-climbing-youth-championship-jamshedpur-2027",
@@ -1481,7 +1542,8 @@
       "tags": [
         "Youth"
       ],
-      "competition_phase": "championship"
+      "competition_phase": "championship",
+      "country": "India"
     }
   ],
   "exclusions": [

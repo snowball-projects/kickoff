@@ -210,3 +210,21 @@ def test_santa_fe_uses_updated_organizer_rounds_and_host_timezone_without_invent
     assert {e.start_time_local[11:16] for e in speed} == {"10:50", "11:15"}
     assert sum(e.start_time_utc is None for e in games) == 2
     assert any(s["url"].startswith("https://santafe2026.ar/") for s in sources)
+
+
+def test_reviewed_climbing_hosts_keep_explicit_country_facts():
+    from kickoff.reviewed_schedules import load_reviewed_schedules
+
+    for year, count in [(2026, 441), (2027, 52)]:
+        events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", year)
+        climbing = [event for event in events if event.sport == "climbing"]
+        assert len(climbing) == count
+        assert all(event.country for event in climbing)
+        prague = next((event for event in climbing if "Prague" in event.title), None)
+        if prague:
+            assert prague.country == "Czechia"
+        for event in climbing:
+            if "Rock Master" in (event.venue or ""):
+                assert event.country == "Italy"
+            if event.venue == "Los Angeles":
+                assert event.country == "United States"

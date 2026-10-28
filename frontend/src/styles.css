@@ -1098,6 +1098,31 @@ dialog p {
   line-height: 1.4;
 }
 
+/* Bundled sport shapes inherit category ink; native flags retain their own colours. */
+.sport-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: 0 0 auto;
+  fill: currentColor;
+  color: var(--category-accent, inherit);
+  vertical-align: -0.18em;
+  margin-right: 0.3em;
+}
+.event-pill > .sport-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 0;
+}
+.event-flags {
+  display: inline;
+  white-space: nowrap;
+}
+.event-flags .country-flag,
+.competition-chip .country-flag {
+  font-size: 1em;
+  margin-right: 0.3em;
+}
+
 /* Follow the device theme without adding or changing preference storage. */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -1128,4 +1153,8 @@ dialog p {
     --preview-border: #8397a5;
     --tag: #24323f;
   }
+}
+
+.event-pill .sport-icon {
+  color: var(--ink, inherit);
 }

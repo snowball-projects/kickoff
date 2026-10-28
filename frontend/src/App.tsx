@@ -1,3 +1,4 @@
+import { countryIdentity } from "./countries";
 import { useEffect, useRef, useState } from "react";
 import {
   browserTimezone,
@@ -15,6 +16,7 @@ import {
 import type { EventCard, FilterState } from "./types";
 import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
 import InterestGroups from "./InterestGroups";
+import { EventFlags, SportIcon } from "./EventIdentity";
 import { defaultPreferences, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { boundMonth, dayAfter, monthAt, monthIndex, monthWindow, scheduleWindow } from "./month-feed-state";
@@ -85,13 +87,14 @@ function Pill({ event }: { event: EventCard }) {
     <span
       className={`event-pill ${leagueVisual(event.league, event.sport).className}`}
     >
-      <b>{SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league, event.sport).shortLabel}</b>
-      <span>{event.tags.includes("final date only") && "Final date · "}{event.title}</span>
+      <SportIcon league={event.league} sport={event.sport} /><b aria-hidden="true">{!countryIdentity(event.country) && SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league, event.sport).shortLabel}</b>
+      <span className="sr-only">{leagueVisual(event.league, event.sport).shortLabel}</span>
+      <span><EventFlags event={event} />{event.tags.includes("final date only") && "Final date · "}{event.title}</span>
     </span>
   );
 }
 function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
-  const location = [event.venue, event.city, event.country]
+  const location = [event.venue, event.city, countryIdentity(event.country)?.name || event.country]
     .filter(Boolean)
     .join(" · ");
   return (
@@ -101,9 +104,9 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
         <span
           className={`league-label ${leagueVisual(event.league, event.sport).className}`}
         >
-          {leagueVisual(event.league, event.sport).shortLabel}
+          <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
         </span>
-        <h3>{event.title}</h3>
+        <h3><EventFlags event={event} />{event.title}</h3>
         {event.tags.includes("final date only") && <p className="date-scope">Final date only</p>}
         {event.subtitle && <p>{event.subtitle}</p>}
         {location && <p>{location}</p>}

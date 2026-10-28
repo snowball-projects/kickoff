@@ -263,14 +263,23 @@ def f1_fields(text: str) -> dict[str, str]:
         if not match:
             continue
         key, value = match.groups()
-        if key in {"id", "round", "date", "time", "grandPrixId", "circuitId"} or key.endswith(("Date", "Time")):
+        if key in {
+            "id",
+            "round",
+            "date",
+            "time",
+            "grandPrixId",
+            "circuitId",
+            "countryId",
+            "alpha2Code",
+        } or key.endswith(("Date", "Time")):
             if not re.fullmatch(r"[A-Za-z0-9:_-]+", value):
                 raise ValueError(f"Unsupported F1 field: {key}")
             fields[key] = value
     return fields
 
 
-def f1_events(text: str, year: int, source_url: str) -> list[CalendarEvent]:
+def f1_events(text: str, year: int, source_url: str, country: str | None = None) -> list[CalendarEvent]:
     row = f1_fields(text)
     title = row["grandPrixId"].replace("-", " ").title() + " Grand Prix"
     sessions = [
@@ -292,6 +301,7 @@ def f1_events(text: str, year: int, source_url: str) -> list[CalendarEvent]:
             _event(
                 event_id=f"f1db-{row['id']}-{prefix or 'race'}",
                 source="f1db",
+                country=country,
                 sport="motorsport",
                 league="F1",
                 season=str(year),
@@ -375,13 +385,40 @@ def refresh_open_schedules(
         if not isinstance(listing, list) or not listing:
             raise ValueError("No F1 races returned")
         result, inputs = [], []
+        circuit_countries = {}
+        countries = {}
+
+        def metadata(path):
+            url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
+            body = read_url(url)
+            inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": 0})
+            return f1_fields(body.decode())
+
+        def host_country(race):
+            circuit = f1_fields(race).get("circuitId")
+            if not circuit:
+                return None
+            if circuit not in circuit_countries:
+                circuit_countries[circuit] = metadata(f"src/data/circuits/{circuit}.yml").get("countryId")
+            country = circuit_countries[circuit]
+            if not country:
+                return None
+            if country not in countries:
+                code = metadata(f"src/data/countries/{country}.yml").get("alpha2Code")
+                if code is not None and not re.fullmatch(r"[A-Z]{2}", code):
+                    raise ValueError("Invalid F1 host country code")
+                countries[country] = code
+            return countries[country]
+
         for item in listing:
             if item["type"] != "dir":
                 continue
             path = item["path"] + "/race.yml"
             url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
             body = read_url(url)
-            parsed = f1_events(body.decode(), year, f"https://github.com/{repo}/blob/{revision}/{path}")
+            parsed = f1_events(
+                body.decode(), year, f"https://github.com/{repo}/blob/{revision}/{path}", host_country(body.decode())
+            )
             result.extend(e for e in parsed if e.calendar_date.startswith(str(year)))
             inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)})
         if not result:

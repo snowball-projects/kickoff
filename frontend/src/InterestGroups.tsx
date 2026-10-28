@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
+import { SportIcon } from "./EventIdentity";
 import { CLIMBING_DISCIPLINES, GENDERS, GOLF_TOURS, type InterestPreferences, type LeagueInterest } from "./interest-preferences";
-import { interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
+import { CATEGORY_KEYS, interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
 
 function SelectionCheckbox({ name, selected, total, onChange }: {
   name?: string; selected: number; total: number; onChange: () => void;
@@ -58,7 +59,7 @@ export default function InterestGroups({ leagues, selected, onChange, preference
               <span aria-hidden="true">{count}/{group.leagues.length}</span>
             </label>
             <details>
-              <summary>{group.name}</summary>
+              <summary><SportIcon category={CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS]} standalone />{group.name}</summary>
               <div className="interest-grid">
                 {interestChoices(group).map((choice) => {
                   const league = choice.leagues[0];

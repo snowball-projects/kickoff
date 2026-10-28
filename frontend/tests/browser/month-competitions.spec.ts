@@ -18,7 +18,7 @@ const events = [
   event("Single hidden practice", { event_type: "practice", calendar_date: "2026-09-11", end_calendar_date: "2026-09-11" }),
   event("Only hidden practice", { event_type: "practice", calendar_date: "2026-09-12", end_calendar_date: "2026-09-12" }),
   ...Array.from({ length: 13 }, (_, index) => event(`Game ${index + 1}`, {
-    league: "NFL", sport: "football", event_type: "game", start_time_utc: "2026-09-13T17:00:00Z",
+    league: "NFL", sport: "football", country: null, event_type: "game", start_time_utc: "2026-09-13T17:00:00Z",
     calendar_date: "2026-09-13", end_calendar_date: "2026-09-13",
   })),
 ];
@@ -46,14 +46,16 @@ async function motorsport(page: Page, value: string) {
 
 test("month chips expand in place, stay flat and show only a muted inactive hidden count", async ({ page }) => {
   const day = page.locator("#day-2026-09-10");
-  const chip = day.getByRole("button", { name: "F1 · 3 events · from 12:00", exact: true });
+  const chip = day.getByRole("button", { name: "F1 · 3 events · from 12:00 · Host country: Italy", exact: true });
   await expect(chip).toHaveAttribute("aria-expanded", "false");
   await expect(day.locator(".hidden-events")).toHaveCount(0);
   await chip.focus();
   await page.keyboard.press("Enter");
   await expect(chip).toHaveAttribute("aria-expanded", "true");
   await expect(day.locator(".competition-event")).toHaveCount(3);
-  await expect(day.locator(".competition-event .event-pill")).toHaveText(["F1Race first", "F1Race later", "F1Race date only"]);
+  await expect(day.locator(".competition-event .event-pill")).toContainText(["F1", "F1", "F1"]);
+  await expect(day.locator(".competition-event .event-pill > span:last-child")).toContainText(["Race first", "Race later", "Race date only"]);
+  await expect(day.locator(".competition-event .country-flag")).toHaveCount(3);
   await expect(day.locator(".competition-event-time")).toHaveText(["12:00 PM", "3:00 PM", "Time TBD"]);
   await expect(day.locator(".hidden-events")).toHaveText("1 more event hidden by your filters");
   await expect(day.locator(".competition-events [aria-expanded]")).toHaveCount(0);
