@@ -160,11 +160,10 @@ def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dic
             changes.append(
                 {"event_id": event.event_id, "schedule_source_url": event.source_url, "time_source_url": source_url}
             )
-            # openfootball's country names identify a domestic league, not its host.
-            if event.source == "openfootball":
-                event.country = None
-            event.source = "espn"
-            event.source_url = source_url
+            # The original schedule and its licence still cover titles, dates
+            # and venues. Attribute the separately supplied clock to ESPN.
+            event.start_time_source = "espn"
+            event.start_time_source_url = source_url
             event.start_time_utc = utc
             event.start_time_local = (
                 datetime.fromisoformat(utc.replace("Z", "+00:00")).astimezone(ZoneInfo(zone)).isoformat()

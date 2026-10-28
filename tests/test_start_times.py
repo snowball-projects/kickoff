@@ -59,14 +59,15 @@ def test_brazil_clock_is_refreshed_with_exact_teams_date_timezone_and_attributio
     assert event.start_time_utc == "2026-10-28T23:30:00Z"
     assert event.start_time_local == "2026-10-28T20:30:00-03:00"
     assert event.timezone == "America/Sao_Paulo"
-    assert event.source == "espn" and event.source_url == row["links"][0]["href"]
-    assert event.country is None  # A domestic league country is not venue evidence.
-    assert _event_payload(event)["source_url"] == event.source_url
+    assert event.source == "openfootball" and event.source_url == source
+    assert event.start_time_source == "espn" and event.start_time_source_url == row["links"][0]["href"]
+    assert event.country == "Brazil"  # Original domestic-league provenance is retained.
+    assert _event_payload(event)["start_time_source_url"] == event.start_time_source_url
     assert receipts[0]["clocks_added"] == [
         {
             "event_id": identity,
             "schedule_source_url": source,
-            "time_source_url": event.source_url,
+            "time_source_url": event.start_time_source_url,
         }
     ]
     assert len(receipts[0]["canonical_json_sha256"]) == 64
@@ -177,7 +178,8 @@ def test_combat_card_uses_reviewed_identity_and_header_block_not_main_bout(monke
     assert event.event_id == "pfl-2026-global-08"
     assert event.start_time_utc == "2026-06-28T00:00:00Z"
     assert event.start_time_local == "2026-06-27T17:00:00-07:00"
-    assert event.calendar_date == "2026-06-27" and event.source == "espn"
+    assert event.calendar_date == "2026-06-27" and event.source == "wikipedia"
+    assert event.start_time_source == "espn" and event.source_url == "https://en.wikipedia.org/"
 
 
 def test_doubleheader_matches_primary_game_number_not_first_matching_pair(monkeypatch):
@@ -206,9 +208,10 @@ def test_doubleheader_matches_primary_game_number_not_first_matching_pair(monkey
     fill_missing_start_times([event], 2026)
     assert event.event_id == "mlb-mlb-824460" and event.start_time_utc == "2026-04-05T20:30:00Z"
     assert "dates=20260405&" in calls[0]
-    assert event.source_url.endswith("game-2")
+    assert event.start_time_source_url.endswith("game-2")
+    assert event.source_url == "https://www.mlb.com/gameday/824460"
     # An unnumbered doubleheader is ambiguous, even if both clocks are valid.
-    event.source = "mlb"
+    event.start_time_source = event.start_time_source_url = None
     event.start_time_utc = event.start_time_local = None
     event.raw_source_payload = {}
     fill_missing_start_times([event], 2026)
@@ -271,7 +274,8 @@ def test_doubleheader_identity_is_required_when_sibling_is_missing(
         assert event.to_dict() == before
         assert receipts[0]["clocks_added"] == []
     else:
-        assert event.source == "espn"
+        assert event.source == "mlb" and event.start_time_source == "espn"
+        assert event.source_url == before["source_url"]
         assert event.event_id == before["event_id"] and event.calendar_date == before["calendar_date"]
 
 
@@ -289,7 +293,7 @@ def test_export_keeps_both_source_receipts_and_espn_license(monkeypatch, tmp_pat
     answer(monkeypatch, [espn(home=config["CR Flamengo"], away=config["SE Palmeiras"])])
     bundle = json.loads(open_schedules.refresh_open_schedules(2026, tmp_path, enrich_times=True).read_text())
     event = next(e for e in bundle["events"] if e["league"] == "BRASILEIRAO")
-    assert event["source"] == "espn" and event["start_time_utc"]
+    assert event["source"] == "openfootball" and event["start_time_source"] == "espn" and event["start_time_utc"]
     assert bundle["data_licenses"]["espn"] == feeds.SOURCES["espn"]["license"]
     assert any(n["name"] == "openfootball contributors" for n in bundle["sources"])
     assert any(n["name"] == "ESPN" for n in bundle["sources"])
@@ -318,3 +322,48 @@ def test_enrichment_failure_stops_before_writing_bundle(monkeypatch, tmp_path):
     with pytest.raises(OSError, match="clock lookup"):
         open_schedules.refresh_open_schedules(2026, tmp_path, enrich_times=True)
     assert not (tmp_path / "2026.json").exists()
+
+
+def test_enriched_combat_keeps_wikipedia_component_membership_and_mixed_licenses(monkeypatch, tmp_path):
+    import hashlib
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+
+    from kickoff.reviewed_schedules import load_reviewed_schedules
+
+    root = Path(__file__).parents[1]
+    events, notices, exclusions = load_reviewed_schedules(root / "data/reviewed", 2026)
+    origins = {event.event_id: event.to_dict() for event in events if event.source == "wikipedia"}
+    identities = combat_identities()
+    rows = []
+    for event in events:
+        if event.event_id not in identities:
+            continue
+        identity = identities[event.event_id]
+        # Synthetic noon clocks exercise export composition, not source research.
+        local = datetime.fromisoformat(event.calendar_date + "T12:00").replace(tzinfo=ZoneInfo(identity["timezone"]))
+        row = espn(identity=identity["espn_id"], clock=local.isoformat())
+        row["links"] = [{"href": f"https://www.espn.com/mma/fightcenter/_/id/{identity['espn_id']}"}]
+        rows.append(row)
+    assert len(rows) == 18
+    monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
+    monkeypatch.setattr(open_schedules, "load_reviewed_schedules", lambda *_: (events, notices, exclusions))
+    answer(monkeypatch, rows)
+    bundle = json.loads(open_schedules.refresh_open_schedules(2026, tmp_path, enrich_times=True).read_text())
+    reference = next(item for item in bundle["components"] if "-wikipedia-" in item["path"])
+    body = (tmp_path / reference["path"]).read_bytes()
+    assert hashlib.sha256(body).hexdigest() == reference["sha256"]
+    component = json.loads(body)
+    assert {event["event_id"] for event in component["events"]} == set(origins)
+    enriched = [event for event in component["events"] if event.get("start_time_source")]
+    assert len(enriched) == 18
+    for event in enriched:
+        origin = origins[event["event_id"]]
+        for field in ("source", "source_url", "title", "calendar_date", "end_calendar_date", "venue"):
+            assert event[field] == origin[field]
+        assert event["source"] == "wikipedia" and event["start_time_source"] == "espn"
+        assert event["start_time_utc"] and event["start_time_source_url"].startswith("https://www.espn.com/")
+    assert component["license"] == component["data_licenses"]["wikipedia"] == "CC BY-SA 4.0"
+    assert component["data_licenses"]["espn"] == bundle["data_licenses"]["espn"] == feeds.SOURCES["espn"]["license"]
+    assert {source["kind"] for source in component["sources"]} == {"wikipedia", "espn"}
+    assert "Separately attributed start times retain their time source's terms" in component["license_notice"]

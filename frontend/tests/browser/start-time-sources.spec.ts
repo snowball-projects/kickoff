@@ -1,0 +1,48 @@
+import { execFileSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { expect, test } from "@playwright/test";
+
+const root = fileURLToPath(new URL("../../../", import.meta.url));
+const python = existsSync(`${root}.venv/bin/python`) ? `${root}.venv/bin/python` : "python";
+const event = JSON.parse(execFileSync(python, ["-c", `
+import json
+from pathlib import Path
+from kickoff import feeds
+from kickoff.reviewed_schedules import load_reviewed_schedules
+from kickoff.start_times import fill_missing_start_times
+from kickoff.web import _event_payload
+record = next(e for e in load_reviewed_schedules(Path('data/reviewed'), 2026)[0]
+              if e.event_id == 'pfl-2026-global-08')
+feeds.get_json = lambda _: {'events': [{
+    'id': '600059277', 'date': '2026-06-28T00:00Z',
+    'links': [{'href': 'https://www.espn.com/mma/fightcenter/_/id/600059277'}],
+    'competitions': [{'date': '2026-06-28T00:00Z', 'timeValid': True}],
+}]}
+fill_missing_start_times([record], 2026)
+print(json.dumps(_event_payload(record)))
+`], { cwd: root, encoding: "utf8" }));
+
+test("enriched combat retains its schedule source and separately credits the ESPN clock on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.clock.setFixedTime(new Date("2026-06-27T17:00:00Z"));
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({
+    leagues: ["PFL"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only",
+  })));
+  await page.route("**/data/*.json", async (route) => {
+    const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
+    await route.fulfill({ json: {
+      schema_version: "1", season: year, available_seasons: [2026, 2027], providers: [],
+      events: year === 2026 ? [event] : [],
+    } });
+  });
+  await page.goto("/");
+  await page.locator("#day-2026-06-27 .day-number").click();
+  const detail = page.getByRole("complementary", { name: "Day events" });
+  await expect(detail).toContainText(event.title);
+  await expect(detail).toContainText("7:00 PM");
+  await expect(detail.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", event.source_url);
+  await expect(detail.getByRole("link", { name: "Time source: ESPN" })).toHaveAttribute("href", event.start_time_source_url);
+  expect(event.source).toBe("wikipedia");
+  expect(event.source_url).toContain("en.wikipedia.org/");
+});

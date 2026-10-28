@@ -464,9 +464,7 @@ def refresh_open_schedules(
         f"{count} {REVIEWED_LABELS[league]}" for league, count in sorted(reviewed_counts.items())
     )
     fed_coverage = ", ".join(FEED_LABELS[league] for league in feeds or {} if league in fed_leagues)
-    football_count = len(
-        {event["league"] for event in bundle["events"] if event["league"] in {v[0] for v in FOOTBALL.values()}}
-    )
+    football_count = len({event["league"] for event in bundle["events"] if event["source"] == "openfootball"})
     open_coverage = [f"{football_count} football leagues"] if football_count else []
     open_coverage += ["Formula 1"] if any(event["source"] == "f1db" for event in bundle["events"]) else []
     bundle["coverage"] = (
@@ -485,7 +483,13 @@ def refresh_open_schedules(
         "ESPN fills independently confirmed missing clocks with its own attribution. "
         "Unconfirmed clocks remain date-only. F1 times use the source's UTC fields."
     )
-    feed_kinds = sorted({event["source"] for event in bundle["events"]} & set(league_feeds.SOURCES))
+    feed_kinds = sorted(
+        (
+            {event["source"] for event in bundle["events"]}
+            | {event.get("start_time_source") for event in bundle["events"]}
+        )
+        & set(league_feeds.SOURCES)
+    )
     bundle["sources"] = list({json.dumps(s, sort_keys=True): s for s in source_notices + notices}.values())
     bundle["input_evidence"] = evidence
     bundle["exclusions"] = exclusions
@@ -503,19 +507,24 @@ def refresh_open_schedules(
         "League feed and ESPN schedule facts are attributed to their sources, which grant no data license; "
         "league and team names belong to their owners and kickoff is not affiliated with any league. "
         "Wikipedia-derived adaptations are shared under CC BY-SA 4.0, including in this collection. "
-        "Source links identify the contributors and pinned revisions; changes are described in sources."
+        "Source links identify the contributors and pinned revisions; changes are described in sources. "
+        "Separately attributed start times retain their time source's terms, rather than the original schedule's license."
     )
     components = {}
     for kind in ("wikipedia", "wikidata"):
         selected = [event for event in bundle["events"] if event["source"] == kind]
         if not selected:
             continue
+        component_kinds = {kind} | {event["start_time_source"] for event in selected if event.get("start_time_source")}
         component = {
             "schema_version": "1",
             "season": year,
             "license": bundle["data_licenses"][kind],
+            "data_licenses": {
+                source_kind: bundle["data_licenses"][source_kind] for source_kind in sorted(component_kinds)
+            },
             "license_notice": bundle["data_license_notice"],
-            "sources": [source for source in notices if source["kind"] == kind],
+            "sources": [source for source in bundle["sources"] if source.get("kind") in component_kinds],
             "events": selected,
         }
         body = (json.dumps(component, ensure_ascii=True, separators=(",", ":")) + "\n").encode()

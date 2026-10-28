@@ -52,6 +52,8 @@ class CalendarEvent:
     is_support_event: bool = False
     tags: list[str] = field(default_factory=list)
     start_time_scope: str = "event"
+    start_time_source: str | None = None
+    start_time_source_url: str | None = None
     raw_source_payload: JsonValue = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

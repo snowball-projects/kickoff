@@ -53,7 +53,7 @@ export function validateBundle(payload: unknown): void {
     for (const key of ["home_participant", "away_participant"]) {
       if (value[key] != null && !participant(value[key])) invalid(key);
     }
-    for (const key of ["source", "season", "status", "subtitle", "timezone", "venue", "city", "region", "country", "round_or_stage", "week_label", "source_url", "competition_phase"]) {
+    for (const key of ["source", "season", "status", "subtitle", "timezone", "venue", "city", "region", "country", "round_or_stage", "week_label", "source_url", "start_time_source", "start_time_source_url", "competition_phase"]) {
       if (value[key] != null && typeof value[key] !== "string") invalid(key);
     }
     if (value.start_time_utc != null && !instant(value.start_time_utc)) invalid("start_time_utc");
