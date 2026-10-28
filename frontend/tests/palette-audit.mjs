@@ -38,7 +38,7 @@ export async function readPalette() {
     key, ...Object.fromEntries([...body.matchAll(/--category-([\w-]+): (#[\da-f]{6});/g)].map(([, key, value]) => [key, value])),
   }));
 }
-// Distances compare chip fills, not standalone label/accent shades.
+// Distances compare the shared sport fills.
 export function pairwise(palette, mode, matrix) {
   const pairs = [];
   for (const [index, a] of palette.entries()) for (const b of palette.slice(index + 1)) {
@@ -54,8 +54,6 @@ export async function paletteReport() {
     contrast: palette.map((entry) => ({ key: entry.key,
       light: contrast(entry["light-bg"], entry["light-ink"]),
       dark: contrast(entry["dark-bg"], entry["dark-ink"]),
-      lightAccent: contrast(entry["light-accent"], "#eaf2e5"),
-      darkAccent: contrast(entry["dark-accent"], "#2c3d4b"),
     })),
     minimumPairwise: Object.fromEntries(["light", "dark"].map((mode) => [mode,
       Object.fromEntries(Object.entries(simulations).map(([name, matrix]) => [name, pairwise(palette, mode, matrix)[0]])),
