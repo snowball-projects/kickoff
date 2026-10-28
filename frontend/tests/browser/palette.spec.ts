@@ -99,17 +99,21 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390, 
       if (category !== "motorsport") await group.locator("summary").click();
       const swatches = group.locator(".interest-swatch");
       if (category === "soccer") {
-        await expect(group.getByRole("img", { name: "England", exact: true })).toHaveCount(1);
-      } else {
-        expect(await swatches.count()).toBeGreaterThan(0);
-        for (const swatch of await swatches.all()) {
-          const style = await swatch.evaluate((element) => {
-            const css = getComputedStyle(element);
-            return [css.backgroundColor, css.width, css.height, css.borderRadius];
-          });
-          expect(hex(style[0])).toBe(palette.find((entry: { key: string }) => entry.key === category)![`${theme}-bg`]);
-          expect(style.slice(1)).toEqual(["12px", "12px", "3px"]);
-        }
+        const league = group.locator("label.interest").filter({ has: page.getByRole("img", { name: "England", exact: true }) });
+        await expect(league.locator(".interest-swatch.category-soccer")).toBeVisible();
+        await expect(league.getByRole("img", { name: "England", exact: true })).toBeVisible();
+        expect(await league.locator("span").last().evaluate((element) =>
+          element.getBoundingClientRect().height <= parseFloat(getComputedStyle(element).fontSize) * 1.5)).toBe(true);
+        await page.screenshot({ path: `test-results/palette-soccer-interests-${theme}-${width}.png` });
+      }
+      expect(await swatches.count()).toBeGreaterThan(0);
+      for (const swatch of await swatches.all()) {
+        const style = await swatch.evaluate((element) => {
+          const css = getComputedStyle(element);
+          return [css.backgroundColor, css.width, css.height, css.borderRadius];
+        });
+        expect(hex(style[0])).toBe(palette.find((entry: { key: string }) => entry.key === category)![`${theme}-bg`]);
+        expect(style.slice(1)).toEqual(["12px", "12px", "3px"]);
       }
     }
     await page.screenshot({ path: `test-results/palette-interests-${theme}-${width}.png` });

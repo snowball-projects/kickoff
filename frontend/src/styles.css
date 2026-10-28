@@ -985,6 +985,9 @@ dialog p {
   .interest-grid {
     gap: 7px;
   }
+  .interest-grid:has(.country-flag) {
+    grid-template-columns: 1fr;
+  }
   .interest {
     font-size: 12px;
   }
