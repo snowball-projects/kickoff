@@ -127,7 +127,7 @@ export default function App() {
   const [today, setToday] = useState(todayIso);
   const [month, setMonth] = useState(() => firstOfMonth(today));
   const [feedCenter, setFeedCenter] = useState(() => firstOfMonth(today));
-  const [navigation, setNavigation] = useState<MonthNavigation>(() => ({ anchor: firstOfMonth(today), id: 0 }));
+  const [navigation, setNavigation] = useState<MonthNavigation>(() => ({ anchor: firstOfMonth(today), centerDate: today, id: 0 }));
   const [view, setView] = useState<"month" | "year">("month");
   const [scheduleView, setScheduleView] = useState<ScheduleView>(() => {
     try { return readScheduleView(localStorage); } catch { return "calendar"; }
@@ -159,8 +159,10 @@ export default function App() {
   };
   const signature = JSON.stringify(activeFilters);
   const upcomingKey = `${today}:${signature}`;
+  const sameUpcomingDay = savedUpcoming?.key.startsWith(`${today}:`);
   const upcoming: UpcomingWindow = savedUpcoming?.key === upcomingKey ? savedUpcoming : {
-    key: upcomingKey, end: dayAfter(today, 7), expanded: false, pending: false, done: false,
+    key: upcomingKey, end: sameUpcomingDay && savedUpcoming ? savedUpcoming.end : dayAfter(today, 7),
+    expanded: sameUpcomingDay && savedUpcoming ? savedUpcoming.expanded : false, pending: false, done: false,
   };
   const bounds = scheduleWindow(today);
   const laterAnchors = laterAgendaAnchors(today, publishedYears);
@@ -226,11 +228,11 @@ export default function App() {
     if (bounded !== month) navigateMonth(bounded);
     if (day && (day < bounds.start || day > bounds.end)) setDay(null);
   }, [today]);
-  function navigateMonth(anchor: string, focusDate?: string) {
+  function navigateMonth(anchor: string, focusDate?: string, centerDate?: string) {
     const bounded = boundMonth(anchor, today);
     if (focusDate) focusDate = focusDate < bounds.start ? bounds.start : focusDate > bounds.end ? bounds.end : focusDate;
     if (!feedAnchors.includes(bounded)) setFeedCenter(bounded);
-    setNavigation((previous) => ({ anchor: bounded, id: previous.id + 1, focusDate }));
+    setNavigation((previous) => ({ anchor: bounded, id: previous.id + 1, focusDate, centerDate }));
     setMonth(bounded);
   }
   function openDay(date: string, eventId?: string) {
@@ -251,7 +253,9 @@ export default function App() {
     const now = todayIso();
     setToday(now);
     if (scheduleView === "agenda") { setPeriod("today"); setDay(null); return; }
-    openMonth(firstOfMonth(now));
+    navigateMonth(firstOfMonth(now), undefined, now);
+    setDay(null);
+    setView("month");
   }
   function changeScheduleView(next: ScheduleView) {
     setDay(null);
@@ -411,6 +415,8 @@ export default function App() {
                 active={scheduleView === "calendar"}
                 anchors={feedAnchors}
                 months={months}
+                contentKey={signature}
+                loading={loadingYears.length > 0 || boundaryLoadingYears.length > 0}
                 errors={errors}
                 today={today}
                 day={day}

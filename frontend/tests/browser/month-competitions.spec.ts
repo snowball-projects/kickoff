@@ -78,18 +78,17 @@ test("month chips expand in place, stay flat and show only a muted inactive hidd
   await expect(detail.locator(".competition-chip")).toHaveCount(0);
 });
 
-test("filters control 0/1/2+ chips and reset expansion, while day and agenda stay ungrouped", async ({ page }) => {
+test("filters control 0/1/2+ chips and preserve expansion, while day and agenda stay ungrouped", async ({ page }) => {
   const today = page.locator("#day-2026-09-10");
   await today.locator(".competition-chip").click();
   await expect(page.locator("#day-2026-09-11 .month-single")).toContainText("Single race");
   await expect(page.locator("#day-2026-09-11 .competition-chip")).toHaveCount(0);
   await expect(page.locator("#day-2026-09-12 .event-pill")).toHaveCount(0);
   await motorsport(page, "full_weekend");
-  await expect(today.locator(".competition-chip")).toHaveAttribute("aria-expanded", "false");
+  await expect(today.locator(".competition-chip")).toHaveAttribute("aria-expanded", "true");
   await expect(today.locator(".competition-chip")).toContainText("4 events · from 12:00");
   await expect(page.locator("#day-2026-09-11 .competition-chip")).toContainText("2 events · Time TBD");
   await expect(page.locator("#day-2026-09-12 .month-single")).toContainText("Only hidden practice");
-  await today.locator(".competition-chip").click();
   await expect(today.locator(".competition-event")).toHaveCount(4);
   await expect(today.locator(".hidden-events")).toHaveCount(0);
   await page.getByRole("group", { name: "Schedule view", exact: true }).getByRole("button", { name: "Agenda", exact: true }).click();

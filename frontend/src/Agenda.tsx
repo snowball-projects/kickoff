@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { agendaDates, agendaGroups, agendaScopeLabel, type AgendaPeriod } from "./agenda-state";
 import { firstOfMonth, eventTimeLabel, formatLongDate, formatShortDate } from "./date-utils";
 import { leagueVisual } from "./calendar-helpers";
@@ -27,6 +27,18 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
 }) {
   const preview = useEventPreview();
   const scroller = useRef<HTMLDivElement>(null);
+  const position = useRef({ top: 0, id: "", offset: 0 });
+  const pendingPosition = useRef<typeof position.current | null>(null);
+  const previousScope = useRef(`${period}:${today}`);
+  const previousKey = useRef(resetKey);
+  function measure() {
+    preview.close();
+    const root = scroller.current;
+    if (!root || pendingPosition.current) return;
+    const row = [...root.querySelectorAll<HTMLElement>(".agenda-row")]
+      .find((item) => item.getBoundingClientRect().bottom > root.getBoundingClientRect().top);
+    position.current = { top: root.scrollTop, id: row?.id || "", offset: row ? row.getBoundingClientRect().top - root.getBoundingClientRect().top : 0 };
+  }
   const dates = agendaDates(today, period, upcomingEnd);
   const coveredDates = period === "upcoming" && expandedYears
     ? dates.filter((date) => expandedYears.includes(Number(date.slice(0, 4)))) : dates;
@@ -37,10 +49,27 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
   ])];
   const loading = coveredDates.some((date) => !months[firstOfMonth(date)] && !errors[Number(date.slice(0, 4))]);
   const hasEvents = groups.some((group) => group.items.length);
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const root = scroller.current!;
     preview.close();
-    scroller.current?.scrollTo({ top: 0, behavior: "instant" });
-  }, [period, today, resetKey]);
+    const scope = `${period}:${today}`;
+    if (previousScope.current !== scope) {
+      previousScope.current = scope;
+      pendingPosition.current = null;
+      root.scrollTo({ top: 0, behavior: "instant" });
+      position.current = { top: 0, id: "", offset: 0 };
+    } else {
+      if (previousKey.current !== resetKey) pendingPosition.current = position.current;
+      const saved = pendingPosition.current;
+      if (saved) {
+        const row = document.getElementById(saved.id);
+        const top = row ? root.scrollTop + row.getBoundingClientRect().top - root.getBoundingClientRect().top - saved.offset : saved.top;
+        root.scrollTo({ top, behavior: "instant" });
+        if (!loading) { pendingPosition.current = null; measure(); }
+      }
+    }
+    previousKey.current = resetKey;
+  }, [period, today, resetKey, months, loading]);
 
   return (
     <section className="agenda-stage" aria-label="Agenda">
@@ -56,7 +85,7 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
           {period === "upcoming" ? `${formatShortDate(dates[0])} – ${formatShortDate(dates.at(-1)!)}${upcomingEnd === dayAfter(today, 7) ? " · Next 7 days" : ""}` : formatLongDate(dates[0])}
         </p>
       </div>
-      <div className="agenda-scroll" id="agenda-scroll" ref={scroller} onScroll={preview.close}>
+      <div className="agenda-scroll" id="agenda-scroll" ref={scroller} onScroll={measure}>
         {!!messages.length && <div className="agenda-notice" role="status">
           {messages.map((message) => <p key={message}>{message}</p>)}
           <button onClick={onRetry}>Retry</button>
