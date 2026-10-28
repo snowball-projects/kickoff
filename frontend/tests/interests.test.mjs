@@ -51,3 +51,47 @@ test("continental choices combine published IDs while toggles preserve saved sub
     { name: "World Cups", leagues: ["IFSC_WORLD_CUP"] },
   ]);
 });
+
+test("climbing championships share one choice while cups and each published event family stay separate", async () => {
+  const { interestGroups, interestChoices, toggleInterestGroup, leagueVisual } = await loadModule("calendar-helpers");
+  const names = {
+    IFSC_WORLD_CUP: "World Cups",
+    IFSC_WORLDS: "World Championships",
+    IFSC_YOUTH_WORLDS: "Youth World Championships",
+    IFSC_PARA_WORLD_CUP: "Para World Cups",
+    IFSC_PARA_WORLDS: "Para World Championships",
+    CLIMBING_OLYMPIC_QUALIFIERS: "Olympic qualifiers",
+    CLIMBING_CONTINENTAL_CUP: "Continental Cups",
+    CLIMBING_YOUTH_CONTINENTAL_CUP: "Youth Continental Cups",
+    CLIMBING_CHALLENGER: "Challenger",
+    CLIMBING_NATIONS_GRAND_FINALE: "Nations Grand Finale",
+    CLIMBING_ASIAN_GAMES: "Asian Games",
+    CLIMBING_ASIAN_BEACH_GAMES: "Asian Beach Games",
+    CLIMBING_EUROPEAN_GAMES: "European Games",
+    CLIMBING_PAN_AM_GAMES: "Pan Am Games",
+  };
+  const continents = ["CLIMBING_EUROPE", "CLIMBING_ASIA", "CLIMBING_AFRICA", "CLIMBING_OCEANIA", "CLIMBING_PAN_AMERICA"];
+  const published = [...Object.keys(names), ...continents];
+  const groups = interestGroups(published.map((value) => ({ value })));
+  assert.equal(groups.length, 1);
+  assert.equal(groups[0].name, "Climbing");
+  const choices = interestChoices(groups[0]);
+  assert.deepEqual(choices.find((choice) => choice.name === "Continental championships"), {
+    name: "Continental championships", leagues: continents,
+  });
+  assert.equal(choices.length, Object.keys(names).length + 1);
+  for (const [league, name] of Object.entries(names))
+    assert.deepEqual(choices.find((choice) => choice.name === name), { name, leagues: [league] });
+  const saved = ["CLIMBING_ASIA", "WEIGHTLIFTING_EUROPE", "CLIMBING_CONTINENTAL_CUP"];
+  const all = toggleInterestGroup(saved, continents);
+  assert.deepEqual(all, [...saved, ...continents.filter((league) => league !== "CLIMBING_ASIA")]);
+  assert.deepEqual(toggleInterestGroup(all, continents), ["WEIGHTLIFTING_EUROPE", "CLIMBING_CONTINENTAL_CUP"]);
+  assert.deepEqual(interestChoices(interestGroups([{ value: "CLIMBING_EUROPE" }])[0]), [
+    { name: "Continental championships", leagues: ["CLIMBING_EUROPE"] },
+  ]);
+  assert.equal(leagueVisual("CLIMBING_EUROPE").shortLabel, "European Championships");
+  assert.equal(leagueVisual("IFSC_WORLDS").shortLabel, "World Championships");
+  assert.deepEqual(interestChoices(interestGroups([{ value: "IFSC_YOUTH_WORLD_CHAMPIONSHIPS" }])[0]), [
+    { name: "Youth World Championships", leagues: ["IFSC_YOUTH_WORLD_CHAMPIONSHIPS"] },
+  ]);
+});
