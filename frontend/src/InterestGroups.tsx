@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { SportIcon } from "./EventIdentity";
-import { CLIMBING_DISCIPLINES, GENDERS, type SessionInterests } from "./interest-preferences";
+import { CLIMBING_DISCIPLINES, GENDERS, GOLF_TOURS, type InterestPreferences } from "./interest-preferences";
 import { interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
 
 function SelectionCheckbox({ name, selected, total, onChange }: {
@@ -32,9 +32,18 @@ function FacetChoices({ name, values, selected, onChange }: {
   );
 }
 
-export default function InterestGroups({ leagues, selected, onChange, sessionInterests, onSessionChange }: {
+function PreferenceCheckbox({ name, checked, onChange }: {
+  name: string; checked: boolean; onChange: (checked: boolean) => void;
+}) {
+  return <label className={`interest ${checked ? "chosen" : ""}`}>
+    <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
+    <span>{name}</span>
+  </label>;
+}
+
+export default function InterestGroups({ leagues, selected, onChange, preferences, onPreferencesChange }: {
   leagues: { value: string }[]; selected: string[]; onChange: (value: string[]) => void;
-  sessionInterests: SessionInterests; onSessionChange: (value: SessionInterests) => void;
+  preferences: InterestPreferences; onPreferencesChange: (value: InterestPreferences) => void;
 }) {
   return (
     <div className="interest-groups">
@@ -66,12 +75,31 @@ export default function InterestGroups({ leagues, selected, onChange, sessionInt
                   );
                 })}
               </div>
-              {sport && <FacetChoices name="Gender" values={GENDERS} selected={sessionInterests[sport].genders}
-                onChange={(genders) => onSessionChange({ ...sessionInterests,
-                  [sport]: { ...sessionInterests[sport], genders } })} />}
+              {group.name === "Golf" && <fieldset className="interest-facet">
+                <legend>Events</legend>
+                <div className="interest-grid">
+                  {GOLF_TOURS.filter((tour) => group.leagues.includes(tour)).map((tour) => (
+                    <PreferenceCheckbox key={tour} name={`${leagueVisual(tour).shortLabel} majors only`}
+                      checked={preferences.golf_views[tour] === "majors_only"} onChange={(checked) =>
+                        onPreferencesChange({ ...preferences, golf_views: { ...preferences.golf_views,
+                          [tour]: checked ? "majors_only" : "full_tour" } })} />
+                  ))}
+                </div>
+              </fieldset>}
+              {group.name === "Motorsports" && <fieldset className="interest-facet">
+                <legend>Events</legend>
+                <div className="interest-grid">
+                  <PreferenceCheckbox name="Races only" checked={preferences.motorsport_view === "race_only"}
+                    onChange={(checked) => onPreferencesChange({ ...preferences,
+                      motorsport_view: checked ? "race_only" : "full_weekend" })} />
+                </div>
+              </fieldset>}
+              {sport && <FacetChoices name="Gender" values={GENDERS} selected={preferences[sport].genders}
+                onChange={(genders) => onPreferencesChange({ ...preferences,
+                  [sport]: { ...preferences[sport], genders } })} />}
               {sport === "climbing" && <FacetChoices name="Discipline" values={CLIMBING_DISCIPLINES}
-                selected={sessionInterests.climbing.disciplines} onChange={(disciplines) =>
-                  onSessionChange({ ...sessionInterests, climbing: { ...sessionInterests.climbing, disciplines } })} />}
+                selected={preferences.climbing.disciplines} onChange={(disciplines) =>
+                  onPreferencesChange({ ...preferences, climbing: { ...preferences.climbing, disciplines } })} />}
             </details>
           </section>
         );
