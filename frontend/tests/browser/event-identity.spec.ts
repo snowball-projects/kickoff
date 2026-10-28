@@ -35,6 +35,7 @@ const futureEvents = [
   { ...events[5], event_id: "future-hockey", league: "FUTURE_ICE_CUP", sport: "ice_hockey", title: "Comets at Lynx" },
 ];
 const fixture = [...events, ...futureEvents, international, clubs, ...group, ...mixed,
+  { ...events[0], event_id: "league-jurisdiction", source: "openfootball", league: "LIGUE_1", country: "France", title: "Monaco v Lille" },
   { ...events[0], event_id: "german-host", league: "BUNDESLIGA", country: "Germany", title: "Bayern v Dortmund" },
   { ...events[9], event_id: "multinational", league: "IWF_YOUTH_WORLDS", country: "US/Canada", title: "Multinational fixture" },
 ];
@@ -58,6 +59,9 @@ test("host and national-team flags describe facts in calendar, detail and agenda
   page.on("request", (request) => { if (!request.url().startsWith("http://127.0.0.1:")) external.push(request.url()); });
   await open(page);
   const day = page.locator("#day-2026-06-07");
+  const jurisdiction = day.locator(".month-single").filter({ hasText: "Monaco v Lille" });
+  await expect(jurisdiction.getByRole("img", { name: "Host country: France" })).toHaveCount(0);
+  expect((await jurisdiction.textContent())?.match(/🇫🇷/gu)).toHaveLength(1);
   const german = day.locator(".month-single").filter({ hasText: "Bayern v Dortmund" });
   await expect(german.getByRole("img", { name: "Host country: Germany" })).toBeVisible();
   expect((await german.textContent())?.match(/🇩🇪/gu)).toHaveLength(1);
