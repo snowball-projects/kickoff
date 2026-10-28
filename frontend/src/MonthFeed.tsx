@@ -187,6 +187,9 @@ export default function MonthFeed(props: Props) {
     if (previousContentKey.current !== props.contentKey) {
       previousContentKey.current = props.contentKey;
       preservedPosition.current = position.current;
+      cancelAnimationFrame(jumpFrame.current);
+      clearTimeout(idle.current);
+      moving.current = false;
       centering.current = false;
     }
     if (lastNavigation.current !== navigation.id) {
