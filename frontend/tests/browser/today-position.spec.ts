@@ -195,4 +195,21 @@ test("first-time mobile onboarding with published fixture coverage stays on toda
   await expect(chooser).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("September");
   await expect.poll(async () => Math.abs(await weekOffset(page, "2026-09-11"))).toBeLessThanOrEqual(2);
+  // Historical month navigation must work directly after onboarding, without
+  // a Today workaround, and retain its year when interests are saved again.
+  await page.getByRole("button", { name: "Show 2026 year calendar", exact: true }).click();
+  await page.getByRole("button", { name: "Open January 2026", exact: true }).click();
+  await expect.poll(() => page.locator('[data-month="2026-01-01"]').evaluate((element) => {
+    const root = element.closest(".month-feed")!;
+    return Math.abs((element as HTMLElement).offsetTop - root.scrollTop);
+  })).toBeLessThanOrEqual(2);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("January");
+  await expect(page.getByRole("button", { name: "Show 2026 year calendar", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: /^Interests/ }).click();
+  await chooser.getByRole("button", { name: "Show my calendar", exact: true }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("January");
+  await page.getByRole("button", { name: "Show 2026 year calendar", exact: true }).click();
+  await page.getByRole("button", { name: "Open April 2026", exact: true }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("April");
+  await expect(page.getByRole("button", { name: "Show 2026 year calendar", exact: true })).toBeVisible();
 });
