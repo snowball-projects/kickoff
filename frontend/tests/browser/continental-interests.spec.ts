@@ -1,3 +1,4 @@
+import { expandDayGroups } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 test.use({ timezoneId: "UTC" });
@@ -143,7 +144,8 @@ test("men's boulder intersects grouped interests without changing month counts o
   await expect(page.getByRole("complementary", { name: "Day events" })).toHaveCount(0);
   await day.locator(".day-number").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
-  await expect(detail.locator("article")).toHaveCount(6);
+  await expandDayGroups(page);
+  await expect(detail.locator(".timeline-pill[data-event-id]")).toHaveCount(6);
   await expect(detail).toContainText("European Championships · Men's 60 kg, Group A");
   await expect(detail).not.toContainText("Women's");
   await expect(detail).not.toContainText("Men's Lead");

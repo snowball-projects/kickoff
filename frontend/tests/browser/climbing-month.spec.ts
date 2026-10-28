@@ -44,7 +44,8 @@ for (const fixture of [
       await expect(page.getByRole("complementary", { name: "Day events" })).toHaveCount(0);
       await day.locator(".competition-event").first().click();
       const detail = page.getByRole("complementary", { name: "Day events" });
-      await expect(detail.locator("article")).toHaveCount(2);
+      await expect(detail.locator("article")).toHaveCount(1);
+      await expect(detail.locator(".timeline-pill[data-event-id]")).toHaveCount(2);
       await expect(detail.locator(".competition-chip")).toHaveCount(0);
       await expect(detail).not.toContainText("Women's");
       await page.getByRole("button", { name: "Close day" }).click();

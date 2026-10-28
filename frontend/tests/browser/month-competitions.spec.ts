@@ -1,3 +1,4 @@
+import { expandDayGroups } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 const event = (id: string, fields = {}) => ({
@@ -75,12 +76,14 @@ test("month chips expand in place, stay flat and show only a muted inactive hidd
   await expect(day.locator(".competition-event")).toHaveCount(3);
   await day.locator(".competition-event").first().click();
   const detail = page.getByRole("complementary", { name: "Day events" });
-  await expect(detail.locator("article")).toHaveCount(3);
+  await expect(detail.locator("article")).toHaveCount(1);
+  await expect(detail.locator(".timeline-group-toggle")).toContainText("2 events");
+  await expect(detail.locator(".all-day-pills [data-event-id]")).toHaveCount(1);
   await expect(detail).not.toContainText("Hidden practice");
   await expect(detail.locator(".competition-chip")).toHaveCount(0);
 });
 
-test("filters control 0/1/2+ chips and preserve expansion, while day and agenda stay ungrouped", async ({ page }) => {
+test("filters control 0/1/2+ chips and preserve expansion, while the day shares groups and agenda stays ungrouped", async ({ page }) => {
   const today = page.locator("#day-2026-09-10");
   await today.locator(".competition-chip").click();
   await expect(page.locator("#day-2026-09-11 .month-single")).toContainText("Single race");
@@ -133,7 +136,9 @@ test.describe("mobile", () => {
     expect(await day.evaluate((element) => element.scrollHeight <= element.clientHeight + 1)).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await day.locator(".competition-event").last().tap();
-    await expect(page.getByRole("complementary", { name: "Day events" }).locator("article")).toHaveCount(13);
+    await expect(page.getByRole("complementary", { name: "Day events" }).locator("article")).toHaveCount(1);
+    await expandDayGroups(page);
+    await expect(page.getByRole("complementary", { name: "Day events" }).locator(".timeline-more")).toHaveText(/11 more/);
   });
 });
 
