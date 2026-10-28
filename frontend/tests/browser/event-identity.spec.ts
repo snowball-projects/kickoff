@@ -118,11 +118,14 @@ for (const colorScheme of ["light", "dark"] as const) {
     expect(await chooser.locator("summary .sport-icon").evaluateAll((nodes) => nodes.every((node) => {
       const style = getComputedStyle(node);
       const sample = document.createElement("span");
-      sample.style.color = style.getPropertyValue("--category-accent");
+      sample.style.color = style.getPropertyValue("--ink");
+      sample.style.backgroundColor = style.getPropertyValue("--pill");
       document.body.append(sample);
-      const expected = getComputedStyle(sample).color;
+      const expected = getComputedStyle(sample);
+      const matches = node.classList.contains("sport-chip") && style.color === expected.color
+        && style.backgroundColor === expected.backgroundColor;
       sample.remove();
-      return style.color === expected;
+      return matches;
     }))).toBe(true);
     const motorsport = chooser.getByRole("region", { name: "Motorsports interests" });
     await motorsport.locator("summary").click();

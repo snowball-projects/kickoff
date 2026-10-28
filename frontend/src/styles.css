@@ -416,7 +416,15 @@ button,
   padding-top: 3px;
 }
 .league-label {
-  color: var(--category-accent, var(--text));
+  display: inline-flex;
+  align-self: flex-start;
+  max-width: 100%;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 5px;
+  border-radius: 4px;
+  background: var(--pill, var(--soft));
+  color: var(--ink, var(--text));
   font-size: 11px;
   font-weight: 600;
 }
@@ -718,11 +726,11 @@ dialog p {
 .interest input {
   margin: 0;
 }
-.interest-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--category-accent, var(--text));
+.interest-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--pill, var(--soft));
   flex-shrink: 0;
 }
 .interest-actions {
@@ -977,6 +985,9 @@ dialog p {
   .interest-grid {
     gap: 7px;
   }
+  .interest-grid:has(.country-flag) {
+    grid-template-columns: 1fr;
+  }
   .interest {
     font-size: 12px;
   }
@@ -1098,15 +1109,27 @@ dialog p {
   line-height: 1.4;
 }
 
-/* Bundled sport shapes inherit category ink; native flags retain their own colours. */
+/* Sport shapes use the surrounding ink; standalone shapes sit on the same fill as event pills. */
 .sport-icon {
   width: 1.15em;
   height: 1.15em;
   flex: 0 0 auto;
   fill: currentColor;
-  color: var(--category-accent, inherit);
+  color: inherit;
   vertical-align: -0.18em;
   margin-right: 0.3em;
+}
+.sport-chip {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 4px;
+  background: var(--pill, var(--soft));
+  color: var(--ink, var(--text));
+  vertical-align: -0.35em;
+}
+.league-label .sport-icon {
+  margin-right: 0;
 }
 .event-pill > .sport-icon {
   width: 14px;
