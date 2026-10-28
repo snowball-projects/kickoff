@@ -53,37 +53,32 @@ test("group choices are independent, mixed, collapsible and preserve saved leagu
   await page.screenshot({ path: "test-results/grouped-interests-mobile.png" });
 });
 
-test("uniform advanced selectors save together, cancel cleanly, and survive reopening on mobile", async ({ page }) => {
+test("in-group coverage checkboxes save together, cancel cleanly, and survive reopening on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
   await page.goto("/");
   const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
-  const advanced = chooser.locator("details.advanced");
-  await expect(advanced.locator("select").first()).toBeHidden();
+  const golf = chooser.getByRole("region", { name: "Golf interests" });
+  const motorsport = chooser.getByRole("region", { name: "Motorsports interests" });
+  await expect(chooser.locator("details.advanced")).toHaveCount(0);
+  await expect(chooser.getByRole("combobox")).toHaveCount(0);
   await expect(chooser.getByText("More filters", { exact: true })).toHaveCount(0);
   await chooser.locator("summary").filter({ hasText: /^Golf$/ }).click();
-  await expect(chooser.getByRole("region", { name: "Golf interests" }).getByRole("checkbox")).toHaveCount(3);
+  await expect(chooser.getByRole("region", { name: "Golf interests" }).getByRole("checkbox")).toHaveCount(5);
   await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).check();
   await chooser.locator("summary").filter({ hasText: /^Combat sports$/ }).click();
   await expect(chooser.getByRole("checkbox", { name: "One", exact: true })).toBeVisible();
   await chooser.getByRole("checkbox", { name: "Boxing", exact: true }).check();
-  await advanced.locator("summary").click();
-  await expect(advanced.getByRole("combobox")).toHaveCount(3);
-  await expect(advanced.locator("fieldset")).toHaveCount(0);
-  await expect(advanced.getByRole("checkbox")).toHaveCount(0);
-  await expect(chooser.getByText(/Selected reviewed bouts only|Full tour shows|Only published coverage appears/)).toHaveCount(0);
-  await advanced.getByLabel("PGA Tour", { exact: true }).selectOption("majors_only");
-  await advanced.getByLabel("LPGA Tour", { exact: true }).selectOption("majors_only");
-  await advanced.getByLabel("Motorsport", { exact: true }).selectOption("full_weekend");
-  const selectorStyles = await advanced.getByRole("combobox").evaluateAll((elements) => elements.map((element) => {
-    const style = getComputedStyle(element);
-    return [style.height, style.border, style.borderRadius, style.fontFamily, style.fontSize, style.padding];
-  }));
-  expect(selectorStyles[1]).toEqual(selectorStyles[0]);
-  expect(selectorStyles[2]).toEqual(selectorStyles[0]);
+  await motorsport.locator("summary").click();
+  await expect(golf.getByRole("checkbox", { name: "PGA Tour", exact: true })).toBeChecked();
+  await expect(golf.getByRole("checkbox", { name: "LPGA Tour", exact: true })).toBeChecked();
+  await golf.getByRole("checkbox", { name: "PGA Tour majors only", exact: true }).check();
+  await golf.getByRole("checkbox", { name: "LPGA Tour majors only", exact: true }).check();
+  await page.screenshot({ path: "test-results/golf-options-mobile.png" });
+  await motorsport.getByRole("checkbox", { name: "Races only", exact: true }).uncheck();
   expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: "test-results/advanced-options-mobile.png" });
+  await page.screenshot({ path: "test-results/in-group-options-mobile.png" });
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   const saved = await page.evaluate(() => localStorage.getItem("kickoff.interests.v2"));
   expect(JSON.parse(saved!)).toMatchObject({
@@ -91,13 +86,15 @@ test("uniform advanced selectors save together, cancel cleanly, and survive reop
     motorsport_view: "full_weekend",
   });
   expect(JSON.parse(saved!)).not.toHaveProperty("boxing_categories");
+  await page.getByRole("button", { name: "Today", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Show 2026 year calendar" })).toBeVisible();
   await openMonth(page, "January");
   await expect(page.locator("#day-2026-01-18 .event-pill").filter({ hasText: "Sony Open" })).toHaveCount(0);
   await openMonth(page, "April");
   await expect(page.locator("#day-2026-04-09 .event-pill").filter({ hasText: "Masters Tournament" })).toHaveCount(1);
   await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
-  await advanced.locator("summary").click();
-  await advanced.getByLabel("PGA Tour", { exact: true }).selectOption("full_tour");
+  await golf.locator("summary").click();
+  await golf.getByRole("checkbox", { name: "PGA Tour majors only", exact: true }).uncheck();
   await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).uncheck();
   await page.keyboard.press("Escape");
   await expect(chooser).toHaveCount(0);
@@ -105,16 +102,91 @@ test("uniform advanced selectors save together, cancel cleanly, and survive reop
   await expect(page.getByRole("button", { name: "Interests · 3", exact: true })).toBeFocused();
   await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
   await expect(chooser.getByRole("checkbox", { name: "Select all Golf", exact: true })).toBeChecked();
-  await advanced.locator("summary").click();
-  await expect(advanced.getByLabel("PGA Tour", { exact: true })).toHaveValue("majors_only");
-  await advanced.getByLabel("Motorsport", { exact: true }).selectOption("race_only");
+  await golf.locator("summary").click();
+  await expect(golf.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeChecked();
+  await motorsport.locator("summary").click();
+  await motorsport.getByRole("checkbox", { name: "Races only", exact: true }).check();
   await chooser.getByRole("button", { name: "Close", exact: true }).click();
   expect(await page.evaluate(() => localStorage.getItem("kickoff.interests.v2"))).toEqual(saved);
   await page.reload();
   await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
-  await advanced.locator("summary").click();
-  await expect(advanced.getByLabel("Motorsport", { exact: true })).toHaveValue("full_weekend");
-  await expect(advanced.getByLabel("LPGA Tour", { exact: true })).toHaveValue("majors_only");
+  await golf.locator("summary").click();
+  await motorsport.locator("summary").click();
+  await expect(motorsport.getByRole("checkbox", { name: "Races only", exact: true })).not.toBeChecked();
+  await expect(golf.getByRole("checkbox", { name: "LPGA Tour majors only", exact: true })).toBeChecked();
+});
+
+for (const majorsOnly of [true, false]) for (const racesOnly of [true, false]) {
+  test(`saved coverage stays exact: PGA majors ${majorsOnly}, LPGA majors ${!majorsOnly}, races ${racesOnly}`, async ({ page }) => {
+    await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
+    const saved = {
+      leagues: ["PGA_TOUR", "LPGA_TOUR", "F1", "OLD_SAVED_LEAGUE"],
+      golf_views: { PGA_TOUR: majorsOnly ? "majors_only" : "full_tour", LPGA_TOUR: majorsOnly ? "full_tour" : "majors_only" },
+      motorsport_view: racesOnly ? "race_only" : "full_weekend",
+      climbing: { genders: ["Men"], disciplines: ["Boulder"] }, weightlifting: { genders: ["Women"] },
+    };
+    await page.addInitScript((saved) => {
+      if (!localStorage.getItem("kickoff.interests.v2")) localStorage.setItem("kickoff.interests.v2", JSON.stringify(saved));
+    }, saved);
+    await page.goto("/");
+    const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
+    for (let visit = 0; visit < 2; visit++) {
+      await page.getByRole("button", { name: "Interests · 4", exact: true }).click();
+      await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
+      await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
+      await expect(chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeChecked({ checked: majorsOnly });
+      await expect(chooser.getByRole("checkbox", { name: "LPGA Tour majors only", exact: true })).toBeChecked({ checked: !majorsOnly });
+      await expect(chooser.getByRole("checkbox", { name: "Races only", exact: true })).toBeChecked({ checked: racesOnly });
+      await chooser.getByRole("button", { name: "Show my calendar" }).click();
+      expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!))).toEqual(saved);
+      await page.reload();
+    }
+    await page.getByRole("button", { name: "Interests · 4", exact: true }).click();
+    await chooser.getByRole("button", { name: "Select all", exact: true }).click();
+    await chooser.getByRole("button", { name: "Show my calendar" }).click();
+    const all = await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!));
+    expect(all.leagues).toContain("OLD_SAVED_LEAGUE");
+    expect(all.golf_views).toEqual(saved.golf_views);
+    expect(all.motorsport_view).toEqual(saved.motorsport_view);
+    await page.getByRole("button", { name: /^Interests ·/ }).click();
+    await chooser.getByRole("button", { name: "Clear", exact: true }).click();
+    await chooser.getByRole("button", { name: "Show my calendar" }).click();
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues)).toEqual([]);
+    await page.reload();
+    await expect(page.getByRole("button", { name: "Interests · 0", exact: true })).toBeVisible();
+    await expect(page.locator(".event-pill")).toHaveCount(0);
+  });
+}
+
+test("saving checkbox choices preserves month position, year view and agenda period", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
+  await page.goto("/");
+  const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
+  const save = () => chooser.getByRole("button", { name: "Show my calendar" }).click();
+  const edit = () => page.getByRole("button", { name: /^Interests/ }).click();
+  await chooser.getByRole("checkbox", { name: "Select all Motorsports", exact: true }).check();
+  await save();
+  await openMonth(page, "April");
+  const calendar = page.getByRole("region", { name: "Scrollable calendar", exact: true });
+  const scrollTop = await calendar.evaluate((element) => element.scrollTop);
+  await edit();
+  await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
+  await chooser.getByRole("checkbox", { name: "Races only", exact: true }).uncheck();
+  await save();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("April");
+  await expect.poll(() => calendar.evaluate((element) => element.scrollTop)).toBeCloseTo(scrollTop, 0);
+  await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
+  await edit();
+  await save();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("2026");
+  await expect(page.getByRole("button", { name: "Open April 2026" })).toBeVisible();
+  await page.getByRole("group", { name: "Schedule view", exact: true }).getByRole("button", { name: "Agenda", exact: true }).click();
+  const upcoming = page.getByRole("button", { name: "Upcoming", exact: true });
+  await upcoming.click();
+  await edit();
+  await save();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Agenda");
+  await expect(upcoming).toHaveAttribute("aria-pressed", "true");
 });
 
 for (const categories of [["four_belt"], []]) {
@@ -135,10 +207,11 @@ for (const categories of [["four_belt"], []]) {
     await expect(boxing).toHaveCount(1);
     await expect(boxing).toContainText("Navarrete");
     await page.getByRole("button", { name: "Interests · 1", exact: true }).click();
-    await chooser.locator("details.advanced summary").click();
+    await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
+    await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
     await expect(chooser.getByRole("checkbox", { name: /Four-belt|Three-belt/ })).toHaveCount(0);
-    await expect(chooser.locator("details.advanced").getByLabel("PGA Tour", { exact: true })).toHaveValue("majors_only");
-    await expect(chooser.locator("details.advanced").getByLabel("Motorsport", { exact: true })).toHaveValue("full_weekend");
+    await expect(chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeChecked();
+    await expect(chooser.getByRole("checkbox", { name: "Races only", exact: true })).not.toBeChecked();
     await chooser.getByRole("button", { name: "Show my calendar" }).click();
     const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!));
     expect(saved).not.toHaveProperty("boxing_categories");

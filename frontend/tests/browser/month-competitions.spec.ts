@@ -39,8 +39,8 @@ test.beforeEach(async ({ page }) => {
 async function motorsport(page: Page, value: string) {
   await page.getByRole("button", { name: /Interests/ }).click();
   const dialog = page.getByRole("dialog", { name: "Interests", exact: true });
-  await dialog.locator("details.advanced summary").click();
-  await dialog.getByRole("combobox", { name: "Motorsport", exact: true }).selectOption(value);
+  await dialog.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
+  await dialog.getByRole("checkbox", { name: "Races only", exact: true }).setChecked(value === "race_only");
   await dialog.getByRole("button", { name: "Show my calendar" }).click();
 }
 
