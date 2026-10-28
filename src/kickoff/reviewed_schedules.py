@@ -36,6 +36,18 @@ CLIMBING_SOURCES = {
 }
 CLIMBING_LICENSE = "Schedule facts; no data license granted"
 CLIMBING_TERMS = "https://www.worldclimbing.com/terms-and-conditions/index"
+WEIGHTLIFTING_LICENSE = "Schedule facts; no data license granted"
+WEIGHTLIFTING_HOSTS = {
+    "iwf.sport",
+    "ewf.sport",
+    "awf.sport",
+    "www.commonwealthweightlifting.com",
+    "www.imwla.com",
+    "www.panamsports.org",
+    "resources.cwg-qbr.pulselive.com",
+    "results.asiangames2026.org",
+    "drive.google.com",
+}
 
 
 def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list[dict]]:
@@ -49,6 +61,9 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         official = source["url"] in CLIMBING_SOURCES
         if official:
             policy = ("world_climbing", CLIMBING_LICENSE, CLIMBING_TERMS)
+        if source.get("kind") == "weightlifting" and url.netloc in WEIGHTLIFTING_HOSTS:
+            official = True
+            policy = ("weightlifting", WEIGHTLIFTING_LICENSE, source["url"])
         if not policy or url.scheme != "https":
             raise ValueError("Unreviewed registry source")
         kind, license_name, license_url = policy
@@ -79,7 +94,9 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Missing source SHA-256")
         if not source.get("changes") or not source.get("name"):
             raise ValueError("Missing attribution or transformation notice")
-        if datetime.fromisoformat(source["retrieved_at"].replace("Z", "+00:00")).tzinfo is None:
+        if kind == "weightlifting":
+            date.fromisoformat(source["checked_date"])
+        elif datetime.fromisoformat(source["retrieved_at"].replace("Z", "+00:00")).tzinfo is None:
             raise ValueError("Source retrieval time needs an offset")
         if source["id"] in sources:
             raise ValueError("Duplicate registry source identity")
@@ -127,6 +144,19 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 local = datetime.combine(start, time.fromisoformat(row["local_time"]), get_zoneinfo(zone))
             elif not row.get("notes"):
                 raise ValueError("Unknown climbing time needs an explanation")
+        elif source["kind"] == "weightlifting":
+            if row["sport"] != "weightlifting":
+                raise ValueError("Weightlifting source needs a weightlifting event")
+            date.fromisoformat(row["checked_date"])
+            zone = row["event_timezone"]
+            get_zoneinfo(zone)
+            if row.get("local_time") is not None:
+                if start != end or row["event_type"] != "session":
+                    raise ValueError("Weightlifting clock needs a single-day session")
+                if not re.fullmatch(r"(?:[01][0-9]|2[0-3]):[0-5][0-9]", row["local_time"]):
+                    raise ValueError("Invalid weightlifting session clock")
+                local = datetime.combine(start, time.fromisoformat(row["local_time"]), get_zoneinfo(zone))
+            gender_tags = row.get("tags", [])
         elif row.get("local_time") is not None or time_scope != "event":
             raise ValueError("Reviewed date registry cannot establish a clock time")
         phase = row.get("competition_phase", "regular_season")
@@ -152,11 +182,11 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 subtitle=row.get("notes"),
                 start_time_utc=isoformat_z(local),
                 start_time_local=local.isoformat() if local else None,
-                timezone=zone if local else None,
+                timezone=zone if local or source["kind"] == "weightlifting" else None,
                 start_time_scope=time_scope,
                 status="past schedule" if end < datetime.now(timezone.utc).date() else "scheduled",
                 venue=row.get("venue"),
-                city=None,
+                city=row.get("city"),
                 region=None,
                 country=row.get("country"),
                 home_participant=home,
@@ -169,7 +199,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                     "championship" if row["league"] in {"IWF_WORLDS", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"} else phase
                 ),
                 round_or_stage=row.get("round_or_stage"),
-                tags=(["session"] if source["kind"] == "world_climbing" else ["event dates"])
+                tags=(["session"] if row["event_type"] == "session" else ["event dates"])
                 + disciplines
                 + gender_tags
                 + (["final date only"] if date_scope == "final_date" else []),

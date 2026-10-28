@@ -28,7 +28,7 @@ pinned revision links, hashes, retrieval dates and detailed changes accompany
 all rows in the public bundle and the separately downloadable component.
 Preserve applicable attribution and share-alike obligations on redistribution.
 
-Wikidata contributors — IWF senior Worlds (Q124142978) dates; CC0 1.0.
+Wikidata contributors: reviewed golf championship dates; CC0 1.0.
 https://www.wikidata.org/wiki/Wikidata:Licensing
 https://creativecommons.org/publicdomain/zero/1.0/
 Changes: selected day-precision start/end claims and retained inclusive dates;
@@ -53,6 +53,19 @@ Manually reviewed dates, discipline labels and agreed venue-local start clocks.
 Disputed clocks are withheld. Source response hashes and review notes accompany
 the registry. No raw payloads, prose, results or media are republished; no
 automated collection from these sites is configured. See data/reviewed/2026-climbing-sessions.json.
+
+IWF, EWF, AWF, Commonwealth Weightlifting Federation, IMWA and the Glasgow,
+Aichi-Nagoya and Lima Games organizers: reviewed weightlifting schedule facts;
+no data license granted. Per-event official links, checked dates, document
+versions, timezone and category details are in data/reviewed/2026-weightlifting.json
+and 2027-weightlifting.json. Combined timetable rows stay single sessions;
+parallel Masters platforms stay separate. Only published clocks are converted
+to UTC. Unpublished timetables retain confirmed date spans; unconfirmed months
+and absent Games editions are omitted with source-linked reasons. No source
+documents, athlete entries, results, logos or prose are republished. Hash
+receipts identify raw document bytes where available and explicitly identify
+reviewed-fact hashes otherwise. These facts carry their sources' terms, not MIT
+or a new CC0 grant.
 
 League/team names identify scheduled events; no official team or league logos
 are included and no endorsement is implied.
