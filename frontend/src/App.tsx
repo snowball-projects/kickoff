@@ -1,4 +1,4 @@
-import { countryIdentity } from "./countries";
+import { countryIdentity, hostCountry } from "./countries";
 import { useEffect, useRef, useState } from "react";
 import {
   browserTimezone,
@@ -87,7 +87,7 @@ function Pill({ event }: { event: EventCard }) {
     <span
       className={`event-pill ${leagueVisual(event.league, event.sport).className}`}
     >
-      <SportIcon league={event.league} sport={event.sport} /><b aria-hidden="true">{!countryIdentity(event.country) && SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league, event.sport).shortLabel}</b>
+      <SportIcon league={event.league} sport={event.sport} /><b aria-hidden="true">{!hostCountry(event) && SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league, event.sport).shortLabel}</b>
       <span className="sr-only">{leagueVisual(event.league, event.sport).shortLabel}</span>
       <span><EventFlags event={event} />{event.tags.includes("final date only") && "Final date · "}{event.title}</span>
     </span>

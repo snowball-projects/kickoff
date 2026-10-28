@@ -23,11 +23,12 @@ export function countryIdentity(value: string | null | undefined): Country | und
   return countries.get(key) || countries.get(aliases.get(normalize(value)) || "");
 }
 
-export function hostCountry(event: Pick<EventCard, "country">) {
-  return countryIdentity(event.country);
+export function hostCountry(event: Pick<EventCard, "country" | "source">) {
+  // openfootball supplies the league jurisdiction, not a verified venue country.
+  return event.source === "openfootball" ? undefined : countryIdentity(event.country);
 }
 
-export function commonHostCountry(events: Pick<EventCard, "country">[]) {
+export function commonHostCountry(events: Pick<EventCard, "country" | "source">[]) {
   const host = events.length ? hostCountry(events[0]) : undefined;
   return host && events.every((event) => hostCountry(event)?.code === host.code) ? host : undefined;
 }

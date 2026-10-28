@@ -37,3 +37,11 @@ test("only explicit national-team identities get participant flags", () => {
   for (const participant of [{ ...team, entity_type: "team" }, { ...team, entity_type: "club" }, { ...team, country_code: null }, { name: "Japan", entity_type: "national_team" }])
     assert.deepEqual(nationalTeamCountries([participant]), []);
 });
+
+
+test("league jurisdictions are not presented as verified event hosts", () => {
+  assert.equal(hostCountry({ source: "openfootball", country: "France" }), undefined);
+  assert.equal(commonHostCountry([{ source: "openfootball", country: "Germany" }]), undefined);
+  assert.equal(hostCountry({ source: "world_climbing", country: "Japan" })?.code, "JP");
+  assert.equal(hostCountry({ source: "f1db", country: "MC" })?.code, "MC");
+});
