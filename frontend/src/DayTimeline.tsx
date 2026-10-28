@@ -14,6 +14,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
   const [expanded, setExpanded] = useState(new Set<string>());
   const [overflow, setOverflow] = useState<string[]>([]);
   const [overflowKeys, setOverflowKeys] = useState<string[]>([]);
+  const [overflowClock, setOverflowClock] = useState<number | undefined>();
   const scroller = useRef<HTMLDivElement>(null);
   const details = useRef<HTMLDivElement>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
@@ -23,8 +24,9 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
   const preview = useEventPreview();
   const { timed, allDay } = dayTimeline(items, timezone);
   const layout = timelineLanes(timed, expanded);
-  const overflowItems = overflow.flatMap((id) => items.filter((event) => event.event_id === id));
-  const overflowGroups = timed.filter((group) => overflowKeys.includes(group.key) && group.items.length > 1);
+  const liveOverflow = layout.overflow.find((entry) => entry.value.minute === overflowClock);
+  const overflowItems = liveOverflow?.value.events || overflow.flatMap((id) => items.filter((event) => event.event_id === id));
+  const overflowGroups = timed.filter((group) => (liveOverflow?.value.keys || overflowKeys).includes(group.key) && group.items.length > 1);
   const selected = items.find((event) => event.event_id === selectedId);
   useLayoutEffect(() => {
     if (loading || initialized.current) return;
@@ -46,7 +48,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
     onSelect(undefined);
     if (selected && overflowItems.length) return;
     setOverflow([]);
-    setOverflowKeys([]);
+    setOverflowKeys([]); setOverflowClock(undefined);
     const root = scroller.current!.closest(".day-inspector")!;
     const visible = (element: HTMLElement | null) => !!(element?.isConnected && !element.closest("[hidden]") && element.getClientRects().length);
     const group = [...root.querySelectorAll<HTMLElement>("[data-group-key]")]
@@ -64,7 +66,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
         preview.close();
         if (!click.currentTarget.closest(".timeline-details")) {
           setOverflow([]);
-          setOverflowKeys([]);
+          setOverflowKeys([]); setOverflowClock(undefined);
           opener.current = click.currentTarget;
           openerMinute.current = undefined;
         }
@@ -134,7 +136,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
                     {!!more.length && <button className="timeline-pill timeline-more" onClick={(click) => {
                       preview.close(); onSelect(undefined); opener.current = click.currentTarget;
                       openerGroup.current = group.key; openerMinute.current = minute;
-                      setOverflowKeys([]); setOverflow(more.map((event) => event.event_id));
+                      setOverflowKeys([]); setOverflowClock(undefined); setOverflow(more.map((event) => event.event_id));
                     }}>+{more.length} more<span className="sr-only"> · {group.name} · {eventTimeLabel(events[0], timezone)}</span></button>}
                   </div>;
                 })}
@@ -146,7 +148,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
             <button className="timeline-pill timeline-more" data-overflow-minute={value.minute} onClick={(click) => {
               preview.close(); onSelect(undefined); opener.current = click.currentTarget;
               openerGroup.current = value.keys[0]; openerMinute.current = value.minute;
-              setOverflowKeys(value.keys); setOverflow(value.events.map((event) => event.event_id));
+              setOverflowClock(value.minute); setOverflowKeys(value.keys); setOverflow(value.events.map((event) => event.event_id));
             }}>+{value.events.length} more<span className="sr-only"> · {eventTimeLabel(value.events[0], timezone)}</span></button>
           </div>)}
         </div>

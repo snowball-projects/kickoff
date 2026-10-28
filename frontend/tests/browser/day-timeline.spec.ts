@@ -255,7 +255,9 @@ test("cross-competition overflow retains expansion, collapse and a visible focus
   await panel(page).locator('.timeline-group[data-competition="NFL"] .timeline-group-toggle').click();
   await panel(page).locator(".timeline-global-more .timeline-more").click();
   const controls = panel(page).getByRole("group", { name: "Competitions", exact: true });
+  await expect(panel(page).getByRole("region", { name: "More events" }).getByRole("listitem")).toHaveCount(8);
   await controls.getByRole("button", { name: "Expand NBA", exact: true }).click();
+  await expect(panel(page).getByRole("region", { name: "More events" }).getByRole("listitem")).toHaveCount(7);
   const nfl = controls.getByRole("button", { name: "Collapse NFL", exact: true });
   const nba = controls.getByRole("button", { name: "Collapse NBA", exact: true });
   await expect(nfl).toBeVisible();

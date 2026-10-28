@@ -145,7 +145,8 @@ test("men's boulder intersects grouped interests without changing month counts o
   await day.locator(".day-number").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
   await expandDayGroups(page);
-  await expect(detail.locator(".timeline-pill[data-event-id]")).toHaveCount(6);
+  await detail.locator(".timeline-global-more .timeline-more").click();
+  await expect(detail.getByRole("region", { name: "More events" }).getByRole("listitem")).toHaveCount(6);
   await expect(detail).toContainText("European Championships · Men's 60 kg, Group A");
   await expect(detail).not.toContainText("Women's");
   await expect(detail).not.toContainText("Men's Lead");
