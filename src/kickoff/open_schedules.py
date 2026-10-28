@@ -16,6 +16,7 @@ from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
 from kickoff.reviewed_schedules import CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
+from kickoff.start_times import fill_missing_start_times
 from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
 from kickoff.web import SCHEMA_VERSION, _event_payload
@@ -326,6 +327,7 @@ def refresh_open_schedules(
     reviewed_dir: Path | None = None,
     feeds: dict | None = None,
     available_seasons: list[int] | None = None,
+    enrich_times: bool = False,
 ) -> Path:
     """Fetch all configured schedules and export; any feed failure aborts publication."""
     now = datetime.now(timezone.utc)
@@ -439,6 +441,11 @@ def refresh_open_schedules(
     kept_sources = {event.source_url for event in reviewed}
     notices = [notice for notice in notices if notice["url"] in kept_sources]
     events.extend(reviewed)
+    if enrich_times:
+        time_receipts = fill_missing_start_times(events, year)
+        evidence.extend(time_receipts)
+        if any(receipt["clocks_added"] for receipt in time_receipts):
+            source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
     # Each input was validated where it was produced. Check only cross-feed identity here.
     if len({e.event_id for e in events}) != len(events):
         raise ValueError("Duplicate event identity across feeds")
@@ -457,7 +464,9 @@ def refresh_open_schedules(
         f"{count} {REVIEWED_LABELS[league]}" for league, count in sorted(reviewed_counts.items())
     )
     fed_coverage = ", ".join(FEED_LABELS[league] for league in feeds or {} if league in fed_leagues)
-    football_count = len({event["league"] for event in bundle["events"] if event["source"] == "openfootball"})
+    football_count = len(
+        {event["league"] for event in bundle["events"] if event["league"] in {v[0] for v in FOOTBALL.values()}}
+    )
     open_coverage = [f"{football_count} football leagues"] if football_count else []
     open_coverage += ["Formula 1"] if any(event["source"] == "f1db" for event in bundle["events"]) else []
     bundle["coverage"] = (
@@ -473,7 +482,8 @@ def refresh_open_schedules(
             else ""
         )
         + "No live scores. Football kickoff times use confirmed league timezone conventions; "
-        "unconfirmed or missing clocks remain date-only. F1 times use the source's UTC fields."
+        "ESPN fills independently confirmed missing clocks with its own attribution. "
+        "Unconfirmed clocks remain date-only. F1 times use the source's UTC fields."
     )
     feed_kinds = sorted({event["source"] for event in bundle["events"]} & set(league_feeds.SOURCES))
     bundle["sources"] = list({json.dumps(s, sort_keys=True): s for s in source_notices + notices}.values())

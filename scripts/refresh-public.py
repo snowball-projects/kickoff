@@ -12,7 +12,7 @@ from kickoff.open_schedules import refresh_open_schedules
 
 def refresh(years: list[int], output: Path, reviewed: Path) -> None:
     for year in years:
-        print(refresh_open_schedules(year, output, reviewed, feeds=FEEDS, available_seasons=years))
+        print(refresh_open_schedules(year, output, reviewed, feeds=FEEDS, available_seasons=years, enrich_times=True))
 
 
 def coverage_years(today: date) -> list[int]:

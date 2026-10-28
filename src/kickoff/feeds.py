@@ -393,6 +393,7 @@ def mlb_events(year: int) -> list[CalendarEvent]:
                     source_url=f"https://www.mlb.com/gameday/{game['gamePk']}",
                 )
             )
+            events[-1].raw_source_payload = {"game_number": game.get("gameNumber")}
     return _in_year(_dedupe(events), year)
 
 
