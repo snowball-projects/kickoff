@@ -1179,7 +1179,7 @@ dialog p {
 }
 .timeline-hour > span { width: 36px; text-align: right; flex-shrink: 0; }
 .timeline-hour > i { flex: 1; border-top: 1px solid var(--line); }
-.timeline-events { position: absolute; left: 70px; right: 3px; top: 0; }
+.timeline-events { position: absolute; left: 48px; right: 3px; top: 0; }
 .timeline-group { position: absolute; padding: 0 2px; min-width: 0; pointer-events: none; }
 .timeline-pill {
   position: relative;
@@ -1209,7 +1209,7 @@ dialog p {
   border-left: 2px solid var(--pill, var(--line));
   border-radius: 5px;
 }
-.timeline-collapse { position: absolute; z-index: 2; top: 0; left: -22px; width: 22px; min-height: 44px; padding: 0; color: var(--text); background: transparent; }
+.timeline-collapse { position: absolute; z-index: 2; top: 0; left: 0; width: 22px; min-height: 44px; padding: 0; color: var(--text); background: transparent; }
 .timeline-collapse:hover { background: var(--hover); filter: none; }
 .timeline-subpills { position: absolute; left: 0; right: 2px; top: 0; }
 .timeline-slot { position: absolute; left: 0; right: 0; display: flex; gap: 2px; }

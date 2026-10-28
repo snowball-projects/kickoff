@@ -64,8 +64,9 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
       <span className="timeline-clock">{eventTimeLabel(event, timezone)}{event.status !== "scheduled" && ` · ${event.status.replaceAll("_", " ")}`}</span>
     </button>;
   }
-  function groupButton(key: string, name: string, events: EventCard[], open: boolean, controls: string, compact = false) {
+  function groupButton(key: string, name: string, events: EventCard[], open: boolean, controls: string, compact = false, collapseLeft = "0%") {
     return <button className={`timeline-pill timeline-group-toggle ${compact ? "timeline-collapse" : ""} ${leagueVisual(events[0].league, events[0].sport).className}`}
+      style={compact ? { left: collapseLeft } : undefined}
       aria-expanded={open} aria-controls={controls} aria-label={compact ? `Collapse ${name}` : undefined} onClick={() => toggle(key)}
       onPointerEnter={(pointer) => {
         if (pointer.pointerType !== "touch" && !open) preview.show({ event: events[0], date, target: pointer.currentTarget });
@@ -106,11 +107,11 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
             return <div key={group.key} data-competition={group.name} className={`timeline-group ${open ? "is-expanded" : ""} ${leagueVisual(group.items[0].league, group.items[0].sport).className}`}
               style={{ top, height: end - top, left: `${lane * 100 / columns}%`, width: `${100 / columns}%` }}>
               {group.items.length === 1 ? pill(group.items[0])
-                : groupButton(group.key, group.name, group.items, open, id, open)}
+                : groupButton(group.key, group.name, group.items, open, id, open, `${slots[0].lane * 100 / slots[0].columns}%`)}
               {group.items.length > 1 && <div id={id} hidden={!open} className="timeline-subpills">
                 {slots.map(({ minute, events, top: slotTop, lane: slotLane, columns: slotColumns }) => {
                   const { shown, more } = visibleSlot(events);
-                  return <div className="timeline-slot" key={minute} style={{ top: slotTop, left: `${slotLane * 100 / slotColumns}%`, width: `${100 / slotColumns}%` }}>
+                  return <div className="timeline-slot" key={minute} style={{ top: slotTop, left: `calc(${slotLane * 100 / slotColumns}% + 22px)`, width: `calc(${100 / slotColumns}% - 22px)` }}>
                     {shown.map(pill)}
                     {!!more.length && <button className="timeline-pill timeline-more" onClick={(click) => {
                       preview.close(); onSelect(undefined); opener.current = click.currentTarget; setOverflow(more.map((event) => event.event_id));

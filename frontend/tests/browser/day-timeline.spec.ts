@@ -22,12 +22,12 @@ const events = [
 ];
 const panel = (page: Page) => page.getByRole("complementary", { name: "Day events" });
 const pill = (page: Page, id: string) => panel(page).locator(`[data-event-id="${id}"]`);
-async function setup(page: Page) {
+async function setup(page: Page, extraEvents: ReturnType<typeof event>[] = []) {
   await page.clock.setFixedTime(new Date("2026-09-10T20:10:00Z"));
   await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["NFL", "NBA", "EPL", "PGA_TOUR", "LPGA_TOUR"] })));
   await page.route("**/data/*.json", async (route) => {
     const season = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
-    await route.fulfill({ json: { schema_version: "1", season, providers: [], available_seasons: [season], events: season === 2026 ? events : [] } });
+    await route.fulfill({ json: { schema_version: "1", season, providers: [], available_seasons: [season], events: season === 2026 ? [...events, ...extraEvents] : [] } });
   });
   await page.goto("/");
   await page.locator("#day-2026-09-10 .day-number").click();
@@ -168,4 +168,24 @@ test("a changed browser-reported timezone rebuilds an open day without retaining
   const nfl = panel(page).locator('.timeline-group[data-competition="NFL"]');
   await expect(nfl.locator(".timeline-group-toggle")).toHaveAttribute("aria-expanded", "false");
   expect(await nfl.evaluate((element) => (element as HTMLElement).offsetTop)).toBe(200);
+});
+
+
+test("simultaneous expanded competitions keep separate collapse controls on a phone", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await setup(page, [event("Basketball same start", { league: "NBA", sport: "basketball" })]);
+  const nfl = panel(page).locator('.timeline-group[data-competition="NFL"]');
+  const nba = panel(page).locator('.timeline-group[data-competition="NBA"]');
+  await nfl.locator(".timeline-group-toggle").click();
+  await nba.locator(".timeline-group-toggle").click();
+  const nflCollapse = nfl.getByRole("button", { name: "Collapse NFL", exact: true });
+  const nbaCollapse = nba.getByRole("button", { name: "Collapse NBA", exact: true });
+  const a = (await nflCollapse.boundingBox())!, b = (await nbaCollapse.boundingBox())!;
+  expect(a.x >= b.x + b.width || b.x >= a.x + a.width).toBe(true);
+  await nflCollapse.click();
+  await expect(nfl.locator(".timeline-group-toggle")).toHaveAttribute("aria-expanded", "false");
+  await expect(nbaCollapse).toHaveAttribute("aria-expanded", "true");
+  await nbaCollapse.click();
+  await expect(nba.locator(".timeline-group-toggle")).toHaveAttribute("aria-expanded", "false");
+  expect(await gridGeometry(page)).toEqual(Array.from({ length: 25 }, (_, hour) => hour * 80));
 });
