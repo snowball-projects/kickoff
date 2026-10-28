@@ -142,7 +142,7 @@ for (const width of [1280, 390]) {
   });
 }
 
-test("interest and advanced options are shared and cancellation is harmless", async ({ page }) => {
+test("interest and coverage checkboxes are shared and cancellation is harmless", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
   await setup(page);
   await viewSwitch(page, "Agenda").click();
@@ -151,8 +151,8 @@ test("interest and advanced options are shared and cancellation is harmless", as
   await chooser.getByRole("button", { name: "Clear", exact: true }).click();
   await chooser.getByRole("checkbox", { name: "Select all Motorsports", exact: true }).check();
   await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).check();
-  await chooser.locator("details.advanced summary").click();
-  await chooser.locator("details.advanced").getByLabel("PGA Tour", { exact: true }).selectOption("majors_only");
+  await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
+  await chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true }).check();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await expect(row(page, "Morning fixture")).toHaveCount(0);
   await expect(row(page, "Grand Prix")).toBeVisible();
@@ -169,8 +169,8 @@ test("interest and advanced options are shared and cancellation is harmless", as
   await page.keyboard.press("Escape");
   await expect(row(page, "Grand Prix")).toBeVisible();
   await page.getByRole("button", { name: "Interests · 2", exact: true }).click();
-  await chooser.locator("details.advanced summary").click();
-  await chooser.getByLabel("Motorsport", { exact: true }).selectOption("full_weekend");
+  await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
+  await chooser.getByRole("checkbox", { name: "Races only", exact: true }).uncheck();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await expect(row(page, "Practice session")).toBeVisible();
   await page.getByRole("button", { name: "Interests · 2", exact: true }).click();

@@ -118,7 +118,7 @@ test("expanded interest labels and date-only card details fit a mobile viewport"
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
 });
 
-test("calendar, advanced options and About kickoff fit a narrow mobile viewport", async ({ page }) => {
+test("calendar, interests and About kickoff fit a narrow mobile viewport", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
   await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["F1"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only" })));
@@ -129,8 +129,11 @@ test("calendar, advanced options and About kickoff fit a narrow mobile viewport"
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole("button", { name: "Interests · 1", exact: true }).click();
   const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
-  await chooser.locator("details.advanced summary").click();
-  await expect(chooser.getByRole("combobox")).toHaveCount(3);
+  await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
+  await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
+  await expect(chooser.getByRole("combobox")).toHaveCount(0);
+  await expect(chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeVisible();
+  await expect(chooser.getByRole("checkbox", { name: "Races only", exact: true })).toBeVisible();
   expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
   await chooser.getByRole("button", { name: "Close", exact: true }).click();
   await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
