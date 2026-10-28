@@ -14,8 +14,8 @@ test("competition groups use league identity and keep named meets/stops separate
   const one = event("one"), two = event("two", { source: "another-origin" });
   const lift = event("lift", { sport: "weightlifting", league: "IWF_WORLDS", event_type: "session", title: "World Championships · Men's 60 kg, Group A" });
   const liftB = { ...lift, event_id: "lift-b", title: "World Championships · Men's 60 kg, Group B" };
-  const climb = event("climb", { sport: "climbing", league: "IFSC_WORLD_CUP", event_type: "session", title: "Santiago — Men's Lead final" });
-  const climbElsewhere = { ...climb, event_id: "elsewhere", title: "Seoul — Women's Boulder final" };
+  const climb = event("climb", { sport: "climbing", league: "IFSC_WORLD_CUP", event_type: "session", title: "Santiago · Men's Lead final" });
+  const climbElsewhere = { ...climb, event_id: "elsewhere", title: "Seoul · Women's Boulder final" };
   const grouped = monthCompetitions([one, two, lift, liftB, climb, climbElsewhere]);
   assert.deepEqual(grouped.map((group) => [group.name, group.items.length]), [["NFL", 2], ["World Championships", 2], ["Santiago", 1], ["Seoul", 1]]);
   const golf = event("golf", { sport: "golf", league: "PGA_TOUR", event_type: "tournament", title: "The Open" });
@@ -78,4 +78,15 @@ test("viewer-local days, adjacent years and inclusive date-only spans determine 
       assert.equal(Object.values(day.competition_counts)[0], count);
     }
   } finally { globalThis.fetch = original; }
+});
+
+test("climbing category labels preserve the full named championship and venue", () => {
+  const rows = ["Men's Boulder Qualification", "Women's Boulder Qualification"].map((category, i) => event(String(i), {
+    sport: "climbing", league: "CLIMBING_EUROPE", event_type: "session",
+    title: `European Championships · Barcelona · ${category}`,
+  }));
+  const grouped = monthCompetitions(rows);
+  assert.equal(grouped.length, 1);
+  assert.equal(grouped[0].name, "European Championships · Barcelona");
+  assert.equal(grouped[0].items.length, 2);
 });

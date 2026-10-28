@@ -44,15 +44,16 @@ its source with a link, and omits logos, scores, odds, articles and raw payloads
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
 its data is republished.
 
-World Climbing / USA Climbing / Federación de Andinismo de Chile — October
-2026 Salt Lake City and Santiago session facts; no data license granted.
-https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026
-https://www.worldclimbing.com/events/world-climbing-series-santiago-2026
-https://www.worldclimbingsantiago.cl/
-Manually reviewed dates, discipline labels and agreed venue-local start clocks.
-Disputed clocks are withheld. Source response hashes and review notes accompany
-the registry. No raw payloads, prose, results or media are republished; no
-automated collection from these sites is configured. See data/reviewed/2026-climbing-sessions.json.
+World Climbing and the event organizers: manually reviewed 2026 and 2027
+climbing schedule facts; no data license granted.
+https://www.worldclimbing.com/calendar
+https://www.worldclimbing.com/terms-and-conditions/index
+Per-event official links, checked dates, source hashes, organizer timetable
+references and uncertainties accompany data/reviewed/2026-climbing-sessions.json
+and 2027-climbing-sessions.json. Only published round/category dates and
+venue-local clocks are included. Shared starts, mixed events, date-only spans
+and conflicting clocks remain explicit. No raw payloads, prose, results or
+media are republished; no automated collection from these sites is configured.
 
 IWF, EWF, AWF, Commonwealth Weightlifting Federation, IMWA and the Glasgow,
 Aichi-Nagoya and Lima Games organizers: reviewed weightlifting schedule facts;
