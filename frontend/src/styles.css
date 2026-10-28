@@ -269,11 +269,6 @@ button,
   text-overflow: ellipsis;
   min-width: 0;
 }
-.more-events {
-  font-size: 11px;
-  color: var(--muted);
-  padding-left: 5px;
-}
 .league-f1 {
   --pill: #f5e4dc;
   --ink: #914a2e;
@@ -990,10 +985,6 @@ dialog p {
     padding: 3px;
     min-height: 18px;
   }
-  .more-events {
-    font-size: 9px;
-    padding-left: 1px;
-  }
   .day-events {
     gap: 3px;
   }
@@ -1112,4 +1103,47 @@ dialog p {
   .month-status {
     font-size: 11px;
   }
+}
+
+.month-single,
+.competition-event {
+  width: 100%;
+  text-align: left;
+}
+.competition-chip {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+}
+.competition-chip > span:first-child,
+.competition-event .event-pill > span {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.competition-chip > span:last-child {
+  flex-shrink: 0;
+}
+.competition-events {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 5px;
+}
+.competition-event-time {
+  display: block;
+  padding: 1px 3px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.competition-event .event-pill {
+  display: block;
+}
+.competition-event .event-pill b {
+  display: none;
+}
+.hidden-events {
+  margin: 2px 3px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
 }

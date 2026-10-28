@@ -1,6 +1,8 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import { firstOfMonth, formatLongDate, monthLabel, monthWeeksSunStart } from "./date-utils";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { eventTimeLabel, firstOfMonth, formatLongDate, monthLabel, monthWeeksSunStart } from "./date-utils";
 import { dayAfter, dayInMonth, scheduleWindow, monthWindow, scrollBehavior, shouldRecenter, visibleMonthAt } from "./month-feed-state";
+import { competitionSummary, monthCompetitions } from "./month-competitions";
+import { leagueVisual } from "./calendar-helpers";
 import type { CalendarResponse, EventCard } from "./types";
 import EventPreview, { useEventPreview } from "./EventPreview";
 
@@ -22,6 +24,37 @@ type Props = {
   onRetry: () => void;
   renderEvent: (event: EventCard) => React.ReactNode;
 };
+
+function CompetitionChip({ group, date, timezone, renderEvent, onOpenDay, preview }: {
+  group: ReturnType<typeof monthCompetitions>[number]; date: string; timezone: string;
+  renderEvent: Props["renderEvent"]; onOpenDay: Props["onOpenDay"];
+  preview: ReturnType<typeof useEventPreview>;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const label = `${group.name} · ${competitionSummary(group.items, timezone)}`;
+  return (
+    <div className="month-competition">
+      <button className={`event-pill competition-chip ${leagueVisual(group.items[0].league).className}`}
+        aria-expanded={expanded} aria-label={label}
+        onClick={() => { preview.close(); setExpanded(!expanded); }}>
+        <span>{label}</span><span aria-hidden="true">{expanded ? "−" : "+"}</span>
+      </button>
+      {expanded && <div className="competition-events">
+        {group.items.map((event) => (
+          <button className="competition-event event-preview-trigger" key={event.event_id}
+            onClick={() => { preview.close(); onOpenDay(date); }}
+            onPointerEnter={(pointer) => {
+              if (pointer.pointerType !== "touch") preview.show({ event, date, target: pointer.currentTarget });
+            }} onPointerLeave={preview.leave}>
+            <span className="competition-event-time">{eventTimeLabel(event, timezone)}</span>
+            {renderEvent({ ...event, title: event.title.replace(`${group.name} · `, "").replace(`${group.name} — `, "") })}
+          </button>
+        ))}
+        {group.hidden > 0 && <p className="hidden-events">{group.hidden} more {group.hidden === 1 ? "event" : "events"} hidden by your filters</p>}
+      </div>}
+    </div>
+  );
+}
 
 export default function MonthFeed(props: Props) {
   const bounds = scheduleWindow(props.today);
@@ -193,7 +226,14 @@ export default function MonthFeed(props: Props) {
     };
   }, []);
 
-  function navigateDay(event: React.KeyboardEvent<HTMLButtonElement>, date: string) {
+  function navigateDay(event: React.KeyboardEvent<HTMLDivElement>, date: string) {
+    if (event.target !== event.currentTarget) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      preview.close();
+      props.onOpenDay(date);
+      return;
+    }
     let next: string | undefined;
     if (event.key === "ArrowLeft") next = dayAfter(date, -1);
     if (event.key === "ArrowRight") next = dayAfter(date, 1);
@@ -232,14 +272,18 @@ export default function MonthFeed(props: Props) {
               <span>{status}</span>
               {error && <button onClick={props.onRetry} aria-label={`Retry schedule for ${monthLabel(anchor)}`}>Retry</button>}
             </div>
-            <div className="month-grid" style={{ gridTemplateRows: `repeat(${weeks.length}, var(--week-height))` }}>
+            <div className="month-grid" style={{ gridTemplateRows: `repeat(${weeks.length}, minmax(var(--week-height), auto))` }}>
               {weeks.flat().map((cell, i) => cell.date && cell.date >= bounds.start && cell.date <= bounds.end ? (
-                <button id={`day-${cell.date}`} key={cell.date}
+                <div id={`day-${cell.date}`} key={cell.date} role="group" tabIndex={0}
                   className={`day-cell ${cell.date === props.today ? "is-today" : ""} ${cell.date === props.day ? "selected" : ""}`}
-                  onClick={() => { preview.close(); props.onOpenDay(cell.date!); }} onKeyDown={(event) => navigateDay(event, cell.date!)}
+                  onClick={(event) => {
+                    if (event.target === event.currentTarget || (event.target as HTMLElement).closest(".day-number")) {
+                      preview.close(); props.onOpenDay(cell.date!);
+                    }
+                  }} onKeyDown={(event) => navigateDay(event, cell.date!)}
                   onFocus={(event) => {
                     const first = cell.group?.items[0];
-                    if (first && event.currentTarget.matches(":focus-visible")) {
+                    if (event.target === event.currentTarget && first && event.currentTarget.matches(":focus-visible")) {
                       focusPreviewAllowed.current = true;
                       preview.show({ event: first, date: cell.date!, target: event.currentTarget.querySelector<HTMLElement>(".event-pill") || event.currentTarget });
                     }
@@ -249,18 +293,24 @@ export default function MonthFeed(props: Props) {
                   aria-label={`${formatLongDate(cell.date)}, ${error ? "schedule unavailable" : !data ? "schedule loading" : `${cell.group?.event_count || 0} published events`}`}
                   aria-current={cell.date === props.today ? "date" : undefined}>
                   <span className="day-number">{Number(cell.date.slice(-2))}</span>
-                  <span className="day-events">
-                    {(cell.group?.items || []).slice(0, 3).map((event) => (
-                      <span className="event-preview-trigger" key={event.event_id}
-                        onPointerEnter={(pointer) => {
-                          if (pointer.pointerType !== "touch") preview.show({ event, date: cell.date!, target: pointer.currentTarget });
-                        }} onPointerLeave={preview.leave}>
-                        {props.renderEvent(event)}
-                      </span>
-                    ))}
-                    {(cell.group?.event_count || 0) > 3 && <span className="more-events">+{cell.group!.event_count - 3} more</span>}
-                  </span>
-                </button>
+                  <div className="day-events">
+                    {monthCompetitions(cell.group?.items || [], cell.group?.competition_counts).map((group) =>
+                      group.items.length > 1 ? (
+                        <CompetitionChip key={`${cell.date}:${group.key}:${group.items.map((item) => item.event_id).join()}`}
+                          group={group} date={cell.date!} timezone={props.timezone}
+                          renderEvent={props.renderEvent} onOpenDay={props.onOpenDay} preview={preview} />
+                      ) : (
+                        <button className="event-preview-trigger month-single" key={group.key} tabIndex={-1}
+                          onClick={() => { preview.close(); props.onOpenDay(cell.date!); }}
+                          onPointerEnter={(pointer) => {
+                            if (pointer.pointerType !== "touch") preview.show({ event: group.items[0], date: cell.date!, target: pointer.currentTarget });
+                          }} onPointerLeave={preview.leave}>
+                          {props.renderEvent(group.items[0])}
+                        </button>
+                      ),
+                    )}
+                  </div>
+                </div>
               ) : <div key={`blank-${i}`} className="day-cell blank" />)}
             </div>
           </section>

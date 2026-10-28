@@ -47,7 +47,7 @@ test("old selections retain senior-only Worlds; facets save, cancel and intersec
   expect(JSON.parse(saved!)).toMatchObject({ leagues: ["IFSC_WORLD_CUP", "IWF_WORLDS"],
     climbing: { genders: ["Women"], disciplines: ["Lead"] }, weightlifting: { genders: ["Women"] },
     golf_views: { PGA_TOUR: "majors_only" }, motorsport_view: "full_weekend" });
-  await page.locator("#day-2026-10-25").click();
+  await page.locator("#day-2026-10-25 .day-number").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
   await expect(detail.locator("article")).toHaveCount(2);
   await expect(detail).toContainText("Women's Lead semi-final");

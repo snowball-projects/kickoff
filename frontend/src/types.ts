@@ -128,6 +128,7 @@ export type SearchResponse = EventListResponse & {
 export type CalendarDayGroup = {
   date: string;
   event_count: number;
+  competition_counts?: Record<string, number>;
   items: EventCard[];
 };
 
