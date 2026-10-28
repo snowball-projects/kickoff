@@ -1,3 +1,4 @@
+import { monthCompetition } from "./month-competitions";
 import { validateBundle } from "./bundle-schema";
 import { matchesInterestOptions, uniqueGolfEvents } from "./interest-preferences";
 import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
@@ -116,10 +117,10 @@ function normalized(value: string | null | undefined) {
   return (value || "").trim().toLocaleLowerCase();
 }
 
-function matchesFilters(event: EventDetail, filters: FilterState) {
-  if (!matchesInterestOptions(event, filters)) return false;
+function matchesFilters(event: EventDetail, filters: FilterState, includeInterests = true) {
+  if (includeInterests && !matchesInterestOptions(event, filters)) return false;
   if (
-    filters.motorsport_view === "race_only" &&
+    includeInterests && filters.motorsport_view === "race_only" &&
     event.sport === "motorsport" &&
     event.event_type !== "race"
   )
@@ -358,9 +359,29 @@ export async function getCalendar(
       if (day >= date && day <= (end || date))
         grouped.get(day)?.push({ ...eventCard(event), start_calendar_date: date, calendar_date: day, end_calendar_date: end });
   }
+  // Month chips need only pre-interest counts, never hidden event details.
+  // Keep the same display dates, non-interest filters and golf deduplication.
+  const competitionCounts = new Map<string, Record<string, number>>();
+  if (view === "month") {
+    for (const event of uniqueGolfEvents(events.filter((item) => matchesFilters(item, filters, false)))) {
+      const { start, end } = eventDateSpan(event, displayTimezone);
+      if (!start) continue;
+      const { key } = monthCompetition(event);
+      for (const day of grouped.keys()) {
+        if (day < start || day > (end || start)) continue;
+        if (!competitionCounts.has(day)) competitionCounts.set(day, {});
+        const counts = competitionCounts.get(day)!;
+        counts[key] = (counts[key] || 0) + 1;
+      }
+    }
+  }
   const groups = [...grouped.entries()].map(([date, items]) => ({
     date,
     event_count: items.length,
+    ...(view === "month" ? { competition_counts: Object.fromEntries(
+      [...new Set(items.map((event) => monthCompetition(event).key))]
+        .map((key) => [key, competitionCounts.get(date)?.[key] || 0]),
+    ) } : {}),
     items,
   }));
   const totalEvents = groups.reduce((total, group) => total + group.event_count, 0);

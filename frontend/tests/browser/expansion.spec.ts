@@ -45,8 +45,8 @@ test("reviewed expansion keeps attribution and exports without download links", 
   await openMonth(page, "October");
   // Venue October 27 at 11:00 is October 26 at 22:00 in Chicago.
   await expect(page.locator("#day-2026-10-26 .event-pill")).toHaveCount(1);
-  await expect(page.locator("#day-2026-10-27 .event-pill")).toHaveCount(3);
-  await page.locator("#day-2026-10-27").click();
+  await expect(page.locator("#day-2026-10-27 .competition-chip")).toContainText("4 sessions · from 00:30");
+  await page.locator("#day-2026-10-27 .day-number").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
   await expect(detail).toContainText("Men's 60 kg, Group B");
   await expect(detail).toContainText("12:30 AM");
@@ -54,7 +54,7 @@ test("reviewed expansion keeps attribution and exports without download links", 
   await expect(detail).not.toContainText("through 2026-11-08");
   await expect(detail.getByRole("link", { name: "Schedule source" }).first()).toHaveAttribute("href", /iwf\.sport.*id=3004/);
   await page.getByRole("button", { name: "Close day" }).click();
-  await page.locator("#day-2026-10-28").click();
+  await page.locator("#day-2026-10-28 .day-number").click();
   const combined = detail.locator("article").filter({ hasText: "Women's 53 kg, Group D / Women's 57 kg, Group B" });
   await expect(combined).toHaveCount(1);
   await expect(combined).toContainText("10:00 PM");
@@ -111,7 +111,7 @@ test("expanded interest labels and date-only card details fit a mobile viewport"
   await chooser.getByRole("checkbox", { name: "Boxing", exact: true }).click();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await openMonth(page, "October");
-  await page.locator("#day-2026-10-24").click();
+  await page.locator("#day-2026-10-24 .day-number").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
   await expect(detail).toContainText("three full titles");
   await expect(detail).toContainText("Time TBD");
