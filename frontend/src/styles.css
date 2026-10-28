@@ -1,12 +1,36 @@
+@import "./category-palette.css";
+
 :root {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #243b32;
-  background: #fafbf7;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--page);
   font-synthesis: none;
   font-size: 16px;
+  --text: #243b32;
+  --page: #fafbf7;
+  --surface: #fffefb;
+  --control: #ffffff;
+  --control-line: #77867c;
   --green: #216549;
+  --on-green: #ffffff;
+  --focus: #174da7;
+  --hover: #edf2e9;
+  --blank: #f6f8f2;
+  --day-hover: #f2f6ed;
+  --selected: #eaf2e5;
+  --selected-line: #4e7c5d;
+  --brand: #264c3c;
+  --current-border: #7c9e82;
+  --current-bg: #f0f5eb;
+  --chosen-border: #52785f;
+  --chosen-bg: #eff5e9;
+  --primary-hover: #184b36;
+  --loading: #fafbf7e8;
+  --preview-border: #758b75;
+  --tag: #eef1e9;
   --line: #dfe6dc;
-  --muted: #6b786f;
+  --muted: #58685f;
   --soft: #edf3e9;
 }
 * {
@@ -41,14 +65,14 @@ button {
   border-radius: 8px;
 }
 button:hover {
-  background: #edf2e9;
+  background: var(--hover);
 }
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
 a {
@@ -76,9 +100,9 @@ h3 {
 }
 input,
 select {
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--control);
   color: inherit;
   padding: 8px 10px;
 }
@@ -119,7 +143,7 @@ button,
   align-items: center;
   gap: 9px;
   font-weight: 600;
-  color: #264c3c;
+  color: var(--brand);
 }
 .brand img {
   object-fit: contain;
@@ -205,17 +229,17 @@ button,
   border-bottom: 1px solid var(--line);
   border-radius: 0;
   overflow: hidden;
-  background: #fffefb;
+  background: var(--surface);
 }
 .day-cell.blank {
-  background: #f6f8f2;
+  background: var(--blank);
 }
 .day-cell:hover {
-  background: #f2f6ed;
+  background: var(--day-hover);
 }
 .day-cell.selected {
-  background: #eaf2e5;
-  box-shadow: inset 0 0 0 1px #80a98e;
+  background: var(--selected);
+  box-shadow: inset 0 0 0 1px var(--selected-line);
 }
 .day-number {
   display: flex;
@@ -229,7 +253,7 @@ button,
 }
 .is-today .day-number {
   background: var(--green);
-  color: white;
+  color: var(--on-green);
   font-weight: 600;
 }
 .day-events {
@@ -239,20 +263,21 @@ button,
   min-width: 0;
 }
 .event-pill {
-  --pill: #e6eee1;
-  --ink: #36573e;
   display: flex;
   align-items: center;
   gap: 5px;
   max-width: 100%;
   padding: 3px 5px;
   border-radius: 4px;
-  background: var(--pill);
-  color: var(--ink);
+  background: var(--pill, var(--soft));
+  color: var(--ink, var(--text));
   font-size: 11px;
   line-height: 1.3;
   min-height: 20px;
   overflow: hidden;
+}
+.event-pill:hover {
+  background: var(--pill, var(--soft));
 }
 .event-pill b {
   font-size: 9px;
@@ -268,55 +293,6 @@ button,
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
-}
-.league-f1 {
-  --pill: #f5e4dc;
-  --ink: #914a2e;
-}
-.league-epl {
-  --pill: #e8e2f2;
-  --ink: #6c4c8d;
-}
-.league-laliga {
-  --pill: #f2e4e8;
-  --ink: #8f405d;
-}
-.league-bundesliga {
-  --pill: #f3e8d8;
-  --ink: #815b29;
-}
-.league-seriea {
-  --pill: #dfeaf4;
-  --ink: #34668c;
-}
-.league-ligue1 {
-  --pill: #dcefe9;
-  --ink: #286954;
-}
-.league-mlb {
-  --pill: #e1e8f6;
-  --ink: #3b6095;
-}
-.league-nba {
-  --pill: #f5e5d4;
-  --ink: #966130;
-}
-.league-nhl {
-  --pill: #e2eaed;
-  --ink: #466676;
-}
-.league-nfl {
-  --pill: #e2eddd;
-  --ink: #486736;
-}
-.league-indycar,
-.league-nascar {
-  --pill: #eee4dc;
-  --ink: #725642;
-}
-.league-generic {
-  --pill: #e6eee1;
-  --ink: #36573e;
 }
 .year-grid {
   display: grid;
@@ -334,8 +310,8 @@ button,
   border-radius: 12px;
 }
 .mini-month.current-month {
-  border-color: #aac4ae;
-  background: #f0f5eb;
+  border-color: var(--current-border);
+  background: var(--current-bg);
 }
 .mini-month h2 {
   font-size: 19px;
@@ -364,7 +340,7 @@ button,
 }
 .mini-days .mini-today {
   background: var(--green);
-  color: white;
+  color: var(--on-green);
 }
 .has-events:after {
   content: "";
@@ -376,7 +352,7 @@ button,
   border-radius: 50%;
 }
 .mini-today.has-events:after {
-  background: #fff;
+  background: var(--control);
 }
 .bottom-bar {
   height: 56px;
@@ -440,7 +416,7 @@ button,
   padding-top: 3px;
 }
 .league-label {
-  color: var(--ink, #36573e);
+  color: var(--category-accent, var(--text));
   font-size: 11px;
   font-weight: 600;
 }
@@ -479,7 +455,7 @@ button,
 }
 .segmented-control button[aria-pressed="true"] {
   color: var(--green);
-  background: #fffefb;
+  background: var(--surface);
   box-shadow: 0 1px 4px #17392214;
   font-weight: 600;
 }
@@ -596,7 +572,7 @@ button,
 .empty-state h2 {
   font-size: 21px;
   margin-bottom: 12px;
-  color: #304e3d;
+  color: var(--text);
 }
 .empty-state p {
   line-height: 1.5;
@@ -609,7 +585,7 @@ button,
   inset: 0;
   display: grid;
   place-items: center;
-  background: #fafbf7c9;
+  background: var(--loading);
   color: var(--muted);
   font-size: 14px;
   pointer-events: none;
@@ -627,8 +603,8 @@ dialog {
   max-height: min(85dvh, calc(100dvh - 32px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
   padding: 0;
   overflow: hidden;
-  color: #243b32;
-  background: #fafbf7;
+  color: var(--text);
+  background: var(--page);
   box-shadow: 0 20px 80px #17392222;
 }
 dialog[open] {
@@ -736,8 +712,8 @@ dialog p {
   font-size: 14px;
 }
 .interest.chosen {
-  border-color: #75a488;
-  background: #eff5e9;
+  border-color: var(--chosen-border);
+  background: var(--chosen-bg);
 }
 .interest input {
   margin: 0;
@@ -746,7 +722,7 @@ dialog p {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--ink, #36573e);
+  background: var(--category-accent, var(--text));
   flex-shrink: 0;
 }
 .interest-actions {
@@ -769,13 +745,14 @@ dialog p {
 }
 .primary-button {
   background: var(--green);
-  color: #fff;
+  color: var(--on-green);
   width: 100%;
   padding: 12px;
   margin-top: 15px;
 }
 .primary-button:hover {
-  background: #184b36;
+  background: var(--primary-hover);
+  color: var(--on-green);
 }
 .advanced {
   margin-top: 20px;
@@ -803,13 +780,13 @@ dialog p {
 }
 .tag-filters button {
   font-size: 11px;
-  background: #eef1e9;
+  background: var(--tag);
   padding: 4px 8px;
   min-height: 28px;
 }
 .tag-filters button[aria-pressed="true"] {
   background: var(--green);
-  color: white;
+  color: var(--on-green);
 }
 .sr-only {
   position: absolute;
@@ -834,10 +811,10 @@ dialog p {
   overflow-y: auto;
   overflow-wrap: anywhere;
   padding: 17px;
-  border: 1px solid #bdcfbd;
+  border: 1px solid var(--preview-border);
   border-radius: 12px;
-  color: #243b32;
-  background: #fffefb;
+  color: var(--text);
+  background: var(--surface);
   box-shadow: 0 8px 30px #17392224;
 }
 .event-preview h3 {
@@ -887,7 +864,7 @@ dialog p {
     bottom: 0;
     max-width: 100%;
     width: 365px;
-    background: #fafbf7;
+    background: var(--page);
     box-shadow: -12px 0 35px #1a392018;
     padding: 14px 18px;
     z-index: 5;
@@ -1061,7 +1038,7 @@ dialog p {
   scroll-padding: 4px;
 }
 .month-feed:focus-visible {
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--focus);
   outline-offset: -2px;
 }
 .feed-month {
@@ -1146,4 +1123,36 @@ dialog p {
   color: var(--muted);
   font-size: 10px;
   line-height: 1.4;
+}
+
+/* Follow the device theme without adding or changing preference storage. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --text: #e8eef0;
+    --page: #131c25;
+    --surface: #1b2732;
+    --control: #24323f;
+    --control-line: #8397a5;
+    --green: #96dbb5;
+    --on-green: #10251a;
+    --focus: #ffd166;
+    --line: #3b4e5b;
+    --muted: #b0bfc8;
+    --soft: #24323f;
+    --hover: #2c3d4b;
+    --blank: #16212b;
+    --day-hover: #263a39;
+    --selected: #243d32;
+    --selected-line: #96dbb5;
+    --brand: #b4e4c9;
+    --current-border: #96dbb5;
+    --current-bg: #243d32;
+    --chosen-border: #96dbb5;
+    --chosen-bg: #243d32;
+    --primary-hover: #b3e6cb;
+    --loading: #131c25e8;
+    --preview-border: #8397a5;
+    --tag: #24323f;
+  }
 }
