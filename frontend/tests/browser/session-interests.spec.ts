@@ -50,15 +50,15 @@ test("old selections retain senior-only Worlds; facets save, cancel and intersec
   await page.locator("#day-2026-10-25 .day-number").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
   await expect(detail.locator("article")).toHaveCount(2);
-  await expect(detail).toContainText("Women's Lead semi-final");
-  await expect(detail).toContainText("Women's Lead final");
+  await expect(detail).toContainText("Women's Lead Semi-final");
+  await expect(detail).toContainText("Women's Lead Final");
   await expect(detail).not.toContainText("Men's");
   await expect(detail).not.toContainText("Speed");
   await page.getByRole("button", { name: "Close day" }).click();
   await page.getByRole("button", { name: "Agenda", exact: true }).click();
   await page.getByRole("button", { name: "Upcoming", exact: true }).click();
   const list = page.getByRole("region", { name: "Agenda", exact: true });
-  await expect(list).toContainText("Women's Lead final");
+  await expect(list).toContainText("Women's Lead Final");
   await expect(list).toContainText("Women's 49 kg");
   await expect(list).not.toContainText("Men's");
   await expect(list).not.toContainText("Speed");
@@ -85,7 +85,7 @@ test("old selections retain senior-only Worlds; facets save, cancel and intersec
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues)).toEqual([]);
 });
 
-test("combined Boulder and Lead spans match each discipline and unknown gender is retained", async ({ page }) => {
+test("published climbing rounds replace spans while unknown gender stays visible", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2026-06-17T17:00:00Z"));
   await page.addInitScript(() => {
     if (!localStorage.getItem("kickoff.interests.v2")) localStorage.setItem("kickoff.interests.v2", JSON.stringify({
@@ -94,7 +94,7 @@ test("combined Boulder and Lead spans match each discipline and unknown gender i
   });
   await page.goto("/");
   const innsbruck = page.locator("#day-2026-06-17 .event-pill");
-  await expect(innsbruck).toContainText("Innsbruck");
+  await expect(innsbruck).toHaveCount(0);
   await page.getByRole("button", { name: /^Interests ·/ }).click();
   await climbing(page).locator("summary").click();
   await climbing(page).getByRole("checkbox", { name: "Lead", exact: true }).uncheck();
@@ -108,6 +108,12 @@ test("combined Boulder and Lead spans match each discipline and unknown gender i
   await save(page);
   await expect(innsbruck).toHaveCount(0);
   await month(page, "May");
+  await expect(page.locator("#day-2026-05-08 .event-pill")).toHaveCount(0);
+  await page.getByRole("button", { name: /^Interests ·/ }).click();
+  await climbing(page).locator("summary").click();
+  await climbing(page).getByRole("checkbox", { name: "Speed", exact: true }).uncheck();
+  await climbing(page).getByRole("checkbox", { name: "Lead", exact: true }).check();
+  await save(page);
   await expect(page.locator("#day-2026-05-08 .event-pill")).toContainText("Wujiang");
   await expect(page.locator("#day-2026-05-01 .event-pill")).toHaveCount(0);
 });

@@ -124,6 +124,9 @@ def test_2027_dates_keep_published_disciplines_and_actual_qualifier_identity_wit
     lima = next(e for e in events if e.league == "CLIMBING_PAN_AM_GAMES")
     assert (lima.calendar_date, lima.end_calendar_date) == ("2027-07-24", "2027-07-27")
     assert {"Men", "Women"} <= set(lima.tags)
+    europe = next(e for e in events if e.league == "CLIMBING_EUROPEAN_GAMES")
+    assert (europe.calendar_date, europe.end_calendar_date) == ("2027-06-24", "2027-06-27")
+    assert {"Men", "Women", "Boulder", "Lead", "Speed"} <= set(europe.tags)
     assert not any(e.league == "CLIMBING_OLYMPICS" for e in events)
     assert any("Boulder" in e["competition"] and "confirmed" in e["reason"] for e in payload["exclusions"])
     assert all(r["source_url"] and r["checked_date"] == "2026-10-28" for r in payload["events"])
@@ -167,7 +170,9 @@ def test_offline_refresh_preserves_official_climbing_sources_and_metadata(monkey
 
     def read(url):
         body = fake_open_read(url)
-        return body.replace(b"2026-03-01", b"2027-03-01") if "/2027/" in url and url.endswith("race.yml") else body
+        if "/2027/" in url:
+            body = body.replace(b"seasons/2026/", b"seasons/2027/").replace(b"2026-03-01", b"2027-03-01")
+        return body
 
     monkeypatch.setattr("kickoff.open_schedules.read_url", read)
     for year in [2026, 2027]:
@@ -179,3 +184,29 @@ def test_offline_refresh_preserves_official_climbing_sources_and_metadata(monkey
         assert len([s for s in bundle["sources"] if s.get("kind") == "world_climbing"]) == len(sources)
         assert bundle["data_licenses"]["world_climbing"] == "Schedule facts; no data license granted"
         assert "World Climbing World Cup records" in bundle["coverage"]
+
+
+def test_repeated_duration_rows_do_not_duplicate_ostermundigen_rounds():
+    events, _ = reviewed_events(registry(), 2026)
+    stop = [e for e in events if e.source_url.endswith("world-climbing-europe-series-ostermundigen-2026")]
+    assert len(stop) == 6
+    assert Counter(e.round_or_stage for e in stop) == {"qualification": 2, "semi-final": 2, "final": 2}
+    assert all({"Men", "Women"} & set(e.tags) for e in stop)
+    assert all(e.start_time_local.endswith("+02:00") for e in stop)
+
+
+def test_santa_fe_uses_updated_organizer_rounds_and_host_timezone_without_invented_following_clocks():
+    events, sources = reviewed_events(registry(), 2026)
+    games = [e for e in events if e.league == "CLIMBING_SOUTH_AM_GAMES"]
+    assert len(games) == 12
+    assert {e.round_or_stage for e in games} == {"qualification", "final"}
+    assert {e.calendar_date for e in games} == {f"2026-09-{day}" for day in [22, 23, 24, 25]}
+    assert all(e.timezone == "America/Argentina/Cordoba" for e in games)
+    women = next(e for e in games if "Women" in e.tags and "Boulder" in e.tags and e.round_or_stage == "final")
+    assert women.start_time_local == "2026-09-22T17:00:00-03:00"
+    assert women.start_time_utc == "2026-09-22T20:00:00Z"
+    speed = [e for e in games if "Speed" in e.tags]
+    assert len(speed) == 4 and all(e.start_time_scope == "shared_session" for e in speed)
+    assert {e.start_time_local[11:16] for e in speed} == {"10:50", "11:15"}
+    assert sum(e.start_time_utc is None for e in games) == 2
+    assert any(s["url"].startswith("https://santafe2026.ar/") for s in sources)

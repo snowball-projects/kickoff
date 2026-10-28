@@ -76,6 +76,7 @@ REVIEWED_LABELS = {
     "CLIMBING_ASIAN_BEACH_GAMES": "Asian Beach Games climbing records",
     "CLIMBING_EUROPEAN_GAMES": "European Games climbing dates",
     "CLIMBING_PAN_AM_GAMES": "Pan American Games climbing dates",
+    "CLIMBING_SOUTH_AM_GAMES": "South American Games climbing records",
     "NASCAR_CUP": "NASCAR Cup races",
     "INDYCAR": "IndyCar races",
     "IWF_WORLDS": "senior weightlifting Worlds sessions",

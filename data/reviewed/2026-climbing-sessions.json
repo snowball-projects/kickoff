@@ -73,9 +73,14 @@
           "url": "https://ifsc.results.info/events/1531/infosheet",
           "sha256": "85fd89eee5281dc6123d26a972782af20acec7feaaeb66879453f124f65be354",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/northamerica",
+          "sha256": "4046b382ee56e287a5ea0cfddae67297badcf9c8fb6b6e2ee8086898c847e147",
+          "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Timezone discrepancy: the infosheet header says UTC+8 despite the Salt Lake City venue. America/Denver observes UTC−06:00 in July, as established by IANA host-zone rules and the official calendar venue."
     },
     {
       "id": "world-climbing-pan-america-championship-curitiba-2026",
@@ -130,6 +135,11 @@
           "url": "https://ifsc.results.info/events/1534/infosheet",
           "sha256": "7c6b9c161ac794d8ce374d38619b4a63936ab0047776d1155e030695cd0ab751",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://ifsc.results.info/events/1486/infosheet",
+          "sha256": "6ceef8dde3ef2d4f3cfd03f0c3c7f0fde70086fabd7ca6e7e80624f90fd3e4c0",
+          "checked_date": "2026-10-28"
         }
       ],
       "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
@@ -168,9 +178,14 @@
           "url": "https://ifsc.results.info/events/1495/infosheet",
           "sha256": "881d4be4f773f7d338a85442a595f50beb9b59dac05ce23e670954819aae4caa",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/europe",
+          "sha256": "0fef17177d871af93188f2985e6034029bfd83e43d2a1c3838e4320712dba7c1",
+          "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Timezone discrepancy: the infosheet header says UTC+2. The Kaunas host observes Europe/Vilnius daylight time, UTC+03:00 on April 25–26; IANA host-zone rules establish the offset."
     },
     {
       "id": "world-climbing-asia-championship-meishan-2026",
@@ -187,6 +202,26 @@
           "url": "https://ifsc.results.info/events/1515/infosheet",
           "sha256": "765904ffaaa940922fde504ea4833b7f27dd5fc4a69d45a4801181722186d379",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/asia-championship-live-on-youtube",
+          "sha256": "9a2a3bad586b0a931f76a91c88b6bace6fd72c60f82b702a6935fa1c86fa8156",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/kusuma-dewi-shatters-asian-record-to-claim-speed-gold",
+          "sha256": "ed7c941bcfe4b2db587bf45a19e9a7b7ffb050312ec38a7c13a54dcef1da4b5a",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/mori-perfect-lee-near-flawless-in-boulder-finals-in-meishan",
+          "sha256": "e826987968c83c3bcfbe75a0b1ed099c814eeb93d8e954976254570ca82aa4a7",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/team-japan-take-two-lead-golds-in-meishan",
+          "sha256": "cfd6566b71e3aca4695061a8dbe8d2a69d4061859ec30deb8842654cb76e3a7f",
+          "checked_date": "2026-10-28"
         }
       ],
       "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
@@ -201,7 +236,14 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "b465fee4cf8adb3f534fe6fd4163b39bf3b4978844320d0741293bad081b4aa3",
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished.",
+      "evidence": [
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/team-japan-take-two-lead-golds-in-meishan",
+          "sha256": "cfd6566b71e3aca4695061a8dbe8d2a69d4061859ec30deb8842654cb76e3a7f",
+          "checked_date": "2026-10-28"
+        }
+      ]
     },
     {
       "id": "world-climbing-europe-youth-series-soure-2026",
@@ -446,9 +488,14 @@
           "url": "https://ifsc.results.info/events/1508/infosheet",
           "sha256": "793332f085d694b629d48bf9ba92807f6aa770986a39c562d52d75a1f839024e",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/europe",
+          "sha256": "0fef17177d871af93188f2985e6034029bfd83e43d2a1c3838e4320712dba7c1",
+          "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Timezone discrepancy: the infosheet header says UTC+1, but the Swiss host observes Europe/Zurich daylight time, UTC+02:00 in August. IANA rules and calendar UTC/local date metadata support the venue zone."
     },
     {
       "id": "world-climbing-asia-youth-series-quannan-2026",
@@ -515,9 +562,14 @@
           "url": "https://ifsc.results.info/events/1509/infosheet",
           "sha256": "724080299ac5bd49bae9b40b8ac307ed96174139ffc8acb73b6258c2019f64a2",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/europe",
+          "sha256": "0fef17177d871af93188f2985e6034029bfd83e43d2a1c3838e4320712dba7c1",
+          "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. The infosheet labels its programme local time but leaves the UTC offset unspecified. The Laval host observes Europe/Paris daylight time, UTC+02:00 in August, confirmed by IANA rules and the same-venue para programme."
     },
     {
       "id": "world-climbing-europe-series-leipzig-2026",
@@ -553,9 +605,14 @@
           "url": "https://ifsc.results.info/events/1523/infosheet",
           "sha256": "80a92a3fffdc7cd8072f960db3cb8be8d4fe6cd832b99812843fc565bf69e090",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/australasia",
+          "sha256": "846ba455578e3e0f9eb850f05be3cc06d02ff51bbe4b726f755be9dc765f16c9",
+          "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Timezone discrepancy: the infosheet header says UTC+0 despite its Gladesville, Australia venue. Australia/Sydney observes UTC+11:00 on February 28–March 1, as established by IANA host-zone rules."
     },
     {
       "id": "world-climbing-youth-championship-arco-2026",
@@ -705,9 +762,14 @@
           "url": "https://ifsc.results.info/events/1491/infosheet",
           "sha256": "70988fe0935e651da4e9356016cbfe347d0291f119fa44cba1ccf7575528fd07",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/australasia",
+          "sha256": "846ba455578e3e0f9eb850f05be3cc06d02ff51bbe4b726f755be9dc765f16c9",
+          "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Timezone discrepancy: the infosheet header says UTC+2 despite its New Zealand venue. Pacific/Auckland observes UTC+13:00 on February 14, as established by IANA host-zone rules."
     },
     {
       "id": "asian-games-aichi-nagoya-2026",
@@ -770,7 +832,7 @@
           "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Timezone discrepancy: the infosheet header says UTC+2; the newer official October 22 preview explicitly gives local UTC−03:00, consistent with America/Santiago on the event dates."
     },
     {
       "id": "world-climbing-series-chamonix-2026",
@@ -844,9 +906,19 @@
           "url": "https://ifsc.results.info/events/1488/infosheet",
           "sha256": "8df88fe54b615d2e2e5f308af4a6dca639485b03ca5ced045220e8b5529ad1ab",
           "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026/news/where-to-watch-the-world-climbing-series-salt-lake-city-2026",
+          "sha256": "f4267b8a1ad7aa09c18e0fb1e37cb2a2b55dbff9122add2f176fc17f9cf204c6",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/northamerica",
+          "sha256": "4046b382ee56e287a5ea0cfddae67297badcf9c8fb6b6e2ee8086898c847e147",
+          "checked_date": "2026-10-28"
         }
       ],
-      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+      "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Timezone discrepancy: the infosheet header says UTC+8 despite the USA venue. America/Denver (UTC−06:00 on event dates) is confirmed by the official October 14 viewing schedule and IANA rules."
     },
     {
       "id": "world-climbing-series-koper-2026",
@@ -980,6 +1052,45 @@
         }
       ],
       "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished."
+    },
+    {
+      "id": "south-american-games-santa-fe-2026",
+      "kind": "world_climbing",
+      "name": "Santa Fe 2026 / World Climbing: South American Games climbing",
+      "url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "revision": "V5-07MAY, updated by September 22/24/25 organizer bulletins",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "checked_date": "2026-10-28",
+      "sha256": "4c7e10adfb22d615d44f1b22268cf111597138c8a625caacfb543a81e5f1ba5e",
+      "evidence": [
+        {
+          "url": "https://santafe2026.ar/es/deportes/escalada",
+          "sha256": "4d920e074a4d73f2dc426cf89c376da11cd94b562c8f6307aeea71a183c61912",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://santafe2026.ar/node/859",
+          "sha256": "bb79dbe91502dd61ccca5fa79125853079d15f8b9387176a9a61fa24c9b0924a",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://santafe2026.ar/es/node/903",
+          "sha256": "14b93f4ea6d31a3365d955dbe82a5e8448718bbcd6f0ae972f25a6e4c6d1aa68",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
+          "sha256": "5958134734e187b0c66975230378c75dfa49ee5319def302947f669a511a16c7",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://data.iana.org/time-zones/tzdb-2026c/southamerica",
+          "sha256": "c6e17ee367c6d7c1ab613444641538bca6d11818d46feb96e565e98c45238a2b",
+          "checked_date": "2026-10-28"
+        }
+      ],
+      "changes": "Reviewed round/gender/discipline identities and September 22–25 dates from the May 7 technical manual; later organizer bulletins supersede its clocks. Shared blocks retain shared_session scope. The men’s Boulder final clock is disputed, and the following women’s Lead final has no separate clock, so both are date-only. ISEF 27 is in Santa Fe city; IANA America/Argentina/Cordoba explicitly covers Santa Fe province, UTC−03:00 in September 2026. No prose, results, media or source payloads republished."
     }
   ],
   "events": [
@@ -1336,36 +1447,66 @@
       "competition_phase": "championship"
     },
     {
-      "id": "world-climbing-asia-championship-meishan-2026-men-s-boulder-final",
+      "id": "world-climbing-asia-championship-meishan-2026-men-s-speed-final",
       "source_id": "world-climbing-asia-championship-meishan-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1515/infosheet"
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/asia-championship-live-on-youtube",
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/kusuma-dewi-shatters-asian-record-to-claim-speed-gold"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "CLIMBING_ASIA",
-      "title": "Asian Championships · Meishan · Men's Boulder Final",
-      "start_date": "2026-04-10",
-      "end_date": "2026-04-10",
+      "title": "Asian Championships · Meishan · Men's Speed Final",
+      "start_date": "2026-04-09",
+      "end_date": "2026-04-09",
       "event_type": "session",
       "venue": "Meishan, China",
       "event_timezone": "Asia/Shanghai",
       "disciplines": [
-        "Boulder"
+        "Speed"
       ],
       "round_or_stage": "final",
-      "local_time": null,
-      "notes": "Time withheld: the official event page/organizer sheet and April 9 streaming schedule disagree on this start or date.",
+      "local_time": "20:00",
+      "notes": "The April 9 official schedule and subsequent report establish the April 9 final, superseding the provisional April 11 entry. Shared programme start; no separate gender clock is published.",
       "gender": "men",
-      "competition_phase": "championship"
+      "competition_phase": "championship",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "world-climbing-asia-championship-meishan-2026-women-s-speed-final",
+      "source_id": "world-climbing-asia-championship-meishan-2026",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
+      "evidence_urls": [
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/asia-championship-live-on-youtube",
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/kusuma-dewi-shatters-asian-record-to-claim-speed-gold"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_ASIA",
+      "title": "Asian Championships · Meishan · Women's Speed Final",
+      "start_date": "2026-04-09",
+      "end_date": "2026-04-09",
+      "event_type": "session",
+      "venue": "Meishan, China",
+      "event_timezone": "Asia/Shanghai",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "final",
+      "local_time": "20:00",
+      "notes": "The April 9 official schedule and subsequent report establish the April 9 final, superseding the provisional April 11 entry. Shared programme start; no separate gender clock is published.",
+      "gender": "women",
+      "competition_phase": "championship",
+      "start_time_scope": "shared_session"
     },
     {
       "id": "world-climbing-asia-championship-meishan-2026-women-s-boulder-final",
       "source_id": "world-climbing-asia-championship-meishan-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1515/infosheet"
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/asia-championship-live-on-youtube",
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/mori-perfect-lee-near-flawless-in-boulder-finals-in-meishan"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
@@ -1380,9 +1521,35 @@
         "Boulder"
       ],
       "round_or_stage": "final",
-      "local_time": null,
-      "notes": "Time withheld: the official event page/organizer sheet and April 9 streaming schedule disagree on this start or date.",
+      "local_time": "14:00",
+      "notes": "The April 11 official report confirms the April 10 gender start, superseding the provisional event page/organizer clock.",
       "gender": "women",
+      "competition_phase": "championship"
+    },
+    {
+      "id": "world-climbing-asia-championship-meishan-2026-men-s-boulder-final",
+      "source_id": "world-climbing-asia-championship-meishan-2026",
+      "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
+      "evidence_urls": [
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/asia-championship-live-on-youtube",
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/mori-perfect-lee-near-flawless-in-boulder-finals-in-meishan"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_ASIA",
+      "title": "Asian Championships · Meishan · Men's Boulder Final",
+      "start_date": "2026-04-10",
+      "end_date": "2026-04-10",
+      "event_type": "session",
+      "venue": "Meishan, China",
+      "event_timezone": "Asia/Shanghai",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "final",
+      "local_time": "17:30",
+      "notes": "The April 11 official report confirms the April 10 gender start, superseding the provisional event page/organizer clock.",
+      "gender": "men",
       "competition_phase": "championship"
     },
     {
@@ -1390,7 +1557,8 @@
       "source_id": "world-climbing-asia-championship-meishan-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1515/infosheet"
+        "https://ifsc.results.info/events/1515/infosheet",
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/mori-perfect-lee-near-flawless-in-boulder-finals-in-meishan"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
@@ -1405,10 +1573,9 @@
         "Lead"
       ],
       "round_or_stage": "qualification",
-      "local_time": "13:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "local_time": null,
+      "notes": "Time withheld: the event timetable and streaming schedule publish 13:00; the later Boulder report publishes 14:00 alongside inconsistent date/weekday text. The April 11 date is supported by the organizer programme and streaming schedule.",
       "gender": "men",
-      "start_time_scope": "shared_session",
       "competition_phase": "championship"
     },
     {
@@ -1416,7 +1583,8 @@
       "source_id": "world-climbing-asia-championship-meishan-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1515/infosheet"
+        "https://ifsc.results.info/events/1515/infosheet",
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/mori-perfect-lee-near-flawless-in-boulder-finals-in-meishan"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
@@ -1431,59 +1599,8 @@
         "Lead"
       ],
       "round_or_stage": "qualification",
-      "local_time": "13:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
-      "gender": "women",
-      "start_time_scope": "shared_session",
-      "competition_phase": "championship"
-    },
-    {
-      "id": "world-climbing-asia-championship-meishan-2026-men-s-speed-final",
-      "source_id": "world-climbing-asia-championship-meishan-2026",
-      "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
-      "evidence_urls": [
-        "https://ifsc.results.info/events/1515/infosheet"
-      ],
-      "checked_date": "2026-10-28",
-      "sport": "climbing",
-      "league": "CLIMBING_ASIA",
-      "title": "Asian Championships · Meishan · Men's Speed Final",
-      "start_date": "2026-04-11",
-      "end_date": "2026-04-11",
-      "event_type": "session",
-      "venue": "Meishan, China",
-      "event_timezone": "Asia/Shanghai",
-      "disciplines": [
-        "Speed"
-      ],
-      "round_or_stage": "final",
       "local_time": null,
-      "notes": "Time withheld: the official event page/organizer sheet and April 9 streaming schedule disagree on this start or date.",
-      "gender": "men",
-      "competition_phase": "championship"
-    },
-    {
-      "id": "world-climbing-asia-championship-meishan-2026-women-s-speed-final",
-      "source_id": "world-climbing-asia-championship-meishan-2026",
-      "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026",
-      "evidence_urls": [
-        "https://ifsc.results.info/events/1515/infosheet"
-      ],
-      "checked_date": "2026-10-28",
-      "sport": "climbing",
-      "league": "CLIMBING_ASIA",
-      "title": "Asian Championships · Meishan · Women's Speed Final",
-      "start_date": "2026-04-11",
-      "end_date": "2026-04-11",
-      "event_type": "session",
-      "venue": "Meishan, China",
-      "event_timezone": "Asia/Shanghai",
-      "disciplines": [
-        "Speed"
-      ],
-      "round_or_stage": "final",
-      "local_time": null,
-      "notes": "Time withheld: the official event page/organizer sheet and April 9 streaming schedule disagree on this start or date.",
+      "notes": "Time withheld: the event timetable and streaming schedule publish 13:00; the later Boulder report publishes 14:00 alongside inconsistent date/weekday text. The April 11 date is supported by the organizer programme and streaming schedule.",
       "gender": "women",
       "competition_phase": "championship"
     },
@@ -1820,29 +1937,6 @@
       ]
     },
     {
-      "id": "asian-beach-games-sanya-2026",
-      "source_id": "asian-beach-games-sanya-2026",
-      "source_url": "https://www.worldclimbing.com/events/asian-beach-games-sanya-2026",
-      "checked_date": "2026-10-28",
-      "sport": "climbing",
-      "league": "CLIMBING_ASIAN_BEACH_GAMES",
-      "title": "Asian Beach Games Sanya",
-      "start_date": "2026-04-22",
-      "end_date": "2026-04-30",
-      "event_type": "tournament",
-      "venue": "Sanya, China",
-      "event_timezone": "Asia/Shanghai",
-      "disciplines": [
-        "Speed"
-      ],
-      "local_time": null,
-      "notes": "Games dates only. Men and women have Speed and Speed Relay events, but sport-specific round dates and start clocks are absent from the reviewed schedule.",
-      "genders": [
-        "men",
-        "women"
-      ]
-    },
-    {
       "id": "world-climbing-europe-series-kaunas-2026-men-s-boulder-qualification",
       "source_id": "world-climbing-europe-series-kaunas-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-series-kaunas-2026",
@@ -1987,6 +2081,32 @@
       "local_time": "19:50",
       "notes": "Published venue-local competition start.",
       "gender": "women"
+    },
+    {
+      "id": "asian-beach-games-sanya-2026",
+      "source_id": "asian-beach-games-sanya-2026",
+      "source_url": "https://www.worldclimbing.com/events/asian-beach-games-sanya-2026",
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_ASIAN_BEACH_GAMES",
+      "title": "Asian Beach Games Sanya",
+      "start_date": "2026-04-28",
+      "end_date": "2026-04-29",
+      "event_type": "tournament",
+      "venue": "Sanya, China",
+      "event_timezone": "Asia/Shanghai",
+      "disciplines": [
+        "Speed"
+      ],
+      "local_time": null,
+      "notes": "Sport-specific climbing dates April 28–29 are published in the April 14 official report. Men and women have Speed and Speed Relay events. Round dates and local start clocks are not published in the reviewed schedule.",
+      "genders": [
+        "men",
+        "women"
+      ],
+      "evidence_urls": [
+        "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/team-japan-take-two-lead-golds-in-meishan"
+      ]
     },
     {
       "id": "world-climbing-series-keqiao-2026-women-s-boulder-qualification",
@@ -4872,7 +4992,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "18:00",
-      "notes": "The programme does not identify gender categories for this round block.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -5065,7 +5185,7 @@
       ],
       "round_or_stage": "final",
       "local_time": "16:00",
-      "notes": "The programme does not identify gender categories for this round block.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -5552,7 +5672,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "17:30",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "The programme starts with women, then men. This clock is the shared round-block start; the men’s individual category start is not separately published.",
       "gender": "men",
       "start_time_scope": "shared_session"
     },
@@ -5577,7 +5697,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "17:30",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "The programme starts with women, then men. This clock is the shared round-block start; the men’s individual category start is not separately published.",
       "gender": "women",
       "start_time_scope": "shared_session"
     },
@@ -5602,7 +5722,7 @@
       ],
       "round_or_stage": "final",
       "local_time": "19:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "The programme starts with women, then men. This clock is the shared round-block start; the men’s individual category start is not separately published.",
       "gender": "men",
       "start_time_scope": "shared_session"
     },
@@ -5627,7 +5747,7 @@
       ],
       "round_or_stage": "final",
       "local_time": "19:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "The programme starts with women, then men. This clock is the shared round-block start; the men’s individual category start is not separately published.",
       "gender": "women",
       "start_time_scope": "shared_session"
     },
@@ -7162,7 +7282,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "12:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "For this age group, qualification starts with women, then men. This clock is the shared block start, not a separately published men’s start.",
       "gender": "men",
       "start_time_scope": "shared_session",
       "tags": [
@@ -7191,7 +7311,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "12:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "For this age group, qualification starts with women, then men. This clock is the shared block start, not a separately published men’s start.",
       "gender": "women",
       "start_time_scope": "shared_session",
       "tags": [
@@ -7220,7 +7340,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "13:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "For this age group, qualification starts with women, then men. This clock is the shared block start, not a separately published men’s start.",
       "gender": "men",
       "start_time_scope": "shared_session",
       "tags": [
@@ -7249,7 +7369,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "13:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "For this age group, qualification starts with women, then men. This clock is the shared block start, not a separately published men’s start.",
       "gender": "women",
       "start_time_scope": "shared_session",
       "tags": [
@@ -7390,7 +7510,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "11:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "The programme starts qualification with women, then men. This clock is the shared block start, not a separately published men’s start.",
       "gender": "men",
       "start_time_scope": "shared_session"
     },
@@ -7415,7 +7535,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "11:00",
-      "notes": "Shared programme start; this gender/category has no separate published start.",
+      "notes": "The programme starts qualification with women, then men. This clock is the shared block start, not a separately published men’s start.",
       "gender": "women",
       "start_time_scope": "shared_session"
     },
@@ -7740,29 +7860,6 @@
       ]
     },
     {
-      "id": "world-climbing-europe-series-ostermundigen-2026-lead-qualification",
-      "source_id": "world-climbing-europe-series-ostermundigen-2026",
-      "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-series-ostermundigen-2026",
-      "evidence_urls": [
-        "https://ifsc.results.info/events/1508/infosheet"
-      ],
-      "checked_date": "2026-10-28",
-      "sport": "climbing",
-      "league": "CLIMBING_CONTINENTAL_CUP",
-      "title": "World Climbing Europe Series Ostermundigen · Lead Qualification",
-      "start_date": "2026-08-21",
-      "end_date": "2026-08-21",
-      "event_type": "session",
-      "venue": "Ostermundigen, Switzerland",
-      "event_timezone": "Europe/Zurich",
-      "disciplines": [
-        "Lead"
-      ],
-      "round_or_stage": "qualification",
-      "local_time": "09:00",
-      "notes": "The programme does not identify gender categories for this round block. Gender/category allocation is not published for this block."
-    },
-    {
       "id": "world-climbing-europe-series-ostermundigen-2026-men-s-lead-qualification",
       "source_id": "world-climbing-europe-series-ostermundigen-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-series-ostermundigen-2026",
@@ -7931,29 +8028,6 @@
         "Youth"
       ],
       "competition_phase": "championship"
-    },
-    {
-      "id": "world-climbing-europe-series-ostermundigen-2026-lead-semi-final",
-      "source_id": "world-climbing-europe-series-ostermundigen-2026",
-      "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-series-ostermundigen-2026",
-      "evidence_urls": [
-        "https://ifsc.results.info/events/1508/infosheet"
-      ],
-      "checked_date": "2026-10-28",
-      "sport": "climbing",
-      "league": "CLIMBING_CONTINENTAL_CUP",
-      "title": "World Climbing Europe Series Ostermundigen · Lead Semi-final",
-      "start_date": "2026-08-21",
-      "end_date": "2026-08-21",
-      "event_type": "session",
-      "venue": "Ostermundigen, Switzerland",
-      "event_timezone": "Europe/Zurich",
-      "disciplines": [
-        "Lead"
-      ],
-      "round_or_stage": "semi-final",
-      "local_time": "19:00",
-      "notes": "The programme does not identify gender categories for this round block. Gender/category allocation is not published for this block."
     },
     {
       "id": "world-climbing-europe-series-ostermundigen-2026-men-s-lead-semi-final",
@@ -8992,7 +9066,8 @@
       "source_id": "world-climbing-europe-para-championship-laval-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-para-championship-laval-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1534/infosheet"
+        "https://ifsc.results.info/events/1534/infosheet",
+        "https://ifsc.results.info/events/1486/infosheet"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
@@ -9021,7 +9096,8 @@
       "source_id": "world-climbing-europe-para-championship-laval-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-para-championship-laval-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1534/infosheet"
+        "https://ifsc.results.info/events/1534/infosheet",
+        "https://ifsc.results.info/events/1486/infosheet"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
@@ -9106,12 +9182,13 @@
       "source_id": "world-climbing-europe-para-championship-laval-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-para-championship-laval-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1534/infosheet"
+        "https://ifsc.results.info/events/1534/infosheet",
+        "https://ifsc.results.info/events/1486/infosheet"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "CLIMBING_EUROPE",
-      "title": "European Para Championships · Laval · Men's Lead Final · Session 1",
+      "title": "European Para Championships · Laval · Men's Lead Final (Session 1)",
       "start_date": "2026-08-28",
       "end_date": "2026-08-28",
       "event_type": "session",
@@ -9135,12 +9212,13 @@
       "source_id": "world-climbing-europe-para-championship-laval-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-para-championship-laval-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1534/infosheet"
+        "https://ifsc.results.info/events/1534/infosheet",
+        "https://ifsc.results.info/events/1486/infosheet"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "CLIMBING_EUROPE",
-      "title": "European Para Championships · Laval · Women's Lead Final · Session 1",
+      "title": "European Para Championships · Laval · Women's Lead Final (Session 1)",
       "start_date": "2026-08-28",
       "end_date": "2026-08-28",
       "event_type": "session",
@@ -9169,7 +9247,7 @@
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "IFSC_PARA_WORLD_CUP",
-      "title": "Para World Cup · Laval · Men's Lead Final · Session 1",
+      "title": "Para World Cup · Laval · Men's Lead Final (Session 1)",
       "start_date": "2026-08-28",
       "end_date": "2026-08-28",
       "event_type": "session",
@@ -9197,7 +9275,7 @@
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "IFSC_PARA_WORLD_CUP",
-      "title": "Para World Cup · Laval · Women's Lead Final · Session 1",
+      "title": "Para World Cup · Laval · Women's Lead Final (Session 1)",
       "start_date": "2026-08-28",
       "end_date": "2026-08-28",
       "event_type": "session",
@@ -9324,12 +9402,13 @@
       "source_id": "world-climbing-europe-para-championship-laval-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-para-championship-laval-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1534/infosheet"
+        "https://ifsc.results.info/events/1534/infosheet",
+        "https://ifsc.results.info/events/1486/infosheet"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "CLIMBING_EUROPE",
-      "title": "European Para Championships · Laval · Men's Lead Final · Session 2",
+      "title": "European Para Championships · Laval · Men's Lead Final (Session 2)",
       "start_date": "2026-08-29",
       "end_date": "2026-08-29",
       "event_type": "session",
@@ -9353,12 +9432,13 @@
       "source_id": "world-climbing-europe-para-championship-laval-2026",
       "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-para-championship-laval-2026",
       "evidence_urls": [
-        "https://ifsc.results.info/events/1534/infosheet"
+        "https://ifsc.results.info/events/1534/infosheet",
+        "https://ifsc.results.info/events/1486/infosheet"
       ],
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "CLIMBING_EUROPE",
-      "title": "European Para Championships · Laval · Women's Lead Final · Session 2",
+      "title": "European Para Championships · Laval · Women's Lead Final (Session 2)",
       "start_date": "2026-08-29",
       "end_date": "2026-08-29",
       "event_type": "session",
@@ -9387,7 +9467,7 @@
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "IFSC_PARA_WORLD_CUP",
-      "title": "Para World Cup · Laval · Men's Lead Final · Session 2",
+      "title": "Para World Cup · Laval · Men's Lead Final (Session 2)",
       "start_date": "2026-08-29",
       "end_date": "2026-08-29",
       "event_type": "session",
@@ -9415,7 +9495,7 @@
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "IFSC_PARA_WORLD_CUP",
-      "title": "Para World Cup · Laval · Women's Lead Final · Session 2",
+      "title": "Para World Cup · Laval · Women's Lead Final (Session 2)",
       "start_date": "2026-08-29",
       "end_date": "2026-08-29",
       "event_type": "session",
@@ -10298,7 +10378,7 @@
       ],
       "round_or_stage": "final",
       "local_time": "20:30",
-      "notes": "Published venue-local competition start.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -10325,7 +10405,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": null,
-      "notes": "The qualification start is not separated from practice in the organizer block.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -10450,7 +10530,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "11:25",
-      "notes": "The programme does not identify gender categories for this round block.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -10477,7 +10557,7 @@
       ],
       "round_or_stage": "final",
       "local_time": "19:30",
-      "notes": "The programme does not identify gender categories for this round block.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -10790,7 +10870,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": "11:25",
-      "notes": "The programme does not identify gender categories for this round block.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -10907,7 +10987,7 @@
       ],
       "round_or_stage": "final",
       "local_time": "19:30",
-      "notes": "The programme does not identify gender categories for this round block.",
+      "notes": "Explicitly mixed relay event with men and women on the same team; this is one competition round.",
       "genders": [
         "men",
         "women"
@@ -11310,6 +11390,348 @@
       "notes": "Shared programme start; this gender/category has no separate published start.",
       "gender": "women",
       "start_time_scope": "shared_session"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-womens-boulder-qualification",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/node/859"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Women's Boulder Qualification",
+      "start_date": "2026-09-22",
+      "end_date": "2026-09-22",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "qualification",
+      "gender": "women",
+      "local_time": "10:00",
+      "competition_phase": "championship",
+      "notes": "Published venue-local competition start."
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-womens-boulder-final",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/node/859"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Women's Boulder Final",
+      "start_date": "2026-09-22",
+      "end_date": "2026-09-22",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "final",
+      "gender": "women",
+      "local_time": "17:00",
+      "competition_phase": "championship",
+      "notes": "The September 22 organizer bulletin supersedes the manual’s 18:30 start."
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-mens-boulder-qualification",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Men's Boulder Qualification",
+      "start_date": "2026-09-23",
+      "end_date": "2026-09-23",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "qualification",
+      "gender": "men",
+      "local_time": "10:00",
+      "competition_phase": "championship",
+      "notes": "Published venue-local competition start."
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-mens-boulder-final",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Men's Boulder Final",
+      "start_date": "2026-09-23",
+      "end_date": "2026-09-23",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Boulder"
+      ],
+      "round_or_stage": "final",
+      "gender": "men",
+      "local_time": null,
+      "competition_phase": "championship",
+      "notes": "Time withheld: manual publishes 18:30, while contemporaneous reports give 17:30; no confirming official update was found."
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-mens-speed-qualification",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/node/903"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Men's Speed Qualification",
+      "start_date": "2026-09-24",
+      "end_date": "2026-09-24",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "qualification",
+      "gender": "men",
+      "local_time": "10:50",
+      "competition_phase": "championship",
+      "notes": "Shared men’s/women’s programme start; no separate gender start is published.",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-womens-speed-qualification",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/node/903"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Women's Speed Qualification",
+      "start_date": "2026-09-24",
+      "end_date": "2026-09-24",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "qualification",
+      "gender": "women",
+      "local_time": "10:50",
+      "competition_phase": "championship",
+      "notes": "Shared men’s/women’s programme start; no separate gender start is published.",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-mens-speed-final",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/node/903"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Men's Speed Final",
+      "start_date": "2026-09-24",
+      "end_date": "2026-09-24",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "final",
+      "gender": "men",
+      "local_time": "11:15",
+      "competition_phase": "championship",
+      "notes": "Shared men’s/women’s programme start; no separate gender start is published.",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-womens-speed-final",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/node/903"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Women's Speed Final",
+      "start_date": "2026-09-24",
+      "end_date": "2026-09-24",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Speed"
+      ],
+      "round_or_stage": "final",
+      "gender": "women",
+      "local_time": "11:15",
+      "competition_phase": "championship",
+      "notes": "Shared men’s/women’s programme start; no separate gender start is published.",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-mens-lead-qualification",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Men's Lead Qualification",
+      "start_date": "2026-09-25",
+      "end_date": "2026-09-25",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "qualification",
+      "gender": "men",
+      "local_time": "10:00",
+      "competition_phase": "championship",
+      "notes": "Shared men’s/women’s programme start; no separate gender start is published.",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-womens-lead-qualification",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Women's Lead Qualification",
+      "start_date": "2026-09-25",
+      "end_date": "2026-09-25",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "qualification",
+      "gender": "women",
+      "local_time": "10:00",
+      "competition_phase": "championship",
+      "notes": "Shared men’s/women’s programme start; no separate gender start is published.",
+      "start_time_scope": "shared_session"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-mens-lead-final",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Men's Lead Final",
+      "start_date": "2026-09-25",
+      "end_date": "2026-09-25",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "final",
+      "gender": "men",
+      "local_time": "16:00",
+      "competition_phase": "championship",
+      "notes": "Published venue-local competition start."
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-womens-lead-final",
+      "source_id": "south-american-games-santa-fe-2026",
+      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "evidence_urls": [
+        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+        "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
+      ],
+      "checked_date": "2026-10-28",
+      "sport": "climbing",
+      "league": "CLIMBING_SOUTH_AM_GAMES",
+      "title": "South American Games · Santa Fe · Women's Lead Final",
+      "start_date": "2026-09-25",
+      "end_date": "2026-09-25",
+      "event_type": "session",
+      "venue": "ISEF N.º 27",
+      "city": "Santa Fe",
+      "country": "Argentina",
+      "event_timezone": "America/Argentina/Cordoba",
+      "disciplines": [
+        "Lead"
+      ],
+      "round_or_stage": "final",
+      "gender": "women",
+      "local_time": null,
+      "competition_phase": "championship",
+      "notes": "The organizer says the women’s final follows the men’s 16:00 final; it does not publish a separate women’s start."
     },
     {
       "id": "asian-games-aichi-nagoya-2026-men-s-boulder-semi-final",
@@ -11742,7 +12164,7 @@
       ],
       "round_or_stage": "qualification",
       "local_time": null,
-      "notes": "Time withheld: source clocks disagree or the gender start is published only as a not-before bound; see source evidence.",
+      "notes": "Time withheld: official event page lists 16:00; organizer information sheet v5.0 and official viewing schedule list 15:30. Venue timezone: America/Denver.",
       "gender": "women"
     },
     {
@@ -12274,7 +12696,7 @@
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "IFSC_PARA_WORLD_CUP",
-      "title": "Para World Cup · Fukuoka · Lead Qualification · Block 1",
+      "title": "Para World Cup · Fukuoka · Lead Qualification (Block 1)",
       "start_date": "2026-11-05",
       "end_date": "2026-11-05",
       "event_type": "session",
@@ -12300,7 +12722,7 @@
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "IFSC_PARA_WORLD_CUP",
-      "title": "Para World Cup · Fukuoka · Lead Qualification · Block 2",
+      "title": "Para World Cup · Fukuoka · Lead Qualification (Block 2)",
       "start_date": "2026-11-05",
       "end_date": "2026-11-05",
       "event_type": "session",
@@ -12326,7 +12748,7 @@
       "checked_date": "2026-10-28",
       "sport": "climbing",
       "league": "IFSC_PARA_WORLD_CUP",
-      "title": "Para World Cup · Fukuoka · Lead Final · Block 3",
+      "title": "Para World Cup · Fukuoka · Lead Final (Block 3)",
       "start_date": "2026-11-06",
       "end_date": "2026-11-06",
       "event_type": "session",

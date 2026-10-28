@@ -349,7 +349,20 @@
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
       "sha256": "97c98d2eb796a250b58079f6f1984d70bc1957b2eeaa05725e3abd58aa7b6cbc",
-      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred."
+      "changes": "Factual named Games identity and published dates/disciplines only. Sport dates distinguished from whole-Games dates; clocks and round categories not inferred.",
+      "evidence": [
+        {
+          "url": "https://www.worldclimbing.com/events/olympic-games-la28-x7861/news/climbing-to-feature-in-expanded-olympic-q-series",
+          "sha256": "3763c8ae51e2620c68a2d2fb008114a6e4f77aacf7250c66d14ba4c8dd273358",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://images.ifsc-climbing.org/ifsc/image/private/fl_attachment/prd/swjs9xgiv4i1fec7yyk3",
+          "sha256": "8b3bcc6e9c72e90cb5f83792757edc9fea7abd8f4c452157a334e21af715ddfd",
+          "checked_date": "2026-10-28",
+          "description": "European Games climbing qualification system, 28 April 2026, pp. 1 and 6: categories and sport dates"
+        }
+      ]
     },
     {
       "id": "climbing-pan-am-games-2027",
@@ -365,6 +378,16 @@
         {
           "url": "https://www.panamsports.org/wp-content/uploads/2026/05/Calendario-Lima-2027_Comunicado-ENG_May14.pdf",
           "sha256": "29ae451d619a435a34223a781498c6270fe95f5ec8e915f25ebf2aba5be8ce58",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://www.worldclimbing.com/events/olympic-games-la28-x7861/news/climbing-to-feature-in-expanded-olympic-q-series",
+          "sha256": "3763c8ae51e2620c68a2d2fb008114a6e4f77aacf7250c66d14ba4c8dd273358",
+          "checked_date": "2026-10-28"
+        },
+        {
+          "url": "https://images.ifsc-climbing.org/ifsc/image/private/t_q_good/prd/sdwuuiz0goglovts43xg.pdf",
+          "sha256": "9d648a49b62c6e8fca6a32b7d78d9dac2a984e58d2fc21e5f174163cf88735f8",
           "checked_date": "2026-10-28"
         }
       ],
@@ -803,7 +826,7 @@
       "sport": "climbing",
       "league": "CLIMBING_EUROPEAN_GAMES",
       "title": "European Games · Istanbul",
-      "start_date": "2027-06-16",
+      "start_date": "2027-06-24",
       "end_date": "2027-06-27",
       "event_type": "tournament",
       "venue": "Istanbul, Türkiye",
@@ -814,7 +837,15 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Games date span only. Climbing round dates, clocks and gender categories are not yet published in the reviewed calendar."
+      "notes": "Sport-specific climbing dates June 24–27 and men’s/women’s Boulder, Lead and Speed events are confirmed by the April 28 qualification system. Round dates and local start clocks are not published yet.",
+      "evidence_urls": [
+        "https://www.worldclimbing.com/events/olympic-games-la28-x7861/news/climbing-to-feature-in-expanded-olympic-q-series",
+        "https://images.ifsc-climbing.org/ifsc/image/private/fl_attachment/prd/swjs9xgiv4i1fec7yyk3"
+      ],
+      "genders": [
+        "men",
+        "women"
+      ]
     },
     {
       "id": "world-climbing-europe-series-vendespace-boulder-2027",
@@ -934,13 +965,15 @@
         "Speed"
       ],
       "local_time": null,
-      "notes": "Climbing sport dates are July 24–27 in the organizer calendar. Round dates and start clocks are not yet published.",
+      "notes": "Climbing sport dates July 24–27 are published in the organizer calendar. The official qualification system explicitly lists men’s and women’s Boulder, Lead and Speed categories. Round dates and start clocks are not published yet.",
+      "evidence_urls": [
+        "https://www.panamsports.org/wp-content/uploads/2026/05/Calendario-Lima-2027_Comunicado-ENG_May14.pdf",
+        "https://www.worldclimbing.com/events/olympic-games-la28-x7861/news/climbing-to-feature-in-expanded-olympic-q-series",
+        "https://images.ifsc-climbing.org/ifsc/image/private/t_q_good/prd/sdwuuiz0goglovts43xg.pdf"
+      ],
       "genders": [
         "men",
         "women"
-      ],
-      "evidence_urls": [
-        "https://www.panamsports.org/wp-content/uploads/2026/05/Calendario-Lima-2027_Comunicado-ENG_May14.pdf"
       ]
     },
     {
@@ -1320,7 +1353,7 @@
         "Lead"
       ],
       "local_time": null,
-      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar."
+      "notes": "Published competition dates and disciplines only; round dates and start clocks are not yet published in the reviewed sources. Gender is not specified by the published calendar. The Australian host city is unpublished, so its venue timezone is not assigned."
     },
     {
       "id": "world-climbing-oceania-qualifier-mount-maunganui-2027",

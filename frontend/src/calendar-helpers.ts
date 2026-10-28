@@ -97,6 +97,7 @@ const CLIMBING_COMPETITIONS: Record<string, string> = {
   CLIMBING_ASIAN_BEACH_GAMES: "Asian Beach Games",
   CLIMBING_EUROPEAN_GAMES: "European Games",
   CLIMBING_PAN_AM_GAMES: "Pan Am Games",
+  CLIMBING_SOUTH_AM_GAMES: "South American Games",
 };
 
 const SPORT_GROUPS = [

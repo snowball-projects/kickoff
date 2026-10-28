@@ -20,7 +20,13 @@ LICENSES = {
 
 
 # Reviewed factual schedules, with event metadata and evidence kept in data/reviewed.
-CLIMBING_HOSTS = {"www.worldclimbing.com", "worldclimbing.com", "www.ifsc-climbing.org", "ifsc.results.info"}
+CLIMBING_HOSTS = {
+    "www.worldclimbing.com",
+    "worldclimbing.com",
+    "www.ifsc-climbing.org",
+    "ifsc.results.info",
+    "santafe2026.ar",
+}
 CLIMBING_LICENSE = "Schedule facts; no data license granted"
 CLIMBING_TERMS = "https://www.worldclimbing.com/terms-and-conditions/index"
 WEIGHTLIFTING_LICENSE = "Schedule facts; no data license granted"
@@ -47,7 +53,11 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         policy = LICENSES.get(url.netloc)
         official = source.get("kind") == "world_climbing" and url.netloc in CLIMBING_HOSTS
         if official:
-            policy = ("world_climbing", CLIMBING_LICENSE, CLIMBING_TERMS)
+            policy = (
+                "world_climbing",
+                CLIMBING_LICENSE,
+                CLIMBING_TERMS if source["license_url"] == CLIMBING_TERMS else source["url"],
+            )
         if source.get("kind") == "weightlifting" and url.netloc in WEIGHTLIFTING_HOSTS:
             official = True
             policy = ("weightlifting", WEIGHTLIFTING_LICENSE, source["url"])

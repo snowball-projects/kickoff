@@ -27,7 +27,7 @@ const event = (id: string, fields = {}) => ({
 const events = [
   ...["Men", "Women"].flatMap((gender) => ["Boulder", "Lead", "Speed"].flatMap((discipline) =>
     ["qualification", "semifinal", "final"].map((round, index) => event(`${gender}-${discipline}-${round}`, {
-      title: `Fixture World Cup — ${gender}'s ${discipline} ${round}`, tags: [gender, discipline],
+      title: `Fixture World Cup · ${gender}'s ${discipline} ${round}`, tags: [gender, discipline],
       start_time_utc: `2026-09-10T${["09", "12", "18"][index]}:00:00Z`,
     })))),
   ...continents.flatMap((league) => ["Men", "Women"].map((gender) => event(`${league}-${gender}`, {
@@ -35,7 +35,7 @@ const events = [
     tags: [gender],
   }))),
   ...climbingContinents.flatMap((league) => ["Men", "Women"].map((gender) => event(`${league}-${gender}`, {
-    league, title: `${league === "CLIMBING_EUROPE" ? "European Championships" : league} — ${gender}'s Boulder final`,
+    league, title: `${league === "CLIMBING_EUROPE" ? "European Championships" : league} · ${gender}'s Boulder final`,
     tags: [gender, "Boulder"],
   }))),
   ...Object.keys(climbingFamilies).map((league) => event(league, {
@@ -91,7 +91,7 @@ test("saved continental subsets stay mixed and unchanged until the combined chec
   await page.reload();
   const day = page.locator("#day-2026-09-10");
   await expect(day).toContainText("European Championships · Men's 60 kg, Group A");
-  await expect(day).toContainText("European Championships — Men's Boulder final");
+  await expect(day).toContainText("European Championships · Men's Boulder final");
   await expect(day).not.toContainText("WEIGHTLIFTING_AFRICA");
   await expect(day).not.toContainText("CLIMBING_AFRICA");
   await expect(day).not.toContainText("Women's");
