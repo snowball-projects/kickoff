@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { leagueVisual } from "./calendar-helpers";
 import { eventTimeLabel } from "./date-utils";
-import { DAY_HEIGHT, HOUR_HEIGHT, PILL_HEIGHT, dayTimeline, hourLabel, initialMinute, slotLanes, timelineLanes, visibleSlot } from "./day-timeline";
+import { DAY_HEIGHT, HOUR_HEIGHT, PILL_HEIGHT, dayTimeline, hourLabel, initialMinute, timelineLanes, visibleSlot } from "./day-timeline";
 import { EventFlags, SportIcon } from "./EventIdentity";
 import EventPreview, { useEventPreview } from "./EventPreview";
 import type { EventCard } from "./types";
@@ -38,13 +38,21 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
   }
   function closeDetails() {
     onSelect(undefined);
+    if (selected && overflowItems.length) return;
     setOverflow([]);
     opener.current?.focus({ preventScroll: true });
   }
   function pill(event: EventCard) {
     return <button key={event.event_id} data-event-id={event.event_id}
       className={`timeline-pill ${leagueVisual(event.league, event.sport).className}`}
-      onClick={(click) => { preview.close(); setOverflow([]); opener.current = click.currentTarget; onSelect(event.event_id); }}
+      onClick={(click) => {
+        preview.close();
+        if (!click.currentTarget.closest(".timeline-details")) {
+          setOverflow([]);
+          opener.current = click.currentTarget;
+        }
+        onSelect(event.event_id);
+      }}
       onPointerEnter={(pointer) => {
         if (pointer.pointerType !== "touch") preview.show({ event, date, target: pointer.currentTarget });
       }} onPointerLeave={preview.leave}
@@ -83,13 +91,16 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
         </div>)}
       </div>
     </section>}
-    <div className="day-scroll" ref={scroller} tabIndex={0} role="region" aria-label="Day timeline" onScroll={preview.close}>
+    <div className="day-scroll" ref={scroller} tabIndex={0} role="region" aria-label="Day timeline" onScroll={preview.close}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && preview.preview) { event.stopPropagation(); preview.close(); }
+      }}>
       <div className="timeline-grid" style={{ height: DAY_HEIGHT + PILL_HEIGHT + 16 }}>
         {Array.from({ length: 25 }, (_, hour) => <div className="timeline-hour" key={hour} style={{ top: hour * HOUR_HEIGHT }}>
           <span>{hourLabel(hour)}</span><i />
         </div>)}
         <div className="timeline-events">
-          {timelineLanes(timed, expanded).map(({ group, top, end, lane, columns }, index) => {
+          {timelineLanes(timed, expanded).map(({ group, top, end, lane, columns, slots }, index) => {
             const open = expanded.has(group.key) && group.items.length > 1;
             const id = `timeline-group-${index}`;
             return <div key={group.key} data-competition={group.name} className={`timeline-group ${open ? "is-expanded" : ""} ${leagueVisual(group.items[0].league, group.items[0].sport).className}`}
@@ -97,7 +108,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
               {group.items.length === 1 ? pill(group.items[0])
                 : groupButton(group.key, group.name, group.items, open, id, open)}
               {group.items.length > 1 && <div id={id} hidden={!open} className="timeline-subpills">
-                {slotLanes(group).map(({ minute, events, top: slotTop, lane: slotLane, columns: slotColumns }) => {
+                {slots.map(({ minute, events, top: slotTop, lane: slotLane, columns: slotColumns }) => {
                   const { shown, more } = visibleSlot(events);
                   return <div className="timeline-slot" key={minute} style={{ top: slotTop, left: `${slotLane * 100 / slotColumns}%`, width: `${100 / slotColumns}%` }}>
                     {shown.map(pill)}

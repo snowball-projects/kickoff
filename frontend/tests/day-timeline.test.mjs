@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
 
-const { clockMinute, dayTimeline, isAllDay, initialMinute, timelineLanes, slotLanes, visibleSlot, hourLabel, HOUR_HEIGHT, PILL_HEIGHT, DAY_HEIGHT } = await loadModule("day-timeline");
+const { clockMinute, dayTimeline, isAllDay, initialMinute, timelineLanes, visibleSlot, hourLabel, HOUR_HEIGHT, PILL_HEIGHT, DAY_HEIGHT } = await loadModule("day-timeline");
 const event = (id, fields = {}) => ({
   event_id: id, source: "fixture", season: "2026", status: "scheduled", competition_phase: "regular_season",
   league: "NFL", sport: "football", event_type: "game", title: id, calendar_date: "2026-09-10",
@@ -46,13 +46,13 @@ test("competition identities match month grouping and only visible events enter 
 
 test("lanes avoid visual overlaps and expansion preserves all vertical positions", () => {
   const { timed } = dayTimeline([event("one"), event("later", { start_time_utc: "2026-09-10T19:00:00Z" }),
-    event("other", { league: "NBA", sport: "basketball", start_time_utc: "2026-09-10T18:00:00Z" })], "UTC");
+    event("other", { league: "NBA", sport: "basketball", start_time_utc: "2026-09-10T18:15:00Z" })], "UTC");
   const collapsed = timelineLanes(timed, new Set());
   const expanded = timelineLanes(timed, new Set(timed.map((group) => group.key)));
   assert.deepEqual(collapsed.map((entry) => entry.top), expanded.map((entry) => entry.top));
   assert.ok(collapsed.every((entry) => entry.end - entry.top === PILL_HEIGHT));
-  assert.ok(expanded.every((entry) => entry.columns === 2));
-  assert.notEqual(expanded[0].lane, expanded[1].lane);
+  assert.ok(expanded.every((entry) => entry.columns === 1));
+  assert.ok(expanded.every((entry) => entry.slots.every((slot) => slot.columns === 1)));
 });
 
 test("same-minute slots keep at most three controls and expose the exact overflow", () => {
@@ -76,7 +76,7 @@ test("opening today uses now, another day uses its first event or midnight", () 
 
 test("nearby starts use separate lanes without displacing their true minute positions", () => {
   const { timed } = dayTimeline([event("first"), event("second", { start_time_utc: "2026-09-10T17:45:00Z" })], "UTC");
-  const slots = slotLanes(timed[0]);
+  const slots = timelineLanes(timed, new Set([timed[0].key]))[0].slots;
   assert.deepEqual(slots.map((slot) => slot.top), [0, 20]);
   assert.deepEqual(slots.map((slot) => slot.columns), [2, 2]);
   assert.notEqual(slots[0].lane, slots[1].lane);

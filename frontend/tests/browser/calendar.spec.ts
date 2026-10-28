@@ -1,3 +1,4 @@
+import { openDayEvent } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 // Every schedule request is answered locally. Missing years deliberately return
@@ -524,6 +525,7 @@ for (const fixture of [
       const detail = page.getByRole("complementary", { name: "Day events" });
       await expect(detail.getByRole("heading", { name: fixture.heading, exact: true })).toBeVisible();
       await expect(detail).toContainText("Timed boundary fixture");
+      await openDayEvent(page, "Timed boundary fixture");
       await expect(detail.locator(".event-time")).toHaveText(fixture.time);
       await page.getByRole("button", { name: "Close day" }).click();
       await page.locator("#day-2026-09-10").click();

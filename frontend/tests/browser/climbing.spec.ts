@@ -27,7 +27,7 @@ test("official climbing disciplines, time rollover, withheld clocks and sources 
   await expect(detail).toContainText("Men's Lead Qualification");
   await expect(detail).toContainText("Men's Speed Final");
   await expect(detail).toContainText("Women's Speed Final");
-  await expect(detail.locator(".timeline-clock").filter({ hasText: /^Session starts 9:00 PM$/ })).toHaveCount(2);
+  await expect(detail.locator(".timeline-clock").filter({ hasText: /^Session starts 9:00 PM/ })).toHaveCount(2);
   await expect(page.locator("#day-2026-10-24 .competition-chip")).toContainText("Santiago · 3 sessions");
 
   await expect(detail.getByRole("link", { name: "Schedule source" }).first()).toHaveAttribute("href", /worldclimbing.com\/events\/world-climbing-series-santiago-2026$/);
@@ -42,9 +42,9 @@ test("official climbing disciplines, time rollover, withheld clocks and sources 
     await expect(detail).toContainText(`${gender} Lead Semi-final`);
     await expect(detail).toContainText(`${gender} Lead Final`);
   }
-  await expect(detail.getByText("Session starts 12:00 PM", { exact: true })).toHaveCount(2);
+  await expect(detail.locator(".timeline-clock").filter({ hasText: /^Session starts 12:00 PM/ })).toHaveCount(2);
   await expect(detail.getByText("Time TBD", { exact: true })).toHaveCount(0);
-  await expect(detail.getByText("9:00 PM", { exact: true })).toHaveCount(1);
-  await expect(detail.getByText("10:00 PM", { exact: true })).toHaveCount(1);
+  await expect(detail.locator(".timeline-clock").filter({ hasText: /^9:00 PM/ })).toHaveCount(1);
+  await expect(detail.locator(".timeline-clock").filter({ hasText: /^10:00 PM/ })).toHaveCount(1);
   await page.screenshot({ path: "test-results/climbing-separated-rounds.png" });
 });

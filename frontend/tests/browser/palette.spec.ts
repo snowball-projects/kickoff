@@ -55,8 +55,10 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390])
     await page.screenshot({ path: `test-results/palette-month-${theme}-${width}.png` });
     await day.click();
     await expect(page.getByRole("complementary", { name: "Day events" })).toBeVisible();
-    const labels = await page.locator(".day-inspector .league-label").evaluateAll((elements) => elements.map((element) => [getComputedStyle(element).color, getComputedStyle(document.documentElement).getPropertyValue("--page").trim()]));
-    for (const [color, background] of labels) expect(contrast(hex(color), background)).toBeGreaterThanOrEqual(4.5);
+    const timelinePills = page.locator(".day-inspector .timeline-pill");
+    expect(await timelinePills.count()).toBeGreaterThan(0);
+    const colors = await timelinePills.evaluateAll((elements) => elements.map((element) => [getComputedStyle(element).color, getComputedStyle(element).backgroundColor]));
+    for (const [color, background] of colors) expect(contrast(hex(color), hex(background))).toBeGreaterThanOrEqual(4.5);
     await page.getByRole("button", { name: "Close day", exact: true }).click();
     await page.getByRole("button", { name: /^Interests ·/ }).click();
     const chooser = page.getByRole("dialog", { name: "Interests", exact: true });

@@ -2,7 +2,8 @@ import { expect, type Page } from "@playwright/test";
 
 export async function expandDayGroups(page: Page) {
   const panel = page.getByRole("complementary", { name: "Day events" });
-  for (const toggle of await panel.locator('.timeline-group-toggle[aria-expanded="false"]').all()) await toggle.click();
+  const toggles = panel.locator('.timeline-group-toggle[aria-expanded="false"]');
+  while (await toggles.count()) await toggles.first().click();
   return panel;
 }
 

@@ -76,7 +76,7 @@ test("month chips expand in place, stay flat and show only a muted inactive hidd
   await expect(day.locator(".competition-event")).toHaveCount(3);
   await day.locator(".competition-event").first().click();
   const detail = page.getByRole("complementary", { name: "Day events" });
-  await expect(detail.locator("article")).toHaveCount(1);
+  await expect(detail.locator("article")).toHaveCount(0);
   await expect(detail.locator(".timeline-group-toggle")).toContainText("2 events");
   await expect(detail.locator(".all-day-pills [data-event-id]")).toHaveCount(1);
   await expect(detail).not.toContainText("Hidden practice");
@@ -136,7 +136,7 @@ test.describe("mobile", () => {
     expect(await day.evaluate((element) => element.scrollHeight <= element.clientHeight + 1)).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await day.locator(".competition-event").last().tap();
-    await expect(page.getByRole("complementary", { name: "Day events" }).locator("article")).toHaveCount(1);
+    await expect(page.getByRole("complementary", { name: "Day events" }).locator("article")).toHaveCount(0);
     await expandDayGroups(page);
     await expect(page.getByRole("complementary", { name: "Day events" }).locator(".timeline-more")).toHaveText(/11 more/);
   });

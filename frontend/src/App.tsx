@@ -470,7 +470,7 @@ export default function App() {
               </button>
             </header>
             <DayTimeline key={`${day}:${timezone}`} date={day} timezone={timezone} items={selected?.items || []}
-              loading={!months[firstOfMonth(day)] && !selectedError} error={selectedError}
+              loading={(!months[firstOfMonth(day)] || boundaryLoadingYears.includes(Number(day.slice(0, 4)))) && !selectedError} error={selectedError}
               selectedId={detailEventId} onSelect={setDetailEventId}
               renderDetails={(event) => <EventRow event={event} timezone={timezone} />} />
           </aside>

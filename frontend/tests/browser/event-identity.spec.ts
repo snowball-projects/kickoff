@@ -1,3 +1,4 @@
+import { openDayEvent } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 const categories = [
@@ -75,6 +76,7 @@ test("host and national-team flags describe facts in calendar, detail and agenda
   for (const title of ["Club Japan v Club France", "Ravens at Chiefs", "Multinational fixture"])
     await expect(day.locator(".month-single").filter({ hasText: title }).getByRole("img")).toHaveCount(0);
   await f1.click();
+  await openDayEvent(page, "Monaco Grand Prix");
   const details = page.locator("#details-identity-F1");
   await expect(details.getByRole("img", { name: "Host country: Monaco" })).toBeVisible();
   await expect(details.locator(".sport-icon")).toHaveAttribute("aria-hidden", "true");

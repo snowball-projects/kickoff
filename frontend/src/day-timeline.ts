@@ -61,16 +61,22 @@ function packLanes<T>(values: { value: T; top: number; end: number }[]) {
 }
 
 export function timelineLanes(groups: TimedGroup[], expanded: Set<string>) {
-  return packLanes(groups.map((group) => ({ value: group, top: group.minute * HOUR_HEIGHT / 60,
-    end: (expanded.has(group.key) ? group.lastMinute : group.minute) * HOUR_HEIGHT / 60 + PILL_HEIGHT,
-  }))).map(({ value, ...position }) => ({ group: value, ...position }));
-}
-
-export function slotLanes(group: TimedGroup) {
-  return packLanes(group.times.map((slot) => ({ value: slot,
-    top: (slot.minute - group.minute) * HOUR_HEIGHT / 60,
-    end: (slot.minute - group.minute) * HOUR_HEIGHT / 60 + PILL_HEIGHT,
-  }))).map(({ value, ...position }) => ({ ...value, ...position }));
+  // Only actual pills compete for space. A translucent group's span is not an
+  // event duration and must not narrow unrelated events hours later.
+  const positions = packLanes(groups.flatMap((group) =>
+    (expanded.has(group.key) && group.items.length > 1 ? group.times : [group.times[0]]).map((slot) => ({
+      value: { key: group.key, ...slot }, top: slot.minute * HOUR_HEIGHT / 60,
+      end: slot.minute * HOUR_HEIGHT / 60 + PILL_HEIGHT,
+    }))).sort((a, b) => a.top - b.top || a.value.key.localeCompare(b.value.key)));
+  return groups.map((group) => {
+    const slots = positions.filter((entry) => entry.value.key === group.key).map(({ value, top, lane, columns }) => ({
+      ...value, top: top - group.minute * HOUR_HEIGHT / 60, lane, columns,
+    }));
+    const open = expanded.has(group.key) && group.items.length > 1;
+    return { group, top: group.minute * HOUR_HEIGHT / 60,
+      end: (open ? group.lastMinute : group.minute) * HOUR_HEIGHT / 60 + PILL_HEIGHT,
+      lane: open ? 0 : slots[0].lane, columns: open ? 1 : slots[0].columns, slots };
+  });
 }
 
 export function visibleSlot(events: EventCard[]) {
