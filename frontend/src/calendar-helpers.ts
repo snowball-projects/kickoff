@@ -1,4 +1,4 @@
-import { interestLeagues } from "./interest-preferences";
+import { interestLeagues, type LeagueInterest } from "./interest-preferences";
 
 const LEAGUE_META: Record<
   string,
@@ -126,14 +126,20 @@ export function interestChoices(group: { name: string; leagues: string[] }) {
   });
 }
 
-export function interestGroups(leagues: { value: string }[]) {
-  const available = new Set(interestLeagues(leagues).map((league) => league.value));
+export function interestGroups(leagues: LeagueInterest[]) {
+  const available = new Map(interestLeagues(leagues).map((league) => [league.value, league]));
   const groups = SPORT_GROUPS.map((group) => ({
     name: group.name,
     leagues: group.leagues.filter((league) => available.delete(league)),
   }));
-  // Preserve selection access for newly published competitions as well.
-  groups.push({ name: "Miscellaneous", leagues: [...available] });
+  const other: string[] = [];
+  for (const { value, sport } of available.values()) {
+    const category = categoryForLeague(value, sport);
+    const group = groups.find(({ name }) => CATEGORY_KEYS[name as keyof typeof CATEGORY_KEYS] === category);
+    if (group) group.leagues.push(value);
+    else other.push(value);
+  }
+  groups.push({ name: "Miscellaneous", leagues: other });
   return groups.filter((group) => group.leagues.length);
 }
 
@@ -164,8 +170,6 @@ export function categoryForLeague(league: string, sport?: string): CategoryKey |
   const group = SPORT_GROUPS.find((group) => group.leagues.includes(league));
   if (group) return CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS];
   if (["GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"].includes(league)) return "golf";
-  if (league.startsWith("IFSC_") || league.startsWith("CLIMBING_")) return "climbing";
-  if (league.startsWith("IWF_") || league.startsWith("WEIGHTLIFTING_")) return "weightlifting";
   return SPORT_CATEGORIES[sport?.toLowerCase() || ""] || null;
 }
 

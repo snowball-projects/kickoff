@@ -20,8 +20,8 @@ test("the ten existing categories and two unused spares have stable, unique colo
     assert.equal(leagueVisual(league).className, "category-golf");
   assert.equal(categoryForLeague("FUTURE_SERIES", "motorsport"), "motorsport");
   assert.equal(leagueVisual("FUTURE_LEAGUE", "soccer").className, "category-soccer");
-  assert.equal(categoryForLeague("CLIMBING_FUTURE_CUP"), "climbing");
-  assert.equal(categoryForLeague("WEIGHTLIFTING_FUTURE_CUP"), "weightlifting");
+  assert.equal(categoryForLeague("FUTURE_CLIMBING_EVENT", "climbing"), "climbing");
+  assert.equal(categoryForLeague("FUTURE_WEIGHTLIFTING_EVENT", "weightlifting"), "weightlifting");
   assert.equal(categoryForLeague("NEW_SPORT"), null);
   assert.equal(leagueVisual("NEW_SPORT").className, "category-unknown");
   const css = await readFile(new URL("../src/styles.css", import.meta.url), "utf8");
@@ -39,7 +39,7 @@ test("category text meets WCAG AA in light/dark chips and standalone labels", as
   for (const mode of ["light", "dark"]) assert(contrast(neutral[`${mode}-bg`], neutral[`${mode}-ink`]) >= 4.5);
 });
 
-test("all 66 palette pairs retain distance in protan/deutan/tritan simulations in both themes", async () => {
+test("all 66 chip-fill pairs retain distance in protan/deutan/tritan simulations in both themes", async () => {
   assert(Math.abs(lab(simulate("#ffffff", simulations.normal))[0] - 100) < .001);
   const palette = (await readPalette()).filter((entry) => entry.base);
   for (const mode of ["light", "dark"]) for (const [name, matrix] of Object.entries(simulations)) {

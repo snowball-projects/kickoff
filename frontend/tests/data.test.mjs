@@ -157,7 +157,7 @@ test("years settle independently and missing schedules retry only explicitly or 
     let state = await settled(store);
     assert.deepEqual(Object.keys(state.months), ["2026-12-01"]);
     assert.equal(state.errors[2027], "No published schedule for 2027.");
-    assert.deepEqual(state.facets.leagues, [{ value: "EPL", count: 1 }]);
+    assert.deepEqual(state.facets.leagues, [{ value: "EPL", count: 1, sport: "soccer" }]);
     store.update(["2026-12-01", "2027-01-01", "2027-02-01"], signature, "UTC", 0);
     await settled(store);
     const changed = JSON.stringify({ ...filters, followed_leagues: [] });
@@ -175,7 +175,7 @@ test("years settle independently and missing schedules retry only explicitly or 
     assert.equal(counts.get(2027), 3);
     assert.deepEqual(state.months, {});
     assert.deepEqual(state.manifests, {});
-    assert.deepEqual(state.facets.leagues, [{ value: "EPL", count: 1 }]);
+    assert.deepEqual(state.facets.leagues, [{ value: "EPL", count: 1, sport: "soccer" }]);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -280,4 +280,31 @@ test("malformed snapshots fail cleanly and can retry after correction", async (t
     assert.equal((await getManifest(2026)).all_events, 1);
     t.mock.restoreAll();
   }
+});
+
+test("league sport metadata survives multi-year facets into future-family interests without changing IDs", async () => {
+  const originalFetch = globalThis.fetch;
+  try {
+    globalThis.fetch = async (url) => {
+      const year = Number(url.match(/(\d+)\.json$/)[1]);
+      return Response.json(bundle(year, [{ ...event(`future-${year}`, "FUTURE_SERIES"),
+        sport: "motorsport", season: String(year), event_type: "race", calendar_date: `${year}-09-12` }]));
+    };
+    const { getFilters, CalendarDataStore } = await loadModule("data");
+    const { interestLeagues, readPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
+    const { interestGroups, leagueVisual } = await loadModule("calendar-helpers");
+    assert.deepEqual((await getFilters(2026, filters, "UTC")).leagues,
+      [{ value: "FUTURE_SERIES", count: 1, sport: "motorsport" }]);
+    const store = new CalendarDataStore();
+    store.update(["2026-09-01", "2027-09-01"], signature, "UTC", 0);
+    const facets = (await settled(store)).facets;
+    assert.deepEqual(facets.leagues, [{ value: "FUTURE_SERIES", count: 2, sport: "motorsport" }]);
+    const choices = interestLeagues(facets.leagues);
+    assert.deepEqual(choices, [{ value: "FUTURE_SERIES", sport: "motorsport" }]);
+    assert.deepEqual(interestGroups(choices), [{ name: "Motorsports", leagues: ["FUTURE_SERIES"] }]);
+    assert.equal(leagueVisual(choices[0].value, choices[0].sport).className, "category-motorsport");
+    const saved = ["FUTURE_SERIES", "OLD_UNPUBLISHED_ID"];
+    assert.deepEqual(readPreferences({ getItem: (key) => key === INTERESTS_KEY ? JSON.stringify({ leagues: saved }) : null }).leagues, saved);
+    store.cancel();
+  } finally { globalThis.fetch = originalFetch; }
 });

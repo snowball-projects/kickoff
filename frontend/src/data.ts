@@ -299,12 +299,13 @@ export async function getFilters(
   const events = uniqueGolfEvents(bundle.events.filter((event) =>
     matchesFilters(event, filters),
   ));
+  const leagueSports = new Map(events.map((event) => [event.league, event.sport]));
   return {
     season,
     total_events: events.length,
     available_seasons: bundle.available_seasons,
     sports: facet(events.map((event) => event.sport)),
-    leagues: facet(events.map((event) => event.league)),
+    leagues: facet(events.map((event) => event.league)).map((item) => ({ ...item, sport: leagueSports.get(item.value)! })),
     event_types: facet(events.map((event) => event.event_type)),
     competition_phases: facet(events.map((event) => event.competition_phase)),
     countries: facet(events.map((event) => event.country)),
@@ -445,15 +446,22 @@ const FACET_FILTERS: FilterState = {
   tags: [],
 };
 
+function combineFacet<T extends FacetValue>(items: T[]): T[] {
+  const combined = new Map<string, T>();
+  for (const item of items)
+    combined.set(item.value, { ...item, count: (combined.get(item.value)?.count || 0) + item.count });
+  return [...combined.values()].sort((a, b) => b.count - a.count || a.value.localeCompare(b.value));
+}
+
 function combinedFacets(responses: FiltersResponse[]): FiltersResponse {
   const result = { ...responses[0] };
   result.available_seasons = [
     ...new Set(responses.flatMap((r) => r.available_seasons)),
   ].sort();
   result.total_events = responses.reduce((sum, r) => sum + r.total_events, 0);
+  result.leagues = combineFacet(responses.flatMap((response) => response.leagues));
   for (const key of [
     "sports",
-    "leagues",
     "event_types",
     "competition_phases",
     "countries",
@@ -462,15 +470,7 @@ function combinedFacets(responses: FiltersResponse[]): FiltersResponse {
     "tags",
     "participants",
   ] as const) {
-    const counts = new Map<string, number>();
-    for (const response of responses) {
-      for (const item of response[key]) {
-        counts.set(item.value, (counts.get(item.value) || 0) + item.count);
-      }
-    }
-    result[key] = [...counts]
-      .map(([value, count]) => ({ value, count }))
-      .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value));
+    result[key] = combineFacet(responses.flatMap((response) => response[key]));
   }
   return result;
 }

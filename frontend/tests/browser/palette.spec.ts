@@ -75,10 +75,19 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390])
     }
     expect(contrast(tokens["control-line"], tokens.control)).toBeGreaterThanOrEqual(3);
     expect(contrast(tokens["on-green"], tokens["primary-hover"])).toBeGreaterThanOrEqual(4.5);
-    await chooser.locator("summary").filter({ hasText: /^Motorsports$/ }).click();
+    const motorsports = chooser.getByRole("region", { name: "Motorsports interests" });
+    await motorsports.locator("summary").click();
+    const future = motorsports.getByRole("checkbox", { name: "FUTURE SERIES", exact: true });
+    await expect(future).toBeChecked();
+    const futureDot = motorsports.locator("label.interest").filter({ has: future }).locator(".interest-dot");
+    await expect(futureDot).toHaveClass(/category-motorsport/);
+    await expect(chooser.getByRole("region", { name: "Miscellaneous interests" })).toHaveCount(0);
+    const futureColor = await futureDot.evaluate((element) => getComputedStyle(element).backgroundColor);
+    expect(hex(futureColor)).toBe(palette.find((entry: { key: string }) => entry.key === "motorsport")![`${theme}-accent`]);
     await page.screenshot({ path: `test-results/palette-interests-${theme}-${width}.png` });
     expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
     await button.click();
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues)).toContain("FUTURE_SERIES");
     await page.getByRole("button", { name: "Agenda", exact: true }).click();
     const rows = page.locator(".agenda-row");
     await expect(rows).toHaveCount(11);

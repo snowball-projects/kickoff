@@ -95,12 +95,14 @@ export type FacetValue = {
   count: number;
 };
 
+export type LeagueFacetValue = FacetValue & { sport: string };
+
 export type FiltersResponse = {
   season: number;
   total_events: number;
   available_seasons: number[];
   sports: FacetValue[];
-  leagues: FacetValue[];
+  leagues: LeagueFacetValue[];
   event_types: FacetValue[];
   competition_phases: FacetValue[];
   countries: FacetValue[];

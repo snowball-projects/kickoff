@@ -24,8 +24,14 @@ export function interestLeague(league: string) {
   return league === "GOLF_MAJORS_MEN" ? "PGA_TOUR"
     : league === "GOLF_MAJORS_WOMEN" ? "LPGA_TOUR" : league;
 }
-export function interestLeagues(leagues: { value: string }[]) {
-  return [...new Set(leagues.map(({ value }) => interestLeague(value)))].map((value) => ({ value }));
+export type LeagueInterest = { value: string; sport?: string };
+export function interestLeagues(leagues: LeagueInterest[]) {
+  const choices = new Map<string, LeagueInterest>();
+  for (const league of leagues) {
+    const value = interestLeague(league.value);
+    choices.set(value, { ...choices.get(value), value, ...(league.sport ? { sport: league.sport } : {}) });
+  }
+  return [...choices.values()];
 }
 function stringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");

@@ -38,6 +38,7 @@ export async function readPalette() {
     key, ...Object.fromEntries([...body.matchAll(/--category-([\w-]+): (#[\da-f]{6});/g)].map(([, key, value]) => [key, value])),
   }));
 }
+// Distances compare chip fills, not standalone label/accent shades.
 export function pairwise(palette, mode, matrix) {
   const pairs = [];
   for (const [index, a] of palette.entries()) for (const b of palette.slice(index + 1)) {
