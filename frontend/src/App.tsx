@@ -83,9 +83,9 @@ function Modal({
 function Pill({ event }: { event: EventCard }) {
   return (
     <span
-      className={`event-pill ${leagueVisual(event.league).className}`}
+      className={`event-pill ${leagueVisual(event.league, event.sport).className}`}
     >
-      <b>{SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league).shortLabel}</b>
+      <b>{SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league, event.sport).shortLabel}</b>
       <span>{event.tags.includes("final date only") && "Final date · "}{event.title}</span>
     </span>
   );
@@ -99,9 +99,9 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
       <div className="event-time">{eventTimeLabel(event, timezone)}</div>
       <div>
         <span
-          className={`league-label ${leagueVisual(event.league).className}`}
+          className={`league-label ${leagueVisual(event.league, event.sport).className}`}
         >
-          {leagueVisual(event.league).shortLabel}
+          {leagueVisual(event.league, event.sport).shortLabel}
         </span>
         <h3>{event.title}</h3>
         {event.tags.includes("final date only") && <p className="date-scope">Final date only</p>}
