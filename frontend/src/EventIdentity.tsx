@@ -7,7 +7,7 @@ export function SportIcon({ league = "", sport, category, standalone = false }: 
   league?: string; sport?: string; category?: CategoryKey; standalone?: boolean;
 }) {
   const key = category || categoryForLeague(league, sport);
-  return key ? <svg className={`sport-icon${standalone ? ` category-${key}` : ""}`} data-sport={key} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  return key ? <svg className={`sport-icon${standalone ? ` sport-chip category-${key}` : ""}`} data-sport={key} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     <path d={SPORT_ICONS[key]} />
   </svg> : null;
 }

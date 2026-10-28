@@ -28,7 +28,7 @@ test("the ten existing categories and two unused spares have stable, unique colo
   assert(!/\.league-(?!label\b)[\w-]+\s*\{/.test(css), "per-league colour rules must not return");
 });
 
-test("category text meets WCAG AA in light/dark chips and standalone labels", async () => {
+test("category ink meets WCAG AA on the shared light/dark sport fills", async () => {
   assert.equal(contrast("#ffffff", "#000000"), 21);
   assert.equal(contrast("#ffffff", "#ffffff"), 1);
   for (const row of (await paletteReport()).contrast) for (const [mode, ratio] of Object.entries(row)) {
