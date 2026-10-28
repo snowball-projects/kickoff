@@ -74,7 +74,7 @@
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
       "sha256": "8868757a70595a2de9725be60e2839af8178b71d650f3c8115adfca67a9fcc09",
       "hash_scope": "raw document bytes",
-      "coverage_notes": "Date-only: timetable will be produced after entries are collated. IMWA event-specific page states May 17-25, 2027; its general events calendar still states May 16-24. The official Games Sports Information Guide corroborates May 17-25. Use specific competition dates, preserve conflict receipt.",
+      "coverage_notes": "Date-only: timetable will be produced after entries are collated. IMWA event-specific page states May 17-25, 2027; its general events calendar still states May 16-24. The official Games Sports Information Guide lists May 17-25 as a provisional competition schedule; the final schedule depends on entries. Use specific competition dates, preserve conflict receipt.",
       "conflicting_source_url": "https://www.imwla.com/events-calendar",
       "corroborating_source_url": "https://wchm.ca/wp-content/uploads/2026/09/59_Weightlifting-Sports-Information-Guide_2026.01.06.pdf"
     },
@@ -176,7 +176,7 @@
       "city": "Naruto, Tokushima",
       "country": "Japan",
       "competition_phase": "championship",
-      "notes": "Date-only: timetable will be produced after entries are collated. IMWA event-specific page states May 17-25, 2027; its general events calendar still states May 16-24. The official Games Sports Information Guide corroborates May 17-25. Venue timezone: Asia/Tokyo.",
+      "notes": "Date-only: timetable will be produced after entries are collated. IMWA event-specific page states May 17-25, 2027; its general events calendar still states May 16-24. The official Games Sports Information Guide lists May 17-25 as a provisional competition schedule; the final schedule depends on entries. Venue timezone: Asia/Tokyo.",
       "checked_date": "2026-10-28",
       "source_url": "https://www.imwla.com/2027-world-masters-championship"
     },
