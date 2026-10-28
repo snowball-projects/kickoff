@@ -151,6 +151,8 @@ export default function App() {
   const timezone = browserTimezone();
   const activeFilters = {
     ...filters,
+    climbing: preferences.climbing,
+    weightlifting: preferences.weightlifting,
     golf_views: preferences.golf_views,
     motorsport_view: preferences.motorsport_view,
     followed_leagues: interests ?? undefined,
@@ -513,10 +515,16 @@ export default function App() {
           ) : error && !leagues.length ? (
             <p>{error}</p>
           ) : (
-            <InterestGroups leagues={leagues} selected={draft} onChange={setDraft} />
+            <InterestGroups leagues={leagues} selected={draft} onChange={setDraft}
+              sessionInterests={draftPreferences} onSessionChange={(options) =>
+                setDraftPreferences((previous) => ({ ...previous, ...options }))} />
           )}
           <div className="interest-actions">
-            <button onClick={() => setDraft(leagues.map((l) => l.value))}>
+            <button onClick={() => {
+              setDraft(leagues.map((l) => l.value));
+              const { climbing, weightlifting } = defaultPreferences();
+              setDraftPreferences((previous) => ({ ...previous, climbing, weightlifting }));
+            }}>
               Select all
             </button>
             <button onClick={() => setDraft([])}>Clear</button>

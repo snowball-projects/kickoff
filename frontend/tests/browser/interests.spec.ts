@@ -12,7 +12,7 @@ test("group choices are independent, mixed, collapsible and preserve saved leagu
   await expect(chooser).toBeVisible();
   await expect(chooser.getByRole("heading", { name: "Interests", exact: true })).toBeVisible();
   await expect(page.getByText("Follow your sports", { exact: true })).toHaveCount(0);
-  for (const name of ["Soccer", "Motorsports", "American football", "Combat sports", "Golf", "Climbing and weightlifting"])
+  for (const name of ["Soccer", "Motorsports", "American football", "Combat sports", "Golf", "Climbing", "Weightlifting"])
     await expect(chooser.getByRole("checkbox", { name: `Select all ${name}`, exact: true })).toBeVisible();
   const soccer = chooser.getByRole("region", { name: "Soccer interests" });
   const allSoccer = soccer.getByRole("checkbox", { name: "Select all Soccer", exact: true });
@@ -30,7 +30,7 @@ test("group choices are independent, mixed, collapsible and preserve saved leagu
   await soccer.locator("summary").click();
   await allSoccer.uncheck();
   await chooser.getByRole("checkbox", { name: "Select all Motorsports", exact: true }).check();
-  await chooser.locator("summary").filter({ hasText: /^Climbing and weightlifting$/ }).click();
+  await chooser.locator("summary").filter({ hasText: /^Weightlifting$/ }).click();
   await chooser.getByRole("checkbox", { name: "IWF Worlds", exact: true }).check();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues)).toEqual(["F1", "NASCAR_CUP", "INDYCAR", "IWF_WORLDS"]);
@@ -38,7 +38,7 @@ test("group choices are independent, mixed, collapsible and preserve saved leagu
   await expect(chooser).toHaveCount(0);
   await page.getByRole("button", { name: "Interests · 4", exact: true }).click();
   await expect(chooser.getByRole("checkbox", { name: "Select all Motorsports", exact: true })).toBeChecked();
-  await expect(chooser.getByRole("checkbox", { name: "Select all Climbing and weightlifting", exact: true })).toHaveJSProperty("indeterminate", true);
+  await expect(chooser.getByRole("checkbox", { name: "Select all Weightlifting", exact: true })).toHaveJSProperty("indeterminate", true);
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
   await page.screenshot({ path: "test-results/grouped-interests-mobile.png" });

@@ -687,6 +687,16 @@ dialog p {
   gap: 9px;
   margin: 4px 0 12px;
 }
+.interest-facet {
+  border: 0;
+  margin: 4px 0 0;
+  padding: 0;
+}
+.interest-facet legend {
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
 .interest-groups {
   margin: 18px 0 12px;
 }
