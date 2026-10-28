@@ -43,22 +43,24 @@ test("reviewed expansion keeps attribution and exports without download links", 
   await chooser.getByText("IWF Worlds", { exact: true }).click();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await openMonth(page, "October");
-  await expect(page.locator("#day-2026-10-27 .event-pill")).toHaveCount(1);
+  // Venue October 27 at 11:00 is October 26 at 22:00 in Chicago.
+  await expect(page.locator("#day-2026-10-26 .event-pill")).toHaveCount(1);
+  await expect(page.locator("#day-2026-10-27 .event-pill")).toHaveCount(3);
   await page.locator("#day-2026-10-27").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
-  await expect(detail).toContainText("Time TBD");
-  await expect(detail).toContainText("through 2026-11-08");
-  await expect(detail.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", /wikidata\.org.*oldid=2499700131/);
+  await expect(detail).toContainText("Men's 60 kg, Group B");
+  await expect(detail).toContainText("12:30 AM");
+  await expect(detail).not.toContainText("Time TBD");
+  await expect(detail).not.toContainText("through 2026-11-08");
+  await expect(detail.getByRole("link", { name: "Schedule source" }).first()).toHaveAttribute("href", /iwf\.sport.*id=3004/);
   await page.getByRole("button", { name: "Close day" }).click();
-  await expect(page.locator("#day-2026-10-31 .event-pill")).toHaveCount(1);
-  await expect(page.locator("#day-2026-11-01 .event-pill")).toHaveCount(1);
-  await page.locator("#day-2026-10-31 .event-pill").scrollIntoViewIfNeeded();
-  // Let native navigation settle before a stationary hover, which is dismissed
-  // while scrolling just like an already-open preview.
-  await page.waitForTimeout(250);
-  await page.locator("#day-2026-10-31 .event-pill").hover();
-  await expect(page.getByRole("tooltip")).toContainText("October 27, 2026");
-  await expect(page.getByRole("tooltip")).toContainText("November 8, 2026");
+  await page.locator("#day-2026-10-28").click();
+  const combined = detail.locator("article").filter({ hasText: "Women's 53 kg, Group D / Women's 57 kg, Group B" });
+  await expect(combined).toHaveCount(1);
+  await expect(combined).toContainText("10:00 PM");
+  await combined.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: "test-results/weightlifting-combined-session.png" });
+  await page.getByRole("button", { name: "Close day" }).click();
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("September");
   await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
@@ -77,8 +79,11 @@ test("reviewed expansion keeps attribution and exports without download links", 
   const snapshot = await request.get("data/2026.json");
   expect(snapshot.ok()).toBeTruthy();
   const manifest = await snapshot.json();
-  for (const kind of ["wikipedia", "wikidata"]) {
-    const entry = manifest.components.find((item: { path: string }) => item.path.includes(kind));
+  // The old IWF Wikidata span is gone; fixture golf feeds replace its other CC0 rows.
+  expect(manifest.components.some((item: { path: string }) => item.path.includes("wikidata"))).toBe(false);
+  expect(manifest.components.some((item: { path: string }) => item.path.includes("wikipedia"))).toBe(true);
+  for (const entry of manifest.components) {
+    const kind = entry.path.includes("wikipedia") ? "wikipedia" : "wikidata";
     expect(entry.path).toMatch(new RegExp(`2026-${kind}-[a-f0-9]{64}\\.json$`));
     const response = await request.get(`data/${entry.path}`);
     expect(response.ok()).toBeTruthy();

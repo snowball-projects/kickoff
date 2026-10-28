@@ -50,18 +50,6 @@
       "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
     },
     {
-      "id": "wikidata-iwf-worlds-2026",
-      "name": "Wikidata contributors: 2026 World Weightlifting Championships",
-      "url": "https://www.wikidata.org/w/index.php?title=Q124142978&oldid=2499700131",
-      "revision": "2499700131",
-      "license": "CC0 1.0",
-      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "retrieved_at": "2026-09-11T18:02:53.189149Z",
-      "sha256": "5dd0cf2ae6e3db2d0b54a21edb5e77aec705d193f768ebe367c033c14ae24736",
-      "input_url": "https://www.wikidata.org/wiki/Special:EntityData/Q124142978.json?revision=2499700131",
-      "changes": "Selected day-precision championship dates; preserved inclusive span; no session times or venue inferred."
-    },
-    {
       "id": "wikipedia-navarrete",
       "name": "Wikipedia contributors: Emanuel Navarrete",
       "url": "https://en.wikipedia.org/w/index.php?title=Emanuel_Navarrete&oldid=1373169260",
@@ -843,17 +831,6 @@
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
       "event_type": "tournament"
-    },
-    {
-      "id": "iwf-worlds-2026",
-      "sport": "weightlifting",
-      "league": "IWF_WORLDS",
-      "title": "2026 World Weightlifting Championships",
-      "source_id": "wikidata-iwf-worlds-2026",
-      "start_date": "2026-10-27",
-      "end_date": "2026-11-08",
-      "event_type": "tournament",
-      "notes": "Senior championship span, inclusive October 27–November 8. This does not assert lifting on every day; session times, weigh-ins and venue are not supplied by this Wikidata item."
     },
     {
       "id": "ufc-fight-night-292",

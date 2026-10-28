@@ -14,7 +14,7 @@ from urllib.request import Request, urlopen
 from kickoff import feeds as league_feeds
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
-from kickoff.reviewed_schedules import CLIMBING_LICENSE, load_reviewed_schedules
+from kickoff.reviewed_schedules import CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
 from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
@@ -60,7 +60,18 @@ REVIEWED_LABELS = {
     "IFSC_WORLD_CUP": "World Climbing stop/session records",
     "NASCAR_CUP": "NASCAR Cup races",
     "INDYCAR": "IndyCar races",
-    "IWF_WORLDS": "IWF Worlds span",
+    "IWF_WORLDS": "senior weightlifting Worlds sessions",
+    "IWF_JUNIOR_WORLDS": "Junior Worlds sessions",
+    "IWF_YOUTH_WORLDS": "Youth Worlds sessions",
+    "MASTERS_WORLDS": "Masters Worlds records",
+    "WEIGHTLIFTING_EUROPE": "European weightlifting records",
+    "WEIGHTLIFTING_ASIA": "Asian weightlifting records",
+    "WEIGHTLIFTING_AFRICA": "African weightlifting records",
+    "WEIGHTLIFTING_PAN_AMERICA": "Pan-American weightlifting records",
+    "WEIGHTLIFTING_OCEANIA": "Oceania weightlifting records",
+    "WEIGHTLIFTING_COMMONWEALTH_GAMES": "Commonwealth Games weightlifting sessions",
+    "WEIGHTLIFTING_ASIAN_GAMES": "Asian Games weightlifting records",
+    "WEIGHTLIFTING_PAN_AM_GAMES": "Pan Am Games weightlifting dates",
     "UFC": "UFC cards",
     "PFL": "PFL global cards",
     "RIZIN": "RIZIN cards",
@@ -418,6 +429,7 @@ def refresh_open_schedules(
         "wikipedia": "CC BY-SA 4.0",
         "wikidata": "CC0 1.0",
         **({"world_climbing": CLIMBING_LICENSE} if any(s["kind"] == "world_climbing" for s in notices) else {}),
+        **({"weightlifting": WEIGHTLIFTING_LICENSE} if any(s["kind"] == "weightlifting" for s in notices) else {}),
         **{kind: league_feeds.SOURCES[kind]["license"] for kind in feed_kinds},
     }
     bundle["data_license_notice"] = (
