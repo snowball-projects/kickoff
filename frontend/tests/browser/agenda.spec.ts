@@ -280,7 +280,7 @@ test("Show more appends later event dates, skips empty months, preserves positio
   await expect(row(page, "Summer fixture")).toBeFocused();
 });
 
-test("filter changes reset the seven-day scope and reveal sparse later matches", async ({ page }) => {
+test("filter changes preserve the expanded scope and reveal sparse later matches", async ({ page }) => {
   await page.clock.setFixedTime(new Date("2027-01-01T02:00:00Z"));
   await setup(page, { extraEvents: [event("Later NBA fixture", "2027-03-15", { league: "NBA", sport: "basketball" })] });
   await viewSwitch(page, "Agenda").click();
@@ -292,9 +292,10 @@ test("filter changes reset the seven-day scope and reveal sparse later matches",
   await chooser.getByRole("button", { name: "Clear", exact: true }).click();
   await chooser.getByRole("checkbox", { name: "Select all Basketball", exact: true }).check();
   await chooser.getByRole("button", { name: "Show my calendar", exact: true }).click();
-  await expect(agenda(page)).toContainText("Jan 1 – Jan 7 · Next 7 days");
+  await expect(agenda(page)).toContainText("Jan 1 – Jan 8");
+  await expect(agenda(page).getByText("Next 7 days", { exact: false })).toHaveCount(0);
   await expect(row(page, "Outside next week")).toHaveCount(0);
-  await expect(agenda(page).getByText("No published events match your interests in the next 7 days.", { exact: true })).toBeVisible();
+  await expect(agenda(page).getByText("No published events match your interests in this range.", { exact: true })).toBeVisible();
   await agenda(page).getByRole("button", { name: "Show more", exact: true }).click();
   await expect(row(page, "Later NBA fixture")).toHaveCount(1);
   await expect(agenda(page)).toContainText("Jan 1 – Mar 15");
