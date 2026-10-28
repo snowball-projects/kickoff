@@ -1,21 +1,15 @@
 import { useEffect, useRef } from "react";
 import { CLIMBING_DISCIPLINES, GENDERS, type SessionInterests } from "./interest-preferences";
-import { interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
+import { interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
 
-function GroupCheckbox({ name, selected, total, onChange }: {
-  name: string; selected: number; total: number; onChange: () => void;
+function SelectionCheckbox({ name, selected, total, onChange }: {
+  name?: string; selected: number; total: number; onChange: () => void;
 }) {
   const input = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (input.current) input.current.indeterminate = selected > 0 && selected < total;
   }, [selected, total]);
-  return (
-    <label className="group-selection">
-      <input ref={input} type="checkbox" checked={selected === total} onChange={onChange}
-        aria-label={`Select all ${name}`} />
-      <span aria-hidden="true">{selected}/{total}</span>
-    </label>
-  );
+  return <input ref={input} type="checkbox" checked={selected === total} onChange={onChange} aria-label={name} />;
 }
 
 function FacetChoices({ name, values, selected, onChange }: {
@@ -45,24 +39,28 @@ export default function InterestGroups({ leagues, selected, onChange, sessionInt
     <div className="interest-groups">
       {interestGroups(leagues).map((group) => {
         const sport = group.name === "Climbing" ? "climbing" : group.name === "Weightlifting" ? "weightlifting" : null;
+        const count = group.leagues.filter((league) => selected.includes(league)).length;
         return (
           <section className="interest-group" key={group.name} aria-label={`${group.name} interests`}>
-            <GroupCheckbox name={group.name} total={group.leagues.length}
-              selected={group.leagues.filter((league) => selected.includes(league)).length}
-              onChange={() => onChange(toggleInterestGroup(selected, group.leagues))} />
+            <label className="group-selection">
+              <SelectionCheckbox name={`Select all ${group.name}`} total={group.leagues.length} selected={count}
+                onChange={() => onChange(toggleInterestGroup(selected, group.leagues))} />
+              <span aria-hidden="true">{count}/{group.leagues.length}</span>
+            </label>
             <details>
               <summary>{group.name}</summary>
               <div className="interest-grid">
-                {group.leagues.map((league) => {
+                {interestChoices(group).map((choice) => {
+                  const league = choice.leagues[0];
                   const country = SOCCER_COUNTRIES[league];
+                  const count = choice.leagues.filter((league) => selected.includes(league)).length;
                   return (
-                    <label key={league} className={`interest ${selected.includes(league) ? "chosen" : ""}`}>
-                      <input type="checkbox" checked={selected.includes(league)}
-                        onChange={() => onChange(selected.includes(league)
-                          ? selected.filter((value) => value !== league) : [...selected, league])} />
+                    <label key={league} className={`interest ${count ? "chosen" : ""}`}>
+                      <SelectionCheckbox total={choice.leagues.length} selected={count}
+                        onChange={() => onChange(toggleInterestGroup(selected, choice.leagues))} />
                       {country ? <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>
                         : <span aria-hidden="true" className={`interest-dot ${leagueVisual(league).className}`} />}
-                      <span>{league === "IFSC_WORLD_CUP" ? "World Cups" : leagueVisual(league).shortLabel}</span>
+                      <span>{choice.name}</span>
                     </label>
                   );
                 })}
