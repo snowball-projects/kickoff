@@ -268,3 +268,24 @@ test("cross-competition overflow retains expansion, collapse and a visible focus
   await expect(panel(page).locator(".timeline-group-toggle:focus")).toBeVisible();
   expect(await gridGeometry(page)).toEqual(Array.from({ length: 25 }, (_, hour) => hour * 80));
 });
+
+test("keyboard focus follows a group replaced by shared-clock overflow and back", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await setup(page, [event("Basketball same start", { league: "NBA", sport: "basketball" })]);
+  const group = panel(page).locator('.timeline-group[data-competition="NFL"]');
+  const toggle = group.locator(".timeline-group-toggle");
+  const hours = await gridGeometry(page);
+  await toggle.focus();
+  await toggle.press("Enter");
+  const more = panel(page).locator(".timeline-global-more .timeline-more");
+  await expect(more).toBeFocused();
+  await page.keyboard.press("Enter");
+  const controls = panel(page).getByRole("group", { name: "Competitions", exact: true });
+  await controls.getByRole("button", { name: "Collapse NFL", exact: true }).press("Enter");
+  await expect(controls.getByRole("button", { name: "Expand NFL", exact: true })).toBeFocused();
+  await expect(more).toHaveCount(0);
+  await expect(toggle).toBeVisible();
+  await panel(page).getByRole("button", { name: "Close details" }).press("Enter");
+  await expect(panel(page).locator(".timeline-group-toggle:focus")).toBeVisible();
+  expect(await gridGeometry(page)).toEqual(hours);
+});

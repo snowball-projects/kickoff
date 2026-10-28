@@ -7,6 +7,10 @@ import EventPreview, { useEventPreview } from "./EventPreview";
 import { monthCompetition } from "./month-competitions";
 import type { EventCard } from "./types";
 
+function visibleControl(element: HTMLElement | null) {
+  return !!(element?.isConnected && !element.closest("[hidden]") && element.getClientRects().length);
+}
+
 export default function DayTimeline({ date, timezone, items, loading, error, selectedId, onSelect, renderDetails }: {
   date: string; timezone: string; items: EventCard[]; loading: boolean; error?: string;
   selectedId?: string; onSelect: (id?: string) => void; renderDetails: (event: EventCard) => React.ReactNode;
@@ -21,6 +25,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
   const openerGroup = useRef("");
   const openerMinute = useRef<number | undefined>(undefined);
   const initialized = useRef(false);
+  const pendingToggleFocus = useRef<{ element: HTMLElement | null; key: string; minute?: number } | null>(null);
   const preview = useEventPreview();
   const { timed, allDay } = dayTimeline(items, timezone);
   const layout = timelineLanes(timed, expanded);
@@ -36,7 +41,22 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
   useLayoutEffect(() => {
     if (selected || overflow.length) details.current?.focus({ preventScroll: true });
   }, [selected?.event_id, overflow]);
+  useLayoutEffect(() => {
+    const pending = pendingToggleFocus.current;
+    pendingToggleFocus.current = null;
+    if (!pending || visibleControl(pending.element)) return;
+    const root = scroller.current!.closest(".day-inspector")!;
+    const more = root.querySelector<HTMLButtonElement>(`[data-overflow-minute="${pending.minute}"]`);
+    const group = [...root.querySelectorAll<HTMLElement>("[data-group-key]")]
+      .find((element) => element.dataset.groupKey === pending.key);
+    const toggle = group?.querySelector<HTMLButtonElement>(".timeline-group-toggle") || null;
+    const target = [more, toggle].find(visibleControl) || scroller.current!;
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({ block: "nearest", behavior: "instant" });
+  }, [expanded]);
   function toggle(key: string) {
+    pendingToggleFocus.current = { element: document.activeElement instanceof HTMLElement ? document.activeElement : null,
+      key, minute: timed.find((group) => group.key === key)?.minute };
     preview.close();
     setExpanded((previous) => {
       const next = new Set(previous);
@@ -50,12 +70,11 @@ export default function DayTimeline({ date, timezone, items, loading, error, sel
     setOverflow([]);
     setOverflowKeys([]); setOverflowClock(undefined);
     const root = scroller.current!.closest(".day-inspector")!;
-    const visible = (element: HTMLElement | null) => !!(element?.isConnected && !element.closest("[hidden]") && element.getClientRects().length);
     const group = [...root.querySelectorAll<HTMLElement>("[data-group-key]")]
       .find((element) => element.dataset.groupKey === openerGroup.current);
     const toggle = group?.querySelector<HTMLButtonElement>(".timeline-group-toggle") || null;
     const more = root.querySelector<HTMLButtonElement>(`[data-overflow-minute="${openerMinute.current}"]`);
-    const target = [opener.current, toggle, more].find(visible) || scroller.current!;
+    const target = [opener.current, toggle, more].find(visibleControl) || scroller.current!;
     target.focus({ preventScroll: true });
     target.scrollIntoView({ block: "nearest", behavior: "instant" });
   }
