@@ -32,8 +32,9 @@ export function dayTimeline(items: EventCard[], timezone: string) {
       slots.get(minute)!.push(event);
     }
     const times = [...slots].sort(([a], [b]) => a - b).map(([minute, events]) => ({ minute, events }));
-    return { ...group, times, minute: times[0].minute, lastMinute: times.at(-1)!.minute };
-  }).sort((a, b) => a.minute - b.minute || a.key.localeCompare(b.key));
+    return { ...group, times, minute: clockMinute(eventInstant(group.items[0])!, timezone),
+      firstMinute: times[0].minute, lastMinute: times.at(-1)!.minute };
+  }).sort((a, b) => eventInstant(a.items[0])! - eventInstant(b.items[0])! || a.key.localeCompare(b.key));
   return { allDay, timed };
 }
 
@@ -61,22 +62,40 @@ function packLanes<T>(values: { value: T; top: number; end: number }[]) {
 }
 
 export function timelineLanes(groups: TimedGroup[], expanded: Set<string>) {
-  // Only actual pills compete for space. A translucent group's span is not an
-  // event duration and must not narrow unrelated events hours later.
-  const positions = packLanes(groups.flatMap((group) =>
-    (expanded.has(group.key) && group.items.length > 1 ? group.times : [group.times[0]]).map((slot) => ({
-      value: { key: group.key, ...slot }, top: slot.minute * HOUR_HEIGHT / 60,
-      end: slot.minute * HOUR_HEIGHT / 60 + PILL_HEIGHT,
-    }))).sort((a, b) => a.top - b.top || a.value.key.localeCompare(b.value.key)));
-  return groups.map((group) => {
-    const slots = positions.filter((entry) => entry.value.key === group.key).map(({ value, top, lane, columns }) => ({
-      ...value, top: top - group.minute * HOUR_HEIGHT / 60, lane, columns,
-    }));
+  const entries = groups.flatMap((group) => {
     const open = expanded.has(group.key) && group.items.length > 1;
-    return { group, top: group.minute * HOUR_HEIGHT / 60,
-      end: (open ? group.lastMinute : group.minute) * HOUR_HEIGHT / 60 + PILL_HEIGHT,
-      lane: open ? 0 : slots[0].lane, columns: open ? 1 : slots[0].columns, slots };
+    const slots = open ? group.times : [group.times.find((slot) => slot.minute === group.minute)!];
+    return slots.map((slot) => ({ value: { key: group.key, keys: [group.key], minute: slot.minute,
+      events: open ? slot.events : group.items, controls: open ? Math.min(3, slot.events.length) : 1 },
+      top: slot.minute * HOUR_HEIGHT / 60, end: slot.minute * HOUR_HEIGHT / 60 + PILL_HEIGHT }));
   });
+  const byMinute = new Map<number, typeof entries>();
+  for (const entry of entries) {
+    if (!byMinute.has(entry.value.minute)) byMinute.set(entry.value.minute, []);
+    byMinute.get(entry.value.minute)!.push(entry);
+  }
+  // Several competitions can overflow the same clock, too. One accessible list
+  // keeps those rows readable without adding another level of grouping.
+  const crowded = [...byMinute].filter(([, rows]) => rows.reduce((sum, row) => sum + row.value.controls, 0) > 3);
+  const crowdedMinutes = new Set(crowded.map(([minute]) => minute));
+  const overflowEntries = crowded.map(([minute, rows]) => ({
+    value: { key: `overflow:${minute}`, keys: rows.map((row) => row.value.key), minute,
+      events: [...new Map(rows.flatMap((row) => row.value.events).map((event) => [event.event_id, event])).values()], controls: 1 },
+    top: minute * HOUR_HEIGHT / 60, end: minute * HOUR_HEIGHT / 60 + PILL_HEIGHT,
+  }));
+  const positions = packLanes([...entries.filter((entry) => !crowdedMinutes.has(entry.value.minute)), ...overflowEntries]
+    .sort((a, b) => a.top - b.top || a.value.key.localeCompare(b.value.key)));
+  const placedGroups = groups.map((group) => {
+    const open = expanded.has(group.key) && group.items.length > 1;
+    const top = (open ? group.firstMinute : group.minute) * HOUR_HEIGHT / 60;
+    const own = positions.filter((entry) => entry.value.key === group.key);
+    const header = own.find((entry) => entry.value.minute === group.minute);
+    const slots = own.map(({ value, top: slotTop, lane, columns }) => ({ ...value, top: slotTop - top, lane, columns }));
+    return { group, top, end: (open ? group.lastMinute : group.minute) * HOUR_HEIGHT / 60 + PILL_HEIGHT,
+      lane: open ? 0 : header?.lane || 0, columns: open ? 1 : header?.columns || 1,
+      headerTop: group.minute * HOUR_HEIGHT / 60 - top, header, slots };
+  });
+  return { groups: placedGroups, overflow: positions.filter((entry) => entry.value.key.startsWith("overflow:")) };
 }
 
 export function visibleSlot(events: EventCard[]) {

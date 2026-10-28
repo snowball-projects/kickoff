@@ -22,12 +22,12 @@ const events = [
 ];
 const panel = (page: Page) => page.getByRole("complementary", { name: "Day events" });
 const pill = (page: Page, id: string) => panel(page).locator(`[data-event-id="${id}"]`);
-async function setup(page: Page, extraEvents: ReturnType<typeof event>[] = []) {
+async function setup(page: Page, extraEvents: ReturnType<typeof event>[] = [], baseEvents = events) {
   await page.clock.setFixedTime(new Date("2026-09-10T20:10:00Z"));
   await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["NFL", "NBA", "EPL", "PGA_TOUR", "LPGA_TOUR"] })));
   await page.route("**/data/*.json", async (route) => {
     const season = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
-    await route.fulfill({ json: { schema_version: "1", season, providers: [], available_seasons: [season], events: season === 2026 ? [...events, ...extraEvents] : [] } });
+    await route.fulfill({ json: { schema_version: "1", season, providers: [], available_seasons: [season], events: season === 2026 ? [...baseEvents, ...extraEvents] : [] } });
   });
   await page.goto("/");
   await page.locator("#day-2026-09-10 .day-number").click();
@@ -173,7 +173,8 @@ test("a changed browser-reported timezone rebuilds an open day without retaining
 
 test("simultaneous expanded competitions keep separate collapse controls on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 });
-  await setup(page, [event("Basketball same start", { league: "NBA", sport: "basketball" })]);
+  await setup(page, [event("Basketball same start", { league: "NBA", sport: "basketball" })],
+    events.filter((item) => !/^Same start [2-6]$/.test(item.event_id)));
   const nfl = panel(page).locator('.timeline-group[data-competition="NFL"]');
   const nba = panel(page).locator('.timeline-group[data-competition="NBA"]');
   await nfl.locator(".timeline-group-toggle").click();
@@ -187,5 +188,81 @@ test("simultaneous expanded competitions keep separate collapse controls on a ph
   await expect(nbaCollapse).toHaveAttribute("aria-expanded", "true");
   await nbaCollapse.click();
   await expect(nba.locator(".timeline-group-toggle")).toHaveAttribute("aria-expanded", "false");
+  expect(await gridGeometry(page)).toEqual(Array.from({ length: 25 }, (_, hour) => hour * 80));
+});
+
+
+test("four unrelated same-start competitions stay readable as one flat overflow list on a phone", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  const fixtures = [["NFL", "football"], ["NBA", "basketball"], ["EPL", "soccer"], ["PGA_TOUR", "golf"]]
+    .map(([league, sport]) => event(`${league} simultaneous`, { league, sport }));
+  await setup(page, [], fixtures);
+  const more = panel(page).locator(".timeline-global-more .timeline-more");
+  await expect(more).toHaveCount(1);
+  await expect(more).toContainText("+4 more");
+  expect((await more.boundingBox())!.width).toBeGreaterThan(150);
+  await more.click();
+  const list = panel(page).getByRole("region", { name: "More events" });
+  await expect(list.getByRole("listitem")).toHaveCount(4);
+  await list.locator('[data-event-id="NFL simultaneous"]').click();
+  await expect(panel(page).getByRole("region", { name: "Event details" }).getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", "https://example.com/schedule");
+  await panel(page).getByRole("button", { name: "Close details" }).click();
+  await panel(page).getByRole("button", { name: "Close details" }).click();
+  await expect(more).toBeFocused();
+  expect(await gridGeometry(page)).toEqual(Array.from({ length: 25 }, (_, hour) => hour * 80));
+});
+
+test("fall-back groups align their collapsed clock with the first chronological event", async ({ page }) => {
+  const fixtures = [event("First chronological", { calendar_date: "2026-11-01", end_calendar_date: "2026-11-01", start_time_utc: "2026-11-01T06:45:00Z" }),
+    event("Later chronological", { calendar_date: "2026-11-01", end_calendar_date: "2026-11-01", start_time_utc: "2026-11-01T07:15:00Z" })];
+  await setup(page, [], fixtures);
+  await panel(page).getByRole("button", { name: "Close day" }).click();
+  await page.getByRole("button", { name: "Show 2026 year calendar" }).click();
+  await page.getByRole("button", { name: "Open November 2026" }).click();
+  await page.locator("#day-2026-11-01 .day-number").click();
+  const group = panel(page).locator('.timeline-group[data-competition="NFL"]');
+  await expect(group.locator(".timeline-group-toggle")).toContainText("1:45 AM");
+  expect(await group.evaluate((element) => (element as HTMLElement).offsetTop)).toBe(140);
+  await group.locator(".timeline-group-toggle").click();
+  expect(await group.evaluate((element) => (element as HTMLElement).offsetTop)).toBe(100);
+  expect(await group.locator(".timeline-collapse").evaluate((element) => (element as HTMLElement).offsetTop)).toBe(40);
+  const top = await panel(page).locator(".timeline-grid").evaluate((element) => element.getBoundingClientRect().top);
+  expect((await pill(page, "First chronological").boundingBox())!.y - top).toBe(140);
+  expect((await pill(page, "Later chronological").boundingBox())!.y - top).toBe(100);
+  expect(await gridGeometry(page)).toEqual(Array.from({ length: 25 }, (_, hour) => hour * 80));
+});
+
+test("closing overflow or event details after collapsing restores a visible group toggle", async ({ page }) => {
+  await setup(page);
+  const group = panel(page).locator('.timeline-group[data-competition="NFL"]');
+  await group.locator(".timeline-group-toggle").press("Enter");
+  await group.getByRole("button", { name: /\+4 more/ }).click();
+  await group.getByRole("button", { name: "Collapse NFL", exact: true }).click();
+  await panel(page).getByRole("button", { name: "Close details" }).click();
+  await expect(group.locator(".timeline-group-toggle")).toBeFocused();
+  await group.locator(".timeline-group-toggle").press(" ");
+  await pill(page, "Same start 1").click();
+  await group.getByRole("button", { name: "Collapse NFL", exact: true }).click();
+  await panel(page).getByRole("button", { name: "Close details" }).click();
+  await expect(group.locator(".timeline-group-toggle")).toBeFocused();
+  await expect(group.locator(".timeline-group-toggle")).toBeVisible();
+});
+
+
+test("cross-competition overflow retains expansion, collapse and a visible focus target", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await setup(page, [event("Basketball same start", { league: "NBA", sport: "basketball" })]);
+  await panel(page).locator('.timeline-group[data-competition="NFL"] .timeline-group-toggle').click();
+  await panel(page).locator(".timeline-global-more .timeline-more").click();
+  const controls = panel(page).getByRole("group", { name: "Competitions", exact: true });
+  await controls.getByRole("button", { name: "Expand NBA", exact: true }).click();
+  const nfl = controls.getByRole("button", { name: "Collapse NFL", exact: true });
+  const nba = controls.getByRole("button", { name: "Collapse NBA", exact: true });
+  await expect(nfl).toBeVisible();
+  await expect(nba).toBeVisible();
+  await expect(nba).toHaveAttribute("aria-expanded", "true");
+  await nfl.click();
+  await panel(page).getByRole("button", { name: "Close details" }).click();
+  await expect(panel(page).locator(".timeline-group-toggle:focus")).toBeVisible();
   expect(await gridGeometry(page)).toEqual(Array.from({ length: 25 }, (_, hour) => hour * 80));
 });

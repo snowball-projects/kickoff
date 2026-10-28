@@ -47,8 +47,8 @@ test("competition identities match month grouping and only visible events enter 
 test("lanes avoid visual overlaps and expansion preserves all vertical positions", () => {
   const { timed } = dayTimeline([event("one"), event("later", { start_time_utc: "2026-09-10T19:00:00Z" }),
     event("other", { league: "NBA", sport: "basketball", start_time_utc: "2026-09-10T18:15:00Z" })], "UTC");
-  const collapsed = timelineLanes(timed, new Set());
-  const expanded = timelineLanes(timed, new Set(timed.map((group) => group.key)));
+  const collapsed = timelineLanes(timed, new Set()).groups;
+  const expanded = timelineLanes(timed, new Set(timed.map((group) => group.key))).groups;
   assert.deepEqual(collapsed.map((entry) => entry.top), expanded.map((entry) => entry.top));
   assert.ok(collapsed.every((entry) => entry.end - entry.top === PILL_HEIGHT));
   assert.ok(expanded.every((entry) => entry.columns === 1));
@@ -76,8 +76,30 @@ test("opening today uses now, another day uses its first event or midnight", () 
 
 test("nearby starts use separate lanes without displacing their true minute positions", () => {
   const { timed } = dayTimeline([event("first"), event("second", { start_time_utc: "2026-09-10T17:45:00Z" })], "UTC");
-  const slots = timelineLanes(timed, new Set([timed[0].key]))[0].slots;
+  const slots = timelineLanes(timed, new Set([timed[0].key])).groups[0].slots;
   assert.deepEqual(slots.map((slot) => slot.top), [0, 20]);
   assert.deepEqual(slots.map((slot) => slot.columns), [2, 2]);
   assert.notEqual(slots[0].lane, slots[1].lane);
+});
+
+
+test("DST inversion anchors the group to its first chronological start, with children at their own clocks", () => {
+  const { timed } = dayTimeline([event("first", { start_time_utc: "2026-11-01T06:45:00Z" }),
+    event("later", { start_time_utc: "2026-11-01T07:15:00Z" })], "America/Chicago");
+  assert.equal(timed[0].minute, 105);
+  assert.equal(timed[0].items[0].event_id, "first");
+  assert.equal(timelineLanes(timed, new Set()).groups[0].top, 140);
+  const open = timelineLanes(timed, new Set([timed[0].key])).groups[0];
+  assert.equal(open.top, 100);
+  assert.equal(open.headerTop, 40);
+  assert.deepEqual(open.slots.map((slot) => [slot.minute, slot.top]), [[75, 0], [105, 40]]);
+});
+
+test("unrelated competitions sharing a start use a flat overflow list instead of four columns", () => {
+  const { timed } = dayTimeline(["NFL", "NBA", "MLB", "NHL"].map((league) => event(league, { league })), "UTC");
+  const layout = timelineLanes(timed, new Set());
+  assert.equal(layout.overflow.length, 1);
+  assert.equal(layout.overflow[0].value.events.length, 4);
+  assert.equal(layout.overflow[0].columns, 1);
+  assert.ok(layout.groups.every((group) => !group.header));
 });
