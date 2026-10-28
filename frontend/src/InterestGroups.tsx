@@ -46,6 +46,7 @@ export default function InterestGroups({ leagues, selected, onChange, preference
   preferences: InterestPreferences; onPreferencesChange: (value: InterestPreferences) => void;
 }) {
   const leagueSports = new Map(leagues.map(({ value, sport }) => [value, sport]));
+  const majorsOnly = GOLF_TOURS.filter((tour) => preferences.golf_views[tour] === "majors_only").length;
   return (
     <div className="interest-groups">
       {interestGroups(leagues).map((group) => {
@@ -79,12 +80,13 @@ export default function InterestGroups({ leagues, selected, onChange, preference
               {group.name === "Golf" && <fieldset className="interest-facet">
                 <legend>Events</legend>
                 <div className="interest-grid">
-                  {GOLF_TOURS.filter((tour) => group.leagues.includes(tour)).map((tour) => (
-                    <PreferenceCheckbox key={tour} name={`${leagueVisual(tour).shortLabel} majors only`}
-                      checked={preferences.golf_views[tour] === "majors_only"} onChange={(checked) =>
-                        onPreferencesChange({ ...preferences, golf_views: { ...preferences.golf_views,
-                          [tour]: checked ? "majors_only" : "full_tour" } })} />
-                  ))}
+                  <label className={`interest ${majorsOnly === GOLF_TOURS.length ? "chosen" : ""}`}>
+                    <SelectionCheckbox selected={majorsOnly} total={GOLF_TOURS.length} onChange={() => {
+                      const view = majorsOnly === GOLF_TOURS.length ? "full_tour" : "majors_only";
+                      onPreferencesChange({ ...preferences, golf_views: { PGA_TOUR: view, LPGA_TOUR: view } });
+                    }} />
+                    <span>Majors only</span>
+                  </label>
                 </div>
               </fieldset>}
               {group.name === "Motorsports" && <fieldset className="interest-facet">

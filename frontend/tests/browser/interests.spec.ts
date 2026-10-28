@@ -64,7 +64,7 @@ test("in-group coverage checkboxes save together, cancel cleanly, and survive re
   await expect(chooser.getByRole("combobox")).toHaveCount(0);
   await expect(chooser.getByText("More filters", { exact: true })).toHaveCount(0);
   await chooser.locator("summary").filter({ hasText: /^Golf$/ }).click();
-  await expect(chooser.getByRole("region", { name: "Golf interests" }).getByRole("checkbox")).toHaveCount(5);
+  await expect(chooser.getByRole("region", { name: "Golf interests" }).getByRole("checkbox")).toHaveCount(4);
   await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).check();
   await chooser.locator("summary").filter({ hasText: /^Combat sports$/ }).click();
   await expect(chooser.getByRole("checkbox", { name: "One", exact: true })).toBeVisible();
@@ -72,8 +72,7 @@ test("in-group coverage checkboxes save together, cancel cleanly, and survive re
   await motorsport.locator("summary").click();
   await expect(golf.getByRole("checkbox", { name: "PGA Tour", exact: true })).toBeChecked();
   await expect(golf.getByRole("checkbox", { name: "LPGA Tour", exact: true })).toBeChecked();
-  await golf.getByRole("checkbox", { name: "PGA Tour majors only", exact: true }).check();
-  await golf.getByRole("checkbox", { name: "LPGA Tour majors only", exact: true }).check();
+  await golf.getByRole("checkbox", { name: "Majors only", exact: true }).check();
   await page.screenshot({ path: "test-results/golf-options-mobile.png" });
   await motorsport.getByRole("checkbox", { name: "Races only", exact: true }).uncheck();
   expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
@@ -94,7 +93,7 @@ test("in-group coverage checkboxes save together, cancel cleanly, and survive re
   await expect(page.locator("#day-2026-04-09 .event-pill").filter({ hasText: "Masters Tournament" })).toHaveCount(1);
   await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
   await golf.locator("summary").click();
-  await golf.getByRole("checkbox", { name: "PGA Tour majors only", exact: true }).uncheck();
+  await golf.getByRole("checkbox", { name: "Majors only", exact: true }).uncheck();
   await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).uncheck();
   await page.keyboard.press("Escape");
   await expect(chooser).toHaveCount(0);
@@ -103,7 +102,7 @@ test("in-group coverage checkboxes save together, cancel cleanly, and survive re
   await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
   await expect(chooser.getByRole("checkbox", { name: "Select all Golf", exact: true })).toBeChecked();
   await golf.locator("summary").click();
-  await expect(golf.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeChecked();
+  await expect(golf.getByRole("checkbox", { name: "Majors only", exact: true })).toBeChecked();
   await motorsport.locator("summary").click();
   await motorsport.getByRole("checkbox", { name: "Races only", exact: true }).check();
   await chooser.getByRole("button", { name: "Close", exact: true }).click();
@@ -113,15 +112,15 @@ test("in-group coverage checkboxes save together, cancel cleanly, and survive re
   await golf.locator("summary").click();
   await motorsport.locator("summary").click();
   await expect(motorsport.getByRole("checkbox", { name: "Races only", exact: true })).not.toBeChecked();
-  await expect(golf.getByRole("checkbox", { name: "LPGA Tour majors only", exact: true })).toBeChecked();
+  await expect(golf.getByRole("checkbox", { name: "Majors only", exact: true })).toBeChecked();
 });
 
-for (const majorsOnly of [true, false]) for (const racesOnly of [true, false]) {
-  test(`saved coverage stays exact: PGA majors ${majorsOnly}, LPGA majors ${!majorsOnly}, races ${racesOnly}`, async ({ page }) => {
+for (const pgaMajors of [true, false]) for (const lpgaMajors of [true, false]) for (const racesOnly of [true, false]) {
+  test(`saved coverage stays exact: PGA majors ${pgaMajors}, LPGA majors ${lpgaMajors}, races ${racesOnly}`, async ({ page }) => {
     await page.clock.setFixedTime(new Date("2026-09-11T17:00:00Z"));
     const saved = {
       leagues: ["PGA_TOUR", "LPGA_TOUR", "F1", "OLD_SAVED_LEAGUE"],
-      golf_views: { PGA_TOUR: majorsOnly ? "majors_only" : "full_tour", LPGA_TOUR: majorsOnly ? "full_tour" : "majors_only" },
+      golf_views: { PGA_TOUR: pgaMajors ? "majors_only" : "full_tour", LPGA_TOUR: lpgaMajors ? "majors_only" : "full_tour" },
       motorsport_view: racesOnly ? "race_only" : "full_weekend",
       climbing: { genders: ["Men"], disciplines: ["Boulder"] }, weightlifting: { genders: ["Women"] },
     };
@@ -134,19 +133,54 @@ for (const majorsOnly of [true, false]) for (const racesOnly of [true, false]) {
       await page.getByRole("button", { name: "Interests · 4", exact: true }).click();
       await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
       await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
-      await expect(chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeChecked({ checked: majorsOnly });
-      await expect(chooser.getByRole("checkbox", { name: "LPGA Tour majors only", exact: true })).toBeChecked({ checked: !majorsOnly });
+      const majors = chooser.getByRole("checkbox", { name: "Majors only", exact: true });
+      await expect(majors).toHaveCount(1);
+      await expect(majors).toBeChecked({ checked: pgaMajors && lpgaMajors });
+      await expect(majors).toHaveJSProperty("indeterminate", pgaMajors !== lpgaMajors);
       await expect(chooser.getByRole("checkbox", { name: "Races only", exact: true })).toBeChecked({ checked: racesOnly });
       await chooser.getByRole("button", { name: "Show my calendar" }).click();
       expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!))).toEqual(saved);
       await page.reload();
     }
     await page.getByRole("button", { name: "Interests · 4", exact: true }).click();
+    const golf = chooser.getByRole("region", { name: "Golf interests" });
+    const majors = golf.getByRole("checkbox", { name: "Majors only", exact: true });
+    await golf.locator("summary").click();
+    // A keyboard toggle sets both modes, without selecting or deselecting either tour.
+    await majors.focus();
+    await page.keyboard.press(" ");
+    await expect(majors).toBeChecked({ checked: !(pgaMajors && lpgaMajors) });
+    await expect(majors).toHaveJSProperty("indeterminate", false);
+    await golf.getByRole("checkbox", { name: "LPGA Tour", exact: true }).uncheck();
+    await chooser.getByRole("button", { name: "Close", exact: true }).click();
+    expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!))).toEqual(saved);
+    await page.getByRole("button", { name: "Interests · 4", exact: true }).click();
+    await golf.locator("summary").click();
+    await expect(majors).toBeChecked({ checked: pgaMajors && lpgaMajors });
+    await expect(majors).toHaveJSProperty("indeterminate", pgaMajors !== lpgaMajors);
+    await expect(golf.getByRole("checkbox", { name: "LPGA Tour", exact: true })).toBeChecked();
+    // Keep a single tour selected while saving both modes through the combined setting.
+    await golf.getByRole("checkbox", { name: "LPGA Tour", exact: true }).uncheck();
+    for (const checked of [true, false]) {
+      await majors.setChecked(checked);
+      await chooser.getByRole("button", { name: "Show my calendar" }).click();
+      expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!))).toEqual({
+        ...saved, leagues: saved.leagues.filter((league) => league !== "LPGA_TOUR"),
+        golf_views: { PGA_TOUR: checked ? "majors_only" : "full_tour", LPGA_TOUR: checked ? "majors_only" : "full_tour" },
+      });
+      await page.reload();
+      await page.getByRole("button", { name: "Interests · 3", exact: true }).click();
+      await golf.locator("summary").click();
+      await expect(majors).toBeChecked({ checked });
+      await expect(majors).toHaveJSProperty("indeterminate", false);
+      await expect(golf.getByRole("checkbox", { name: "PGA Tour", exact: true })).toBeChecked();
+      await expect(golf.getByRole("checkbox", { name: "LPGA Tour", exact: true })).not.toBeChecked();
+    }
     await chooser.getByRole("button", { name: "Select all", exact: true }).click();
     await chooser.getByRole("button", { name: "Show my calendar" }).click();
     const all = await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!));
     expect(all.leagues).toContain("OLD_SAVED_LEAGUE");
-    expect(all.golf_views).toEqual(saved.golf_views);
+    expect(all.golf_views).toEqual({ PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" });
     expect(all.motorsport_view).toEqual(saved.motorsport_view);
     await page.getByRole("button", { name: /^Interests ·/ }).click();
     await chooser.getByRole("button", { name: "Clear", exact: true }).click();
@@ -210,7 +244,7 @@ for (const categories of [["four_belt"], []]) {
     await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
     await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
     await expect(chooser.getByRole("checkbox", { name: /Four-belt|Three-belt/ })).toHaveCount(0);
-    await expect(chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeChecked();
+    await expect(chooser.getByRole("checkbox", { name: "Majors only", exact: true })).toHaveJSProperty("indeterminate", true);
     await expect(chooser.getByRole("checkbox", { name: "Races only", exact: true })).not.toBeChecked();
     await chooser.getByRole("button", { name: "Show my calendar" }).click();
     const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!));

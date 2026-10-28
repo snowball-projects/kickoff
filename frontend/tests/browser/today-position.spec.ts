@@ -188,8 +188,7 @@ test("first-time mobile onboarding with published fixture coverage stays on toda
   }
   await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).check();
   await chooser.getByRole("checkbox", { name: "Boxing", exact: true }).check();
-  await chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true }).check();
-  await chooser.getByRole("checkbox", { name: "LPGA Tour majors only", exact: true }).check();
+  await chooser.getByRole("checkbox", { name: "Majors only", exact: true }).check();
   await chooser.getByRole("checkbox", { name: "Races only", exact: true }).uncheck();
   await chooser.getByRole("button", { name: "Show my calendar", exact: true }).click();
   await expect(chooser).toHaveCount(0);

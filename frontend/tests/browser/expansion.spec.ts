@@ -132,7 +132,7 @@ test("calendar, interests and About kickoff fit a narrow mobile viewport", async
   await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
   await chooser.getByRole("region", { name: "Motorsports interests" }).locator("summary").click();
   await expect(chooser.getByRole("combobox")).toHaveCount(0);
-  await expect(chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true })).toBeVisible();
+  await expect(chooser.getByRole("checkbox", { name: "Majors only", exact: true })).toBeVisible();
   await expect(chooser.getByRole("checkbox", { name: "Races only", exact: true })).toBeVisible();
   expect(await chooser.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
   await chooser.getByRole("button", { name: "Close", exact: true }).click();
