@@ -85,10 +85,10 @@ function Modal({
 function Pill({ event }: { event: EventCard }) {
   return (
     <span
-      className={`event-pill ${leagueVisual(event.league).className}`}
+      className={`event-pill ${leagueVisual(event.league, event.sport).className}`}
     >
-      <SportIcon sport={event.sport} /><b aria-hidden="true">{!countryIdentity(event.country) && SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league).shortLabel}</b>
-      <span className="sr-only">{leagueVisual(event.league).shortLabel}</span>
+      <SportIcon league={event.league} sport={event.sport} /><b aria-hidden="true">{!countryIdentity(event.country) && SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league, event.sport).shortLabel}</b>
+      <span className="sr-only">{leagueVisual(event.league, event.sport).shortLabel}</span>
       <span><EventFlags event={event} />{event.tags.includes("final date only") && "Final date · "}{event.title}</span>
     </span>
   );
@@ -102,9 +102,9 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
       <div className="event-time">{eventTimeLabel(event, timezone)}</div>
       <div>
         <span
-          className={`league-label ${leagueVisual(event.league).className}`}
+          className={`league-label ${leagueVisual(event.league, event.sport).className}`}
         >
-          <SportIcon sport={event.sport} />{leagueVisual(event.league).shortLabel}
+          <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
         </span>
         <h3><EventFlags event={event} />{event.title}</h3>
         {event.tags.includes("final date only") && <p className="date-scope">Final date only</p>}

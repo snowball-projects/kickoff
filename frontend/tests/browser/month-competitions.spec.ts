@@ -59,10 +59,11 @@ test("month chips expand in place, stay flat and show only a muted inactive hidd
   await expect(day.locator(".competition-event-time")).toHaveText(["12:00 PM", "3:00 PM", "Time TBD"]);
   await expect(day.locator(".hidden-events")).toHaveText("1 more event hidden by your filters");
   await expect(day.locator(".competition-events [aria-expanded]")).toHaveCount(0);
+  const mutedColor = await page.locator(".footer-meta").evaluate((element) => getComputedStyle(element).color);
   expect(await day.locator(".hidden-events").evaluate((element) => {
     const style = getComputedStyle(element);
     return { size: style.fontSize, color: style.color, tabIndex: (element as HTMLElement).tabIndex };
-  })).toEqual({ size: "10px", color: "rgb(107, 120, 111)", tabIndex: -1 });
+  })).toEqual({ size: "10px", color: mutedColor, tabIndex: -1 });
   await day.locator(".hidden-events").click();
   await expect(page.getByRole("complementary", { name: "Day events" })).toHaveCount(0);
   await expect(chip).toHaveAttribute("aria-expanded", "true");

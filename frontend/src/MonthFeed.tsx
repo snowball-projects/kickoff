@@ -39,10 +39,10 @@ function CompetitionChip({ group, date, timezone, renderEvent, onOpenDay, previe
   const label = `${group.name} · ${competitionSummary(group.items, timezone)}`;
   return (
     <div className="month-competition">
-      <button className={`event-pill competition-chip ${leagueVisual(group.items[0].league).className}`}
+      <button className={`event-pill competition-chip ${leagueVisual(group.items[0].league, group.items[0].sport).className}`}
         aria-expanded={expanded} aria-label={`${label}${host ? ` · Host country: ${host.name}` : ""}`}
         onClick={() => { preview.close(); onToggle(); }}>
-        <span><SportIcon sport={group.items[0].sport} /><CommonHostFlag events={group.items} />{label}</span><span aria-hidden="true">{expanded ? "−" : "+"}</span>
+        <span><SportIcon league={group.items[0].league} sport={group.items[0].sport} /><CommonHostFlag events={group.items} />{label}</span><span aria-hidden="true">{expanded ? "−" : "+"}</span>
       </button>
       {expanded && <div className="competition-events">
         {group.items.map((event) => (

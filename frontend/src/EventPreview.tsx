@@ -49,7 +49,7 @@ export default function EventPreview({ preview, timezone, onEnter, onLeave }: {
     <div ref={ref} id="event-preview" role="tooltip" className="event-preview"
       style={position} onPointerEnter={onEnter} onPointerLeave={onLeave}
       onPointerDown={(event) => event.stopPropagation()} onWheel={(event) => event.stopPropagation()}>
-      <h3><SportIcon sport={event.sport} /><EventFlags event={event} />{event.title}</h3>
+      <h3><SportIcon league={event.league} sport={event.sport} standalone /><EventFlags event={event} />{event.title}</h3>
       <p>{event.tags.includes("final date only") && "Final date only · "}{formatLongDate(start)}{event.end_calendar_date && event.end_calendar_date > start
         ? ` – ${formatLongDate(event.end_calendar_date)}` : ""}</p>
       <p className="preview-time">{eventTimeLabel(event, timezone)}</p>

@@ -95,3 +95,19 @@ test("climbing championships share one choice while cups and each published even
     { name: "Youth World Championships", leagues: ["IFSC_YOUTH_WORLD_CHAMPIONSHIPS"] },
   ]);
 });
+
+test("new league IDs join their metadata's family, while unknown sports remain selectable", async () => {
+  const { interestGroups, toggleInterestGroup } = await loadModule("calendar-helpers");
+  const { interestLeagues } = await loadModule("interest-preferences");
+  const choices = interestLeagues([
+    { value: "NEW_SERIES", sport: "motorsport" }, { value: "NEW_TOUR", sport: "golf" },
+    { value: "NEW_LEAGUE", sport: "soccer" }, { value: "UNRECOGNISED", sport: "other_sport" },
+    { value: "GOLF_MAJORS_MEN", sport: "golf" }, { value: "PGA_TOUR" },
+  ]);
+  assert.deepEqual(interestGroups(choices), [
+    { name: "Soccer", leagues: ["NEW_LEAGUE"] }, { name: "Motorsports", leagues: ["NEW_SERIES"] },
+    { name: "Golf", leagues: ["PGA_TOUR", "NEW_TOUR"] }, { name: "Miscellaneous", leagues: ["UNRECOGNISED"] },
+  ]);
+  assert.equal(choices.find(({ value }) => value === "PGA_TOUR").sport, "golf");
+  assert.deepEqual(toggleInterestGroup(["OLD_ID", "NEW_SERIES"], ["NEW_SERIES"]), ["OLD_ID"]);
+});

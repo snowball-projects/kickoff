@@ -2,15 +2,18 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
 const { countryIdentity, hostCountry, commonHostCountry, nationalTeamCountries } = await loadModule("countries");
-const { SPORT_ICONS, sportIconKey } = await loadModule("sport-icons");
+const { SPORT_ICONS } = await loadModule("sport-icons");
 
-test("ten sport shapes cover every current category and share family icons", () => {
+const { CATEGORY_KEYS, categoryForLeague } = await loadModule("calendar-helpers");
+
+test("ten sport shapes cover the shared category keys and future series use family identity", () => {
   assert.equal(Object.keys(SPORT_ICONS).length, 10);
-  for (const category of ["Soccer", "Motorsports", "American football", "Basketball", "Baseball", "Hockey", "Combat sports", "Golf", "Climbing", "Weightlifting"])
-    assert.ok(SPORT_ICONS[sportIconKey(category)]);
-  assert.equal(sportIconKey("mma"), sportIconKey("boxing"));
-  assert.equal(sportIconKey("combat_sports"), sportIconKey("Combat sports"));
-  assert.equal(sportIconKey("unknown"), undefined);
+  for (const category of Object.values(CATEGORY_KEYS)) assert.ok(SPORT_ICONS[category]);
+  assert.ok(SPORT_ICONS[categoryForLeague("NEW_SERIES", "motorsport")]);
+  assert.equal(categoryForLeague("NEW_BOXING", "boxing"), categoryForLeague("UFC", "mma"));
+  assert.equal(categoryForLeague("NEW_HOCKEY", "ice_hockey"), "hockey");
+  assert.equal(categoryForLeague("NFL", "football"), "american-football");
+  assert.equal(categoryForLeague("UNKNOWN", "unknown"), null);
 });
 
 test("host flags resolve explicit ISO codes and existing reviewed country names", () => {

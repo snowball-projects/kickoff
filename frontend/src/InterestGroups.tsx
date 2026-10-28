@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { SportIcon } from "./EventIdentity";
-import { CLIMBING_DISCIPLINES, GENDERS, GOLF_TOURS, type InterestPreferences } from "./interest-preferences";
-import { interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
+import { CLIMBING_DISCIPLINES, GENDERS, GOLF_TOURS, type InterestPreferences, type LeagueInterest } from "./interest-preferences";
+import { CATEGORY_KEYS, interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
 
 function SelectionCheckbox({ name, selected, total, onChange }: {
   name?: string; selected: number; total: number; onChange: () => void;
@@ -42,9 +42,10 @@ function PreferenceCheckbox({ name, checked, onChange }: {
 }
 
 export default function InterestGroups({ leagues, selected, onChange, preferences, onPreferencesChange }: {
-  leagues: { value: string }[]; selected: string[]; onChange: (value: string[]) => void;
+  leagues: LeagueInterest[]; selected: string[]; onChange: (value: string[]) => void;
   preferences: InterestPreferences; onPreferencesChange: (value: InterestPreferences) => void;
 }) {
+  const leagueSports = new Map(leagues.map(({ value, sport }) => [value, sport]));
   return (
     <div className="interest-groups">
       {interestGroups(leagues).map((group) => {
@@ -58,7 +59,7 @@ export default function InterestGroups({ leagues, selected, onChange, preference
               <span aria-hidden="true">{count}/{group.leagues.length}</span>
             </label>
             <details>
-              <summary><SportIcon sport={group.name} />{group.name}</summary>
+              <summary><SportIcon category={CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS]} standalone />{group.name}</summary>
               <div className="interest-grid">
                 {interestChoices(group).map((choice) => {
                   const league = choice.leagues[0];
@@ -69,7 +70,7 @@ export default function InterestGroups({ leagues, selected, onChange, preference
                       <SelectionCheckbox total={choice.leagues.length} selected={count}
                         onChange={() => onChange(toggleInterestGroup(selected, choice.leagues))} />
                       {country ? <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>
-                        : <span aria-hidden="true" className={`interest-dot ${leagueVisual(league).className}`} />}
+                        : <span aria-hidden="true" className={`interest-dot ${leagueVisual(league, leagueSports.get(league)).className}`} />}
                       <span>{choice.name}</span>
                     </label>
                   );

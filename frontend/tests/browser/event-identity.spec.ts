@@ -30,7 +30,11 @@ const group = [0, 1].map((index) => ({ ...events[8], event_id: `climbing-${index
 const mixed = [0, 1].map((index) => ({ ...events[9], event_id: `mixed-${index}`, league: "IWF_JUNIOR_WORLDS",
   country: index ? "Japan" : "China", title: `Mixed fixture ${index}`,
 }));
-const fixture = [...events, international, clubs, ...group, ...mixed,
+const futureEvents = [
+  { ...events[1], event_id: "future-motorsport", league: "FUTURE_MOTOR_SERIES", title: "Harbour street race", country: null },
+  { ...events[5], event_id: "future-hockey", league: "FUTURE_ICE_CUP", sport: "ice_hockey", title: "Comets at Lynx" },
+];
+const fixture = [...events, ...futureEvents, international, clubs, ...group, ...mixed,
   { ...events[0], event_id: "german-host", league: "BUNDESLIGA", country: "Germany", title: "Bayern v Dortmund" },
   { ...events[9], event_id: "multinational", league: "IWF_YOUTH_WORLDS", country: "US/Canada", title: "Multinational fixture" },
 ];
@@ -94,10 +98,31 @@ for (const colorScheme of ["light", "dark"] as const) {
       await expect(row.locator(".sport-icon")).toBeVisible();
       await expect(row).toHaveAccessibleName(new RegExp(event.league === "IFSC_WORLD_CUP" ? "World Climbing" : event.league === "IWF_WORLDS" ? "IWF Worlds" : event.league === "PGA_TOUR" ? "PGA Tour" : event.league === "EPL" ? "Premier League" : event.league));
     }
+    for (const [index, event] of futureEvents.entries()) {
+      const row = page.locator("#day-2026-06-07 .month-single").filter({ hasText: event.title });
+      await expect(row.locator(".sport-icon")).toBeVisible();
+      await expect(row.locator(".sport-icon")).toHaveAttribute("data-sport", index ? "hockey" : "motorsport");
+    }
+    expect(await icons.evaluateAll((nodes) => nodes.every((node) => getComputedStyle(node).color
+      === getComputedStyle(node.closest(".event-pill")!).color))).toBe(true);
     await page.screenshot({ path: `test-results/event-identity-${colorScheme}-calendar-mobile.png` });
     await page.getByRole("button", { name: /^Interests ·/ }).click();
     const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
     await expect(chooser.locator("summary .sport-icon")).toHaveCount(10);
+    expect(await chooser.locator("summary .sport-icon").evaluateAll((nodes) => nodes.every((node) => {
+      const style = getComputedStyle(node);
+      const sample = document.createElement("span");
+      sample.style.color = style.getPropertyValue("--category-accent");
+      document.body.append(sample);
+      const expected = getComputedStyle(sample).color;
+      sample.remove();
+      return style.color === expected;
+    }))).toBe(true);
+    const motorsport = chooser.getByRole("region", { name: "Motorsports interests" });
+    await motorsport.locator("summary").click();
+    await expect(motorsport.getByRole("checkbox", { name: "FUTURE MOTOR SERIES", exact: true })).toBeChecked();
+    await expect(motorsport.locator("summary .sport-icon")).toHaveAttribute("data-sport", "motorsport");
+    await expect(chooser.getByRole("region", { name: "Miscellaneous interests" })).toHaveCount(0);
     await chooser.getByRole("region", { name: "Climbing interests" }).locator("summary").focus();
     await page.keyboard.press("Enter");
     await expect(chooser.getByRole("checkbox", { name: "World Cups", exact: true })).toBeVisible();

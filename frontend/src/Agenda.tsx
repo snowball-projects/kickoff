@@ -116,7 +116,7 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
                   aria-describedby={preview.preview?.event.event_id === event.event_id && preview.preview.date === group.date ? "event-preview" : undefined}>
                   <span className="agenda-clock">{eventTimeLabel(event, timezone)}</span>
                   <span className="agenda-summary">
-                    <span className={`league-label ${leagueVisual(event.league).className}`}><SportIcon sport={event.sport} />{leagueVisual(event.league).shortLabel}</span>
+                    <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}><SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}</span>
                     <span className="agenda-title"><EventFlags event={event} />{event.title}</span>
                     {location && <span className="agenda-location">{location}</span>}
                     {(scope || status) && <span className="agenda-status">{[scope, status].filter(Boolean).join(" · ")}</span>}
