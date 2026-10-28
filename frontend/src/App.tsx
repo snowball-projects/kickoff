@@ -87,7 +87,8 @@ function Pill({ event }: { event: EventCard }) {
     <span
       className={`event-pill ${leagueVisual(event.league).className}`}
     >
-      <SportIcon sport={event.sport} /><b>{SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league).shortLabel}</b>
+      <SportIcon sport={event.sport} /><b aria-hidden="true">{SOCCER_COUNTRIES[event.league] && <span aria-hidden="true">{SOCCER_COUNTRIES[event.league].flag} </span>}{leagueVisual(event.league).shortLabel}</b>
+      <span className="sr-only">{leagueVisual(event.league).shortLabel}</span>
       <span><EventFlags event={event} />{event.tags.includes("final date only") && "Final date · "}{event.title}</span>
     </span>
   );

@@ -1,13 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const categories = [
-  ["EPL", "soccer"], ["F1", "motorsport"], ["NFL", "football"], ["NBA", "basketball"],
-  ["MLB", "baseball"], ["NHL", "hockey"], ["UFC", "mma"], ["PGA_TOUR", "golf"],
-  ["IFSC_WORLD_CUP", "climbing"], ["IWF_WORLDS", "weightlifting"],
+  ["EPL", "soccer", "Arsenal v Everton"], ["F1", "motorsport", "Monaco Grand Prix"],
+  ["NFL", "football", "Ravens at Chiefs"], ["NBA", "basketball", "Celtics at Knicks"],
+  ["MLB", "baseball", "Mets at Cubs"], ["NHL", "hockey", "Canadiens at Maple Leafs"],
+  ["UFC", "mma", "Fighter A v Fighter B"], ["PGA_TOUR", "golf", "Masters Tournament"],
+  ["IFSC_WORLD_CUP", "climbing", "Men's Boulder Qualification"], ["IWF_WORLDS", "weightlifting", "Men's 79kg Group A"],
 ];
-const events = categories.map(([league, sport], index) => ({
+const events = categories.map(([league, sport, title], index) => ({
   event_id: `identity-${league}`, source: "offline-browser-fixture", season: "2026", league, sport,
-  title: `${league} fixture`, event_type: sport === "motorsport" ? "race" : "game",
+  title, event_type: sport === "motorsport" ? "race" : "game",
   subtitle: null, calendar_date: "2026-06-07", end_calendar_date: "2026-06-07",
   start_time_utc: null, start_time_local: null, timezone: null, status: "scheduled",
   venue: null, city: null, region: null, round_or_stage: null, competition_phase: "regular_season",
@@ -51,14 +53,14 @@ test("host and national-team flags describe facts in calendar, detail and agenda
   page.on("request", (request) => { if (!request.url().startsWith("http://127.0.0.1:")) external.push(request.url()); });
   await open(page);
   const day = page.locator("#day-2026-06-07");
-  const f1 = day.locator(".month-single").filter({ hasText: "F1 fixture" });
+  const f1 = day.locator(".month-single").filter({ hasText: "Monaco Grand Prix" });
   await expect(f1.getByRole("img", { name: "Host country: Monaco" })).toHaveText("🇲🇨");
   await expect(day.locator(".competition-chip").filter({ hasText: "Prague" }).getByRole("img", { name: "Host country: Czechia" })).toBeVisible();
   await expect(day.locator(".competition-chip").filter({ hasText: "Junior Worlds" }).getByRole("img")).toHaveCount(0);
   const national = day.locator(".month-single").filter({ hasText: "Japan v France" }).filter({ hasNotText: "Club" });
   await expect(national.getByRole("img", { name: "Japan: Japan" })).toHaveText("🇯🇵");
   await expect(national.getByRole("img", { name: "France: France" })).toHaveText("🇫🇷");
-  for (const title of ["Club Japan v Club France", "NFL fixture", "Multinational fixture"])
+  for (const title of ["Club Japan v Club France", "Ravens at Chiefs", "Multinational fixture"])
     await expect(day.locator(".month-single").filter({ hasText: title }).getByRole("img")).toHaveCount(0);
   await f1.click();
   const details = page.locator("#details-identity-F1");
@@ -67,7 +69,7 @@ test("host and national-team flags describe facts in calendar, detail and agenda
   await page.getByRole("button", { name: "Close day" }).click();
   await page.getByRole("group", { name: "Schedule view", exact: true }).getByRole("button", { name: "Agenda", exact: true }).click();
   const agenda = page.getByRole("region", { name: "Agenda", exact: true });
-  await expect(agenda.locator(".agenda-row").filter({ hasText: "F1 fixture" }).getByRole("img", { name: "Host country: Monaco" })).toBeVisible();
+  await expect(agenda.locator(".agenda-row").filter({ hasText: "Monaco Grand Prix" }).getByRole("img", { name: "Host country: Monaco" })).toBeVisible();
   await expect(agenda.locator(".agenda-row").filter({ hasText: "Japan v France" }).filter({ hasNotText: "Club" }).getByRole("img", { name: "Japan: Japan" })).toBeVisible();
   expect(external).toEqual([]);
 });
@@ -82,6 +84,13 @@ for (const colorScheme of ["light", "dark"] as const) {
     expect(await icons.evaluateAll((nodes) => [...new Set(nodes.map((node) => node.getAttribute("data-sport")))].length)).toBe(10);
     expect(await icons.evaluateAll((nodes) => nodes.every((node) => node.getAttribute("aria-hidden") === "true"
       && node.getAttribute("focusable") === "false" && getComputedStyle(node).fill === getComputedStyle(node).color))).toBe(true);
+    for (const event of events) {
+      const row = page.locator("#day-2026-06-07 .month-single").filter({ hasText: event.title });
+      await expect(row.locator("b")).toBeHidden();
+      await expect(row.locator(".sport-icon")).toBeVisible();
+      await expect(row).toHaveAccessibleName(new RegExp(event.league === "IFSC_WORLD_CUP" ? "World Climbing" : event.league === "IWF_WORLDS" ? "IWF Worlds" : event.league === "PGA_TOUR" ? "PGA Tour" : event.league === "EPL" ? "Premier League" : event.league));
+    }
+    await page.screenshot({ path: `test-results/event-identity-${colorScheme}-calendar-mobile.png` });
     await page.getByRole("button", { name: /^Interests ·/ }).click();
     const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
     await expect(chooser.locator("summary .sport-icon")).toHaveCount(10);
