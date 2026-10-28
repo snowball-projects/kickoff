@@ -295,6 +295,8 @@ export default function MonthFeed(props: Props) {
     if (target) {
       target.focus({ preventScroll: true });
       target.scrollIntoView({ block: "nearest", behavior: "instant" });
+      // A concurrent layout update must preserve this keyboard move, not the old viewport.
+      measure();
     } else props.onNavigate(anchor, next);
   }
 
