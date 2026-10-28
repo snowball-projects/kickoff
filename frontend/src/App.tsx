@@ -15,7 +15,7 @@ import {
 import type { EventCard, FilterState } from "./types";
 import { leagueVisual, SOCCER_COUNTRIES } from "./calendar-helpers";
 import InterestGroups from "./InterestGroups";
-import { defaultPreferences, GOLF_TOURS, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
+import { defaultPreferences, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { boundMonth, dayAfter, monthAt, monthIndex, monthWindow, scheduleWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
@@ -522,12 +522,11 @@ export default function App() {
             <p>{error}</p>
           ) : (
             <InterestGroups leagues={leagues} selected={draft} onChange={setDraft}
-              sessionInterests={draftPreferences} onSessionChange={(options) =>
-                setDraftPreferences((previous) => ({ ...previous, ...options }))} />
+              preferences={draftPreferences} onPreferencesChange={setDraftPreferences} />
           )}
           <div className="interest-actions">
             <button onClick={() => {
-              setDraft(leagues.map((l) => l.value));
+              setDraft((previous) => [...new Set([...previous, ...leagues.map((l) => l.value)])]);
               const { climbing, weightlifting } = defaultPreferences();
               setDraftPreferences((previous) => ({ ...previous, climbing, weightlifting }));
             }}>
@@ -535,28 +534,6 @@ export default function App() {
             </button>
             <button onClick={() => setDraft([])}>Clear</button>
           </div>
-          <details className="advanced">
-            <summary>Advanced options</summary>
-            <label className="option-row">
-              Motorsport
-              <select aria-label="Motorsport" value={draftPreferences.motorsport_view} onChange={(e) =>
-                setDraftPreferences((p) => ({ ...p, motorsport_view: e.target.value as "race_only" | "full_weekend" }))}>
-                <option value="race_only">Races only</option>
-                <option value="full_weekend">Full weekend</option>
-              </select>
-            </label>
-            {GOLF_TOURS.map((tour) => (
-              <label className="option-row" key={tour}>
-                {leagueVisual(tour).shortLabel}
-                <select aria-label={leagueVisual(tour).shortLabel} value={draftPreferences.golf_views[tour]} onChange={(e) =>
-                  setDraftPreferences((p) => ({ ...p, golf_views: { ...p.golf_views,
-                    [tour]: e.target.value as "majors_only" | "full_tour" } }))}>
-                  <option value="majors_only">Majors only</option>
-                  <option value="full_tour">Full tour</option>
-                </select>
-              </label>
-            ))}
-          </details>
           <button className="primary-button" onClick={save}>
             Show my calendar
           </button>
