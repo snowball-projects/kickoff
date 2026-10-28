@@ -149,3 +149,23 @@ def test_only_unpublished_season_404_is_optional(monkeypatch, tmp_path):
                 open_schedules.refresh_open_schedules(year, output)
             assert error.value.code == status
             assert not (output / f"{year}.json").exists()
+
+
+def test_f1_host_country_uses_pinned_circuit_metadata_not_grand_prix_title(monkeypatch, tmp_path):
+    from tests.test_reviewed_schedules import fake_open_read
+
+    requests = []
+
+    def read(url):
+        requests.append(url)
+        return fake_open_read(url)
+
+    monkeypatch.setattr(open_schedules, "read_url", read)
+    bundle = json.loads(open_schedules.refresh_open_schedules(2026, tmp_path).read_text())
+    event = next(event for event in bundle["events"] if event["league"] == "F1")
+    assert event["title"] == "Test Grand Prix"
+    assert event["country"] == "MC"
+    for path in ["circuits/monaco.yml", "countries/monaco.yml"]:
+        url = next(url for url in requests if url.endswith(path))
+        assert "/" + "a" * 40 + "/" in url
+        assert sum(receipt["url"] == url for receipt in bundle["input_evidence"]) == 1

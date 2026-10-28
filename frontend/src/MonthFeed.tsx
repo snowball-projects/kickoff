@@ -2,6 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { eventTimeLabel, firstOfMonth, formatLongDate, monthLabel, monthWeeksSunStart } from "./date-utils";
 import { dayAfter, dayInMonth, scheduleWindow, monthWindow, scrollBehavior, shouldRecenter, visibleMonthAt } from "./month-feed-state";
 import { competitionSummary, monthCompetitions } from "./month-competitions";
+import { commonHostCountry } from "./countries";
+import { CommonHostFlag, SportIcon } from "./EventIdentity";
 import { leagueVisual } from "./calendar-helpers";
 import type { CalendarResponse, EventCard } from "./types";
 import EventPreview, { useEventPreview } from "./EventPreview";
@@ -31,13 +33,14 @@ function CompetitionChip({ group, date, timezone, renderEvent, onOpenDay, previe
   preview: ReturnType<typeof useEventPreview>;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const host = commonHostCountry(group.items);
   const label = `${group.name} · ${competitionSummary(group.items, timezone)}`;
   return (
     <div className="month-competition">
       <button className={`event-pill competition-chip ${leagueVisual(group.items[0].league).className}`}
-        aria-expanded={expanded} aria-label={label}
+        aria-expanded={expanded} aria-label={`${label}${host ? ` · Host country: ${host.name}` : ""}`}
         onClick={() => { preview.close(); setExpanded(!expanded); }}>
-        <span>{label}</span><span aria-hidden="true">{expanded ? "−" : "+"}</span>
+        <span><SportIcon sport={group.items[0].sport} /><CommonHostFlag events={group.items} />{label}</span><span aria-hidden="true">{expanded ? "−" : "+"}</span>
       </button>
       {expanded && <div className="competition-events">
         {group.items.map((event) => (

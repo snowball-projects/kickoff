@@ -1,6 +1,8 @@
+import { countryIdentity } from "./countries";
 import { useEffect, useRef } from "react";
 import { agendaDates, agendaGroups, agendaScopeLabel, type AgendaPeriod } from "./agenda-state";
 import { firstOfMonth, eventTimeLabel, formatLongDate, formatShortDate } from "./date-utils";
+import { EventFlags, SportIcon } from "./EventIdentity";
 import { leagueVisual } from "./calendar-helpers";
 import { dayAfter } from "./month-feed-state";
 import EventPreview, { useEventPreview } from "./EventPreview";
@@ -72,7 +74,7 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
             {group.items.map((event) => {
               const scope = agendaScopeLabel(event, group.date);
               const status = event.status === "scheduled" ? "" : event.status.replaceAll("_", " ");
-              const location = event.venue || [event.city, event.country].filter(Boolean).join(" · ");
+              const location = event.venue || [event.city, countryIdentity(event.country)?.name || event.country].filter(Boolean).join(" · ");
               return (
                 <button className="agenda-row" key={event.event_id} id={`agenda-${group.date}-${event.event_id}`}
                   onClick={() => { preview.close(); onOpenDay(group.date, event.event_id); }}
@@ -85,8 +87,8 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
                   aria-describedby={preview.preview?.event.event_id === event.event_id && preview.preview.date === group.date ? "event-preview" : undefined}>
                   <span className="agenda-clock">{eventTimeLabel(event, timezone)}</span>
                   <span className="agenda-summary">
-                    <span className={`league-label ${leagueVisual(event.league).className}`}>{leagueVisual(event.league).shortLabel}</span>
-                    <span className="agenda-title">{event.title}</span>
+                    <span className={`league-label ${leagueVisual(event.league).className}`}><SportIcon sport={event.sport} />{leagueVisual(event.league).shortLabel}</span>
+                    <span className="agenda-title"><EventFlags event={event} />{event.title}</span>
                     {location && <span className="agenda-location">{location}</span>}
                     {(scope || status) && <span className="agenda-status">{[scope, status].filter(Boolean).join(" · ")}</span>}
                   </span>

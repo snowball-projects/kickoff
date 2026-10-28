@@ -13,7 +13,7 @@ const instant = (value: unknown): boolean =>
   typeof value === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})$/.test(value) &&
   day(value.slice(0, 10)) && Number.isFinite(Date.parse(value));
 const participant = (value: unknown): boolean => object(value) && text(value.name) &&
-  ["participant_id", "short_name", "role", "entity_type"].every((key) =>
+  ["participant_id", "short_name", "role", "entity_type", "country_code"].every((key) =>
     value[key] == null || typeof value[key] === "string");
 
 export function validateBundle(payload: unknown): void {

@@ -116,7 +116,11 @@ def fake_open_read(url):
     if "/contents/" in url:
         return json.dumps([{"type": "dir", "path": "src/data/seasons/2026/races/01"}]).encode()
     if url.endswith("race.yml"):
-        return b"id: 1234\nround: 1\ndate: 2026-03-01\ntime: 12:00\ngrandPrixId: test\n"
+        return b"id: 1234\nround: 1\ndate: 2026-03-01\ntime: 12:00\ngrandPrixId: test\ncircuitId: monaco\n"
+    if url.endswith("/circuits/monaco.yml"):
+        return b"id: monaco\ncountryId: monaco\n"
+    if url.endswith("/countries/monaco.yml"):
+        return b"id: monaco\nalpha2Code: MC\n"
     season = url.split("/")[-2]
     day = "2025-10-01" if season == "2025-26" else "2026-10-01"
     return json.dumps(

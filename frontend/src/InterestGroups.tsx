@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { SportIcon } from "./EventIdentity";
 import { CLIMBING_DISCIPLINES, GENDERS, type SessionInterests } from "./interest-preferences";
 import { interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
 
@@ -48,7 +49,7 @@ export default function InterestGroups({ leagues, selected, onChange, sessionInt
               <span aria-hidden="true">{count}/{group.leagues.length}</span>
             </label>
             <details>
-              <summary>{group.name}</summary>
+              <summary><SportIcon sport={group.name} />{group.name}</summary>
               <div className="interest-grid">
                 {interestChoices(group).map((choice) => {
                   const league = choice.leagues[0];

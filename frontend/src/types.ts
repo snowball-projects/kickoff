@@ -13,6 +13,7 @@ export type ApiParticipant = {
   short_name: string | null;
   role: string | null;
   entity_type: string;
+  country_code?: string;
 };
 
 export type EventCard = {

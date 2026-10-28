@@ -1,6 +1,8 @@
+import { countryIdentity } from "./countries";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { eventTimeLabel, formatLongDate } from "./date-utils";
+import { EventFlags, SportIcon } from "./EventIdentity";
 import type { EventCard } from "./types";
 
 export type Preview = { event: EventCard; target: HTMLElement; date: string };
@@ -41,13 +43,13 @@ export default function EventPreview({ preview, timezone, onEnter, onLeave }: {
     });
   }, [preview]);
   const { event } = preview;
-  const location = [event.venue, event.city, event.country].filter(Boolean).join(" · ");
+  const location = [event.venue, event.city, countryIdentity(event.country)?.name || event.country].filter(Boolean).join(" · ");
   const start = event.start_calendar_date || event.calendar_date || preview.date;
   return createPortal(
     <div ref={ref} id="event-preview" role="tooltip" className="event-preview"
       style={position} onPointerEnter={onEnter} onPointerLeave={onLeave}
       onPointerDown={(event) => event.stopPropagation()} onWheel={(event) => event.stopPropagation()}>
-      <h3>{event.title}</h3>
+      <h3><SportIcon sport={event.sport} /><EventFlags event={event} />{event.title}</h3>
       <p>{event.tags.includes("final date only") && "Final date only · "}{formatLongDate(start)}{event.end_calendar_date && event.end_calendar_date > start
         ? ` – ${formatLongDate(event.end_calendar_date)}` : ""}</p>
       <p className="preview-time">{eventTimeLabel(event, timezone)}</p>

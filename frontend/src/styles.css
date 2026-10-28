@@ -1147,3 +1147,27 @@ dialog p {
   font-size: 10px;
   line-height: 1.4;
 }
+
+/* Bundled sport shapes inherit category ink; native flags retain their own colours. */
+.sport-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: 0 0 auto;
+  fill: currentColor;
+  vertical-align: -0.18em;
+  margin-right: 0.3em;
+}
+.event-pill > .sport-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 0;
+}
+.event-flags {
+  display: inline;
+  white-space: nowrap;
+}
+.event-flags .country-flag,
+.competition-chip .country-flag {
+  font-size: 1em;
+  margin-right: 0.3em;
+}

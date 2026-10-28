@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +22,13 @@ def _participant_payload(participant: Participant | None) -> dict[str, Any] | No
         "short_name": participant.short_name,
         "role": participant.role,
         "entity_type": participant.entity_type,
+        **(
+            {"country_code": participant.metadata["country_code"]}
+            if participant.entity_type == "national_team"
+            and isinstance(participant.metadata.get("country_code"), str)
+            and re.fullmatch(r"[A-Z]{2}", participant.metadata["country_code"])
+            else {}
+        ),
     }
 
 
