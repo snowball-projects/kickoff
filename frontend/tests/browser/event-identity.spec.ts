@@ -31,6 +31,7 @@ const mixed = [0, 1].map((index) => ({ ...events[9], event_id: `mixed-${index}`,
   country: index ? "Japan" : "China", title: `Mixed fixture ${index}`,
 }));
 const fixture = [...events, international, clubs, ...group, ...mixed,
+  { ...events[0], event_id: "german-host", league: "BUNDESLIGA", country: "Germany", title: "Bayern v Dortmund" },
   { ...events[9], event_id: "multinational", league: "IWF_YOUTH_WORLDS", country: "US/Canada", title: "Multinational fixture" },
 ];
 
@@ -53,6 +54,9 @@ test("host and national-team flags describe facts in calendar, detail and agenda
   page.on("request", (request) => { if (!request.url().startsWith("http://127.0.0.1:")) external.push(request.url()); });
   await open(page);
   const day = page.locator("#day-2026-06-07");
+  const german = day.locator(".month-single").filter({ hasText: "Bayern v Dortmund" });
+  await expect(german.getByRole("img", { name: "Host country: Germany" })).toBeVisible();
+  expect((await german.textContent())?.match(/🇩🇪/gu)).toHaveLength(1);
   const f1 = day.locator(".month-single").filter({ hasText: "Monaco Grand Prix" });
   await expect(f1.getByRole("img", { name: "Host country: Monaco" })).toHaveText("🇲🇨");
   await expect(day.locator(".competition-chip").filter({ hasText: "Prague" }).getByRole("img", { name: "Host country: Czechia" })).toBeVisible();
