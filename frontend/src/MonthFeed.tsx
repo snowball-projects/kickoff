@@ -6,9 +6,11 @@ import { leagueVisual } from "./calendar-helpers";
 import type { CalendarResponse, EventCard } from "./types";
 import EventPreview, { useEventPreview } from "./EventPreview";
 
-export type MonthNavigation = { anchor: string; id: number; focusDate?: string };
+export type MonthNavigation = { anchor: string; id: number; focusDate?: string; centerDate?: string };
 type Props = {
   active: boolean;
+  contentKey: string;
+  loading: boolean;
   anchors: string[];
   months: Record<string, CalendarResponse>;
   errors: Record<number, string>;
@@ -25,18 +27,18 @@ type Props = {
   renderEvent: (event: EventCard) => React.ReactNode;
 };
 
-function CompetitionChip({ group, date, timezone, renderEvent, onOpenDay, preview }: {
+function CompetitionChip({ group, date, timezone, renderEvent, onOpenDay, preview, expanded, onToggle }: {
   group: ReturnType<typeof monthCompetitions>[number]; date: string; timezone: string;
   renderEvent: Props["renderEvent"]; onOpenDay: Props["onOpenDay"];
   preview: ReturnType<typeof useEventPreview>;
+  expanded: boolean; onToggle: () => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
   const label = `${group.name} · ${competitionSummary(group.items, timezone)}`;
   return (
     <div className="month-competition">
       <button className={`event-pill competition-chip ${leagueVisual(group.items[0].league).className}`}
         aria-expanded={expanded} aria-label={label}
-        onClick={() => { preview.close(); setExpanded(!expanded); }}>
+        onClick={() => { preview.close(); onToggle(); }}>
         <span>{label}</span><span aria-hidden="true">{expanded ? "−" : "+"}</span>
       </button>
       {expanded && <div className="competition-events">
@@ -58,6 +60,7 @@ function CompetitionChip({ group, date, timezone, renderEvent, onOpenDay, previe
 
 export default function MonthFeed(props: Props) {
   const bounds = scheduleWindow(props.today);
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   const preview = useEventPreview();
   const focusPreviewAllowed = useRef(false);
   const scroller = useRef<HTMLDivElement>(null);
@@ -65,7 +68,12 @@ export default function MonthFeed(props: Props) {
   latest.current = props;
   const lastNavigation = useRef(-1);
   const previousAnchors = useRef<string[]>([]);
-  const position = useRef<{ anchor: string; offset: number } | null>(null);
+  const previousMonths = useRef(props.months);
+  const previousActive = useRef(false);
+  const position = useRef<{ anchor: string; offset: number; date?: string; dayOffset?: number } | null>(null);
+  const preservedPosition = useRef<typeof position.current>(null);
+  const previousContentKey = useRef(props.contentKey);
+  const centering = useRef(false);
   const moving = useRef(false);
   const navigationDeadline = useRef(0);
   const frame = useRef(0);
@@ -86,20 +94,35 @@ export default function MonthFeed(props: Props) {
   function destination(root: HTMLDivElement, navigation: MonthNavigation) {
     const target = sections().find((element) => element.dataset.month === navigation.anchor);
     if (!target) return null;
+    const centeredDay = navigation.centerDate ? root.querySelector<HTMLElement>(`#day-${navigation.centerDate}`) : null;
     const focusedDay = navigation.focusDate ? root.querySelector<HTMLElement>(`#day-${navigation.focusDate}`) : null;
-    const top = focusedDay
+    const top = centeredDay
+      ? centeredDay.offsetTop + centeredDay.offsetHeight / 2 - root.clientHeight / 2
+      : focusedDay
       ? Math.max(target.offsetTop, focusedDay.offsetTop + focusedDay.offsetHeight - root.clientHeight + 4)
       : target.offsetTop;
     return { focusedDay, top: Math.max(0, Math.min(top, root.scrollHeight - root.clientHeight)) };
   }
+  function restore(root: HTMLDivElement, saved: NonNullable<typeof position.current>) {
+    const date = saved.date && root.querySelector<HTMLElement>(`#day-${saved.date}`);
+    const month = sections().find((element) => element.dataset.month === saved.anchor);
+    if (date) root.scrollTo({ top: date.offsetTop - saved.dayOffset!, behavior: "instant" });
+    else if (month) root.scrollTo({ top: month.offsetTop - saved.offset, behavior: "instant" });
+  }
   function measure() {
     const root = scroller.current;
-    if (!root || !root.clientHeight) return;
+    if (!root || !root.clientHeight || preservedPosition.current) return;
     const items = sections();
-    const anchor = visibleMonthAt(items.map((el) => ({ anchor: el.dataset.month!, top: el.offsetTop })), root.scrollTop, root.clientHeight);
+    const target = centering.current && destination(root, latest.current.navigation);
+    const anchor = target && Math.abs(root.scrollTop - target.top) <= 2
+      ? latest.current.navigation.anchor
+      : visibleMonthAt(items.map((el) => ({ anchor: el.dataset.month!, top: el.offsetTop })), root.scrollTop, root.clientHeight);
     if (!anchor) return;
     const element = items.find((el) => el.dataset.month === anchor)!;
-    position.current = { anchor, offset: element.offsetTop - root.scrollTop };
+    const date = [...root.querySelectorAll<HTMLElement>(".day-cell[id]")]
+      .find((cell) => cell.offsetTop + cell.offsetHeight > root.scrollTop);
+    position.current = { anchor, offset: element.offsetTop - root.scrollTop,
+      date: date?.id.slice(4), dayOffset: date ? date.offsetTop - root.scrollTop : undefined };
     latest.current.onVisibleMonth(anchor);
   }
   function settle() {
@@ -148,13 +171,28 @@ export default function MonthFeed(props: Props) {
   function interruptNavigation() {
     cancelAnimationFrame(jumpFrame.current);
     moving.current = false;
+    centering.current = false;
+    preservedPosition.current = null;
     latest.current.onNavigationEnd();
   }
 
   useLayoutEffect(() => {
     const root = scroller.current!;
-    if (!props.active) return;
+    if (!props.active) { previousActive.current = false; return; }
     const navigation = props.navigation;
+    const dataChanged = props.anchors.some((anchor) => previousMonths.current[anchor] !== props.months[anchor]);
+    const layoutChanged = dataChanged || previousAnchors.current.join() !== props.anchors.join() || !previousActive.current;
+    previousMonths.current = props.months;
+    previousActive.current = props.active;
+    if (previousContentKey.current !== props.contentKey) {
+      previousContentKey.current = props.contentKey;
+      // Keep an untouched Today view centered as its filtered data arrives.
+      // Once the user browses, preserve the visible date and offset instead.
+      preservedPosition.current = centering.current ? null : position.current;
+      cancelAnimationFrame(jumpFrame.current);
+      clearTimeout(idle.current);
+      moving.current = false;
+    }
     if (lastNavigation.current !== navigation.id) {
       const target = destination(root, navigation);
       if (!target) return;
@@ -163,6 +201,8 @@ export default function MonthFeed(props: Props) {
       const initial = lastNavigation.current === -1;
       const wasPresent = previousAnchors.current.includes(navigation.anchor);
       lastNavigation.current = navigation.id;
+      preservedPosition.current = null;
+      centering.current = Boolean(navigation.centerDate);
       moving.current = true;
       navigationDeadline.current = performance.now() + 2000;
       const { focusedDay, top } = target;
@@ -186,12 +226,16 @@ export default function MonthFeed(props: Props) {
       };
       if (behavior === "auto") jump();
       else jumpFrame.current = requestAnimationFrame(jump);
-    } else if (position.current && previousAnchors.current.join() !== props.anchors.join()) {
-      const target = sections().find((el) => el.dataset.month === position.current!.anchor);
-      if (target) root.scrollTo({ top: target.offsetTop - position.current.offset, behavior: "instant" });
+    } else if ((centering.current || moving.current) && layoutChanged) {
+      const target = destination(root, navigation);
+      if (target) root.scrollTo({ top: target.top, behavior: "instant" });
+      measure();
+    } else if (preservedPosition.current || (position.current && !moving.current && layoutChanged)) {
+      restore(root, preservedPosition.current || position.current!);
+      if (!props.loading) preservedPosition.current = null;
     }
     previousAnchors.current = props.anchors;
-  }, [props.active, props.anchors.join(), props.navigation.id]);
+  }, [props.active, props.anchors.join(), props.navigation.id, props.months, props.contentKey, props.loading, props.today]);
 
   useLayoutEffect(() => {
     const root = scroller.current!;
@@ -201,7 +245,7 @@ export default function MonthFeed(props: Props) {
       if (!latest.current.active || !root.clientHeight) return;
       if (root.clientWidth === size.width && root.clientHeight === size.height) return;
       size = { width: root.clientWidth, height: root.clientHeight };
-      if (moving.current) {
+      if (moving.current || centering.current) {
         // Rotation or resizing changes month heights during a smooth jump.
         // Cancel its old pixel destination and land on the requested date.
         cancelAnimationFrame(jumpFrame.current);
@@ -211,8 +255,7 @@ export default function MonthFeed(props: Props) {
         // Let a queued compositor update arrive before confirming completion.
         idle.current = setTimeout(settle, 160);
       } else if (position.current) {
-        const target = sections().find((el) => el.dataset.month === position.current!.anchor);
-        if (target) root.scrollTo({ top: target.offsetTop - position.current.offset, behavior: "instant" });
+        restore(root, preservedPosition.current || position.current);
       }
     });
     resize.observe(root);
@@ -296,8 +339,15 @@ export default function MonthFeed(props: Props) {
                   <div className="day-events">
                     {monthCompetitions(cell.group?.items || [], cell.group?.competition_counts).map((group) =>
                       group.items.length > 1 ? (
-                        <CompetitionChip key={`${cell.date}:${group.key}:${group.items.map((item) => item.event_id).join()}`}
+                        <CompetitionChip key={`${cell.date}:${group.key}`}
                           group={group} date={cell.date!} timezone={props.timezone}
+                          expanded={expanded.has(`${cell.date}:${group.key}`)}
+                          onToggle={() => setExpanded((previous) => {
+                            const next = new Set(previous);
+                            const key = `${cell.date}:${group.key}`;
+                            if (next.has(key)) next.delete(key); else next.add(key);
+                            return next;
+                          })}
                           renderEvent={props.renderEvent} onOpenDay={props.onOpenDay} preview={preview} />
                       ) : (
                         <button className="event-preview-trigger month-single" key={group.key} tabIndex={-1}
