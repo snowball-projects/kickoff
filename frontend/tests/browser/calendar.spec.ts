@@ -78,6 +78,13 @@ async function nativeScrollTo(page: Page, anchor: string, offset = 0) {
   await expect(heading(page)).toHaveText(new Intl.DateTimeFormat("en-US", { month: "long" }).format(new Date(`${anchor}T12:00:00Z`)));
 }
 
+async function todayWeekOffset(page: Page) {
+  return page.locator("#day-2026-09-10").evaluate((element) => {
+    const root = element.closest(".month-feed")!;
+    return element.getBoundingClientRect().top + element.getBoundingClientRect().height / 2 - root.getBoundingClientRect().top - root.clientHeight / 2;
+  });
+}
+
 async function monthPosition(page: Page, anchor: string) {
   return section(page, anchor).evaluate((element) => {
     const root = element.closest(".month-feed")!;
@@ -114,7 +121,7 @@ test("Today returns from the last covered year, closes day details, and keeps th
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await expect(heading(page)).toHaveText("September");
   await expect(page.getByRole("button", { name: "Show 2026 year calendar" })).toBeVisible();
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(1);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page))).toBeLessThanOrEqual(1);
   await expect(page.locator("#day-2026-09-10")).toHaveAttribute("aria-current", "date");
   await expect(page.locator("#day-2026-09-10")).toHaveClass(/is-today/);
   await page.locator("#day-2026-09-10").click();
@@ -162,15 +169,15 @@ test("Today interrupts an in-progress smooth keyboard year navigation", async ({
     return remaining > 3 && remaining < element.clientHeight * 0.7 - 2;
   }), { intervals: [16] }).toBe(true);
   await page.getByRole("button", { name: "Today", exact: true }).click();
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(1);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page))).toBeLessThanOrEqual(1);
   await expect(heading(page)).toHaveText("September");
   // Observe several animation frames after arrival, including the feed's idle
   // recenter interval, to catch a stale navigation restarting the old target.
   const stable = await feed(page).evaluate(async (element) => {
-    const targetMonth = element.querySelector<HTMLElement>('[data-month="2026-09-01"]')!;
+    const targetDay = element.querySelector<HTMLElement>("#day-2026-09-10")!;
     for (let frame = 0; frame < 20; frame += 1) {
       await new Promise(requestAnimationFrame);
-      if (Math.abs(element.scrollTop - targetMonth.offsetTop) > 1) return false;
+      if (Math.abs(element.scrollTop - (targetDay.offsetTop + targetDay.offsetHeight / 2 - element.clientHeight / 2)) > 1) return false;
     }
     return true;
   });
@@ -210,7 +217,7 @@ test("resizing during a smooth Today jump reaches the current month in the new l
     return remaining > 3 && remaining < element.clientHeight * 0.7 - 2;
   }), { intervals: [16] }).toBe(true);
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(2);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page))).toBeLessThanOrEqual(2);
   await expect(heading(page)).toHaveText("September");
   await expect(page.getByRole("button", { name: "Show 2026 year calendar" })).toBeVisible();
   await expect(page.locator("#day-2026-09-10")).toBeInViewport({ ratio: 0.99 });
@@ -411,7 +418,7 @@ test("a focusable calendar supports native Page Down and reduced-motion Today", 
     };
   });
   await page.getByRole("button", { name: "Today", exact: true }).click();
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(1);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page))).toBeLessThanOrEqual(1);
   await expect(heading(page)).toHaveText("September");
   const behaviors = await page.evaluate(() => Reflect.get(window, "calendarScrollBehaviors") as string[]);
   expect(behaviors).toContain("auto");
@@ -442,9 +449,9 @@ test("delayed scroll delivery completes the jump at its destination before resiz
   await page.getByRole("button", { name: "Today", exact: true }).click();
   // Silence in scroll delivery must finish at the destination, never preserve
   // an intermediate offset as a completed jump. No animation-duration guess.
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(2);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page))).toBeLessThanOrEqual(2);
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect.poll(async () => Math.abs(await monthPosition(page, "2026-09-01"))).toBeLessThanOrEqual(2);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page))).toBeLessThanOrEqual(2);
   await expect(heading(page)).toHaveText("September");
 });
 
@@ -465,7 +472,7 @@ test('a stalled browser jump reaches its bounded destination within the deadline
   await nativeScrollTo(page, '2026-06-01');
   await stallSmoothJump(page);
   await page.getByRole('button', { name: 'Today', exact: true }).click();
-  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-09-01')), { timeout: 5000 }).toBeLessThanOrEqual(2);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page)), { timeout: 5000 }).toBeLessThanOrEqual(2);
   await expect(heading(page)).toHaveText('September');
 });
 
@@ -477,7 +484,7 @@ test('manual wheel interruption prevents a stalled jump from snapping later', as
   await page.mouse.wheel(0, 60);
   // Observe past the programmatic fallback deadline after explicit user input.
   await page.waitForTimeout(2200);
-  await expect.poll(async () => Math.abs(await monthPosition(page, '2026-09-01'))).toBeGreaterThan(100);
+  await expect.poll(async () => Math.abs(await todayWeekOffset(page))).toBeGreaterThan(100);
 });
 
 for (const fixture of [
