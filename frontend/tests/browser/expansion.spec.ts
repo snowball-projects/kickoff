@@ -34,10 +34,10 @@ test("reviewed expansion keeps attribution and exports without download links", 
   await page.goto("/");
   const chooser = page.getByRole("dialog", { name: "Interests", exact: true });
   await expect(chooser).toBeVisible();
-  for (const name of ["American football", "Climbing and weightlifting", "Golf"])
+  for (const name of ["American football", "Climbing", "Weightlifting", "Golf"])
     await chooser.locator("summary").filter({ hasText: new RegExp(`^${name}$`) }).click();
   await expect(chooser.getByText("NFL", { exact: true })).toBeVisible();
-  await expect(chooser.getByText("World Climbing", { exact: true })).toBeVisible();
+  await expect(chooser.getByText("World Cups", { exact: true })).toBeVisible();
   await expect(chooser.getByText("LPGA Tour", { exact: true })).toBeVisible();
   await chooser.getByRole("button", { name: "Clear", exact: true }).click();
   await chooser.getByText("IWF Worlds", { exact: true }).click();
