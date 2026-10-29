@@ -39,7 +39,7 @@ for (const width of [390, 1280]) {
     await expect(agenda.locator(".agenda-row", { hasText: "Later fixture" })).toHaveCount(1);
     await expect(agenda.getByRole("button", { name: "Show more", exact: true })).toHaveCount(0);
     await expect(agenda).toContainText("No later published events match your interests.");
-    await page.getByRole("button", { name: "Today", exact: true }).click();
+    await page.locator(".today-button").click();
     await expect(agenda.getByRole("button", { name: "Today", exact: true })).toHaveAttribute("aria-pressed", "true");
     await page.reload();
     await expect(agendaToggle(page)).toHaveAttribute("aria-checked", "true");
