@@ -329,7 +329,7 @@ def refresh_open_schedules(
     available_seasons: list[int] | None = None,
     enrich_times: bool = False,
 ) -> Path:
-    """Fetch all configured schedules and export; any feed failure aborts publication."""
+    """Fetch all configured schedules and export; primary feed failures abort publication."""
     now = datetime.now(timezone.utc)
     retrieved = now.isoformat(timespec="seconds")
     events, evidence, source_notices = [], [], []
