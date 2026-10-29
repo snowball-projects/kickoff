@@ -29,9 +29,10 @@ npm --prefix frontend run build
 ```
 
 Pages fetches all schedules, builds and deploys daily at 09:17 UTC, on pushes to
-main and on demand. Any feed failure stops the run before build/deployment,
-leaving the live site unchanged. Nothing is committed back. Checks run in CI on
-pull requests. Local refresh accepts `--year 2026`.
+main and on demand. A primary schedule feed failure stops publication, leaving
+the live site unchanged. Failed optional ESPN clock lookups log a warning and
+leave affected events date-only; existing source times are preserved. Nothing is
+committed back. Checks run in CI on pull requests. Local refresh accepts `--year 2026`.
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;
 edit records and their receipts together, preserving IDs and uncertainty.

@@ -2,6 +2,7 @@ import copy
 import json
 from datetime import date
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 
 import pytest
 
@@ -133,25 +134,80 @@ def test_existing_clocks_multiday_tournaments_and_final_date_markers_do_not_fetc
     assert calls == [] and [e.to_dict() for e in events] == before
 
 
-@pytest.mark.parametrize("payload", [{}, {"events": None}, {"events": "missing"}])
-def test_missing_collection_fails_refresh(monkeypatch, payload):
+@pytest.mark.parametrize("payload", [{}, {"events": None}, {"events": "missing"}, {"events": [None]}])
+def test_malformed_lookup_warns_and_preserves_events(monkeypatch, caplog, payload):
     monkeypatch.setattr(feeds, "get_json", lambda _: payload)
-    with pytest.raises(ValueError):
-        fill_missing_start_times([football()], 2026)
+    event = football()
+    before = event.to_dict()
+    assert fill_missing_start_times([event], 2026) == []
+    assert event.to_dict() == before
+    assert "ESPN clock lookup failed" in caplog.text
+    assert "/soccer/bra.1/scoreboard?dates=2026" in caplog.text
 
 
-def test_missing_timezone_and_possible_truncation_fail_refresh(monkeypatch):
+@pytest.mark.parametrize("truncated", [False, True])
+def test_missing_timezone_and_possible_truncation_warn_and_preserve_events(monkeypatch, caplog, truncated):
     row = espn(
-        clock="2026-10-28T23:30",
+        clock="2026-10-28T23:30" if not truncated else "2026-10-28T23:30Z",
         home=football_teams()["BRASILEIRAO"]["teams"]["CR Flamengo"],
         away=football_teams()["BRASILEIRAO"]["teams"]["SE Palmeiras"],
     )
-    answer(monkeypatch, [row])
-    with pytest.raises(ValueError, match="timezone"):
-        fill_missing_start_times([football()], 2026)
-    answer(monkeypatch, [row] * 1000)
-    with pytest.raises(ValueError, match="truncated"):
-        fill_missing_start_times([football()], 2026)
+    answer(monkeypatch, [row] * (1000 if truncated else 1))
+    event = football()
+    before = event.to_dict()
+    assert fill_missing_start_times([event], 2026) == []
+    assert event.to_dict() == before
+    assert ("truncated" if truncated else "timezone") in caplog.text
+
+
+def test_late_malformed_clock_discards_all_changes_from_its_lookup(monkeypatch, caplog):
+    # The first event is confirmed before the next event's malformed clock.
+    events = [football(), football(day="2026-10-29")]
+    before = [event.to_dict() for event in events]
+    teams = football_teams()["BRASILEIRAO"]["teams"]
+    row = espn(home=teams["CR Flamengo"], away=teams["SE Palmeiras"])
+    bad = espn(clock="2026-10-29T23:30Z", home=teams["CR Flamengo"], away=teams["SE Palmeiras"], identity="456")
+    bad["competitions"][0]["date"] = "invalid"
+    answer(monkeypatch, [row, bad])
+    assert fill_missing_start_times(events, 2026) == []
+    assert [event.to_dict() for event in events] == before
+    assert "ESPN clock lookup failed" in caplog.text
+
+
+@pytest.mark.parametrize("failed_first", [False, True])
+def test_failed_lookup_does_not_discard_other_lookups_or_existing_times(monkeypatch, failed_first):
+    missing, timed = football(), football(clock="19:00")
+    timed_before = timed.to_dict()
+    other = feeds.make_event(
+        source="mlb",
+        league="MLB",
+        sport="baseball",
+        upstream_id="123",
+        season="2026",
+        title="Away at Home",
+        utc=None,
+        day="2026-10-28",
+        home="Home",
+        away="Away",
+        source_url="https://www.mlb.com/gameday/123",
+    )
+    row = espn(clock="2026-10-28T20:30Z")
+    for competitor in row["competitions"][0]["competitors"]:
+        competitor["team"]["displayName"] = "Home" if competitor["homeAway"] == "home" else "Away"
+
+    def get_json(url):
+        if "/soccer/" in url:
+            raise OSError("ESPN soccer clocks unavailable")
+        return {"events": [row]}
+
+    monkeypatch.setattr(feeds, "get_json", get_json)
+    events = [missing, other, timed] if failed_first else [other, missing, timed]
+    receipts = fill_missing_start_times(events, 2026)
+    assert missing.start_time_utc is missing.start_time_local is None
+    assert timed.to_dict() == timed_before
+    assert other.start_time_utc == "2026-10-28T20:30:00Z"
+    assert other.start_time_source_url == row["links"][0]["href"]
+    assert len(receipts) == 1 and receipts[0]["clocks_added"][0]["event_id"] == other.event_id
 
 
 def test_combat_card_uses_reviewed_identity_and_header_block_not_main_bout(monkeypatch):
@@ -312,15 +368,55 @@ def test_reviewed_joins_are_unique_and_carry_source_and_check_date():
     assert len(payload["events"]) == len(combat_identities())
 
 
-def test_enrichment_failure_stops_before_writing_bundle(monkeypatch, tmp_path):
+@pytest.mark.parametrize(
+    "failure",
+    [
+        TimeoutError("ESPN clock lookup timed out"),
+        URLError("ESPN clock lookup unavailable"),
+        HTTPError("https://example.org", 503, "ESPN unavailable", {}, None),
+        json.JSONDecodeError("malformed ESPN clock feed", "", 0),
+    ],
+)
+def test_failed_clock_lookup_still_exports_date_only_events(monkeypatch, tmp_path, caplog, failure):
+    monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
+    original = open_schedules.football_events
+
+    def missing_brazil(payload, key, season, source_url):
+        if key == "br.1":
+            payload = {"matches": [{"date": "2026-10-28", "team1": "CR Flamengo", "team2": "SE Palmeiras"}]}
+        return original(payload, key, season, source_url)
+
+    monkeypatch.setattr(open_schedules, "football_events", missing_brazil)
+
+    def fail(_):
+        raise failure
+
+    monkeypatch.setattr(feeds, "get_json", fail)
+    bundle = json.loads(open_schedules.refresh_open_schedules(2026, tmp_path, enrich_times=True).read_text())
+    event = next(e for e in bundle["events"] if e["league"] == "BRASILEIRAO")
+    assert event["calendar_date"] == event["end_calendar_date"] == "2026-10-28"
+    assert event["start_time_utc"] is event["start_time_local"] is None
+    assert event["source"] == "openfootball" and event["source_url"]
+    assert not event.get("start_time_source") and not event.get("start_time_source_url")
+    assert any(e["start_time_utc"] for e in bundle["events"])  # Primary clocks survive.
+    assert not any(receipt.get("clocks_added") for receipt in bundle["input_evidence"])
+    assert "ESPN clock lookup failed" in caplog.text
+
+
+def test_primary_espn_schedule_failure_still_aborts_publication(monkeypatch, tmp_path):
     monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
 
-    def fail(*_):
-        raise OSError("ESPN clock lookup unavailable")
+    def fail(_):
+        raise OSError("primary ESPN schedule unavailable")
 
-    monkeypatch.setattr(open_schedules, "fill_missing_start_times", fail)
-    with pytest.raises(OSError, match="clock lookup"):
-        open_schedules.refresh_open_schedules(2026, tmp_path, enrich_times=True)
+    monkeypatch.setattr(feeds, "get_json", fail)
+    with pytest.raises(OSError, match="primary ESPN schedule"):
+        open_schedules.refresh_open_schedules(
+            2026,
+            tmp_path,
+            feeds={"UFC": feeds.FEEDS["UFC"]},
+            enrich_times=True,
+        )
     assert not (tmp_path / "2026.json").exists()
 
 

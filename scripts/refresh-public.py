@@ -1,4 +1,4 @@
-"""Fetch every schedule into generated static assets; any failure stops publication."""
+"""Fetch every schedule into generated static assets; primary feed failures stop publication."""
 
 import argparse
 import shutil
