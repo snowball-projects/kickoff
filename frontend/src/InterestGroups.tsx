@@ -70,8 +70,8 @@ export default function InterestGroups({ leagues, selected, onChange, preference
                     <label key={league} className={`interest ${count ? "chosen" : ""}`}>
                       <SelectionCheckbox total={choice.leagues.length} selected={count}
                         onChange={() => onChange(toggleInterestGroup(selected, choice.leagues))} />
-                      {country ? <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>
-                        : <span aria-hidden="true" className={`interest-dot ${leagueVisual(league, leagueSports.get(league)).className}`} />}
+                      <span aria-hidden="true" className={`interest-swatch ${leagueVisual(league, leagueSports.get(league)).className}`} />
+                      {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}
                       <span>{choice.name}</span>
                     </label>
                   );

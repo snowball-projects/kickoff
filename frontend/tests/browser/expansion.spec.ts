@@ -1,3 +1,4 @@
+import { openDayEvent } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 async function openMonth(page: Page, month: string) {
@@ -18,13 +19,14 @@ test("full PGA Tour spans stay separate from LPGA final-date markers and majors"
     await expect(page.locator(`#day-${day} .event-pill`)).toContainText("Biltmore Championship");
   await expect(page.locator("#day-2026-09-20 .event-pill")).not.toContainText("Final date");
   await page.locator("#day-2026-09-27").click();
-  const detail = page.getByRole("complementary", { name: "Day events" });
+  const detail = await openDayEvent(page);
   await expect(detail).toContainText("LPGA Tour");
   await expect(detail).toContainText("Final date only");
   await expect(detail).toContainText("opening date and tee times are not supplied");
   await page.getByRole("button", { name: "Close day" }).click();
   await openMonth(page, "March");
   await page.locator("#day-2026-03-12").click();
+  await openDayEvent(page);
   await expect(detail).toContainText("through 2026-03-15");
   await expect(detail.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", /espn\.com/);
 });
@@ -47,7 +49,7 @@ test("reviewed expansion keeps attribution and exports without download links", 
   await expect(page.locator("#day-2026-10-26 .event-pill")).toHaveCount(1);
   await expect(page.locator("#day-2026-10-27 .competition-chip")).toContainText("4 sessions · from 00:30");
   await page.locator("#day-2026-10-27 .day-number").click();
-  const detail = page.getByRole("complementary", { name: "Day events" });
+  const detail = await openDayEvent(page, "Men's 60 kg, Group B");
   await expect(detail).toContainText("Men's 60 kg, Group B");
   await expect(detail).toContainText("12:30 AM");
   await expect(detail).not.toContainText("Time TBD");
@@ -55,6 +57,7 @@ test("reviewed expansion keeps attribution and exports without download links", 
   await expect(detail.getByRole("link", { name: "Schedule source" }).first()).toHaveAttribute("href", /iwf\.sport.*id=3004/);
   await page.getByRole("button", { name: "Close day" }).click();
   await page.locator("#day-2026-10-28 .day-number").click();
+  await openDayEvent(page, "Women's 53 kg, Group D / Women's 57 kg, Group B");
   const combined = detail.locator("article").filter({ hasText: "Women's 53 kg, Group D / Women's 57 kg, Group B" });
   await expect(combined).toHaveCount(1);
   await expect(combined).toContainText("10:00 PM");
@@ -112,7 +115,7 @@ test("expanded interest labels and date-only card details fit a mobile viewport"
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await openMonth(page, "October");
   await page.locator("#day-2026-10-24 .day-number").click();
-  const detail = page.getByRole("complementary", { name: "Day events" });
+  const detail = await openDayEvent(page);
   await expect(detail).toContainText("three full titles");
   await expect(detail).toContainText("Time TBD");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();

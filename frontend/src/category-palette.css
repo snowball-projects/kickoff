@@ -4,130 +4,102 @@
   --category-base: #30e090;
   --category-light-bg: #30e090;
   --category-light-ink: #101820;
-  --category-light-accent: #1f7655;
   --category-dark-bg: #2bbd7d;
   --category-dark-ink: #101820;
-  --category-dark-accent: #30e090;
 }
 .category-motorsport {
   --category-base: #d7764d;
   --category-light-bg: #d7764d;
   --category-light-ink: #101820;
-  --category-light-accent: #a6502c;
   --category-dark-bg: #ae542e;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #e1997b;
 }
 .category-american-football {
   --category-base: #701010;
   --category-light-bg: #701010;
   --category-light-ink: #ffffff;
-  --category-light-accent: #701010;
   --category-dark-bg: #5f1214;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #c7a2a2;
 }
 .category-basketball {
   --category-base: #f0b010;
   --category-light-bg: #f0b010;
   --category-light-ink: #101820;
-  --category-light-accent: #806418;
   --category-dark-bg: #c89514;
   --category-dark-ink: #101820;
-  --category-dark-accent: #f0b010;
 }
 .category-baseball {
   --category-base: #6010f0;
   --category-light-bg: #6010f0;
   --category-light-ink: #ffffff;
-  --category-light-accent: #6010f0;
   --category-dark-bg: #5212cb;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #bc9bf9;
 }
 .category-hockey {
   --category-base: #a0d0d0;
   --category-light-bg: #a0d0d0;
   --category-light-ink: #101820;
-  --category-light-accent: #526d71;
   --category-dark-bg: #87b0b1;
   --category-dark-ink: #101820;
-  --category-dark-accent: #a0d0d0;
 }
 .category-combat {
   --category-base: #601090;
   --category-light-bg: #601090;
   --category-light-ink: #ffffff;
-  --category-light-accent: #601090;
   --category-dark-bg: #52127d;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #bf9fd3;
 }
 .category-golf {
   --category-base: #509080;
   --category-light-bg: #509080;
   --category-light-ink: #101820;
-  --category-light-accent: #3f7167;
   --category-dark-bg: #457b70;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #88b4a9;
 }
 .category-climbing {
   --category-base: #c0a0f0;
   --category-light-bg: #c0a0f0;
   --category-light-ink: #101820;
-  --category-light-accent: #6f6190;
   --category-dark-bg: #a188cb;
   --category-dark-ink: #101820;
-  --category-dark-accent: #e6d8fa;
 }
 .category-weightlifting {
   --category-base: #103040;
   --category-light-bg: #103040;
   --category-light-ink: #ffffff;
-  --category-light-accent: #103040;
   --category-dark-bg: #112c3b;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #9facb3;
 }
 .category-spare-1 {
   --category-base: #c050f0;
   --category-light-bg: #c050f0;
   --category-light-ink: #0e151b;
-  --category-light-accent: #9442bc;
   --category-dark-bg: #a147cb;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #d78ff5;
 }
 .category-spare-2 {
   --category-base: #706090;
   --category-light-bg: #706090;
   --category-light-ink: #ffffff;
-  --category-light-accent: #706090;
   --category-dark-bg: #5f547d;
   --category-dark-ink: #ffffff;
-  --category-dark-accent: #afa6c1;
 }
 
 .category-unknown {
   --category-light-bg: #e5e9eb;
   --category-light-ink: #243b32;
-  --category-light-accent: #435663;
   --category-dark-bg: #344650;
   --category-dark-ink: #e8eef0;
-  --category-dark-accent: #b0bfc8;
 }
 
 :is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-spare-1, .category-spare-2, .category-unknown) {
   --pill: var(--category-light-bg);
   --ink: var(--category-light-ink);
-  --category-accent: var(--category-light-accent);
 }
 
 @media (prefers-color-scheme: dark) {
   :is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-spare-1, .category-spare-2, .category-unknown) {
     --pill: var(--category-dark-bg);
     --ink: var(--category-dark-ink);
-    --category-accent: var(--category-dark-accent);
   }
 }
