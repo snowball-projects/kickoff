@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
+import { openDayEvent } from "./timeline-helpers";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const python = existsSync(`${root}.venv/bin/python`) ? `${root}.venv/bin/python` : "python";
@@ -23,26 +24,50 @@ fill_missing_start_times([record], 2026)
 print(json.dumps(_event_payload(record)))
 `], { cwd: root, encoding: "utf8" }));
 
-test("enriched combat retains its schedule source and separately credits the ESPN clock on mobile", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.clock.setFixedTime(new Date("2026-06-27T17:00:00Z"));
-  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({
-    leagues: ["PFL"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only",
-  })));
-  await page.route("**/data/*.json", async (route) => {
-    const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
-    await route.fulfill({ json: {
-      schema_version: "1", season: year, available_seasons: [2026, 2027], providers: [],
-      events: year === 2026 ? [event] : [],
-    } });
+for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as const) {
+  test.describe(`${width}px ${colorScheme}`, () => {
+    test.use({ viewport: { width, height: 844 }, colorScheme, hasTouch: width === 320 });
+    test("timeline details retain the schedule source and separately credit the ESPN clock", async ({ page }) => {
+      const errors: string[] = [];
+      page.on("pageerror", (error) => errors.push(error.message));
+      page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
+      await page.clock.setFixedTime(new Date("2026-06-27T17:00:00Z"));
+      await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({
+        leagues: ["PFL"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only",
+      })));
+      await page.route("**/data/*.json", async (route) => {
+        const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
+        await route.fulfill({ json: {
+          schema_version: "1", season: year, available_seasons: [2026, 2027], providers: [],
+          events: year === 2026 ? [event] : [],
+        } });
+      });
+      await page.goto("/");
+      await page.locator("#day-2026-06-27 .day-number").click();
+      const panel = await openDayEvent(page, event.title);
+      const detail = panel.getByRole("region", { name: "Event details" });
+      await expect(panel.locator(".timeline-hour")).toHaveCount(25);
+      await expect(detail).toContainText(event.title);
+      await expect(detail).toContainText("7:00 PM");
+      const schedule = detail.getByRole("link", { name: "Schedule source" });
+      const clock = detail.getByRole("link", { name: "Time source: ESPN" });
+      await expect(schedule).toBeVisible();
+      await expect(clock).toBeVisible();
+      await expect(schedule).toHaveAttribute("href", event.source_url);
+      await expect(clock).toHaveAttribute("href", event.start_time_source_url);
+      await schedule.focus();
+      await page.keyboard.press("Tab");
+      await expect(clock).toBeFocused();
+      await page.keyboard.press("Shift+Tab");
+      await expect(schedule).toBeFocused();
+      expect(event.source).toBe("wikipedia");
+      expect(event.source_url).toContain("en.wikipedia.org/");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await page.screenshot({ path: `test-results/start-time-sources-${width}-${colorScheme}.png` });
+      await detail.getByRole("button", { name: "Close details" }).click();
+      await expect(detail).toHaveCount(0);
+      await expect(panel.locator(`[data-event-id="${event.event_id}"]`)).toBeFocused();
+      expect(errors).toEqual([]);
+    });
   });
-  await page.goto("/");
-  await page.locator("#day-2026-06-27 .day-number").click();
-  const detail = page.getByRole("complementary", { name: "Day events" });
-  await expect(detail).toContainText(event.title);
-  await expect(detail).toContainText("7:00 PM");
-  await expect(detail.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", event.source_url);
-  await expect(detail.getByRole("link", { name: "Time source: ESPN" })).toHaveAttribute("href", event.start_time_source_url);
-  expect(event.source).toBe("wikipedia");
-  expect(event.source_url).toContain("en.wikipedia.org/");
-});
+}
