@@ -24,7 +24,7 @@ for (const field of ["title", "calendar_date", "tags", "participants", "status"]
     await expect(page.locator("#day-2026-09-10 .event-pill")).toHaveCount(0);
     broken = false;
     await page.getByRole("button", { name: /Retry/ }).first().click();
-    await expect(page.locator("#day-2026-09-10 .event-pill")).toContainText("Recovered fixture");
+    await expect(page.locator("#day-2026-09-10 .event-pill")).toContainText("Premier League");
     await expect(page.getByText(/2026 is unavailable: invalid snapshot/)).toHaveCount(0);
     expect(errors).toEqual([]);
   });

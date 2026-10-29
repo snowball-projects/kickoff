@@ -45,7 +45,7 @@ for (const scenario of [
       } });
     });
     await page.goto("/");
-    await page.getByRole("group", { name: "Schedule view", exact: true }).getByRole("button", { name: "Agenda", exact: true }).click();
+    await page.getByRole("switch", { name: "Agenda view" }).click();
     const agenda = page.getByRole("region", { name: "Agenda", exact: true });
     await expect(agenda).toContainText(scenario.date);
     await expect(agenda.getByRole("button").filter({ hasText: `${scenario.name} vs Away` })).toContainText(scenario.time);
