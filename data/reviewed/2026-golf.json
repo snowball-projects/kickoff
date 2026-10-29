@@ -11,7 +11,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+Masters+Tournament&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1365105813&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1370641499",
@@ -23,7 +25,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+PGA+Championship&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1370641499&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1373024366",
@@ -35,7 +39,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+U.S.+Open+%28golf%29&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1373024366&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1373024175",
@@ -47,7 +53,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+Open+Championship&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1373024175&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1362471818",
@@ -59,7 +67,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+Chevron+Championship&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1362471818&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1362471868",
@@ -71,7 +81,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+U.S.+Women%27s+Open&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1362471868&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1371673907",
@@ -83,7 +95,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+Women%27s+PGA+Championship&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1371673907&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1370642460",
@@ -95,7 +109,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+Evian+Championship&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1370642460&prop=wikitext%7Crevid&format=json"
     },
     {
       "revision": "1367542936",
@@ -107,7 +123,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+Women%27s+British+Open&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times."
+      "changes": "Selected tournament infobox dates and course, simplified event names, normalized inclusive competitive-round dates; omitted prose, images, results and tee times. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1367542936&prop=wikitext%7Crevid&format=json"
     },
     {
       "id": "wikipedia-2026-golf-pga-tour",
@@ -119,7 +137,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026_PGA_Tour&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected official-tournament names and listed final dates, excluding the canceled Sentry, majors already supplied separately, THE PLAYERS and playoffs supplied by explicit-span sources, and unofficial events. Published a single final-date marker when the source does not establish an opening date; omitted prose, results, money, images and tee times. Marked final-date-only records with date_scope and a visible final-date label."
+      "changes": "Selected official-tournament names and listed final dates, excluding the canceled Sentry, majors already supplied separately, THE PLAYERS and playoffs supplied by explicit-span sources, and unofficial events. Published a single final-date marker when the source does not establish an opening date; omitted prose, results, money, images and tee times. Marked final-date-only records with date_scope and a visible final-date label. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1372211962&prop=wikitext%7Crevid&format=json"
     },
     {
       "id": "wikipedia-2026-golf-fedex-playoffs",
@@ -143,7 +163,9 @@
       "input_url": "https://www.wikidata.org/wiki/Special:EntityData/Q138632122.json",
       "license": "CC0 1.0",
       "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
-      "changes": "Selected event identity and Gregorian day-precision P580/P582 values, normalized to inclusive calendar dates; no clock time or timezone inferred from Wikidata midnight serialization. Omitted results and other claims."
+      "changes": "Selected event identity and Gregorian day-precision P580/P582 values, normalized to inclusive calendar dates; no clock time or timezone inferred from Wikidata midnight serialization. Omitted results and other claims. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://www.wikidata.org/wiki/Special:EntityData/Q138632122.json"
     },
     {
       "id": "wikipedia-2026-golf-lpga-tour",
@@ -155,7 +177,9 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+LPGA+Tour&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected official-tournament names and listed final dates, excluding the five majors already supplied separately and unofficial events. Published single final-date markers because opening dates are not established by the season table. Omitted prose, results, money, images, exact round counts and tee times. Marked final-date-only records with date_scope and a visible final-date label."
+      "changes": "Selected official-tournament names and listed final dates, excluding the five majors already supplied separately and unofficial events. Published single final-date markers because opening dates are not established by the season table. Omitted prose, results, money, images, exact round counts and tee times. Marked final-date-only records with date_scope and a visible final-date label. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1372529225&prop=wikitext%7Crevid&format=json"
     }
   ],
   "events": [
@@ -169,7 +193,10 @@
       "end_date": "2026-04-12",
       "event_type": "tournament",
       "venue": "Augusta National Golf Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_Masters_Tournament&oldid=1365105813",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga",
@@ -181,7 +208,10 @@
       "end_date": "2026-05-17",
       "event_type": "tournament",
       "venue": "Aronimink Golf Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Championship&oldid=1370641499",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-us-open",
@@ -193,7 +223,10 @@
       "end_date": "2026-06-21",
       "event_type": "tournament",
       "venue": "Shinnecock Hills Golf Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_U.S._Open_%28golf%29&oldid=1373024366",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-open",
@@ -205,7 +238,10 @@
       "end_date": "2026-07-19",
       "event_type": "tournament",
       "venue": "Royal Birkdale Golf Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "GB",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_Open_Championship&oldid=1373024175",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-chevron",
@@ -217,7 +253,10 @@
       "end_date": "2026-04-26",
       "event_type": "tournament",
       "venue": "Memorial Park Golf Course",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_Chevron_Championship&oldid=1362471818",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-us-womens-open",
@@ -229,7 +268,10 @@
       "end_date": "2026-06-07",
       "event_type": "tournament",
       "venue": "Riviera Country Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_U.S._Women%27s_Open&oldid=1362471868",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-womens-pga",
@@ -241,7 +283,10 @@
       "end_date": "2026-06-28",
       "event_type": "tournament",
       "venue": "Hazeltine National Golf Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_Women%27s_PGA_Championship&oldid=1371673907",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-evian",
@@ -253,7 +298,10 @@
       "end_date": "2026-07-12",
       "event_type": "tournament",
       "venue": "Evian Resort Golf Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "FR",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_Evian_Championship&oldid=1370642460",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-womens-open",
@@ -265,7 +313,10 @@
       "end_date": "2026-08-02",
       "event_type": "tournament",
       "venue": "Royal Lytham & St Annes Golf Club",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "GB",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_Women%27s_British_Open&oldid=1367542936",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-sony-open-in-hawaii",
@@ -373,7 +424,10 @@
       "end_date": "2026-03-08",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "PR",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikidata-golf-2026-players",
@@ -384,7 +438,10 @@
       "start_date": "2026-03-12",
       "end_date": "2026-03-15",
       "event_type": "tournament",
-      "notes": "Competitive tournament dates only; no tee times."
+      "notes": "Competitive tournament dates only; no tee times.",
+      "country": "US",
+      "country_source_url": "https://www.wikidata.org/w/index.php?title=Q138632122&oldid=2474720054",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-valspar-championship",
@@ -528,7 +585,10 @@
       "end_date": "2026-06-14",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "CA",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-travelers-championship",
@@ -564,7 +624,10 @@
       "end_date": "2026-07-12",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "GB",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-isco-championship",
@@ -588,7 +651,10 @@
       "end_date": "2026-07-19",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "DO",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-3m-open",
@@ -699,7 +765,10 @@
       "end_date": "2026-10-11",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-butterfield-bermuda-championship",
@@ -711,7 +780,10 @@
       "end_date": "2026-10-25",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "BM",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-vidantaworld-mexico-open",
@@ -723,7 +795,10 @@
       "end_date": "2026-11-01",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "MX",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-world-wide-technology-championship",
@@ -735,7 +810,10 @@
       "end_date": "2026-11-08",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "MX",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_PGA_Tour&oldid=1372211962",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-pga-tour-austin-championship",
@@ -783,7 +861,10 @@
       "end_date": "2026-02-22",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-hsbc-women-s-world-championship",
@@ -795,7 +876,10 @@
       "end_date": "2026-03-01",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "SG",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-blue-bay-lpga",
@@ -807,7 +891,10 @@
       "end_date": "2026-03-08",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "CN",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-fortinet-founders-cup",
@@ -867,7 +954,10 @@
       "end_date": "2026-05-03",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "MX",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-mizuho-americas-open",
@@ -939,7 +1029,10 @@
       "end_date": "2026-07-26",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "GB",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-standard-portland-classic",
@@ -963,7 +1056,10 @@
       "end_date": "2026-08-23",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "CA",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-fm-championship",
@@ -1011,7 +1107,10 @@
       "end_date": "2026-10-18",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "CN",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-bmw-ladies-championship",
@@ -1023,7 +1122,10 @@
       "end_date": "2026-10-25",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "KR",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-maybank-championship",
@@ -1035,7 +1137,10 @@
       "end_date": "2026-11-01",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "MY",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-toto-japan-classic",
@@ -1047,7 +1152,10 @@
       "end_date": "2026-11-08",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-the-annika",

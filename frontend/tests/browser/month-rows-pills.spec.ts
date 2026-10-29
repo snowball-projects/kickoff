@@ -246,6 +246,7 @@ test("both halves of a split week have one selected-week transition and survive 
   await page.getByRole("button", { name: "Back to October", exact: true }).click();
   await expect(page.locator("#day-2026-10-01 .day-number")).toBeFocused();
   await page.locator("#day-2026-10-01 .day-number").click();
+  await expect(page.locator(".week-strip")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.locator("#day-2026-10-01 .day-number")).toBeFocused();
   await expect.poll(() => snapshots.length).toBe(8);

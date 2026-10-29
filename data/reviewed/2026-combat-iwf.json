@@ -11,7 +11,9 @@
       "retrieved_at": "2026-09-11T18:02:51.288718Z",
       "sha256": "ac48251609e185e446b9e91e4d52c4a17983c9ea7632710447c6104bff0a951b",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374208261&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
-      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374208261&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
     },
     {
       "id": "wikipedia-pfl",
@@ -23,7 +25,9 @@
       "retrieved_at": "2026-09-11T18:02:51.716213Z",
       "sha256": "f3979a9f7e753369cc99bdfa4439f8a6b208995831b8d300da6857578f6330f4",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374220528&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
-      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374220528&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
     },
     {
       "id": "wikipedia-rizin",
@@ -35,7 +39,9 @@
       "retrieved_at": "2026-09-11T18:02:52.202617Z",
       "sha256": "344628ea2f22b79e4dc76a75c535b4f861e772324c1b2a787707c96d8135fc1c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374349911&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
-      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374349911&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
     },
     {
       "id": "wikipedia-one",
@@ -47,7 +53,9 @@
       "retrieved_at": "2026-09-11T18:02:52.791702Z",
       "sha256": "270267a42db7634c0dd0d04ba0775cf1854a18e2b32a9591e07a24e05394f401",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374372383&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
-      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374372383&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
     },
     {
       "id": "wikipedia-navarrete",
@@ -71,7 +79,9 @@
       "retrieved_at": "2026-09-11T18:05:49.092874Z",
       "sha256": "426023e3fb8859dfed3562105aa5e2933001939900164e9ba40ba1bc4755c20b",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374088812&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
-      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
+      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "country_checked_date": "2026-10-29",
+      "country_input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374088812&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
     }
   ],
   "events": [
@@ -84,7 +94,10 @@
       "start_date": "2026-01-24",
       "end_date": "2026-01-24",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-324",
@@ -94,7 +107,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-01-24",
       "end_date": "2026-01-24",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-325",
@@ -104,7 +120,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-02-01",
       "end_date": "2026-02-01",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "AU",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-01",
@@ -114,7 +133,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-02-07",
       "end_date": "2026-02-07",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "AE",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-266",
@@ -124,7 +146,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-02-07",
       "end_date": "2026-02-07",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-40",
@@ -135,7 +160,10 @@
       "start_date": "2026-02-14",
       "end_date": "2026-02-14",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-267",
@@ -145,7 +173,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-02-21",
       "end_date": "2026-02-21",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-268",
@@ -155,7 +186,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-02-28",
       "end_date": "2026-02-28",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "MX",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-52",
@@ -165,7 +199,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-03-07",
       "end_date": "2026-03-07",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-326",
@@ -175,7 +212,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-03-07",
       "end_date": "2026-03-07",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-41",
@@ -186,7 +226,10 @@
       "start_date": "2026-03-14",
       "end_date": "2026-03-14",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-269",
@@ -196,7 +239,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-03-14",
       "end_date": "2026-03-14",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-02",
@@ -206,7 +252,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-03-20",
       "end_date": "2026-03-20",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "ES",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-270",
@@ -216,7 +265,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-03-21",
       "end_date": "2026-03-21",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "GB",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-03",
@@ -226,7 +278,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-03-28",
       "end_date": "2026-03-28",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-271",
@@ -236,7 +291,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-03-28",
       "end_date": "2026-03-28",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-272",
@@ -246,7 +304,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-04-04",
       "end_date": "2026-04-04",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-42",
@@ -257,7 +318,10 @@
       "start_date": "2026-04-11",
       "end_date": "2026-04-11",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-04",
@@ -267,7 +331,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-04-11",
       "end_date": "2026-04-11",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-327",
@@ -277,7 +344,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-04-11",
       "end_date": "2026-04-11",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-landmark-13",
@@ -287,7 +357,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-04-12",
       "end_date": "2026-04-12",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-05",
@@ -297,7 +370,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-04-16",
       "end_date": "2026-04-16",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "GB",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-273",
@@ -307,7 +383,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-04-18",
       "end_date": "2026-04-18",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "CA",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-274",
@@ -317,7 +396,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-04-25",
       "end_date": "2026-04-25",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-samurai-1",
@@ -328,7 +410,10 @@
       "start_date": "2026-04-29",
       "end_date": "2026-04-29",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-06",
@@ -338,7 +423,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-05-02",
       "end_date": "2026-05-02",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-275",
@@ -348,7 +436,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-05-02",
       "end_date": "2026-05-02",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "AU",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-328",
@@ -358,7 +449,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-05-09",
       "end_date": "2026-05-09",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-53",
@@ -368,7 +462,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-05-10",
       "end_date": "2026-05-10",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-43",
@@ -379,7 +476,10 @@
       "start_date": "2026-05-16",
       "end_date": "2026-05-16",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-276",
@@ -389,7 +489,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-05-16",
       "end_date": "2026-05-16",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-07",
@@ -399,7 +502,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-05-23",
       "end_date": "2026-05-23",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "BE",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-277",
@@ -409,7 +515,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-05-30",
       "end_date": "2026-05-30",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "CN",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-landmark-14",
@@ -419,7 +528,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-06-06",
       "end_date": "2026-06-06",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-278",
@@ -429,7 +541,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-06-06",
       "end_date": "2026-06-06",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-freedom-250",
@@ -439,7 +554,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-06-14",
       "end_date": "2026-06-14",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-279",
@@ -449,7 +567,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-06-20",
       "end_date": "2026-06-20",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-44",
@@ -460,7 +581,10 @@
       "start_date": "2026-06-27",
       "end_date": "2026-06-27",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-08",
@@ -470,7 +594,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-06-27",
       "end_date": "2026-06-27",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-280",
@@ -480,7 +607,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-06-27",
       "end_date": "2026-06-27",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "AZ",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-329",
@@ -490,7 +620,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-07-11",
       "end_date": "2026-07-11",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-45",
@@ -501,7 +634,10 @@
       "start_date": "2026-07-18",
       "end_date": "2026-07-18",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-09",
@@ -511,7 +647,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-07-18",
       "end_date": "2026-07-18",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-landmark-15",
@@ -521,7 +660,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-07-18",
       "end_date": "2026-07-18",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-281",
@@ -531,7 +673,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-07-18",
       "end_date": "2026-07-18",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-10",
@@ -541,7 +686,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-07-25",
       "end_date": "2026-07-25",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-282",
@@ -551,7 +699,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-07-25",
       "end_date": "2026-07-25",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "AE",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-11",
@@ -561,7 +712,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-07-31",
       "end_date": "2026-07-31",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-283",
@@ -571,7 +725,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-08-01",
       "end_date": "2026-08-01",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "RS",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-12",
@@ -581,7 +738,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-08-07",
       "end_date": "2026-08-07",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-samurai-2",
@@ -592,7 +752,10 @@
       "start_date": "2026-08-08",
       "end_date": "2026-08-08",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-284",
@@ -602,7 +765,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-08-08",
       "end_date": "2026-08-08",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-54",
@@ -612,7 +778,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-08-11",
       "end_date": "2026-08-11",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-46",
@@ -623,7 +792,10 @@
       "start_date": "2026-08-15",
       "end_date": "2026-08-15",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-330",
@@ -633,7 +805,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-08-15",
       "end_date": "2026-08-15",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-13",
@@ -643,7 +818,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-08-22",
       "end_date": "2026-08-22",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-285",
@@ -653,7 +831,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-08-22",
       "end_date": "2026-08-22",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-286",
@@ -663,7 +844,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-08-29",
       "end_date": "2026-08-29",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "CN",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-47",
@@ -674,7 +858,10 @@
       "start_date": "2026-09-05",
       "end_date": "2026-09-05",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-287",
@@ -684,7 +871,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-09-05",
       "end_date": "2026-09-05",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "FR",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "super-rizin-5",
@@ -694,7 +884,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-09-10",
       "end_date": "2026-09-10",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-samurai-3",
@@ -705,7 +898,10 @@
       "start_date": "2026-09-12",
       "end_date": "2026-09-12",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-288",
@@ -715,7 +911,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-09-12",
       "end_date": "2026-09-12",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-331",
@@ -725,7 +924,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-09-19",
       "end_date": "2026-09-19",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-289",
@@ -735,7 +937,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-09-26",
       "end_date": "2026-09-26",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-48",
@@ -746,7 +951,10 @@
       "start_date": "2026-10-03",
       "end_date": "2026-10-03",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-landmark-16",
@@ -756,7 +964,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-10-03",
       "end_date": "2026-10-03",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-332",
@@ -766,7 +977,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-10-03",
       "end_date": "2026-10-03",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-290",
@@ -776,7 +990,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-10-10",
       "end_date": "2026-10-10",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-14",
@@ -787,7 +1004,10 @@
       "start_date": "2026-10-16",
       "end_date": "2026-10-16",
       "event_type": "tournament",
-      "notes": "October 16 follows the event-specific Wikipedia revision, corroborated by PFL and Wintrust Arena; the annual table's October 17 row was rejected."
+      "notes": "October 16 follows the event-specific Wikipedia revision, corroborated by PFL and Wintrust Arena; the annual table's October 17 row was rejected.",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=PFL_Chicago%3A_Carmouche_vs._Bishop_2&oldid=1374088812",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-samurai-4",
@@ -798,7 +1018,10 @@
       "start_date": "2026-10-17",
       "end_date": "2026-10-17",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-291",
@@ -808,7 +1031,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-10-17",
       "end_date": "2026-10-17",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "CA",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "boxing-navarrete-foster-1",
@@ -830,7 +1056,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-10-24",
       "end_date": "2026-10-24",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "AE",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-292",
@@ -840,7 +1069,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-49",
@@ -851,7 +1083,10 @@
       "start_date": "2026-11-07",
       "end_date": "2026-11-07",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-293",
@@ -861,7 +1096,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-11-07",
       "end_date": "2026-11-07",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-15",
@@ -871,7 +1109,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-11-14",
       "end_date": "2026-11-14",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "AE",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-334",
@@ -881,7 +1122,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-11-14",
       "end_date": "2026-11-14",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-fight-night-294",
@@ -891,7 +1135,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-11-21",
       "end_date": "2026-11-21",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "QA",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "one-fight-night-50",
@@ -902,7 +1149,10 @@
       "start_date": "2026-12-12",
       "end_date": "2026-12-12",
       "event_type": "tournament",
-      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion."
+      "notes": "Whole promotion card; may include MMA, Muay Thai, kickboxing and submission grappling. Calendar date is as listed by Wikipedia; no broadcast timezone conversion.",
+      "country": "TH",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_ONE_Championship&oldid=1374372383",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "ufc-335",
@@ -912,7 +1162,10 @@
       "source_id": "wikipedia-ufc",
       "start_date": "2026-12-12",
       "end_date": "2026-12-12",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_UFC&oldid=1374208261",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "pfl-2026-global-16",
@@ -922,7 +1175,10 @@
       "source_id": "wikipedia-pfl",
       "start_date": "2026-12-19",
       "end_date": "2026-12-19",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "FR",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Professional_Fighters_League&oldid=1374220528",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "rizin-2026-new-years-eve",
@@ -932,7 +1188,10 @@
       "source_id": "wikipedia-rizin",
       "start_date": "2026-12-31",
       "end_date": "2026-12-31",
-      "event_type": "tournament"
+      "event_type": "tournament",
+      "country": "JP",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_in_Rizin_Fighting_Federation&oldid=1374349911",
+      "country_checked_date": "2026-10-29"
     }
   ],
   "exclusions": [

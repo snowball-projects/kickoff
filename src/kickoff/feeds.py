@@ -18,6 +18,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
+from kickoff.countries import COUNTRY_LEAGUES, venue_country
 from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
 from kickoff.semantics import classification_fields
@@ -108,6 +109,9 @@ def make_event(
     venue: str | None = None,
     subtitle: str | None = None,
     source_url: str | None = None,
+    country: str | None = None,
+    country_source_url: str | None = None,
+    country_checked_date: str | None = None,
 ) -> CalendarEvent:
     home_participant = Participant(name=home, role="home") if home else None
     away_participant = Participant(name=away, role="away") if away else None
@@ -128,7 +132,9 @@ def make_event(
         venue=venue,
         city=None,
         region=None,
-        country=None,
+        country=country,
+        country_source_url=country_source_url,
+        country_checked_date=country_checked_date,
         participants=[p for p in (home_participant, away_participant) if p],
         home_participant=home_participant,
         away_participant=away_participant,
@@ -161,6 +167,7 @@ def _espn_event(
     event_type: str = "game",
     phase: str = "regular_season",
     span: bool = False,
+    input_url: str | None = None,
 ) -> CalendarEvent | None:
     competition = (event.get("competitions") or [{}])[0]
     # Scoreboards expose event.status; team schedules use competition.status.
@@ -180,6 +187,8 @@ def _espn_event(
                 away = name
     end_day = _local_date(event["endDate"], zone) if span and event.get("endDate") else None
     season = event.get("season") or {}
+    venue = competition.get("venue") or {}
+    country = venue_country((venue.get("address") or {}).get("country")) if league in COUNTRY_LEAGUES else None
     return make_event(
         source="espn",
         league=league,
@@ -194,8 +203,11 @@ def _espn_event(
         away=away,
         event_type=event_type,
         phase=phase,
-        venue=(competition.get("venue") or {}).get("fullName"),
+        venue=venue.get("fullName"),
         source_url=_espn_link(event, fallback_url),
+        country=country,
+        country_source_url=(input_url or _espn_link(event, fallback_url)) if country else None,
+        country_checked_date=datetime.now(UTC).date().isoformat() if country else None,
     )
 
 
@@ -233,7 +245,8 @@ def espn_season_feed(path: str, league: str, sport: str, event_type: str, fallba
     """Golf, MMA and racing: one scoreboard request returns the whole calendar year."""
 
     def fetch(year: int) -> list[CalendarEvent]:
-        payload = get_json(f"{ESPN}/{path}/scoreboard?dates={year}&limit=500")
+        url = f"{ESPN}/{path}/scoreboard?dates={year}&limit=500"
+        payload = get_json(url)
         events = []
         for row in rows(payload, "events"):
             name = row.get("name", "")
@@ -248,6 +261,7 @@ def espn_season_feed(path: str, league: str, sport: str, event_type: str, fallba
                 event_type=event_type,
                 phase=phase,
                 span=span,
+                input_url=url,
             )
             if event:
                 events.append(event)
@@ -333,7 +347,8 @@ def ucl_events(year: int) -> list[CalendarEvent]:
                     days.add(day)
     events = []
     for day in sorted(days):
-        payload = get_json(f"{ESPN}/soccer/uefa.champions/scoreboard?dates={day.replace('-', '')}", missing_ok=True)
+        url = f"{ESPN}/soccer/uefa.champions/scoreboard?dates={day.replace('-', '')}"
+        payload = get_json(url, missing_ok=True)
         for row in rows(payload, "events") if payload is not None else []:
             slug = (row.get("season") or {}).get("slug", "")
             event = _espn_event(
@@ -343,6 +358,7 @@ def ucl_events(year: int) -> list[CalendarEvent]:
                 zone=CENTRAL_EUROPE,
                 fallback_url="https://www.uefa.com/uefachampionsleague/fixtures-results/",
                 phase=UCL_PHASES.get(slug, "knockout" if slug else "league_phase"),
+                input_url=url,
             )
             if event:
                 events.append(event)
