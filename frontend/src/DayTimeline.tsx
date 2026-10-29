@@ -21,8 +21,8 @@ export default function DayTimeline({ date, timezone, items, loading, error, onE
     {loading && <p className="loading-note" role="status">Loading schedule…</p>}
     <div className="all-day-strip" aria-label="All-day events">
       <span className="all-day-label">all-day</span>
-      <div>{allDay.map((event) => <EventPill key={event.event_id} items={[event]} onClick={() => onEvents([event], date)}>
-        {event.title}
+      <div>{allDay.map((group) => <EventPill key={group.league} items={group.items} onClick={() => onEvents(group.items, date)}>
+        {group.items.length === 1 ? group.items[0].title : undefined}
       </EventPill>)}</div>
     </div>
     <div ref={scroller} className="timeline-scroll" tabIndex={0} aria-label="Hourly timeline">

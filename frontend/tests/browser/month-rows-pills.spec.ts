@@ -97,6 +97,7 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
     event("Timed title", undefined, { league: "UFC", country: "JP", start_time_utc: "2026-10-28T17:00:00Z" }),
     event("All-day title", undefined, { league: "PGA_TOUR", sport: "golf", country: "JP" }),
     event("Another all-day title", undefined, { league: "PGA_TOUR", sport: "golf", country: "JP" }),
+    event("Singleton title", undefined, { league: "LPGA_TOUR", sport: "golf", country: "JP" }),
   ]);
   for (const width of [699, 700]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -110,8 +111,8 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
   await page.locator("#day-2026-10-28 .day-number").click();
   await expect(page.locator('.timeline-events [data-event-id="Timed title"] .pill-text')).toHaveText("Timed title");
   await expect(page.locator('.timeline-events [data-event-id="Timed title"] .country-flag')).toBeVisible();
-  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(4);
-  await expect(page.locator(".all-day-strip .pill-text")).toHaveText(["Domestic one", "Domestic two", "All-day title", "Another all-day title"]);
+  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(3);
+  await expect(page.locator(".all-day-strip .pill-text")).toHaveText(["Premier League", "PGA Tour", "Singleton title"]);
   for (const pill of await page.locator(".day-timeline-stage .event-pill").all()) {
     expect(await pill.locator(":scope > *").evaluateAll((elements) => elements.map((element) => element.getAttribute("class"))))
       .toEqual(["sport-icon", "pill-text", "country-flag"]);
@@ -121,6 +122,7 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
 });
 
 test("shared country requires every event and excluded leagues never get pill flags", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 1280, height: 1800 });
   await setup(page, [
     ...["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"].map((league) => event(league, undefined, { league, country: "US" })),
@@ -135,6 +137,59 @@ test("shared country requires every event and excluded leagues never get pill fl
   await expect(cell.locator(".event-pill")).toHaveCount(9);
   await expect(cell.locator(".country-flag")).toHaveCount(1);
   await expect(cell.locator(".event-pill").filter({ hasText: "UFC" }).locator(".country-flag")).toHaveAttribute("aria-label", "Japan");
+  await cell.locator(".day-number").click();
+  const allDay = page.locator(".all-day-strip");
+  await expect(allDay.locator(".event-pill")).toHaveCount(9);
+  await expect(allDay.locator(".country-flag")).toHaveCount(1);
+  await expect(allDay.getByRole("button", { name: "UFC Japan", exact: true }).locator(".country-flag"))
+    .toHaveAttribute("aria-label", "Japan");
+  for (const [label, titles] of [
+    ["UFC", ["Shared one", "Shared two"]], ["PFL", ["Missing one", "Missing two"]], ["One", ["Mixed one", "Mixed two"]],
+  ] as const) {
+    const pill = allDay.locator(".event-pill").filter({ has: page.locator(".pill-text", { hasText: new RegExp(`^${label}$`) }) });
+    await expect(pill.locator(".sport-icon")).toHaveCount(1);
+    await expect(pill.locator(".country-flag")).toHaveCount(label === "UFC" ? 1 : 0);
+    await pill.click();
+    const sheet = page.getByRole("dialog");
+    await expect(sheet.locator(".sheet-event-row b")).toContainText([...titles]);
+    const row = sheet.locator(".sheet-event-row").first();
+    await row.click();
+    await expect(sheet.locator(".event-details h3")).toContainText(titles[0]);
+    await sheet.getByRole("button", { name: "Back to events", exact: true }).click();
+    await expect(row).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(sheet).toHaveCount(0);
+    await expect(pill).toBeFocused();
+  }
+  await page.screenshot({ path: "test-results/all-day-groups.png" });
+});
+
+test("excluded leagues suppress populated country flags in day groups, sheets and agenda", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 320, height: 844 });
+  const leagues = ["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"];
+  await setup(page, leagues.flatMap((league) => ["one", "two"].map((suffix) =>
+    event(`${league} ${suffix}`, undefined, { league, country: "US" }))));
+  await page.locator("#day-2026-10-28 .day-number").click();
+  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(6);
+  await expect(page.locator(".all-day-strip .country-flag")).toHaveCount(0);
+  for (const league of leagues) {
+    await page.locator(".all-day-strip").getByRole("button", {
+      name: league === "NASCAR_CUP" ? "NASCAR" : league, exact: true,
+    }).click();
+    const sheet = page.getByRole("dialog");
+    await expect(sheet.locator(".sheet-event-row")).toHaveCount(2);
+    await expect(sheet.locator(".country-flag")).toHaveCount(0);
+    await sheet.locator(".sheet-event-row").first().click();
+    await expect(sheet.locator(".event-details h3")).toHaveText(`${league} one`);
+    await expect(sheet.locator(".country-flag")).toHaveCount(0);
+    await page.keyboard.press("Escape");
+    await expect(sheet).toHaveCount(0);
+  }
+  await page.getByRole("button", { name: "Back to October", exact: true }).click();
+  await agendaToggle(page).click();
+  await expect(page.locator(".agenda-row")).toHaveCount(12);
+  await expect(page.locator(".agenda-title .country-flag")).toHaveCount(0);
 });
 
 test("sheet details, grouped rows and agenda place host and national-team flags after titles", async ({ page }) => {

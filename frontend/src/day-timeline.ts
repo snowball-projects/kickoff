@@ -1,5 +1,5 @@
 import { eventInstant, safeTimezone, todayIso } from "./date-utils";
-import { compareEvents } from "./calendar-helpers";
+import { compareEvents, leagueGroups } from "./calendar-helpers";
 import type { EventCard } from "./types";
 
 export const HOUR_HEIGHT = 80;
@@ -60,7 +60,7 @@ export function dayTimeline(items: EventCard[], timezone: string) {
       }
     }
   }
-  return { allDay: items.filter(isAllDay).sort(compareEvents), slots };
+  return { allDay: leagueGroups(items.filter(isAllDay)), slots };
 }
 export function initialMinute(date: string, timezone: string, firstMinute?: number, now = Date.now()) {
   return date === todayIso(timezone, new Date(now)) ? clockMinute(now, timezone) : firstMinute ?? 0;

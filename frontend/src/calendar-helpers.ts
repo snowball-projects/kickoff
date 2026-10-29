@@ -71,9 +71,11 @@ export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = 
   BRASILEIRAO: { name: "Brazil", flag: "🇧🇷" },
 };
 
+export const NO_FLAG_LEAGUES = new Set(["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"]);
+
 export function pillCountry(items: EventCard[]) {
   const league = items[0].league;
-  return ["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"].includes(league)
+  return NO_FLAG_LEAGUES.has(league)
     ? undefined : SOCCER_COUNTRIES[league] || commonHostCountry(items);
 }
 
