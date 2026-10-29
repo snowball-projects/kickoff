@@ -24,28 +24,17 @@ test("golf interests expose only tours even when a year publishes only majors", 
   assert.equal(leagueVisual("ONE").shortLabel, "One");
 });
 
-test("golf modes apply equally to search and calendar with no duplicate majors or football leakage", async () => {
+test("golf calendar modes suppress duplicate majors and football leakage", async () => {
   const bundle = reviewedBundle();
   const original = globalThis.fetch;
   try {
     globalThis.fetch = async (url) => String(url).endsWith("/2026.json")
       ? Response.json(bundle) : new Response(null, { status: 404 });
-    const { searchEvents, getCalendar } = await loadModule("data");
+    const { getCalendar } = await loadModule("data");
     const filters = { ...empty, followed_leagues: ["PGA_TOUR", "LPGA_TOUR"],
       golf_views: { PGA_TOUR: "majors_only", LPGA_TOUR: "majors_only" } };
-    const majors = await searchEvents(2026, "", filters, "UTC");
-    assert.equal(majors.total, 9);
-    assert.equal(majors.items.filter((e) => e.league === "PGA_TOUR").length, 4);
-    assert.equal(majors.items.filter((e) => e.league === "GOLF_MAJORS_WOMEN").length, 5);
     const calendar = await getCalendar("month", 2026, "2026-04-01", filters, "UTC");
     assert.equal(calendar.groups.find((group) => group.date === "2026-04-09").items.length, 1);
-    assert.equal((await searchEvents(2026, "Sony", filters, "UTC")).total, 0);
-    const full = { ...filters, golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" } };
-    assert.equal((await searchEvents(2026, "", full, "UTC")).total, 76);
-    assert.equal((await searchEvents(2026, "Masters Tournament", full, "UTC")).total, 1);
-    assert.equal((await searchEvents(2026, "Walmart", full, "UTC")).items[0].tags.includes("final date only"), true);
-    // Underlying league and phase filtering remains usable outside the chooser.
-    assert.equal((await searchEvents(2026, "", { ...empty, league: "GOLF_MAJORS_MEN" }, "UTC")).total, 4);
   } finally { globalThis.fetch = original; }
 });
 
@@ -110,26 +99,19 @@ test("gender and discipline intersect, combined sessions match either, and unkno
   assert.equal(matchesInterestOptions({ sport: "soccer", league: "EPL", tags: [] }, filters), true);
 });
 
-test("reviewed session facets apply equally to list and calendar without altering source records", async () => {
+test("reviewed session facets apply to the calendar without altering source records", async () => {
   const bundle = reviewedBundle();
   const original = globalThis.fetch;
   try {
     globalThis.fetch = async (url) => String(url).endsWith("/2026.json")
       ? Response.json(bundle) : new Response(null, { status: 404 });
-    const { searchEvents, getCalendar } = await loadModule("data");
+    const { getCalendar } = await loadModule("data");
     const filters = { ...empty, followed_leagues: ["IFSC_WORLD_CUP", "IWF_WORLDS"],
       climbing: { genders: ["Women"], disciplines: ["Boulder"] }, weightlifting: { genders: ["Women"] } };
-    const result = await searchEvents(2026, "", filters, "UTC");
     const expected = bundle.events.filter((e) => (e.league === "IWF_WORLDS" && e.tags.includes("Women"))
       || (e.league === "IFSC_WORLD_CUP" && e.tags.includes("Boulder") && !e.tags.includes("Men")));
-    assert.equal(result.total, expected.length);
-    assert.equal(result.items.length, Math.min(30, expected.length));
-    assert.ok(result.items.every((e) => expected.some((item) => item.event_id === e.event_id)));
     const calendar = await getCalendar("month", 2026, "2026-10-01", filters, "UTC");
     const ids = new Set(calendar.groups.flatMap((day) => day.items.map((e) => e.event_id)));
     assert.deepEqual([...ids].sort(), expected.filter((e) => e.calendar_date.startsWith("2026-10")).map((e) => e.event_id).sort());
-    const worlds = result.items.find((e) => e.league === "IWF_WORLDS");
-    assert.deepEqual(worlds.tags, bundle.events.find((e) => e.event_id === worlds.event_id).tags);
-    assert.equal((await searchEvents(2026, "", { ...filters, climbing: { genders: [], disciplines: [] }, weightlifting: { genders: [] } }, "UTC")).total, 0);
   } finally { globalThis.fetch = original; }
 });

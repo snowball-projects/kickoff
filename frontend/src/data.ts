@@ -1,5 +1,3 @@
-import { monthCompetition } from "./month-competitions";
-import { validateBundle } from "./bundle-schema";
 import { matchesInterestOptions, uniqueGolfEvents } from "./interest-preferences";
 import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
 import type {
@@ -12,7 +10,6 @@ import type {
   FiltersResponse,
   ManifestResponse,
   ProviderSummary,
-  SearchResponse,
   SourceNotice,
 } from "./types";
 
@@ -62,23 +59,6 @@ function loadBundle(season: number) {
           );
         }
         const payload = (await response.json()) as DashboardBundle;
-        if (!payload || payload.schema_version !== "1") {
-          throw new ScheduleDataError(
-            `Schedule data for ${season} is unavailable: unsupported bundle version.`,
-          );
-        }
-        if (payload.season !== season) {
-          throw new ScheduleDataError(
-            `Schedule data for ${season} is unavailable: the bundle belongs to ${payload.season}.`,
-          );
-        }
-        try {
-          validateBundle(payload);
-        } catch {
-          throw new ScheduleDataError(
-            `Schedule data for ${season} is unavailable: invalid snapshot. Please retry.`,
-          );
-        }
         unpublishedSeasons.delete(season);
         return payload;
       })
@@ -117,10 +97,10 @@ function normalized(value: string | null | undefined) {
   return (value || "").trim().toLocaleLowerCase();
 }
 
-function matchesFilters(event: EventDetail, filters: FilterState, includeInterests = true) {
-  if (includeInterests && !matchesInterestOptions(event, filters)) return false;
+function matchesFilters(event: EventDetail, filters: FilterState) {
+  if (!matchesInterestOptions(event, filters)) return false;
   if (
-    includeInterests && filters.motorsport_view === "race_only" &&
+    filters.motorsport_view === "race_only" &&
     event.sport === "motorsport" &&
     event.event_type !== "race"
   )
@@ -320,19 +300,6 @@ export async function getFilters(
   };
 }
 
-export async function getEventDetail(
-  season: number,
-  eventId: string,
-  signal?: AbortSignal,
-) {
-  throwIfAborted(signal);
-  const bundle = await loadBundle(season);
-  throwIfAborted(signal);
-  const event = bundle.events.find((item) => item.event_id === eventId);
-  if (!event) throw new Error(`Event not found: ${eventId}`);
-  return event;
-}
-
 export async function getCalendar(
   view: CalendarView,
   season: number,
@@ -360,29 +327,9 @@ export async function getCalendar(
       if (day >= date && day <= (end || date))
         grouped.get(day)?.push({ ...eventCard(event), start_calendar_date: date, calendar_date: day, end_calendar_date: end });
   }
-  // Month chips need only pre-interest counts, never hidden event details.
-  // Keep the same display dates, non-interest filters and golf deduplication.
-  const competitionCounts = new Map<string, Record<string, number>>();
-  if (view === "month") {
-    for (const event of uniqueGolfEvents(events.filter((item) => matchesFilters(item, filters, false)))) {
-      const { start, end } = eventDateSpan(event, displayTimezone);
-      if (!start) continue;
-      const { key } = monthCompetition(event);
-      for (const day of grouped.keys()) {
-        if (day < start || day > (end || start)) continue;
-        if (!competitionCounts.has(day)) competitionCounts.set(day, {});
-        const counts = competitionCounts.get(day)!;
-        counts[key] = (counts[key] || 0) + 1;
-      }
-    }
-  }
   const groups = [...grouped.entries()].map(([date, items]) => ({
     date,
     event_count: items.length,
-    ...(view === "month" ? { competition_counts: Object.fromEntries(
-      [...new Set(items.map((event) => monthCompetition(event).key))]
-        .map((key) => [key, competitionCounts.get(date)?.[key] || 0]),
-    ) } : {}),
     items,
   }));
   const totalEvents = groups.reduce((total, group) => total + group.event_count, 0);
@@ -659,62 +606,4 @@ export class CalendarDataStore {
     };
     for (const listener of this.listeners) listener();
   }
-}
-
-export async function searchEvents(
-  season: number,
-  query: string,
-  filters: FilterState,
-  timezone: string,
-  signal?: AbortSignal,
-): Promise<SearchResponse> {
-  throwIfAborted(signal);
-  const startDate = `${season}-01-01`;
-  const endDate = `${season}-12-31`;
-  const { events, primaryError } = await eventsForRange(season, startDate, endDate, signal);
-  const displayTimezone = safeTimezone(timezone);
-  const needle = normalized(query);
-  const matches = sortedEvents(
-    uniqueGolfEvents(events.filter((event) => {
-      if (!matchesFilters(event, filters)) return false;
-      const { start, end } = eventDateSpan(event, displayTimezone);
-      if (!start || !end || start > endDate || end < startDate) return false;
-      const haystack = [
-        event.title,
-        event.subtitle,
-        event.venue,
-        event.city,
-        event.region,
-        event.country,
-        ...event.participants.map((participant) => participant.name),
-      ]
-        .filter(Boolean)
-        .join(" | ")
-        .toLocaleLowerCase();
-      return haystack.includes(needle);
-    })),
-  );
-  const items = matches
-    .slice(0, 30)
-    .map((event) => {
-      const { start, end } = eventDateSpan(event, displayTimezone);
-      return {
-        ...eventCard(event),
-        start_calendar_date: start || undefined,
-        calendar_date: start,
-        end_calendar_date: end,
-      };
-    });
-  if (primaryError && !matches.length) throw primaryError;
-  return {
-    season,
-    query,
-    total: matches.length,
-    limit: 30,
-    offset: 0,
-    has_more: matches.length > items.length,
-    sort: "start_asc",
-    timezone: displayTimezone,
-    items,
-  };
 }
