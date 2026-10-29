@@ -4,7 +4,7 @@ import { loadModule } from "./load-module.mjs";
 const { countryIdentity, hostCountry, commonHostCountry, nationalTeamCountries } = await loadModule("countries");
 const { SPORT_ICONS } = await loadModule("sport-icons");
 
-const { CATEGORY_KEYS, categoryForLeague } = await loadModule("calendar-helpers");
+const { CATEGORY_KEYS, categoryForLeague, pillCountry, SOCCER_COUNTRIES, leagueVisual } = await loadModule("calendar-helpers");
 
 test("ten sport shapes cover the shared category keys and future series use family identity", () => {
   assert.equal(Object.keys(SPORT_ICONS).length, 10);
@@ -44,4 +44,18 @@ test("league jurisdictions are not presented as verified event hosts", () => {
   assert.equal(commonHostCountry([{ source: "openfootball", country: "Germany" }]), undefined);
   assert.equal(hostCountry({ source: "world_climbing", country: "Japan" })?.code, "JP");
   assert.equal(hostCountry({ source: "f1db", country: "MC" })?.code, "MC");
+});
+
+
+test("pills use league jurisdictions for domestic soccer and all-event hosts elsewhere", () => {
+  for (const [league, country] of Object.entries(SOCCER_COUNTRIES))
+    assert.deepEqual(pillCountry([{ league, source: "openfootball", country: "US" }, { league, country: null }]), country);
+  const event = { league: "UFC", country: "Japan" };
+  assert.equal(pillCountry([event, { ...event, country: "JP" }])?.code, "JP");
+  for (const country of [null, "", "China", "Unknown"])
+    assert.equal(pillCountry([event, { ...event, country }]), undefined);
+  for (const league of ["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"])
+    assert.equal(pillCountry([{ league, country: "US" }]), undefined);
+  assert.equal(leagueVisual("CHAMPIONSHIP").shortLabel, "EFL Championship");
+  assert.equal(leagueVisual("BRASILEIRAO").shortLabel, "Brasileirão");
 });

@@ -21,7 +21,7 @@ test("unverified clocks and inclusive multi-day events stay all-day", () => {
     { end_calendar_date: "2026-09-11" }, { calendar_date: "2026-09-11", start_calendar_date: "2026-09-10", end_calendar_date: "2026-09-11" },
     { tags: ["final date only"] } ]) assert(isAllDay(event("all", fields)));
   assert(!isAllDay(event("timed", { end_calendar_date: "2026-09-10" })));
-  assert.equal(dayTimeline([event("known"), event("unknown", { start_time_utc: null })], "UTC").allDay[0].items[0].event_id, "unknown");
+  assert.equal(dayTimeline([event("known"), event("unknown", { start_time_utc: null })], "UTC").allDay[0].event_id, "unknown");
 });
 test("nearby starts keep their minute positions with at most three non-overlapping lanes", () => {
   const items = Array.from({ length: 12 }, (_, index) => event(String(index), {
