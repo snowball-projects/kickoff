@@ -1,4 +1,4 @@
-import { commonHostCountry, hostCountry, nationalTeamCountries, type Country } from "./countries";
+import { hostCountry, nationalTeamCountries, type Country } from "./countries";
 import { categoryForLeague, type CategoryKey } from "./calendar-helpers";
 import { SPORT_ICONS } from "./sport-icons";
 import type { EventCard } from "./types";
@@ -14,11 +14,6 @@ export function SportIcon({ league = "", sport, category, standalone = false }: 
 
 export function CountryFlag({ country, label }: { country: Country; label: string }) {
   return <span className="country-flag" role="img" aria-label={label} title={label}>{country.flag}</span>;
-}
-
-export function CommonHostFlag({ events }: { events: EventCard[] }) {
-  const host = commonHostCountry(events);
-  return host ? <CountryFlag country={host} label={`Host country: ${host.name}`} /> : null;
 }
 
 export function EventFlags({ event }: { event: EventCard }) {
