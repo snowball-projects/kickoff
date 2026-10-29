@@ -2,7 +2,6 @@ import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
-import { openDayEvent } from "./timeline-helpers";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const python = existsSync(`${root}.venv/bin/python`) ? `${root}.venv/bin/python` : "python";
@@ -44,8 +43,9 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       });
       await page.goto("/");
       await page.locator("#day-2026-06-27 .day-number").click();
-      const panel = await openDayEvent(page, event.title);
-      const detail = panel.getByRole("region", { name: "Event details" });
+      const panel = page.getByRole("region", { name: "Day events", exact: true });
+      await panel.locator(`[data-event-id="${event.event_id}"]`).click();
+      const detail = page.getByRole("dialog").getByRole("article", { name: "Event details" });
       await expect(panel.locator(".timeline-hour")).toHaveCount(25);
       await expect(detail).toContainText(event.title);
       await expect(detail).toContainText("7:00 PM");
@@ -64,7 +64,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       expect(event.source_url).toContain("en.wikipedia.org/");
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await page.screenshot({ path: `test-results/start-time-sources-${width}-${colorScheme}.png` });
-      await detail.getByRole("button", { name: "Close details" }).click();
+      await page.getByRole("dialog").getByRole("button", { name: "Close", exact: true }).click();
       await expect(detail).toHaveCount(0);
       await expect(panel.locator(`[data-event-id="${event.event_id}"]`)).toBeFocused();
       expect(errors).toEqual([]);

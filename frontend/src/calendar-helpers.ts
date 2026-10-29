@@ -1,63 +1,61 @@
-import { interestLeagues, type LeagueInterest } from "./interest-preferences";
+import { eventInstant } from "./date-utils";
+import type { EventCard, EventDetail } from "./types";
+import { golfMajor, interestLeagues, type LeagueInterest } from "./interest-preferences";
 
 const LEAGUE_META: Record<
   string,
-  { shortLabel: string; order: number }
+  { shortLabel: string }
 > = {
-  EPL: { shortLabel: "Premier League", order: 20 },
+  EPL: { shortLabel: "Premier League" },
   BUNDESLIGA: {
-    shortLabel: "Bundesliga",
-    order: 21,
+    shortLabel: "Bundesliga"
   },
-  LA_LIGA: { shortLabel: "La Liga", order: 22 },
-  SERIE_A: { shortLabel: "Serie A", order: 23 },
-  LIGUE_1: { shortLabel: "Ligue 1", order: 24 },
-  CHAMPIONSHIP: { shortLabel: "EFL Championship · England", order: 25 },
-  EREDIVISIE: { shortLabel: "Eredivisie", order: 26 },
-  PRIMEIRA_LIGA: { shortLabel: "Primeira Liga", order: 27 },
-  BRASILEIRAO: { shortLabel: "Brazil Série A", order: 28 },
-  UFC: { shortLabel: "UFC", order: 30 },
-  PFL: { shortLabel: "PFL", order: 31 },
-  RIZIN: { shortLabel: "RIZIN", order: 32 },
-  ONE: { shortLabel: "One", order: 33 },
-  BOXING_MAJOR: { shortLabel: "Boxing", order: 34 },
-  IWF_WORLDS: { shortLabel: "IWF Worlds", order: 35 },
-  IWF_JUNIOR_WORLDS: { shortLabel: "Junior Worlds", order: 40 },
-  IWF_YOUTH_WORLDS: { shortLabel: "Youth Worlds", order: 41 },
-  MASTERS_WORLDS: { shortLabel: "Masters Worlds", order: 42 },
-  WEIGHTLIFTING_AFRICA: { shortLabel: "African Championships", order: 43 },
-  WEIGHTLIFTING_ASIA: { shortLabel: "Asian Championships", order: 44 },
-  WEIGHTLIFTING_EUROPE: { shortLabel: "European Championships", order: 45 },
-  WEIGHTLIFTING_OCEANIA: { shortLabel: "Oceania Championships", order: 46 },
-  WEIGHTLIFTING_PAN_AMERICA: { shortLabel: "Pan-American Championships", order: 47 },
-  WEIGHTLIFTING_COMMONWEALTH_GAMES: { shortLabel: "Commonwealth Games", order: 48 },
-  WEIGHTLIFTING_ASIAN_GAMES: { shortLabel: "Asian Games", order: 49 },
-  WEIGHTLIFTING_PAN_AM_GAMES: { shortLabel: "Pan Am Games", order: 50 },
-  GOLF_MAJORS_MEN: { shortLabel: "Golf · men's majors", order: 36 },
-  GOLF_MAJORS_WOMEN: { shortLabel: "Golf · women's majors", order: 37 },
-  NFL: { shortLabel: "NFL", order: 0 },
-  NBA: { shortLabel: "NBA", order: 1 },
-  MLB: { shortLabel: "MLB", order: 2 },
-  NHL: { shortLabel: "NHL", order: 3 },
-  F1: { shortLabel: "F1", order: 4 },
-  NASCAR_CUP: { shortLabel: "NASCAR", order: 5 },
-  INDYCAR: { shortLabel: "INDYCAR", order: 6 },
-  FIFA_WORLD_CUP: { shortLabel: "FIFA", order: 7 },
+  LA_LIGA: { shortLabel: "La Liga" },
+  SERIE_A: { shortLabel: "Serie A" },
+  LIGUE_1: { shortLabel: "Ligue 1" },
+  CHAMPIONSHIP: { shortLabel: "EFL Championship · England" },
+  EREDIVISIE: { shortLabel: "Eredivisie" },
+  PRIMEIRA_LIGA: { shortLabel: "Primeira Liga" },
+  BRASILEIRAO: { shortLabel: "Brazil Série A" },
+  UFC: { shortLabel: "UFC" },
+  PFL: { shortLabel: "PFL" },
+  RIZIN: { shortLabel: "RIZIN" },
+  ONE: { shortLabel: "ONE" },
+  BOXING_MAJOR: { shortLabel: "Boxing" },
+  IWF_WORLDS: { shortLabel: "IWF Worlds" },
+  IWF_JUNIOR_WORLDS: { shortLabel: "Junior Worlds" },
+  IWF_YOUTH_WORLDS: { shortLabel: "Youth Worlds" },
+  MASTERS_WORLDS: { shortLabel: "Masters Worlds" },
+  WEIGHTLIFTING_AFRICA: { shortLabel: "African Championships" },
+  WEIGHTLIFTING_ASIA: { shortLabel: "Asian Championships" },
+  WEIGHTLIFTING_EUROPE: { shortLabel: "European Championships" },
+  WEIGHTLIFTING_OCEANIA: { shortLabel: "Oceania Championships" },
+  WEIGHTLIFTING_PAN_AMERICA: { shortLabel: "Pan-American Championships" },
+  WEIGHTLIFTING_COMMONWEALTH_GAMES: { shortLabel: "Commonwealth Games" },
+  WEIGHTLIFTING_ASIAN_GAMES: { shortLabel: "Asian Games" },
+  WEIGHTLIFTING_PAN_AM_GAMES: { shortLabel: "Pan Am Games" },
+  GOLF_MAJORS_MEN: { shortLabel: "Golf · men's majors" },
+  GOLF_MAJORS_WOMEN: { shortLabel: "Golf · women's majors" },
+  NFL: { shortLabel: "NFL" },
+  NBA: { shortLabel: "NBA" },
+  MLB: { shortLabel: "MLB" },
+  NHL: { shortLabel: "NHL" },
+  F1: { shortLabel: "F1" },
+  NASCAR_CUP: { shortLabel: "NASCAR" },
+  INDYCAR: { shortLabel: "INDYCAR" },
+  FIFA_WORLD_CUP: { shortLabel: "FIFA" },
   UEFA_CHAMPIONS_LEAGUE: {
-    shortLabel: "Champions League",
-    order: 8,
+    shortLabel: "Champions League"
   },
-  IFSC_WORLD_CUP: { shortLabel: "World Climbing", order: 9 },
+  IFSC_WORLD_CUP: { shortLabel: "World Climbing" },
   IFSC_PARA_WORLD_CUP: {
-    shortLabel: "PARA",
-    order: 10,
+    shortLabel: "PARA"
   },
   IFSC_YOUTH_WORLD_CHAMPIONSHIPS: {
-    shortLabel: "YOUTH",
-    order: 11,
+    shortLabel: "YOUTH"
   },
-  PGA_TOUR: { shortLabel: "PGA Tour", order: 38 },
-  LPGA_TOUR: { shortLabel: "LPGA Tour", order: 39 },
+  PGA_TOUR: { shortLabel: "PGA Tour" },
+  LPGA_TOUR: { shortLabel: "LPGA Tour" },
 };
 
 export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = {
@@ -177,10 +175,44 @@ export function leagueVisual(league: string, sport?: string) {
   const category = categoryForLeague(league, sport);
   return {
     ...(LEAGUE_META[league] || {
-      shortLabel: CLIMBING_COMPETITIONS[league] || league.replaceAll("_", " "),
-      order: 99,
+      shortLabel: CLIMBING_COMPETITIONS[league] || league.replaceAll("_", " ")
     }),
     className: category ? `category-${category}` : "category-unknown",
   };
 }
 
+
+// One order for every view. A final/playoff takes precedence over regular play.
+const TIERS = [
+  ["FIFA_WORLD_CUP", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN", "UEFA_CHAMPIONS_LEAGUE"],
+  ["NFL", "NBA", "F1", "EPL"],
+  ["MLB", "NHL", "UFC", "BOXING_MAJOR"],
+  ["LA_LIGA", "BUNDESLIGA", "SERIE_A", "LIGUE_1"],
+  ["NASCAR_CUP", "INDYCAR", "IWF_WORLDS", "IFSC_WORLD_CUP"],
+  ["PGA_TOUR", "LPGA_TOUR", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO"],
+  ["PFL", "RIZIN", "ONE"],
+  ["IFSC_PARA_WORLD_CUP", "IFSC_PARA_WORLDS", "IFSC_YOUTH_WORLD_CHAMPIONSHIPS", "IFSC_YOUTH_WORLDS",
+    "IWF_JUNIOR_WORLDS", "IWF_YOUTH_WORLDS", "MASTERS_WORLDS",
+    "WEIGHTLIFTING_AFRICA", "WEIGHTLIFTING_ASIA", "WEIGHTLIFTING_EUROPE", "WEIGHTLIFTING_OCEANIA",
+    "WEIGHTLIFTING_PAN_AMERICA", "WEIGHTLIFTING_COMMONWEALTH_GAMES", "WEIGHTLIFTING_ASIAN_GAMES", "WEIGHTLIFTING_PAN_AM_GAMES"],
+];
+const RANKS = new Map(TIERS.flatMap((tier, index) => tier.map((league, order) => [league, index * 100 + order] as const)));
+function eventRank(event: EventCard) {
+  const league = golfMajor(event as EventDetail)
+    ? event.league === "GOLF_MAJORS_WOMEN" ? "GOLF_MAJORS_WOMEN" : "GOLF_MAJORS_MEN" : event.league;
+  return RANKS.get(league) ?? 899;
+}
+export function compareEvents(a: EventCard, b: EventCard): number {
+  const playoff = (event: EventCard) => /^(finals?|playoffs?|postseason)(_|$)/i.test(event.competition_phase);
+  return Number(playoff(b)) - Number(playoff(a)) || eventRank(a) - eventRank(b)
+    || (eventInstant(a) ?? Infinity) - (eventInstant(b) ?? Infinity)
+    || a.title.localeCompare(b.title) || a.event_id.localeCompare(b.event_id);
+}
+export function leagueGroups(items: EventCard[]) {
+  const groups = new Map<string, EventCard[]>();
+  for (const event of [...items].sort(compareEvents)) {
+    if (!groups.has(event.league)) groups.set(event.league, []);
+    groups.get(event.league)!.push(event);
+  }
+  return [...groups].map(([league, items]) => ({ league, items }));
+}

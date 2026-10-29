@@ -5,7 +5,6 @@ import { firstOfMonth, eventTimeLabel, formatLongDate, formatShortDate } from ".
 import { EventFlags, SportIcon } from "./EventIdentity";
 import { leagueVisual } from "./calendar-helpers";
 import { dayAfter } from "./month-feed-state";
-import EventPreview, { useEventPreview } from "./EventPreview";
 import type { CalendarResponse } from "./types";
 
 export default function Agenda({ today, period, onPeriod, months, errors, timezone, resetKey, onOpenDay, onRetry,
@@ -27,14 +26,12 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
   noMore: boolean;
   expandedYears?: number[];
 }) {
-  const preview = useEventPreview();
   const scroller = useRef<HTMLDivElement>(null);
   const position = useRef({ top: 0, id: "", offset: 0 });
   const pendingPosition = useRef<typeof position.current | null>(null);
   const previousScope = useRef(`${period}:${today}`);
   const previousKey = useRef(resetKey);
   function measure() {
-    preview.close();
     const root = scroller.current;
     if (!root || pendingPosition.current) return;
     const row = [...root.querySelectorAll<HTMLElement>(".agenda-row")]
@@ -53,7 +50,6 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
   const hasEvents = groups.some((group) => group.items.length);
   useLayoutEffect(() => {
     const root = scroller.current!;
-    preview.close();
     const scope = `${period}:${today}`;
     if (previousScope.current !== scope) {
       previousScope.current = scope;
@@ -106,14 +102,7 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
               const location = event.venue || [event.city, countryIdentity(event.country)?.name || event.country].filter(Boolean).join(" · ");
               return (
                 <button className="agenda-row" key={event.event_id} id={`agenda-${group.date}-${event.event_id}`}
-                  onClick={() => { preview.close(); onOpenDay(group.date, event.event_id); }}
-                  onPointerEnter={(pointer) => {
-                    if (pointer.pointerType !== "touch") preview.show({ event, date: group.date, target: pointer.currentTarget });
-                  }} onPointerLeave={preview.leave}
-                  onFocus={(focus) => {
-                    if (focus.currentTarget.matches(":focus-visible")) preview.show({ event, date: group.date, target: focus.currentTarget });
-                  }} onBlur={preview.close}
-                  aria-describedby={preview.preview?.event.event_id === event.event_id && preview.preview.date === group.date ? "event-preview" : undefined}>
+                  onClick={() => onOpenDay(group.date, event.event_id)}>
                   <span className="agenda-clock">{eventTimeLabel(event, timezone)}</span>
                   <span className="agenda-summary">
                     <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}><SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}</span>
@@ -134,7 +123,6 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
         </button>}
         {noMore && !messages.length && <p role="status">No later published events match your interests.</p>}
       </div>}
-      {preview.preview && <EventPreview preview={preview.preview} timezone={timezone} onEnter={preview.keep} onLeave={preview.leave} />}
     </section>
   );
 }

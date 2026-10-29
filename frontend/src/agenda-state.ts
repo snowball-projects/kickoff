@@ -1,5 +1,6 @@
-import { addMonths, firstOfMonth, monthAnchorsInRange, eventInstant, formatShortDate, yearMonthAnchors } from "./date-utils";
+import { addMonths, firstOfMonth, monthAnchorsInRange, formatShortDate, yearMonthAnchors } from "./date-utils";
 import { dayAfter, scheduleWindow } from "./month-feed-state";
+import { compareEvents } from "./calendar-helpers";
 import type { CalendarResponse, EventCard } from "./types";
 
 export type AgendaPeriod = "yesterday" | "today" | "upcoming";
@@ -45,7 +46,7 @@ export function agendaGroups(months: Record<string, CalendarResponse>, dates: st
     date,
     // Reuse the calendar's zoned groups, including inclusive date-only spans.
     items: [...(months[firstOfMonth(date)]?.groups.find((group) => group.date === date)?.items || [])]
-      .sort((a, b) => (eventInstant(a) ?? Infinity) - (eventInstant(b) ?? Infinity) || a.event_id.localeCompare(b.event_id)),
+      .sort(compareEvents),
   }));
 }
 
