@@ -62,7 +62,7 @@ h1, h2, h3, p { margin: 0; }
 .event-pill { display: flex; align-items: center; gap: 3px; padding: 0 4px; height: 22px; min-height: 22px; width: 100%; border-radius: 4px; color: var(--ink); background: var(--pill); text-align: left; font-size: 11px; font-weight: 600; white-space: nowrap; min-width: 0; }
 .event-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: -3px; }
 .more-events:focus-visible { outline-offset: -3px; }
-.pill-text { display: block; min-width: 0; overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
+.pill-text { display: block; flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
 .sport-icon { display: inline-block; width: 14px; height: 14px; fill: currentColor; stroke: none; flex: none; vertical-align: middle; }
 .country-flag { flex: none; font-size: 12px; line-height: 1; }
 .event-flags { display: inline-flex; gap: 3px; vertical-align: middle; margin-right: 5px; }
@@ -91,6 +91,7 @@ h1, h2, h3, p { margin: 0; }
 .all-day-strip { flex: none; display: flex; padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); max-height: 140px; overflow-y: auto; }
 .all-day-label { flex: none; width: 54px; text-align: center; color: var(--muted); font-size: 10px; padding-top: 5px; }
 .all-day-strip > div { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; min-width: 0; }
+.all-day-strip .pill-text { mask-image: none; }
 .all-day-strip .event-pill { width: auto; max-width: 100%; padding: 0 8px; }
 .timeline-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior-y: contain; padding-top: 12px; padding-bottom: 78px; }
 .timeline-grid { position: relative; margin: 0 8px 0 0; }

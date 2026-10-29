@@ -105,7 +105,7 @@ export function EventSheet({ items, date, timezone, onClose }: {
         {items.length > 1 && <button className="sheet-back" aria-label="Back to events" onClick={() => setSelected(null)}>‹ {title}</button>}
         <EventDetails event={selected} date={date} timezone={timezone} />
       </> : groups.map((group) => <section className="sheet-event-group" key={group.league}>
-        <h3>{leagueVisual(group.league, group.items[0].sport).shortLabel}</h3>
+        {groups.length > 1 && <h3>{leagueVisual(group.league, group.items[0].sport).shortLabel}</h3>}
         {[...group.items].sort(compareEvents).map((event) => <button className="sheet-event-row" key={event.event_id} id={`sheet-${event.event_id}`}
           onClick={() => { lastRow.current = event.event_id; setSelected(event); }}>
           <span>{eventTimeLabel(event, timezone)}</span><b><EventFlags event={event} />{event.title}</b><span aria-hidden="true">›</span>
