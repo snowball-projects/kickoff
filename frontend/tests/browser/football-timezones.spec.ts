@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./test";
 
 // Exercise the real importer and confirmed league mappings with synthetic clocks.
 const root = fileURLToPath(new URL("../../../", import.meta.url));

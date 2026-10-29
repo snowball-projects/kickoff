@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./test";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const python = existsSync(`${root}.venv/bin/python`) ? `${root}.venv/bin/python` : "python";

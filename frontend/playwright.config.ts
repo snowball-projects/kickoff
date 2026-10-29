@@ -3,7 +3,6 @@ import { defineConfig, devices } from "@playwright/test";
 const port = Number(process.env.KICKOFF_TEST_PORT || 5173);
 
 export default defineConfig({
-  globalSetup: "./tests/browser/setup.ts",
   testDir: "./tests/browser",
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
@@ -24,9 +23,9 @@ export default defineConfig({
     },
   }],
   webServer: {
-    command: `npm run dev -- --host 127.0.0.1 --port ${port} --strictPort`,
+    command: `node tests/browser/setup.ts && npm run build && npm run preview -- --host 127.0.0.1 --port ${port} --strictPort`,
     url: `http://127.0.0.1:${port}`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 30_000,
   },
 });
