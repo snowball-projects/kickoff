@@ -1,5 +1,5 @@
 import { hostCountry, nationalTeamCountries, type Country } from "./countries";
-import { categoryForLeague, type CategoryKey } from "./calendar-helpers";
+import { categoryForLeague, NO_FLAG_LEAGUES, type CategoryKey } from "./calendar-helpers";
 import { SPORT_ICONS } from "./sport-icons";
 import type { EventCard } from "./types";
 
@@ -17,6 +17,7 @@ export function CountryFlag({ country, label }: { country: Country; label: strin
 }
 
 export function EventFlags({ event }: { event: EventCard }) {
+  if (NO_FLAG_LEAGUES.has(event.league)) return null;
   const host = hostCountry(event);
   const teams = nationalTeamCountries(event.participants);
   if (!host && !teams.length) return null;

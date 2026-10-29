@@ -71,7 +71,7 @@ function EventDetails({ event, date, timezone }: { event: EventCard; date: strin
     <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}>
       <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
     </span>
-    <h3 tabIndex={-1}><EventFlags event={event} />{event.title}</h3>
+    <h3 tabIndex={-1}>{event.title}<EventFlags event={event} /></h3>
     {event.subtitle && <p>{event.subtitle}</p>}
     <p className="detail-time">{eventTimeLabel(event, timezone)}</p>
     <p>{formatLongDate(start)}{end && end > start && <> through {formatLongDate(end)}</>}</p>
@@ -108,7 +108,7 @@ export function EventSheet({ items, date, timezone, onClose }: {
         {groups.length > 1 && <h3>{leagueVisual(group.league, group.items[0].sport).shortLabel}</h3>}
         {[...group.items].sort(compareEvents).map((event) => <button className="sheet-event-row" key={event.event_id} id={`sheet-${event.event_id}`}
           onClick={() => { lastRow.current = event.event_id; setSelected(event); }}>
-          <span>{eventTimeLabel(event, timezone)}</span><b><EventFlags event={event} />{event.title}</b><span aria-hidden="true">›</span>
+          <span>{eventTimeLabel(event, timezone)}</span><b>{event.title}<EventFlags event={event} /></b><span aria-hidden="true">›</span>
         </button>)}
       </section>)}
     </div>

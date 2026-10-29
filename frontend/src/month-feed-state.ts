@@ -21,3 +21,16 @@ export function dayInMonth(date: string, delta: number) {
   const lastDay = new Date(Date.UTC(Number(anchor.slice(0, 4)), Number(anchor.slice(5, 7)), 0)).getUTCDate();
   return `${anchor.slice(0, 7)}-${String(Math.min(Number(date.slice(-2)), lastDay)).padStart(2, "0")}`;
 }
+
+export function weekStart(date: string) {
+  return dayAfter(date, -new Date(`${date}T12:00:00Z`).getUTCDay());
+}
+export function monthRows(start: string, end: string) {
+  const rows: (string | null)[][] = [];
+  for (let date = weekStart(start); date <= end; date = dayAfter(date, 7)) {
+    const dates = Array.from({ length: 7 }, (_, index) => dayAfter(date, index));
+    for (const month of new Set(dates.filter((day) => day >= start && day <= end).map((day) => day.slice(0, 7))))
+      rows.push(dates.map((day) => day >= start && day <= end && day.startsWith(month) ? day : null));
+  }
+  return rows;
+}

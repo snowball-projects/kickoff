@@ -5,8 +5,8 @@ import { browserTimezone, firstOfMonth, formatLongDate, monthAnchorsInRange, mon
 import type { EventCard, FilterState } from "./types";
 import InterestGroups from "./InterestGroups";
 import { defaultPreferences, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
-import MonthFeed, { weekStart, type MonthNavigation } from "./MonthFeed";
-import { boundMonth, dayAfter, monthAt, monthIndex, scheduleWindow } from "./month-feed-state";
+import MonthFeed, { type MonthNavigation } from "./MonthFeed";
+import { boundMonth, dayAfter, monthAt, monthIndex, scheduleWindow, weekStart } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
 import Agenda from "./Agenda";
 import DayTimeline from "./DayTimeline";
@@ -145,7 +145,7 @@ export default function App() {
     document.querySelector<HTMLElement>(".year-grid")?.focus();
     setMonth(boundMonth(monthAt(monthIndex(month) + delta * 12), today));
   }
-  return <div className="app-shell">
+  return <div className="app-shell" onKeyDown={(event) => { if (event.key === "Escape" && view === "day" && !sheet) closeDay(); }}>
     <header className={`calendar-header ${view === "day" && calendarActive ? "day-header" : ""}`}>
       <div className="topbar">
         <div className="nav-left">{calendarActive && view !== "year" && <button className="back-button"
@@ -189,7 +189,7 @@ export default function App() {
         {calendarActive && <div className="weekday-row" aria-hidden="true">{WEEKDAY_NARROW.map((label, index) => <span key={index}>{label}</span>)}</div>}
       </>}
     </header>
-    <main className="calendar-body" onKeyDown={(event) => { if (event.key === "Escape" && view === "day" && !sheet) closeDay(); }}>
+    <main className="calendar-body">
       <div hidden={!calendarActive || view !== "month"} className="month-stage">
         <div className="calendar-status" aria-live="polite">
           {errors[year] && <span>{errors[year]} <button onClick={() => setRetry((value) => value + 1)}>Retry</button></span>}

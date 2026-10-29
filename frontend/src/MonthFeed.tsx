@@ -1,14 +1,11 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { firstOfMonth, formatLongDate, monthTitle } from "./date-utils";
-import { dayAfter } from "./month-feed-state";
+import { dayAfter, monthRows } from "./month-feed-state";
 import { leagueGroups, leagueVisual } from "./calendar-helpers";
 import EventPill from "./EventPill";
 import type { CalendarResponse, EventCard } from "./types";
 
 export type MonthNavigation = { date: string; id: number; focus?: boolean; returnFromDay?: boolean };
-export function weekStart(date: string) {
-  return dayAfter(date, -new Date(`${date}T12:00:00Z`).getUTCDay());
-}
 export default function MonthFeed({ start, end, today, months, navigation, active, splitDate, onVisibleMonth, onOpenDay, onEvents }: {
   start: string; end: string; today: string; months: Record<string, CalendarResponse>;
   navigation: MonthNavigation; active: boolean; splitDate: string | null;
@@ -18,12 +15,7 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
   const root = useRef<HTMLDivElement>(null);
   const lastNavigation = useRef(-1);
   const [limit, setLimit] = useState(2);
-  const weeks = useMemo(() => {
-    const rows: string[][] = [];
-    for (let date = weekStart(start); date <= end; date = dayAfter(date, 7))
-      rows.push(Array.from({ length: 7 }, (_, index) => dayAfter(date, index)));
-    return rows;
-  }, [start, end]);
+  const weeks = useMemo(() => monthRows(start, end), [start, end]);
   const split = splitDate ? weeks.findIndex((dates) => dates.includes(splitDate)) : -1;
   function measure() {
     const element = root.current;
@@ -88,11 +80,11 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
     }
     return true;
   }
-  function row(dates: string[], index: number) {
-    return <div className="calendar-week" role="row" key={dates[0]} data-dates={dates.join(",")}
+  function row(dates: (string | null)[], index: number) {
+    return <div className="calendar-week" role="row" key={dates.find(Boolean)!} data-dates={dates.filter(Boolean).join(",")}
       style={index === split ? { viewTransitionName: "selected-week" } : undefined}>
-      {dates.map((date) => {
-        if (date < start || date > end) return <div role="gridcell" key={date} />;
+      {dates.map((date, column) => {
+        if (!date) return <div role="gridcell" className="empty-day" key={column} />;
         const items = months[firstOfMonth(date)]?.groups.find((group) => group.date === date)?.items || [];
         const groups = leagueGroups(items);
         return <div className="day-cell" role="gridcell" id={`day-${date}`} key={date}

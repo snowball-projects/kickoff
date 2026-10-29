@@ -1,3 +1,4 @@
+import { commonHostCountry } from "./countries";
 import { eventInstant } from "./date-utils";
 import type { EventCard, EventDetail } from "./types";
 import { golfMajor, interestLeagues, type LeagueInterest } from "./interest-preferences";
@@ -13,10 +14,10 @@ const LEAGUE_META: Record<
   LA_LIGA: { shortLabel: "La Liga" },
   SERIE_A: { shortLabel: "Serie A" },
   LIGUE_1: { shortLabel: "Ligue 1" },
-  CHAMPIONSHIP: { shortLabel: "EFL Championship · England" },
+  CHAMPIONSHIP: { shortLabel: "EFL Championship" },
   EREDIVISIE: { shortLabel: "Eredivisie" },
   PRIMEIRA_LIGA: { shortLabel: "Primeira Liga" },
-  BRASILEIRAO: { shortLabel: "Brazil Série A" },
+  BRASILEIRAO: { shortLabel: "Brasileirão" },
   UFC: { shortLabel: "UFC" },
   PFL: { shortLabel: "PFL" },
   RIZIN: { shortLabel: "RIZIN" },
@@ -69,6 +70,14 @@ export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = 
   PRIMEIRA_LIGA: { name: "Portugal", flag: "🇵🇹" },
   BRASILEIRAO: { name: "Brazil", flag: "🇧🇷" },
 };
+
+export const NO_FLAG_LEAGUES = new Set(["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"]);
+
+export function pillCountry(items: EventCard[]) {
+  const league = items[0].league;
+  return NO_FLAG_LEAGUES.has(league)
+    ? undefined : SOCCER_COUNTRIES[league] || commonHostCountry(items);
+}
 
 const CLIMBING_COMPETITIONS: Record<string, string> = {
   IFSC_WORLD_CUP: "World Cups",
