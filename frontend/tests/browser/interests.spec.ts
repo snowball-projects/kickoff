@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./test";
 import { agendaToggle, chooser, event, setup } from "./fixtures";
 const events = [
   event("PGA stop", undefined, { league: "PGA_TOUR", sport: "golf" }),

@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./test";
 import { agendaToggle, chooser, event, setup } from "./fixtures";
 const events = [
   event("Yesterday fixture", "2026-12-30"), event("Date-only fixture", "2026-12-31"),
