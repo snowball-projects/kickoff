@@ -20,9 +20,11 @@ for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(page.getByRole("heading", { name: "October", exact: true, level: 1 })).toBeVisible();
       const cell = page.locator("#day-2026-10-28");
       await expect(cell.locator(".event-pill").first()).toContainText("One");
-      await expect(cell.locator(".event-pill")).toHaveCount(width < 700 ? 2 : 3);
+      await expect(cell.locator(".event-pill")).toHaveCount(2);
       const heights = await page.locator(".calendar-week").evaluateAll((rows) => rows.map((row) => row.getBoundingClientRect().height));
       expect(new Set(heights).size).toBe(1);
+      expect(await page.locator(".sport-icon").first().evaluate((element) => getComputedStyle(element).fill)).not.toBe("none");
+      expect(await page.locator(".sport-icon").first().evaluate((element) => getComputedStyle(element).stroke)).toBe("none");
       await cell.locator(".event-pill").first().click();
       await expect(page.getByRole("dialog")).toContainText("Playoff");
       await page.keyboard.press("Escape");
@@ -170,3 +172,22 @@ test("Agenda return preserves the scrolled month after a day was previously open
   expect(await page.locator(".month-scroll").evaluate((element) => element.scrollTop)).toBe(top);
   await expect(agendaToggle(page)).toBeFocused();
 });
+
+for (const [width, height] of [[390, 700], [1280, 600]]) {
+  test(`pills and overflow remain inside fixed cells at ${width}x${height}`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await setup(page, events);
+    const cell = page.locator("#day-2026-10-28");
+    await expect(cell.locator(".more-events")).toHaveText("+2");
+    const boxes = await cell.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return [...element.querySelectorAll(".event-pill, .more-events")].map((control) => {
+        const box = control.getBoundingClientRect();
+        return { top: box.top - rect.top, bottom: box.bottom - rect.top, height: rect.height };
+      });
+    });
+    expect(boxes.length).toBe(3);
+    for (const box of boxes) { expect(box.top).toBeGreaterThanOrEqual(0); expect(box.bottom).toBeLessThanOrEqual(box.height); }
+    for (let index = 1; index < boxes.length; index++) expect(boxes[index].top).toBeGreaterThanOrEqual(boxes[index - 1].bottom);
+  });
+}

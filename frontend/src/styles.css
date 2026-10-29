@@ -12,7 +12,7 @@
   --line: #dedfdf;
   --green: #007e49;
   --today: #30e090;
-  --week-height: max(112px, calc((100dvh - 154px) / 5));
+  --week-height: max(120px, calc((100dvh - 154px) / 5));
 }
 * { box-sizing: border-box; }
 body { margin: 0; }
@@ -61,7 +61,7 @@ h1, h2, h3, p { margin: 0; }
 .cell-pills { display: flex; flex-direction: column; gap: 2px; }
 .event-pill { display: flex; align-items: center; gap: 3px; padding: 0 4px; height: 22px; min-height: 22px; width: 100%; border-radius: 4px; color: var(--ink); background: var(--pill); text-align: left; font-size: 11px; font-weight: 600; white-space: nowrap; min-width: 0; }
 .pill-text { display: block; min-width: 0; overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
-.sport-icon { display: inline-block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; vertical-align: middle; }
+.sport-icon { display: inline-block; width: 14px; height: 14px; fill: currentColor; stroke: none; flex: none; vertical-align: middle; }
 .country-flag { flex: none; font-size: 12px; line-height: 1; }
 .event-flags { display: inline-flex; gap: 3px; vertical-align: middle; margin-right: 5px; }
 .more-events { font-size: 11px; color: var(--muted); display: block; text-align: left; padding: 3px 4px; width: 100%; height: 21px; }

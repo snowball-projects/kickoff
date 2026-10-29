@@ -43,7 +43,14 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
     const visible = [...area].sort((a, b) => b[1] - a[1])[0]?.[0];
     if (visible) onVisibleMonth(visible);
     const row = element.querySelector<HTMLElement>(".calendar-week");
-    if (row) setLimit(element.clientWidth < 700 ? 2 : Math.max(2, Math.floor((row.offsetHeight - 54) / 24)));
+    const cell = element.querySelector<HTMLElement>(".day-cell");
+    const pills = cell?.querySelector<HTMLElement>(".cell-pills");
+    if (row && cell && pills) {
+      const chrome = pills.getBoundingClientRect().top - cell.getBoundingClientRect().top
+        + 21 + parseFloat(getComputedStyle(cell).paddingBottom);
+      // 22px pills, 2px gaps, and a reserved 21px overflow control.
+      setLimit(element.clientWidth < 700 ? 2 : Math.max(2, Math.floor((row.offsetHeight - chrome + 2) / 24)));
+    }
   }
   useLayoutEffect(() => {
     if (!active) return;
