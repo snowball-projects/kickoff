@@ -70,11 +70,11 @@ h1, h2, h3, p { margin: 0; }
 .calendar-status span { display: block; padding: 7px 10px; }
 .calendar-status button, .schedule-notice button { text-decoration: underline; color: var(--green); }
 .today-button { position: fixed; z-index: 3; bottom: max(18px, env(safe-area-inset-bottom)); left: 18px; padding: 10px 19px; font-size: 14px; font-weight: 600; box-shadow: 0 2px 12px #0002; background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(12px); }
-.year-grid { height: 100%; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(130px, 1fr)); gap: 12px 18px; padding: 12px 18px 72px; }
+.year-grid { height: 100%; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(142px, 1fr)); gap: 12px 18px; padding: 12px 18px 72px; }
 .mini-month { text-align: left; padding: 0; align-self: start; min-width: 0; }
 .mini-month h2 { font-size: 18px; margin-bottom: 8px; }
 .current-month h2 { color: var(--green); }
-.mini-weekdays, .mini-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: 9px; line-height: 17px; }
+.mini-weekdays, .mini-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; font-size: 9px; line-height: 16px; }
 .mini-weekdays { color: var(--muted); font-size: 8px; }
 .mini-days span { display: grid; place-items: center; }
 .mini-today { color: var(--green); font-weight: 800; }
@@ -170,9 +170,9 @@ input[type="checkbox"] { accent-color: var(--green); height: 18px; width: 18px; 
   .heading-row { padding-inline: 28px; }
   .day-cell { padding-inline: 7px; }
   .event-pill { font-size: 12px; }
-  .year-grid { max-width: 900px; margin: auto; gap: 20px 50px; }
-  .mini-month h2 { font-size: 23px; }
-  .mini-weekdays, .mini-days { font-size: 12px; line-height: 22px; }
+  .year-grid { max-width: 900px; margin: auto; gap: 12px 50px; }
+  .mini-month h2 { font-size: 20px; }
+  .mini-weekdays, .mini-days { font-size: 11px; line-height: 16px; }
   .week-strip { max-width: 900px; margin: auto; }
   .sheet { inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: 560px; max-width: calc(100vw - 48px); max-height: min(820px, 85dvh); border-radius: 22px; animation: card-in .2s ease-out; box-shadow: 0 12px 70px #0004; }
   .sheet.closing { animation: card-in .18s reverse forwards; }

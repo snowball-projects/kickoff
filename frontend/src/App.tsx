@@ -231,7 +231,7 @@ export default function App() {
     {sheet?.kind === "info" && <Sheet title="About kickoff" onClose={() => setSheet(null)}>
       <p>A sports calendar by <a href="https://snowball-projects.github.io/">snowball</a>.</p>
       <p>{timezoneLabel(timezone)} · {timezone}</p>
-      <p>Updated {manifest?.updated_at || "unavailable"}</p>
+      <p>Updated {manifest?.updated_at?.slice(0, 10) || "unavailable"}</p>
       <p><a href="https://github.com/snowball-projects/kickoff" target="_blank" rel="noreferrer">Source ↗</a></p>
       <h3>Coverage</h3>
       <p>Published schedules, not live scores. Coverage is incomplete; an empty day means no matching published events. Dates and times can change.</p>

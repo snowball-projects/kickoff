@@ -63,7 +63,10 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
     const cell = document.getElementById(`day-${navigation.date}`);
     if (!cell) return;
     const scroller = root.current!;
-    scroller.scrollTop += cell.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+    const first = document.getElementById(`day-${firstOfMonth(navigation.date)}`) || cell;
+    scroller.scrollTop += first.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+    const bottom = cell.getBoundingClientRect().bottom - scroller.getBoundingClientRect().bottom;
+    if (bottom > 0) scroller.scrollTop += bottom;
     if (navigation.focus) cell.querySelector<HTMLButtonElement>(".day-number")?.focus({ preventScroll: true });
     measure();
   }, [active, navigation.id, weeks]);

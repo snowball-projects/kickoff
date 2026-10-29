@@ -41,13 +41,17 @@ for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(sheet.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", "https://example.com/schedule");
       await sheet.getByRole("button", { name: "Close", exact: true }).click();
       await expect(page.locator('[data-event-id="Late match"]')).toBeFocused();
+      await page.screenshot({ path: `test-results/day-${width}-${colorScheme}.png` });
       await page.getByRole("button", { name: "Back to October", exact: true }).click();
       await expect(cell.locator(".day-number")).toBeFocused();
-      await month(page, "November 2026");
+      await page.getByRole("button", { name: /Show .* year calendar/ }).click();
+      await expect(page.locator(".mini-month")).toHaveCount(12);
+      await page.screenshot({ path: `test-results/year-${width}-${colorScheme}.png` });
+      await page.getByRole("button", { name: "Open November 2026", exact: true }).click();
       await expect(page.getByRole("heading", { name: "November", level: 1, exact: true })).toBeVisible();
       await expect(page.locator("#day-2026-11-01 .month-abbreviation")).toHaveText("Nov");
       const headerTop = await page.locator(".calendar-header").evaluate((element) => element.getBoundingClientRect().top);
-      await page.locator("#day-2026-12-20").evaluate((element) => element.scrollIntoView({ block: "start" }));
+      await page.locator("#day-2026-12-01").evaluate((element) => element.scrollIntoView({ block: "start" }));
       await expect(page.getByRole("heading", { name: "December", level: 1, exact: true })).toBeVisible();
       expect(await page.locator(".calendar-header").evaluate((element) => element.getBoundingClientRect().top)).toBe(headerTop);
       await page.getByRole("button", { name: "Today", exact: true }).click();
@@ -64,6 +68,7 @@ for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as 
       await pill.click();
       const sheet = page.getByRole("dialog");
       await expect(sheet.locator(".sheet-event-row")).toContainText(["Early match", "Late match"]);
+      await page.screenshot({ path: `test-results/sheet-${width}-${colorScheme}.png` });
       await sheet.locator(".sheet-event-row").last().click();
       await expect(sheet.getByRole("article")).toContainText("Late match");
       await sheet.getByRole("button", { name: "Back to events" }).click();
