@@ -152,7 +152,7 @@ test("interest and coverage checkboxes are shared and cancellation is harmless",
   await chooser.getByRole("checkbox", { name: "Select all Motorsports", exact: true }).check();
   await chooser.getByRole("checkbox", { name: "Select all Golf", exact: true }).check();
   await chooser.getByRole("region", { name: "Golf interests" }).locator("summary").click();
-  await chooser.getByRole("checkbox", { name: "PGA Tour majors only", exact: true }).check();
+  await chooser.getByRole("checkbox", { name: "Majors only", exact: true }).check();
   await chooser.getByRole("button", { name: "Show my calendar" }).click();
   await expect(row(page, "Morning fixture")).toHaveCount(0);
   await expect(row(page, "Grand Prix")).toBeVisible();
