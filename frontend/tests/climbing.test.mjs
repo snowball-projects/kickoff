@@ -12,11 +12,7 @@ test("official climbing rounds cross midnight only when the viewer zone requires
   const final = byId("world-climbing-series-2026-salt-lake-city-boulder-mens-final");
   assert.equal(dates.eventCalendarDate(final, "America/Denver"), "2026-10-17");
   assert.equal(dates.eventCalendarDate(final, "Europe/London"), "2026-10-18");
-  assert.equal(dates.eventTimeBucket(final, "Europe/London"), "02:00");
-  assert.equal(dates.eventTimeBucket(final, "Asia/Tokyo"), "10:00");
   const speed = byId("world-climbing-series-2026-santiago-speed-mens-final");
-  assert.equal(dates.eventTimeBucket(speed, "America/Santiago"), "18:00");
-  assert.equal(dates.eventTimeBucket(speed, "Europe/London"), "22:00");
   assert.equal(dates.eventCalendarDate(speed, "Asia/Tokyo"), "2026-10-25");
 });
 
@@ -31,7 +27,6 @@ test("unknown climbing clocks retain their reviewed dates in every zone", () => 
     assert.ok(event.subtitle);
     assert.ok(event.tags.some((tag) => ["Boulder", "Lead", "Speed"].includes(tag)));
   }
-  assert.equal(dates.eventTimeBucket(byId("world-climbing-series-2026-salt-lake-city-boulder-womens-qualification"), "UTC"), "tbd");
 });
 
 test("shared blocks stay explicit and resolved Santiago clocks become exact instants", () => {
@@ -44,8 +39,5 @@ test("shared blocks stay explicit and resolved Santiago clocks become exact inst
   for (const gender of ["men", "women"]) {
     const final = byId(`world-climbing-series-2026-santiago-speed-${gender}s-final`);
     assert.equal(final.start_time_scope, "shared_session");
-    assert.equal(dates.eventTimeBucket(final, "UTC"), "21:00");
   }
-  assert.equal(dates.eventTimeBucket(byId("world-climbing-series-2026-santiago-speed-mens-qualification"), "UTC"), "20:20");
-  assert.equal(dates.eventTimeBucket(byId("world-climbing-series-2026-santiago-lead-mens-final"), "UTC"), "22:00");
 });

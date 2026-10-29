@@ -1,6 +1,5 @@
 export type AppView = "month" | "year";
 export type CalendarView = "month" | "week" | "day";
-export type SortOrder = "start_asc" | "start_desc";
 export type FeedScrollTarget = {
   kind: "month" | "week" | "day";
   value: string;
@@ -115,25 +114,9 @@ export type FiltersResponse = {
   participants: FacetValue[];
 };
 
-export type EventListResponse = {
-  season: number;
-  total: number;
-  limit: number;
-  offset: number;
-  has_more: boolean;
-  sort: SortOrder;
-  timezone: string | null;
-  items: EventCard[];
-};
-
-export type SearchResponse = EventListResponse & {
-  query: string;
-};
-
 export type CalendarDayGroup = {
   date: string;
   event_count: number;
-  competition_counts?: Record<string, number>;
   items: EventCard[];
 };
 

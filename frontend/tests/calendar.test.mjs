@@ -5,7 +5,7 @@ import { loadModule } from "./load-module.mjs";
 test("timezone placement, multi-day dates, multiple interests, and motorsport choices agree", async () => {
   const original = globalThis.fetch;
   try {
-    const { getCalendar, searchEvents } = await loadModule("data");
+    const { getCalendar } = await loadModule("data");
     const base = {
       source: "test",
       season: "2026",
@@ -112,13 +112,6 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
       "UTC",
     );
     assert.equal(none.total_events, 0);
-    const found = await searchEvents(
-      2026,
-      "Fixture",
-      { ...filters, followed_leagues: ["EPL"] },
-      "America/Chicago",
-    );
-    assert.equal(found.items[0].calendar_date, "2026-09-11");
   } finally {
     globalThis.fetch = original;
   }
