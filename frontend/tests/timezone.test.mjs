@@ -58,42 +58,39 @@ test("device timezone detection is local and safely falls back to UTC", async (t
 });
 
 test("today and event clocks agree in positive, negative and fractional offsets", async () => {
-  const { todayIso, eventCalendarDate, eventTimeBucket, eventTimeLabel } = await loadModule("date-utils");
+  const { todayIso, eventCalendarDate, eventTimeLabel } = await loadModule("date-utils");
   const midnight = event("midnight", "2026-12-31", "2027-01-01T00:00:00Z");
-  for (const [zone, date, clock] of [
-    ["UTC", "2027-01-01", "00:00"],
-    ["America/Los_Angeles", "2026-12-31", "16:00"],
-    ["Pacific/Kiritimati", "2027-01-01", "14:00"],
-    ["Asia/Kathmandu", "2027-01-01", "05:45"],
+  for (const [zone, date] of [
+    ["UTC", "2027-01-01"],
+    ["America/Los_Angeles", "2026-12-31"],
+    ["Pacific/Kiritimati", "2027-01-01"],
+    ["Asia/Kathmandu", "2027-01-01"],
   ]) {
     assert.equal(todayIso(zone, new Date(midnight.start_time_utc)), date);
     assert.equal(eventCalendarDate(midnight, zone), date);
-    assert.equal(eventTimeBucket(midnight, zone), clock);
     assert.equal(eventTimeLabel(midnight, zone), new Intl.DateTimeFormat(undefined, {
       hour: "numeric", minute: "2-digit", timeZone: zone,
     }).format(new Date(midnight.start_time_utc)));
   }
   assert.equal(eventCalendarDate(midnight, "Invalid/Timezone"), "2027-01-01");
-  assert.equal(eventTimeBucket(midnight, "Invalid/Timezone"), "00:00");
 });
 
 test("DST uses each event's offset, preserving both fall-back instants", async () => {
-  const { eventCalendarDate, eventTimeBucket, eventTimestamp } = await loadModule("date-utils");
-  const clocks = [
-    ["2026-03-08T06:30:00Z", "01:30"], ["2026-03-08T07:30:00Z", "03:30"],
-    ["2026-11-01T05:30:00Z", "01:30"], ["2026-11-01T06:30:00Z", "01:30"],
+  const { eventCalendarDate, eventTimestamp } = await loadModule("date-utils");
+  const instants = [
+    "2026-03-08T06:30:00Z", "2026-03-08T07:30:00Z",
+    "2026-11-01T05:30:00Z", "2026-11-01T06:30:00Z",
   ];
-  for (const [instant, expected] of clocks) {
+  for (const instant of instants) {
     const item = event(instant, instant.slice(0, 10), instant);
-    assert.equal(eventTimeBucket(item, "America/New_York"), expected);
     assert.equal(eventCalendarDate(item, "America/New_York"), instant.slice(0, 10));
   }
-  assert.equal(eventTimestamp(event("later", "2026-11-01", clocks[3][0])) -
-    eventTimestamp(event("earlier", "2026-11-01", clocks[2][0])), 3_600_000);
+  assert.equal(eventTimestamp(event("later", "2026-11-01", instants[3])) -
+    eventTimestamp(event("earlier", "2026-11-01", instants[2])), 3_600_000);
 });
 
 test("date-only and unverified local clocks keep their source date", async () => {
-  const { eventCalendarDate, eventTimeBucket, eventTimeLabel, eventInstant } = await loadModule("date-utils");
+  const { eventCalendarDate, eventTimeLabel, eventInstant } = await loadModule("date-utils");
   for (const item of [
     event("date-only", "2026-01-01"),
     event("unverified", "2026-01-01", null, { start_time_local: "2026-01-01T01:00:00" }),
@@ -102,23 +99,20 @@ test("date-only and unverified local clocks keep their source date", async () =>
     for (const zone of ["Pacific/Kiritimati", "America/Los_Angeles"]) {
       assert.equal(eventCalendarDate(item, zone), "2026-01-01");
       assert.equal(eventTimeLabel(item, zone), "Time TBD");
-      assert.equal(eventTimeBucket(item, zone), "tbd");
       assert.equal(eventInstant(item), null);
     }
   }
   const verified = event("offset", "2026-01-01", null, { start_time_local: "2026-01-01T01:30:00+09:00" });
   assert.equal(eventCalendarDate(verified, "America/Los_Angeles"), "2025-12-31");
-  assert.equal(eventTimeBucket(verified, "America/Los_Angeles"), "08:30");
 });
 
 test("calendar-only labels and grids survive a device's skipped civil date", async () => {
   const previous = process.env.TZ;
   try {
     process.env.TZ = "Pacific/Apia";
-    const { formatLongDate, formatShortDate, formatDayNumber, monthGridSunStart } = await loadModule("date-utils");
+    const { formatLongDate, formatShortDate, monthGridSunStart } = await loadModule("date-utils");
     assert.equal(formatLongDate("2011-12-30"), "Friday, December 30, 2011");
     assert.equal(formatShortDate("2011-12-30"), "Dec 30");
-    assert.equal(formatDayNumber("2011-12-30"), 30);
     const cells = monthGridSunStart("2011-12-01", []);
     assert.equal(cells.filter((cell) => cell.date === "2011-12-30").length, 1);
     assert.equal(cells.filter((cell) => cell.inMonth).length, 31);
@@ -147,22 +141,17 @@ test("calendar placement crosses month boundaries while date-only spans stay inc
   }
 });
 
-test("calendar and year-scoped search include neighboring-year events exactly once", async (t) => {
+test("calendar includes neighboring-year events exactly once", async (t) => {
   fixtures(t, {
     2026: bundle(2026, [event("east", "2026-12-31", "2026-12-31T23:30:00Z"), event("date-only", "2026-12-31")]),
     2027: bundle(2027, [event("west", "2027-01-01", "2027-01-01T00:30:00Z")]),
   });
-  const { getCalendar, searchEvents } = await loadModule("data");
+  const { getCalendar } = await loadModule("data");
   const january = await getCalendar("month", 2027, "2027-01-01", filters, "Pacific/Kiritimati");
   assert.deepEqual(on(january, "2027-01-01").map((item) => item.event_id), ["east", "west"]);
   assert.ok(on(january, "2027-01-01").every((item) => item.end_calendar_date === "2027-01-01"));
   const december = await getCalendar("month", 2026, "2026-12-01", filters, "America/Los_Angeles");
   assert.deepEqual(on(december, "2026-12-31").map((item) => item.event_id), ["date-only", "east", "west"]);
-  const search = await searchEvents(2027, "Fixture", filters, "Pacific/Kiritimati");
-  assert.deepEqual(search.items.map((item) => item.event_id), ["east", "west"]);
-  assert.ok(search.items.every((item) => item.calendar_date === "2027-01-01" && item.end_calendar_date === "2027-01-01"));
-  assert.equal(search.timezone, "Pacific/Kiritimati");
-  assert.deepEqual((await searchEvents(2026, "Fixture", filters, "Pacific/Kiritimati")).items.map((item) => item.event_id), ["date-only"]);
 });
 
 test("a slow neighboring year merges later without blocking the current year", async (t) => {

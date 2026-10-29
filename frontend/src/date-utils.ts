@@ -1,14 +1,5 @@
-import type { CalendarDayGroup, EventCard, FilterState } from "./types";
+import type { CalendarDayGroup, EventCard } from "./types";
 
-export const WEEKDAY_LABELS = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat",
-] as const;
 export const WEEKDAY_NARROW = ["S", "M", "T", "W", "T", "F", "S"] as const;
 export type MonthGridCell = {
   date: string | null;
@@ -128,17 +119,6 @@ export function monthTitle(anchor: string) {
   }).format(new Date(`${anchor}T12:00:00Z`));
 }
 
-export function yearLabel(anchor: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${anchor}T12:00:00Z`));
-}
-
-export function formatDayNumber(dateText: string) {
-  return Number(dateText.slice(8, 10));
-}
-
 export function formatLongDate(dateText: string) {
   return new Intl.DateTimeFormat(undefined, {
     weekday: "long",
@@ -153,15 +133,6 @@ export function formatShortDate(dateText: string) {
   return new Intl.DateTimeFormat(undefined, {
     month: "short",
     day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${dateText}T12:00:00Z`));
-}
-
-export function formatCalendarCaption(dateText: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${dateText}T12:00:00Z`));
 }
@@ -203,13 +174,6 @@ export function eventTimeLabel(event: EventCard, timezone: string) {
   if (instant === null) return "Time TBD";
   const clock = timeFormatter(timezone).format(new Date(instant));
   return event.start_time_scope === "shared_session" ? `Session starts ${clock}` : clock;
-}
-
-export function eventTimeBucket(event: EventCard, timezone: string) {
-  const instant = eventInstant(event);
-  return instant === null ? "tbd" : new Intl.DateTimeFormat("en-US", {
-    hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: safeTimezone(timezone),
-  }).format(new Date(instant));
 }
 
 type MonthGridOptions = {
@@ -275,26 +239,4 @@ export function monthWeeksSunStart(
     weeks.push(cells.slice(index, index + 7));
   }
   return weeks;
-}
-
-export function weekAnchorForCells(
-  cells: MonthGridCell[],
-  fallbackAnchor: string,
-) {
-  const inMonth = cells.find((cell) => cell.inMonth && cell.date)?.date;
-  if (inMonth) {
-    return inMonth;
-  }
-  return cells.find((cell) => cell.date)?.date || fallbackAnchor;
-}
-
-export function countAppliedFilters(filters: FilterState) {
-  return (
-    Number(Boolean(filters.sport)) +
-    Number(Boolean(filters.league)) +
-    Number(Boolean(filters.competition_phase)) +
-    Number(Boolean(filters.country)) +
-    Number(Boolean(filters.city)) +
-    filters.tags.length
-  );
 }

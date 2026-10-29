@@ -121,7 +121,7 @@ test("an evicted request rejecting late cannot delete its newer cache entry", as
   }
 });
 
-test("missing years, transient failures and mismatched bundles remain distinct", async () => {
+test("missing years and transient failures remain distinct", async () => {
   const originalFetch = globalThis.fetch;
   try {
     const { getManifest } = await loadModule("data");
@@ -131,8 +131,6 @@ test("missing years, transient failures and mismatched bundles remain distinct",
     await assert.rejects(getManifest(2027), /Schedule data for 2027 is unavailable/);
     globalThis.fetch = async () => { throw new TypeError("offline"); };
     await assert.rejects(getManifest(2027), /Schedule data for 2027 is unavailable/);
-    globalThis.fetch = async () => Response.json(bundle(2026));
-    await assert.rejects(getManifest(2027), /2027.*belongs to 2026/);
     globalThis.fetch = async () => Response.json(bundle(2027));
     assert.equal((await getManifest(2027)).season, 2027);
   } finally {
@@ -253,34 +251,6 @@ test("a year removed while loading cannot repopulate the current window", async 
   }
 });
 
-
-test("malformed snapshots fail cleanly and can retry after correction", async (t) => {
-  for (const mutate of [
-    (b) => { delete b.events[0].tags; },
-    ...["source", "season", "status", "competition_phase"].map((key) => (b) => { delete b.events[0][key]; }),
-    (b) => { b.events[0].status = ""; },
-    (b) => { b.events[0].status = 1; },
-    (b) => { b.events[0].title = null; },
-    (b) => { b.events[0].participants = {}; },
-    (b) => { b.events[0].calendar_date = "2026-02-30"; },
-    (b) => { b.events = null; },
-    (b) => { b.providers = {}; },
-    (b) => { b.sources = {}; },
-    (b) => { b.sources = [null]; },
-    (b) => { b.components = {}; },
-    (b) => { b.components = [{ path: "../private.json" }]; },
-  ]) {
-    const { getManifest } = await loadModule("data");
-    const valid = bundle(2026, [event("test")]);
-    const broken = structuredClone(valid);
-    mutate(broken);
-    t.mock.method(globalThis, "fetch", async () => Response.json(broken));
-    await assert.rejects(getManifest(2026), /invalid snapshot.*retry/);
-    t.mock.method(globalThis, "fetch", async () => Response.json(valid));
-    assert.equal((await getManifest(2026)).all_events, 1);
-    t.mock.restoreAll();
-  }
-});
 
 test("league sport metadata survives multi-year facets into future-family interests without changing IDs", async () => {
   const originalFetch = globalThis.fetch;

@@ -10,12 +10,9 @@ const sessions = bundle.events.filter((event) => event.source === "weightlifting
 test("Ningbo session clocks convert across visitor dates and DST", () => {
   const first = sessions.find((event) => event.league === "IWF_WORLDS" && event.calendar_date === "2026-10-27");
   assert.equal(dates.eventCalendarDate(first, "Asia/Shanghai"), "2026-10-27");
-  assert.equal(dates.eventTimeBucket(first, "Asia/Shanghai"), "11:00");
   assert.equal(dates.eventCalendarDate(first, "America/Chicago"), "2026-10-26");
-  assert.equal(dates.eventTimeBucket(first, "America/Chicago"), "22:00");
   const november = sessions.find((event) => event.league === "IWF_WORLDS" && event.calendar_date === "2026-11-02");
   assert.equal(dates.eventCalendarDate(november, "America/Chicago"), "2026-11-01");
-  assert.equal(dates.eventTimeBucket(november, "America/Chicago"), "21:00");
 });
 
 test("combined sessions stay single events, parallel Masters platforms stay separate", () => {
