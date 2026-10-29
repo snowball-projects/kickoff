@@ -15,7 +15,7 @@ test("one ranking follows all eight tiers and their internal order", () => {
 });
 test("finals and playoffs precede regular play; tier order beats time and titles", () => {
   const items = [event("FIFA_WORLD_CUP"), event("NFL", { competition_phase: "postseason" }),
-    event("NBA", { competition_phase: "final" }), event("ONE", { competition_phase: "playoffs" }), event("EPL", { competition_phase: "semifinal" })];
+    event("NBA", { competition_phase: "final" }), event("ONE", { competition_phase: "championship" }), event("EPL", { competition_phase: "group_stage" })];
   assert.deepEqual(items.sort(compareEvents).map((e) => e.league), ["NFL", "NBA", "ONE", "FIFA_WORLD_CUP", "EPL"]);
   const major = event("PGA_TOUR", { title: "Masters Tournament" });
   assert(compareEvents(major, event("NFL")) < 0);
@@ -32,4 +32,12 @@ test("current PGA majors and women's major records stay in their respective firs
   assert.deepEqual([regularWomen, event("UEFA_CHAMPIONS_LEAGUE"), women, event("NFL"), men]
     .sort(compareEvents).map((e) => e.league),
   ["PGA_TOUR", "GOLF_MAJORS_WOMEN", "UEFA_CHAMPIONS_LEAGUE", "NFL", "LPGA_TOUR"]);
+});
+
+test("normalized UCL knockout, NFL postseason and final/championship phases outrank regular play", () => {
+  const regular = event("FIFA_WORLD_CUP", { competition_phase: "group_stage" });
+  const postseason = [event("UEFA_CHAMPIONS_LEAGUE", { competition_phase: "knockout" }),
+    event("NFL", { competition_phase: "postseason" }), event("NBA", { competition_phase: "final" }),
+    event("ONE", { competition_phase: "championship" })];
+  assert.deepEqual([regular, ...postseason.toReversed()].sort(compareEvents), [...postseason, regular]);
 });

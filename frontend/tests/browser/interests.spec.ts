@@ -76,3 +76,20 @@ test("blocked storage keeps first visit usable and interests active for this vis
   await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
   await expect(page.getByRole("dialog")).toContainText("browser storage is unavailable");
 });
+
+for (const savedEmpty of [false, true]) {
+  test(`opening Interests before data arrives preserves ${savedEmpty ? "saved none" : "first-visit all"}`, async ({ page }) => {
+    let release!: () => void;
+    const hold = new Promise<void>((resolve) => { release = resolve; });
+    await setup(page, events, { hold, wait: false, saved: savedEmpty ? { leagues: [] } : undefined });
+    await page.getByRole("button", { name: "Interests", exact: true }).click();
+    await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+    release();
+    const climbing = chooser(page).getByRole("checkbox", { name: "Select all Climbing", exact: true });
+    if (savedEmpty) await expect(climbing).not.toBeChecked(); else await expect(climbing).toBeChecked();
+    await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeEnabled();
+    await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
+    const selected = await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues);
+    if (savedEmpty) expect(selected).toEqual([]); else expect(selected).toContain("IFSC_WORLD_CUP");
+  });
+}

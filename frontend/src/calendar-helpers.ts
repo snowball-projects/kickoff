@@ -202,8 +202,9 @@ function eventRank(event: EventCard) {
     ? event.league === "GOLF_MAJORS_WOMEN" ? "GOLF_MAJORS_WOMEN" : "GOLF_MAJORS_MEN" : event.league;
   return RANKS.get(league) ?? 899;
 }
+const POSTSEASON_PHASES = new Set(["postseason", "knockout", "final", "championship"]);
 export function compareEvents(a: EventCard, b: EventCard): number {
-  const playoff = (event: EventCard) => /^(finals?|playoffs?|postseason)(_|$)/i.test(event.competition_phase);
+  const playoff = (event: EventCard) => POSTSEASON_PHASES.has(event.competition_phase);
   return Number(playoff(b)) - Number(playoff(a)) || eventRank(a) - eventRank(b)
     || (eventInstant(a) ?? Infinity) - (eventInstant(b) ?? Infinity)
     || a.title.localeCompare(b.title) || a.event_id.localeCompare(b.event_id);

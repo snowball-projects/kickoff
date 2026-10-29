@@ -6,7 +6,7 @@ const events = [
   event("NFL fixture", undefined, { league: "NFL", sport: "football" }),
   event("Early match", undefined, { start_time_utc: "2026-10-28T15:00:00Z" }),
   event("Late match", undefined, { start_time_utc: "2026-10-28T19:00:00Z", status: "postponed" }),
-  event("Playoff", undefined, { league: "ONE", sport: "mma", competition_phase: "playoffs" }),
+  event("Playoff", undefined, { league: "ONE", sport: "mma", competition_phase: "postseason" }),
   event("Next month", "2026-11-02"),
 ];
 for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as const) {

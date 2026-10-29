@@ -33,7 +33,7 @@ export default function App() {
   const [splitDate, setSplitDate] = useState<string | null>(null);
   const [sheet, setSheet] = useState<OpenSheet>(null);
   const [preferences, setPreferences] = useState(savedPreferences);
-  const [draft, setDraft] = useState<string[]>([]);
+  const [draft, setDraft] = useState<string[] | null>(null);
   const [draftPreferences, setDraftPreferences] = useState<InterestPreferences>(savedPreferences);
   const [storageNote, setStorageNote] = useState("");
   const [retry, setRetry] = useState(0);
@@ -126,7 +126,7 @@ export default function App() {
     try { localStorage.setItem(VIEW_KEY, next); } catch { /* Active for this visit. */ }
   }
   function save() {
-    const next = { ...draftPreferences, leagues: draft };
+    const next = { ...draftPreferences, leagues: draft ?? leagues.map((league) => league.value) };
     setPreferences(next);
     try { localStorage.setItem(INTERESTS_KEY, JSON.stringify(next)); setStorageNote(""); }
     catch { setStorageNote("Interests are active for this visit; browser storage is unavailable."); }
@@ -157,7 +157,7 @@ export default function App() {
         </a>
         <div className="nav-right">
           <button className="interests-button" aria-label="Interests" onClick={() => {
-            setDraft(preferences.leagues || leagues.map((league) => league.value)); setDraftPreferences(preferences); setSheet({ kind: "interests" });
+            setDraft(preferences.leagues); setDraftPreferences(preferences); setSheet({ kind: "interests" });
           }}><span className="hamburger" aria-hidden="true"><i /><i /><i /></span></button>
           <button className="icon-button" aria-label="About kickoff and schedule coverage" onClick={() => setSheet({ kind: "info" })}>i</button>
         </div>
@@ -222,12 +222,12 @@ export default function App() {
     <button className="today-button" onClick={jumpToday}>Today</button>
     {sheet?.kind === "events" && <EventSheet items={sheet.items} date={sheet.date} timezone={timezone} onClose={() => setSheet(null)} />}
     {sheet?.kind === "interests" && <Sheet title="Interests" onClose={() => setSheet(null)}>
-      {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} selected={draft} onChange={setDraft}
+      {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} selected={draft ?? leagues.map((league) => league.value)} onChange={setDraft}
         preferences={draftPreferences} onPreferencesChange={setDraftPreferences} />}
       <div className="interest-actions"><button onClick={() => { setDraft(leagues.map((league) => league.value));
         const { climbing, weightlifting } = defaultPreferences(); setDraftPreferences((previous) => ({ ...previous, climbing, weightlifting })); }}>Select all</button>
         <button onClick={() => setDraft([])}>Clear</button></div>
-      <button className="primary-button" onClick={save}>Show my calendar</button>
+      <button className="primary-button" disabled={!facets || loadingYears.length > 0} onClick={save}>Show my calendar</button>
     </Sheet>}
     {sheet?.kind === "info" && <Sheet title="About kickoff" onClose={() => setSheet(null)}>
       <p>A sports calendar by <a href="https://snowball-projects.github.io/">snowball</a>.</p>
