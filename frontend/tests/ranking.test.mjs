@@ -24,3 +24,12 @@ test("league groups contain each event once and rank by their highest-priority e
   const items = [event("NFL"), event("ONE"), event("ONE", { event_id: "final", competition_phase: "final" })];
   assert.deepEqual(leagueGroups(items).map((g) => [g.league, g.items.length]), [["ONE", 2], ["NFL", 1]]);
 });
+
+test("current PGA majors and women's major records stay in their respective first-tier positions", () => {
+  const men = event("PGA_TOUR", { title: "Masters Tournament" });
+  const women = event("GOLF_MAJORS_WOMEN", { title: "Chevron Championship" });
+  const regularWomen = event("LPGA_TOUR", { title: "Regular LPGA stop" });
+  assert.deepEqual([regularWomen, event("UEFA_CHAMPIONS_LEAGUE"), women, event("NFL"), men]
+    .sort(compareEvents).map((e) => e.league),
+  ["PGA_TOUR", "GOLF_MAJORS_WOMEN", "UEFA_CHAMPIONS_LEAGUE", "NFL", "LPGA_TOUR"]);
+});

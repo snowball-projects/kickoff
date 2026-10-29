@@ -104,7 +104,8 @@ export default function App() {
     animate(() => { setDay(date); setView("day"); }, "open-day");
   }
   function closeDay() {
-    animate(() => { setView("month"); setMonth(firstOfMonth(day)); }, "close-day");
+    animate(() => { setView("month"); setMonth(firstOfMonth(day));
+      setNavigation((previous) => ({ date: day, focus: true, returnFromDay: true, id: previous.id + 1 })); }, "close-day");
   }
   function switchDay(date: string) {
     if (date < bounds.start || date > bounds.end) return;

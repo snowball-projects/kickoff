@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { event, month, setup } from "./fixtures";
+import { agendaToggle, event, month, setup } from "./fixtures";
 
 const events = [
   event("Regular World Cup", undefined, { league: "FIFA_WORLD_CUP" }),
@@ -154,4 +154,19 @@ test("nearby starts stay at their true minutes and crowded lanes open every hidd
   expect(new Set(tops).size).toBe(1);
   await page.locator(".timeline-more").click();
   await expect(page.getByRole("dialog").locator(".sheet-event-row")).toHaveCount(4);
+});
+
+test("Agenda return preserves the scrolled month after a day was previously opened", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await setup(page, events);
+  await page.locator("#day-2026-10-28 .day-number").click();
+  await page.getByRole("button", { name: "Back to October", exact: true }).click();
+  await page.locator("#day-2026-11-01").evaluate((element) => element.scrollIntoView({ block: "start" }));
+  await expect(page.getByRole("heading", { name: "November", level: 1, exact: true })).toBeVisible();
+  const top = await page.locator(".month-scroll").evaluate((element) => element.scrollTop);
+  await agendaToggle(page).click();
+  await agendaToggle(page).click();
+  await expect(page.getByRole("heading", { name: "November", level: 1, exact: true })).toBeVisible();
+  expect(await page.locator(".month-scroll").evaluate((element) => element.scrollTop)).toBe(top);
+  await expect(agendaToggle(page)).toBeFocused();
 });

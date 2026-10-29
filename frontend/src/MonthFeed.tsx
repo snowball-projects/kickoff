@@ -5,7 +5,7 @@ import { leagueGroups, leagueVisual } from "./calendar-helpers";
 import EventPill from "./EventPill";
 import type { CalendarResponse, EventCard } from "./types";
 
-export type MonthNavigation = { date: string; id: number; focus?: boolean };
+export type MonthNavigation = { date: string; id: number; focus?: boolean; returnFromDay?: boolean };
 export function weekStart(date: string) {
   return dayAfter(date, -new Date(`${date}T12:00:00Z`).getUTCDay());
 }
@@ -54,14 +54,15 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
   }, [active, weeks]);
   useLayoutEffect(() => {
     if (!active) return;
-    if (lastNavigation.current === navigation.id) {
-      if (splitDate) { const button = document.querySelector<HTMLButtonElement>(`#day-${splitDate} .day-number`);
-        button?.focus({ preventScroll: true }); button?.scrollIntoView({ block: "nearest" }); }
-      measure(); return;
-    }
+    if (lastNavigation.current === navigation.id) { measure(); return; }
     lastNavigation.current = navigation.id;
     const cell = document.getElementById(`day-${navigation.date}`);
     if (!cell) return;
+    if (navigation.returnFromDay) {
+      const button = cell.querySelector<HTMLButtonElement>(".day-number");
+      button?.focus({ preventScroll: true }); button?.scrollIntoView({ block: "nearest" });
+      measure(); return;
+    }
     const scroller = root.current!;
     const first = document.getElementById(`day-${firstOfMonth(navigation.date)}`) || cell;
     scroller.scrollTop += first.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
