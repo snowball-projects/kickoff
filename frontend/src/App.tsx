@@ -22,6 +22,7 @@ import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { boundMonth, dayAfter, monthAt, monthIndex, monthWindow, scheduleWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
 import Agenda from "./Agenda";
+import DayTimeline from "./DayTimeline";
 import { agendaAnchors, laterAgendaAnchors, nextAgendaEnd, readScheduleView, VIEW_KEY, type AgendaPeriod, type ScheduleView } from "./agenda-state";
 
 type UpcomingWindow = { key: string; end: string; expanded: boolean; pending: boolean; done: boolean };
@@ -97,6 +98,9 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
   const location = [event.venue, event.city, countryIdentity(event.country)?.name || event.country]
     .filter(Boolean)
     .join(" · ");
+  const status = event.status === "scheduled" ? "" : event.status.replaceAll("_", " ");
+  const through = event.end_calendar_date && event.end_calendar_date > (event.start_calendar_date || event.calendar_date || "")
+    ? `through ${event.end_calendar_date}` : "";
   return (
     <article className="agenda-event" id={`details-${event.event_id}`}>
       <div className="event-time">{eventTimeLabel(event, timezone)}</div>
@@ -110,13 +114,7 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
         {event.tags.includes("final date only") && <p className="date-scope">Final date only</p>}
         {event.subtitle && <p>{event.subtitle}</p>}
         {location && <p>{location}</p>}
-        <p className="event-status">
-          {event.status.replaceAll("_", " ")}
-          {event.end_calendar_date &&
-          event.end_calendar_date > (event.calendar_date || "")
-            ? ` · through ${event.end_calendar_date}`
-            : ""}
-        </p>
+        {(status || through) && <p className="event-status">{[status, through].filter(Boolean).join(" · ")}</p>}
         {event.source_url && (
           <a href={event.source_url} target="_blank" rel="noreferrer">
             Schedule source ↗
@@ -223,9 +221,6 @@ export default function App() {
   useEffect(() => {
     if (day) dayHeading.current?.focus();
   }, [day]);
-  useEffect(() => {
-    if (day && detailEventId) document.getElementById(`details-${detailEventId}`)?.scrollIntoView({ block: "nearest" });
-  }, [day, detailEventId, selected]);
   useEffect(() => {
     const bounded = boundMonth(month, today);
     if (bounded !== month) navigateMonth(bounded);
@@ -474,18 +469,10 @@ export default function App() {
                 ×
               </button>
             </header>
-            <div className="day-scroll">
-              {selectedError && !!selected?.items.length && <p role="status">{selectedError}</p>}
-              {selected?.items.length ? (
-                selected.items.map((e) => (
-                  <EventRow key={e.event_id} event={e} timezone={timezone} />
-                ))
-              ) : (
-                <p className="empty-state">
-                  {selectedError || (!day || !months[firstOfMonth(day)] ? "Loading…" : "No published events match this day.")}
-                </p>
-              )}
-            </div>
+            <DayTimeline key={`${day}:${timezone}`} date={day} timezone={timezone} items={selected?.items || []}
+              loading={(!months[firstOfMonth(day)] || boundaryLoadingYears.includes(Number(day.slice(0, 4)))) && !selectedError} error={selectedError}
+              selectedId={detailEventId} onSelect={setDetailEventId}
+              renderDetails={(event) => <EventRow event={event} timezone={timezone} />} />
           </aside>
         )}
       </main>

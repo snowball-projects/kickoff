@@ -1,3 +1,4 @@
+import { openDayEvent } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 // Every schedule request is answered locally. Missing years deliberately return
@@ -230,8 +231,8 @@ test("year overview opens a day and closing restores focus to its calendar butto
   await page.locator("#day-2026-04-10").click();
   const inspector = page.getByRole("complementary", { name: "Day events" });
   await expect(inspector.getByRole("heading", { name: "April 10", exact: true })).toBeFocused();
-  await expect(inspector.getByRole("heading", { name: "Football fixture 04" })).toBeVisible();
-  await expect(inspector.getByRole("heading", { name: "Grand Prix 04" })).toBeVisible();
+  await expect(inspector.getByRole("button", { name: /Football fixture 04/ })).toBeVisible();
+  await expect(inspector.getByRole("button", { name: /Grand Prix 04/ })).toBeVisible();
   await expect(heading(page)).toHaveText("April");
   await page.keyboard.press("Escape");
   await expect(inspector).toHaveCount(0);
@@ -524,6 +525,7 @@ for (const fixture of [
       const detail = page.getByRole("complementary", { name: "Day events" });
       await expect(detail.getByRole("heading", { name: fixture.heading, exact: true })).toBeVisible();
       await expect(detail).toContainText("Timed boundary fixture");
+      await openDayEvent(page, "Timed boundary fixture");
       await expect(detail.locator(".event-time")).toHaveText(fixture.time);
       await page.getByRole("button", { name: "Close day" }).click();
       await page.locator("#day-2026-09-10").click();

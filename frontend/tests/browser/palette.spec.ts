@@ -60,7 +60,9 @@ for (const theme of ["light", "dark"] as const) for (const width of [1280, 390, 
     await day.click();
     await expect(page.getByRole("complementary", { name: "Day events" })).toBeVisible();
     for (const [, , category] of categories)
-      await expectSportFill(page.locator(`.day-inspector .league-label.category-${category}`).first(), category);
+      await expectSportFill(page.locator(`.day-inspector .timeline-pill.category-${category}`).first(), category);
+    await page.locator('.day-inspector [data-event-id="palette-0"]').click();
+    await expectSportFill(page.locator(".day-inspector .league-label.category-soccer"), "soccer");
     await page.screenshot({ path: `test-results/palette-day-${theme}-${width}.png` });
     await page.getByRole("button", { name: "Close day", exact: true }).click();
     await page.getByRole("button", { name: /^Interests ·/ }).click();

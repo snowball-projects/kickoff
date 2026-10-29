@@ -1,3 +1,4 @@
+import { openDayEvent } from "./timeline-helpers";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const fixture = {
@@ -37,7 +38,7 @@ test("preview contains only event essentials; keyboard still opens notes and sou
   await day.focus();
   await expect(day).toHaveAttribute("aria-describedby", "event-preview");
   await page.keyboard.press("Enter");
-  const details = page.getByRole("complementary", { name: "Day events" });
+  const details = await openDayEvent(page, fixture.title);
   await expect(details).toContainText(fixture.subtitle);
   await expect(details.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", fixture.source_url);
 });
