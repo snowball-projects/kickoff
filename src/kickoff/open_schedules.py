@@ -16,6 +16,7 @@ from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
 from kickoff.reviewed_schedules import CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
+from kickoff.start_times import fill_missing_start_times
 from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
 from kickoff.web import SCHEMA_VERSION, _event_payload
@@ -326,6 +327,7 @@ def refresh_open_schedules(
     reviewed_dir: Path | None = None,
     feeds: dict | None = None,
     available_seasons: list[int] | None = None,
+    enrich_times: bool = False,
 ) -> Path:
     """Fetch all configured schedules and export; any feed failure aborts publication."""
     now = datetime.now(timezone.utc)
@@ -439,6 +441,11 @@ def refresh_open_schedules(
     kept_sources = {event.source_url for event in reviewed}
     notices = [notice for notice in notices if notice["url"] in kept_sources]
     events.extend(reviewed)
+    if enrich_times:
+        time_receipts = fill_missing_start_times(events, year)
+        evidence.extend(time_receipts)
+        if any(receipt["clocks_added"] for receipt in time_receipts):
+            source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
     # Each input was validated where it was produced. Check only cross-feed identity here.
     if len({e.event_id for e in events}) != len(events):
         raise ValueError("Duplicate event identity across feeds")
@@ -473,9 +480,16 @@ def refresh_open_schedules(
             else ""
         )
         + "No live scores. Football kickoff times use confirmed league timezone conventions; "
-        "unconfirmed or missing clocks remain date-only. F1 times use the source's UTC fields."
+        "ESPN fills independently confirmed missing clocks with its own attribution. "
+        "Unconfirmed clocks remain date-only. F1 times use the source's UTC fields."
     )
-    feed_kinds = sorted({event["source"] for event in bundle["events"]} & set(league_feeds.SOURCES))
+    feed_kinds = sorted(
+        (
+            {event["source"] for event in bundle["events"]}
+            | {event.get("start_time_source") for event in bundle["events"]}
+        )
+        & set(league_feeds.SOURCES)
+    )
     bundle["sources"] = list({json.dumps(s, sort_keys=True): s for s in source_notices + notices}.values())
     bundle["input_evidence"] = evidence
     bundle["exclusions"] = exclusions
@@ -493,19 +507,24 @@ def refresh_open_schedules(
         "League feed and ESPN schedule facts are attributed to their sources, which grant no data license; "
         "league and team names belong to their owners and kickoff is not affiliated with any league. "
         "Wikipedia-derived adaptations are shared under CC BY-SA 4.0, including in this collection. "
-        "Source links identify the contributors and pinned revisions; changes are described in sources."
+        "Source links identify the contributors and pinned revisions; changes are described in sources. "
+        "Separately attributed start times retain their time source's terms, rather than the original schedule's license."
     )
     components = {}
     for kind in ("wikipedia", "wikidata"):
         selected = [event for event in bundle["events"] if event["source"] == kind]
         if not selected:
             continue
+        component_kinds = {kind} | {event["start_time_source"] for event in selected if event.get("start_time_source")}
         component = {
             "schema_version": "1",
             "season": year,
             "license": bundle["data_licenses"][kind],
+            "data_licenses": {
+                source_kind: bundle["data_licenses"][source_kind] for source_kind in sorted(component_kinds)
+            },
             "license_notice": bundle["data_license_notice"],
-            "sources": [source for source in notices if source["kind"] == kind],
+            "sources": [source for source in bundle["sources"] if source.get("kind") in component_kinds],
             "events": selected,
         }
         body = (json.dumps(component, ensure_ascii=True, separators=(",", ":")) + "\n").encode()

@@ -1,0 +1,24 @@
+{
+  "source_url": "https://site.api.espn.com/apis/site/v2/sports/mma/all/scoreboard?dates=2026&limit=1000",
+  "checked_date": "2026-10-28",
+  "events": [
+    {"event_id": "rizin-54", "league": "RIZIN", "espn_id": "600062190", "timezone": "Asia/Tokyo"},
+    {"event_id": "super-rizin-5", "league": "RIZIN", "espn_id": "600060793", "timezone": "Asia/Tokyo"},
+    {"event_id": "pfl-2026-global-01", "league": "PFL", "espn_id": "600056964", "timezone": "Asia/Dubai"},
+    {"event_id": "pfl-2026-global-02", "league": "PFL", "espn_id": "600057594", "timezone": "Europe/Madrid"},
+    {"event_id": "pfl-2026-global-03", "league": "PFL", "espn_id": "600058185", "timezone": "America/New_York"},
+    {"event_id": "pfl-2026-global-04", "league": "PFL", "espn_id": "600058705", "timezone": "America/Chicago"},
+    {"event_id": "pfl-2026-global-05", "league": "PFL", "espn_id": "600058747", "timezone": "Europe/London"},
+    {"event_id": "pfl-2026-global-06", "league": "PFL", "espn_id": "600058760", "timezone": "America/Chicago"},
+    {"event_id": "pfl-2026-global-07", "league": "PFL", "espn_id": "600058827", "timezone": "Europe/Brussels"},
+    {"event_id": "pfl-2026-global-08", "league": "PFL", "espn_id": "600059277", "timezone": "America/Los_Angeles"},
+    {"event_id": "pfl-2026-global-09", "league": "PFL", "espn_id": "600059549", "timezone": "America/Chicago"},
+    {"event_id": "pfl-2026-global-10", "league": "PFL", "espn_id": "600059640", "timezone": "America/New_York"},
+    {"event_id": "pfl-2026-global-11", "league": "PFL", "espn_id": "600059746", "timezone": "America/New_York"},
+    {"event_id": "pfl-2026-global-12", "league": "PFL", "espn_id": "600060394", "timezone": "America/New_York"},
+    {"event_id": "pfl-2026-global-13", "league": "PFL", "espn_id": "600060446", "timezone": "America/New_York"},
+    {"event_id": "pfl-2026-global-14", "league": "PFL", "espn_id": "600061331", "timezone": "America/Chicago"},
+    {"event_id": "pfl-2026-global-15", "league": "PFL", "espn_id": "600061421", "timezone": "Asia/Dubai"},
+    {"event_id": "pfl-2026-global-16", "league": "PFL", "espn_id": "600061422", "timezone": "Europe/Paris"}
+  ]
+}

@@ -17,6 +17,7 @@ spec.loader.exec_module(runner)
 
 def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatch, tmp_path):
     monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
+    monkeypatch.setattr(open_schedules, "fill_missing_start_times", lambda *_: [])
     calls = []
 
     def fetch(league, kind, year):
@@ -138,7 +139,10 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
     monkeypatch.setattr(runner, "refresh_open_schedules", lambda year, *_, **kwargs: calls.append((year, kwargs)))
     runner.main()
     assert [year for year, _ in calls] == [2025, 2026, 2027]
-    assert all(kwargs == {"feeds": runner.FEEDS, "available_seasons": [2025, 2026, 2027]} for _, kwargs in calls)
+    assert all(
+        kwargs == {"feeds": runner.FEEDS, "available_seasons": [2025, 2026, 2027], "enrich_times": True}
+        for _, kwargs in calls
+    )
 
 
 def test_explicit_refresh_years_override_the_default_window(monkeypatch, tmp_path):

@@ -43,6 +43,11 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
         "title": event.title,
         "subtitle": event.subtitle,
         "start_time_utc": event.start_time_utc,
+        **(
+            {"start_time_source": event.start_time_source, "start_time_source_url": event.start_time_source_url}
+            if event.start_time_source
+            else {}
+        ),
         "start_time_local": event.start_time_local,
         "timezone": event.timezone,
         "status": event.status,

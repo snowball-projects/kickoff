@@ -120,6 +120,14 @@ function EventRow({ event, timezone }: { event: EventCard; timezone: string }) {
             Schedule source ↗
           </a>
         )}
+        {event.start_time_source_url && (
+          <>
+            {" · "}
+            <a href={event.start_time_source_url} target="_blank" rel="noreferrer">
+              Time source: {event.start_time_source === "espn" ? "ESPN" : event.start_time_source} ↗
+            </a>
+          </>
+        )}
       </div>
     </article>
   );
