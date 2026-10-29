@@ -113,10 +113,11 @@ export default function App() {
   }
   function showEvents(items: EventCard[], date: string) { setSheet({ kind: "events", items, date }); }
   function jumpToday() {
-    setToday(todayIso());
+    const now = todayIso();
+    setToday(now);
     if (scheduleView === "agenda") { setPeriod("today"); return; }
-    if (view === "day") { switchDay(today); return; }
-    animate(() => { setView("month"); navigate(today); });
+    if (view === "day") { switchDay(now); return; }
+    animate(() => { setView("month"); navigate(now); });
   }
   function changeScheduleView() {
     const next = scheduleView === "calendar" ? "agenda" : "calendar";
@@ -139,6 +140,7 @@ export default function App() {
   const calendarActive = scheduleView === "calendar";
   const week = Array.from({ length: 7 }, (_, index) => dayAfter(weekStart(day), index));
   function yearKey(delta: number) {
+    document.querySelector<HTMLElement>(".year-grid")?.focus();
     setMonth(boundMonth(monthAt(monthIndex(month) + delta * 12), today));
   }
   return <div className="app-shell">

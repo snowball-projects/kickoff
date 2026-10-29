@@ -19,7 +19,7 @@ for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(page.getByRole("dialog")).toHaveCount(0);
       await expect(page.getByRole("heading", { name: "October", exact: true, level: 1 })).toBeVisible();
       const cell = page.locator("#day-2026-10-28");
-      await expect(cell.locator(".event-pill").first()).toContainText("ONE");
+      await expect(cell.locator(".event-pill").first()).toContainText("One");
       await expect(cell.locator(".event-pill")).toHaveCount(width < 700 ? 2 : 3);
       const heights = await page.locator(".calendar-week").evaluateAll((rows) => rows.map((row) => row.getBoundingClientRect().height));
       expect(new Set(heights).size).toBe(1);

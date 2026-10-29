@@ -20,7 +20,7 @@ const LEAGUE_META: Record<
   UFC: { shortLabel: "UFC" },
   PFL: { shortLabel: "PFL" },
   RIZIN: { shortLabel: "RIZIN" },
-  ONE: { shortLabel: "ONE" },
+  ONE: { shortLabel: "One" },
   BOXING_MAJOR: { shortLabel: "Boxing" },
   IWF_WORLDS: { shortLabel: "IWF Worlds" },
   IWF_JUNIOR_WORLDS: { shortLabel: "Junior Worlds" },
