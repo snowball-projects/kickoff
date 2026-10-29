@@ -54,6 +54,8 @@ class CalendarEvent:
     start_time_scope: str = "event"
     start_time_source: str | None = None
     start_time_source_url: str | None = None
+    country_source_url: str | None = None
+    country_checked_date: str | None = None
     raw_source_payload: JsonValue = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

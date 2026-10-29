@@ -55,6 +55,11 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
         "city": event.city,
         "region": event.region,
         "country": event.country,
+        **(
+            {"country_source_url": event.country_source_url, "country_checked_date": event.country_checked_date}
+            if event.country_checked_date
+            else {}
+        ),
         "participants": [_participant_payload(participant) for participant in event.participants],
         "home_participant": _participant_payload(event.home_participant),
         "away_participant": _participant_payload(event.away_participant),

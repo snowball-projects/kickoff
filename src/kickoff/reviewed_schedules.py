@@ -8,6 +8,7 @@ from datetime import date, datetime, time, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+from kickoff.countries import COUNTRY_LEAGUES, venue_country
 from kickoff.models import CalendarEvent, Participant
 from kickoff.semantics import COMPETITION_PHASES, classification_fields
 from kickoff.timeutils import get_zoneinfo, isoformat_z
@@ -172,6 +173,15 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Unknown reviewed competition phase")
         if start.year > year or end.year < year:
             continue
+        country = row.get("country")
+        country_source_url = country_checked_date = None
+        if row["league"] in COUNTRY_LEAGUES:
+            country = venue_country(country)
+            if country:
+                if row.get("country_source_url") != source["url"]:
+                    raise ValueError("Venue country needs its reviewed source link")
+                country_source_url = source["url"]
+                country_checked_date = date.fromisoformat(row["country_checked_date"]).isoformat()
         home, away = None, None
         if row["event_type"] == "game":
             if not row.get("home_team") or not row.get("away_team"):
@@ -196,7 +206,9 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 venue=row.get("venue"),
                 city=row.get("city"),
                 region=None,
-                country=row.get("country"),
+                country=country,
+                country_source_url=country_source_url,
+                country_checked_date=country_checked_date,
                 home_participant=home,
                 away_participant=away,
                 participants=[away, home] if home and away else [],
