@@ -85,6 +85,7 @@ export default function App() {
   useLayoutEffect(() => { if (view === "day") dayHeading.current?.focus({ preventScroll: true }); }, [view]);
   function animate(update: () => void, motion = "zoom") {
     transition.current?.skipTransition();
+    if (motion === "zoom") flushSync(() => setSplitDate(null));
     if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) { update(); return; }
     document.documentElement.dataset.motion = motion;
     transition.current = document.startViewTransition(() => flushSync(update));

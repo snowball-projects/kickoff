@@ -107,14 +107,21 @@ test("the View Transitions API is optional and reduced motion never invokes it",
 test("transition snapshots share the selected week and year/month zoom", async ({ page }) => {
   await setup(page, events);
   const transitions: string[][] = [];
+  const newSnapshots: string[][] = [];
   await page.exposeFunction("recordNames", (names: string[]) => transitions.push(names));
+  await page.exposeFunction("recordNewNames", (names: string[]) => newSnapshots.push(names));
   await page.evaluate(() => {
     const native = document.startViewTransition.bind(document);
     document.startViewTransition = (update) => {
       void (window as unknown as { recordNames: (names: string[]) => Promise<void> }).recordNames(
         [...document.querySelectorAll(".calendar-week, .week-strip, .mini-month, .month-stage")]
           .filter((element) => element.getClientRects().length).map((element) => getComputedStyle(element).viewTransitionName).filter((name) => name !== "none"));
-      return native(update);
+      return native(async () => {
+        if (typeof update === "function") await update();
+        await (window as unknown as { recordNewNames: (names: string[]) => Promise<void> }).recordNewNames(
+          [...document.querySelectorAll(".calendar-week, .week-strip, .mini-month, .month-stage")]
+            .filter((element) => element.getClientRects().length).map((element) => getComputedStyle(element).viewTransitionName).filter((name) => name !== "none"));
+      });
     };
   });
   await page.locator("#day-2026-10-28 .day-number").click();
@@ -123,6 +130,7 @@ test("transition snapshots share the selected week and year/month zoom", async (
   await month(page, "November 2026");
   expect(transitions.some((names) => names.includes("selected-week"))).toBe(true);
   expect(transitions.some((names) => names.includes("calendar-zoom"))).toBe(true);
+  await expect.poll(() => newSnapshots.at(-1)).toEqual(["calendar-zoom"]);
 });
 test.describe("phone touch", () => {
   test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
