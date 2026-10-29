@@ -13,7 +13,7 @@ export async function setup(page: Page, events: ReturnType<typeof event>[], opti
   }, options.saved);
   await page.route("**/data/*.json", (route) => {
     const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
-    if (year === options.missing) return route.fulfill({ status: 404, body: "missing" });
+    if (![2025, 2026, 2027].includes(year) || year === options.missing) return route.fulfill({ status: 404, body: "missing" });
     return route.fulfill({ json: {
       schema_version: "1", season: year, available_seasons: [2025, 2026, 2027], providers: [],
       updated_at: "2026-10-27T12:00:00Z", events: events.filter((item) => item.season === String(year)),

@@ -128,8 +128,11 @@ test.describe("phone touch", () => {
     await setup(page, events);
     await page.locator("#day-2026-10-28 .day-number").tap();
     const strip = page.locator(".week-strip");
-    await strip.dispatchEvent("touchstart", { touches: [{ clientX: 320 }] });
-    await strip.dispatchEvent("touchend", { changedTouches: [{ clientX: 80 }] });
+    await strip.evaluate((element) => {
+      const contact = (clientX: number) => new Touch({ identifier: 1, target: element, clientX, clientY: 100 });
+      element.dispatchEvent(new TouchEvent("touchstart", { touches: [contact(320)], bubbles: true }));
+      element.dispatchEvent(new TouchEvent("touchend", { changedTouches: [contact(80)], bubbles: true }));
+    });
     await expect(page.getByRole("heading", { name: "Wednesday, November 4, 2026", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Interests", exact: true }).tap();
     const header = page.locator(".sheet-header");

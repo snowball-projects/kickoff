@@ -40,6 +40,14 @@ export default function Sheet({ title, onClose, children }: {
       || event.clientY < rect.top || event.clientY > rect.bottom);
   }
   return <dialog ref={dialog} className={`sheet ${closing ? "closing" : ""}`} aria-label={title}
+    onKeyDown={(event) => {
+      if (event.key !== "Tab") return;
+      const controls = [...event.currentTarget.querySelectorAll<HTMLElement>("button, a[href], input, select, textarea, summary, [tabindex]:not([tabindex='-1'])")]
+        .filter((element) => !element.matches(":disabled") && element.getClientRects().length);
+      const first = controls[0], last = controls.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    }}
     onCancel={(event) => { event.preventDefault(); dismiss(); }}
     onPointerDown={(event) => { backdrop.current = outside(event); }}
     onPointerUp={(event) => { if (backdrop.current && outside(event)) dismiss(); backdrop.current = false; }}
