@@ -1,3 +1,4 @@
+import { openDayEvent } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 const categories = [
@@ -75,6 +76,7 @@ test("host and national-team flags describe facts in calendar, detail and agenda
   for (const title of ["Club Japan v Club France", "Ravens at Chiefs", "Multinational fixture"])
     await expect(day.locator(".month-single").filter({ hasText: title }).getByRole("img")).toHaveCount(0);
   await f1.click();
+  await openDayEvent(page, "Monaco Grand Prix");
   const details = page.locator("#details-identity-F1");
   await expect(details.getByRole("img", { name: "Host country: Monaco" })).toBeVisible();
   await expect(details.locator(".sport-icon")).toHaveAttribute("aria-hidden", "true");
@@ -116,11 +118,14 @@ for (const colorScheme of ["light", "dark"] as const) {
     expect(await chooser.locator("summary .sport-icon").evaluateAll((nodes) => nodes.every((node) => {
       const style = getComputedStyle(node);
       const sample = document.createElement("span");
-      sample.style.color = style.getPropertyValue("--category-accent");
+      sample.style.color = style.getPropertyValue("--ink");
+      sample.style.backgroundColor = style.getPropertyValue("--pill");
       document.body.append(sample);
-      const expected = getComputedStyle(sample).color;
+      const expected = getComputedStyle(sample);
+      const matches = node.classList.contains("sport-chip") && style.color === expected.color
+        && style.backgroundColor === expected.backgroundColor;
       sample.remove();
-      return style.color === expected;
+      return matches;
     }))).toBe(true);
     const motorsport = chooser.getByRole("region", { name: "Motorsports interests" });
     await motorsport.locator("summary").click();

@@ -1,3 +1,4 @@
+import { expandDayGroups } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 test.use({ timezoneId: "UTC" });
@@ -49,7 +50,8 @@ test("old selections retain senior-only Worlds; facets save, cancel and intersec
     golf_views: { PGA_TOUR: "majors_only" }, motorsport_view: "full_weekend" });
   await page.locator("#day-2026-10-25 .day-number").click();
   const detail = page.getByRole("complementary", { name: "Day events" });
-  await expect(detail.locator("article")).toHaveCount(2);
+  await expandDayGroups(page);
+  await expect(detail.locator(".timeline-pill[data-event-id]")).toHaveCount(2);
   await expect(detail).toContainText("Women's Lead Semi-final");
   await expect(detail).toContainText("Women's Lead Final");
   await expect(detail).not.toContainText("Men's");

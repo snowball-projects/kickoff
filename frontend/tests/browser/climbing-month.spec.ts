@@ -1,3 +1,4 @@
+import { openDayEvent } from "./timeline-helpers";
 import { expect, test, type Page } from "@playwright/test";
 
 async function filters(page: Page, discipline: string) {
@@ -18,7 +19,7 @@ for (const fixture of [
 ]) {
   test.describe(`reviewed World Cup rounds in ${fixture.zone}`, () => {
     test.use({ timezoneId: fixture.zone });
-    test("month grouping follows filters and local days; day and list remain flat", async ({ page }) => {
+    test("month grouping follows filters and local days; day timeline shares grouping while the list stays flat", async ({ page }) => {
       await page.clock.setFixedTime(new Date("2026-06-07T08:00:00Z"));
       await page.addInitScript(() => {
         if (!localStorage.getItem("kickoff.interests.v2")) {
@@ -44,7 +45,9 @@ for (const fixture of [
       await expect(page.getByRole("complementary", { name: "Day events" })).toHaveCount(0);
       await day.locator(".competition-event").first().click();
       const detail = page.getByRole("complementary", { name: "Day events" });
-      await expect(detail.locator("article")).toHaveCount(2);
+      await openDayEvent(page, "Men's Lead Semi-final");
+      await expect(detail.locator("article")).toHaveCount(1);
+      await expect(detail.locator(".timeline-pill[data-event-id]")).toHaveCount(2);
       await expect(detail.locator(".competition-chip")).toHaveCount(0);
       await expect(detail).not.toContainText("Women's");
       await page.getByRole("button", { name: "Close day" }).click();

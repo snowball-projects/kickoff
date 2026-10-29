@@ -416,7 +416,15 @@ button,
   padding-top: 3px;
 }
 .league-label {
-  color: var(--category-accent, var(--text));
+  display: inline-flex;
+  align-self: flex-start;
+  max-width: 100%;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 5px;
+  border-radius: 4px;
+  background: var(--pill, var(--soft));
+  color: var(--ink, var(--text));
   font-size: 11px;
   font-weight: 600;
 }
@@ -718,11 +726,11 @@ dialog p {
 .interest input {
   margin: 0;
 }
-.interest-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--category-accent, var(--text));
+.interest-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--pill, var(--soft));
   flex-shrink: 0;
 }
 .interest-actions {
@@ -977,6 +985,9 @@ dialog p {
   .interest-grid {
     gap: 7px;
   }
+  .interest-grid:has(.country-flag) {
+    grid-template-columns: 1fr;
+  }
   .interest {
     font-size: 12px;
   }
@@ -1098,15 +1109,27 @@ dialog p {
   line-height: 1.4;
 }
 
-/* Bundled sport shapes inherit category ink; native flags retain their own colours. */
+/* Sport shapes use the surrounding ink; standalone shapes sit on the same fill as event pills. */
 .sport-icon {
   width: 1.15em;
   height: 1.15em;
   flex: 0 0 auto;
   fill: currentColor;
-  color: var(--category-accent, inherit);
+  color: inherit;
   vertical-align: -0.18em;
   margin-right: 0.3em;
+}
+.sport-chip {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 4px;
+  background: var(--pill, var(--soft));
+  color: var(--ink, var(--text));
+  vertical-align: -0.35em;
+}
+.league-label .sport-icon {
+  margin-right: 0;
 }
 .event-pill > .sport-icon {
   width: 14px;
@@ -1158,3 +1181,75 @@ dialog p {
 .event-pill .sport-icon {
   color: var(--ink, inherit);
 }
+
+/* Fixed wall-clock geometry: event expansion never participates in grid flow. */
+.timeline-grid {
+  position: relative;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+.timeline-hour {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 1px;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 10px;
+  pointer-events: none;
+}
+.timeline-hour > span { width: 36px; text-align: right; flex-shrink: 0; }
+.timeline-hour > i { flex: 1; border-top: 1px solid var(--line); }
+.timeline-events { position: absolute; left: 48px; right: 3px; top: 0; }
+.timeline-group { position: absolute; padding: 0 2px; min-width: 0; pointer-events: none; }
+.timeline-pill {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  padding: 5px 6px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  overflow: hidden;
+  background: var(--pill, var(--soft));
+  color: var(--ink, var(--text));
+  font-size: 12px;
+  line-height: 16px;
+}
+.timeline-pill:hover { background: var(--pill, var(--soft)); filter: brightness(0.96); }
+.timeline-title { width: 100%; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.timeline-title .sport-icon { margin-right: 3px; vertical-align: -2px; color: inherit; }
+.timeline-clock { display: block; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+.timeline-group.is-expanded {
+  background: color-mix(in srgb, var(--pill, var(--soft)) 20%, transparent);
+  border-left: 2px solid var(--pill, var(--line));
+  border-radius: 5px;
+}
+.timeline-collapse { position: absolute; z-index: 2; top: 0; left: 0; width: 22px; min-height: 44px; padding: 0; color: var(--text); background: transparent; }
+.timeline-collapse:hover { background: var(--hover); filter: none; }
+.timeline-subpills { position: absolute; left: 0; right: 2px; top: 0; }
+.timeline-slot { position: absolute; left: 0; right: 0; display: flex; gap: 2px; }
+.timeline-slot > .timeline-pill { min-width: 0; flex: 1; }
+.timeline-more { font-size: 11px; }
+.timeline-all-day { display: flex; height: 110px; flex-shrink: 0; gap: 8px; border-bottom: 1px solid var(--line); padding: 4px 3px 8px 0; }
+.all-day-label { width: 40px; font-size: 10px; color: var(--muted); flex-shrink: 0; padding-top: 12px; }
+.all-day-pills { overflow: auto; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.all-day-children { padding-left: 10px; display: flex; flex-direction: column; gap: 3px; margin-top: 3px; }
+.timeline-notice { font-size: 12px; padding: 8px 0; color: var(--muted); }
+.timeline-details { position: relative; max-height: 45%; min-height: 100px; flex-shrink: 0; display: flex; border-top: 1px solid var(--line); }
+.timeline-details > .icon-button { position: absolute; right: 0; top: 0; z-index: 1; }
+.timeline-details-scroll { overflow: auto; width: 100%; padding-right: 25px; }
+.timeline-details .agenda-event { grid-template-columns: 1fr; border: 0; padding: 10px 0; }
+.timeline-details ul { list-style: none; padding: 8px 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.timeline-collapse > .timeline-title,
+.timeline-collapse > .timeline-clock { display: none; }
+.timeline-global-more { position: absolute; padding: 0 2px; }
+.overflow-group-controls { display: flex; flex-wrap: wrap; gap: 4px; padding-top: 6px; }
+.overflow-group-controls button { border: 1px solid var(--line); padding: 4px 8px; font-size: 12px; }
