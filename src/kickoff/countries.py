@@ -95,6 +95,4 @@ def venue_country(value: str | None) -> str | None:
     if not value or value.casefold() in {"tbd", "tba", "unknown"}:
         return None
     code = value.upper() if value.upper() in ISO_CODES else COUNTRIES.get(value.casefold())
-    if code is None:
-        raise ValueError(f"Unknown venue country: {value}")
-    return code
+    return code or value

@@ -8,9 +8,11 @@ import pytest
 
 from kickoff import feeds
 from kickoff.countries import COUNTRY_LEAGUES, venue_country
+from kickoff.open_schedules import refresh_open_schedules
 from kickoff.reviewed_schedules import load_reviewed_schedules, reviewed_events
 from kickoff.web import _event_payload
 from tests.test_feeds import espn_game
+from tests.test_reviewed_schedules import fake_open_read
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -27,9 +29,12 @@ ROOT = Path(__file__).resolve().parents[1]
         ("Macau", "MO"),
         ("Puerto Rico", "PR"),
         ("Dominican Republic", "DO"),
+        ("Croatia", "Croatia"),
+        ("Rwanda", "Rwanda"),
         (None, None),
         ("", None),
         ("TBD", None),
+        ("TBA", None),
         ("unknown", None),
     ],
 )
@@ -37,8 +42,8 @@ def test_explicit_venue_countries_normalize_without_geographic_inference(source,
     assert venue_country(source) == expected
 
 
-@pytest.mark.parametrize("source", ["London", "Florida", "Paris Saint-Germain", "ZZ", "XX", "US/Canada", 42, {}])
-def test_invalid_countries_are_rejected_where_produced(source):
+@pytest.mark.parametrize("source", [42, {}, []])
+def test_non_string_countries_are_rejected_where_produced(source):
     with pytest.raises(ValueError, match="country"):
         venue_country(source)
 
@@ -74,9 +79,10 @@ def test_excluded_espn_leagues_do_not_gain_countries(league):
     assert event.country is event.country_source_url is event.country_checked_date is None
 
 
-def test_live_espn_fetchers_keep_the_actual_existing_request_url(monkeypatch):
+@pytest.mark.parametrize("country, expected", [("Spain", "ES"), ("Croatia", "Croatia"), ("Rwanda", "Rwanda")])
+def test_live_espn_fetchers_preserve_explicit_country_names_and_request_url(monkeypatch, country, expected):
     row = espn_game("9", "2026-10-28T17:00Z", "Home", "Away")
-    row["competitions"][0]["venue"]["address"] = {"country": "Spain"}
+    row["competitions"][0]["venue"]["address"] = {"country": country}
     urls = []
 
     def get_json(url, **_):
@@ -88,9 +94,23 @@ def test_live_espn_fetchers_keep_the_actual_existing_request_url(monkeypatch):
     monkeypatch.setattr(feeds, "get_json", get_json)
     for league in ["UFC", "PGA_TOUR", "UEFA_CHAMPIONS_LEAGUE"]:
         (event,) = feeds.FEEDS[league][1](2026)
-        assert event.country == "ES"
+        assert event.country == expected
         assert event.country_source_url == urls[-1]
         assert "/scoreboard?dates=" in event.country_source_url
+
+
+@pytest.mark.parametrize("country", ["Croatia", "Rwanda"])
+def test_new_explicit_country_names_do_not_abort_publication(monkeypatch, tmp_path, country):
+    row = espn_game("9", "2026-10-28T17:00Z", "Home", "Away")
+    row["competitions"][0]["venue"]["address"] = {"country": country}
+    monkeypatch.setattr(feeds, "get_json", lambda *_args, **_kwargs: {"events": [row]})
+    monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
+    output = refresh_open_schedules(2026, tmp_path, ROOT / "data/reviewed", feeds={"UFC": feeds.FEEDS["UFC"]})
+    bundle = json.loads(output.read_text())
+    event = next(event for event in bundle["events"] if event["event_id"] == "espn-ufc-9")
+    assert event["country"] == country
+    assert event["country_source_url"].endswith("/mma/ufc/scoreboard?dates=2026&limit=500")
+    assert event["country_checked_date"] == datetime.now(UTC).date().isoformat()
 
 
 def test_reviewed_countries_retain_pinned_sources_and_leave_unstated_locations_empty():
@@ -124,7 +144,7 @@ def test_reviewed_countries_retain_pinned_sources_and_leave_unstated_locations_e
 @pytest.mark.parametrize(
     "fields",
     [
-        {"country": "London"},
+        {"country": 42},
         {"country_source_url": "https://example.com/new-source"},
         {"country_checked_date": "today"},
     ],

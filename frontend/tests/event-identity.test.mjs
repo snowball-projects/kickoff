@@ -17,7 +17,7 @@ test("ten sport shapes cover the shared category keys and future series use fami
 });
 
 test("host flags resolve explicit ISO codes and existing reviewed country names", () => {
-  for (const [value, code] of [["CN", "CN"], ["China", "CN"], ["Czechia", "CZ"], ["United States", "US"], ["USA", "US"], ["Türkiye", "TR"], ["Great Britain", "GB"], ["French Polynesia", "PF"]])
+  for (const [value, code] of [["CN", "CN"], ["China", "CN"], ["Czechia", "CZ"], ["United States", "US"], ["USA", "US"], ["Türkiye", "TR"], ["Great Britain", "GB"], ["French Polynesia", "PF"], ["Croatia", "HR"], ["Rwanda", "RW"]])
     assert.equal(countryIdentity(value)?.code, code);
   assert.equal(hostCountry({ country: "MC" })?.flag, "🇲🇨");
   for (const country of [null, "", "Unknown", "Neutral", "Europe", "US/Canada", "USA, Mexico and Canada", "ZZ", "XX"])
