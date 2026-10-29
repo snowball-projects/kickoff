@@ -93,3 +93,19 @@ for (const savedEmpty of [false, true]) {
     if (savedEmpty) expect(selected).toEqual([]); else expect(selected).toContain("IFSC_WORLD_CUP");
   });
 }
+
+test("Select all before choices arrive includes every arriving league", async ({ page }) => {
+  let release!: () => void;
+  const hold = new Promise<void>((resolve) => { release = resolve; });
+  await setup(page, events, { hold, wait: false, saved: { leagues: [] } });
+  await page.getByRole("button", { name: "Interests", exact: true }).click();
+  await chooser(page).getByRole("button", { name: "Select all", exact: true }).click();
+  await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+  release();
+  for (const group of ["Golf", "Motorsports", "Climbing", "Weightlifting"])
+    await expect(chooser(page).getByRole("checkbox", { name: `Select all ${group}`, exact: true })).toBeChecked();
+  await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeEnabled();
+  await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues)).toEqual(
+    expect.arrayContaining(["PGA_TOUR", "LPGA_TOUR", "F1", "IFSC_WORLD_CUP", "WEIGHTLIFTING_EUROPE", "WEIGHTLIFTING_ASIA"]));
+});

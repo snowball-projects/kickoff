@@ -224,7 +224,7 @@ export default function App() {
     {sheet?.kind === "interests" && <Sheet title="Interests" onClose={() => setSheet(null)}>
       {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} selected={draft ?? leagues.map((league) => league.value)} onChange={setDraft}
         preferences={draftPreferences} onPreferencesChange={setDraftPreferences} />}
-      <div className="interest-actions"><button onClick={() => { setDraft(leagues.map((league) => league.value));
+      <div className="interest-actions"><button onClick={() => { setDraft(null);
         const { climbing, weightlifting } = defaultPreferences(); setDraftPreferences((previous) => ({ ...previous, climbing, weightlifting })); }}>Select all</button>
         <button onClick={() => setDraft([])}>Clear</button></div>
       <button className="primary-button" disabled={!facets || loadingYears.length > 0} onClick={save}>Show my calendar</button>
