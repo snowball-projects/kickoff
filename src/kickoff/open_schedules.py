@@ -476,7 +476,7 @@ def refresh_open_schedules(
             if reviewed
             else ""
         )
-        + "No live scores. Football kickoff times use confirmed league timezone conventions; "
+        + "ESPN golf leaderboards appear only in event popups. Football kickoff times use confirmed league timezone conventions; "
         "ESPN fills independently confirmed missing clocks with its own attribution. "
         "Unconfirmed clocks remain date-only. F1 times use the source's UTC fields."
     )

@@ -101,3 +101,17 @@ def test_lpga_without_an_event_link_uses_the_lpga_leaderboard(monkeypatch):
     monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [row]})
     (event,) = feeds.FEEDS["LPGA_TOUR"][1](2026)
     assert event.source_url == "https://www.espn.com/golf/leaderboard/_/tour/lpga"
+
+
+def test_2027_unsponsored_us_womens_open_remains_a_major(monkeypatch):
+    fixture = json.loads((ROOT / "tests/fixtures/espn-golf.json").read_text())
+
+    def get_json(url):
+        assert url == fixture["sources"]["lpga2027"]
+        return fixture["feeds"]["lpga2027"]
+
+    monkeypatch.setattr(feeds, "get_json", get_json)
+    (event,) = feeds.FEEDS["LPGA_TOUR"][1](2027)
+    assert event.title == "U.S. Women's Open"
+    assert event.competition_phase == "championship"
+    assert event.is_postseason

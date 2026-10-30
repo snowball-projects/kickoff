@@ -221,7 +221,7 @@ export default function App() {
           const event = items.find((item) => item.event_id === id); if (event) showEvents([event], date); }} onRetry={() => setRetry((value) => value + 1)} />}
     </main>
     <button className="today-button" onClick={jumpToday}>Today</button>
-    {sheet?.kind === "events" && <EventSheet items={sheet.items} date={sheet.date} timezone={timezone} onClose={() => setSheet(null)} />}
+    {sheet?.kind === "events" && <EventSheet items={sheet.items} date={sheet.date} today={today} timezone={timezone} onClose={() => setSheet(null)} />}
     {sheet?.kind === "interests" && <Sheet title="Interests" onClose={() => setSheet(null)}>
       {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} selected={draft ?? leagues.map((league) => league.value)} onChange={setDraft}
         preferences={draftPreferences} onPreferencesChange={setDraftPreferences} />}
@@ -236,19 +236,20 @@ export default function App() {
       <p>Updated {manifest?.updated_at?.slice(0, 10) || "unavailable"}</p>
       <p><a href="https://github.com/snowball-projects/kickoff" target="_blank" rel="noreferrer">Source ↗</a></p>
       <h3>Coverage</h3>
-      <p>Published schedules, not live scores. Coverage is incomplete; an empty day means no matching published events. Dates and times can change.</p>
+      <p>Published schedules with ESPN golf leaderboards in event popups. Coverage is incomplete; an empty day means no matching published events. Dates and times can change.</p>
       <p>Golf: PGA Tour and LPGA Tour tournament dates come from ESPN, including majors.</p>
+      <p>Golf rounds follow calendar days. Past rounds show final tournament results when available, not historical round standings.</p>
       <p>Boxing: selected reviewed four-belt undisputed bouts and unifications of at least three full WBA, WBC, IBF or WBO titles in one division.
         No interim or secondary titles, exhibitions or influencer cards.</p>
       <p><a href="https://github.com/snowball-projects/kickoff/tree/main/data/reviewed" target="_blank" rel="noreferrer">Coverage details and omitted events ↗</a></p>
-      <p>Verified times use your browser’s timezone automatically. Date-only events stay on their source dates with Time TBD.</p>
+      <p>Verified times use your browser’s timezone automatically. Golf rounds are all-day; other date-only events retain Time TBD.</p>
       <h3>Sources</h3>
       {manifest?.data_license_notice && <p>{manifest.data_license_notice}</p>}
       {manifest?.sources?.map((source) => <p key={source.name}><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
         {" · "}<a href={source.license_url} target="_blank" rel="noreferrer">{source.license}</a></p>)}
       <h3>Privacy</h3>
       <p>Interests and options stay in this browser. No accounts, analytics, advertising or location access. Timezone comes from your browser;
-        no lookup is sent. Static calendar browsing contacts no sports providers. GitHub Pages receives normal hosting requests.</p>
+        no lookup is sent. Past and current ESPN golf popups contact ESPN; active rounds refresh while open. Other calendar browsing contacts no sports providers. GitHub Pages receives normal hosting requests.</p>
       {storageNote && <p>{storageNote}</p>}
       <p><a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.md`}>Licenses</a>{" · "}<a href="https://snowball-projects.github.io/operations/#kickoff">Operations</a></p>
     </Sheet>}

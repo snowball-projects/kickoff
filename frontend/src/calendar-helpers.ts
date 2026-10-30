@@ -2,6 +2,7 @@ import { commonHostCountry } from "./countries";
 import { eventInstant } from "./date-utils";
 import type { EventCard, EventDetail } from "./types";
 import { golfMajor, type LeagueInterest } from "./interest-preferences";
+import { isGolf } from "./golf";
 
 const LEAGUE_META: Record<
   string,
@@ -222,4 +223,9 @@ export function leagueGroups(items: EventCard[]) {
     groups.get(event.league)!.push(event);
   }
   return [...groups].map(([league, items]) => ({ league, items }));
+}
+
+export function pillGroups(items: EventCard[]) {
+  return leagueGroups(items).flatMap((group) => isGolf(group.items[0])
+    ? group.items.map((event) => ({ league: group.league, items: [event] })) : [group]);
 }

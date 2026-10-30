@@ -33,7 +33,10 @@ NBA, MLB, NHL, UEFA Champions League, PGA Tour, LPGA Tour, UFC, NASCAR Cup, Indy
 https://www.espn.com/  https://statsapi.mlb.com/  https://www.nhl.com/schedule
 These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues), attributes each event to
-its source with a link, and omits logos, scores, odds, articles and raw payloads.
+its source with a link, and omits logos, odds, articles and raw payloads.
+Golf popups request leaderboard facts directly from ESPN: positions, player
+names, total and round scores, tee times and holes completed. Those results
+carry ESPN's terms, not MIT or a new open-data license.
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
 its data is republished.
 

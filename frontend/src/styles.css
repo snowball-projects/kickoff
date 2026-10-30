@@ -118,6 +118,16 @@ h1, h2, h3, p { margin: 0; }
 .event-details h3 { font-size: 24px; line-height: 1.2; margin: 14px 0 18px; }
 .league-label { display: inline-flex; align-items: center; gap: 5px; background: var(--pill); color: var(--ink); font-size: 11px; font-weight: 650; padding: 4px 7px; border-radius: 5px; }
 .detail-time { font-weight: 650; }
+.golf-leaderboard { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 20px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.golf-leaderboard caption { text-align: left; font-size: 13px; font-weight: 650; margin-bottom: 8px; }
+.golf-leaderboard :is(th, td) { padding: 9px 2px; text-align: right; vertical-align: top; overflow-wrap: anywhere; border-bottom: 1px solid var(--line); }
+.golf-leaderboard th { color: var(--muted); font-size: 11px; font-weight: 550; }
+.golf-leaderboard th:first-child { width: 9%; }
+.golf-leaderboard th:nth-child(2) { width: 39%; }
+.golf-leaderboard th:nth-child(3) { width: 14%; }
+.golf-leaderboard th:nth-child(4) { width: 25%; }
+.golf-leaderboard th:nth-child(5) { width: 13%; }
+.golf-leaderboard :is(th, td):nth-child(-n+2) { text-align: left; }
 .source-links { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 14px; margin-top: 24px; }
 .sheet-event-group h3 { font-size: 14px; margin: 14px 0 2px; }
 .sheet-event-row { display: grid; width: 100%; grid-template-columns: 74px 1fr 10px; gap: 12px; padding: 17px 0; align-items: center; text-align: left; border-bottom: 1px solid var(--line); }

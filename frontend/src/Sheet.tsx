@@ -3,10 +3,12 @@ import { countryIdentity } from "./countries";
 import { compareEvents, leagueGroups, leagueVisual } from "./calendar-helpers";
 import { eventTimeLabel, formatLongDate } from "./date-utils";
 import { EventFlags, SportIcon } from "./EventIdentity";
+import GolfLeaderboard from "./GolfLeaderboard";
+import { isGolf, leaderboardId } from "./golf";
 import type { EventCard } from "./types";
 
-export default function Sheet({ title, onClose, children }: {
-  title: string; onClose: () => void; children: React.ReactNode;
+export default function Sheet({ title, onClose, onDismiss, children }: {
+  title: string; onClose: () => void; onDismiss?: () => void; children: React.ReactNode;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const backdrop = useRef(false);
@@ -16,6 +18,7 @@ export default function Sheet({ title, onClose, children }: {
   function dismiss() {
     if (dismissing.current) return;
     dismissing.current = true;
+    onDismiss?.();
     setClosing(true);
   }
   useEffect(() => {
@@ -63,18 +66,22 @@ export default function Sheet({ title, onClose, children }: {
     <div className="sheet-body">{children}</div>
   </dialog>;
 }
-function EventDetails({ event, date, timezone }: { event: EventCard; date: string; timezone: string }) {
+function EventDetails({ event, date, today, timezone, active }: {
+  event: EventCard; date: string; today: string; timezone: string; active: boolean;
+}) {
   const location = [event.venue, event.city, countryIdentity(event.country)?.name || event.country].filter(Boolean).join(" · ");
   const start = event.start_calendar_date || date;
   const end = event.end_calendar_date;
+  const id = leaderboardId(event);
   return <article className="event-details" aria-label="Event details">
     <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}>
       <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
     </span>
     <h3 tabIndex={-1}>{event.title}<EventFlags event={event} /></h3>
     {event.subtitle && <p>{event.subtitle}</p>}
-    <p className="detail-time">{eventTimeLabel(event, timezone)}</p>
+    {!isGolf(event) && <p className="detail-time">{eventTimeLabel(event, timezone)}</p>}
     <p>{formatLongDate(start)}{end && end > start && <> through {formatLongDate(end)}</>}</p>
+    {id && <GolfLeaderboard key={`${id}:${date}:${today}:${timezone}`} id={id} date={date} today={today} timezone={timezone} active={active} />}
     {location && <p>{location}</p>}
     {event.status !== "scheduled" && <p>{event.status.replaceAll("_", " ")}</p>}
     <div className="source-links">
@@ -85,10 +92,11 @@ function EventDetails({ event, date, timezone }: { event: EventCard; date: strin
     </div>
   </article>;
 }
-export function EventSheet({ items, date, timezone, onClose }: {
-  items: EventCard[]; date: string; timezone: string; onClose: () => void;
+export function EventSheet({ items, date, today, timezone, onClose }: {
+  items: EventCard[]; date: string; today: string; timezone: string; onClose: () => void;
 }) {
   const [selected, setSelected] = useState<EventCard | null>(items.length === 1 ? items[0] : null);
+  const [closing, setClosing] = useState(false);
   const body = useRef<HTMLDivElement>(null);
   const lastRow = useRef<string | null>(null);
   useLayoutEffect(() => {
@@ -98,11 +106,11 @@ export function EventSheet({ items, date, timezone, onClose }: {
   }, [selected]);
   const groups = leagueGroups(items);
   const title = groups.length === 1 ? leagueVisual(items[0].league, items[0].sport).shortLabel : "Events";
-  return <Sheet title={title} onClose={onClose}>
+  return <Sheet title={title} onClose={onClose} onDismiss={() => setClosing(true)}>
     <div ref={body}>
       {selected ? <>
         {items.length > 1 && <button className="sheet-back" aria-label="Back to events" onClick={() => setSelected(null)}>‹ {title}</button>}
-        <EventDetails event={selected} date={date} timezone={timezone} />
+        <EventDetails event={selected} date={date} today={today} timezone={timezone} active={!closing} />
       </> : groups.map((group) => <section className="sheet-event-group" key={group.league}>
         {groups.length > 1 && <h3>{leagueVisual(group.league, group.items[0].sport).shortLabel}</h3>}
         {[...group.items].sort(compareEvents).map((event) => <button className="sheet-event-row" key={event.event_id} id={`sheet-${event.event_id}`}

@@ -111,8 +111,8 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
   await page.locator("#day-2026-10-28 .day-number").click();
   await expect(page.locator('.timeline-events [data-event-id="Timed title"] .pill-text')).toHaveText("Timed title");
   await expect(page.locator('.timeline-events [data-event-id="Timed title"] .country-flag')).toBeVisible();
-  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(3);
-  await expect(page.locator(".all-day-strip .pill-text")).toHaveText(["Premier League", "PGA Tour", "Singleton title"]);
+  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(4);
+  await expect(page.locator(".all-day-strip .pill-text")).toHaveText(["Premier League", "All-day title, Round 1", "Another all-day title, Round 1", "Singleton title, Round 1"]);
   for (const pill of await page.locator(".day-timeline-stage .event-pill").all()) {
     expect(await pill.locator(":scope > *").evaluateAll((elements) => elements.map((element) => element.getAttribute("class"))))
       .toEqual(["sport-icon", "pill-text", "country-flag"]);

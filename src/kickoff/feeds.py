@@ -38,6 +38,7 @@ GOLF_MAJORS = {
     "LPGA_TOUR": {
         "The Chevron Championship",
         "U.S. Women's Open pres. by Ally",
+        "U.S. Women's Open",
         "KPMG Women's PGA Championship",
         "The Amundi Evian Championship",
         "AIG Women's Open",
