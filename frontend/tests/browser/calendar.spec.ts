@@ -1,5 +1,5 @@
 import { expect, test } from "./test";
-import { agendaToggle, event, month, setup } from "./fixtures";
+import { agendaToggle, event, month, nativeDayPan, setup } from "./fixtures";
 
 const events = [
   event("Regular World Cup", undefined, { league: "FIFA_WORLD_CUP" }),
@@ -134,16 +134,16 @@ test("transition snapshots share the selected week and year/month zoom", async (
 });
 test.describe("phone touch", () => {
   test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: "reduce" });
-  test("swiping the week and the sheet works without hover state", async ({ page }) => {
+  test("native day scrolling and sheet dismissal work without hover state", async ({ page }) => {
     await setup(page, events);
     await page.locator("#day-2026-10-28 .day-number").tap();
     const strip = page.locator(".week-strip");
-    await strip.evaluate((element) => {
-      const contact = (clientX: number) => new Touch({ identifier: 1, target: element, clientX, clientY: 100 });
-      element.dispatchEvent(new TouchEvent("touchstart", { touches: [contact(320)], bubbles: true }));
-      element.dispatchEvent(new TouchEvent("touchend", { changedTouches: [contact(80)], bubbles: true }));
-    });
-    await expect(page.getByRole("heading", { name: "Wednesday, November 4, 2026", exact: true })).toBeVisible();
+    const before = await strip.evaluate((element) => element.scrollLeft);
+    await nativeDayPan(page, -240, 180);
+    await expect.poll(() => strip.evaluate((element) => element.scrollLeft)).toBeGreaterThan(before + 100);
+    await expect(page.getByRole("heading", { name: "Wednesday, October 28, 2026", exact: true })).toBeVisible();
+    await strip.locator('[data-date="2026-11-03"]').tap();
+    await expect(page.getByRole("heading", { name: "Tuesday, November 3, 2026", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Interests", exact: true }).tap();
     const header = page.locator(".sheet-header");
     await header.dispatchEvent("pointerdown", { pointerType: "touch", pointerId: 1, clientY: 500 });

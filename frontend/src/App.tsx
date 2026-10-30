@@ -6,10 +6,11 @@ import type { EventCard, FilterState } from "./types";
 import InterestGroups from "./InterestGroups";
 import { defaultPreferences, INTERESTS_KEY, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
-import { boundMonth, dayAfter, monthAt, monthIndex, scheduleWindow, weekStart } from "./month-feed-state";
+import { boundMonth, dayAfter, monthAt, monthIndex, scheduleWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
 import Agenda from "./Agenda";
 import DayTimeline from "./DayTimeline";
+import DayBar from "./DayBar";
 import Sheet, { EventSheet } from "./Sheet";
 import { agendaAnchors, laterAgendaAnchors, nextAgendaEnd, readScheduleView, VIEW_KEY, type AgendaPeriod, type ScheduleView } from "./agenda-state";
 
@@ -40,7 +41,6 @@ export default function App() {
   const [publishedYears, setPublishedYears] = useState<number[]>([]);
   const [savedUpcoming, setUpcoming] = useState<UpcomingWindow | null>(null);
   const dayHeading = useRef<HTMLHeadingElement>(null);
-  const touch = useRef<number | null>(null);
   const transition = useRef<ViewTransition | null>(null);
   const bounds = scheduleWindow(today);
   const signature = JSON.stringify({ ...EMPTY, ...preferences, followed_leagues: preferences.leagues ?? undefined });
@@ -111,7 +111,11 @@ export default function App() {
   function switchDay(date: string) {
     if (date < bounds.start || date > bounds.end) return;
     setDay(date); setSplitDate(date); setMonth(firstOfMonth(date));
-    requestAnimationFrame(() => document.querySelector<HTMLButtonElement>(`.week-strip [data-date="${date}"]`)?.focus({ preventScroll: true }));
+    requestAnimationFrame(() => {
+      const selected = document.querySelector<HTMLButtonElement>(`.week-strip [data-date="${date}"]`);
+      selected?.focus({ preventScroll: true });
+      selected?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+    });
   }
   function showEvents(items: EventCard[], date: string) { setSheet({ kind: "events", items, date }); }
   function jumpToday() {
@@ -140,7 +144,6 @@ export default function App() {
   const selected = months[firstOfMonth(day)]?.groups.find((group) => group.date === day);
   const dayError = errors[Number(day.slice(0, 4))];
   const calendarActive = scheduleView === "calendar";
-  const week = Array.from({ length: 7 }, (_, index) => dayAfter(weekStart(day), index));
   function yearKey(delta: number) {
     document.querySelector<HTMLElement>(".year-grid")?.focus();
     setMonth(boundMonth(monthAt(monthIndex(month) + delta * 12), today));
@@ -164,19 +167,7 @@ export default function App() {
         </div>
       </div>
       {view === "day" && calendarActive ? <>
-        <div className="week-strip" style={{ viewTransitionName: "selected-week" }}
-          onTouchStart={(event) => { touch.current = event.touches[0].clientX; }}
-          onTouchEnd={(event) => { if (touch.current !== null) { const delta = event.changedTouches[0].clientX - touch.current;
-            if (Math.abs(delta) > 50) switchDay(dayAfter(day, delta < 0 ? 7 : -7)); } touch.current = null; }}
-          onKeyDown={(event) => {
-            const delta = ({ ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 } as Record<string, number>)[event.key];
-            if (delta) { event.preventDefault(); switchDay(dayAfter(day, delta)); }
-          }}>
-          {week.map((date, index) => <button key={date} data-date={date} disabled={date < bounds.start || date > bounds.end}
-            aria-label={formatLongDate(date)} aria-pressed={date === day} onClick={() => switchDay(date)}>
-            <span>{WEEKDAY_NARROW[index]}</span><b className={`${date === day ? "selected" : ""} ${date === today ? "today" : ""}`}>{Number(date.slice(-2))}</b>
-          </button>)}
-        </div>
+        <DayBar date={day} today={today} start={bounds.start} end={bounds.end} onSelect={switchDay} />
         <h1 className="long-date" ref={dayHeading} tabIndex={-1}>{formatLongDate(day)}</h1>
       </> : <>
         <div className="heading-row">
