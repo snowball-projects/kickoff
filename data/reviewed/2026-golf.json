@@ -177,7 +177,7 @@
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&page=2026+LPGA+Tour&prop=wikitext%7Crevid&format=json",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "changes": "Selected official-tournament names and listed final dates, excluding the five majors already supplied separately and unofficial events. Published single final-date markers because opening dates are not established by the season table. Omitted prose, results, money, images, exact round counts and tee times. Marked final-date-only records with date_scope and a visible final-date label. Added only explicitly stated venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; no country inferred from cities, states, competitors or tour names.",
+      "changes": "Selected official-tournament names and listed final dates, excluding the five majors already supplied separately and unofficial events. Published single final-date markers because opening dates are not established by the season table. Omitted prose, results, money, images, exact round counts and tee times. Marked final-date-only records with date_scope and a visible final-date label. Added venue countries from the same pinned source, normalized to ISO 3166-1 alpha-2; explicit US-state locations were normalized to US. No country inferred from cities, competitors or tour names.",
       "country_checked_date": "2026-10-29",
       "country_input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1372529225&prop=wikitext%7Crevid&format=json"
     }
@@ -849,7 +849,10 @@
       "end_date": "2026-02-01",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied. Weather shortened this event to 54 holes; this marker does not promise a fourth round.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-honda-lpga-thailand",
@@ -906,7 +909,10 @@
       "end_date": "2026-03-22",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-ford-championship",
@@ -918,7 +924,10 @@
       "end_date": "2026-03-29",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-aramco-championship",
@@ -930,7 +939,10 @@
       "end_date": "2026-04-05",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-jm-eagle-la-championship",
@@ -942,7 +954,10 @@
       "end_date": "2026-04-19",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-riviera-maya-open",
@@ -969,7 +984,10 @@
       "end_date": "2026-05-10",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-kroger-queen-city-championship",
@@ -981,7 +999,10 @@
       "end_date": "2026-05-17",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-shoprite-lpga-classic",
@@ -993,7 +1014,10 @@
       "end_date": "2026-05-31",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-dow-championship",
@@ -1005,7 +1029,10 @@
       "end_date": "2026-06-14",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-meijer-lpga-classic",
@@ -1017,7 +1044,10 @@
       "end_date": "2026-06-21",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-isps-handa-women-s-scottish-open",
@@ -1044,7 +1074,10 @@
       "end_date": "2026-08-16",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-cpkc-women-s-open",
@@ -1071,7 +1104,10 @@
       "end_date": "2026-08-30",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-walmart-nw-arkansas-championship",
@@ -1083,7 +1119,10 @@
       "end_date": "2026-09-27",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-lotte-championship",
@@ -1095,7 +1134,10 @@
       "end_date": "2026-10-04",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-buick-lpga-shanghai",
@@ -1167,7 +1209,10 @@
       "end_date": "2026-11-15",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     },
     {
       "id": "wikipedia-golf-2026-lpga-tour-cme-group-tour-championship",
@@ -1179,7 +1224,10 @@
       "end_date": "2026-11-22",
       "event_type": "tournament",
       "notes": "Final date listed by the source only; opening date and tee times are not supplied.",
-      "date_scope": "final_date"
+      "date_scope": "final_date",
+      "country": "US",
+      "country_source_url": "https://en.wikipedia.org/w/index.php?title=2026_LPGA_Tour&oldid=1372529225",
+      "country_checked_date": "2026-10-29"
     }
   ],
   "exclusions": []
