@@ -7,6 +7,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
   test.describe(`ESPN LPGA schedule ${width}px ${colorScheme}`, () => {
     test.use({ viewport: { width, height: 844 }, colorScheme, reducedMotion: "reduce" });
     test("full tournament span uses one ESPN source with no invented country", async ({ page }) => {
+      await page.route("https://site.web.api.espn.com/**", (route) => route.fulfill({ json: { events: [] }, headers: { "access-control-allow-origin": "*" } }));
       await setup(page, events, { now: "2026-10-30T17:00:00Z" });
       for (const day of ["29", "30", "31"])
         await expect(page.locator(`#day-2026-10-${day} .event-pill`)).toHaveCount(1);
@@ -20,6 +21,10 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       const sheet = page.getByRole("dialog");
       await expect(sheet.getByRole("link", { name: "Schedule source", exact: false }))
         .toHaveAttribute("href", "https://www.espn.com/golf/leaderboard?tournamentId=401835174");
+      await expect(sheet.locator(".event-details h3")).toHaveText("Maybank Championship, Round 2");
+      await expect(sheet).toContainText("Friday, October 30, 2026");
+      await expect(sheet).not.toContainText("Time TBD");
+      await expect(sheet).not.toContainText("through");
       await expect(sheet).not.toContainText("Final date");
       await expect(sheet.locator(".country-flag")).toHaveCount(0);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

@@ -1,0 +1,530 @@
+{
+  "checked_date": "2026-10-30",
+  "license": "No license granted; factual leaderboard information with attribution",
+  "notes": "Trimmed API fields only. Competitors retain the source array order; no media or unrelated metadata.",
+  "sources": {
+    "live": "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401850978",
+    "between_rounds": "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401835174",
+    "final": "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401835149"
+  },
+  "payloads": {
+    "live": {
+      "events": [
+        {
+          "id": "401850978",
+          "status": {
+            "type": {
+              "state": "in",
+              "name": "STATUS_IN_PROGRESS",
+              "completed": false
+            }
+          },
+          "competitions": [
+            {
+              "status": {
+                "period": 2,
+                "type": {
+                  "state": "in",
+                  "name": "STATUS_IN_PROGRESS"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "10596",
+                  "sortOrder": 3,
+                  "athlete": {
+                    "displayName": "Matthieu Pavon"
+                  },
+                  "status": {
+                    "period": 2,
+                    "teeTime": "2026-10-30T14:00Z",
+                    "thru": 8,
+                    "todayDetail": "-2(8)",
+                    "detail": "-2(8)",
+                    "position": {
+                      "displayName": "T1"
+                    },
+                    "type": {
+                      "state": "in",
+                      "name": "STATUS_IN_PROGRESS",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-6"
+                  }
+                },
+                {
+                  "id": "4982182",
+                  "sortOrder": 2,
+                  "athlete": {
+                    "displayName": "Jackson Suber"
+                  },
+                  "status": {
+                    "period": 2,
+                    "teeTime": "2026-10-30T13:27Z",
+                    "thru": 11,
+                    "todayDetail": "-3(11)",
+                    "detail": "-3(11)",
+                    "position": {
+                      "displayName": "T1"
+                    },
+                    "type": {
+                      "state": "in",
+                      "name": "STATUS_IN_PROGRESS",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-5"
+                  }
+                },
+                {
+                  "id": "5075548",
+                  "sortOrder": 5,
+                  "athlete": {
+                    "displayName": "Kensei Hirata"
+                  },
+                  "status": {
+                    "period": 2,
+                    "teeTime": "2026-10-30T19:13Z",
+                    "thru": 0,
+                    "detail": "3:13 PM ET",
+                    "position": {
+                      "displayName": "T1"
+                    },
+                    "type": {
+                      "state": "pre",
+                      "name": "STATUS_SCHEDULED",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-8"
+                  }
+                },
+                {
+                  "id": "5076011",
+                  "sortOrder": 4,
+                  "athlete": {
+                    "displayName": "Adrien Dumont de Chassart"
+                  },
+                  "status": {
+                    "period": 2,
+                    "teeTime": "2026-10-30T14:33Z",
+                    "thru": 6,
+                    "todayDetail": "-1(6)",
+                    "detail": "-1(6)",
+                    "position": {
+                      "displayName": "T1"
+                    },
+                    "type": {
+                      "state": "in",
+                      "name": "STATUS_IN_PROGRESS",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-7"
+                  }
+                },
+                {
+                  "id": "6931",
+                  "sortOrder": 1,
+                  "athlete": {
+                    "displayName": "Mackenzie Hughes"
+                  },
+                  "status": {
+                    "period": 2,
+                    "teeTime": "2026-10-30T13:16Z",
+                    "thru": 12,
+                    "todayDetail": "-2(12)",
+                    "detail": "-2(12)",
+                    "position": {
+                      "displayName": "T1"
+                    },
+                    "type": {
+                      "state": "in",
+                      "name": "STATUS_IN_PROGRESS",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-6"
+                  }
+                },
+                {
+                  "id": "9525",
+                  "sortOrder": 6,
+                  "athlete": {
+                    "displayName": "Brian Campbell"
+                  },
+                  "status": {
+                    "period": 2,
+                    "teeTime": "2026-10-30T13:38Z",
+                    "thru": 10,
+                    "todayDetail": "-3(10)",
+                    "detail": "-3(10)",
+                    "position": {
+                      "displayName": "T6"
+                    },
+                    "type": {
+                      "state": "in",
+                      "name": "STATUS_IN_PROGRESS",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-4"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "between_rounds": {
+      "events": [
+        {
+          "id": "401835174",
+          "status": {
+            "type": {
+              "state": "in",
+              "name": "STATUS_IN_PROGRESS",
+              "completed": false
+            }
+          },
+          "competitions": [
+            {
+              "status": {
+                "period": 2,
+                "type": {
+                  "state": "post",
+                  "name": "STATUS_PLAY_COMPLETE"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4396037",
+                  "sortOrder": 4,
+                  "athlete": {
+                    "displayName": "A Lim Kim"
+                  },
+                  "status": {
+                    "period": 3,
+                    "teeTime": "2026-10-31T01:16Z",
+                    "thru": 0,
+                    "detail": "9:16 PM ET",
+                    "position": {
+                      "displayName": "4"
+                    },
+                    "type": {
+                      "state": "pre",
+                      "name": "STATUS_SCHEDULED",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-10"
+                  }
+                },
+                {
+                  "id": "4567744",
+                  "sortOrder": 3,
+                  "athlete": {
+                    "displayName": "Pauline Roussin-Bouchard"
+                  },
+                  "status": {
+                    "period": 3,
+                    "teeTime": "2026-10-31T01:27Z",
+                    "thru": 0,
+                    "detail": "9:27 PM ET",
+                    "position": {
+                      "displayName": "T2"
+                    },
+                    "type": {
+                      "state": "pre",
+                      "name": "STATUS_SCHEDULED",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-11"
+                  }
+                },
+                {
+                  "id": "4708901",
+                  "sortOrder": 5,
+                  "athlete": {
+                    "displayName": "Maja Stark"
+                  },
+                  "status": {
+                    "period": 3,
+                    "teeTime": "2026-10-31T01:16Z",
+                    "thru": 0,
+                    "detail": "9:16 PM ET",
+                    "position": {
+                      "displayName": "T5"
+                    },
+                    "type": {
+                      "state": "pre",
+                      "name": "STATUS_SCHEDULED",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-9"
+                  }
+                },
+                {
+                  "id": "4939784",
+                  "sortOrder": 1,
+                  "athlete": {
+                    "displayName": "Miyu Yamashita"
+                  },
+                  "status": {
+                    "period": 3,
+                    "teeTime": "2026-10-31T01:27Z",
+                    "thru": 0,
+                    "detail": "9:27 PM ET",
+                    "position": {
+                      "displayName": "1"
+                    },
+                    "type": {
+                      "state": "pre",
+                      "name": "STATUS_SCHEDULED",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-13"
+                  }
+                },
+                {
+                  "id": "5157244",
+                  "sortOrder": 2,
+                  "athlete": {
+                    "displayName": "Julia López Ramirez"
+                  },
+                  "status": {
+                    "period": 3,
+                    "teeTime": "2026-10-31T01:27Z",
+                    "thru": 0,
+                    "detail": "9:27 PM ET",
+                    "position": {
+                      "displayName": "T2"
+                    },
+                    "type": {
+                      "state": "pre",
+                      "name": "STATUS_SCHEDULED",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-11"
+                  }
+                },
+                {
+                  "id": "8807",
+                  "sortOrder": 6,
+                  "athlete": {
+                    "displayName": "Amy Yang"
+                  },
+                  "status": {
+                    "period": 3,
+                    "teeTime": "2026-10-31T01:16Z",
+                    "thru": 0,
+                    "detail": "9:16 PM ET",
+                    "position": {
+                      "displayName": "T5"
+                    },
+                    "type": {
+                      "state": "pre",
+                      "name": "STATUS_SCHEDULED",
+                      "completed": false
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-9"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "final": {
+      "events": [
+        {
+          "id": "401835149",
+          "status": {
+            "type": {
+              "state": "post",
+              "name": "STATUS_FINAL",
+              "completed": true
+            }
+          },
+          "competitions": [
+            {
+              "status": {
+                "period": 4,
+                "type": {
+                  "state": "post",
+                  "name": "STATUS_FINAL"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4346591",
+                  "sortOrder": 3,
+                  "athlete": {
+                    "displayName": "Patty Tavatanakit"
+                  },
+                  "status": {
+                    "period": 4,
+                    "teeTime": "2026-04-26T16:08Z",
+                    "thru": 18,
+                    "detail": "-2(F)",
+                    "position": {
+                      "displayName": "T2"
+                    },
+                    "type": {
+                      "state": "post",
+                      "name": "STATUS_FINISH",
+                      "completed": true
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-13"
+                  }
+                },
+                {
+                  "id": "4592235",
+                  "sortOrder": 2,
+                  "athlete": {
+                    "displayName": "Ruoning Yin"
+                  },
+                  "status": {
+                    "period": 4,
+                    "teeTime": "2026-04-26T16:08Z",
+                    "thru": 18,
+                    "detail": "-3(F)",
+                    "position": {
+                      "displayName": "T2"
+                    },
+                    "type": {
+                      "state": "post",
+                      "name": "STATUS_FINISH",
+                      "completed": true
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-13"
+                  }
+                },
+                {
+                  "id": "5259423",
+                  "sortOrder": 5,
+                  "athlete": {
+                    "displayName": "Ina Yoon"
+                  },
+                  "status": {
+                    "period": 4,
+                    "teeTime": "2026-04-26T15:57Z",
+                    "thru": 18,
+                    "detail": "-4(F)",
+                    "position": {
+                      "displayName": "T4"
+                    },
+                    "type": {
+                      "state": "post",
+                      "name": "STATUS_FINISH",
+                      "completed": true
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-12"
+                  }
+                },
+                {
+                  "id": "7913",
+                  "sortOrder": 6,
+                  "athlete": {
+                    "displayName": "Hyo Joo Kim"
+                  },
+                  "status": {
+                    "period": 4,
+                    "teeTime": "2026-04-26T15:13Z",
+                    "thru": 18,
+                    "detail": "-3(F)",
+                    "position": {
+                      "displayName": "6"
+                    },
+                    "type": {
+                      "state": "post",
+                      "name": "STATUS_FINISH",
+                      "completed": true
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-7"
+                  }
+                },
+                {
+                  "id": "8898",
+                  "sortOrder": 4,
+                  "athlete": {
+                    "displayName": "Yan Liu"
+                  },
+                  "status": {
+                    "period": 4,
+                    "teeTime": "2026-04-26T15:46Z",
+                    "thru": 18,
+                    "detail": "-5(F)",
+                    "position": {
+                      "displayName": "T4"
+                    },
+                    "type": {
+                      "state": "post",
+                      "name": "STATUS_FINISH",
+                      "completed": true
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-12"
+                  }
+                },
+                {
+                  "id": "9012",
+                  "sortOrder": 1,
+                  "athlete": {
+                    "displayName": "Nelly Korda"
+                  },
+                  "status": {
+                    "period": 4,
+                    "teeTime": "2026-04-26T16:08Z",
+                    "thru": 18,
+                    "detail": "-2(F)",
+                    "position": {
+                      "displayName": "1"
+                    },
+                    "type": {
+                      "state": "post",
+                      "name": "STATUS_FINISH",
+                      "completed": true
+                    }
+                  },
+                  "score": {
+                    "displayValue": "-18"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

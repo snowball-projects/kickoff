@@ -1,7 +1,8 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { firstOfMonth, formatLongDate, monthTitle } from "./date-utils";
 import { dayAfter, monthRows } from "./month-feed-state";
-import { leagueGroups, leagueVisual } from "./calendar-helpers";
+import { pillGroups, leagueVisual } from "./calendar-helpers";
+import { isGolf } from "./golf";
 import EventPill from "./EventPill";
 import type { CalendarResponse, EventCard } from "./types";
 
@@ -86,7 +87,7 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
       {dates.map((date, column) => {
         if (!date) return <div role="gridcell" className="empty-day" key={column} />;
         const items = months[firstOfMonth(date)]?.groups.find((group) => group.date === date)?.items || [];
-        const groups = leagueGroups(items);
+        const groups = pillGroups(items);
         return <div className="day-cell" role="gridcell" id={`day-${date}`} key={date}
           onClick={(event) => { if (!(event.target as HTMLElement).closest("button")) onOpenDay(date); }}>
           <span className="month-abbreviation">{date.endsWith("-01") ? monthTitle(date).slice(0, 3) : ""}</span>
@@ -94,11 +95,11 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
             aria-current={date === today ? "date" : undefined} onClick={() => onOpenDay(date)}
             onKeyDown={(event) => { if (move(date, event.key)) event.preventDefault(); }}>{Number(date.slice(-2))}</button>
           <div className="cell-pills">
-            {groups.slice(0, limit).map((group) => <EventPill key={group.league} items={group.items}
-              aria-label={`${leagueVisual(group.league).shortLabel}, ${group.items.length} events, ${formatLongDate(date)}`}
+            {groups.slice(0, limit).map((group) => <EventPill key={group.items[0].event_id} items={group.items}
+              aria-label={`${isGolf(group.items[0]) ? group.items[0].title : `${leagueVisual(group.league).shortLabel}, ${group.items.length} events`}, ${formatLongDate(date)}`}
               onClick={() => onEvents(group.items, date)} />)}
           </div>
-          {groups.length > limit && <button className="more-events" aria-label={`${groups.length - limit} more leagues, ${formatLongDate(date)}`}
+          {groups.length > limit && <button className="more-events" aria-label={`${groups.length - limit} more event groups, ${formatLongDate(date)}`}
             onClick={() => onOpenDay(date)}>+{groups.length - limit}</button>}
         </div>;
       })}

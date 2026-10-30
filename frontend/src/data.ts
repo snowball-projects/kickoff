@@ -1,4 +1,5 @@
 import { matchesInterestOptions } from "./interest-preferences";
+import { golfRound, isGolf } from "./golf";
 import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
 import type {
   CalendarResponse,
@@ -322,8 +323,10 @@ export async function getCalendar(
     // Date-only multi-day tournaments occupy every inclusive date. A timed
     // one-day event uses its display-zone date, not the provider's venue date.
     for (const day of grouped.keys())
-      if (day >= date && day <= (end || date))
-        grouped.get(day)?.push({ ...eventCard(event), start_calendar_date: date, calendar_date: day, end_calendar_date: end });
+      if (day >= date && day <= (end || date)) {
+        const card = { ...eventCard(event), start_calendar_date: date, calendar_date: day, end_calendar_date: end };
+        grouped.get(day)?.push(isGolf(event) ? golfRound(card, day, date) : card);
+      }
   }
   const groups = [...grouped.entries()].map(([date, items]) => ({
     date,

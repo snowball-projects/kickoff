@@ -21,7 +21,7 @@ export default function DayTimeline({ date, timezone, items, loading, error, onE
     {loading && <p className="loading-note" role="status">Loading schedule…</p>}
     <div className="all-day-strip" aria-label="All-day events">
       <span className="all-day-label">all-day</span>
-      <div>{allDay.map((group) => <EventPill key={group.league} items={group.items} onClick={() => onEvents(group.items, date)}>
+      <div>{allDay.map((group) => <EventPill key={group.items[0].event_id} items={group.items} onClick={() => onEvents(group.items, date)}>
         {group.items.length === 1 ? group.items[0].title : undefined}
       </EventPill>)}</div>
     </div>

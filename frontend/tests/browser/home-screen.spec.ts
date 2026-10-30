@@ -3,7 +3,7 @@ import { expect, test } from "./test";
 test("the served home-screen metadata and PNG icons load without CSP errors", async ({ page, request }) => {
   await page.goto("/");
   await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveAttribute("content",
-    "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'");
+    "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https://site.web.api.espn.com; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'");
   await expect(page.locator('meta[name="apple-mobile-web-app-title"]')).toHaveAttribute("content", "kickoff");
   await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute("content", "yes");
   const manifestUrl = await page.locator('link[rel="manifest"]').evaluate((element: HTMLLinkElement) => element.href);
