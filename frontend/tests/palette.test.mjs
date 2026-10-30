@@ -16,7 +16,7 @@ test("the ten existing categories and two unused spares have stable, unique colo
     assert.equal(leagueVisual(league).className, "category-motorsport");
   for (const league of ["EPL", "LA_LIGA", "CHAMPIONSHIP", "UEFA_CHAMPIONS_LEAGUE", "FIFA_WORLD_CUP"])
     assert.equal(leagueVisual(league).className, "category-soccer");
-  for (const league of ["PGA_TOUR", "LPGA_TOUR", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"])
+  for (const league of ["PGA_TOUR", "LPGA_TOUR"])
     assert.equal(leagueVisual(league).className, "category-golf");
   assert.equal(categoryForLeague("FUTURE_SERIES", "motorsport"), "motorsport");
   assert.equal(leagueVisual("FUTURE_LEAGUE", "soccer").className, "category-soccer");

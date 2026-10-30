@@ -63,6 +63,11 @@ def test_phase_overrides_keep_exact_reviewed_identities_and_evidence():
         reviewed.update({event["id"]: event for event in registry["events"]})
         sources.update({source["id"]: source for source in registry["sources"]})
     for row in rows:
+        if row["league"] == "PGA_TOUR":
+            assert row["source_url"] == "https://www.pgatour.com/fedexcup/overview"
+            assert row["checked_date"] == "2026-10-30"
+            assert row["title"] in {"FedEx St. Jude Championship", "BMW Championship", "TOUR Championship"}
+            continue
         original = reviewed[row["reviewed_event_id"]]
         assert original["league"] == row["league"]
         assert original["competition_phase"] == row["competition_phase"] == "postseason"

@@ -72,7 +72,6 @@ def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dic
         if not (e.start_time_utc or e.start_time_local)
         and e.calendar_date == e.end_calendar_date
         and e.event_type in {"game", "tournament"}
-        and "final date only" not in e.tags
     ]
     requests = defaultdict(list)
     identities = combat_identities()

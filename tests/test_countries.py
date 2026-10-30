@@ -92,7 +92,7 @@ def test_live_espn_fetchers_preserve_explicit_country_names_and_request_url(monk
         return {"events": [copy.deepcopy(row)]}
 
     monkeypatch.setattr(feeds, "get_json", get_json)
-    for league in ["UFC", "PGA_TOUR", "UEFA_CHAMPIONS_LEAGUE"]:
+    for league in ["UFC", "PGA_TOUR", "LPGA_TOUR", "UEFA_CHAMPIONS_LEAGUE"]:
         (event,) = feeds.FEEDS[league][1](2026)
         assert event.country == expected
         assert event.country_source_url == urls[-1]
@@ -122,10 +122,6 @@ def test_reviewed_countries_retain_pinned_sources_and_leave_unstated_locations_e
         "PFL": 16,
         "ONE": 16,
         "RIZIN": 9,
-        "PGA_TOUR": 9,
-        "LPGA_TOUR": 26,
-        "GOLF_MAJORS_MEN": 4,
-        "GOLF_MAJORS_WOMEN": 5,
     }
     receipts = {source["url"]: source for source in sources}
     for event in known:
@@ -137,57 +133,6 @@ def test_reviewed_countries_retain_pinned_sources_and_leave_unstated_locations_e
     assert by_id["rizin-2026-new-years-eve"].country == "JP"
     assert by_id["pfl-2026-global-05"].country == "GB"
     assert by_id["boxing-navarrete-foster-1"].country is None  # source names San Antonio, no country
-    assert next(e for e in scoped if e.title == "Hilton Grand Vacations Tournament of Champions").country == "US"
-    assert next(e for e in scoped if e.title == "The Players Championship").country == "US"  # explicit P17=Q30
-
-
-def test_exactly_the_sixteen_lpga_us_state_locations_have_us_country():
-    expected = {
-        "hilton-grand-vacations-tournament-of-champions",
-        "fortinet-founders-cup",
-        "ford-championship",
-        "aramco-championship",
-        "jm-eagle-la-championship",
-        "mizuho-americas-open",
-        "kroger-queen-city-championship",
-        "shoprite-lpga-classic",
-        "dow-championship",
-        "meijer-lpga-classic",
-        "standard-portland-classic",
-        "fm-championship",
-        "walmart-nw-arkansas-championship",
-        "lotte-championship",
-        "the-annika",
-        "cme-group-tour-championship",
-    }
-    payload = json.loads((ROOT / "data/reviewed/2026-golf.json").read_text())
-    source = next(source for source in payload["sources"] if source["id"] == "wikipedia-2026-golf-lpga-tour")
-    assert source["revision"] == "1372529225"
-    assert source["sha256"] == "dfa131764846ffa80430cd4b8cb67c8532506d6078ea01e5c32432f611efe2ca"
-    assert source["license"] == "CC BY-SA 4.0"
-    events = reviewed_events(payload, 2026)[0]
-    lpga = [event for event in events if event.league == "LPGA_TOUR"]
-    us = [event for event in lpga if event.country == "US"]
-    assert {event.event_id.removeprefix("wikipedia-golf-2026-lpga-tour-") for event in us} == expected
-    assert len(lpga) == 26 and all(event.country for event in lpga)
-    for event in us:
-        public = _event_payload(event)
-        assert public["country"] == "US"
-        assert public["country_source_url"] == source["url"]
-        assert public["country_checked_date"] == source["country_checked_date"] == "2026-10-29"
-    # Existing international LPGA countries and reviewed PGA gaps stay intact.
-    assert {event.country for event in lpga if event not in us} == {
-        "TH",
-        "SG",
-        "CN",
-        "MX",
-        "GB",
-        "CA",
-        "KR",
-        "MY",
-        "JP",
-    }
-    assert sum(event.country is None for event in events if event.league == "PGA_TOUR") == 32
 
 
 @pytest.mark.parametrize(
@@ -199,7 +144,7 @@ def test_exactly_the_sixteen_lpga_us_state_locations_have_us_country():
     ],
 )
 def test_reviewed_country_requires_a_valid_value_and_its_own_source_date(fields):
-    payload = json.loads((ROOT / "data/reviewed/2026-golf.json").read_text())
+    payload = json.loads((ROOT / "data/reviewed/2026-combat-iwf.json").read_text())
     payload["events"][0].update(fields)
     with pytest.raises(ValueError):
         reviewed_events(payload, 2026)

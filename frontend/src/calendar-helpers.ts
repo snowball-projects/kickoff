@@ -1,7 +1,7 @@
 import { commonHostCountry } from "./countries";
 import { eventInstant } from "./date-utils";
 import type { EventCard, EventDetail } from "./types";
-import { golfMajor, interestLeagues, type LeagueInterest } from "./interest-preferences";
+import { golfMajor, type LeagueInterest } from "./interest-preferences";
 
 const LEAGUE_META: Record<
   string,
@@ -35,8 +35,6 @@ const LEAGUE_META: Record<
   WEIGHTLIFTING_COMMONWEALTH_GAMES: { shortLabel: "Commonwealth Games" },
   WEIGHTLIFTING_ASIAN_GAMES: { shortLabel: "Asian Games" },
   WEIGHTLIFTING_PAN_AM_GAMES: { shortLabel: "Pan Am Games" },
-  GOLF_MAJORS_MEN: { shortLabel: "Golf · men's majors" },
-  GOLF_MAJORS_WOMEN: { shortLabel: "Golf · women's majors" },
   NFL: { shortLabel: "NFL" },
   NBA: { shortLabel: "NBA" },
   MLB: { shortLabel: "MLB" },
@@ -134,7 +132,7 @@ export function interestChoices(group: { name: string; leagues: string[] }) {
 }
 
 export function interestGroups(leagues: LeagueInterest[]) {
-  const available = new Map(interestLeagues(leagues).map((league) => [league.value, league]));
+  const available = new Map(leagues.map((league) => [league.value, league]));
   const groups = SPORT_GROUPS.map((group) => ({
     name: group.name,
     leagues: group.leagues.filter((league) => available.delete(league)),
@@ -176,7 +174,6 @@ const SPORT_CATEGORIES: Record<string, CategoryKey> = {
 export function categoryForLeague(league: string, sport?: string): CategoryKey | null {
   const group = SPORT_GROUPS.find((group) => group.leagues.includes(league));
   if (group) return CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS];
-  if (["GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"].includes(league)) return "golf";
   return SPORT_CATEGORIES[sport?.toLowerCase() || ""] || null;
 }
 
@@ -193,7 +190,7 @@ export function leagueVisual(league: string, sport?: string) {
 
 // One order for every view. A final/playoff takes precedence over regular play.
 const TIERS = [
-  ["FIFA_WORLD_CUP", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN", "UEFA_CHAMPIONS_LEAGUE"],
+  ["FIFA_WORLD_CUP", "PGA_MAJOR", "LPGA_MAJOR", "UEFA_CHAMPIONS_LEAGUE"],
   ["NFL", "NBA", "F1", "EPL"],
   ["MLB", "NHL", "UFC", "BOXING_MAJOR"],
   ["LA_LIGA", "BUNDESLIGA", "SERIE_A", "LIGUE_1"],
@@ -208,7 +205,7 @@ const TIERS = [
 const RANKS = new Map(TIERS.flatMap((tier, index) => tier.map((league, order) => [league, index * 100 + order] as const)));
 function eventRank(event: EventCard) {
   const league = golfMajor(event as EventDetail)
-    ? event.league === "GOLF_MAJORS_WOMEN" ? "GOLF_MAJORS_WOMEN" : "GOLF_MAJORS_MEN" : event.league;
+    ? event.league === "LPGA_TOUR" ? "LPGA_MAJOR" : "PGA_MAJOR" : event.league;
   return RANKS.get(league) ?? 899;
 }
 const POSTSEASON_PHASES = new Set(["postseason", "knockout", "final", "championship"]);

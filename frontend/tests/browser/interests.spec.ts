@@ -2,9 +2,9 @@ import { expect, test } from "./test";
 import { agendaToggle, chooser, event, setup } from "./fixtures";
 const events = [
   event("PGA stop", undefined, { league: "PGA_TOUR", sport: "golf" }),
-  event("Masters Tournament", undefined, { league: "PGA_TOUR", sport: "golf" }),
+  event("Masters Tournament", undefined, { league: "PGA_TOUR", sport: "golf", competition_phase: "championship" }),
   event("LPGA stop", undefined, { league: "LPGA_TOUR", sport: "golf" }),
-  event("Women's major", undefined, { league: "GOLF_MAJORS_WOMEN", sport: "golf" }),
+  event("Women's major", undefined, { league: "LPGA_TOUR", sport: "golf", competition_phase: "championship" }),
   event("Race", undefined, { league: "F1", sport: "motorsport", event_type: "race" }),
   event("Practice", undefined, { league: "F1", sport: "motorsport", event_type: "practice" }),
   event("Men Lead", undefined, { league: "IFSC_WORLD_CUP", sport: "climbing", tags: ["Men", "Lead"] }),

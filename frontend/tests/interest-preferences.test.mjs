@@ -16,15 +16,15 @@ test("current preferences preserve empty selections and all current options", as
   assert.equal(readPreferences(storage({ [INTERESTS_KEY]: "broken" })).leagues, null);
 });
 
-test("golf interests expose only tours even when a year publishes only majors", async () => {
+test("golf interests expose the two ESPN tours", async () => {
   const { interestGroups, leagueVisual } = await loadModule("calendar-helpers");
-  assert.deepEqual(interestGroups(["GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN", "LPGA_TOUR"]
+  assert.deepEqual(interestGroups(["PGA_TOUR", "LPGA_TOUR"]
     .map((value) => ({ value }))), [{ name: "Golf", leagues: ["PGA_TOUR", "LPGA_TOUR"] }]);
   assert.equal(leagueVisual("BOXING_MAJOR").shortLabel, "Boxing");
   assert.equal(leagueVisual("ONE").shortLabel, "One");
 });
 
-test("golf calendar modes suppress duplicate majors and football leakage", async () => {
+test("ESPN golf calendar filters majors on both tours without football leakage", async () => {
   const bundle = reviewedBundle();
   const original = globalThis.fetch;
   try {
@@ -56,13 +56,13 @@ test("retired boxing choices never hide reviewed bouts, while other saved option
   }
 });
 
-test("duplicate suppression needs a matching identity and full span and retains source objects", async () => {
-  const { uniqueGolfEvents } = await loadModule("interest-preferences");
-  const reviewed = { league: "GOLF_MAJORS_MEN", title: "Open Championship", calendar_date: "2026-07-16", end_calendar_date: "2026-07-19" };
-  const fed = { ...reviewed, league: "PGA_TOUR", title: "The Open" };
-  assert.deepEqual(uniqueGolfEvents([reviewed, fed]), [fed]);
-  assert.deepEqual(uniqueGolfEvents([reviewed]), [reviewed]);
-  assert.equal(uniqueGolfEvents([reviewed, { ...fed, end_calendar_date: "2026-07-18" }]).length, 2);
+test("majors only uses the collector classification for both tours", async () => {
+  const { matchesInterestOptions } = await loadModule("interest-preferences");
+  for (const league of ["PGA_TOUR", "LPGA_TOUR"]) {
+    const filters = { ...empty, followed_leagues: [league], golf_views: { [league]: "majors_only" } };
+    assert.equal(matchesInterestOptions({ league, competition_phase: "championship" }, filters), true);
+    assert.equal(matchesInterestOptions({ league, title: "Open", competition_phase: "regular_season" }, filters), false);
+  }
 });
 
 test("session options default to all without changing existing competition selections", async () => {

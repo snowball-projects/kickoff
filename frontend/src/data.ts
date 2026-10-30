@@ -1,4 +1,4 @@
-import { matchesInterestOptions, uniqueGolfEvents } from "./interest-preferences";
+import { matchesInterestOptions } from "./interest-preferences";
 import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
 import type {
   CalendarResponse,
@@ -276,9 +276,7 @@ export async function getFilters(
   throwIfAborted(signal);
   const bundle = await loadBundle(season);
   throwIfAborted(signal);
-  const events = uniqueGolfEvents(bundle.events.filter((event) =>
-    matchesFilters(event, filters),
-  ));
+  const events = bundle.events.filter((event) => matchesFilters(event, filters));
   const leagueSports = new Map(events.map((event) => [event.league, event.sport]));
   return {
     season,
@@ -317,7 +315,7 @@ export async function getCalendar(
     datesBetween(startDate, endDate).map((date) => [date, [] as EventCard[]]),
   );
   for (const event of sortedEvents(
-    uniqueGolfEvents(events.filter((item) => matchesFilters(item, filters))),
+    events.filter((item) => matchesFilters(item, filters)),
   )) {
     const { start: date, end } = eventDateSpan(event, displayTimezone);
     if (!date) continue;

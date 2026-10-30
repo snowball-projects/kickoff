@@ -97,10 +97,6 @@ REVIEWED_LABELS = {
     "RIZIN": "RIZIN cards",
     "ONE": "ONE Fight Night/Samurai cards",
     "BOXING_MAJOR": "selected boxing unification",
-    "GOLF_MAJORS_MEN": "men's golf majors",
-    "GOLF_MAJORS_WOMEN": "women's golf majors",
-    "PGA_TOUR": "selected PGA Tour tournaments (mostly final dates only)",
-    "LPGA_TOUR": "selected LPGA Tour final dates",
     "NFL": "selected NFL opener, international and holiday games (not the full schedule)",
 }
 FEED_LABELS = {
@@ -110,6 +106,7 @@ FEED_LABELS = {
     "NHL": "NHL",
     "UEFA_CHAMPIONS_LEAGUE": "UEFA Champions League",
     "PGA_TOUR": "PGA Tour",
+    "LPGA_TOUR": "LPGA Tour",
     "UFC": "UFC",
     "NASCAR_CUP": "NASCAR Cup",
     "INDYCAR": "IndyCar",
@@ -497,7 +494,6 @@ def refresh_open_schedules(
         "openfootball": "CC0 1.0",
         "f1db": "CC BY 4.0",
         "wikipedia": "CC BY-SA 4.0",
-        "wikidata": "CC0 1.0",
         **({"world_climbing": CLIMBING_LICENSE} if any(s["kind"] == "world_climbing" for s in notices) else {}),
         **({"weightlifting": WEIGHTLIFTING_LICENSE} if any(s["kind"] == "weightlifting" for s in notices) else {}),
         **{kind: league_feeds.SOURCES[kind]["license"] for kind in feed_kinds},
@@ -511,7 +507,7 @@ def refresh_open_schedules(
         "Separately attributed start times retain their time source's terms, rather than the original schedule's license."
     )
     components = {}
-    for kind in ("wikipedia", "wikidata"):
+    for kind in ("wikipedia",):
         selected = [event for event in bundle["events"] if event["source"] == kind]
         if not selected:
             continue

@@ -16,7 +16,6 @@ from kickoff.validation import validate_batch
 
 LICENSES = {
     "en.wikipedia.org": ("wikipedia", "CC BY-SA 4.0", "https://creativecommons.org/licenses/by-sa/4.0/"),
-    "www.wikidata.org": ("wikidata", "CC0 1.0", "https://creativecommons.org/publicdomain/zero/1.0/"),
 }
 
 
@@ -68,8 +67,6 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         titles = parse_qs(url.query).get("title", [])
         if not official and (url.path != "/w/index.php" or len(titles) != 1):
             raise ValueError("Registry source needs a pinned article or entity URL")
-        if kind == "wikidata" and not re.fullmatch(r"Q[1-9][0-9]*", titles[0]):
-            raise ValueError("Only structured Wikidata items carry the reviewed CC0 grant")
         if kind == "wikipedia" and titles[0].split(":", 1)[0].lower() in {
             "wikipedia",
             "file",
@@ -105,9 +102,6 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         start, end = date.fromisoformat(row["start_date"]), date.fromisoformat(row["end_date"])
         if end < start or (end - start).days > 31:
             raise ValueError("Invalid reviewed event span")
-        date_scope = row.get("date_scope", "span")
-        if date_scope not in {"span", "final_date"} or (date_scope == "final_date" and start != end):
-            raise ValueError("Invalid reviewed date scope")
         if any(row.get(key) for key in ("start_time_utc", "start_time_local", "timezone")):
             raise ValueError("Reviewed date registry cannot establish a clock time")
         disciplines = row.get("disciplines", [])
@@ -215,14 +209,9 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 calendar_date=start.isoformat(),
                 end_calendar_date=end.isoformat(),
                 source_url=source["url"],
-                **classification_fields(
-                    "championship" if row["league"] in {"IWF_WORLDS", "GOLF_MAJORS_MEN", "GOLF_MAJORS_WOMEN"} else phase
-                ),
+                **classification_fields("championship" if row["league"] == "IWF_WORLDS" else phase),
                 round_or_stage=row.get("round_or_stage"),
-                tags=(["session"] if row["event_type"] == "session" else ["event dates"])
-                + disciplines
-                + gender_tags
-                + (["final date only"] if date_scope == "final_date" else []),
+                tags=(["session"] if row["event_type"] == "session" else ["event dates"]) + disciplines + gender_tags,
             )
         )
     errors = validate_batch(events)

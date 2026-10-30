@@ -21,23 +21,15 @@ Wikipedia contributors — selected sports schedules; CC BY-SA 4.0.
 https://creativecommons.org/licenses/by-sa/4.0/
 https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use#7._Licensing_of_Content
 Changes: selected reviewed date-only events, normalized inclusive date spans,
-simplified labels and venues, classified competition phases, explicitly marked
-golf final-date-only records where opening dates were unavailable; omitted article
+simplified labels and venues, classified competition phases; omitted article
 prose, images, results and unverified clocks. Adaptations remain CC BY-SA 4.0,
 including their records in the combined calendar. Per-page contributor credits,
 pinned revision links, hashes, retrieval dates and detailed changes accompany
 all rows in the public bundle and the separately downloadable component.
 Preserve applicable attribution and share-alike obligations on redistribution.
 
-Wikidata contributors: reviewed golf championship dates; CC0 1.0.
-https://www.wikidata.org/wiki/Wikidata:Licensing
-https://creativecommons.org/publicdomain/zero/1.0/
-Changes: selected day-precision start/end claims and retained inclusive dates;
-no timestamp, lifting-session or tee-time details inferred. Revision/hash/source receipts
-travel with the CC0 component. This notice does not apply CC0 to Wikidata prose.
-
 ESPN, the MLB Stats API and the NHL schedule API — league schedules (NFL,
-NBA, MLB, NHL, UEFA Champions League, PGA Tour, UFC, NASCAR Cup, IndyCar).
+NBA, MLB, NHL, UEFA Champions League, PGA Tour, LPGA Tour, UFC, NASCAR Cup, IndyCar).
 https://www.espn.com/  https://statsapi.mlb.com/  https://www.nhl.com/schedule
 These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues), attributes each event to

@@ -39,7 +39,6 @@ test("agenda uses the calendar's timezone, span and filter semantics; unknown cl
     assert.deepEqual(groups[0].items.map((event) => event.event_id), ["date-only", "span", "unverified"]);
     assert.deepEqual(groups[1].items.map((event) => event.event_id), ["early", "late", "span"]);
     assert.equal(agendaScopeLabel(groups[0].items[1], "2026-12-31"), "Through Jan 2");
-    assert.equal(agendaScopeLabel({ ...base, tags: ["final date only"] }, "2026-12-31"), "Final date only");
     assert.equal(agendaScopeLabel({ ...base, end_calendar_date: "2026-12-31" }, "2026-12-31"), "");
     assert.deepEqual(agendaGroups({}, ["2026-12-31"]), [{ date: "2026-12-31", items: [] }]);
   } finally { globalThis.fetch = original; }

@@ -20,19 +20,7 @@ export function defaultPreferences(): InterestPreferences {
     climbing: { genders: [...GENDERS], disciplines: [...CLIMBING_DISCIPLINES] },
     weightlifting: { genders: [...GENDERS] } };
 }
-export function interestLeague(league: string) {
-  return league === "GOLF_MAJORS_MEN" ? "PGA_TOUR"
-    : league === "GOLF_MAJORS_WOMEN" ? "LPGA_TOUR" : league;
-}
 export type LeagueInterest = { value: string; sport?: string };
-export function interestLeagues(leagues: LeagueInterest[]) {
-  const choices = new Map<string, LeagueInterest>();
-  for (const league of leagues) {
-    const value = interestLeague(league.value);
-    choices.set(value, { ...choices.get(value), value, ...(league.sport ? { sport: league.sport } : {}) });
-  }
-  return [...choices.values()];
-}
 function stringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
@@ -62,15 +50,8 @@ export function readPreferences(storage: Pick<Storage, "getItem">): InterestPref
   return defaultPreferences();
 }
 
-// Exact tournament identities, not a substring match for any event called “Open”.
-const MEN_MAJORS: Record<string, string> = {
-  "Masters Tournament": "masters", "PGA Championship": "pga",
-  "U.S. Open": "us-open", "Open Championship": "open", "The Open": "open",
-};
-export function golfMajor(event: EventDetail) {
-  if (event.league === "GOLF_MAJORS_WOMEN") return event.event_id;
-  if (["PGA_TOUR", "GOLF_MAJORS_MEN"].includes(event.league)) return MEN_MAJORS[event.title] || null;
-  return null;
+export function golfMajor(event: Pick<EventDetail, "league" | "competition_phase">) {
+  return GOLF_TOURS.some((tour) => tour === event.league) && event.competition_phase === "championship";
 }
 // Combined sessions match any selected value. An unrecorded facet cannot
 // exclude a record, unless the whole facet is explicitly deselected.
@@ -79,9 +60,8 @@ function matchesSessionFacet(tags: string[], available: readonly string[], selec
     || selected.some((value) => tags.includes(value)));
 }
 export function matchesInterestOptions(event: EventDetail, filters: FilterState) {
-  const tour = interestLeague(event.league);
-  if (filters.followed_leagues && !filters.followed_leagues.includes(tour)
-    && !filters.followed_leagues.includes(event.league)) return false;
+  const tour = event.league;
+  if (filters.followed_leagues && !filters.followed_leagues.includes(tour)) return false;
   if ((tour === "PGA_TOUR" || tour === "LPGA_TOUR") && filters.golf_views?.[tour] === "majors_only"
     && !golfMajor(event)) return false;
   if (event.sport === "climbing" || event.sport === "weightlifting") {
@@ -91,13 +71,4 @@ export function matchesInterestOptions(event: EventDetail, filters: FilterState)
       && !matchesSessionFacet(event.tags, CLIMBING_DISCIPLINES, filters.climbing?.disciplines)) return false;
   }
   return true;
-}
-
-// Keep source records and attribution intact. Suppress a reviewed men's major
-// only when the selected ESPN record describes the same tournament and span.
-export function uniqueGolfEvents(events: EventDetail[]) {
-  const fedMajors = new Set(events.filter((event) => event.league === "PGA_TOUR" && golfMajor(event))
-    .map((event) => `${golfMajor(event)}:${event.calendar_date}:${event.end_calendar_date}`));
-  return events.filter((event) => event.league !== "GOLF_MAJORS_MEN"
-    || !fedMajors.has(`${golfMajor(event)}:${event.calendar_date}:${event.end_calendar_date}`));
 }
