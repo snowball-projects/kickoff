@@ -3,7 +3,8 @@
   "license": "No data license granted; factual schedule information with attribution",
   "sources": {
     "pga": "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard?dates=2026&limit=500",
-    "lpga": "https://site.api.espn.com/apis/site/v2/sports/golf/lpga/scoreboard?dates=2026&limit=500"
+    "lpga": "https://site.api.espn.com/apis/site/v2/sports/golf/lpga/scoreboard?dates=2026&limit=500",
+    "lpga2027": "https://site.api.espn.com/apis/site/v2/sports/golf/lpga/scoreboard?dates=2027&limit=500"
   },
   "feeds": {
     "pga": {
@@ -679,6 +680,52 @@
                   "description": "Play Complete",
                   "detail": "Round 2 - Play Complete",
                   "shortDetail": "Round 2 - Play Complete"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "lpga2027": {
+      "events": [
+        {
+          "id": "401929317",
+          "date": "2027-06-03T04:00Z",
+          "endDate": "2027-06-06T04:00Z",
+          "name": "U.S. Women's Open",
+          "season": {
+            "year": 2027,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "1",
+              "name": "STATUS_SCHEDULED",
+              "state": "pre",
+              "completed": false,
+              "description": "Scheduled"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401929317"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 0,
+                "type": {
+                  "id": "1",
+                  "name": "STATUS_SCHEDULED",
+                  "state": "pre",
+                  "completed": false,
+                  "description": "Scheduled",
+                  "detail": "Thu, June 2nd at 12:00 AM EDT",
+                  "shortDetail": "6/3 - 12:00 AM EDT"
                 }
               }
             }
