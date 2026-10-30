@@ -92,3 +92,12 @@ def test_incomplete_nonempty_golf_rows_still_fail_the_refresh(monkeypatch, bad_r
     monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [bad_row]})
     with pytest.raises((KeyError, AttributeError)):
         feeds.FEEDS["LPGA_TOUR"][1](2026)
+
+
+def test_lpga_without_an_event_link_uses_the_lpga_leaderboard(monkeypatch):
+    fixture = json.loads((ROOT / "tests/fixtures/espn-golf.json").read_text())
+    row = fixture["feeds"]["lpga"]["events"][0]
+    row["links"] = []
+    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [row]})
+    (event,) = feeds.FEEDS["LPGA_TOUR"][1](2026)
+    assert event.source_url == "https://www.espn.com/golf/leaderboard/_/tour/lpga"

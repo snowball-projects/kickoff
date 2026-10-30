@@ -494,7 +494,7 @@ FEEDS: dict[str, tuple[str, Callable[[int], list[CalendarEvent]]]] = {
             "LPGA_TOUR",
             "golf",
             "tournament",
-            "https://www.espn.com/golf/scoreboard/_/league/lpga",
+            "https://www.espn.com/golf/leaderboard/_/tour/lpga",
             span=True,
         ),
     ),
