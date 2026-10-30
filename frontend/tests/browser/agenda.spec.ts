@@ -7,7 +7,6 @@ const events = [
   event("Unverified clock", "2026-12-31", { start_time_local: "2026-12-31T09:00:00" }),
   event("Tournament span", "2026-12-30", { end_calendar_date: "2027-01-02" }),
   event("Postponed fixture", "2027-01-01", { status: "postponed" }),
-  event("Final date marker", "2027-01-02", { tags: ["final date only"] }),
   event("Last day fixture", "2027-01-07"), event("Outside next week", "2027-01-08"),
   event("Later fixture", "2027-04-12"), event("Other interest", "2027-05-20", { league: "NBA", sport: "basketball" }),
 ];
@@ -33,7 +32,6 @@ for (const width of [390, 1280]) {
     await agenda.getByRole("button", { name: "Upcoming", exact: true }).click();
     await expect(agenda).toContainText("Jan 1 – Jan 7 · Next 7 days");
     await expect(agenda.locator(".agenda-row", { hasText: "Postponed fixture" })).toContainText("postponed");
-    await expect(agenda.locator(".agenda-row", { hasText: "Final date marker" })).toContainText("Final date only");
     await expect(agenda.locator(".agenda-row", { hasText: "Outside next week" })).toHaveCount(0);
     await agenda.getByRole("button", { name: "Show more", exact: true }).click();
     await expect(agenda.locator(".agenda-row", { hasText: "Later fixture" })).toHaveCount(1);

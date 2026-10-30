@@ -51,7 +51,6 @@ export function agendaGroups(months: Record<string, CalendarResponse>, dates: st
 }
 
 export function agendaScopeLabel(event: EventCard, date: string) {
-  if (event.tags.includes("final date only")) return "Final date only";
   return event.end_calendar_date && event.end_calendar_date > date
     ? `Through ${formatShortDate(event.end_calendar_date)}` : "";
 }

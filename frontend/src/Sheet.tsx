@@ -75,7 +75,6 @@ function EventDetails({ event, date, timezone }: { event: EventCard; date: strin
     {event.subtitle && <p>{event.subtitle}</p>}
     <p className="detail-time">{eventTimeLabel(event, timezone)}</p>
     <p>{formatLongDate(start)}{end && end > start && <> through {formatLongDate(end)}</>}</p>
-    {event.tags.includes("final date only") && <p>Final date only</p>}
     {location && <p>{location}</p>}
     {event.status !== "scheduled" && <p>{event.status.replaceAll("_", " ")}</p>}
     <div className="source-links">

@@ -30,6 +30,19 @@ CENTRAL_EUROPE = ZoneInfo("Europe/Paris")
 # Golf scoreboards embed full leaderboards; gzip keeps the transfer to a few MB.
 MAX_BYTES = 80_000_000
 DROPPED_STATUSES = {"STATUS_CANCELED", "STATUS_POSTPONED", "STATUS_SUSPENDED", "STATUS_FORFEIT"}
+# Exact ESPN titles checked 2026-10-30 against the PGA/LPGA season feeds.
+# LPGA majors: https://www.lpga.com/news/2026/nelly-korda-wins-2026-rolex-annika-major-award
+# An unrelated tournament named Open must never become a major.
+GOLF_MAJORS = {
+    "PGA_TOUR": {"Masters Tournament", "PGA Championship", "U.S. Open", "The Open"},
+    "LPGA_TOUR": {
+        "The Chevron Championship",
+        "U.S. Women's Open pres. by Ally",
+        "KPMG Women's PGA Championship",
+        "The Amundi Evian Championship",
+        "AIG Women's Open",
+    },
+}
 
 SOURCES = {
     "espn": {
@@ -233,6 +246,8 @@ def _phase_overrides() -> dict[str, dict]:
 
 def espn_calendar_phase(league: str, event_id: str | int, season: str, name: str) -> str:
     """Retain reviewed playoff identity where ESPN reports generic regular-season."""
+    if name in GOLF_MAJORS.get(league, set()):
+        return "championship"
     if league == "NASCAR_CUP" and re.search(r"\b(?:clash|duel|all[\s-]*star)\b", name, re.IGNORECASE):
         return "exhibition"
     override = _phase_overrides().get(f"espn-{league.lower()}-{event_id}")
@@ -249,6 +264,9 @@ def espn_season_feed(path: str, league: str, sport: str, event_type: str, fallba
         payload = get_json(url)
         events = []
         for row in rows(payload, "events"):
+            # The 2025 LPGA season contains an empty calendar placeholder.
+            if span and row == {}:
+                continue
             name = row.get("name", "")
             season = str((row.get("season") or {}).get("year") or _local_date(row["date"], EASTERN)[:4])
             phase = espn_calendar_phase(league, row["id"], season, name)
@@ -468,6 +486,17 @@ FEEDS: dict[str, tuple[str, Callable[[int], list[CalendarEvent]]]] = {
     "PGA_TOUR": (
         "espn",
         espn_season_feed("golf/pga", "PGA_TOUR", "golf", "tournament", "https://www.pgatour.com/schedule", span=True),
+    ),
+    "LPGA_TOUR": (
+        "espn",
+        espn_season_feed(
+            "golf/lpga",
+            "LPGA_TOUR",
+            "golf",
+            "tournament",
+            "https://www.espn.com/golf/scoreboard/_/league/lpga",
+            span=True,
+        ),
     ),
     "UFC": ("espn", espn_season_feed("mma/ufc", "UFC", "combat", "card", "https://www.ufc.com/events")),
     "NASCAR_CUP": (

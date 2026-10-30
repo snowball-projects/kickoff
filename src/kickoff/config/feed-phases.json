@@ -98,8 +98,8 @@
       "season": "2026",
       "title": "FedEx St. Jude Championship",
       "competition_phase": "postseason",
-      "reviewed_event_id": "wikipedia-golf-2026-pga-tour-fedex-st-jude-championship",
-      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_FedEx_Cup_Playoffs&oldid=1372634692"
+      "source_url": "https://www.pgatour.com/fedexcup/overview",
+      "checked_date": "2026-10-30"
     },
     {
       "event_id": "espn-pga_tour-401811963",
@@ -107,8 +107,8 @@
       "season": "2026",
       "title": "BMW Championship",
       "competition_phase": "postseason",
-      "reviewed_event_id": "wikipedia-golf-2026-pga-tour-bmw-championship",
-      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_FedEx_Cup_Playoffs&oldid=1372634692"
+      "source_url": "https://www.pgatour.com/fedexcup/overview",
+      "checked_date": "2026-10-30"
     },
     {
       "event_id": "espn-pga_tour-401811964",
@@ -116,8 +116,8 @@
       "season": "2026",
       "title": "TOUR Championship",
       "competition_phase": "postseason",
-      "reviewed_event_id": "wikipedia-golf-2026-pga-tour-tour-championship",
-      "source_url": "https://en.wikipedia.org/w/index.php?title=2026_FedEx_Cup_Playoffs&oldid=1372634692"
+      "source_url": "https://www.pgatour.com/fedexcup/overview",
+      "checked_date": "2026-10-30"
     }
   ]
 }

@@ -119,15 +119,12 @@ def test_duplicate_or_unreviewed_soccer_identity_does_not_choose_a_clock(monkeyp
         assert event.to_dict() == before
 
 
-def test_existing_clocks_multiday_tournaments_and_final_date_markers_do_not_fetch(monkeypatch):
+def test_existing_clocks_and_multiday_tournaments_do_not_fetch(monkeypatch):
     timed = football(clock="19:00")
     span = football()
     span.end_calendar_date = "2026-10-29"
-    final = football()
-    final.tags.append("final date only")
     span.event_id += "-span"
-    final.event_id += "-final"
-    events = [timed, span, final]
+    events = [timed, span]
     before = [e.to_dict() for e in events]
     calls = answer(monkeypatch, [])
     assert fill_missing_start_times(events, 2026) == []

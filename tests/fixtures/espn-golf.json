@@ -1,0 +1,690 @@
+{
+  "checked_date": "2026-10-30",
+  "license": "No data license granted; factual schedule information with attribution",
+  "sources": {
+    "pga": "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard?dates=2026&limit=500",
+    "lpga": "https://site.api.espn.com/apis/site/v2/sports/golf/lpga/scoreboard?dates=2026&limit=500"
+  },
+  "feeds": {
+    "pga": {
+      "events": [
+        {
+          "id": "401811927",
+          "date": "2026-01-08T05:00Z",
+          "endDate": "2026-01-11T05:00Z",
+          "name": "The Sentry",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "5",
+              "name": "STATUS_CANCELED",
+              "state": "post",
+              "completed": false,
+              "description": "Canceled"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401811927"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 0,
+                "type": {
+                  "id": "5",
+                  "name": "STATUS_CANCELED",
+                  "state": "post",
+                  "completed": false,
+                  "description": "Canceled",
+                  "detail": "Canceled",
+                  "shortDetail": "Canceled"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401811928",
+          "date": "2026-01-15T05:00Z",
+          "endDate": "2026-01-18T05:00Z",
+          "name": "Sony Open in Hawaii",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401811928"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401811941",
+          "date": "2026-04-09T04:00Z",
+          "endDate": "2026-04-12T04:00Z",
+          "name": "Masters Tournament",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401811941"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401811947",
+          "date": "2026-05-14T04:00Z",
+          "endDate": "2026-05-17T04:00Z",
+          "name": "PGA Championship",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401811947"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401811952",
+          "date": "2026-06-18T04:00Z",
+          "endDate": "2026-06-21T04:00Z",
+          "name": "U.S. Open",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401811952"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401811953",
+          "date": "2026-06-25T04:00Z",
+          "endDate": "2026-06-29T04:00Z",
+          "name": "Travelers Championship",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401811953"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 5,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401811957",
+          "date": "2026-07-16T04:00Z",
+          "endDate": "2026-07-19T04:00Z",
+          "name": "The Open",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401811957"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401850914",
+          "date": "2026-09-17T04:00Z",
+          "endDate": "2026-09-20T04:00Z",
+          "name": "Biltmore Championship Asheville",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401850914"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "lpga": {
+      "events": [
+        {
+          "id": "401835135",
+          "date": "2026-01-29T05:00Z",
+          "endDate": "2026-02-01T05:00Z",
+          "name": "Hilton Grand Vacations Tournament of Champions",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835135"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 3,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401835149",
+          "date": "2026-04-23T04:00Z",
+          "endDate": "2026-04-26T04:00Z",
+          "name": "The Chevron Championship",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835149"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401835157",
+          "date": "2026-05-29T04:00Z",
+          "endDate": "2026-05-31T04:00Z",
+          "name": "ShopRite LPGA Classic powered by Wakefern",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835157"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 3,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401835158",
+          "date": "2026-06-04T04:00Z",
+          "endDate": "2026-06-07T04:00Z",
+          "name": "U.S. Women's Open pres. by Ally",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835158"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401835161",
+          "date": "2026-06-25T04:00Z",
+          "endDate": "2026-06-28T04:00Z",
+          "name": "KPMG Women's PGA Championship",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835161"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401835162",
+          "date": "2026-07-09T04:00Z",
+          "endDate": "2026-07-12T04:00Z",
+          "name": "The Amundi Evian Championship",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835162"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 5,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401835164",
+          "date": "2026-07-30T04:00Z",
+          "endDate": "2026-08-02T04:00Z",
+          "name": "AIG Women's Open",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835164"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 5,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "401835174",
+          "date": "2026-10-29T04:00Z",
+          "endDate": "2026-11-01T04:00Z",
+          "name": "Maybank Championship",
+          "season": {
+            "year": 2026,
+            "type": 2,
+            "slug": "regular-season"
+          },
+          "status": {
+            "type": {
+              "id": "2",
+              "name": "STATUS_IN_PROGRESS",
+              "state": "in",
+              "completed": false,
+              "description": "In Progress"
+            }
+          },
+          "links": [
+            {
+              "href": "https://www.espn.com/golf/leaderboard?tournamentId=401835174"
+            }
+          ],
+          "competitions": [
+            {
+              "timeValid": false,
+              "status": {
+                "period": 2,
+                "type": {
+                  "id": "35",
+                  "name": "STATUS_PLAY_COMPLETE",
+                  "state": "post",
+                  "completed": true,
+                  "description": "Play Complete",
+                  "detail": "Round 2 - Play Complete",
+                  "shortDetail": "Round 2 - Play Complete"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

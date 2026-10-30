@@ -5,6 +5,7 @@ from dataclasses import replace
 from pathlib import Path
 from unittest.mock import patch
 
+from kickoff import feeds
 from kickoff.open_schedules import refresh_open_schedules
 from kickoff.reviewed_schedules import load_reviewed_schedules
 from tests.test_reviewed_schedules import ROOT, fake_open_read
@@ -12,26 +13,21 @@ from tests.test_reviewed_schedules import ROOT, fake_open_read
 
 def build(output: Path) -> None:
     reviewed, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
-    # Exercise feed precedence and duplicate majors without a stored network snapshot.
-    golf = [
-        replace(e, source="espn", source_url="https://www.espn.com/golf/")
-        for e in reviewed
-        if e.league in {"PGA_TOUR", "GOLF_MAJORS_MEN"}
-    ]
-    golf = [replace(e, league="PGA_TOUR", event_id="fixture-" + e.event_id) for e in golf]
-    golf = [
-        replace(e, calendar_date="2026-09-17", end_calendar_date="2026-09-20", tags=["tournament"], subtitle=None)
-        if e.title == "Biltmore Championship"
-        else e
-        for e in golf
-    ]
+    payload = json.loads((ROOT / "tests/fixtures/espn-golf.json").read_text())
+    with patch("kickoff.feeds.get_json", lambda url: payload["feeds"]["lpga" if "/lpga/" in url else "pga"]):
+        pga = feeds.FEEDS["PGA_TOUR"][1](2026)
+        lpga = feeds.FEEDS["LPGA_TOUR"][1](2026)
     nfl = [replace(e, source="espn", source_url="https://www.espn.com/nfl/") for e in reviewed if e.league == "NFL"]
     with patch("kickoff.open_schedules.read_url", fake_open_read):
         refresh_open_schedules(
             2026,
             output,
             ROOT / "data/reviewed",
-            feeds={"PGA_TOUR": ("espn", lambda _: golf), "NFL": ("espn", lambda _: nfl)},
+            feeds={
+                "PGA_TOUR": ("espn", lambda _: pga),
+                "LPGA_TOUR": ("espn", lambda _: lpga),
+                "NFL": ("espn", lambda _: nfl),
+            },
         )
     # A boundary fixture verifies the UI without freezing a whole season's remote data.
     (output / "2027.json").write_text(

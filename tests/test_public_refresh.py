@@ -100,7 +100,15 @@ runpy.run_path(str(ROOT / "scripts/refresh-public.py"), run_name="__main__")
 
 
 @pytest.mark.parametrize(
-    "fetch", [feeds.nfl_events, feeds.nhl_events, feeds.mlb_events, feeds.ucl_events, feeds.FEEDS["PGA_TOUR"][1]]
+    "fetch",
+    [
+        feeds.nfl_events,
+        feeds.nhl_events,
+        feeds.mlb_events,
+        feeds.ucl_events,
+        feeds.FEEDS["PGA_TOUR"][1],
+        feeds.FEEDS["LPGA_TOUR"][1],
+    ],
 )
 def test_malformed_payload_never_becomes_successful_empty_feed(monkeypatch, fetch):
     monkeypatch.setattr(feeds, "get_json", lambda *_, **__: {})

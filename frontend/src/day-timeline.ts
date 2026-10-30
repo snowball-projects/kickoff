@@ -16,7 +16,7 @@ export function clockMinute(instant: number, timezone: string) {
 }
 export function isAllDay(event: EventCard) {
   const start = event.start_calendar_date || event.calendar_date;
-  return eventInstant(event) === null || event.tags.includes("final date only")
+  return eventInstant(event) === null
     || !!(start && event.end_calendar_date && event.end_calendar_date > start);
 }
 type Slot = { items: EventCard[]; top: number; lane: number; columns: number; overflow: boolean };

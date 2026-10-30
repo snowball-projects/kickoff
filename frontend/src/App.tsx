@@ -4,7 +4,7 @@ import { browserTimezone, firstOfMonth, formatLongDate, monthAnchorsInRange, mon
   timezoneLabel, todayIso, WEEKDAY_NARROW, yearMonthAnchors } from "./date-utils";
 import type { EventCard, FilterState } from "./types";
 import InterestGroups from "./InterestGroups";
-import { defaultPreferences, INTERESTS_KEY, interestLeagues, readPreferences, type InterestPreferences } from "./interest-preferences";
+import { defaultPreferences, INTERESTS_KEY, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { boundMonth, dayAfter, monthAt, monthIndex, scheduleWindow, weekStart } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
@@ -136,7 +136,7 @@ export default function App() {
   const year = Number(month.slice(0, 4));
   const yearAnchors = yearMonthAnchors(year);
   const manifest = manifests[view === "day" ? Number(day.slice(0, 4)) : year];
-  const leagues = interestLeagues(facets?.leagues || []);
+  const leagues = facets?.leagues || [];
   const selected = months[firstOfMonth(day)]?.groups.find((group) => group.date === day);
   const dayError = errors[Number(day.slice(0, 4))];
   const calendarActive = scheduleView === "calendar";
@@ -237,7 +237,7 @@ export default function App() {
       <p><a href="https://github.com/snowball-projects/kickoff" target="_blank" rel="noreferrer">Source ↗</a></p>
       <h3>Coverage</h3>
       <p>Published schedules, not live scores. Coverage is incomplete; an empty day means no matching published events. Dates and times can change.</p>
-      <p>Golf: Full tour includes all published tournaments and majors. LPGA coverage is selected dates, mostly final dates outside the majors.</p>
+      <p>Golf: PGA Tour and LPGA Tour tournament dates come from ESPN, including majors.</p>
       <p>Boxing: selected reviewed four-belt undisputed bouts and unifications of at least three full WBA, WBC, IBF or WBO titles in one division.
         No interim or secondary titles, exhibitions or influencer cards.</p>
       <p><a href="https://github.com/snowball-projects/kickoff/tree/main/data/reviewed" target="_blank" rel="noreferrer">Coverage details and omitted events ↗</a></p>
