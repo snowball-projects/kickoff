@@ -1,111 +1,165 @@
 import { expect, test } from "./test";
 import { agendaToggle, chooser, event, setup } from "./fixtures";
+
 const events = [
+  ...["EPL", "BUNDESLIGA", "LA_LIGA"].map((league) => event(`${league} match`, undefined, { league })),
+  ...["NFL", "NBA", "MLB", "NHL"].map((league, i) => event(`${league} game`, undefined,
+    { league, sport: ["football", "basketball", "baseball", "hockey"][i] })),
+  event("UFC card", undefined, { league: "UFC", sport: "mma" }),
   event("PGA stop", undefined, { league: "PGA_TOUR", sport: "golf" }),
   event("Masters Tournament", undefined, { league: "PGA_TOUR", sport: "golf", competition_phase: "championship" }),
   event("LPGA stop", undefined, { league: "LPGA_TOUR", sport: "golf" }),
   event("Women's major", undefined, { league: "LPGA_TOUR", sport: "golf", competition_phase: "championship" }),
-  event("Race", undefined, { league: "F1", sport: "motorsport", event_type: "race" }),
-  event("Practice", undefined, { league: "F1", sport: "motorsport", event_type: "practice" }),
+  ...["practice", "qualifying", "sprint", "race"].map((event_type) => event(`F1 ${event_type}`, undefined, { league: "F1", sport: "motorsport", event_type })),
+  event("Sprint qualifying", undefined, { league: "F1", sport: "motorsport", event_type: "qualifying" }),
+  ...["NASCAR_CUP", "INDYCAR"].map((league) => event(`${league} race`, undefined, { league, sport: "motorsport", event_type: "race" })),
   event("Men Lead", undefined, { league: "IFSC_WORLD_CUP", sport: "climbing", tags: ["Men", "Lead"] }),
   event("Women Boulder", undefined, { league: "IFSC_WORLD_CUP", sport: "climbing", tags: ["Women", "Boulder"] }),
+  event("Combined Lead", undefined, { league: "CLIMBING_EUROPE", sport: "climbing", tags: ["Men", "Women", "Boulder", "Lead"] }),
+  event("Unknown Lead", undefined, { league: "CLIMBING_ASIA", sport: "climbing", tags: ["Lead"] }),
+  event("IWF Worlds", undefined, { league: "IWF_WORLDS", sport: "weightlifting", tags: ["Men"] }),
   event("Continental Europe", undefined, { league: "WEIGHTLIFTING_EUROPE", sport: "weightlifting", tags: ["Men"] }),
   event("Continental Asia", undefined, { league: "WEIGHTLIFTING_ASIA", sport: "weightlifting", tags: ["Women"] }),
 ];
-for (const width of [390, 1280]) for (const pga of ["majors_only", "full_tour"]) for (const lpga of ["majors_only", "full_tour"]) {
-  test(`saved golf choices ${pga}/${lpga} preserve save, cancel and reload at ${width}px`, async ({ page }) => {
-    await page.setViewportSize({ width, height: 844 });
-    const saved = { leagues: ["PGA_TOUR", "LPGA_TOUR", "F1"], golf_views: { PGA_TOUR: pga, LPGA_TOUR: lpga }, motorsport_view: "full_weekend" };
-    await setup(page, events, { saved });
-    await page.getByRole("button", { name: "Interests", exact: true }).click();
-    const golf = chooser(page).getByRole("region", { name: "Golf interests" });
-    await golf.locator("summary").click();
-    const checkbox = golf.getByRole("checkbox", { name: "Majors only", exact: true });
-    expect(await checkbox.evaluate((element: HTMLInputElement) => element.indeterminate)).toBe(pga !== lpga);
-    await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-    expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).golf_views)).toEqual(saved.golf_views);
-    await page.getByRole("button", { name: "Interests", exact: true }).click();
-    await golf.locator("summary").click();
-    await checkbox.click();
-    await page.keyboard.press("Escape");
-    await expect(page.getByRole("button", { name: "Interests", exact: true })).toBeFocused();
-    await page.reload();
-    await page.getByRole("button", { name: "Interests", exact: true }).click();
-    await golf.locator("summary").click();
-    expect(await checkbox.evaluate((element: HTMLInputElement) => element.indeterminate)).toBe(pga !== lpga);
-    await checkbox.setChecked(true);
-    await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-    await agendaToggle(page).click();
-    const agenda = page.getByRole("region", { name: "Agenda", exact: true });
-    await expect(agenda).toContainText("Masters Tournament");
-    await expect(agenda).toContainText("Women's major");
-    await expect(agenda).not.toContainText("PGA stop");
-    await expect(agenda).not.toContainText("LPGA stop");
-    await expect(agenda).toContainText("Practice");
-  });
-}
-test("first visit starts in month with every league selected, and session/continental choices work", async ({ page }) => {
-  await setup(page, events);
-  await expect(page.getByRole("dialog")).toHaveCount(0);
-  await expect(agendaToggle(page)).toHaveAttribute("aria-checked", "false");
-  await page.getByRole("button", { name: "Interests", exact: true }).click();
-  await expect(chooser(page).getByRole("checkbox", { name: "Select all Climbing", exact: true })).toBeChecked();
-  const climbing = chooser(page).getByRole("region", { name: "Climbing interests" });
-  await climbing.locator("summary").click();
-  await climbing.getByRole("checkbox", { name: "Women", exact: true }).uncheck();
-  const lifting = chooser(page).getByRole("region", { name: "Weightlifting interests" });
-  await lifting.locator("summary").click();
-  await expect(lifting.getByRole("checkbox", { name: "Continental championships", exact: true })).toBeChecked();
-  await lifting.getByRole("checkbox", { name: "Women", exact: true }).uncheck();
-  await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-  await agendaToggle(page).click();
-  const agenda = page.getByRole("region", { name: "Agenda", exact: true });
-  await expect(agenda).toContainText("Men Lead");
-  await expect(agenda).not.toContainText("Women Boulder");
-  await expect(agenda).toContainText("Continental Europe");
-  await expect(agenda).not.toContainText("Continental Asia");
-});
-test("blocked storage keeps first visit usable and interests active for this visit", async ({ page }) => {
-  await page.addInitScript(() => Object.defineProperty(window, "localStorage", { get() { throw Error("blocked"); } }));
-  await setup(page, events);
-  await expect(page.getByRole("dialog")).toHaveCount(0);
-  await page.getByRole("button", { name: "Interests", exact: true }).click();
-  await chooser(page).getByRole("button", { name: "Clear", exact: true }).click();
-  await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-  await expect(page.locator("#day-2026-10-28 .event-pill")).toHaveCount(0);
-  await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
-  await expect(page.getByRole("dialog")).toContainText("browser storage is unavailable");
-});
+const pill = (page: Parameters<typeof chooser>[0], name: string) => chooser(page).getByRole("button", { name, exact: true });
+const tray = (page: Parameters<typeof chooser>[0], name: string) => chooser(page).getByRole("region", { name: `${name} interests`, exact: true });
 
-for (const savedEmpty of [false, true]) {
-  test(`opening Interests before data arrives preserves ${savedEmpty ? "saved none" : "first-visit all"}`, async ({ page }) => {
-    let release!: () => void;
-    const hold = new Promise<void>((resolve) => { release = resolve; });
-    await setup(page, events, { hold, wait: false, saved: savedEmpty ? { leagues: [] } : undefined });
-    await page.getByRole("button", { name: "Interests", exact: true }).click();
-    await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
-    release();
-    const climbing = chooser(page).getByRole("checkbox", { name: "Select all Climbing", exact: true });
-    if (savedEmpty) await expect(climbing).not.toBeChecked(); else await expect(climbing).toBeChecked();
-    await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeEnabled();
-    await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-    const selected = await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues);
-    if (savedEmpty) expect(selected).toEqual([]); else expect(selected).toContain("IFSC_WORLD_CUP");
-  });
+async function rowEnd(page: Parameters<typeof chooser>[0], name: string) {
+  return chooser(page).locator(".sport-pill").evaluateAll((buttons, name) => {
+    const top = buttons.find((b) => b.getAttribute("aria-label") === name)!.getBoundingClientRect().top;
+    return buttons.filter((b) => Math.abs(b.getBoundingClientRect().top - top) < 1).at(-1)!.getAttribute("aria-label");
+  }, name);
+}
+async function expectTrayRow(page: Parameters<typeof chooser>[0], name: string, last: string | null) {
+  await expect(tray(page, name)).toBeVisible();
+  expect(await tray(page, name).evaluate((element) => element.previousElementSibling?.getAttribute("aria-label"))).toBe(last);
+  const active = (await pill(page, name).boundingBox())!, box = (await tray(page, name).boundingBox())!;
+  expect(box.y).toBeCloseTo(active.y + active.height + 8, 0);
+  expect(box.width).toBeCloseTo(await chooser(page).locator(".sport-pills").evaluate((el) => el.clientWidth), 0);
 }
 
-test("Select all before choices arrive includes every arriving league", async ({ page }) => {
+for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as const) {
+  test.describe(`sport pills ${width}px ${colorScheme}`, () => {
+    test.use({ viewport: { width, height: 844 }, colorScheme, reducedMotion: "reduce" });
+    test("first visit, ten pills, row trays, partial counts, single-league toggles, all and clear", async ({ page }) => {
+      await setup(page, events, { firstVisit: true });
+      await expect(chooser(page)).toBeVisible();
+      await expect(chooser(page).locator(".sport-pill")).toHaveCount(10);
+      await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+      await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+      await expect(chooser(page).locator("input, details, summary")).toHaveCount(0);
+      const golfRow = await rowEnd(page, "Golf");
+      await pill(page, "Golf").click();
+      await expectTrayRow(page, "Golf", golfRow);
+      await expect(tray(page, "Golf").getByRole("button")).toHaveText(["All", "PGA Tour", "LPGA Tour"]);
+      await tray(page, "Golf").getByRole("button", { name: "LPGA Tour", exact: true }).click();
+      await expect(pill(page, "Golf")).toHaveAttribute("aria-pressed", "mixed");
+      await expect(pill(page, "Golf")).toContainText("1/2");
+      await pill(page, "Golf").click();
+      await expect(chooser(page).locator(".interest-tray")).toHaveCount(0);
+      await page.setViewportSize({ width: width === 320 ? 1280 : 320, height: 844 });
+      const resizedRow = await rowEnd(page, "Golf");
+      await pill(page, "Golf").click();
+      await expectTrayRow(page, "Golf", resizedRow);
+      await tray(page, "Golf").getByRole("button", { name: "PGA Tour", exact: true }).focus();
+      await page.setViewportSize({ width, height: 844 });
+      await expect.poll(async () => {
+        const a = (await pill(page, "Golf").boundingBox())!;
+        const b = (await tray(page, "Golf").boundingBox())!;
+        return Math.round(b.y - a.y - a.height);
+      }).toBe(8);
+      await expect(tray(page, "Golf").getByRole("button", { name: "PGA Tour", exact: true })).toBeFocused();
+      const afterResize = await tray(page, "Golf").evaluate((el) => el.previousElementSibling?.getAttribute("aria-label"));
+      await pill(page, "Golf").click();
+      expect(afterResize).toBe(await rowEnd(page, "Golf"));
+      await pill(page, "Soccer").click();
+      await expect(chooser(page).locator(".interest-tray")).toHaveCount(1);
+      await expect(tray(page, "Soccer").getByRole("img", { name: "Germany", exact: true })).toBeVisible();
+      await expect(tray(page, "Soccer").locator(".interest-swatch")).toHaveCount(3);
+      await tray(page, "Soccer").getByRole("button", { name: "Bundesliga", exact: false }).click();
+      await expect(pill(page, "Soccer")).toContainText("2/3");
+      for (const name of ["Football", "Basketball", "Baseball", "Hockey"]) {
+        await pill(page, name).click();
+        await expect(pill(page, name)).toHaveAttribute("aria-pressed", "true");
+        await expect(pill(page, name)).not.toHaveAttribute("aria-expanded");
+        await expect(chooser(page).locator(".interest-tray")).toHaveCount(0);
+        await pill(page, name).click();
+        await expect(pill(page, name)).toHaveAttribute("aria-pressed", "false");
+      }
+      await chooser(page).getByRole("button", { name: "Select all", exact: true }).click();
+      await expect(chooser(page).locator('.sport-pill[aria-pressed="true"]')).toHaveCount(10);
+      await page.screenshot({ path: `test-results/interests-all-${width}-${colorScheme}.png` });
+      await chooser(page).getByRole("button", { name: "Clear", exact: true }).click();
+      await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+      await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    });
+    test("options filter exact event types and session facets, save, cancel and reload", async ({ page }) => {
+      await setup(page, events, { firstVisit: true });
+      await pill(page, "Motorsports").click();
+      const motor = tray(page, "Motorsports");
+      for (const name of ["Practice", "Qualifying", "Sprint", "Race"])
+        await expect(motor.getByRole("button", { name, exact: true })).toHaveAttribute("aria-pressed", "true");
+      for (const name of ["Practice", "Sprint", "Race"]) await motor.getByRole("button", { name, exact: true }).click();
+      await page.screenshot({ path: `test-results/interests-tray-${width}-${colorScheme}.png` });
+      await pill(page, "Climbing").click();
+      await tray(page, "Climbing").getByRole("button", { name: "Men", exact: true }).click();
+      await tray(page, "Climbing").getByRole("button", { name: "Boulder", exact: true }).click();
+      await tray(page, "Climbing").getByRole("button", { name: "Speed", exact: true }).click();
+      await pill(page, "Weightlifting").click();
+      await tray(page, "Weightlifting").getByRole("button", { name: "Women", exact: true }).click();
+      await pill(page, "Golf").click();
+      await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
+      await agendaToggle(page).click();
+      const agenda = page.getByRole("region", { name: "Agenda", exact: true });
+      for (const text of ["F1 qualifying", "Sprint qualifying", "Combined Lead", "Unknown Lead", "IWF Worlds", "Continental Europe", "PGA stop", "Masters Tournament", "LPGA stop", "Women's major"])
+        await expect(agenda).toContainText(text);
+      for (const text of ["F1 practice", "F1 race", "F1 sprint", "NASCAR_CUP race", "INDYCAR race", "Men Lead", "Women Boulder", "Continental Asia"])
+        await expect(agenda).not.toContainText(text);
+      await page.getByRole("button", { name: "Interests", exact: true }).click();
+      await pill(page, "Motorsports").click();
+      await motor.getByRole("button", { name: "Race", exact: true }).click();
+      await page.keyboard.press("Escape");
+      await page.reload();
+      await expect(chooser(page)).toHaveCount(0);
+      await page.getByRole("button", { name: "Interests", exact: true }).click();
+      await pill(page, "Motorsports").click();
+      await expect(motor.getByRole("button", { name: "Race", exact: true })).toHaveAttribute("aria-pressed", "false");
+      await motor.getByRole("button", { name: "All", exact: true }).click();
+      await expect(pill(page, "Motorsports")).toHaveAttribute("aria-pressed", "false");
+      await pill(page, "Motorsports").click();
+      await expect(motor).toBeVisible();
+      await expect(pill(page, "Motorsports")).toHaveAttribute("aria-pressed", "true");
+      await motor.getByRole("button", { name: "All", exact: true }).click();
+      await motor.getByRole("button", { name: "All", exact: true }).click();
+      for (const name of ["Practice", "Qualifying", "Sprint", "Race"])
+        await expect(motor.getByRole("button", { name, exact: true })).toHaveAttribute("aria-pressed", "true");
+    });
+  });
+}
+
+test("old storage is ignored and delayed choices leave the first visit empty", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["NFL"] })));
   let release!: () => void;
   const hold = new Promise<void>((resolve) => { release = resolve; });
-  await setup(page, events, { hold, wait: false, saved: { leagues: [] } });
-  await page.getByRole("button", { name: "Interests", exact: true }).click();
-  await chooser(page).getByRole("button", { name: "Select all", exact: true }).click();
+  await setup(page, events, { firstVisit: true, hold, wait: false });
+  await expect(chooser(page)).toBeVisible();
   await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+  await expect(chooser(page).getByRole("button", { name: "Select all", exact: true })).toBeDisabled();
   release();
-  for (const group of ["Golf", "Motorsports", "Climbing", "Weightlifting"])
-    await expect(chooser(page).getByRole("checkbox", { name: `Select all ${group}`, exact: true })).toBeChecked();
-  await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeEnabled();
+  await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+  await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+  await pill(page, "Football").press("Space");
   await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v2")!).leagues)).toEqual(
-    expect.arrayContaining(["PGA_TOUR", "LPGA_TOUR", "F1", "IFSC_WORLD_CUP", "WEIGHTLIFTING_EUROPE", "WEIGHTLIFTING_ASIA"]));
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v3")!).leagues)).toEqual(["NFL"]);
+});
+
+test("blocked storage keeps picked interests active for the visit", async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(window, "localStorage", { get() { throw Error("blocked"); } }));
+  await setup(page, events, { firstVisit: true });
+  await pill(page, "Football").click();
+  await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
+  await expect(page.locator("#day-2026-10-28 .event-pill")).toHaveCount(1);
+  await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
+  await expect(page.getByRole("dialog")).toContainText("browser storage is unavailable");
 });

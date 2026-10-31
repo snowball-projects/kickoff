@@ -45,7 +45,7 @@ export default function Sheet({ title, onClose, onDismiss, children }: {
   return <dialog ref={dialog} className={`sheet ${closing ? "closing" : ""}`} aria-label={title}
     onKeyDown={(event) => {
       if (event.key !== "Tab") return;
-      const controls = [...event.currentTarget.querySelectorAll<HTMLElement>("button, a[href], input, select, textarea, summary, [tabindex]:not([tabindex='-1'])")]
+      const controls = [...event.currentTarget.querySelectorAll<HTMLElement>("button, a[href], [tabindex]:not([tabindex='-1'])")]
         .filter((element) => !element.matches(":disabled") && element.getClientRects().length);
       const first = controls[0], last = controls.at(-1);
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }

@@ -68,7 +68,6 @@ export type ProviderSummary = {
   default_event_scope: string | null;
   default_include_special_events: boolean | null;
   default_include_support_events: boolean | null;
-  default_motorsport_view: string | null;
   semantics: Record<string, unknown>;
 };
 
@@ -135,8 +134,7 @@ export type FilterState = {
   followed_leagues?: string[];
   climbing?: { genders: string[]; disciplines: string[] };
   weightlifting?: { genders: string[] };
-  golf_views?: { PGA_TOUR: "majors_only" | "full_tour"; LPGA_TOUR: "majors_only" | "full_tour" };
-  motorsport_view?: "race_only" | "full_weekend";
+  motorsport_events?: string[];
   sport: string;
   league: string;
   competition_phase: string;

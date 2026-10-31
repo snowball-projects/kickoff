@@ -33,9 +33,9 @@ for (const scenario of [
 ]) {
   test(`imported ${scenario.name} uses the visitor's date and clock`, async ({ page }) => {
     await page.clock.setFixedTime(new Date(scenario.now));
-    await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({
+    await page.addInitScript(() => localStorage.setItem("kickoff.interests.v3", JSON.stringify({
       leagues: ["EPL", "BRASILEIRAO", "LA_LIGA"],
-      golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only",
+      motorsport_events: [], climbing: { genders: [], disciplines: [] }, weightlifting: { genders: [] },
     })));
     await page.route("**/data/*.json", async (route) => {
       const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);

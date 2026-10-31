@@ -31,8 +31,8 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       page.on("pageerror", (error) => errors.push(error.message));
       page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
       await page.clock.setFixedTime(new Date("2026-06-27T17:00:00Z"));
-      await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({
-        leagues: ["PFL"], golf_views: { PGA_TOUR: "full_tour", LPGA_TOUR: "full_tour" }, motorsport_view: "race_only",
+      await page.addInitScript(() => localStorage.setItem("kickoff.interests.v3", JSON.stringify({
+        leagues: ["PFL"], motorsport_events: [], climbing: { genders: [], disciplines: [] }, weightlifting: { genders: [] },
       })));
       await page.route("**/data/*.json", async (route) => {
         const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
