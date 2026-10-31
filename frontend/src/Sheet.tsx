@@ -4,6 +4,7 @@ import { compareEvents, leagueGroups, leagueVisual } from "./calendar-helpers";
 import { eventTimeLabel, formatLongDate } from "./date-utils";
 import { EventFlags, SportIcon } from "./EventIdentity";
 import GolfLeaderboard from "./GolfLeaderboard";
+import FightCard from "./FightCard";
 import NflLogo from "./NflLogo";
 import { leaderboardId } from "./golf";
 import type { EventCard } from "./types";
@@ -87,6 +88,7 @@ function EventDetails({ event, date, today, timezone, active }: {
     {time && <p className="detail-time">{time}</p>}
     <p>{formatLongDate(start)}{end && end > start && <> through {formatLongDate(end)}</>}</p>
     {id && <GolfLeaderboard key={`${id}:${date}:${today}:${timezone}`} id={id} date={date} today={today} timezone={timezone} active={active} />}
+    <FightCard key={event.event_id} event={event} timezone={timezone} active={active} />
     {location && <p>{location}</p>}
     <div className="source-links">
       {event.source_url && <a href={event.source_url} target="_blank" rel="noreferrer">Schedule source ↗</a>}

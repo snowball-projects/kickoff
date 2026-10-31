@@ -1,0 +1,1892 @@
+{
+  "checked_date": "2026-10-31",
+  "sources": {
+    "ufc": "https://site.web.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard?dates=20261024",
+    "upcoming": "https://site.web.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard?dates=20261031",
+    "pfl": "https://site.web.api.espn.com/apis/site/v2/sports/mma/pfl/scoreboard?dates=20260207",
+    "one": "https://site.web.api.espn.com/apis/site/v2/sports/mma/ofc/scoreboard?dates=20260227",
+    "ordering": "https://www.espn.com/mma/fightcenter/_/id/600061267/league/ufc"
+  },
+  "payloads": {
+    "ufc": {
+      "events": [
+        {
+          "id": "600061267",
+          "date": "2026-10-24T14:00Z",
+          "name": "UFC 333: Volkanovski vs. Evloev",
+          "competitions": [
+            {
+              "id": "401930917",
+              "date": "2026-10-24T14:00Z",
+              "type": {
+                "id": "1006",
+                "abbreviation": "W Strawweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4239113",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "9-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Nicolle Caliari"
+                  }
+                },
+                {
+                  "id": "5080935",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "19-6-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Iasmin Lucindo"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401930916",
+              "date": "2026-10-24T14:00Z",
+              "type": {
+                "id": "986",
+                "abbreviation": "Lightweight"
+              },
+              "status": {
+                "displayClock": "3:54",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "5145777",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Noah Gugnon"
+                  }
+                },
+                {
+                  "id": "5212351",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "9-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Kody Steele"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401930915",
+              "date": "2026-10-24T14:00Z",
+              "type": {
+                "id": "999",
+                "abbreviation": "Featherweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4881997",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "15-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Daniel Santos"
+                  }
+                },
+                {
+                  "id": "5145682",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Bolaji Oki"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401930357",
+              "date": "2026-10-24T14:00Z",
+              "type": {
+                "id": "972",
+                "abbreviation": "Middleweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3960340",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "26-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Abubakar Vagaev"
+                  }
+                },
+                {
+                  "id": "4687434",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Jacob Malkoun"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401928047",
+              "date": "2026-10-24T14:00Z",
+              "type": {
+                "id": "970",
+                "abbreviation": "Bantamweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "5264462",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Colby Thicknesse"
+                  }
+                },
+                {
+                  "id": "5454811",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Asaf Chopurov"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911640",
+              "date": "2026-10-24T16:00Z",
+              "type": {
+                "id": "986",
+                "abbreviation": "Lightweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3931156",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "25-3-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Grant Dawson"
+                  }
+                },
+                {
+                  "id": "5092398",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "12-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Nurullo Aliev"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911638",
+              "date": "2026-10-24T16:00Z",
+              "type": {
+                "id": "972",
+                "abbreviation": "Middleweight"
+              },
+              "status": {
+                "displayClock": "1:44",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3077822",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "30-7-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Abus Magomedov"
+                  }
+                },
+                {
+                  "id": "4694832",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "15-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Cam Rowston"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911639",
+              "date": "2026-10-24T16:00Z",
+              "type": {
+                "id": "990",
+                "abbreviation": "Light Heavyweight"
+              },
+              "status": {
+                "displayClock": "2:38",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3026263",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "31-13-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Nikita Krylov"
+                  }
+                },
+                {
+                  "id": "5291025",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Abdul-Rakhman Yakhyaev"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911637",
+              "date": "2026-10-24T16:00Z",
+              "type": {
+                "id": "990",
+                "abbreviation": "Light Heavyweight"
+              },
+              "status": {
+                "displayClock": "2:40",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4227265",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "16-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Azamat Murzakanov"
+                  }
+                },
+                {
+                  "id": "4233039",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "17-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Dominick Reyes"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401929495",
+              "date": "2026-10-24T18:00Z",
+              "type": {
+                "id": "999",
+                "abbreviation": "Featherweight"
+              },
+              "status": {
+                "displayClock": "1:14",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4199009",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "15-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Aaron Pico"
+                  }
+                },
+                {
+                  "id": "5192314",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "17-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Losene Keita"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911635",
+              "date": "2026-10-24T18:00Z",
+              "type": {
+                "id": "982",
+                "abbreviation": "Heavyweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "2993650",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "41-11-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Alexander Volkov"
+                  }
+                },
+                {
+                  "id": "4001837",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "14-4-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Rizvan Kuniev"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911634",
+              "date": "2026-10-24T18:00Z",
+              "type": {
+                "id": "956",
+                "abbreviation": "Flyweight"
+              },
+              "status": {
+                "displayClock": "4:28",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4895691",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "20-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Ramazan Temirov"
+                  }
+                },
+                {
+                  "id": "5147737",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Lone'er Kavanagh"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911633",
+              "date": "2026-10-24T18:00Z",
+              "type": {
+                "id": "970",
+                "abbreviation": "Bantamweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 5,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3948572",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "21-6-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Merab Dvalishvili"
+                  }
+                },
+                {
+                  "id": "4293517",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "21-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Petr Yan"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401911632",
+              "date": "2026-10-24T18:00Z",
+              "type": {
+                "id": "999",
+                "abbreviation": "Featherweight"
+              },
+              "status": {
+                "displayClock": "4:54",
+                "period": 2,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3949584",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "29-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Alexander Volkanovski"
+                  }
+                },
+                {
+                  "id": "4029275",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "20-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Movsar Evloev"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "upcoming": {
+      "events": [
+        {
+          "id": "600061420",
+          "date": "2026-10-31T21:00Z",
+          "name": "UFC Fight Night: Moicano vs. Nolan",
+          "competitions": [
+            {
+              "id": "401914105",
+              "date": "2026-10-31T21:00Z",
+              "type": {
+                "id": "1007",
+                "abbreviation": "W Flyweight"
+              },
+              "status": {
+                "displayClock": "3:20",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4418809",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "7-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Tainara Lisboa"
+                  }
+                },
+                {
+                  "id": "5130185",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "13-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Lucia Szabov\u00e1"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401928105",
+              "date": "2026-10-31T21:00Z",
+              "type": {
+                "id": "1006",
+                "abbreviation": "W Strawweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4816066",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "13-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Piera Rodriguez"
+                  }
+                },
+                {
+                  "id": "5139556",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "8-2-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Talita Alencar"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401914106",
+              "date": "2026-10-31T21:00Z",
+              "type": {
+                "id": "972",
+                "abbreviation": "Middleweight"
+              },
+              "status": {
+                "displayClock": "1:25",
+                "period": 2,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4687604",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Joe Kropschot"
+                  }
+                },
+                {
+                  "id": "5134399",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "6-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Nick Klein"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401931617",
+              "date": "2026-10-31T21:00Z",
+              "type": {
+                "id": "972",
+                "abbreviation": "Middleweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "Intros"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3960470",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "7-7-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Mickey Gall"
+                  }
+                },
+                {
+                  "id": "5143223",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Zach Reese"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401928109",
+              "date": "2026-10-31T21:00Z",
+              "type": {
+                "id": "999",
+                "abbreviation": "Featherweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 5:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3955577",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "31-14-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Julian Erosa"
+                  }
+                },
+                {
+                  "id": "5068724",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "JeongYeong Lee"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401928106",
+              "date": "2026-10-31T21:00Z",
+              "type": {
+                "id": "969",
+                "abbreviation": "Welterweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 5:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "5085010",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "8-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Theodor Berggren"
+                  }
+                },
+                {
+                  "id": "5289853",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "9-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Rodrigo Sezinando"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401931615",
+              "date": "2026-10-31T21:00Z",
+              "type": {
+                "id": "999",
+                "abbreviation": "Featherweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 5:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4898914",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Dakota Hope"
+                  }
+                },
+                {
+                  "id": "5060394",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Francis Marshall"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401928107",
+              "date": "2026-11-01T00:00Z",
+              "type": {
+                "id": "969",
+                "abbreviation": "Welterweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 8:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4629138",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Jean-Paul Lebosnoyani"
+                  }
+                },
+                {
+                  "id": "5350562",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "5-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Farman Hasanov"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401928104",
+              "date": "2026-11-01T00:00Z",
+              "type": {
+                "id": "1003",
+                "abbreviation": "W Bantamweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 8:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3154898",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "17-8-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Yana Santos"
+                  }
+                },
+                {
+                  "id": "5110469",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Luana Santos"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401931555",
+              "date": "2026-11-01T00:00Z",
+              "type": {
+                "id": "956",
+                "abbreviation": "Flyweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 8:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4424224",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "13-9-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Ode' Osbourne"
+                  }
+                },
+                {
+                  "id": "4686725",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "18-11-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Cody Durden"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401931616",
+              "date": "2026-11-01T00:00Z",
+              "type": {
+                "id": "969",
+                "abbreviation": "Welterweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 8:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3960071",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "20-8-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Randy Brown"
+                  }
+                },
+                {
+                  "id": "5149961",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "13-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Jacobe Smith"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401921310",
+              "date": "2026-11-01T00:00Z",
+              "type": {
+                "id": "986",
+                "abbreviation": "Lightweight"
+              },
+              "status": {
+                "displayClock": "-",
+                "period": 0,
+                "type": {
+                  "completed": false,
+                  "shortDetail": "10/31 - 8:00 PM EDT"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3028863",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "21-7-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Renato Moicano"
+                  }
+                },
+                {
+                  "id": "5144007",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Tom Nolan"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "pfl": {
+      "events": [
+        {
+          "id": "600056964",
+          "date": "2026-02-07T14:00Z",
+          "name": "PFL Dubai: Nurmagomedov vs. Davis",
+          "competitions": [
+            {
+              "id": "401846996",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "972",
+                "abbreviation": "Middleweight"
+              },
+              "status": {
+                "displayClock": "1:17",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "5074270",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-6-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Jhony Gregory"
+                  }
+                },
+                {
+                  "id": "5125629",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Haider Khan"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401847021",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "990",
+                "abbreviation": "Light Heavyweight"
+              },
+              "status": {
+                "displayClock": "2:26",
+                "period": 2,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "5086821",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "12-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Ahmed Sami"
+                  }
+                },
+                {
+                  "id": "5331213",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "12-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Khabib Nabiev"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401843595",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "990",
+                "abbreviation": "Light Heavyweight"
+              },
+              "status": {
+                "displayClock": "3:48",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4249028",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "20-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Rob Wilkinson"
+                  }
+                },
+                {
+                  "id": "4875324",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Luke Trainer"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401847020",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "1007",
+                "abbreviation": "W Flyweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4064998",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "9-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Antonia Silvaneide da Silva"
+                  }
+                },
+                {
+                  "id": "4275484",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "9-6-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Denise Kielholtz"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401842363",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "986",
+                "abbreviation": "Lightweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4415122",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "26-6-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Amin Ayoub"
+                  }
+                },
+                {
+                  "id": "4601137",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "19-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Makkasharip Zaynukov"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401847019",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "970",
+                "abbreviation": "Bantamweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4287629",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "17-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Edgars Skrivers"
+                  }
+                },
+                {
+                  "id": "5222162",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "12-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Renat Khavalov"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401846995",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "970",
+                "abbreviation": "Bantamweight"
+              },
+              "status": {
+                "displayClock": "0:47",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "3151934",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "25-4-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Taylor Lapilus"
+                  }
+                },
+                {
+                  "id": "5152982",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "16-3-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Kasum Kasumov"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401840105",
+              "date": "2026-02-07T14:00Z",
+              "type": {
+                "id": "986",
+                "abbreviation": "Lightweight"
+              },
+              "status": {
+                "displayClock": "0:37",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4218124",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "15-5-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Kolton Englund"
+                  }
+                },
+                {
+                  "id": "5264795",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Amru Magomedov"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401837675",
+              "date": "2026-02-07T17:00Z",
+              "type": {
+                "id": "982",
+                "abbreviation": "Heavyweight"
+              },
+              "status": {
+                "displayClock": "3:41",
+                "period": 2,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4915907",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-6-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Karl Williams"
+                  }
+                },
+                {
+                  "id": "5272739",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "6-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Pouya Rahmani"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401842362",
+              "date": "2026-02-07T17:00Z",
+              "type": {
+                "id": "999",
+                "abbreviation": "Featherweight"
+              },
+              "status": {
+                "displayClock": "4:57",
+                "period": 1,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4243873",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "26-8-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Jesus Pinedo"
+                  }
+                },
+                {
+                  "id": "5328681",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "10-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Salamat Isbulaev"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401842361",
+              "date": "2026-02-07T17:00Z",
+              "type": {
+                "id": "969",
+                "abbreviation": "Welterweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4245706",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "20-1-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Abdoul Abdouraguimov"
+                  }
+                },
+                {
+                  "id": "4399100",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "11-6-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Kendly St. Louis"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401836349",
+              "date": "2026-02-07T17:00Z",
+              "type": {
+                "id": "969",
+                "abbreviation": "Welterweight"
+              },
+              "status": {
+                "displayClock": "5:00",
+                "period": 5,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4425611",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "14-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Ramazan Kuramagomedov"
+                  }
+                },
+                {
+                  "id": "4688510",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "20-1-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Shamil Musaev"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "401836348",
+              "date": "2026-02-07T17:00Z",
+              "type": {
+                "id": "986",
+                "abbreviation": "Lightweight"
+              },
+              "status": {
+                "displayClock": "4:41",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4726566",
+                  "order": 1,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "22-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Usman Nurmagomedov"
+                  }
+                },
+                {
+                  "id": "4820893",
+                  "order": 2,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "20-7-1"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Alfie Davis"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "one": {
+      "events": [
+        {
+          "id": "600060243",
+          "date": "2026-02-27T05:00Z",
+          "name": "ONE Friday Fights 144",
+          "competitions": [
+            {
+              "id": "401877165",
+              "date": "2026-02-27T05:00Z",
+              "status": {
+                "displayClock": "5:00",
+                "period": 3,
+                "type": {
+                  "completed": true,
+                  "shortDetail": "Final"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "5362155",
+                  "order": 1,
+                  "winner": false,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "7-2-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Edson Machavane"
+                  }
+                },
+                {
+                  "id": "5362364",
+                  "order": 2,
+                  "winner": true,
+                  "records": [
+                    {
+                      "type": "total",
+                      "summary": "1-0-0"
+                    }
+                  ],
+                  "athlete": {
+                    "displayName": "Sardor Karimboev"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

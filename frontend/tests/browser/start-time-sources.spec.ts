@@ -27,6 +27,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
   test.describe(`${width}px ${colorScheme}`, () => {
     test.use({ viewport: { width, height: 844 }, colorScheme, hasTouch: width === 320 });
     test("timeline details retain the schedule source and separately credit the ESPN clock", async ({ page }) => {
+      await page.route("https://site.web.api.espn.com/apis/site/v2/sports/mma/**", (route) => route.fulfill({ json: { events: [] }, headers: { "access-control-allow-origin": "*" } }));
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
       page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });

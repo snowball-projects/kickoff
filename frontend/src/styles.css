@@ -232,3 +232,21 @@ h1, h2, h3, p { margin: 0; }
 .about-source li + li { margin-top: 10px; }
 .about .about-license-notice { font-size: 11px; color: var(--muted); }
 .about-footer { padding-top: 20px; font-size: 14px; }
+
+.fight-card { margin: 20px 0; }
+.fight-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.fight-tabs button { flex: 1; min-width: 0; padding: 10px 3px; font: inherit; font-size: 12px; color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer; }
+.fight-tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: currentColor; font-weight: 650; }
+.fight-start, .event-details .fight-result { color: var(--muted); font-size: 11px; }
+.fight-bouts { list-style: none; margin: 0 0 12px; padding: 0; }
+.fight-bouts li { padding: 13px 0; border-bottom: 1px solid var(--line); }
+.fight-matchup { display: grid; grid-template-columns: minmax(0, 1fr) minmax(48px, .65fr) minmax(0, 1fr); gap: 8px; align-items: center; }
+.fight-fighter { display: flex; flex-direction: column; gap: 5px; min-width: 0; overflow-wrap: anywhere; }
+.fight-fighter:last-child { text-align: right; }
+.fight-fighter b { font-size: 13px; font-weight: 600; }
+.fight-fighter span { color: var(--muted); font-size: 11px; }
+.fight-fighter strong { display: block; color: var(--text); font-size: 10px; font-weight: 600; margin-top: 4px; }
+.fight-weight { text-align: center; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+.event-details .fight-result { margin: 9px 0 0; text-align: center; }
+.fight-source, .fight-checked { font-size: 11px; }
+.fight-checked { display: block; color: var(--muted); margin-top: 5px; }
