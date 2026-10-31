@@ -17,6 +17,14 @@ const events = [
   event("Women Boulder", undefined, { league: "IFSC_WORLD_CUP", sport: "climbing", tags: ["Women", "Boulder"] }),
   event("Combined Lead", undefined, { league: "CLIMBING_EUROPE", sport: "climbing", tags: ["Men", "Women", "Boulder", "Lead"] }),
   event("Unknown Lead", undefined, { league: "CLIMBING_ASIA", sport: "climbing", tags: ["Lead"] }),
+  event("Europe Youth Lead", undefined, { league: "CLIMBING_EUROPE", sport: "climbing", tags: ["Youth", "Women", "Lead"] }),
+  event("Asia U19 Lead", undefined, { league: "CLIMBING_ASIA", sport: "climbing", tags: ["U19", "Lead"] }),
+  event("Europe Para Lead", undefined, { league: "CLIMBING_EUROPE", sport: "climbing", tags: ["Para", "Lead"] }),
+  event("Olympic Lead", undefined, { league: "CLIMBING_OLYMPIC_QUALIFIERS", sport: "climbing", tags: ["Lead"] }),
+  event("Youth lifting", undefined, { league: "IWF_YOUTH_WORLDS", sport: "weightlifting", tags: ["Women"] }),
+  event("Junior lifting", undefined, { league: "IWF_JUNIOR_WORLDS", sport: "weightlifting", tags: ["Men"] }),
+  event("Masters lifting", undefined, { league: "MASTERS_WORLDS", sport: "weightlifting", tags: [] }),
+  event("Future lifting", undefined, { league: "FUTURE_LIFTING", sport: "weightlifting", tags: [] }),
   event("IWF Worlds", undefined, { league: "IWF_WORLDS", sport: "weightlifting", tags: ["Men"] }),
   event("Continental Europe", undefined, { league: "WEIGHTLIFTING_EUROPE", sport: "weightlifting", tags: ["Men"] }),
   event("Continental Asia", undefined, { league: "WEIGHTLIFTING_ASIA", sport: "weightlifting", tags: ["Women"] }),
@@ -75,7 +83,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await pill(page, "Soccer").click();
       await expect(chooser(page).locator(".interest-tray")).toHaveCount(1);
       await expect(tray(page, "Soccer").getByRole("img", { name: "Germany", exact: true })).toBeVisible();
-      await expect(tray(page, "Soccer").locator(".interest-swatch")).toHaveCount(3);
+      await expect(tray(page, "Soccer").locator(".interest-swatch")).toHaveCount(0);
       await tray(page, "Soccer").getByRole("button", { name: "Bundesliga", exact: false }).click();
       await expect(pill(page, "Soccer")).toContainText("2/3");
       for (const name of ["Football", "Basketball", "Baseball", "Hockey"]) {
@@ -94,10 +102,43 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
+    test("session sports expose only level, gender and discipline, with every competition on", async ({ page }) => {
+      await setup(page, events, { firstVisit: true });
+      await pill(page, "Climbing").click();
+      const climbing = tray(page, "Climbing");
+      await expect(climbing.getByRole("button")).toHaveText(["Senior", "Youth", "Para", "Men", "Women", "Boulder", "Lead", "Speed"]);
+      await expect(climbing.locator('button[aria-pressed="true"]')).toHaveCount(8);
+      await expect(climbing.locator("legend")).toHaveText(["Level", "Gender", "Discipline"]);
+      await climbing.getByRole("button", { name: "Senior", exact: true }).click();
+      await climbing.getByRole("button", { name: "Para", exact: true }).click();
+      await page.screenshot({ path: `test-results/climbing-levels-${width}-${colorScheme}.png` });
+      await pill(page, "Weightlifting").click();
+      const lifting = tray(page, "Weightlifting");
+      await expect(lifting.getByRole("button")).toHaveText(["Youth", "Junior", "Senior", "Masters", "Men", "Women"]);
+      await expect(lifting.locator('button[aria-pressed="true"]')).toHaveCount(6);
+      await expect(lifting.locator("legend")).toHaveText(["Level", "Gender"]);
+      await lifting.getByRole("button", { name: "Senior", exact: true }).click();
+      await page.screenshot({ path: `test-results/weightlifting-levels-${width}-${colorScheme}.png` });
+      await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
+      await agendaToggle(page).click();
+      const agenda = page.getByRole("region", { name: "Agenda", exact: true });
+      for (const text of ["Europe Youth Lead", "Asia U19 Lead", "Youth lifting", "Junior lifting", "Masters lifting"])
+        await expect(agenda).toContainText(text);
+      for (const text of ["Men Lead", "Women Boulder", "Combined Lead", "Unknown Lead", "Europe Para Lead", "Olympic Lead", "IWF Worlds", "Continental Europe", "Continental Asia", "Future lifting"])
+        await expect(agenda).not.toContainText(text);
+      await page.reload();
+      await page.getByRole("button", { name: "Interests", exact: true }).click();
+      await pill(page, "Climbing").click();
+      await expect(climbing.getByRole("button", { name: "Youth", exact: true })).toHaveAttribute("aria-pressed", "true");
+      await expect(climbing.getByRole("button", { name: "Senior", exact: true })).toHaveAttribute("aria-pressed", "false");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    });
     test("options filter exact event types and session facets, save, cancel and reload", async ({ page }) => {
       await setup(page, events, { firstVisit: true });
       await pill(page, "Motorsports").click();
       const motor = tray(page, "Motorsports");
+      await expect(motor.getByRole("group", { name: "Sessions", exact: true })).toBeVisible();
+      await expect(motor.locator(".interest-swatch")).toHaveCount(0);
       for (const name of ["Practice", "Qualifying", "Sprint", "Race"])
         await expect(motor.getByRole("button", { name, exact: true })).toHaveAttribute("aria-pressed", "true");
       for (const name of ["Practice", "Sprint", "Race"]) await motor.getByRole("button", { name, exact: true }).click();
@@ -139,7 +180,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
 }
 
 test("old storage is ignored and delayed choices leave the first visit empty", async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v2", JSON.stringify({ leagues: ["NFL"] })));
+  await page.addInitScript(() => localStorage.setItem("kickoff.interests.v3", JSON.stringify({ leagues: ["NFL"] })));
   let release!: () => void;
   const hold = new Promise<void>((resolve) => { release = resolve; });
   await setup(page, events, { firstVisit: true, hold, wait: false });
@@ -151,7 +192,7 @@ test("old storage is ignored and delayed choices leave the first visit empty", a
   await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
   await pill(page, "Football").press("Space");
   await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v3")!).leagues)).toEqual(["NFL"]);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("kickoff.interests.v4")!).leagues)).toEqual(["NFL"]);
 });
 
 test("blocked storage keeps picked interests active for the visit", async ({ page }) => {
@@ -168,7 +209,7 @@ for (const value of [{}, { leagues: null }, { leagues: ["F1"] }]) {
   test(`wrong-shaped current storage ${JSON.stringify(value)} reopens empty Interests`, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    await page.addInitScript((value) => localStorage.setItem("kickoff.interests.v3", JSON.stringify(value)), value);
+    await page.addInitScript((value) => localStorage.setItem("kickoff.interests.v4", JSON.stringify(value)), value);
     await setup(page, events, { firstVisit: true });
     await expect(chooser(page)).toBeVisible();
     await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
