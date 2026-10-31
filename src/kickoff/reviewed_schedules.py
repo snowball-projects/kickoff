@@ -191,7 +191,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 season=str(start.year),
                 event_type=row["event_type"],
                 title=row["title"],
-                subtitle=row.get("notes"),
+                subtitle=None,
                 start_time_utc=isoformat_z(local),
                 start_time_local=local.isoformat() if local else None,
                 timezone=zone,

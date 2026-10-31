@@ -98,7 +98,7 @@ test("date-only and unverified local clocks keep their source date", async () =>
   ]) {
     for (const zone of ["Pacific/Kiritimati", "America/Los_Angeles"]) {
       assert.equal(eventCalendarDate(item, zone), "2026-01-01");
-      assert.equal(eventTimeLabel(item, zone), "Time TBD");
+      assert.equal(eventTimeLabel(item, zone), "");
       assert.equal(eventInstant(item), null);
     }
   }

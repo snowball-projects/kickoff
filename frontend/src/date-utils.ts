@@ -1,5 +1,4 @@
 import type { CalendarDayGroup, EventCard } from "./types";
-import { isGolf } from "./golf";
 
 export const WEEKDAY_NARROW = ["S", "M", "T", "W", "T", "F", "S"] as const;
 export type MonthGridCell = {
@@ -171,9 +170,8 @@ function timeFormatter(timezone: string) {
 }
 
 export function eventTimeLabel(event: EventCard, timezone: string) {
-  if (isGolf(event)) return "All-day";
   const instant = eventInstant(event);
-  if (instant === null) return "Time TBD";
+  if (instant === null) return "";
   const clock = timeFormatter(timezone).format(new Date(instant));
   return event.start_time_scope === "shared_session" ? `Session starts ${clock}` : clock;
 }

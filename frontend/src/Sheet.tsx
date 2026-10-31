@@ -4,7 +4,7 @@ import { compareEvents, leagueGroups, leagueVisual } from "./calendar-helpers";
 import { eventTimeLabel, formatLongDate } from "./date-utils";
 import { EventFlags, SportIcon } from "./EventIdentity";
 import GolfLeaderboard from "./GolfLeaderboard";
-import { isGolf, leaderboardId } from "./golf";
+import { leaderboardId } from "./golf";
 import type { EventCard } from "./types";
 
 export default function Sheet({ title, onClose, onDismiss, children }: {
@@ -73,17 +73,17 @@ function EventDetails({ event, date, today, timezone, active }: {
   const start = event.start_calendar_date || date;
   const end = event.end_calendar_date;
   const id = leaderboardId(event);
+  const time = eventTimeLabel(event, timezone);
   return <article className="event-details" aria-label="Event details">
     <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}>
       <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
     </span>
     <h3 tabIndex={-1}>{event.title}<EventFlags event={event} /></h3>
     {event.subtitle && <p>{event.subtitle}</p>}
-    {!isGolf(event) && <p className="detail-time">{eventTimeLabel(event, timezone)}</p>}
+    {time && <p className="detail-time">{time}</p>}
     <p>{formatLongDate(start)}{end && end > start && <> through {formatLongDate(end)}</>}</p>
     {id && <GolfLeaderboard key={`${id}:${date}:${today}:${timezone}`} id={id} date={date} today={today} timezone={timezone} active={active} />}
     {location && <p>{location}</p>}
-    {event.status !== "scheduled" && <p>{event.status.replaceAll("_", " ")}</p>}
     <div className="source-links">
       {event.source_url && <a href={event.source_url} target="_blank" rel="noreferrer">Schedule source ↗</a>}
       {event.start_time_source_url && <a href={event.start_time_source_url} target="_blank" rel="noreferrer">
