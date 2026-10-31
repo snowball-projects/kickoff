@@ -11,6 +11,9 @@ const countries = new Map(ISO_CODES.map((code) => [code, {
   flag: String.fromCodePoint(...[...code].map((letter) => 0x1f1e6 + letter.charCodeAt(0) - 65)),
 }]));
 const aliases = new Map([...countries.values()].map((country) => [normalize(country.name), country.code]));
+// National subdivisions use explicit codes; country-name aliases remain ISO countries.
+countries.set("GB-ENG", { code: "GB-ENG", name: "England", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}" });
+countries.set("GB-SCT", { code: "GB-SCT", name: "Scotland", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}" });
 for (const [alias, code] of Object.entries({
   USA: "US", "United States of America": "US", UK: "GB", "Great Britain": "GB",
   "United Kingdom": "GB", Türkiye: "TR", Turkey: "TR", "Republic of Korea": "KR",
@@ -23,9 +26,9 @@ export function countryIdentity(value: string | null | undefined): Country | und
   return countries.get(key) || countries.get(aliases.get(normalize(value)) || "");
 }
 
-export function hostCountry(event: Pick<EventCard, "country" | "source">) {
+export function hostCountry(event: Pick<EventCard, "country" | "source"> & Partial<Pick<EventCard, "country_source_url">>) {
   // openfootball supplies the league jurisdiction, not a verified venue country.
-  return event.source === "openfootball" ? undefined : countryIdentity(event.country);
+  return event.source === "openfootball" && !event.country_source_url ? undefined : countryIdentity(event.country);
 }
 
 export function commonHostCountry(events: Pick<EventCard, "country" | "source">[]) {

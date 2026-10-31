@@ -20,6 +20,8 @@ from kickoff.start_times import fill_missing_start_times
 from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
 from kickoff.web import SCHEMA_VERSION, _event_payload
+from kickoff.world_cup import SOURCE as WORLD_CUP_SOURCE
+from kickoff.world_cup import world_cup_events
 
 FOOTBALL = {
     "en.1": ("EPL", "Premier League", "England"),
@@ -347,7 +349,11 @@ def refresh_open_schedules(
         source_notices.extend(notices)
 
     revisions = {}
-    for repo, branch in [("openfootball/football.json", "master"), ("f1db/f1db", "main")]:
+    for repo, branch in [
+        ("openfootball/football.json", "master"),
+        ("openfootball/worldcup.json", "master"),
+        ("f1db/f1db", "main"),
+    ]:
         revision = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
         if not re.fullmatch(r"[a-f0-9]{40}", revision):
             raise ValueError("Invalid upstream revision")
@@ -379,6 +385,25 @@ def refresh_open_schedules(
 
     for key, (league, _label, _country) in FOOTBALL.items():
         collect(league, "openfootball", lambda key=key: football(key))
+
+    def world_cup():
+        repo = "openfootball/worldcup.json"
+        revision = revisions[repo]
+        path = f"{year}/worldcup.json"
+        url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
+        # There is no men's World Cup in off years; a known edition's failure
+        # must stop publication rather than silently remove the tournament.
+        body = read_url(url) if year % 4 == 2 else read_optional(url)
+        if body is None:
+            return [], [], []
+        parsed = world_cup_events(json.loads(body), year, f"https://github.com/{repo}/blob/{revision}/{path}")
+        return (
+            parsed,
+            [{**WORLD_CUP_SOURCE, "revision": revision, "checked_date": now.date().isoformat()}],
+            [{"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)}],
+        )
+
+    collect("FIFA_WORLD_CUP", "openfootball", world_cup)
 
     def formula_one():
         repo = "f1db/f1db"
@@ -470,8 +495,16 @@ def refresh_open_schedules(
         f"{count} {REVIEWED_LABELS[league]}" for league, count in sorted(reviewed_counts.items())
     )
     fed_coverage = ", ".join(FEED_LABELS[league] for league in feeds or {} if league in fed_leagues)
-    football_count = len({event["league"] for event in bundle["events"] if event["source"] == "openfootball"})
+    football_count = len(
+        {
+            event["league"]
+            for event in bundle["events"]
+            if event["source"] == "openfootball" and event["league"] != "FIFA_WORLD_CUP"
+        }
+    )
     open_coverage = [f"{football_count} football leagues"] if football_count else []
+    if any(event["league"] == "FIFA_WORLD_CUP" for event in bundle["events"]):
+        open_coverage.append("FIFA World Cup")
     open_coverage += ["Formula 1"] if any(event["source"] == "f1db" for event in bundle["events"]) else []
     bundle["coverage"] = (
         f"{year}: {' and '.join(open_coverage) or 'no open-data leagues yet'}. "
@@ -487,7 +520,8 @@ def refresh_open_schedules(
         )
         + "ESPN golf leaderboards appear in current/past agenda sections and event popups. Football kickoff times use confirmed league timezone conventions; "
         "ESPN fills independently confirmed missing clocks with its own attribution. "
-        "Unconfirmed clocks remain date-only. F1 times use the source's UTC fields."
+        "Unconfirmed clocks remain date-only. World Cup clocks use explicit source UTC offsets. "
+        "F1 times use the source's UTC fields."
     )
     feed_kinds = sorted(
         (

@@ -31,7 +31,7 @@ def _participant_payload(participant: Participant | None) -> dict[str, Any] | No
             {"country_code": participant.metadata["country_code"]}
             if participant.entity_type == "national_team"
             and isinstance(participant.metadata.get("country_code"), str)
-            and re.fullmatch(r"[A-Z]{2}", participant.metadata["country_code"])
+            and re.fullmatch(r"[A-Z]{2}|GB-(?:ENG|SCT)", participant.metadata["country_code"])
             else {}
         ),
     }
