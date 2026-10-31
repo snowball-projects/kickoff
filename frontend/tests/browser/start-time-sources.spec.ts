@@ -32,8 +32,8 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       page.on("pageerror", (error) => errors.push(error.message));
       page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
       await page.clock.setFixedTime(new Date("2026-06-27T17:00:00Z"));
-      await page.addInitScript(() => localStorage.setItem("kickoff.interests.v3", JSON.stringify({
-        leagues: ["PFL"], motorsport_events: [], climbing: { genders: [], disciplines: [] }, weightlifting: { genders: [] },
+      await page.addInitScript(() => localStorage.setItem("kickoff.interests.v4", JSON.stringify({
+        leagues: ["PFL"], motorsport_events: [], climbing: { levels: [], genders: [], disciplines: [] }, weightlifting: { levels: [], genders: [] },
       })));
       const files = publishedFiles([{ season: 2026, events: [event] }, { season: 2027, events: [] }]);
       await page.route("**/data/*.json", async (route) => {
