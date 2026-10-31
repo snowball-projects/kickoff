@@ -45,12 +45,14 @@ FOOTBALL_TIMEZONES = {
 }
 SOURCES = [
     {
+        "kind": "openfootball",
         "name": "openfootball contributors",
         "url": "https://github.com/openfootball/football.json",
         "license": "CC0 1.0",
         "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
     },
     {
+        "kind": "f1db",
         "name": "F1DB and contributors",
         "url": "https://github.com/f1db/f1db",
         "license": "CC BY 4.0",

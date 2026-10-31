@@ -62,7 +62,8 @@ h1, h2, h3, p { margin: 0; }
 .event-pill { display: flex; align-items: center; gap: 3px; padding: 0 4px; height: 22px; min-height: 22px; width: 100%; border-radius: 4px; color: var(--ink); background: var(--pill); text-align: left; font-size: 11px; font-weight: 600; white-space: nowrap; min-width: 0; }
 .event-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: -3px; }
 .more-events:focus-visible { outline-offset: -3px; }
-.pill-text { display: block; flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
+.pill-text { display: block; flex: 0 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; }
+.pill-text.truncated { mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
 .sport-icon { display: inline-block; width: 14px; height: 14px; fill: currentColor; stroke: none; flex: none; vertical-align: middle; }
 .country-flag { flex: none; font-size: 12px; line-height: 1; }
 .event-flags { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 5px; }
@@ -108,6 +109,7 @@ h1, h2, h3, p { margin: 0; }
 .sheet[open] { display: flex; flex-direction: column; }
 .sheet::backdrop { background: #0006; }
 .sheet.closing { animation: sheet-out .18s ease-in forwards; pointer-events: none; }
+.sheet.closing::backdrop { pointer-events: auto; }
 .sheet-header { flex: none; position: relative; padding: 29px 56px 15px; min-height: 76px; text-align: center; touch-action: none; }
 .sheet-header h2 { font-size: 18px; }
 .grabber { width: 34px; height: 5px; border-radius: 6px; position: absolute; top: 9px; left: calc(50% - 17px); background: var(--line); }
@@ -220,3 +222,13 @@ h1, h2, h3, p { margin: 0; }
   *, *::before, *::after { animation-duration: .001ms !important; transition: none !important; scroll-behavior: auto !important; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
+
+.about-updated { color: var(--muted); }
+.about-source { padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.55; }
+.about-source p { margin: 0; }
+.about-source summary { cursor: pointer; }
+.about-source summary span { color: var(--muted); }
+.about-source ul { padding-left: 20px; margin: 10px 0 0; }
+.about-source li + li { margin-top: 10px; }
+.about .about-license-notice { font-size: 11px; color: var(--muted); }
+.about-footer { padding-top: 20px; font-size: 14px; }

@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { browserTimezone, firstOfMonth, formatLongDate, monthAnchorsInRange, monthLabel, monthTitle, monthWeeksSunStart,
-  timezoneLabel, todayIso, WEEKDAY_NARROW, yearMonthAnchors } from "./date-utils";
+  todayIso, WEEKDAY_NARROW, yearMonthAnchors } from "./date-utils";
 import type { EventCard, FilterState } from "./types";
 import InterestGroups from "./InterestGroups";
 import { interestGroups } from "./calendar-helpers";
@@ -10,6 +10,7 @@ import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { boundMonth, dayAfter, monthAt, monthIndex, scheduleWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
 import Agenda from "./Agenda";
+import About from "./About";
 import DayTimeline from "./DayTimeline";
 import DayBar from "./DayBar";
 import Sheet, { EventSheet } from "./Sheet";
@@ -42,6 +43,8 @@ export default function App() {
   const [savedUpcoming, setUpcoming] = useState<UpcomingWindow | null>(null);
   const dayHeading = useRef<HTMLHeadingElement>(null);
   const transition = useRef<ViewTransition | null>(null);
+  const transitionId = useRef(0);
+  const brand = useRef<HTMLAnchorElement>(null);
   const bounds = scheduleWindow(today);
   const signature = JSON.stringify({ ...EMPTY, ...preferences, followed_leagues: preferences.leagues });
   const upcomingKey = `${today}:${signature}`;
@@ -84,11 +87,12 @@ export default function App() {
   }, [today]);
   useLayoutEffect(() => { if (view === "day") dayHeading.current?.focus({ preventScroll: true }); }, [view]);
   function animate(update: () => void, motion = "zoom") {
+    const id = ++transitionId.current;
     transition.current?.skipTransition();
     if (motion === "zoom") flushSync(() => setSplitDate(null));
     if (!document.startViewTransition || matchMedia("(prefers-reduced-motion: reduce)").matches) { update(); return; }
     document.documentElement.dataset.motion = motion;
-    transition.current = document.startViewTransition(() => flushSync(update));
+    transition.current = document.startViewTransition(() => { if (id === transitionId.current) flushSync(update); });
     void transition.current.finished.catch(() => {});
   }
   function navigate(date: string, focus = false) {
@@ -125,6 +129,25 @@ export default function App() {
     if (view === "day") { switchDay(now); return; }
     animate(() => { setView("month"); navigate(now); });
   }
+  function goHome(event: React.MouseEvent) {
+    event.preventDefault();
+    ++transitionId.current;
+    transition.current?.skipTransition();
+    const now = todayIso();
+    flushSync(() => {
+      setSheet(null); setScheduleView("calendar"); setView("month"); setSplitDate(null);
+      setToday(now); setDay(now); navigate(now);
+    });
+    try { localStorage.setItem(VIEW_KEY, "calendar"); } catch { /* Active for this visit. */ }
+  }
+  function backdropHome(event: React.MouseEvent) {
+    // A modal dialog makes the header inert, so its backdrop receives clicks
+    // on the visible logo. Route that same hit area to the home action.
+    if (!sheet || !(event.target instanceof HTMLDialogElement)) return;
+    const rect = brand.current?.getBoundingClientRect();
+    if (rect && event.clientX >= rect.left && event.clientX <= rect.right
+      && event.clientY >= rect.top && event.clientY <= rect.bottom) goHome(event);
+  }
   function changeScheduleView() {
     const next = scheduleView === "calendar" ? "agenda" : "calendar";
     setScheduleView(next);
@@ -148,7 +171,7 @@ export default function App() {
     document.querySelector<HTMLElement>(".year-grid")?.focus();
     setMonth(boundMonth(monthAt(monthIndex(month) + delta * 12), today));
   }
-  return <div className="app-shell" onKeyDown={(event) => { if (event.key === "Escape" && view === "day" && !sheet) closeDay(); }}>
+  return <div className="app-shell" onClick={backdropHome} onKeyDown={(event) => { if (event.key === "Escape" && view === "day" && !sheet) closeDay(); }}>
     <header className={`calendar-header ${view === "day" && calendarActive ? "day-header" : ""}`}>
       <div className="topbar">
         <div className="nav-left">{calendarActive && view !== "year" && <button className="back-button"
@@ -156,7 +179,7 @@ export default function App() {
           onClick={() => view === "day" ? closeDay() : animate(() => setView("year"))}>
           ‹ {view === "day" ? monthTitle(day) : year}
         </button>}</div>
-        <a className="brand" href="https://snowball-projects.github.io/">
+        <a className="brand" ref={brand} href={import.meta.env.BASE_URL} onClick={goHome}>
           <img src={`${import.meta.env.BASE_URL}icon.png`} width="24" height="24" alt="" />kickoff
         </a>
         <div className="nav-right">
@@ -220,27 +243,7 @@ export default function App() {
       <button className="primary-button" disabled={!draftPreferences.leagues.length || !facets || loadingYears.length > 0} onClick={save}>Show my calendar</button>
     </Sheet>}
     {sheet?.kind === "info" && <Sheet title="About kickoff" onClose={() => setSheet(null)}>
-      <p>A sports calendar by <a href="https://snowball-projects.github.io/">snowball</a>.</p>
-      <p>{timezoneLabel(timezone)} · {timezone}</p>
-      <p>Updated {manifest?.updated_at?.slice(0, 10) || "unavailable"}</p>
-      <p><a href="https://github.com/snowball-projects/kickoff" target="_blank" rel="noreferrer">Source ↗</a></p>
-      <h3>Coverage</h3>
-      <p>Published schedules with ESPN golf leaderboards in Agenda and event popups. Team records are snapshots from the daily source check. Coverage is incomplete; an empty day means no matching published events. Dates and times can change.</p>
-      <p>Golf: PGA Tour and LPGA Tour tournament dates come from ESPN, including majors.</p>
-      <p>Golf rounds follow calendar days. Past rounds show final tournament results when available, not historical round standings.</p>
-      <p>Boxing: selected reviewed four-belt undisputed bouts and unifications of at least three full WBA, WBC, IBF or WBO titles in one division.
-        No interim or secondary titles, exhibitions or influencer cards.</p>
-      <p><a href="https://github.com/snowball-projects/kickoff/tree/main/data/reviewed" target="_blank" rel="noreferrer">Coverage details and omitted events ↗</a></p>
-      <p>Verified times use your browser’s timezone. Golf rounds are all-day; date-only events stay on their source dates.</p>
-      <h3>Sources</h3>
-      {manifest?.data_license_notice && <p>{manifest.data_license_notice}</p>}
-      {manifest?.sources?.map((source) => <p key={source.name}><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
-        {" · "}<a href={source.license_url} target="_blank" rel="noreferrer">{source.license}</a></p>)}
-      <h3>Privacy</h3>
-      <p>Interests and options stay in this browser. No accounts, analytics, advertising or location access. Timezone comes from your browser;
-        no lookup is sent. Past and current agenda golf sections and event popups contact ESPN; active rounds refresh while visible. Other calendar browsing contacts no sports providers. GitHub Pages receives normal hosting requests.</p>
-      {storageNote && <p>{storageNote}</p>}
-      <p><a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.md`}>Licenses</a>{" · "}<a href="https://snowball-projects.github.io/operations/#kickoff">Operations</a></p>
+      <About manifest={manifest} timezone={timezone} storageNote={storageNote} />
     </Sheet>}
   </div>;
 }

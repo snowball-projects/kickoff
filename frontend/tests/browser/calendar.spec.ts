@@ -82,7 +82,7 @@ for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(sheet).toHaveCount(0);
       await expect(pill).toBeFocused();
       await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
-      await expect(sheet).toContainText("America/Chicago");
+      await expect(sheet).toContainText("Local time · Chicago");
       await expect(sheet).toContainText("Updated 2026-10-27");
       await expect(sheet.getByRole("link", { name: "Source", exact: false }).first()).toBeVisible();
       await page.keyboard.press("Escape");

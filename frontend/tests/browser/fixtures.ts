@@ -1,4 +1,5 @@
 import { expect, type Page } from "@playwright/test";
+import type { ManifestResponse } from "../../src/types";
 import { allPreferences, INTERESTS_KEY } from "../../src/interest-preferences";
 export const event = (id: string, date = "2026-10-28", fields = {}) => ({
   event_id: id, title: id, source: "fixture", sport: "soccer", league: "EPL", season: date.slice(0, 4),
@@ -7,7 +8,7 @@ export const event = (id: string, date = "2026-10-28", fields = {}) => ({
   venue: "Town Stadium", city: "London", country: "England", competition_phase: "regular_season", tags: [], participants: [],
   source_url: "https://example.com/schedule", ...fields,
 });
-export async function setup(page: Page, events: ReturnType<typeof event>[], options: { saved?: object; firstVisit?: boolean; missing?: number; now?: string; hold?: Promise<void>; wait?: boolean } = {}) {
+export async function setup(page: Page, events: ReturnType<typeof event>[], options: { saved?: object; firstVisit?: boolean; missing?: number; now?: string; hold?: Promise<void>; wait?: boolean; metadata?: Pick<ManifestResponse, "sources" | "updated_at" | "data_license_notice"> } = {}) {
   await page.clock.setFixedTime(new Date(options.now || "2026-10-28T17:00:00Z"));
   if (!options.firstVisit) await page.addInitScript(({ saved, key }) => {
     if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(saved));
@@ -18,7 +19,7 @@ export async function setup(page: Page, events: ReturnType<typeof event>[], opti
     if (![2025, 2026, 2027].includes(year) || year === options.missing) return route.fulfill({ status: 404, body: "missing" });
     return route.fulfill({ json: {
       schema_version: "1", season: year, available_seasons: [2025, 2026, 2027], providers: [],
-      updated_at: "2026-10-27T12:00:00Z", events: events.filter((item) => item.season === String(year)),
+      updated_at: "2026-10-27T12:00:00Z", ...options.metadata, events: events.filter((item) => item.season === String(year)),
     } });
   });
   await page.goto("/");
