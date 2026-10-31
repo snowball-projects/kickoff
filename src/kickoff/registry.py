@@ -20,7 +20,6 @@ def build_registry() -> dict[str, Provider]:
         F1Provider(),
         NascarCupProvider(),
         IndyCarProvider(),
-        StaticScheduleProvider("fifa_world_cup", "FIFA_WORLD_CUP", "soccer", "reference_csv_fixture_download"),
         StaticScheduleProvider(
             "uefa_champions_league", "UEFA_CHAMPIONS_LEAGUE", "soccer", "reference_csv_fixture_download"
         ),

@@ -104,6 +104,8 @@ h1, h2, h3, p { margin: 0; }
 .timeline-events { position: absolute; inset: 0 0 0 57px; }
 .timeline-events .event-pill, .timeline-more { position: absolute; height: 28px; font-size: 12px; }
 .timeline-more { background: var(--surface); border: 1px solid var(--line); border-radius: 5px; text-align: center; }
+.timeline-now { position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; border-top: 1px solid var(--today); }
+.timeline-now time { position: absolute; top: 0; left: 0; transform: translateY(-50%); min-width: 49px; padding: 3px 4px; border-radius: 12px; background: var(--today); color: #101820; font-size: 11px; font-weight: 650; text-align: center; font-variant-numeric: tabular-nums; }
 .schedule-notice, .loading-note { padding: 8px 16px; font-size: 13px; }
 .sheet { position: fixed; inset: auto 0 0; margin: 0 auto; padding: 0; border: 0; border-radius: 24px 24px 0 0; width: 100%; max-width: 100%; max-height: 90dvh; color: var(--text); background: var(--bg); box-shadow: 0 -8px 40px #0002; overflow: hidden; animation: sheet-in .22s ease-out; }
 .sheet[open] { display: flex; flex-direction: column; }

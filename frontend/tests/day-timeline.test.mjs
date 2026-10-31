@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
-const { clockMinute, dayTimeline, isAllDay, initialMinute, hourLabel, HOUR_HEIGHT, PILL_HEIGHT, DAY_HEIGHT } = await loadModule("day-timeline");
+const { clockMinute, currentMinute, dayTimeline, isAllDay, initialMinute, hourLabel, HOUR_HEIGHT, PILL_HEIGHT, DAY_HEIGHT } = await loadModule("day-timeline");
 const event = (id, fields = {}) => ({
   event_id: id, source: "fixture", season: "2026", status: "scheduled", competition_phase: "regular_season",
   league: "NFL", sport: "football", event_type: "game", title: id, calendar_date: "2026-09-10",
@@ -41,4 +41,19 @@ test("today starts at now and other dates at the first known start or midnight",
   assert.equal(initialMinute("2026-09-10", "America/Chicago", 100, now), 750);
   assert.equal(initialMinute("2026-09-11", "America/Chicago", 100, now), 100);
   assert.equal(initialMinute("2026-09-11", "America/Chicago", undefined, now), 0);
+});
+test("the current-time marker uses the viewer's date and wall clock across midnight and DST", () => {
+  for (const [instant, zone, date, minute] of [
+    ["2026-12-31T23:59:00Z", "UTC", "2026-12-31", 1439],
+    ["2027-01-01T00:00:00Z", "UTC", "2027-01-01", 0],
+    ["2026-12-31T23:30:00Z", "Asia/Kathmandu", "2027-01-01", 315],
+    ["2027-01-01T00:30:00Z", "America/Los_Angeles", "2026-12-31", 990],
+    ["2026-03-08T07:59:00Z", "America/Chicago", "2026-03-08", 119],
+    ["2026-03-08T08:00:00Z", "America/Chicago", "2026-03-08", 180],
+    ["2026-11-01T06:59:00Z", "America/Chicago", "2026-11-01", 119],
+    ["2026-11-01T07:00:00Z", "America/Chicago", "2026-11-01", 60],
+  ]) {
+    assert.equal(currentMinute(date, zone, Date.parse(instant)), minute);
+    assert.equal(currentMinute("2026-09-10", zone, Date.parse(instant)), null);
+  }
 });
