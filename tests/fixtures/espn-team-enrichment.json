@@ -1,0 +1,574 @@
+{
+  "checked_date": "2026-10-31",
+  "sources": {
+    "epl": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=2026&limit=1000",
+    "standings": "https://site.api.espn.com/apis/v2/sports/soccer/eng.1/standings",
+    "nhl": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=202610&limit=1000",
+    "mlb": "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=202610&limit=1000",
+    "world_cup": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=2026&limit=1000",
+    "nhl_2025": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=202501&limit=1000",
+    "nhl_neutral": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=202612&limit=1000"
+  },
+  "epl": {
+    "id": "401879189",
+    "date": "2026-12-30T20:15Z",
+    "links": [
+      {
+        "href": "https://www.espn.com/soccer/match/_/gameId/401879189/chelsea-ipswich-town"
+      }
+    ],
+    "status": {
+      "type": {
+        "name": "STATUS_SCHEDULED",
+        "completed": false,
+        "detail": "Wed, December 30th at 3:15 PM EST",
+        "shortDetail": "Scheduled"
+      }
+    },
+    "competitions": [
+      {
+        "date": "2026-12-30T20:15Z",
+        "timeValid": true,
+        "notes": [],
+        "status": {
+          "type": {
+            "name": "STATUS_SCHEDULED",
+            "completed": false,
+            "detail": "Wed, December 30th at 3:15 PM EST",
+            "shortDetail": "Scheduled"
+          }
+        },
+        "competitors": [
+          {
+            "homeAway": "home",
+            "records": [
+              {
+                "name": "All Splits",
+                "type": "total",
+                "summary": "3-2-4",
+                "abbreviation": "Total"
+              }
+            ],
+            "score": "0",
+            "team": {
+              "id": "373",
+              "displayName": "Ipswich Town",
+              "shortDisplayName": "Ipswich"
+            }
+          },
+          {
+            "homeAway": "away",
+            "records": [
+              {
+                "name": "All Splits",
+                "type": "total",
+                "summary": "5-1-3",
+                "abbreviation": "Total"
+              }
+            ],
+            "score": "0",
+            "team": {
+              "id": "363",
+              "displayName": "Chelsea",
+              "shortDisplayName": "Chelsea"
+            }
+          }
+        ]
+      }
+    ],
+    "season": {
+      "year": 2026,
+      "type": 14308,
+      "slug": "2026-27-english-premier-league"
+    }
+  },
+  "nhl": {
+    "id": "401891822",
+    "date": "2026-10-03T23:00Z",
+    "links": [
+      {
+        "href": "https://www.espn.com/nhl/game/_/gameId/401891822/canadiens-penguins"
+      }
+    ],
+    "status": {
+      "type": {
+        "name": "STATUS_FINAL",
+        "completed": true,
+        "detail": "Final/OT",
+        "shortDetail": "Final/OT"
+      }
+    },
+    "competitions": [
+      {
+        "date": "2026-10-03T23:00Z",
+        "timeValid": true,
+        "notes": [],
+        "status": {
+          "type": {
+            "name": "STATUS_FINAL",
+            "completed": true,
+            "detail": "Final/OT",
+            "shortDetail": "Final/OT"
+          }
+        },
+        "competitors": [
+          {
+            "homeAway": "home",
+            "records": [
+              {
+                "name": "YTD",
+                "abbreviation": "Game",
+                "type": "ytd",
+                "summary": "2-0-0"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "HOME",
+                "type": "home",
+                "summary": "1-0-0"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "1-0-0"
+              }
+            ],
+            "score": "6",
+            "team": {
+              "id": "16",
+              "displayName": "Pittsburgh Penguins",
+              "shortDisplayName": "Penguins"
+            }
+          },
+          {
+            "homeAway": "away",
+            "records": [
+              {
+                "name": "YTD",
+                "abbreviation": "Game",
+                "type": "ytd",
+                "summary": "1-0-1"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "HOME",
+                "type": "home",
+                "summary": "0-0-0"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "1-0-1"
+              }
+            ],
+            "score": "5",
+            "team": {
+              "id": "10",
+              "displayName": "Montreal Canadiens",
+              "shortDisplayName": "Canadiens"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "mlb": {
+    "id": "401907973",
+    "date": "2026-10-02T00:00Z",
+    "links": [
+      {
+        "href": "https://www.espn.com/mlb/game/_/gameId/401907973/phillies-braves"
+      }
+    ],
+    "status": {
+      "type": {
+        "name": "STATUS_FINAL",
+        "completed": true,
+        "detail": "Final",
+        "shortDetail": "Final"
+      }
+    },
+    "competitions": [
+      {
+        "date": "2026-10-02T00:00Z",
+        "timeValid": true,
+        "notes": [
+          {
+            "type": "event",
+            "headline": "NLWC - Game 3"
+          }
+        ],
+        "status": {
+          "type": {
+            "name": "STATUS_FINAL",
+            "completed": true,
+            "detail": "Final",
+            "shortDetail": "Final"
+          }
+        },
+        "competitors": [
+          {
+            "homeAway": "home",
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "Total",
+                "type": "total",
+                "summary": "94-68"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "home",
+                "summary": "52-29"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "42-39"
+              }
+            ],
+            "score": "6",
+            "team": {
+              "id": "15",
+              "displayName": "Atlanta Braves",
+              "shortDisplayName": "Braves"
+            }
+          },
+          {
+            "homeAway": "away",
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "Total",
+                "type": "total",
+                "summary": "88-74"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "home",
+                "summary": "43-38"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "45-36"
+              }
+            ],
+            "score": "2",
+            "team": {
+              "id": "22",
+              "displayName": "Philadelphia Phillies",
+              "shortDisplayName": "Phillies"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "world_cup": {
+    "id": "760415",
+    "date": "2026-06-11T19:00Z",
+    "links": [
+      {
+        "href": "https://www.espn.com/soccer/match/_/gameId/760415/south-africa-mexico"
+      }
+    ],
+    "status": {
+      "type": {
+        "name": "STATUS_FULL_TIME",
+        "completed": true,
+        "detail": "FT",
+        "shortDetail": "FT"
+      }
+    },
+    "competitions": [
+      {
+        "date": "2026-06-11T19:00Z",
+        "timeValid": true,
+        "notes": [],
+        "status": {
+          "type": {
+            "name": "STATUS_FULL_TIME",
+            "completed": true,
+            "detail": "FT",
+            "shortDetail": "FT"
+          }
+        },
+        "competitors": [
+          {
+            "homeAway": "home",
+            "records": [
+              {
+                "name": "All Splits",
+                "type": "total",
+                "summary": "1-0-0",
+                "abbreviation": "Total"
+              }
+            ],
+            "score": "2",
+            "team": {
+              "id": "203",
+              "displayName": "Mexico",
+              "shortDisplayName": "Mexico"
+            }
+          },
+          {
+            "homeAway": "away",
+            "records": [
+              {
+                "name": "All Splits",
+                "type": "total",
+                "summary": "0-0-1",
+                "abbreviation": "Total"
+              }
+            ],
+            "score": "0",
+            "team": {
+              "id": "467",
+              "displayName": "South Africa",
+              "shortDisplayName": "South Africa"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "soccer_standings": {
+    "team_id": "363",
+    "stats": [
+      {
+        "name": "losses",
+        "value": 3.0,
+        "displayValue": "3"
+      },
+      {
+        "name": "ties",
+        "value": 1.0,
+        "displayValue": "1"
+      },
+      {
+        "name": "wins",
+        "value": 5.0,
+        "displayValue": "5"
+      }
+    ]
+  },
+  "nhl_2025": {
+    "id": "401688210",
+    "date": "2025-01-03T02:00Z",
+    "links": [
+      {
+        "href": "https://www.espn.com/nhl/game/_/gameId/401688210/mammoth-flames"
+      }
+    ],
+    "status": {
+      "type": {
+        "name": "STATUS_FINAL",
+        "completed": true,
+        "detail": "Final",
+        "shortDetail": "Final"
+      }
+    },
+    "competitions": [
+      {
+        "date": "2025-01-03T02:00Z",
+        "timeValid": true,
+        "notes": [],
+        "status": {
+          "type": {
+            "name": "STATUS_FINAL",
+            "completed": true,
+            "detail": "Final",
+            "shortDetail": "Final"
+          }
+        },
+        "competitors": [
+          {
+            "homeAway": "home",
+            "records": [
+              {
+                "name": "YTD",
+                "abbreviation": "Game",
+                "type": "ytd",
+                "summary": "18-13-7"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "HOME",
+                "type": "home",
+                "summary": "13-5-3"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "5-8-4"
+              }
+            ],
+            "score": "3",
+            "team": {
+              "id": "3",
+              "displayName": "Calgary Flames",
+              "shortDisplayName": "Flames"
+            }
+          },
+          {
+            "homeAway": "away",
+            "records": [
+              {
+                "name": "YTD",
+                "abbreviation": "Game",
+                "type": "ytd",
+                "summary": "17-15-6"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "HOME",
+                "type": "home",
+                "summary": "5-7-4"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "12-8-2"
+              }
+            ],
+            "score": "5",
+            "team": {
+              "id": "129764",
+              "displayName": "Utah Hockey Club",
+              "shortDisplayName": "Utah HC"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "nhl_neutral": {
+    "id": "401891811",
+    "date": "2026-12-20T13:00Z",
+    "links": [
+      {
+        "href": "https://www.espn.com/nhl/game/_/gameId/401891811/blackhawks-senators"
+      }
+    ],
+    "status": {
+      "type": {
+        "name": "STATUS_SCHEDULED",
+        "completed": false,
+        "detail": "Sun, December 20th at 8:00 AM EST",
+        "shortDetail": "12/20 - 8:00 AM EST"
+      }
+    },
+    "competitions": [
+      {
+        "date": "2026-12-20T13:00Z",
+        "timeValid": true,
+        "notes": [
+          {
+            "type": "event",
+            "headline": "NHL Global Series"
+          }
+        ],
+        "status": {
+          "type": {
+            "name": "STATUS_SCHEDULED",
+            "completed": false,
+            "detail": "Sun, December 20th at 8:00 AM EST",
+            "shortDetail": "12/20 - 8:00 AM EST"
+          }
+        },
+        "neutralSite": true,
+        "competitors": [
+          {
+            "homeAway": "home",
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "TOTAL",
+                "type": "total",
+                "summary": "9-5-1"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "HOME",
+                "type": "home",
+                "summary": "5-2-0"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "4-3-1"
+              }
+            ],
+            "score": "0",
+            "team": {
+              "id": "14",
+              "displayName": "Ottawa Senators",
+              "shortDisplayName": "Senators"
+            }
+          },
+          {
+            "homeAway": "away",
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "TOTAL",
+                "type": "total",
+                "summary": "4-9-1"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "HOME",
+                "type": "home",
+                "summary": "4-4-0"
+              },
+              {
+                "name": "Road",
+                "abbreviation": "AWAY",
+                "type": "road",
+                "summary": "0-5-1"
+              }
+            ],
+            "score": "0",
+            "team": {
+              "id": "4",
+              "displayName": "Chicago Blackhawks",
+              "shortDisplayName": "Blackhawks"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "nhl_neutral_primary": {
+    "event_id": "nhl-nhl-2026020577",
+    "calendar_date": "2026-12-20",
+    "start_time_utc": "2026-12-20T13:00:00Z",
+    "source_url": "https://www.nhl.com/gamecenter/2026020577",
+    "facts_source_url": "https://api-web.nhle.com/v1/schedule/2026-12-17",
+    "facts_checked_date": "2026-10-31",
+    "home_participant": {
+      "name": "Chicago Blackhawks",
+      "participant_id": "16",
+      "short_name": "Blackhawks",
+      "role": "home",
+      "entity_type": "team"
+    },
+    "away_participant": {
+      "name": "Ottawa Senators",
+      "participant_id": "9",
+      "short_name": "Senators",
+      "role": "away",
+      "entity_type": "team"
+    }
+  }
+}

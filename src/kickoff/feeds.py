@@ -193,6 +193,17 @@ def _record(value) -> str | None:
     return value if isinstance(value, str) and re.fullmatch(r"\d+(?:-\d+){1,2}", value) else None
 
 
+def _espn_record(competitor: dict, sport: str) -> str | None:
+    # Soccer total summaries are W-D-L (confirmed against named standings
+    # wins/ties/losses). NHL labels its overall season record YTD; home,
+    # road and tournament-group splits never stand in for an overall record.
+    for kind in ("total", "ytd") if sport == "hockey" else ("total",):
+        for record in competitor.get("records") or []:
+            if record.get("type") == kind and (summary := _record(record.get("summary"))):
+                return summary
+    return None
+
+
 def _espn_finished(event: dict, competition: dict) -> bool:
     return any(
         (item.get("status") or {}).get("type", {}).get("completed") is True
@@ -207,9 +218,7 @@ def _espn_participants(event: CalendarEvent, competitors: list, finished: bool) 
         team = row.get("team") or {}
         participant.participant_id = str(team["id"]) if team.get("id") is not None else None
         participant.short_name = team.get("shortDisplayName") or team.get("abbreviation")
-        participant.record = next(
-            (_record(r.get("summary")) for r in row.get("records") or [] if r.get("type") == "total"), None
-        )
+        participant.record = _espn_record(row, event.sport)
         participant.final_score = _score(row.get("score")) if finished else None
 
 

@@ -1,0 +1,14 @@
+{
+  "NHL": {
+    "source_url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=202610&limit=1000",
+    "checked_date": "2026-10-31",
+    "teams": {
+      "Montréal Canadiens": "Montreal Canadiens",
+      "Utah Utah Hockey Club": "Utah Hockey Club"
+    },
+    "source_urls": [
+      "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=202610&limit=1000",
+      "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates=202501&limit=1000"
+    ]
+  }
+}
