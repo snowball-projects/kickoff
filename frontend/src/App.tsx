@@ -254,7 +254,7 @@ export default function App() {
       {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} preferences={draftPreferences} onChange={setDraftPreferences} />}
       <div className="interest-actions"><button disabled={!leagues.length} onClick={() => setDraftPreferences(allPreferences(interestGroups(leagues).flatMap((group) => group.leagues)))}>Select all</button>
         <button onClick={() => setDraftPreferences(defaultPreferences())}>Clear</button></div>
-      <button className="primary-button" disabled={!draftPreferences.leagues.length || !facets || loadingYears.length > 0} onClick={save}>Show my calendar</button>
+      <button className="primary-button" disabled={!draftPreferences.leagues.length || !facets} onClick={save}>Show my calendar</button>
     </Sheet>}
     {sheet?.kind === "info" && <Sheet title="About kickoff" onClose={() => setSheet(null)}>
       <About manifest={manifest} timezone={timezone} storageNote={storageNote} />
