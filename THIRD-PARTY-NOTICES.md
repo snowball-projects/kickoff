@@ -146,11 +146,11 @@ Material Design Icons, Pictogrammers and contributors: Apache License 2.0.
 https://pictogrammers.com/docs/general/license/
 https://github.com/Templarian/MaterialDesign/tree/2424e748e0cc63ab7b9c095a099b9fe239b737c0/svg
 Checked 2026-10-31. Bundled icons: soccer, car-sports, football, basketball,
-baseball, hockey-sticks, karate, golf, terrain, weight-lifter, tennis and rugby.
+baseball, hockey-sticks, karate, golf, terrain, weight-lifter, tennis, rugby, bike, run-fast and cricket.
 Upstream authors: Google (soccer, football, basketball, hockey-sticks, karate,
 golf, terrain, tennis, rugby), Nick (baseball), GreenTurtwig (car-sports) and Michael Irigoyen
-(weight-lifter), as identified in the pinned upstream meta.json.
-Changes: extracted the twelve SVG path shapes into a local currentColor component;
+(weight-lifter), plus Google (bike, cricket) and Austin Andrews (run-fast), as identified in the pinned upstream meta.json.
+Changes: extracted the selected SVG path shapes into a local currentColor component;
 omitted XML wrappers and IDs. Shapes are unchanged. No brand or logo icons.
 
 

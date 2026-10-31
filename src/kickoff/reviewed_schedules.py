@@ -160,6 +160,21 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                     raise ValueError("Invalid weightlifting session clock")
                 local = datetime.combine(start, time.fromisoformat(row["local_time"]), get_zoneinfo(zone))
             gender_tags = row.get("tags", [])
+        elif source["kind"] == "wikipedia" and row.get("local_time") is not None:
+            zone = row.get("event_timezone")
+            if (
+                start != end
+                or not zone
+                or zone != source.get("clock_timezone")
+                or not source.get("clock_evidence")
+                or row.get("source_url") != source["url"]
+                or time_scope != "event"
+            ):
+                raise ValueError("Wikipedia clock needs an explicit source timezone and a single-day event")
+            date.fromisoformat(row["checked_date"])
+            if not re.fullmatch(r"(?:[01][0-9]|2[0-3]):[0-5][0-9]", row["local_time"]):
+                raise ValueError("Invalid Wikipedia event clock")
+            local = datetime.combine(start, time.fromisoformat(row["local_time"]), get_zoneinfo(zone))
         elif row.get("local_time") is not None or time_scope != "event":
             raise ValueError("Reviewed date registry cannot establish a clock time")
         phase = row.get("competition_phase", "regular_season")
@@ -182,6 +197,8 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 raise ValueError("Reviewed game needs both participants")
             home = Participant(name=row["home_team"], role="home")
             away = Participant(name=row["away_team"], role="away")
+        participants = [away, home] if home and away else [Participant(name=name) for name in row.get("teams", [])]
+        checked = row.get("checked_date") if source["kind"] == "wikipedia" else None
         events.append(
             CalendarEvent(
                 event_id=row["id"],
@@ -205,10 +222,14 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 country_checked_date=country_checked_date,
                 home_participant=home,
                 away_participant=away,
-                participants=[away, home] if home and away else [],
+                participants=participants,
                 calendar_date=start.isoformat(),
                 end_calendar_date=end.isoformat(),
                 source_url=source["url"],
+                facts_source_url=source["url"] if checked else None,
+                facts_checked_date=checked,
+                start_time_source="wikipedia" if local and source["kind"] == "wikipedia" else None,
+                start_time_source_url=source["url"] if local and source["kind"] == "wikipedia" else None,
                 **classification_fields("championship" if row["league"] == "IWF_WORLDS" else phase),
                 round_or_stage=row.get("round_or_stage"),
                 tags=(["session"] if row["event_type"] == "session" else ["event dates"]) + disciplines + gender_tags,

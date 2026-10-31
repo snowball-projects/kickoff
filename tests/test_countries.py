@@ -122,12 +122,14 @@ def test_reviewed_countries_retain_pinned_sources_and_leave_unstated_locations_e
         "PFL": 16,
         "ONE": 16,
         "RIZIN": 9,
+        "DIAMOND_LEAGUE": 15,
     }
     receipts = {source["url"]: source for source in sources}
     for event in known:
         assert event.country_source_url == event.source_url
-        assert event.country_checked_date == receipts[event.source_url]["country_checked_date"] == "2026-10-29"
-        assert "country_input_url" in receipts[event.source_url]
+        receipt = receipts[event.source_url]
+        assert event.country_checked_date == receipt.get("country_checked_date", receipt.get("checked_date"))
+        assert receipt.get("country_input_url", receipt.get("input_url"))
     by_id = {event.event_id: event for event in scoped}
     assert by_id["ufc-333"].country == "AE"
     assert by_id["rizin-2026-new-years-eve"].country == "JP"

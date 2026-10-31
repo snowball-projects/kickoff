@@ -10,6 +10,7 @@ test("every named category has its own family colour", async () => {
   assert.equal(palette.length, Object.values(CATEGORY_KEYS).length);
   assert.equal(new Set(palette.map((entry) => entry.base)).size, palette.length);
   assert.deepEqual(palette.map((entry) => entry.key).sort(), Object.values(CATEGORY_KEYS).sort());
+  for (const sport of ["Cycling", "Athletics", "Cricket"]) assert(CATEGORY_KEYS[sport]);
   for (const key of Object.values(CATEGORY_KEYS)) assert(palette.some((entry) => entry.key === key));
   for (const league of ["F1", "NASCAR_CUP", "INDYCAR"])
     assert.equal(leagueVisual(league).className, "category-motorsport");
