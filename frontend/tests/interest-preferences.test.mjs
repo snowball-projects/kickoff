@@ -9,12 +9,12 @@ const storage = (values) => ({ getItem: (key) => values[key] || null });
 
 test("new preferences start empty, ignore the old key and save explicit option choices", async () => {
   const { readPreferences, defaultPreferences, allPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
-  assert.equal(INTERESTS_KEY, "kickoff.interests.v3");
+  assert.equal(INTERESTS_KEY, "kickoff.interests.v4");
   assert.deepEqual(readPreferences(storage({})), defaultPreferences());
-  assert.deepEqual(readPreferences(storage({ "kickoff.interests.v2": JSON.stringify({ leagues: ["NFL"] }) })), defaultPreferences());
+  assert.deepEqual(readPreferences(storage({ "kickoff.interests.v3": JSON.stringify({ leagues: ["NFL"] }) })), defaultPreferences());
   assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: "broken" })), defaultPreferences());
-  assert.deepEqual(defaultPreferences(), { leagues: [], motorsport_events: [], climbing: { genders: [], disciplines: [] }, weightlifting: { genders: [] } });
-  const saved = { ...allPreferences(["PGA_TOUR", "F1", "IFSC_WORLD_CUP"]), motorsport_events: ["qualifying", "race"], climbing: { genders: ["Women"], disciplines: ["Lead"] } };
+  assert.deepEqual(defaultPreferences(), { leagues: [], motorsport_events: [], climbing: { levels: [], genders: [], disciplines: [] }, weightlifting: { levels: [], genders: [] } });
+  const saved = { ...allPreferences(["PGA_TOUR", "F1", "IFSC_WORLD_CUP"]), motorsport_events: ["qualifying", "race"], climbing: { levels: ["Youth"], genders: ["Women"], disciplines: ["Lead"] } };
   assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(saved) })), saved);
 });
 
@@ -23,8 +23,8 @@ test("wrong-shaped current preferences fall back to empty selections without mig
   const valid = allPreferences(["F1"]);
   for (const value of [true, "saved", [], {}, { leagues: null }, { leagues: ["F1"] },
     { ...valid, leagues: "F1" }, { ...valid, leagues: [1] }, { ...valid, motorsport_events: null },
-    { ...valid, climbing: {} }, { ...valid, climbing: { genders: ["Men"], disciplines: null } },
-    { ...valid, weightlifting: null }, { ...valid, weightlifting: { genders: [false] } }])
+    { ...valid, climbing: {} }, { ...valid, climbing: { ...valid.climbing, levels: null } }, { ...valid, climbing: { genders: ["Men"], disciplines: null } },
+    { ...valid, weightlifting: null }, { ...valid, weightlifting: { ...valid.weightlifting, levels: [false] } }, { ...valid, weightlifting: { genders: [false] } }])
     assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(value) })), defaultPreferences());
 });
 
@@ -60,13 +60,13 @@ test("gender and discipline intersect, combined sessions match either, and unkno
   assert.equal(matchesInterestOptions(climbing(["Lead"]), filters), true);
   assert.equal(matchesInterestOptions(climbing(["Women"]), filters), true);
   assert.equal(matchesInterestOptions(climbing([]), filters), true);
-  assert.equal(matchesInterestOptions(climbing([]), { climbing: { genders: [], disciplines: ["Lead"] } }), false);
+  assert.equal(matchesInterestOptions(climbing([]), { climbing: { levels: [], genders: [], disciplines: ["Lead"] } }), false);
   assert.equal(matchesInterestOptions(climbing([]), { climbing: { genders: ["Women"], disciplines: [] } }), false);
   const lifting = (tags) => ({ sport: "weightlifting", league: "MASTERS_WORLDS", tags });
   assert.equal(matchesInterestOptions(lifting(["Men", "Women"]), filters), true);
   assert.equal(matchesInterestOptions(lifting(["Women"]), filters), false);
   assert.equal(matchesInterestOptions(lifting([]), filters), true);
-  assert.equal(matchesInterestOptions(lifting([]), { weightlifting: { genders: [] } }), false);
+  assert.equal(matchesInterestOptions(lifting([]), { weightlifting: { levels: [], genders: [] } }), false);
   assert.equal(matchesInterestOptions({ sport: "soccer", league: "EPL", tags: [] }, filters), true);
 });
 
