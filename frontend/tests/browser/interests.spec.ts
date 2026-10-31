@@ -1,5 +1,7 @@
 import { expect, test } from "./test";
 import { agendaToggle, chooser, event, setup } from "./fixtures";
+import { CATEGORY_KEYS } from "../../src/calendar-helpers";
+const sportCount = Object.keys(CATEGORY_KEYS).length;
 
 const events = [
   ...["EPL", "BUNDESLIGA", "LA_LIGA"].map((league) => event(`${league} match`, undefined, { league })),
@@ -49,11 +51,11 @@ async function expectTrayRow(page: Parameters<typeof chooser>[0], name: string, 
 for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as const) {
   test.describe(`sport pills ${width}px ${colorScheme}`, () => {
     test.use({ viewport: { width, height: 844 }, colorScheme, reducedMotion: "reduce" });
-    test("first visit, ten pills, row trays, partial counts, single-league toggles, all and clear", async ({ page }) => {
+    test("first visit, sport pills, row trays, partial counts, single-league toggles, all and clear", async ({ page }) => {
       await setup(page, events, { firstVisit: true });
       await expect(chooser(page)).toBeVisible();
-      await expect(chooser(page).locator(".sport-pill")).toHaveCount(10);
-      await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+      await expect(chooser(page).locator(".sport-pill")).toHaveCount(sportCount);
+      await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(sportCount);
       await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
       await expect(chooser(page).locator("input, details, summary")).toHaveCount(0);
       const golfRow = await rowEnd(page, "Golf");
@@ -95,10 +97,10 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
         await expect(pill(page, name)).toHaveAttribute("aria-pressed", "false");
       }
       await chooser(page).getByRole("button", { name: "Select all", exact: true }).click();
-      await expect(chooser(page).locator('.sport-pill[aria-pressed="true"]')).toHaveCount(10);
+      await expect(chooser(page).locator('.sport-pill[aria-pressed="true"]')).toHaveCount(await chooser(page).locator('.sport-pill:not(:disabled)').count());
       await page.screenshot({ path: `test-results/interests-all-${width}-${colorScheme}.png` });
       await chooser(page).getByRole("button", { name: "Clear", exact: true }).click();
-      await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+      await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(sportCount);
       await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
@@ -223,7 +225,7 @@ test("old storage is ignored and delayed choices leave the first visit empty", a
   await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
   await expect(chooser(page).getByRole("button", { name: "Select all", exact: true })).toBeDisabled();
   release();
-  await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+  await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(sportCount);
   await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
   await pill(page, "Football").press("Space");
   await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
@@ -247,7 +249,7 @@ for (const value of [{}, { leagues: null }, { leagues: ["F1"] }]) {
     await page.addInitScript((value) => localStorage.setItem("kickoff.interests.v4", JSON.stringify(value)), value);
     await setup(page, events, { firstVisit: true });
     await expect(chooser(page)).toBeVisible();
-    await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+    await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(sportCount);
     await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
     await pill(page, "Motorsports").click();
     await expect(tray(page, "Motorsports").getByRole("button", { name: "Race", exact: true })).toHaveAttribute("aria-pressed", "true");

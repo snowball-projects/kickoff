@@ -82,6 +82,27 @@ const LEAGUE_META: Record<
   CLIMBING_SOUTH_AM_GAMES: { shortLabel: "South American Games" },
   PGA_TOUR: { shortLabel: "PGA Tour" },
   LPGA_TOUR: { shortLabel: "LPGA Tour" },
+  DP_WORLD_TOUR: { shortLabel: "DP World Tour" },
+  LIV_GOLF: { shortLabel: "LIV Golf" },
+  ATP: { shortLabel: "ATP" },
+  WTA: { shortLabel: "WTA" },
+  RUGBY_WORLD_CUP: { shortLabel: "Rugby World Cup" },
+  WOMENS_RUGBY_WORLD_CUP: { shortLabel: "Women's Rugby World Cup" },
+  SIX_NATIONS: { shortLabel: "Six Nations" },
+  RUGBY_CHAMPIONSHIP: { shortLabel: "The Rugby Championship" },
+  NATIONS_CHAMPIONSHIP: { shortLabel: "Nations Championship" },
+  RUGBY_CHAMPIONS_CUP: { shortLabel: "Champions Cup" },
+  RUGBY_CHALLENGE_CUP: { shortLabel: "Challenge Cup" },
+  PREMIERSHIP_RUGBY: { shortLabel: "Gallagher Prem" },
+  UNITED_RUGBY_CHAMPIONSHIP: { shortLabel: "United Rugby Championship" },
+  TOP_14: { shortLabel: "Top 14" },
+  SUPER_RUGBY_PACIFIC: { shortLabel: "Super Rugby Pacific" },
+  CURRIE_CUP: { shortLabel: "Currie Cup" },
+  NPC: { shortLabel: "National Provincial Championship" },
+  URBA_TOP_14: { shortLabel: "URBA Top 14" },
+  MAJOR_LEAGUE_RUGBY: { shortLabel: "Major League Rugby" },
+  BRITISH_IRISH_LIONS: { shortLabel: "British and Irish Lions" },
+  RUGBY_TESTS: { shortLabel: "International tests" },
 };
 
 export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = {
@@ -112,7 +133,12 @@ const SPORT_GROUPS = [
   { name: "Baseball", leagues: ["MLB"] },
   { name: "Hockey", leagues: ["NHL"] },
   { name: "Combat sports", leagues: ["UFC", "PFL", "RIZIN", "ONE", "BOXING_MAJOR"] },
-  { name: "Golf", leagues: ["PGA_TOUR", "LPGA_TOUR"] },
+  { name: "Golf", leagues: ["PGA_TOUR", "LPGA_TOUR", "DP_WORLD_TOUR", "LIV_GOLF"] },
+  { name: "Tennis", leagues: ["ATP", "WTA"] },
+  { name: "Rugby", leagues: ["RUGBY_WORLD_CUP", "WOMENS_RUGBY_WORLD_CUP", "SIX_NATIONS", "RUGBY_CHAMPIONSHIP",
+    "NATIONS_CHAMPIONSHIP", "RUGBY_CHAMPIONS_CUP", "RUGBY_CHALLENGE_CUP", "PREMIERSHIP_RUGBY",
+    "UNITED_RUGBY_CHAMPIONSHIP", "TOP_14", "SUPER_RUGBY_PACIFIC", "CURRIE_CUP", "NPC", "URBA_TOP_14",
+    "MAJOR_LEAGUE_RUGBY", "BRITISH_IRISH_LIONS", "RUGBY_TESTS"] },
   { name: "Climbing", leagues: ["IFSC_WORLD_CUP", "IFSC_WORLDS", "IFSC_YOUTH_WORLDS", "IFSC_YOUTH_WORLD_CHAMPIONSHIPS",
     "IFSC_PARA_WORLD_CUP", "IFSC_PARA_WORLDS", "CLIMBING_EUROPE", "CLIMBING_ASIA", "CLIMBING_AFRICA", "CLIMBING_OCEANIA",
     "CLIMBING_PAN_AMERICA", "CLIMBING_OLYMPIC_QUALIFIERS", "CLIMBING_CONTINENTAL_CUP", "CLIMBING_YOUTH_CONTINENTAL_CUP",
@@ -144,7 +170,7 @@ export function toggleInterestGroup(selected: string[], leagues: string[]) {
 export const CATEGORY_KEYS = {
   Soccer: "soccer", Motorsports: "motorsport", "Football": "american-football",
   Basketball: "basketball", Baseball: "baseball", Hockey: "hockey", "Combat sports": "combat",
-  Golf: "golf", Climbing: "climbing", Weightlifting: "weightlifting",
+  Golf: "golf", Tennis: "tennis", Rugby: "rugby", Climbing: "climbing", Weightlifting: "weightlifting",
 } as const;
 export type CategoryKey = typeof CATEGORY_KEYS[keyof typeof CATEGORY_KEYS];
 
@@ -153,11 +179,11 @@ const SPORT_CATEGORIES: Record<string, CategoryKey> = {
   football: "american-football", american_football: "american-football", "american-football": "american-football",
   basketball: "basketball", baseball: "baseball", hockey: "hockey", ice_hockey: "hockey",
   combat: "combat", combat_sports: "combat", mma: "combat", boxing: "combat",
-  golf: "golf", climbing: "climbing", weightlifting: "weightlifting",
+  golf: "golf", tennis: "tennis", rugby: "rugby", climbing: "climbing", weightlifting: "weightlifting",
 };
 
 // New competitions inherit their event's sport; adding a league never allocates a colour.
-// Unknown families stay neutral until deliberately assigned one of the two spares.
+// Unknown families stay neutral until deliberately assigned a family colour.
 export function categoryForLeague(league: string, sport?: string): CategoryKey | null {
   const group = SPORT_GROUPS.find((group) => group.leagues.includes(league));
   if (group) return CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS];
@@ -183,12 +209,15 @@ export function leagueVisual(league: string, sport?: string) {
 
 // One order for every view. A final/playoff takes precedence over regular play.
 const TIERS = [
-  ["FIFA_WORLD_CUP", "PGA_MAJOR", "LPGA_MAJOR", "UEFA_CHAMPIONS_LEAGUE"],
+  ["FIFA_WORLD_CUP", "PGA_MAJOR", "LPGA_MAJOR", "TENNIS_MAJOR", "RUGBY_WORLD_CUP", "WOMENS_RUGBY_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE"],
   ["NFL", "NBA", "F1", "EPL"],
   ["MLB", "NHL", "UFC", "BOXING_MAJOR", "COLLEGE_FOOTBALL"],
   ["LA_LIGA", "BUNDESLIGA", "SERIE_A", "LIGUE_1", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"],
   ["NASCAR_CUP", "INDYCAR", "IWF_WORLDS", "IFSC_WORLD_CUP"],
-  ["PGA_TOUR", "LPGA_TOUR", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"],
+  ["PGA_TOUR", "LPGA_TOUR", "DP_WORLD_TOUR", "LIV_GOLF", "ATP", "WTA", "SIX_NATIONS", "RUGBY_CHAMPIONSHIP",
+    "NATIONS_CHAMPIONSHIP", "RUGBY_CHAMPIONS_CUP", "PREMIERSHIP_RUGBY", "UNITED_RUGBY_CHAMPIONSHIP", "TOP_14",
+    "SUPER_RUGBY_PACIFIC", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"],
+  ["RUGBY_CHALLENGE_CUP", "CURRIE_CUP", "NPC", "URBA_TOP_14", "MAJOR_LEAGUE_RUGBY", "BRITISH_IRISH_LIONS", "RUGBY_TESTS"],
   ["PFL", "RIZIN", "ONE"],
   ["IFSC_PARA_WORLD_CUP", "IFSC_PARA_WORLDS", "IFSC_YOUTH_WORLD_CHAMPIONSHIPS", "IFSC_YOUTH_WORLDS",
     "IWF_JUNIOR_WORLDS", "IWF_YOUTH_WORLDS", "MASTERS_WORLDS",
@@ -196,12 +225,9 @@ const TIERS = [
     "WEIGHTLIFTING_PAN_AMERICA", "WEIGHTLIFTING_COMMONWEALTH_GAMES", "WEIGHTLIFTING_ASIAN_GAMES", "WEIGHTLIFTING_PAN_AM_GAMES"],
 ];
 const RANKS = new Map(TIERS.flatMap((tier, index) => tier.map((league, order) => [league, index * 100 + order] as const)));
-function golfMajor(event: EventCard) {
-  return ["PGA_TOUR", "LPGA_TOUR"].includes(event.league) && event.competition_phase === "championship";
-}
+const MAJOR_LEAGUES: Record<string, string> = { PGA_TOUR: "PGA_MAJOR", LPGA_TOUR: "LPGA_MAJOR", ATP: "TENNIS_MAJOR", WTA: "TENNIS_MAJOR" };
 function eventRank(event: EventCard) {
-  const league = golfMajor(event)
-    ? event.league === "LPGA_TOUR" ? "LPGA_MAJOR" : "PGA_MAJOR" : event.league;
+  const league = event.competition_phase === "championship" ? MAJOR_LEAGUES[event.league] || event.league : event.league;
   return RANKS.get(league) ?? 899;
 }
 const POSTSEASON_PHASES = new Set(["postseason", "knockout", "final", "championship"]);

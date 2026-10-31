@@ -47,6 +47,30 @@ GOLF_MAJORS = {
         "AIG Women's Open",
     },
 }
+# ESPN's current top-level rugby union competitions. Sevens, lower divisions
+# and discontinued replacement competitions are separate calendars.
+# https://sports.core.api.espn.com/v2/sports/rugby/leagues?limit=1000
+# https://site.api.espn.com/apis/site/v2/leagues/dropdown?sport=rugby
+# Checked 2026-10-31; an unpublished season remains an empty source schedule.
+RUGBY_LEAGUES = {
+    "RUGBY_WORLD_CUP": ("164205", "Rugby World Cup"),
+    "WOMENS_RUGBY_WORLD_CUP": ("289237", "Women's Rugby World Cup"),
+    "SIX_NATIONS": ("180659", "Six Nations"),
+    "RUGBY_CHAMPIONSHIP": ("244293", "The Rugby Championship"),
+    "NATIONS_CHAMPIONSHIP": ("17567", "Nations Championship"),
+    "RUGBY_CHAMPIONS_CUP": ("271937", "European Rugby Champions Cup"),
+    "RUGBY_CHALLENGE_CUP": ("272073", "European Rugby Challenge Cup"),
+    "PREMIERSHIP_RUGBY": ("267979", "Gallagher Prem"),
+    "UNITED_RUGBY_CHAMPIONSHIP": ("270557", "United Rugby Championship"),
+    "TOP_14": ("270559", "French Top 14"),
+    "SUPER_RUGBY_PACIFIC": ("242041", "Super Rugby Pacific"),
+    "CURRIE_CUP": ("270555", "Currie Cup"),
+    "NPC": ("270563", "National Provincial Championship"),
+    "URBA_TOP_14": ("289279", "URBA Top 14"),
+    "MAJOR_LEAGUE_RUGBY": ("289262", "Major League Rugby"),
+    "BRITISH_IRISH_LIONS": ("268565", "British and Irish Lions Tour"),
+    "RUGBY_TESTS": ("289234", "International Test Match"),
+}
 
 SOURCES = {
     "espn": {
@@ -341,25 +365,27 @@ def espn_calendar_phase(league: str, event_id: str | int, season: str, name: str
     return "regular_season"
 
 
-def espn_season_feed(path: str, league: str, sport: str, event_type: str, fallback_url: str, *, span=False):
-    """Golf, MMA and racing: one scoreboard request returns the whole calendar year."""
+def espn_season_feed(
+    path: str, league: str, sport: str, event_type: str, fallback_url: str, *, span=False, zone=EASTERN
+):
+    """Annual scoreboards expose tournaments or games as top-level events."""
 
     def fetch(year: int) -> list[CalendarEvent]:
         url = f"{ESPN}/{path}/scoreboard?dates={year}&limit=500"
         payload = get_json(url)
         events = []
         for row in rows(payload, "events"):
-            # The 2025 LPGA season contains an empty calendar placeholder.
-            if span and row == {}:
+            # LPGA and Major League Rugby include empty calendar placeholders.
+            if row == {}:
                 continue
             name = row.get("name", "")
-            season = str((row.get("season") or {}).get("year") or _local_date(row["date"], EASTERN)[:4])
-            phase = espn_calendar_phase(league, row["id"], season, name)
+            season = str((row.get("season") or {}).get("year") or _local_date(row["date"], zone)[:4])
+            phase = "championship" if row.get("major") is True else espn_calendar_phase(league, row["id"], season, name)
             event = _espn_event(
                 row,
                 league=league,
                 sport=sport,
-                zone=EASTERN,
+                zone=zone,
                 fallback_url=fallback_url,
                 event_type=event_type,
                 phase=phase,
@@ -757,6 +783,54 @@ FEEDS: dict[str, tuple[str, Callable[[int], list[CalendarEvent]]]] = {
             span=True,
         ),
     ),
+    "DP_WORLD_TOUR": (
+        "espn",
+        espn_season_feed(
+            "golf/eur",
+            "DP_WORLD_TOUR",
+            "golf",
+            "tournament",
+            "https://www.espn.com/golf/leaderboard/_/tour/eur",
+            span=True,
+        ),
+    ),
+    "LIV_GOLF": (
+        "espn",
+        espn_season_feed(
+            "golf/liv",
+            "LIV_GOLF",
+            "golf",
+            "tournament",
+            "https://www.espn.com/golf/leaderboard/_/tour/liv",
+            span=True,
+        ),
+    ),
+    "ATP": (
+        "espn",
+        espn_season_feed(
+            "tennis/atp", "ATP", "tennis", "tournament", "https://www.espn.com/tennis/schedule/_/type/atp", span=True
+        ),
+    ),
+    "WTA": (
+        "espn",
+        espn_season_feed(
+            "tennis/wta", "WTA", "tennis", "tournament", "https://www.espn.com/tennis/schedule/_/type/wta", span=True
+        ),
+    ),
+    **{
+        league: (
+            "espn",
+            espn_season_feed(
+                f"rugby/{slug}",
+                league,
+                "rugby",
+                "game",
+                f"https://www.espn.com/rugby/fixtures/_/league/{slug}",
+                zone=ZoneInfo("UTC"),
+            ),
+        )
+        for league, (slug, _) in RUGBY_LEAGUES.items()
+    },
     "UFC": ("espn", espn_season_feed("mma/ufc", "UFC", "combat", "card", "https://www.ufc.com/events")),
     "NASCAR_CUP": (
         "espn",

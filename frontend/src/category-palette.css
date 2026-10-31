@@ -1,4 +1,4 @@
-/* Twelve fixed family colours; two spares remain unallocated.
+/* Twelve fixed family colours.
    Contrast and colour-vision regression checks: tests/palette.test.mjs. */
 .category-soccer {
   --category-base: #30e090;
@@ -70,14 +70,14 @@
   --category-dark-bg: #112c3b;
   --category-dark-ink: #ffffff;
 }
-.category-spare-1 {
+.category-tennis {
   --category-base: #c050f0;
   --category-light-bg: #c050f0;
   --category-light-ink: #0e151b;
   --category-dark-bg: #a147cb;
   --category-dark-ink: #ffffff;
 }
-.category-spare-2 {
+.category-rugby {
   --category-base: #706090;
   --category-light-bg: #706090;
   --category-light-ink: #ffffff;
@@ -92,13 +92,13 @@
   --category-dark-ink: #e8eef0;
 }
 
-:is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-spare-1, .category-spare-2, .category-unknown) {
+:is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-tennis, .category-rugby, .category-unknown) {
   --pill: var(--category-light-bg);
   --ink: var(--category-light-ink);
 }
 
 @media (prefers-color-scheme: dark) {
-  :is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-spare-1, .category-spare-2, .category-unknown) {
+  :is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-tennis, .category-rugby, .category-unknown) {
     --pill: var(--category-dark-bg);
     --ink: var(--category-dark-ink);
   }

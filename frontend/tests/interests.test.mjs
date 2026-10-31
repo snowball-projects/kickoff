@@ -29,7 +29,7 @@ test("published climbing and weightlifting types have separate categories and re
   assert.equal(leagueVisual("MASTERS_WORLDS").shortLabel, "Masters Worlds");
 });
 
-test("published league metadata joins the ten sports; golf remains the two ESPN tours", async () => {
+test("published league metadata joins available sports; golf keeps explicitly registered tours", async () => {
   const { interestGroups, toggleInterestGroup } = await loadModule("calendar-helpers");
   const choices = [
     { value: "NEW_SERIES", sport: "motorsport" }, { value: "NEW_TOUR", sport: "golf" },

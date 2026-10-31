@@ -1,0 +1,452 @@
+{
+  "checked_date": "2026-10-31",
+  "sources": {
+    "dp_world": "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401822677",
+    "liv": "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401807532",
+    "liv_matchplay": "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401843581"
+  },
+  "payloads": {
+    "dp_world": {
+      "events": [
+        {
+          "id": "401822677",
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "competitions": [
+            {
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "4587",
+                  "sortOrder": 6,
+                  "score": {
+                    "value": 276.0,
+                    "displayValue": "-8"
+                  },
+                  "athlete": {
+                    "displayName": "Shane Lowry"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "3",
+                      "displayName": "T3",
+                      "isTie": true
+                    },
+                    "detail": "-2(F)",
+                    "teeTime": "2026-01-18T08:00Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "3470",
+                  "sortOrder": 5,
+                  "score": {
+                    "value": 276.0,
+                    "displayValue": "-8"
+                  },
+                  "athlete": {
+                    "displayName": "Rory McIlroy"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "3",
+                      "displayName": "T3",
+                      "isTie": true
+                    },
+                    "detail": "-3(F)",
+                    "teeTime": "2026-01-18T07:50Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "4895429",
+                  "sortOrder": 4,
+                  "score": {
+                    "value": 276.0,
+                    "displayValue": "-8"
+                  },
+                  "athlete": {
+                    "displayName": "David Puig"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "3",
+                      "displayName": "T3",
+                      "isTie": true
+                    },
+                    "detail": "-4(F)",
+                    "teeTime": "2026-01-18T07:40Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "1694",
+                  "sortOrder": 3,
+                  "score": {
+                    "value": 276.0,
+                    "displayValue": "-8"
+                  },
+                  "athlete": {
+                    "displayName": "Julien Guerrier"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "3",
+                      "displayName": "T3",
+                      "isTie": true
+                    },
+                    "detail": "-5(F)",
+                    "teeTime": "2026-01-18T07:30Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "4425899",
+                  "sortOrder": 2,
+                  "score": {
+                    "value": 275.0,
+                    "displayValue": "-9"
+                  },
+                  "athlete": {
+                    "displayName": "Daniel Hillier"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "2",
+                      "displayName": "2",
+                      "isTie": false
+                    },
+                    "detail": "-6(F)",
+                    "teeTime": "2026-01-18T07:20Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "7169",
+                  "sortOrder": 1,
+                  "score": {
+                    "value": 274.0,
+                    "displayValue": "-10"
+                  },
+                  "athlete": {
+                    "displayName": "Nacho Elvira"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "1",
+                      "displayName": "1",
+                      "isTie": false
+                    },
+                    "detail": "-2(F)",
+                    "teeTime": "2026-01-18T08:10Z",
+                    "thru": 18
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "liv": {
+      "events": [
+        {
+          "id": "401807532",
+          "status": {
+            "type": {
+              "id": "3",
+              "name": "STATUS_FINAL",
+              "state": "post",
+              "completed": true,
+              "description": "Final"
+            }
+          },
+          "competitions": [
+            {
+              "status": {
+                "period": 4,
+                "type": {
+                  "id": "3",
+                  "name": "STATUS_FINAL",
+                  "state": "post",
+                  "description": "Final",
+                  "detail": "Final",
+                  "shortDetail": "Complete"
+                }
+              },
+              "competitors": [
+                {
+                  "id": "9261",
+                  "sortOrder": 6,
+                  "score": {
+                    "value": 268.0,
+                    "displayValue": "-20"
+                  },
+                  "athlete": {
+                    "displayName": "Abraham Ancer"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "4",
+                      "displayName": "T4",
+                      "isTie": true
+                    },
+                    "detail": "-6(F)",
+                    "teeTime": "2026-02-07T15:05Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "4895429",
+                  "sortOrder": 5,
+                  "score": {
+                    "value": 268.0,
+                    "displayValue": "-20"
+                  },
+                  "athlete": {
+                    "displayName": "David Puig"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "4",
+                      "displayName": "T4",
+                      "isTie": true
+                    },
+                    "detail": "-7(F)",
+                    "teeTime": "2026-02-07T15:05Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "9031",
+                  "sortOrder": 4,
+                  "score": {
+                    "value": 268.0,
+                    "displayValue": "-20"
+                  },
+                  "athlete": {
+                    "displayName": "Thomas Pieters"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "4",
+                      "displayName": "T4",
+                      "isTie": true
+                    },
+                    "detail": "-7(F)",
+                    "teeTime": "2026-02-07T15:05Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "1674",
+                  "sortOrder": 3,
+                  "score": {
+                    "value": 267.0,
+                    "displayValue": "-21"
+                  },
+                  "athlete": {
+                    "displayName": "Peter Uihlein"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "3",
+                      "displayName": "3",
+                      "isTie": false
+                    },
+                    "detail": "-5(F)",
+                    "teeTime": "2026-02-07T15:05Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "9780",
+                  "sortOrder": 2,
+                  "score": {
+                    "value": 265.0,
+                    "displayValue": "-23"
+                  },
+                  "athlete": {
+                    "displayName": "Jon Rahm"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "2",
+                      "displayName": "2",
+                      "isTie": false
+                    },
+                    "detail": "-9(F)",
+                    "teeTime": "2026-02-07T15:05Z",
+                    "thru": 18
+                  }
+                },
+                {
+                  "id": "4714133",
+                  "sortOrder": 1,
+                  "score": {
+                    "value": 264.0,
+                    "displayValue": "-24"
+                  },
+                  "athlete": {
+                    "displayName": "Elvis Smylie"
+                  },
+                  "status": {
+                    "type": {
+                      "id": "2",
+                      "name": "STATUS_FINISH",
+                      "state": "post",
+                      "completed": true,
+                      "description": "Finish",
+                      "detail": "Finish",
+                      "shortDetail": "F"
+                    },
+                    "position": {
+                      "id": "1",
+                      "displayName": "1",
+                      "isTie": false
+                    },
+                    "detail": "-8(F)",
+                    "teeTime": "2026-02-07T15:05Z",
+                    "thru": 18
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "liv_matchplay": {
+      "events": [
+        {
+          "id": "401843581",
+          "status": {
+            "type": {
+              "id": "5",
+              "name": "STATUS_CANCELED",
+              "state": "post",
+              "completed": false,
+              "description": "Canceled"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

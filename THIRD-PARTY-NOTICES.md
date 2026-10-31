@@ -42,7 +42,8 @@ all rows in the public bundle and the separately downloadable component.
 Preserve applicable attribution and share-alike obligations on redistribution.
 
 ESPN, the MLB Stats API and the NHL schedule API — league schedules (NFL,
-NBA, MLB, NHL, UEFA Champions League, PGA Tour, LPGA Tour, UFC, NASCAR Cup, IndyCar).
+NBA, MLB, NHL, UEFA Champions League, PGA Tour, LPGA Tour, DP World Tour, LIV Golf,
+ATP, WTA, top-level rugby union competitions, UFC, NASCAR Cup, IndyCar).
 Additional ESPN schedules: UEFA Europa League, UEFA Conference League, UEFA
 Nations League, MLS, WNBA, Division I men's and women's basketball, and FBS/FCS
 college football. College scoreboards use the explicit Division I/FBS/FCS groups
@@ -132,12 +133,12 @@ SOFTWARE.
 Material Design Icons, Pictogrammers and contributors: Apache License 2.0.
 https://pictogrammers.com/docs/general/license/
 https://github.com/Templarian/MaterialDesign/tree/2424e748e0cc63ab7b9c095a099b9fe239b737c0/svg
-Checked 2026-10-28. Bundled icons: soccer, car-sports, football, basketball,
-baseball, hockey-sticks, karate, golf, terrain and weight-lifter.
+Checked 2026-10-31. Bundled icons: soccer, car-sports, football, basketball,
+baseball, hockey-sticks, karate, golf, terrain, weight-lifter, tennis and rugby.
 Upstream authors: Google (soccer, football, basketball, hockey-sticks, karate,
-golf, terrain), Nick (baseball), GreenTurtwig (car-sports) and Michael Irigoyen
+golf, terrain, tennis, rugby), Nick (baseball), GreenTurtwig (car-sports) and Michael Irigoyen
 (weight-lifter), as identified in the pinned upstream meta.json.
-Changes: extracted the ten SVG path shapes into a local currentColor component;
+Changes: extracted the twelve SVG path shapes into a local currentColor component;
 omitted XML wrappers and IDs. Shapes are unchanged. No brand or logo icons.
 
 
