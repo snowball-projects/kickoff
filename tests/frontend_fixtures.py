@@ -3,10 +3,12 @@
 import json
 from dataclasses import replace
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from kickoff import feeds
 from kickoff.open_schedules import refresh_open_schedules
+from kickoff.published import publish_sports
 from kickoff.reviewed_schedules import load_reviewed_schedules
 from tests.test_reviewed_schedules import ROOT, fake_open_read
 
@@ -18,23 +20,22 @@ def build(output: Path) -> None:
         pga = feeds.FEEDS["PGA_TOUR"][1](2026)
         lpga = feeds.FEEDS["LPGA_TOUR"][1](2026)
     nfl = [replace(e, source="espn", source_url="https://www.espn.com/nfl/") for e in reviewed if e.league == "NFL"]
-    with patch("kickoff.open_schedules.read_url", fake_open_read):
-        refresh_open_schedules(
-            2026,
-            output,
-            ROOT / "data/reviewed",
-            feeds={
-                "PGA_TOUR": ("espn", lambda _: pga),
-                "LPGA_TOUR": ("espn", lambda _: lpga),
-                "NFL": ("espn", lambda _: nfl),
-            },
-        )
-    # A boundary fixture verifies the UI without freezing a whole season's remote data.
-    (output / "2027.json").write_text(
-        json.dumps(
-            {"schema_version": "1", "season": 2027, "available_seasons": [2026, 2027], "providers": [], "events": []}
-        )
-    )
+    with TemporaryDirectory(prefix="kickoff-fixture-") as staging:
+        with patch("kickoff.open_schedules.read_url", fake_open_read):
+            path = refresh_open_schedules(
+                2026,
+                Path(staging),
+                ROOT / "data/reviewed",
+                feeds={
+                    "PGA_TOUR": ("espn", lambda _: pga),
+                    "LPGA_TOUR": ("espn", lambda _: lpga),
+                    "NFL": ("espn", lambda _: nfl),
+                },
+            )
+        current = json.loads(path.read_text())
+    # An empty source year still appears in metadata without an event-file request.
+    boundary = {**current, "season": 2027, "events": [], "sources": [], "input_evidence": [], "exclusions": []}
+    publish_sports([current, boundary], output)
 
 
 if __name__ == "__main__":

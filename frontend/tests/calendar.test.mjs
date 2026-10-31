@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
+import { publishedFiles } from "./published-fixture.mjs";
 
 test("timezone placement, multi-day dates, multiple interests, and motorsport choices agree", async () => {
   const original = globalThis.fetch;
@@ -25,8 +26,7 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
       competition_phase: "regular_season",
       start_time_utc: null,
     };
-    globalThis.fetch = async (url) =>
-      !url.endsWith("/2026.json") ? new Response("missing", { status: 404 }) : Response.json({
+    const files = publishedFiles([{
         schema_version: "1",
         season: 2026,
         available_seasons: [2026],
@@ -54,7 +54,8 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
             event_type: "qualifying",
           },
         ],
-      });
+      }]);
+    globalThis.fetch = async (url) => files[url.split("/").at(-1)] ? Response.json(files[url.split("/").at(-1)]) : new Response("missing", { status: 404 });
     const filters = {
       sport: "",
       league: "",

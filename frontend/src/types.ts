@@ -87,11 +87,14 @@ export type SourceNotice = {
   revision?: string;
 };
 
+export type SportFile = { value: string; count: number; file: string };
+
 export type ManifestResponse = {
+  sports: SportFile[];
+  leagues: LeagueFacetValue[];
   updated_at?: string;
   sources?: SourceNotice[];
   coverage?: string;
-  components?: { path: string; sha256: string }[];
   data_license_notice?: string;
   season: number;
   all_events: number;
@@ -112,13 +115,7 @@ export type FiltersResponse = {
   available_seasons: number[];
   sports: FacetValue[];
   leagues: LeagueFacetValue[];
-  event_types: FacetValue[];
-  competition_phases: FacetValue[];
-  countries: FacetValue[];
-  cities: FacetValue[];
-  venues: FacetValue[];
-  tags: FacetValue[];
-  participants: FacetValue[];
+
 };
 
 export type CalendarDayGroup = {
