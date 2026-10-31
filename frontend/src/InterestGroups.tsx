@@ -65,7 +65,7 @@ export default function InterestGroups({ leagues, preferences, onChange }: {
     {groups.flatMap((group, index) => {
       const count = group.leagues.filter((league) => selected.includes(league)).length;
       const partial = count > 0 && count < group.leagues.length;
-      const single = ["Football", "Basketball", "Baseball", "Hockey"].includes(group.name);
+      const single = ["Football", "Basketball", "Baseball", "Hockey"].includes(group.name) && group.leagues.length === 1;
       const category = CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS];
       return [<button key={group.name} type="button" className={`sport-pill category-${category}${partial ? " partial" : ""}`}
           aria-label={group.name} aria-pressed={partial ? "mixed" : count > 0}

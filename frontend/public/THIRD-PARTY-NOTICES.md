@@ -43,6 +43,13 @@ Preserve applicable attribution and share-alike obligations on redistribution.
 
 ESPN, the MLB Stats API and the NHL schedule API — league schedules (NFL,
 NBA, MLB, NHL, UEFA Champions League, PGA Tour, LPGA Tour, UFC, NASCAR Cup, IndyCar).
+Additional ESPN schedules: UEFA Europa League, UEFA Conference League, UEFA
+Nations League, MLS, WNBA, Division I men's and women's basketball, and FBS/FCS
+college football. College scoreboards use the explicit Division I/FBS/FCS groups
+and every civil date, retaining postseason, conference tournament and bowl facts;
+overlapping FBS/FCS game IDs are published once. Team records, short names and
+week/stage labels are retained only where ESPN supplies them. Each event carries
+its factual source URL and checked date; no ESPN data license is claimed.
 https://www.espn.com/  https://statsapi.mlb.com/  https://www.nhl.com/schedule
 These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues, team records, short names,

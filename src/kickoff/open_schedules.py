@@ -114,6 +114,14 @@ FEED_LABELS = {
     "UFC": "UFC",
     "NASCAR_CUP": "NASCAR Cup",
     "INDYCAR": "IndyCar",
+    "UEFA_EUROPA_LEAGUE": "UEFA Europa League",
+    "UEFA_CONFERENCE_LEAGUE": "UEFA Conference League",
+    "UEFA_NATIONS_LEAGUE": "UEFA Nations League",
+    "MLS": "MLS",
+    "WNBA": "WNBA",
+    "NCAA_MENS_BASKETBALL": "Division I men's basketball",
+    "NCAA_WOMENS_BASKETBALL": "Division I women's basketball",
+    "COLLEGE_FOOTBALL": "FBS and FCS college football",
 }
 
 

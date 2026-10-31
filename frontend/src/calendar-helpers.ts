@@ -38,6 +38,14 @@ const LEAGUE_META: Record<
   WEIGHTLIFTING_PAN_AM_GAMES: { shortLabel: "Pan Am Games", titleNames: ["Pan American Games weightlifting"] },
   NFL: { shortLabel: "NFL" },
   NBA: { shortLabel: "NBA" },
+  WNBA: { shortLabel: "WNBA" },
+  NCAA_MENS_BASKETBALL: { shortLabel: "Men's college basketball" },
+  NCAA_WOMENS_BASKETBALL: { shortLabel: "Women's college basketball" },
+  COLLEGE_FOOTBALL: { shortLabel: "College football" },
+  UEFA_EUROPA_LEAGUE: { shortLabel: "Europa League" },
+  UEFA_CONFERENCE_LEAGUE: { shortLabel: "Conference League" },
+  UEFA_NATIONS_LEAGUE: { shortLabel: "Nations League" },
+  MLS: { shortLabel: "MLS" },
   MLB: { shortLabel: "MLB" },
   NHL: { shortLabel: "NHL" },
   F1: { shortLabel: "F1" },
@@ -88,7 +96,7 @@ export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = 
   BRASILEIRAO: { name: "Brazil", flag: "🇧🇷" },
 };
 
-export const NO_FLAG_LEAGUES = new Set(["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"]);
+export const NO_FLAG_LEAGUES = new Set(["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "COLLEGE_FOOTBALL", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"]);
 
 export function pillCountry(items: EventCard[]) {
   const league = items[0].league;
@@ -97,10 +105,10 @@ export function pillCountry(items: EventCard[]) {
 }
 
 const SPORT_GROUPS = [
-  { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE"] },
+  { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"] },
   { name: "Motorsports", leagues: ["F1", "NASCAR_CUP", "INDYCAR"] },
-  { name: "Football", leagues: ["NFL"] },
-  { name: "Basketball", leagues: ["NBA"] },
+  { name: "Football", leagues: ["NFL", "COLLEGE_FOOTBALL"] },
+  { name: "Basketball", leagues: ["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"] },
   { name: "Baseball", leagues: ["MLB"] },
   { name: "Hockey", leagues: ["NHL"] },
   { name: "Combat sports", leagues: ["UFC", "PFL", "RIZIN", "ONE", "BOXING_MAJOR"] },
@@ -177,10 +185,10 @@ export function leagueVisual(league: string, sport?: string) {
 const TIERS = [
   ["FIFA_WORLD_CUP", "PGA_MAJOR", "LPGA_MAJOR", "UEFA_CHAMPIONS_LEAGUE"],
   ["NFL", "NBA", "F1", "EPL"],
-  ["MLB", "NHL", "UFC", "BOXING_MAJOR"],
-  ["LA_LIGA", "BUNDESLIGA", "SERIE_A", "LIGUE_1"],
+  ["MLB", "NHL", "UFC", "BOXING_MAJOR", "COLLEGE_FOOTBALL"],
+  ["LA_LIGA", "BUNDESLIGA", "SERIE_A", "LIGUE_1", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"],
   ["NASCAR_CUP", "INDYCAR", "IWF_WORLDS", "IFSC_WORLD_CUP"],
-  ["PGA_TOUR", "LPGA_TOUR", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO"],
+  ["PGA_TOUR", "LPGA_TOUR", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"],
   ["PFL", "RIZIN", "ONE"],
   ["IFSC_PARA_WORLD_CUP", "IFSC_PARA_WORLDS", "IFSC_YOUTH_WORLD_CHAMPIONSHIPS", "IFSC_YOUTH_WORLDS",
     "IWF_JUNIOR_WORLDS", "IWF_YOUTH_WORLDS", "MASTERS_WORLDS",
