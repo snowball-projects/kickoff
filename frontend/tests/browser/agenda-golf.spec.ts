@@ -26,7 +26,7 @@ async function enter(page: Page, events = [golf()], time = now, paused = false) 
 }
 async function pause(page: Page) {
   await page.clock.install({ time: new Date(now) });
-  await page.clock.pauseAt(new Date(now));
+  await page.clock.pauseAt(new Date(Date.parse(now) + 60_000));
 }
 async function observed(page: Page, visible: boolean) {
   await page.evaluate((visible) => new Promise<void>((resolve) => {
