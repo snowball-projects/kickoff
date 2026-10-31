@@ -60,7 +60,7 @@ test("round cards use one calendar day, including short events, DST, year bounda
     assert.equal(card.end_calendar_date, end);
     assert.equal(card.source_url, base.source_url);
     assert.equal(eventInstant(card), null);
-    assert.equal(eventTimeLabel(card, "America/Chicago"), "All-day");
+    assert.equal(eventTimeLabel(card, "America/Chicago"), "");
   }
   assert.equal(pillGroups([base, { ...base, event_id: "other", title: "Other tournament" }]).length, 2);
 });

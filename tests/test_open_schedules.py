@@ -26,6 +26,7 @@ def test_football_newly_confirmed_leagues_convert_times_and_keep_stable_identity
     assert first.calendar_date == "2026-09-12"
     assert first.event_id == moved.event_id
     assert first.start_time_local == f"2026-09-12T15:00:00{offset}"
+    assert first.subtitle == "Matchday 1"
     assert first.timezone == zone
 
 
@@ -86,6 +87,8 @@ def test_f1_preserves_saturday_race_and_utc_session_times():
     assert events[0].start_time_utc == "2026-09-26T11:00:00Z"
     assert events[1].event_type == "qualifying"
     assert events[1].calendar_date == "2026-09-25"
+    assert events[1].title == "Azerbaijan Grand Prix · Qualifying"
+    assert all(event.subtitle == "Round 15" for event in events)
 
 
 def test_football_withholds_postponed_and_canceled_dates_and_classifies_playoffs():

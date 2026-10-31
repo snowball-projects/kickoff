@@ -233,7 +233,7 @@ export default function App() {
       <p>Boxing: selected reviewed four-belt undisputed bouts and unifications of at least three full WBA, WBC, IBF or WBO titles in one division.
         No interim or secondary titles, exhibitions or influencer cards.</p>
       <p><a href="https://github.com/snowball-projects/kickoff/tree/main/data/reviewed" target="_blank" rel="noreferrer">Coverage details and omitted events ↗</a></p>
-      <p>Verified times use your browser’s timezone automatically. Golf rounds are all-day; other date-only events retain Time TBD.</p>
+      <p>Verified times use your browser’s timezone. Golf rounds are all-day; date-only events stay on their source dates.</p>
       <h3>Sources</h3>
       {manifest?.data_license_notice && <p>{manifest.data_license_notice}</p>}
       {manifest?.sources?.map((source) => <p key={source.name}><a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>

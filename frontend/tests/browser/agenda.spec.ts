@@ -20,7 +20,7 @@ for (const width of [390, 1280]) {
     await expect(agenda).toContainText("Thursday, December 31, 2026");
     await expect(agenda.locator(".agenda-title")).toHaveText(["Morning fixture", "Evening fixture", "Date-only fixture", "Tournament span", "Unverified clock"]);
     await expect(agenda.locator(".agenda-row", { hasText: "Morning fixture" })).toContainText("12:00 PM");
-    await expect(agenda.locator(".agenda-row", { hasText: "Date-only fixture" })).toContainText("Time TBD");
+    await expect(agenda.locator(".agenda-row", { hasText: "Date-only fixture" }).locator(".agenda-clock")).toHaveText("");
     await expect(agenda.locator(".agenda-row", { hasText: "Tournament span" })).toContainText("Through Jan 2");
     const row = agenda.locator(".agenda-row", { hasText: "Morning fixture" });
     await row.click();
@@ -54,7 +54,7 @@ test.describe("Tokyo boundary", () => {
     await expect(agenda.locator(".agenda-row", { hasText: "Evening fixture" })).toContainText("9:00 AM");
     await expect(agenda.locator(".agenda-row", { hasText: "Date-only fixture" })).toHaveCount(0);
     await agenda.getByRole("button", { name: "Yesterday", exact: true }).click();
-    await expect(agenda.locator(".agenda-row", { hasText: "Date-only fixture" })).toContainText("Time TBD");
+    await expect(agenda.locator(".agenda-row", { hasText: "Date-only fixture" }).locator(".agenda-clock")).toHaveText("");
   });
 });
 test("Show more filter changes retain scope, reveal sparse dates, and empty choices end immediately", async ({ page }) => {

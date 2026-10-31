@@ -22,9 +22,9 @@ test("unknown climbing clocks retain their reviewed dates in every zone", () => 
   for (const event of unknown) {
     for (const zone of ["UTC", "America/Denver", "America/Santiago", "Europe/London", "Asia/Tokyo"]) {
       assert.equal(dates.eventCalendarDate(event, zone), event.calendar_date);
-      assert.equal(dates.eventTimeLabel(event, zone), "Time TBD");
+      assert.equal(dates.eventTimeLabel(event, zone), "");
     }
-    assert.ok(event.subtitle);
+    assert.equal(event.subtitle, null);
     assert.ok(event.tags.some((tag) => ["Boulder", "Lead", "Speed"].includes(tag)));
   }
 });
@@ -34,7 +34,8 @@ test("shared blocks stay explicit and resolved Santiago clocks become exact inst
   assert.ok(shared.length > 0);
   for (const event of shared) {
     assert.match(dates.eventTimeLabel(event, "UTC"), /^Session starts /);
-    assert.ok(event.start_time_utc && event.subtitle);
+    assert.ok(event.start_time_utc);
+    assert.equal(event.subtitle, null);
   }
   for (const gender of ["men", "women"]) {
     const final = byId(`world-climbing-series-2026-santiago-speed-${gender}s-final`);

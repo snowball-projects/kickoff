@@ -47,7 +47,8 @@ def test_retained_sessions_keep_identities_and_resolved_clocks_without_false_pre
     assert len(slc) == 6 and len(santiago) == 10
     unknown = next(e for e in slc if "Women" in e.tags and e.round_or_stage == "qualification")
     assert unknown.start_time_utc is unknown.start_time_local is None
-    assert unknown.timezone == "America/Denver" and "Time withheld" in unknown.subtitle
+    assert unknown.timezone == "America/Denver" and unknown.subtitle is None
+    assert "Time withheld" in next(r["notes"] for r in registry()["events"] if r["id"] == unknown.event_id)
     speed = next(e for e in santiago if "Men" in e.tags and "Speed" in e.tags and e.round_or_stage == "qualification")
     assert speed.start_time_local == "2026-10-23T17:20:00-03:00"
     assert speed.start_time_utc == "2026-10-23T20:20:00Z"
@@ -96,7 +97,8 @@ def test_youth_para_continental_and_mixed_events_keep_their_actual_identities():
         and "Lead" in e.tags
     )
     assert not {"Men", "Women"} & set(unknown.tags)
-    assert "does not identify gender" in unknown.subtitle
+    assert unknown.subtitle is None
+    assert "does not identify gender" in next(r["notes"] for r in registry()["events"] if r["id"] == unknown.event_id)
 
 
 def test_combined_event_stays_one_record_and_unknown_gender_is_not_invented():
@@ -119,7 +121,8 @@ def test_2027_dates_keep_published_disciplines_and_actual_qualifier_identity_wit
     assert {e.league for e in events} >= {"IFSC_WORLDS", "IFSC_PARA_WORLDS", "IFSC_YOUTH_WORLDS", "CLIMBING_EUROPE"}
     worlds = next(e for e in events if e.league == "IFSC_WORLDS")
     assert (worlds.calendar_date, worlds.end_calendar_date) == ("2027-08-13", "2027-08-21")
-    assert "October 17" in worlds.subtitle
+    assert worlds.subtitle is None
+    assert "October 17" in next(r["notes"] for r in payload["events"] if r["id"] == worlds.event_id)
     assert any(e.title.startswith("European Youth Championships") and "Lead" in e.tags for e in events)
     lima = next(e for e in events if e.league == "CLIMBING_PAN_AM_GAMES")
     assert (lima.calendar_date, lima.end_calendar_date) == ("2027-07-24", "2027-07-27")
@@ -131,6 +134,29 @@ def test_2027_dates_keep_published_disciplines_and_actual_qualifier_identity_wit
     assert any("Boulder" in e["competition"] and "confirmed" in e["reason"] for e in payload["exclusions"])
     assert all(r["source_url"] and r["checked_date"] == "2026-10-28" for r in payload["events"])
     assert all(s["checked_date"] == "2026-10-28" for s in sources)
+
+
+@pytest.mark.parametrize("year", [2026, 2027])
+def test_locations_store_cities_separately_and_keep_named_venues(year):
+    from kickoff.countries import venue_country
+
+    rows = registry(year)["events"]
+    for row in rows:
+        country = venue_country(row["country"])
+        for value in [row.get("city"), row.get("venue")]:
+            if value:
+                assert venue_country(value) != country
+                assert venue_country(value.rsplit(", ", 1)[-1]) != country
+    if year == 2026:
+        gunsan = next(r for r in rows if r["id"].endswith("gunsan-2026-boulder-qualification"))
+        assert gunsan["city"] == "Gunsan" and gunsan["venue"] is None
+        assert gunsan["title"] == "World Climbing Asia Series Gunsan · Boulder Qualification"
+        assert any(r.get("venue") == "Rock Master Climbing Stadium" for r in rows)
+        assert any(r.get("venue") == "ISEF N.º 27" and r["city"] == "Santa Fe" for r in rows)
+    else:
+        assert any(r.get("venue") == "Vendespace" for r in rows)
+        assert all(r.get("venue") is None for r in rows if r["country"] in ["South Africa", "Australia"])
+        assert all(r["city"] == "Los Angeles" for r in rows if r["country"] in ["USA", "United States"])
 
 
 @pytest.mark.parametrize(

@@ -35,10 +35,10 @@ export default function DayTimeline({ date, timezone, items, loading, error, onE
             const event = slot.items[0];
             const style = { top: slot.top, left: `${slot.lane * 100 / slot.columns}%`, width: `calc(${100 / slot.columns}% - 4px)` };
             return slot.overflow ? <button key={`more-${slot.top}`} className="timeline-more" style={style}
-              aria-label={`${slot.items.length} more events at ${eventTimeLabel(event, timezone)}`}
+              aria-label={[`${slot.items.length} more events`, eventTimeLabel(event, timezone)].filter(Boolean).join(" at ")}
               onClick={() => onEvents(slot.items, date)}>+{slot.items.length}</button>
               : <EventPill key={event.event_id} items={[event]} style={style} data-event-id={event.event_id}
-                aria-label={`${event.title}, ${eventTimeLabel(event, timezone)}`} onClick={() => onEvents([event], date)}>
+                aria-label={[event.title, eventTimeLabel(event, timezone)].filter(Boolean).join(", ")} onClick={() => onEvents([event], date)}>
                 {event.title}
               </EventPill>;
           })}

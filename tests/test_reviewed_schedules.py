@@ -55,6 +55,19 @@ def test_all_reviewed_assets_have_valid_provenance_and_dates():
     assert all(event.start_time_utc is None for event in events if event.source == "wikipedia")
 
 
+@pytest.mark.parametrize("year", [2026, 2027])
+def test_review_notes_stay_in_registry_and_never_become_public_subtitles(year):
+    events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", year)
+    assert events and all(event.subtitle is None for event in events)
+    notes = [
+        row["notes"]
+        for path in (ROOT / "data/reviewed").glob(f"{year}-*.json")
+        for row in json.loads(path.read_text()).get("events", [])
+        if row.get("notes")
+    ]
+    assert notes
+
+
 def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
     requests = []
 

@@ -39,7 +39,7 @@ for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as 
       await page.locator('[data-event-id="Late match"]').click();
       const sheet = page.getByRole("dialog");
       await expect(sheet).toContainText("2:00 PM");
-      await expect(sheet).toContainText("postponed");
+      await expect(sheet).not.toContainText("postponed");
       await expect(sheet.getByRole("link", { name: "Schedule source" })).toHaveAttribute("href", "https://example.com/schedule");
       await sheet.getByRole("button", { name: "Close", exact: true }).click();
       await expect(page.locator('[data-event-id="Late match"]')).toBeFocused();
