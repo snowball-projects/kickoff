@@ -10,74 +10,69 @@ import type {
   FilterState,
   FiltersResponse,
   ManifestResponse,
-  ProviderSummary,
-  SourceNotice,
 } from "./types";
 
-type DashboardBundle = {
-  schema_version: "1";
-  updated_at?: string;
-  sources?: SourceNotice[];
-  coverage?: string;
-  components?: { path: string; sha256: string }[];
-  data_license_notice?: string;
-  season: number;
-  available_seasons: number[];
-  providers: ProviderSummary[];
-  events: EventDetail[];
-};
-
-const bundleCache = new Map<number, Promise<DashboardBundle>>();
-const BUNDLE_CACHE_LIMIT = 3;
-// Avoid repeatedly probing an unpublished neighboring year as months recycle.
-// An explicit retry clears these misses; normal primary-year loads still retry.
+type SportBundle = { events: EventDetail[] };
+type PublishedIndex = { available_seasons: number[]; seasons: Record<string, ManifestResponse> };
+let manifestPromise: Promise<PublishedIndex> | undefined;
+const sportCache = new Map<string, Promise<SportBundle>>();
 const unpublishedSeasons = new Set<number>();
 
 class ScheduleDataError extends Error {}
 class UnpublishedScheduleError extends ScheduleDataError {}
 
-function bundleUrl(season: number) {
+function dataUrl(file: string) {
   const base = import.meta.env?.BASE_URL || "/";
-  return `${base.endsWith("/") ? base : `${base}/`}data/${season}.json`;
+  return `${base.endsWith("/") ? base : `${base}/`}data/${file}`;
 }
 
-function loadBundle(season: number) {
-  let promise = bundleCache.get(season);
-  if (promise) {
-    // Both pending and resolved bundles share the same small LRU cache.
-    bundleCache.delete(season);
-    bundleCache.set(season, promise);
-  } else {
-    promise = fetch(bundleUrl(season))
-      .then(async (response) => {
-        if (!response.ok) {
-          if (response.status === 404) {
-            unpublishedSeasons.add(season);
-            throw new UnpublishedScheduleError(`No published schedule for ${season}.`);
-          }
-          throw new ScheduleDataError(
-            `Schedule data for ${season} is unavailable. Please retry.`,
-          );
-        }
-        const payload = (await response.json()) as DashboardBundle;
-        unpublishedSeasons.delete(season);
-        return payload;
-      })
-      .catch((error: unknown) => {
-        // An evicted request can settle after another request for this year.
-        if (bundleCache.get(season) === promise) bundleCache.delete(season);
-        throw error instanceof ScheduleDataError
-          ? error
-          : new ScheduleDataError(
-              `Schedule data for ${season} is unavailable. Please retry.`,
-            );
-      });
-    bundleCache.set(season, promise);
-    if (bundleCache.size > BUNDLE_CACHE_LIMIT) {
-      bundleCache.delete(bundleCache.keys().next().value!);
-    }
+async function readFile<T>(file: string): Promise<T> {
+  const response = await fetch(dataUrl(file));
+  if (!response.ok) throw new ScheduleDataError("Schedule data could not be loaded. Please retry.");
+  return response.json() as Promise<T>;
+}
+
+function loadIndex() {
+  if (!manifestPromise) {
+    const request = readFile<PublishedIndex>("manifest.json").catch(() => {
+      if (manifestPromise === request) manifestPromise = undefined;
+      throw new ScheduleDataError("Schedule data could not be loaded. Please retry.");
+    });
+    manifestPromise = request;
   }
-  return promise;
+  return manifestPromise;
+}
+
+async function loadManifest(season: number) {
+  const index = await loadIndex();
+  const year = index.seasons[String(season)];
+  if (!year) {
+    unpublishedSeasons.add(season);
+    throw new UnpublishedScheduleError(`No published schedule for ${season}.`);
+  }
+  unpublishedSeasons.delete(season);
+  return year;
+}
+
+async function loadEvents(season: number, filters: FilterState) {
+  const manifest = await loadManifest(season);
+  const sports = new Set(manifest.leagues
+    .filter((league) => (!filters.followed_leagues || filters.followed_leagues.includes(league.value))
+      && (!filters.league || normalized(league.value) === normalized(filters.league))
+      && (!filters.sport || normalized(league.sport) === normalized(filters.sport)))
+    .map((league) => league.sport));
+  const bundles = await Promise.all(manifest.sports.filter((sport) => sports.has(sport.value)).map((sport) => {
+    let request = sportCache.get(sport.file);
+    if (!request) {
+      request = readFile<SportBundle>(sport.file).catch(() => {
+        if (sportCache.get(sport.file) === request) sportCache.delete(sport.file);
+        throw new ScheduleDataError(`Schedule data for ${season} could not be loaded. Please retry.`);
+      });
+      sportCache.set(sport.file, request);
+    }
+    return request;
+  }));
+  return bundles.flatMap((bundle) => bundle.events);
 }
 
 function throwIfAborted(signal?: AbortSignal) {
@@ -199,23 +194,24 @@ async function eventsForRange(
   season: number,
   startDate: string,
   endDate: string,
+  filters: FilterState,
   signal?: AbortSignal,
   includeAdjacent = true,
 ) {
   throwIfAborted(signal);
-  let primary: DashboardBundle | null = null;
+  let primary: EventDetail[] | null = null;
   let primaryError: UnpublishedScheduleError | null = null;
   try {
     if (includeAdjacent && unpublishedSeasons.has(season)) {
       throw new UnpublishedScheduleError(`No published schedule for ${season}.`);
     }
-    primary = await loadBundle(season);
+    primary = await loadEvents(season, filters);
   } catch (error) {
     if (!includeAdjacent || !(error instanceof UnpublishedScheduleError)) throw error;
     primaryError = error;
   }
   throwIfAborted(signal);
-  if (!includeAdjacent) return { events: primary!.events, primaryError };
+  if (!includeAdjacent) return { events: primary!, primaryError };
   // Snapshots use source calendar years. UTC and visitor-local dates can cross
   // into a neighboring year; two days cover the full -12 to +14 hour range.
   const first = parseDate(startDate);
@@ -228,7 +224,7 @@ async function eventsForRange(
   }
   const adjacent = await Promise.all(neighbors.map(async (year) => {
     try {
-      return await loadBundle(year);
+      return await loadEvents(year, filters);
     } catch (error) {
       if (error instanceof UnpublishedScheduleError) return null;
       // A transient or malformed neighboring bundle must not silently hide
@@ -238,7 +234,7 @@ async function eventsForRange(
   }));
   throwIfAborted(signal);
   return { primaryError, events: [...new Map([...adjacent, primary].flatMap((bundle) =>
-    bundle?.events.map((event) => [event.event_id, event] as const) || [],
+    bundle?.map((event) => [event.event_id, event] as const) || [],
   )).values()] };
 }
 
@@ -247,19 +243,9 @@ export async function getManifest(
   signal?: AbortSignal,
 ): Promise<ManifestResponse> {
   throwIfAborted(signal);
-  const bundle = await loadBundle(season);
+  const manifest = await loadManifest(season);
   throwIfAborted(signal);
-  return {
-    season,
-    all_events: bundle.events.length,
-    updated_at: bundle.updated_at,
-    sources: bundle.sources,
-    coverage: bundle.coverage,
-    components: bundle.components,
-    data_license_notice: bundle.data_license_notice,
-    available_seasons: bundle.available_seasons,
-    providers: bundle.providers,
-  };
+  return manifest;
 }
 
 export async function getFilters(
@@ -269,27 +255,22 @@ export async function getFilters(
   signal?: AbortSignal,
 ): Promise<FiltersResponse> {
   throwIfAborted(signal);
-  const bundle = await loadBundle(season);
+  const manifest = await loadManifest(season);
   throwIfAborted(signal);
-  const events = bundle.events.filter((event) => matchesFilters(event, filters));
+  if (filters.followed_leagues === undefined && Object.values(filters).every((value) => !value || (Array.isArray(value) && !value.length))) {
+    return { season, total_events: manifest.all_events, available_seasons: manifest.available_seasons,
+      sports: manifest.sports.map(({ value, count }) => ({ value, count })), leagues: manifest.leagues };
+  }
+  const events = (await loadEvents(season, filters)).filter((event) => matchesFilters(event, filters));
+  throwIfAborted(signal);
   const leagueSports = new Map(events.map((event) => [event.league, event.sport]));
   return {
     season,
     total_events: events.length,
-    available_seasons: bundle.available_seasons,
+    available_seasons: manifest.available_seasons,
     sports: facet(events.map((event) => event.sport)),
     leagues: facet(events.map((event) => event.league)).map((item) => ({ ...item, sport: leagueSports.get(item.value)! })),
-    event_types: facet(events.map((event) => event.event_type)),
-    competition_phases: facet(events.map((event) => event.competition_phase)),
-    countries: facet(events.map((event) => event.country)),
-    cities: facet(events.map((event) => event.city)),
-    venues: facet(events.map((event) => event.venue)),
-    tags: facet(events.flatMap((event) => event.tags)),
-    participants: facet(
-      events.flatMap((event) =>
-        event.participants.map((participant) => participant.name),
-      ),
-    ),
+
   };
 }
 
@@ -304,7 +285,7 @@ export async function getCalendar(
 ): Promise<CalendarResponse> {
   throwIfAborted(signal);
   const [startDate, endDate] = dateRange(view, anchorDate);
-  const { events, primaryError } = await eventsForRange(season, startDate, endDate, signal, includeAdjacent);
+  const { events, primaryError } = await eventsForRange(season, startDate, endDate, filters, signal, includeAdjacent);
   const displayTimezone = safeTimezone(timezone);
   const grouped = new Map(
     datesBetween(startDate, endDate).map((date) => [date, [] as EventCard[]]),
@@ -402,18 +383,7 @@ function combinedFacets(responses: FiltersResponse[]): FiltersResponse {
   ].sort();
   result.total_events = responses.reduce((sum, r) => sum + r.total_events, 0);
   result.leagues = combineFacet(responses.flatMap((response) => response.leagues));
-  for (const key of [
-    "sports",
-    "event_types",
-    "competition_phases",
-    "countries",
-    "cities",
-    "venues",
-    "tags",
-    "participants",
-  ] as const) {
-    result[key] = combineFacet(responses.flatMap((response) => response[key]));
-  }
+  result.sports = combineFacet(responses.flatMap((response) => response.sports));
   return result;
 }
 
@@ -453,7 +423,7 @@ export class CalendarDataStore {
   update(anchors: string[], signature: string, timezone: string, retry: number) {
     const changed = !this.matches(signature, timezone);
     const retryChanged = this.retry !== retry;
-    if (retryChanged) unpublishedSeasons.clear();
+    if (retryChanged) { unpublishedSeasons.clear(); manifestPromise = undefined; sportCache.clear(); }
     this.signature = signature;
     this.timezone = timezone;
     this.retry = retry;
@@ -476,6 +446,11 @@ export class CalendarDataStore {
       // Changing interests cannot make an unpublished year available.
       else if (retryChanged) {
         record.error = undefined;
+        record.boundaryError = undefined;
+        record.manifest = undefined;
+        record.facets = undefined;
+      } else if (changed) {
+        if (!unpublishedSeasons.has(year)) record.error = undefined;
         record.boundaryError = undefined;
       }
     }
@@ -511,13 +486,18 @@ export class CalendarDataStore {
       Promise.all([
         record.manifest || getManifest(year, signal),
         record.facets || getFilters(year, FACET_FILTERS, this.timezone, signal),
-        getCalendarRange(year, missing, this.filters, this.timezone, signal, false),
       ])
-        .then(([manifest, facets, months]) => {
+        .then(([manifest, facets]) => {
           if (this.years.get(year) !== record || record.pending !== request) return;
-          record.pending = undefined;
           record.manifest = manifest;
           record.facets = facets;
+          this.publish();
+          return getCalendarRange(year, missing, this.filters, this.timezone, signal, false);
+        })
+        .then((months) => {
+          if (!months) return;
+          if (this.years.get(year) !== record || record.pending !== request) return;
+          record.pending = undefined;
           for (const [anchor, month] of Object.entries(months)) {
             if (this.anchors.has(anchor)) this.months[anchor] = month;
           }

@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "./test";
+import { publishedFiles } from "../published-fixture.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const python = existsSync(`${root}.venv/bin/python`) ? `${root}.venv/bin/python` : "python";
@@ -34,12 +35,10 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await page.addInitScript(() => localStorage.setItem("kickoff.interests.v3", JSON.stringify({
         leagues: ["PFL"], motorsport_events: [], climbing: { genders: [], disciplines: [] }, weightlifting: { genders: [] },
       })));
+      const files = publishedFiles([{ season: 2026, events: [event] }, { season: 2027, events: [] }]);
       await page.route("**/data/*.json", async (route) => {
-        const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
-        await route.fulfill({ json: {
-          schema_version: "1", season: year, available_seasons: [2026, 2027], providers: [],
-          events: year === 2026 ? [event] : [],
-        } });
+        const file = route.request().url().split("/").at(-1)!;
+        await (file in files ? route.fulfill({ json: files[file] }) : route.fulfill({ status: 404, body: "missing" }));
       });
       await page.goto("/");
       await page.locator("#day-2026-06-27 .day-number").click();

@@ -1,18 +1,29 @@
 """Fetch every schedule into generated static assets; primary feed failures stop publication."""
 
 import argparse
+import json
 import shutil
 from calendar import monthrange
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from kickoff.feeds import FEEDS
 from kickoff.open_schedules import refresh_open_schedules
+from kickoff.published import publish_sports
 
 
 def refresh(years: list[int], output: Path, reviewed: Path) -> None:
-    for year in years:
-        print(refresh_open_schedules(year, output, reviewed, feeds=FEEDS, available_seasons=years, enrich_times=True))
+    with TemporaryDirectory(prefix="kickoff-collect-") as staging:
+        bundles = [
+            json.loads(
+                refresh_open_schedules(
+                    year, Path(staging), reviewed, feeds=FEEDS, available_seasons=years, enrich_times=True
+                ).read_text()
+            )
+            for year in years
+        ]
+    print(publish_sports(bundles, output))
 
 
 def coverage_years(today: date) -> list[int]:

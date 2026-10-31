@@ -1,4 +1,4 @@
-.venv/
+.venv
 __pycache__/
 *.pyc
 *.egg-info/
@@ -7,7 +7,7 @@ __pycache__/
 build/
 dist/
 .DS_Store
-frontend/node_modules/
+frontend/node_modules
 frontend/dist/
 frontend/.env.local
 frontend/*.tsbuildinfo
@@ -33,3 +33,5 @@ data/reference/
 
 frontend/test-results/
 frontend/playwright-report/
+
+frontend/public/data/*.html
