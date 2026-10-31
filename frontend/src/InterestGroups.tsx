@@ -82,17 +82,17 @@ export default function InterestGroups({ leagues, preferences, onChange }: {
         </button>,
         active && index === trayAfter && <section key="tray" className={`interest-tray category-${CATEGORY_KEYS[active.name as keyof typeof CATEGORY_KEYS]}`}
           id={`tray-${CATEGORY_KEYS[active.name as keyof typeof CATEGORY_KEYS]}`} aria-label={`${active.name} interests`}>
-          {!["Climbing", "Weightlifting"].includes(active.name) && <div className="interest-pills">
+          <div className="interest-pills">
             <button type="button" className="interest-pill" aria-pressed={active.leagues.every((league) => selected.includes(league))}
               onClick={() => changeLeagues(active, toggleInterestGroup(selected, active.leagues))}>All</button>
-            {active.leagues.map((league) => {
+            {!["Climbing", "Weightlifting"].includes(active.name) && active.leagues.map((league) => {
               const country = SOCCER_COUNTRIES[league];
               return <button type="button" key={league} className="interest-pill" aria-pressed={selected.includes(league)}
                 onClick={() => changeLeagues(active, toggleInterestGroup(selected, [league]))}>
                 {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}{leagueVisual(league).shortLabel}
               </button>;
             })}
-          </div>}
+          </div>
           {(active.name === "Climbing" || active.name === "Weightlifting") && <OptionPills name="Level"
             values={active.name === "Climbing" ? CLIMBING_LEVELS : WEIGHTLIFTING_LEVELS}
             selected={active.name === "Climbing" ? preferences.climbing.levels : preferences.weightlifting.levels}

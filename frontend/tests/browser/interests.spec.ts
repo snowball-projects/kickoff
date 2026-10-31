@@ -102,20 +102,20 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
-    test("session sports expose only level, gender and discipline, with every competition on", async ({ page }) => {
+    test("session sports expose All and level options with every competition on", async ({ page }) => {
       await setup(page, events, { firstVisit: true });
       await pill(page, "Climbing").click();
       const climbing = tray(page, "Climbing");
-      await expect(climbing.getByRole("button")).toHaveText(["Senior", "Youth", "Para", "Men", "Women", "Boulder", "Lead", "Speed"]);
-      await expect(climbing.locator('button[aria-pressed="true"]')).toHaveCount(8);
+      await expect(climbing.getByRole("button")).toHaveText(["All", "Senior", "Youth", "Para", "Men", "Women", "Boulder", "Lead", "Speed"]);
+      await expect(climbing.locator('button[aria-pressed="true"]')).toHaveCount(9);
       await expect(climbing.locator("legend")).toHaveText(["Level", "Gender", "Discipline"]);
       await climbing.getByRole("button", { name: "Senior", exact: true }).click();
       await climbing.getByRole("button", { name: "Para", exact: true }).click();
       await page.screenshot({ path: `test-results/climbing-levels-${width}-${colorScheme}.png` });
       await pill(page, "Weightlifting").click();
       const lifting = tray(page, "Weightlifting");
-      await expect(lifting.getByRole("button")).toHaveText(["Youth", "Junior", "Senior", "Masters", "Men", "Women"]);
-      await expect(lifting.locator('button[aria-pressed="true"]')).toHaveCount(6);
+      await expect(lifting.getByRole("button")).toHaveText(["All", "Youth", "Junior", "Senior", "Masters", "Men", "Women"]);
+      await expect(lifting.locator('button[aria-pressed="true"]')).toHaveCount(7);
       await expect(lifting.locator("legend")).toHaveText(["Level", "Gender"]);
       await lifting.getByRole("button", { name: "Senior", exact: true }).click();
       await page.screenshot({ path: `test-results/weightlifting-levels-${width}-${colorScheme}.png` });
@@ -131,6 +131,40 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await pill(page, "Climbing").click();
       await expect(climbing.getByRole("button", { name: "Youth", exact: true })).toHaveAttribute("aria-pressed", "true");
       await expect(climbing.getByRole("button", { name: "Senior", exact: true })).toHaveAttribute("aria-pressed", "false");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    });
+    for (const removed of ["Climbing", "Weightlifting"]) test(`${removed} All removes only its sport and preserves saved interests`, async ({ page }) => {
+      await setup(page, events, { firstVisit: true });
+      await pill(page, "Climbing").click();
+      await tray(page, "Climbing").getByRole("button", { name: "Men", exact: true }).click();
+      await pill(page, "Weightlifting").click();
+      await tray(page, "Weightlifting").getByRole("button", { name: "Senior", exact: true }).click();
+      await pill(page, "Football").click();
+      await pill(page, removed).click();
+      const removedTray = tray(page, removed);
+      const all = removedTray.getByRole("button", { name: "All", exact: true });
+      const retained = removed === "Climbing" ? "Weightlifting" : "Climbing";
+      await expect(all).toHaveAttribute("aria-pressed", "true");
+      await all.click();
+      await expect(pill(page, removed)).toHaveAttribute("aria-pressed", "false");
+      await expect(pill(page, retained)).toHaveAttribute("aria-pressed", "true");
+      await expect(pill(page, "Football")).toHaveAttribute("aria-pressed", "true");
+      await expect(all).toHaveAttribute("aria-pressed", "false");
+      // The same unchecked All restores the whole group and its default-on options.
+      await all.click();
+      await expect(pill(page, removed)).toHaveAttribute("aria-pressed", "true");
+      await expect(removedTray.locator('.interest-facet button[aria-pressed="false"]')).toHaveCount(0);
+      await all.click();
+      await page.screenshot({ path: `test-results/session-all-off-${removed}-${width}-${colorScheme}.png` });
+      await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
+      await page.reload();
+      await page.getByRole("button", { name: "Interests", exact: true }).click();
+      await expect(pill(page, removed)).toHaveAttribute("aria-pressed", "false");
+      await expect(pill(page, retained)).toHaveAttribute("aria-pressed", "true");
+      await expect(pill(page, "Football")).toHaveAttribute("aria-pressed", "true");
+      await pill(page, retained).click();
+      const option = retained === "Climbing" ? "Men" : "Senior";
+      await expect(tray(page, retained).getByRole("button", { name: option, exact: true })).toHaveAttribute("aria-pressed", "false");
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
     test("options filter exact event types and session facets, save, cancel and reload", async ({ page }) => {
