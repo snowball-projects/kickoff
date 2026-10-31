@@ -6,7 +6,7 @@ import { isGolf } from "./golf";
 
 const LEAGUE_META: Record<
   string,
-  { shortLabel: string }
+  { shortLabel: string; titleNames?: string[] }
 > = {
   EPL: { shortLabel: "Premier League" },
   BUNDESLIGA: {
@@ -24,53 +24,53 @@ const LEAGUE_META: Record<
   RIZIN: { shortLabel: "RIZIN" },
   ONE: { shortLabel: "One" },
   BOXING_MAJOR: { shortLabel: "Boxing" },
-  IWF_WORLDS: { shortLabel: "IWF Worlds" },
-  IWF_JUNIOR_WORLDS: { shortLabel: "Junior Worlds" },
-  IWF_YOUTH_WORLDS: { shortLabel: "Youth Worlds" },
-  MASTERS_WORLDS: { shortLabel: "Masters Worlds" },
-  WEIGHTLIFTING_AFRICA: { shortLabel: "African Championships" },
-  WEIGHTLIFTING_ASIA: { shortLabel: "Asian Championships" },
-  WEIGHTLIFTING_EUROPE: { shortLabel: "European Championships" },
+  IWF_WORLDS: { shortLabel: "IWF Worlds", titleNames: ["IWF World Championships"] },
+  IWF_JUNIOR_WORLDS: { shortLabel: "Junior Worlds", titleNames: ["IWF World Junior Championships"] },
+  IWF_YOUTH_WORLDS: { shortLabel: "Youth Worlds", titleNames: ["IWF World Youth Championships"] },
+  MASTERS_WORLDS: { shortLabel: "Masters Worlds", titleNames: ["World Masters Weightlifting Championships"] },
+  WEIGHTLIFTING_AFRICA: { shortLabel: "African Championships", titleNames: ["African Weightlifting Championships"] },
+  WEIGHTLIFTING_ASIA: { shortLabel: "Asian Championships", titleNames: ["Asian Weightlifting Championships"] },
+  WEIGHTLIFTING_EUROPE: { shortLabel: "European Championships", titleNames: ["European Weightlifting Championships"] },
   WEIGHTLIFTING_OCEANIA: { shortLabel: "Oceania Championships" },
-  WEIGHTLIFTING_PAN_AMERICA: { shortLabel: "Pan-American Championships" },
-  WEIGHTLIFTING_COMMONWEALTH_GAMES: { shortLabel: "Commonwealth Games" },
-  WEIGHTLIFTING_ASIAN_GAMES: { shortLabel: "Asian Games" },
-  WEIGHTLIFTING_PAN_AM_GAMES: { shortLabel: "Pan Am Games" },
+  WEIGHTLIFTING_PAN_AMERICA: { shortLabel: "Pan-American Championships", titleNames: ["Pan-American Weightlifting Championships"] },
+  WEIGHTLIFTING_COMMONWEALTH_GAMES: { shortLabel: "Commonwealth Games", titleNames: ["Commonwealth Games weightlifting"] },
+  WEIGHTLIFTING_ASIAN_GAMES: { shortLabel: "Asian Games", titleNames: ["Asian Games weightlifting"] },
+  WEIGHTLIFTING_PAN_AM_GAMES: { shortLabel: "Pan Am Games", titleNames: ["Pan American Games weightlifting"] },
   NFL: { shortLabel: "NFL" },
   NBA: { shortLabel: "NBA" },
   MLB: { shortLabel: "MLB" },
   NHL: { shortLabel: "NHL" },
   F1: { shortLabel: "F1" },
-  NASCAR_CUP: { shortLabel: "NASCAR" },
+  NASCAR_CUP: { shortLabel: "NASCAR", titleNames: ["NASCAR Cup Series"] },
   INDYCAR: { shortLabel: "INDYCAR" },
-  FIFA_WORLD_CUP: { shortLabel: "FIFA" },
+  FIFA_WORLD_CUP: { shortLabel: "FIFA", titleNames: ["FIFA World Cup"] },
   UEFA_CHAMPIONS_LEAGUE: {
     shortLabel: "Champions League"
   },
-  IFSC_WORLD_CUP: { shortLabel: "World Climbing" },
+  IFSC_WORLD_CUP: { shortLabel: "World Climbing", titleNames: ["World Cup", "World Climbing World Cup"] },
   IFSC_PARA_WORLD_CUP: {
-    shortLabel: "PARA"
+    shortLabel: "PARA", titleNames: ["Para World Cup", "World Climbing Para Series"]
   },
   IFSC_YOUTH_WORLD_CHAMPIONSHIPS: {
-    shortLabel: "YOUTH"
+    shortLabel: "YOUTH", titleNames: ["Youth World Championships"]
   },
-  IFSC_WORLDS: { shortLabel: "World Championships" },
-  IFSC_YOUTH_WORLDS: { shortLabel: "Youth World Championships" },
-  IFSC_PARA_WORLDS: { shortLabel: "Para World Championships" },
+  IFSC_WORLDS: { shortLabel: "World Championships", titleNames: ["World Championships"] },
+  IFSC_YOUTH_WORLDS: { shortLabel: "Youth World Championships", titleNames: ["Youth World Championships"] },
+  IFSC_PARA_WORLDS: { shortLabel: "Para World Championships", titleNames: ["Para World Championships"] },
   CLIMBING_EUROPE: { shortLabel: "European Championships" },
   CLIMBING_ASIA: { shortLabel: "Asian Championships" },
   CLIMBING_AFRICA: { shortLabel: "African Championships" },
   CLIMBING_OCEANIA: { shortLabel: "Oceania Championships" },
-  CLIMBING_PAN_AMERICA: { shortLabel: "Pan-American Championships" },
-  CLIMBING_OLYMPIC_QUALIFIERS: { shortLabel: "Olympic qualifiers" },
-  CLIMBING_CONTINENTAL_CUP: { shortLabel: "Continental Cups" },
-  CLIMBING_YOUTH_CONTINENTAL_CUP: { shortLabel: "Youth Continental Cups" },
-  CLIMBING_CHALLENGER: { shortLabel: "Challenger" },
-  CLIMBING_NATIONS_GRAND_FINALE: { shortLabel: "Nations Grand Finale" },
+  CLIMBING_PAN_AMERICA: { shortLabel: "Pan-American Championships", titleNames: ["Pan American Championships"] },
+  CLIMBING_OLYMPIC_QUALIFIERS: { shortLabel: "Olympic qualifiers", titleNames: ["World Climbing"] },
+  CLIMBING_CONTINENTAL_CUP: { shortLabel: "Continental Cups", titleNames: ["World Climbing"] },
+  CLIMBING_YOUTH_CONTINENTAL_CUP: { shortLabel: "Youth Continental Cups", titleNames: ["World Climbing"] },
+  CLIMBING_CHALLENGER: { shortLabel: "Challenger", titleNames: ["World Climbing Challenger"] },
+  CLIMBING_NATIONS_GRAND_FINALE: { shortLabel: "Nations Grand Finale", titleNames: ["World Climbing Nations Grand Finale"] },
   CLIMBING_ASIAN_GAMES: { shortLabel: "Asian Games" },
   CLIMBING_ASIAN_BEACH_GAMES: { shortLabel: "Asian Beach Games" },
   CLIMBING_EUROPEAN_GAMES: { shortLabel: "European Games" },
-  CLIMBING_PAN_AM_GAMES: { shortLabel: "Pan Am Games" },
+  CLIMBING_PAN_AM_GAMES: { shortLabel: "Pan Am Games", titleNames: ["Pan American Games"] },
   CLIMBING_SOUTH_AM_GAMES: { shortLabel: "South American Games" },
   PGA_TOUR: { shortLabel: "PGA Tour" },
   LPGA_TOUR: { shortLabel: "LPGA Tour" },
@@ -154,6 +154,12 @@ export function categoryForLeague(league: string, sport?: string): CategoryKey |
   const group = SPORT_GROUPS.find((group) => group.leagues.includes(league));
   if (group) return CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS];
   return SPORT_CATEGORIES[sport?.toLowerCase() || ""] || null;
+}
+
+// Source competition identities can differ from the compact section label.
+// Keep them as metadata so all agenda rows use the same title rule.
+export function leagueTitleNames(league: string, sport?: string) {
+  return [...(LEAGUE_META[league]?.titleNames || []), leagueVisual(league, sport).shortLabel, league.replaceAll("_", " ")];
 }
 
 export function leagueVisual(league: string, sport?: string) {

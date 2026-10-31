@@ -49,8 +49,8 @@ test("all selected sports retain every event while downloading each published fi
   ], { requests });
   await agendaToggle(page).click();
   await expect(page.locator(".agenda-row")).toHaveCount(4);
-  for (const title of ["NFL 2026", "Soccer 2026", "Basketball fixture", "Golf fixture"])
-    await expect(page.getByRole("region", { name: "Agenda", exact: true })).toContainText(title);
+  for (const id of ["NFL 2026", "Soccer 2026", "Basketball fixture", "Golf fixture"])
+    await expect(page.locator(`[id="agenda-2026-10-28-${id}"]`)).toBeVisible();
   expect([...requests].sort()).toEqual(["manifest.json", "2026-basketball.json", "2026-golf.json",
     ...[2025, 2026, 2027].flatMap((year) => [`${year}-football.json`, `${year}-soccer.json`])].sort());
   await openInterests(page);
