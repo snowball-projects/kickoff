@@ -24,7 +24,8 @@ function savedPreferences() {
 }
 export default function App() {
   const timezone = browserTimezone();
-  const [today, setToday] = useState(todayIso);
+  const [now, setNow] = useState(Date.now);
+  const today = todayIso(timezone, new Date(now));
   const [month, setMonth] = useState(() => firstOfMonth(today));
   const [view, setView] = useState<"month" | "year" | "day">("month");
   const [navigation, setNavigation] = useState<MonthNavigation>({ date: today, id: 0 });
@@ -79,8 +80,21 @@ export default function App() {
     if (laterErrors.length) setUpcoming({ ...upcoming, pending: false }); else extendUpcoming();
   }, [scheduleView, upcoming.key, upcoming.pending, laterLoading, months, errors]);
   useEffect(() => {
-    const timer = setInterval(() => setToday(todayIso()), 60_000);
-    return () => clearInterval(timer);
+    let timer: ReturnType<typeof setTimeout>;
+    function updateClock() {
+      clearTimeout(timer);
+      const instant = Date.now();
+      setNow(instant);
+      timer = setTimeout(updateClock, 60_000 - instant % 60_000);
+    }
+    updateClock();
+    window.addEventListener("focus", updateClock);
+    document.addEventListener("visibilitychange", updateClock);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("focus", updateClock);
+      document.removeEventListener("visibilitychange", updateClock);
+    };
   }, []);
   useEffect(() => {
     if (day < bounds.start || day > bounds.end) { setDay(today); setView("month"); navigate(today); }
@@ -123,20 +137,20 @@ export default function App() {
   }
   function showEvents(items: EventCard[], date: string) { setSheet({ kind: "events", items, date }); }
   function jumpToday() {
-    const now = todayIso();
-    setToday(now);
+    const instant = Date.now(), date = todayIso(timezone, new Date(instant));
+    setNow(instant);
     if (scheduleView === "agenda") { setPeriod("today"); return; }
-    if (view === "day") { switchDay(now); return; }
-    animate(() => { setView("month"); navigate(now); });
+    if (view === "day") { switchDay(date); return; }
+    animate(() => { setView("month"); navigate(date); });
   }
   function goHome(event: React.MouseEvent) {
     event.preventDefault();
     ++transitionId.current;
     transition.current?.skipTransition();
-    const now = todayIso();
+    const instant = Date.now(), date = todayIso(timezone, new Date(instant));
     flushSync(() => {
       setSheet(null); setScheduleView("calendar"); setView("month"); setSplitDate(null);
-      setToday(now); setDay(now); navigate(now);
+      setNow(instant); setDay(date); navigate(date);
     });
     try { localStorage.setItem(VIEW_KEY, "calendar"); } catch { /* Active for this visit. */ }
   }
@@ -224,7 +238,7 @@ export default function App() {
             <span key={index} className={cell.date === today ? "mini-today" : ""}>{cell.date ? Number(cell.date.slice(-2)) : ""}</span>)}</div>
         </button>)}
       </section>}
-      {calendarActive && view === "day" && <DayTimeline key={`${day}:${timezone}`} date={day} timezone={timezone} items={selected?.items || []}
+      {calendarActive && view === "day" && <DayTimeline key={`${day}:${timezone}`} date={day} timezone={timezone} now={now} items={selected?.items || []}
         loading={!months[firstOfMonth(day)] && !dayError} error={dayError} onEvents={showEvents} onRetry={() => setRetry((value) => value + 1)} />}
       {!calendarActive && <Agenda active={!sheet} today={today} period={period} onPeriod={setPeriod} upcomingEnd={upcoming.end}
         onShowMore={() => upcoming.expanded ? extendUpcoming() : setUpcoming({ ...upcoming, expanded: true, pending: true })}

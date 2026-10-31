@@ -63,7 +63,10 @@ export function dayTimeline(items: EventCard[], timezone: string) {
   return { allDay: pillGroups(items.filter(isAllDay)), slots };
 }
 export function initialMinute(date: string, timezone: string, firstMinute?: number, now = Date.now()) {
-  return date === todayIso(timezone, new Date(now)) ? clockMinute(now, timezone) : firstMinute ?? 0;
+  return currentMinute(date, timezone, now) ?? firstMinute ?? 0;
+}
+export function currentMinute(date: string, timezone: string, now: number) {
+  return date === todayIso(timezone, new Date(now)) ? clockMinute(now, timezone) : null;
 }
 export function hourLabel(hour: number) {
   return `${hour % 12 || 12}${hour % 24 < 12 ? "am" : "pm"}`;
