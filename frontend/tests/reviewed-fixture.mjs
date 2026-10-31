@@ -10,6 +10,9 @@ export function reviewedBundle() {
   try {
     const python = existsSync(join(root, ".venv/bin/python")) ? join(root, ".venv/bin/python") : "python";
     execFileSync(python, ["-m", "tests.frontend_fixtures", directory], { cwd: root });
-    return JSON.parse(readFileSync(join(directory, "2026.json"), "utf8"));
+    const index = JSON.parse(readFileSync(join(directory, "manifest.json"), "utf8"));
+    const manifest = index.seasons["2026"];
+    return { ...manifest, events: manifest.sports.flatMap(({ file }) =>
+      JSON.parse(readFileSync(join(directory, file), "utf8")).events) };
   } finally { rmSync(directory, { recursive: true }); }
 }

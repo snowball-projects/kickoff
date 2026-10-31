@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
+import { publishedFiles } from "./published-fixture.mjs";
 
 const filters = { sport: "", league: "", competition_phase: "", country: "", city: "", tags: [] };
 const signature = JSON.stringify(filters);
@@ -14,14 +15,17 @@ function event(id, date, instant = null, extra = {}) {
 function bundle(year, events = []) {
   return { schema_version: "1", season: year, events, providers: [], available_seasons: [year] };
 }
-function fixtures(t, bundles) {
+function fixtures(t, bundles, intercept) {
+  const files = publishedFiles(Object.values(bundles));
   const requests = [];
   t.mock.method(globalThis, "fetch", async (url) => {
-    const year = Number(url.match(/(\d+)\.json$/)[1]);
-    requests.push(year);
-    return bundles[year] ? Response.json(bundles[year]) : new Response("missing", { status: 404 });
+    const file = url.split("/").at(-1);
+    requests.push(file);
+    const response = intercept?.(file);
+    if (response !== undefined) return response;
+    return files[file] ? Response.json(files[file]) : new Response("missing", { status: 404 });
   });
-  return requests;
+  return files;
 }
 const on = (calendar, date) => calendar.groups.find((group) => group.date === date)?.items || [];
 async function until(store, predicate) {
@@ -157,14 +161,17 @@ test("calendar includes neighboring-year events exactly once", async (t) => {
 test("a slow neighboring year merges later without blocking the current year", async (t) => {
   let resolvePrevious;
   const previous = new Promise((resolve) => { resolvePrevious = resolve; });
-  t.mock.method(globalThis, "fetch", async (url) => url.endsWith("2026.json") ? previous : Response.json(bundle(2027, [event("own", "2027-01-02")])));
+  const files = fixtures(t, {
+    2026: bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")]),
+    2027: bundle(2027, [event("own", "2027-01-02")]),
+  }, (file) => file === "2026-soccer.json" ? previous : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
   store.update(["2027-01-01"], signature, "UTC", 0);
   const ready = await until(store, (state) => !state.loadingYears.length);
   assert.equal(on(ready.months["2027-01-01"], "2027-01-02")[0].event_id, "own");
-  resolvePrevious(Response.json(bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")])));
+  resolvePrevious(Response.json(files["2026-soccer.json"]));
   const merged = await until(store, (state) => on(state.months["2027-01-01"], "2027-01-01").length === 1);
   assert.equal(on(merged.months["2027-01-01"], "2027-01-01")[0].event_id, "spillover");
 });
@@ -203,10 +210,10 @@ test("reentering a missing year's boundary can reveal a known neighboring event"
 
 test("a boundary fetch failure preserves primary events and an explicit retry repairs it", async (t) => {
   let failed = true;
-  t.mock.method(globalThis, "fetch", async (url) => url.endsWith("2026.json")
-    ? failed ? new Response("failure", { status: 503 })
-      : Response.json(bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")]))
-    : Response.json(bundle(2027, [event("own", "2027-01-02")])));
+  fixtures(t, {
+    2026: bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")]),
+    2027: bundle(2027, [event("own", "2027-01-02")]),
+  }, (file) => failed && file === "2026-soccer.json" ? new Response("failure", { status: 503 }) : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
@@ -224,7 +231,10 @@ test("a boundary fetch failure preserves primary events and an explicit retry re
 test("changing timezone while a neighbor loads cannot restore stale boundary placement", async (t) => {
   let resolvePrevious;
   const previous = new Promise((resolve) => { resolvePrevious = resolve; });
-  t.mock.method(globalThis, "fetch", async (url) => url.endsWith("2026.json") ? previous : Response.json(bundle(2027)));
+  const files = fixtures(t, {
+    2026: bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")]),
+    2027: bundle(2027),
+  }, (file) => file === "2026-soccer.json" ? previous : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
@@ -232,7 +242,7 @@ test("changing timezone while a neighbor loads cannot restore stale boundary pla
   await until(store, (state) => !state.loadingYears.length);
   store.update(["2027-01-01"], signature, "America/Los_Angeles", 0);
   await until(store, (state) => !state.loadingYears.length);
-  resolvePrevious(Response.json(bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")])));
+  resolvePrevious(Response.json(files["2026-soccer.json"]));
   await new Promise((resolve) => setImmediate(resolve));
   const month = store.getSnapshot().months["2027-01-01"];
   assert.equal(month.timezone, "America/Los_Angeles");
@@ -246,8 +256,8 @@ test("a failed neighbor cannot block scrolling to June or recomputing interests"
     event("june-football", "2027-06-02"),
     event("june-race", "2027-06-03", null, { league: "F1" }),
   ]);
-  t.mock.method(globalThis, "fetch", async (url) => url.endsWith("2026.json")
-    ? new Response("failure", { status: 503 }) : Response.json(current));
+  fixtures(t, { 2026: bundle(2026, [event("neighbor", "2026-12-31")]), 2027: current },
+    (file) => file === "2026-soccer.json" ? new Response("failure", { status: 503 }) : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
@@ -275,20 +285,20 @@ test("a failed neighbor cannot block scrolling to June or recomputing interests"
 test("December spillovers publish while January's unrelated neighbor is still loading", async (t) => {
   let resolvePrevious;
   const previous = new Promise((resolve) => { resolvePrevious = resolve; });
-  t.mock.method(globalThis, "fetch", async (url) => {
-    if (url.endsWith("2025.json")) return previous;
-    if (url.endsWith("2027.json")) return Response.json(bundle(2027, [event("december-spillover", "2027-01-01", "2027-01-01T01:00:00Z")]));
-    return Response.json(bundle(2026));
-  });
+  const files = fixtures(t, {
+    2025: bundle(2025, [event("unrelated", "2025-06-01")]),
+    2026: bundle(2026),
+    2027: bundle(2027, [event("december-spillover", "2027-01-01", "2027-01-01T01:00:00Z")]),
+  }, (file) => file === "2025-soccer.json" ? previous : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
-  t.after(() => { store.cancel(); resolvePrevious(Response.json(bundle(2025))); });
+  t.after(() => { store.cancel(); resolvePrevious(Response.json(files["2025-soccer.json"])); });
   store.update(["2026-01-01", "2026-12-01"], signature, "America/Los_Angeles", 0);
   const state = await until(store, (snapshot) => snapshot.months["2026-12-01"]?.total_events === 1);
   assert.equal(on(state.months["2026-12-01"], "2026-12-31")[0].event_id, "december-spillover");
   assert.equal(state.months["2026-01-01"].total_events, 0);
   assert.deepEqual(state.errors, {});
-  resolvePrevious(Response.json(bundle(2025)));
+  resolvePrevious(Response.json(files["2025-soccer.json"]));
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(store.getSnapshot().months["2026-12-01"].total_events, 1);
 });
