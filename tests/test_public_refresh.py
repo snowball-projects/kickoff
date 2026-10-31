@@ -42,7 +42,11 @@ def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatc
     }
     monkeypatch.setattr(runner, "FEEDS", configured)
     runner.refresh([2026], tmp_path, ROOT / "data/reviewed")
-    bundle = json.loads((tmp_path / "2026.json").read_text())
+    manifest = json.loads((tmp_path / "manifest.json").read_text())
+    bundle = manifest["seasons"]["2026"]
+    bundle["events"] = [
+        event for sport in bundle["sports"] for event in json.loads((tmp_path / sport["file"]).read_text())["events"]
+    ]
     assert calls == [(league, 2026) for league in feeds.FEEDS]
     assert all(source.get("kind") for source in bundle["sources"])
     assert {"openfootball", "f1db"} <= {source["kind"] for source in bundle["sources"]}
@@ -146,7 +150,15 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
     monkeypatch.setattr(sys, "argv", ["refresh-public.py"])
     monkeypatch.setattr(runner, "__file__", str(tmp_path / "scripts/refresh-public.py"))
     monkeypatch.setattr(runner.shutil, "copyfile", lambda *_: None)
-    monkeypatch.setattr(runner, "refresh_open_schedules", lambda year, *_, **kwargs: calls.append((year, kwargs)))
+
+    def collect(year, output, *_, **kwargs):
+        calls.append((year, kwargs))
+        path = output / f"{year}.json"
+        path.write_text(json.dumps({"season": year}))
+        return path
+
+    monkeypatch.setattr(runner, "refresh_open_schedules", collect)
+    monkeypatch.setattr(runner, "publish_sports", lambda bundles, output: output / "manifest.json")
     runner.main()
     assert [year for year, _ in calls] == [2025, 2026, 2027]
     assert all(
