@@ -17,6 +17,16 @@ test("new preferences start empty, ignore the old key and save explicit option c
   assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(saved) })), saved);
 });
 
+test("wrong-shaped current preferences fall back to empty selections without migration", async () => {
+  const { readPreferences, defaultPreferences, allPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
+  const valid = allPreferences(["F1"]);
+  for (const value of [true, "saved", [], {}, { leagues: null }, { leagues: ["F1"] },
+    { ...valid, leagues: "F1" }, { ...valid, leagues: [1] }, { ...valid, motorsport_events: null },
+    { ...valid, climbing: {} }, { ...valid, climbing: { genders: ["Men"], disciplines: null } },
+    { ...valid, weightlifting: null }, { ...valid, weightlifting: { genders: [false] } }])
+    assert.deepEqual(readPreferences(storage({ [INTERESTS_KEY]: JSON.stringify(value) })), defaultPreferences());
+});
+
 test("motorsport options match each event type exactly, including sprint qualifying", async () => {
   const { matchesInterestOptions, MOTORSPORT_EVENTS } = await loadModule("interest-preferences");
   for (const selected of [...MOTORSPORT_EVENTS.map((type) => [type]), [], [...MOTORSPORT_EVENTS]]) {

@@ -261,7 +261,7 @@ test("league sport metadata survives multi-year facets into future-family intere
         sport: "motorsport", season: String(year), event_type: "race", calendar_date: `${year}-09-12` }]));
     };
     const { getFilters, CalendarDataStore } = await loadModule("data");
-    const { readPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
+    const { readPreferences, allPreferences, INTERESTS_KEY } = await loadModule("interest-preferences");
     const { interestGroups, leagueVisual } = await loadModule("calendar-helpers");
     assert.deepEqual((await getFilters(2026, filters, "UTC")).leagues,
       [{ value: "FUTURE_SERIES", count: 1, sport: "motorsport" }]);
@@ -274,7 +274,7 @@ test("league sport metadata survives multi-year facets into future-family intere
     assert.deepEqual(interestGroups(choices), [{ name: "Motorsports", leagues: ["FUTURE_SERIES"] }]);
     assert.equal(leagueVisual(choices[0].value, choices[0].sport).className, "category-motorsport");
     const saved = ["FUTURE_SERIES", "OLD_UNPUBLISHED_ID"];
-    assert.deepEqual(readPreferences({ getItem: (key) => key === INTERESTS_KEY ? JSON.stringify({ leagues: saved }) : null }).leagues, saved);
+    assert.deepEqual(readPreferences({ getItem: (key) => key === INTERESTS_KEY ? JSON.stringify(allPreferences(saved)) : null }).leagues, saved);
     store.cancel();
   } finally { globalThis.fetch = originalFetch; }
 });

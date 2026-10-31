@@ -163,3 +163,18 @@ test("blocked storage keeps picked interests active for the visit", async ({ pag
   await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
   await expect(page.getByRole("dialog")).toContainText("browser storage is unavailable");
 });
+
+for (const value of [{}, { leagues: null }, { leagues: ["F1"] }]) {
+  test(`wrong-shaped current storage ${JSON.stringify(value)} reopens empty Interests`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.addInitScript((value) => localStorage.setItem("kickoff.interests.v3", JSON.stringify(value)), value);
+    await setup(page, events, { firstVisit: true });
+    await expect(chooser(page)).toBeVisible();
+    await expect(chooser(page).locator('.sport-pill[aria-pressed="false"]')).toHaveCount(10);
+    await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+    await pill(page, "Motorsports").click();
+    await expect(tray(page, "Motorsports").getByRole("button", { name: "Race", exact: true })).toHaveAttribute("aria-pressed", "true");
+    expect(errors).toEqual([]);
+  });
+}

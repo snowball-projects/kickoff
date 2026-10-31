@@ -18,9 +18,21 @@ export function allPreferences(leagues: string[]): InterestPreferences {
     climbing: { genders: [...GENDERS], disciplines: [...CLIMBING_DISCIPLINES] }, weightlifting: { genders: [...GENDERS] } };
 }
 export type LeagueInterest = { value: string; sport?: string };
+function stringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
 export function readPreferences(storage: Pick<Storage, "getItem">): InterestPreferences {
-  try { return JSON.parse(storage.getItem(INTERESTS_KEY) || "null") || defaultPreferences(); }
-  catch { return defaultPreferences(); }
+  try {
+    const value = JSON.parse(storage.getItem(INTERESTS_KEY) || "null");
+    if (stringArray(value?.leagues) && stringArray(value?.motorsport_events)
+      && stringArray(value?.climbing?.genders) && stringArray(value?.climbing?.disciplines)
+      && stringArray(value?.weightlifting?.genders)) {
+      return { leagues: value.leagues, motorsport_events: value.motorsport_events,
+        climbing: { genders: value.climbing.genders, disciplines: value.climbing.disciplines },
+        weightlifting: { genders: value.weightlifting.genders } };
+    }
+  } catch { /* Unavailable storage or invalid current preferences reopen Interests. */ }
+  return defaultPreferences();
 }
 
 // Combined sessions match any selected value. An unrecorded facet cannot
