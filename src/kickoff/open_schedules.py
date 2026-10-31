@@ -343,7 +343,7 @@ def refresh_open_schedules(
         fresh, notices, inputs = fetch()
         _check_feed(fresh, year, league, kind)
         events.extend(fresh)
-        evidence.extend(inputs)
+        evidence.extend({**item, "kind": kind} for item in inputs)
         source_notices.extend(notices)
 
     revisions = {}
@@ -449,7 +449,7 @@ def refresh_open_schedules(
     time_receipts = []
     if enrich_times:
         time_receipts = fill_missing_start_times(events, year)
-        evidence.extend(time_receipts)
+        evidence.extend({**item, "kind": "espn"} for item in time_receipts)
         if any(receipt["clocks_added"] or receipt["team_facts_added"] for receipt in time_receipts):
             source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
     # Each input was validated where it was produced. Check only cross-feed identity here.

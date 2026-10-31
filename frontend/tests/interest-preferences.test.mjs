@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { reviewedBundle } from "./reviewed-fixture.mjs";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
+import { publishedFiles } from "./published-fixture.mjs";
 
 const empty = { sport: "", league: "", country: "", city: "", competition_phase: "", tags: [] };
 const storage = (values) => ({ getItem: (key) => values[key] || null });
@@ -73,8 +74,8 @@ test("reviewed session facets apply to the calendar without altering source reco
   const bundle = reviewedBundle();
   const original = globalThis.fetch;
   try {
-    globalThis.fetch = async (url) => String(url).endsWith("/2026.json")
-      ? Response.json(bundle) : new Response(null, { status: 404 });
+    const files = publishedFiles([bundle]);
+    globalThis.fetch = async (url) => files[url.split("/").at(-1)] ? Response.json(files[url.split("/").at(-1)]) : new Response(null, { status: 404 });
     const { getCalendar } = await loadModule("data");
     const filters = { ...empty, followed_leagues: ["IFSC_WORLD_CUP", "IWF_WORLDS"],
       climbing: { genders: ["Women"], disciplines: ["Boulder"] }, weightlifting: { genders: ["Women"] } };
