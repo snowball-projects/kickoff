@@ -38,6 +38,8 @@ export type EventCard = {
   city: string | null;
   region: string | null;
   country: string | null;
+  country_source_url?: string;
+  country_checked_date?: string;
   round_or_stage: string | null;
   calendar_date: string | null;
   start_calendar_date?: string;
