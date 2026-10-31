@@ -50,7 +50,7 @@ for (const colorScheme of ["light", "dark"] as const) {
           const omitted = 12 - count - 1;
           const counter = omitted ? samples.querySelectorAll<HTMLElement>(".nfl-more")[omitted - 1].getBoundingClientRect().width : 0;
           return next.reduce((sum, pair) => sum + pair.getBoundingClientRect().width, 0)
-            + (next.length - 1 + Number(omitted > 0)) * parseFloat(getComputedStyle(container).columnGap) + counter > container.clientWidth;
+            + (next.length - 1 + Number(omitted > 0)) * parseFloat(getComputedStyle(container).columnGap) + counter > container.getBoundingClientRect().width;
         })).toBe(true);
         if (width === 700) expect(count).toBe(1);
         if (width === 1280) desktopCount = count;
@@ -61,6 +61,7 @@ for (const colorScheme of ["light", "dark"] as const) {
       await expect(pill.locator(".nfl-month-matchups > .nfl-more")).toHaveCount(0);
       await page.setViewportSize({ width: 1280, height: 1000 });
       await expect(pill.locator(".nfl-month-matchups > .nfl-more")).toBeVisible();
+      await pill.scrollIntoViewIfNeeded();
       const singleton = page.locator("#day-2026-10-29 .event-pill");
       await expect(singleton.locator(".nfl-month-matchups > .nfl-matchup")).toHaveCount(1);
       await expect(singleton.locator(".nfl-month-matchups > .nfl-more")).toHaveCount(0);
@@ -155,7 +156,10 @@ test("NFL measurement observers disconnect when the interest removes the pills",
   await expect.poll(observerCount).toBe(1);
   await page.getByRole("button", { name: "Interests", exact: true }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Football", exact: true }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "Show my calendar", exact: true }).click();
   await expect.poll(observerCount).toBe(0);
+  await page.getByRole("button", { name: "Interests", exact: true }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Football", exact: true }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "Show my calendar", exact: true }).click();
   await expect.poll(observerCount).toBe(1);
 });

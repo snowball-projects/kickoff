@@ -67,7 +67,6 @@ h1, h2, h3, p { margin: 0; }
 .nfl-day-matchups, .nfl-matchup, .nfl-calendar-team { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
 .nfl-day-matchups { overflow: hidden; gap: 8px; }
 .nfl-team-name, .nfl-matchup-name { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.nfl-at { font-weight: 400; flex: none; }
 .event-pill .nfl-logo { width: 18px; height: 18px; }
 .nfl-phone-label { display: none; }
 .nfl-month-matchups { display: flex; align-items: center; flex: 1; min-width: 0; gap: 4px; position: relative; overflow: hidden; }

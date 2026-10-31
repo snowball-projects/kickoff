@@ -18,7 +18,6 @@ function Matchup({ event, names = false }: { event: EventCard; names?: boolean }
   const [away, home] = teams(event);
   if (!away || !home) return <span className="nfl-matchup-name">{event.title}</span>;
   return <>{[away, home].map((name, index) => <span className="nfl-calendar-team" key={index}>
-    {index === 1 && names && <span className="nfl-at">at</span>}
     <NflLogo name={name} league="NFL" />
     {(names || !hasNflLogo(name)) && <span className="nfl-team-name">{hasNflLogo(name)
       ? (index === 0 ? event.away_participant?.short_name : event.home_participant?.short_name) || name : name}</span>}
@@ -36,7 +35,7 @@ export default function NflMatchups({ items, view }: { items: EventCard[]; view:
       const samples = measurements.current!;
       const widths = [...samples.querySelectorAll<HTMLElement>(".nfl-matchup")].map((pair) => pair.getBoundingClientRect().width);
       const counts = [...samples.querySelectorAll<HTMLElement>(".nfl-more")];
-      const available = element.clientWidth;
+      const available = element.getBoundingClientRect().width;
       const gap = parseFloat(getComputedStyle(element).columnGap) || 0;
       let width = 0, fit = 0;
       for (let count = 1; count <= items.length; count++) {
