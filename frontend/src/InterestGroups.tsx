@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { SportIcon } from "./EventIdentity";
-import { allPreferences, CLIMBING_DISCIPLINES, GENDERS, MOTORSPORT_EVENTS, type InterestPreferences, type LeagueInterest } from "./interest-preferences";
-import { CATEGORY_KEYS, interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
+import { allPreferences, CLIMBING_DISCIPLINES, CLIMBING_LEVELS, WEIGHTLIFTING_LEVELS, GENDERS, MOTORSPORT_EVENTS, type InterestPreferences, type LeagueInterest } from "./interest-preferences";
+import { CATEGORY_KEYS, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
 
 function OptionPills({ name, values, selected, onChange }: {
   name: string; values: readonly string[]; selected: string[]; onChange: (value: string[]) => void;
@@ -26,7 +26,6 @@ export default function InterestGroups({ leagues, preferences, onChange }: {
   const groups = Object.keys(CATEGORY_KEYS).map((name) => ({ name,
     leagues: available.find((group) => group.name === name)?.leagues || [] }));
   const selected = preferences.leagues;
-  const leagueSports = new Map(leagues.map(({ value, sport }) => [value, sport]));
   const active = groups.find((group) => group.name === open);
   useLayoutEffect(() => {
     if (!open) return;
@@ -86,21 +85,25 @@ export default function InterestGroups({ leagues, preferences, onChange }: {
           <div className="interest-pills">
             <button type="button" className="interest-pill" aria-pressed={active.leagues.every((league) => selected.includes(league))}
               onClick={() => changeLeagues(active, toggleInterestGroup(selected, active.leagues))}>All</button>
-            {interestChoices(active).map((choice) => {
-              const league = choice.leagues[0], country = SOCCER_COUNTRIES[league];
+            {!["Climbing", "Weightlifting"].includes(active.name) && active.leagues.map((league) => {
+              const country = SOCCER_COUNTRIES[league];
               return <button type="button" key={league} className="interest-pill" aria-pressed={selected.includes(league)}
-                onClick={() => changeLeagues(active, toggleInterestGroup(selected, choice.leagues))}>
-                <span aria-hidden="true" className={`interest-swatch ${leagueVisual(league, leagueSports.get(league)).className}`} />
-                {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}{choice.name}
+                onClick={() => changeLeagues(active, toggleInterestGroup(selected, [league]))}>
+                {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}{leagueVisual(league).shortLabel}
               </button>;
             })}
           </div>
-          {active.name === "Motorsports" && <OptionPills name="Events" values={MOTORSPORT_EVENTS} selected={preferences.motorsport_events}
+          {(active.name === "Climbing" || active.name === "Weightlifting") && <OptionPills name="Level"
+            values={active.name === "Climbing" ? CLIMBING_LEVELS : WEIGHTLIFTING_LEVELS}
+            selected={active.name === "Climbing" ? preferences.climbing.levels : preferences.weightlifting.levels}
+            onChange={(levels) => onChange(active.name === "Climbing" ? { ...preferences, climbing: { ...preferences.climbing, levels } }
+              : { ...preferences, weightlifting: { ...preferences.weightlifting, levels } })} />}
+          {active.name === "Motorsports" && <OptionPills name="Sessions" values={MOTORSPORT_EVENTS} selected={preferences.motorsport_events}
             onChange={(motorsport_events) => onChange({ ...preferences, motorsport_events })} />}
           {(active.name === "Climbing" || active.name === "Weightlifting") && <OptionPills name="Gender" values={GENDERS}
             selected={active.name === "Climbing" ? preferences.climbing.genders : preferences.weightlifting.genders}
             onChange={(genders) => onChange(active.name === "Climbing" ? { ...preferences, climbing: { ...preferences.climbing, genders } }
-              : { ...preferences, weightlifting: { genders } })} />}
+              : { ...preferences, weightlifting: { ...preferences.weightlifting, genders } })} />}
           {active.name === "Climbing" && <OptionPills name="Discipline" values={CLIMBING_DISCIPLINES} selected={preferences.climbing.disciplines}
             onChange={(disciplines) => onChange({ ...preferences, climbing: { ...preferences.climbing, disciplines } })} />}
         </section>];
