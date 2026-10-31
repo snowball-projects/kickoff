@@ -28,7 +28,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(coverage.locator("p")).toHaveCount(4);
       await expect(coverage).toContainText("Dates and times can change.");
       await expect(coverage).toContainText("Rounds are all-day; past rounds show final tournament results");
-      await expect(coverage).toContainText("three full WBA, WBC, IBF or WBO titles");
+      await expect(coverage).toContainText("full WBA, WBC, IBF and WBO world title bouts");
       await expect(coverage.getByRole("link", { name: "Coverage details ↗" })).toHaveAttribute("href", "https://github.com/snowball-projects/kickoff/tree/main/data/reviewed");
       const publishers = sheet.getByRole("region", { name: "Sources", exact: true });
       await expect(publishers.locator(".about-source")).toHaveCount(6);

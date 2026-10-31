@@ -29,6 +29,22 @@ CLIMBING_HOSTS = {
 }
 CLIMBING_LICENSE = "Schedule facts; no data license granted"
 CLIMBING_TERMS = "https://www.worldclimbing.com/terms-and-conditions/index"
+BOXING_LICENSE = "Schedule facts; no data license granted"
+BOXING_HOSTS = {
+    "www.ibf-usba-boxing.com",
+    "wboboxing.com",
+    "www.wbaboxing.com",
+    "wbcboxing.com",
+    "www.mostvaluablepromotions.com",
+    "www.premierboxingchampions.com",
+    "www.badlefthook.com",
+    "theo2belfast.com",
+    "fispo-karlsruhe.de",
+    "www.matchroomboxing.com",
+    "www.teiken.com",
+    "www.mynewsdesk.com",
+}
+
 WEIGHTLIFTING_LICENSE = "Schedule facts; no data license granted"
 WEIGHTLIFTING_HOSTS = {
     "iwf.sport",
@@ -61,6 +77,11 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         if source.get("kind") == "weightlifting" and url.netloc in WEIGHTLIFTING_HOSTS:
             official = True
             policy = ("weightlifting", WEIGHTLIFTING_LICENSE, source["url"])
+        if source.get("kind", "").startswith("boxing_") and url.netloc in BOXING_HOSTS:
+            if not source.get("publisher"):
+                raise ValueError("Boxing source needs its publisher attribution")
+            official = True
+            policy = (source["kind"], BOXING_LICENSE, source["url"])
         if not policy or url.scheme != "https":
             raise ValueError("Unreviewed registry source")
         kind, license_name, license_url = policy
@@ -80,7 +101,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             "draft",
         }:
             raise ValueError("Registry expects a Wikipedia article")
-        revision = str(source["revision"])
+        revision = str(source.get("revision", ""))
         if not official and (not revision.isdigit() or parse_qs(url.query).get("oldid") != [revision]):
             raise ValueError("Registry source must pin its exact revision")
         if source["license"] != license_name or source["license_url"] != license_url:
@@ -89,7 +110,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Missing source SHA-256")
         if not source.get("changes") or not source.get("name"):
             raise ValueError("Missing attribution or transformation notice")
-        if kind in {"weightlifting", "world_climbing"}:
+        if kind in {"weightlifting", "world_climbing"} or kind.startswith("boxing_"):
             date.fromisoformat(source["checked_date"])
         elif datetime.fromisoformat(source["retrieved_at"].replace("Z", "+00:00")).tzinfo is None:
             raise ValueError("Source retrieval time needs an offset")
@@ -104,6 +125,29 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Invalid reviewed event span")
         if any(row.get(key) for key in ("start_time_utc", "start_time_local", "timezone")):
             raise ValueError("Reviewed date registry cannot establish a clock time")
+        if source["kind"].startswith("boxing_") and row["league"] != "BOXING_MAJOR":
+            raise ValueError("Boxing source needs a reviewed world title bout")
+        if row["league"] == "BOXING_MAJOR":
+            if row["sport"] != "boxing" or start != end:
+                raise ValueError("Boxing title bout needs one published day")
+            date.fromisoformat(row["checked_date"])
+            titles = row.get("titles")
+            if not titles or not isinstance(titles, list):
+                raise ValueError("Boxing bout needs a full world title")
+            for title in titles:
+                evidence = urlparse(title["source_url"])
+                if title.get("body") not in {"WBA", "WBC", "IBF", "WBO"} or title.get("level") != "world":
+                    raise ValueError("Only full WBA, WBC, IBF and WBO world titles qualify")
+                if evidence.scheme != "https" or evidence.netloc not in BOXING_HOSTS | {"en.wikipedia.org"}:
+                    raise ValueError("Boxing title needs a reviewed evidence source")
+                if (
+                    evidence.netloc == "en.wikipedia.org"
+                    and not parse_qs(evidence.query).get("oldid", [""])[0].isdigit()
+                ):
+                    raise ValueError("Wikipedia title evidence needs a pinned revision")
+                date.fromisoformat(title["checked_date"])
+                if not title.get("evidence"):
+                    raise ValueError("Boxing title needs its classification evidence")
         disciplines = row.get("disciplines", [])
         if not isinstance(disciplines, list) or any(d not in {"Boulder", "Lead", "Speed"} for d in disciplines):
             raise ValueError("Unknown climbing discipline")

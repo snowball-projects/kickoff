@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "reviewed_date": "2026-10-31",
+  "selection_rule": "All reviewed men’s and women’s bouts contesting at least one full WBA, WBC, IBF or WBO world title. Defenses, vacancies and unifications qualify. Interim, regular/secondary, silver, regional, youth and eliminator titles do not. Refresh reviewed facts when requested; no future date or opponent inferred.",
+  "sources": [
+    {
+      "id": "boxing-05b03a1c74bc0168",
+      "kind": "boxing_mvp",
+      "name": "Most Valuable Promotions: 2027-01-09 full world title bouts",
+      "url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+      "checked_date": "2026-10-31",
+      "retrieved_at": "2026-10-31T23:17:58.206827+00:00",
+      "sha256": "564d41d9e873d1393263a2f88c7eb9099d2b61e67d9cf3b30507461f9ddbecbe",
+      "input_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+      "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
+      "country_checked_date": "2026-10-31",
+      "country_input_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+      "publisher": "Most Valuable Promotions"
+    },
+    {
+      "id": "boxing-a501b80a6a6835c4",
+      "kind": "boxing_primetime",
+      "name": "Gold Star Promotions and Primetime Boxing: 2027-01-23 world title announcement",
+      "url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
+      "checked_date": "2026-10-31",
+      "retrieved_at": "2026-10-31T23:21:25.578985+00:00",
+      "sha256": "383c98d16b448879892622739d42a7600ac3b1234f74312a41f4ab3dba8caff0",
+      "input_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
+      "changes": "Selected the expressly announced date, opponents, location and full WBO world-title classification; omitted article prose and media. Source broadcast, door and first-bell times are not represented as a bout clock. No future fixture is inferred.",
+      "country_checked_date": "2026-10-31",
+      "country_input_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
+      "publisher": "Primetime Boxing via Mynewsdesk"
+    }
+  ],
+  "events": [
+    {
+      "id": "boxing-2027-amandaserrano-skyefalzon-1",
+      "sport": "boxing",
+      "league": "BOXING_MAJOR",
+      "title": "Amanda Serrano vs. Skye Falzon",
+      "fighters": [
+        "Amanda Serrano",
+        "Skye Falzon"
+      ],
+      "gender": "women",
+      "source_id": "boxing-05b03a1c74bc0168",
+      "start_date": "2027-01-09",
+      "end_date": "2027-01-09",
+      "event_type": "bout",
+      "venue": null,
+      "checked_date": "2026-10-31",
+      "titles": [
+        {
+          "body": "WBO",
+          "level": "world",
+          "source_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+          "checked_date": "2026-10-31",
+          "evidence": "The October 28 promoter announcement explicitly confirms January 9, 2027 and WBO/WBA featherweight titles at 126 pounds.",
+          "supporting_urls": [
+            "https://www.reuters.com/sports/puerto-ricos-serrano-hang-up-gloves-hometown-farewell-2026-10-28/"
+          ]
+        },
+        {
+          "body": "WBA",
+          "level": "world",
+          "source_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+          "checked_date": "2026-10-31",
+          "evidence": "full world championship; No exact bout-start clock has been verified; date-only.",
+          "supporting_urls": [
+            "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+            "https://www.reuters.com/sports/puerto-ricos-serrano-hang-up-gloves-hometown-farewell-2026-10-28/",
+            "https://www.badlefthook.com/boxing-news/119998/amanda-serrano-final-fight-the-last-walk-scheduled-for-january-9-boxing-news-2026"
+          ]
+        }
+      ],
+      "country": "PR",
+      "country_source_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
+      "country_checked_date": "2026-10-31",
+      "city": "Coliseo de Puerto Rico, San Juan",
+      "location_evidence": "Coliseo de Puerto Rico, San Juan, Puerto Rico"
+    },
+    {
+      "id": "boxing-2027-jacobbank-janibekalimkhanuly-1",
+      "sport": "boxing",
+      "league": "BOXING_MAJOR",
+      "title": "Janibek Alimkhanuly vs. Jacob Bank",
+      "fighters": [
+        "Janibek Alimkhanuly",
+        "Jacob Bank"
+      ],
+      "gender": "men",
+      "source_id": "boxing-a501b80a6a6835c4",
+      "start_date": "2027-01-23",
+      "end_date": "2027-01-23",
+      "event_type": "bout",
+      "venue": null,
+      "checked_date": "2026-10-31",
+      "titles": [
+        {
+          "body": "WBO",
+          "level": "world",
+          "source_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
+          "checked_date": "2026-10-31",
+          "evidence": "The October 16 promoter press release confirms January 23, 2027 for the WBO 168-pound championship; WBO lists it as vacant. Official ticketing names Forum Horsens.",
+          "supporting_urls": [
+            "https://wboboxing.com/",
+            "https://shop.primetimeboxing.dk/arrangementer/vol11_thetakeover",
+            "https://www.ringmagazine.com/news/6pIangZHZ0OfhCpwNU3vuH"
+          ]
+        }
+      ],
+      "country": "DK",
+      "country_source_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
+      "country_checked_date": "2026-10-31",
+      "city": "Forum Horsens, Horsens",
+      "location_evidence": "Forum Horsens, Horsens, Denmark"
+    }
+  ],
+  "exclusions": [
+    {
+      "league": "BOXING_MAJOR",
+      "body": "WBC",
+      "event": "Ryan Garner vs. James Dickens",
+      "date": "2027-01-09",
+      "reason": "Official arena explicitly announces WBC Interim super featherweight defense; a full-title calendar must exclude it.",
+      "source_url": "https://www.bic.co.uk/events/queensberry-boxing-2027",
+      "supporting_urls": [],
+      "checked_date": "2026-10-31"
+    },
+    {
+      "league": "BOXING_MAJOR",
+      "body": "WBC",
+      "event": "Claressa Shields vs. Chantelle Cameron",
+      "date": null,
+      "reason": "Potential 2027 fight only; no agreement or fixed date.",
+      "source_url": "https://wbcboxing.com/en/claressa-shields-and-chantelle-cameron-inch-closer-to-a-super-fight/",
+      "supporting_urls": [],
+      "checked_date": "2026-10-31"
+    },
+    {
+      "league": "BOXING_MAJOR",
+      "body": "WBO",
+      "event": "Naoya Inoue vs. Jesse Rodriguez",
+      "date": "2027-02",
+      "reason": "A proposed February 2027 contest has no confirmed calendar day; omit until a source confirms an exact date.",
+      "source_url": "https://www.badlefthook.com/boxing-news/119965/robert-garcia-says-naoya-inoue-vs-bam-rodriguez-could-happen-next-boxing-news-2026",
+      "supporting_urls": [],
+      "checked_date": "2026-10-31"
+    }
+  ]
+}

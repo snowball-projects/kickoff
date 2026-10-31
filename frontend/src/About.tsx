@@ -10,7 +10,7 @@ function sourceGroups(sources: SourceNotice[]) {
   return [...groups].map(([kind, items]) => {
     const pages = new Map<string, SourceNotice[]>();
     for (const source of items) pages.set(source.url, [...(pages.get(source.url) || []), source]);
-    return { kind, name: PUBLISHERS[kind] || items[0].name, pages: [...pages.values()] };
+    return { kind, name: PUBLISHERS[kind] || items[0].publisher || items[0].name, pages: [...pages.values()] };
   });
 }
 function Licenses({ sources }: { sources: SourceNotice[] }) {
@@ -30,14 +30,14 @@ export default function About({ manifest, timezone, storageNote }: {
       <p>Published league schedules and reviewed motorsport, cycling, athletics, cricket, soccer, climbing, weightlifting and combat events. Dates and times can change.</p>
       <p>PGA Tour, LPGA Tour, DP World Tour and LIV Golf from ESPN. Rounds are all-day; past rounds show final tournament results when available.
         Tennis tournaments and rugby union schedules also come from ESPN.</p>
-      <p>Boxing: reviewed four-belt undisputed bouts and unifications of at least three full WBA, WBC, IBF or WBO titles in one division.
-        No interim or secondary titles, exhibitions or influencer cards.</p>
+      <p>Boxing: Zuffa Boxing cards and reviewed men’s and women’s full WBA, WBC, IBF and WBO world title bouts.
+        Title coverage excludes interim, regular/secondary and silver belts, regional titles and exhibitions.</p>
       <p><a href="https://github.com/snowball-projects/kickoff/tree/main/data/reviewed" target="_blank" rel="noreferrer">Coverage details ↗</a></p>
     </section>
     <section aria-labelledby="about-sources">
       <h3 id="about-sources">Sources</h3>
       {sourceGroups(manifest?.sources || []).map(({ kind, name, pages }) => <div className="about-source" key={kind}>
-        {PUBLISHERS[kind] ? <details>
+        {PUBLISHERS[kind] || kind.startsWith("boxing_") ? <details>
           <summary>{name}{" · "}<span>{pages.length} event {pages.length === 1 ? "page" : "pages"}</span></summary>
           <ul>{pages.map((sources) => <li key={sources[0].url}>
             <a href={sources[0].url} target="_blank" rel="noreferrer">{[...new Set(sources.map((source) => source.name))].join(" · ")}</a>
