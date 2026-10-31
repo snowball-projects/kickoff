@@ -160,7 +160,7 @@ def world_cup_events(payload: dict, year: int, source_url: str) -> list[Calendar
                 timezone=local.tzname(),
                 status="finished" if finished else "scheduled",
                 venue=ground,
-                city=ground,
+                city=None,
                 region=None,
                 country=country,
                 participants=participants,
