@@ -34,7 +34,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await setup(page, unknown, { now: `${unknown[0].calendar_date}T03:00:00Z` });
       await agendaToggle(page).click();
       const agenda = page.getByRole("region", { name: "Agenda", exact: true });
-      await expect(agenda.locator(".agenda-clock")).toHaveText(unknown.map(() => ""));
+      await expect(agenda.locator(".agenda-time")).toHaveCount(0);
       await agenda.locator(".agenda-row").first().click();
       await expect(sheet.locator(".detail-time")).toHaveCount(0);
       await expect(sheet).not.toContainText(/TBD|withheld|not published|past schedule|finished/);

@@ -203,7 +203,7 @@ export default function App() {
       </section>}
       {calendarActive && view === "day" && <DayTimeline key={`${day}:${timezone}`} date={day} timezone={timezone} items={selected?.items || []}
         loading={!months[firstOfMonth(day)] && !dayError} error={dayError} onEvents={showEvents} onRetry={() => setRetry((value) => value + 1)} />}
-      {!calendarActive && <Agenda today={today} period={period} onPeriod={setPeriod} upcomingEnd={upcoming.end}
+      {!calendarActive && <Agenda active={!sheet} today={today} period={period} onPeriod={setPeriod} upcomingEnd={upcoming.end}
         onShowMore={() => upcoming.expanded ? extendUpcoming() : setUpcoming({ ...upcoming, expanded: true, pending: true })}
         canShowMore={canShowMore} expandedYears={upcoming.expanded ? publishedYears : undefined}
         moreLoading={upcoming.pending || laterLoading} moreErrors={laterErrors} noMore={upcoming.done}
@@ -225,7 +225,7 @@ export default function App() {
       <p>Updated {manifest?.updated_at?.slice(0, 10) || "unavailable"}</p>
       <p><a href="https://github.com/snowball-projects/kickoff" target="_blank" rel="noreferrer">Source ↗</a></p>
       <h3>Coverage</h3>
-      <p>Published schedules with ESPN golf leaderboards in event popups. Coverage is incomplete; an empty day means no matching published events. Dates and times can change.</p>
+      <p>Published schedules with ESPN golf leaderboards in Agenda and event popups. Team records are snapshots from the daily source check. Coverage is incomplete; an empty day means no matching published events. Dates and times can change.</p>
       <p>Golf: PGA Tour and LPGA Tour tournament dates come from ESPN, including majors.</p>
       <p>Golf rounds follow calendar days. Past rounds show final tournament results when available, not historical round standings.</p>
       <p>Boxing: selected reviewed four-belt undisputed bouts and unifications of at least three full WBA, WBC, IBF or WBO titles in one division.
@@ -238,7 +238,7 @@ export default function App() {
         {" · "}<a href={source.license_url} target="_blank" rel="noreferrer">{source.license}</a></p>)}
       <h3>Privacy</h3>
       <p>Interests and options stay in this browser. No accounts, analytics, advertising or location access. Timezone comes from your browser;
-        no lookup is sent. Past and current ESPN golf popups contact ESPN; active rounds refresh while open. Other calendar browsing contacts no sports providers. GitHub Pages receives normal hosting requests.</p>
+        no lookup is sent. Past and current agenda golf sections and event popups contact ESPN; active rounds refresh while visible. Other calendar browsing contacts no sports providers. GitHub Pages receives normal hosting requests.</p>
       {storageNote && <p>{storageNote}</p>}
       <p><a href={`${import.meta.env.BASE_URL}THIRD-PARTY-NOTICES.md`}>Licenses</a>{" · "}<a href="https://snowball-projects.github.io/operations/#kickoff">Operations</a></p>
     </Sheet>}

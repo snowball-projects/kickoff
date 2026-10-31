@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import fields
 from datetime import date
 
@@ -49,6 +50,37 @@ def validate_event(event: CalendarEvent) -> list[str]:
 
     if event.away_participant and event.away_participant.role not in {None, "away"}:
         errors.append(f"{event.event_id}: away participant role should be 'away'")
+
+    participants = [*event.participants, event.home_participant, event.away_participant]
+    has_team_facts = event.week_label is not None or any(
+        p and (p.short_name is not None or p.record is not None or p.final_score is not None) for p in participants
+    )
+    if has_team_facts and not event.facts_checked_date:
+        errors.append(f"{event.event_id}: team facts need a checked date")
+    if event.facts_checked_date:
+        try:
+            date.fromisoformat(event.facts_checked_date)
+        except (ValueError, TypeError):
+            errors.append(f"{event.event_id}: invalid facts_checked_date")
+        if not (event.facts_source_url or event.source_url or "").startswith("https://"):
+            errors.append(f"{event.event_id}: team facts need a source URL")
+    for participant in participants:
+        if participant is None:
+            continue
+        if participant.short_name is not None and (
+            not isinstance(participant.short_name, str) or not participant.short_name.strip()
+        ):
+            errors.append(f"{event.event_id}: invalid team short name")
+        if participant.record is not None and (
+            not isinstance(participant.record, str) or not re.fullmatch(r"\d+(?:-\d+){1,2}", participant.record)
+        ):
+            errors.append(f"{event.event_id}: invalid team record")
+        if participant.team_source_url is not None and not participant.team_source_url.startswith("https://"):
+            errors.append(f"{event.event_id}: invalid team source URL")
+        if participant.final_score is not None and (
+            type(participant.final_score) is not int or participant.final_score < 0 or event.status != "finished"
+        ):
+            errors.append(f"{event.event_id}: only confirmed final scores are allowed")
 
     if event.competition_phase not in COMPETITION_PHASES:
         errors.append(f"{event.event_id}: invalid competition_phase '{event.competition_phase}'")

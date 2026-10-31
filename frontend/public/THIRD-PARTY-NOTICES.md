@@ -6,7 +6,9 @@ openfootball contributors — football.json; CC0 1.0 Universal.
 https://github.com/openfootball/football.json
 https://creativecommons.org/publicdomain/zero/1.0/
 Changes: selected nine leagues and calendar-year dates, mapped into kickoff's
-schema, omitted scores, canceled/postponed fixtures and unzoned kickoff times. No league endorsement.
+schema, retained supplied final scores, omitted canceled/postponed fixtures and
+unzoned kickoff times. Separately attributed ESPN team facts and clocks retain
+ESPN terms. No league endorsement.
 
 F1DB and contributors — Formula 1 database; CC BY 4.0.
 https://github.com/f1db/f1db
@@ -32,9 +34,10 @@ ESPN, the MLB Stats API and the NHL schedule API — league schedules (NFL,
 NBA, MLB, NHL, UEFA Champions League, PGA Tour, LPGA Tour, UFC, NASCAR Cup, IndyCar).
 https://www.espn.com/  https://statsapi.mlb.com/  https://www.nhl.com/schedule
 These sources grant no data license. kickoff republishes factual schedule
-information only (dates, times, participants, venues), attributes each event to
-its source with a link, and omits logos, odds, articles and raw payloads.
-Golf popups request leaderboard facts directly from ESPN: positions, player
+information only (dates, times, participants, venues, team records, short names,
+round labels and confirmed final scores), attributes each event to its source
+with checked dates, and omits feed logos, odds, articles and raw payloads.
+Agenda golf sections and popups request leaderboard facts directly from ESPN: positions, player
 names, total and round scores, tee times and holes completed. Those results
 carry ESPN's terms, not MIT or a new open-data license.
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
@@ -64,8 +67,19 @@ receipts identify raw document bytes where available and explicitly identify
 reviewed-fact hashes otherwise. These facts carry their sources' terms, not MIT
 or a new CC0 grant.
 
-League/team names identify scheduled events; no official team or league logos
-are included and no endorsement is implied.
+NFL team logos identify teams in factual schedule and results reporting;
+no endorsement is implied. The 32 unmodified PNG/SVG assets and their original
+source, license URL, usage-basis and review receipts were copied read-only from
+sideline at 9b6963f90c64042532c9cd71b082bd4f1ce891c4:
+https://github.com/snowball-projects/sideline/tree/9b6963f90c64042532c9cd71b082bd4f1ce891c4/web/team-logos
+Per-file metadata: https://github.com/snowball-projects/kickoff/blob/main/frontend/src/team-assets.json
+Twenty PNG logos retain team/NFL copyright and the original limited editorial
+identification basis; no redistribution license is claimed. Twelve SVG files
+carry the per-file public-domain designations listed in the metadata. Original
+sideline usage notes remain sourcing records; kickoff displays the small logos
+beside identified NFL teams in schedules and event popups, at 28 CSS pixels.
+These assets are separate from the MIT software and schedule-data licenses.
+Other leagues use text team identities.
 
 React and React DOM: MIT, Meta Platforms, Inc. and affiliates.
 https://github.com/facebook/react/blob/main/LICENSE

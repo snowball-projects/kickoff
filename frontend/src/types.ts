@@ -13,6 +13,9 @@ export type ApiParticipant = {
   role: string | null;
   entity_type: string;
   country_code?: string;
+  record?: string;
+  team_source_url?: string;
+  final_score?: number;
 };
 
 export type EventCard = {
@@ -43,14 +46,16 @@ export type EventCard = {
   competition_phase: string;
   tags: string[];
   participants: ApiParticipant[];
+  home_participant: ApiParticipant | null;
+  away_participant: ApiParticipant | null;
+  week_label: string | null;
+  facts_checked_date?: string;
+  facts_source_url?: string;
   home_participant_name: string | null;
   away_participant_name: string | null;
 };
 
 export type EventDetail = EventCard & {
-  week_label: string | null;
-  home_participant: ApiParticipant | null;
-  away_participant: ApiParticipant | null;
   is_regular_season: boolean;
   is_postseason: boolean;
   is_exhibition: boolean;

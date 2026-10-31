@@ -144,7 +144,7 @@ def test_mlb_undecided_postseason_slots_name_the_series(monkeypatch):
     }
     serve(monkeypatch, {"statsapi.mlb.com": {"dates": [{"games": [game]}]}})
     (event,) = feeds.mlb_events(2026)
-    assert event.title == "World Series · Game 6 · teams TBD"
+    assert event.title == "World Series · Game 6"
     assert event.subtitle == "World Series · Game 6 of 7 · if necessary"
     assert event.home_participant is None and event.participants == []
 

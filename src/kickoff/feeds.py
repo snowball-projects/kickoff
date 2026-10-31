@@ -2,7 +2,8 @@
 
 Approved by the owner on October 1, 2026 for factual schedule data (dates, times,
 participants, venues). These sources grant no data license; the calendar names
-them, links back, and carries no logos, scores, odds or article content.
+them, links back, and includes only supplied team facts and confirmed final scores,
+never odds or article content.
 """
 
 from __future__ import annotations
@@ -126,6 +127,10 @@ def make_event(
     country: str | None = None,
     country_source_url: str | None = None,
     country_checked_date: str | None = None,
+    status: str = "scheduled",
+    facts_source_url: str | None = None,
+    round_or_stage: str | None = None,
+    week_label: str | None = None,
 ) -> CalendarEvent:
     home_participant = Participant(name=home, role="home") if home else None
     away_participant = Participant(name=away, role="away") if away else None
@@ -141,8 +146,11 @@ def make_event(
         start_time_utc=_iso_utc(utc) if utc else None,
         start_time_local=None,
         timezone="UTC" if utc else None,
-        # Clients derive not started / live / over from the clock; no live state is stored.
-        status="scheduled",
+        status=status,
+        facts_checked_date=datetime.now(UTC).date().isoformat() if facts_source_url else None,
+        facts_source_url=facts_source_url,
+        round_or_stage=round_or_stage,
+        week_label=week_label,
         venue=venue,
         city=None,
         region=None,
@@ -169,6 +177,40 @@ def _espn_link(event: dict, fallback: str) -> str:
         if href.startswith("https://www.espn.com/"):
             return href
     return fallback
+
+
+def _score(value) -> int | None:
+    if isinstance(value, dict):
+        value = value.get("displayValue", value.get("value"))
+    if isinstance(value, str) and re.fullmatch(r"\d+", value):
+        return int(value)
+    if type(value) in (int, float) and value >= 0 and float(value).is_integer():
+        return int(value)
+    return None
+
+
+def _record(value) -> str | None:
+    return value if isinstance(value, str) and re.fullmatch(r"\d+(?:-\d+){1,2}", value) else None
+
+
+def _espn_finished(event: dict, competition: dict) -> bool:
+    return any(
+        (item.get("status") or {}).get("type", {}).get("completed") is True
+        or (item.get("status") or {}).get("type", {}).get("name") in {"STATUS_FINAL", "STATUS_FULL_TIME"}
+        for item in (event, competition)
+    )
+
+
+def _espn_participants(event: CalendarEvent, competitors: list, finished: bool) -> None:
+    for participant in event.participants:
+        row = next((c for c in competitors if c.get("homeAway") == participant.role), {})
+        team = row.get("team") or {}
+        participant.participant_id = str(team["id"]) if team.get("id") is not None else None
+        participant.short_name = team.get("shortDisplayName") or team.get("abbreviation")
+        participant.record = next(
+            (_record(r.get("summary")) for r in row.get("records") or [] if r.get("type") == "total"), None
+        )
+        participant.final_score = _score(row.get("score")) if finished else None
 
 
 def _espn_event(
@@ -203,7 +245,14 @@ def _espn_event(
     season = event.get("season") or {}
     venue = competition.get("venue") or {}
     country = venue_country((venue.get("address") or {}).get("country")) if league in COUNTRY_LEAGUES else None
-    return make_event(
+    finished = _espn_finished(event, competition if event_type == "game" else {})
+    week = event.get("week") or {}
+    week_label = week.get("text") or (f"Week {week['number']}" if type(week.get("number")) is int else None)
+    # Match labels are used only when the feed explicitly supplies them.
+    round_label = week_label
+    if not round_label and league == "UEFA_CHAMPIONS_LEAGUE" and season.get("slug"):
+        round_label = season["slug"].replace("-", " ").capitalize()
+    result = make_event(
         source="espn",
         league=league,
         sport=sport,
@@ -222,7 +271,13 @@ def _espn_event(
         country=country,
         country_source_url=(input_url or _espn_link(event, fallback_url)) if country else None,
         country_checked_date=datetime.now(UTC).date().isoformat() if country else None,
+        status="finished" if finished else "scheduled",
+        facts_source_url=input_url or _espn_link(event, fallback_url),
+        round_or_stage=round_label,
+        week_label=week_label,
     )
+    _espn_participants(result, competitors, finished)
+    return result
 
 
 def _in_year(events: list[CalendarEvent], year: int) -> list[CalendarEvent]:
@@ -326,12 +381,12 @@ def nba_events(year: int) -> list[CalendarEvent]:
     if len(team_ids) < 30:
         raise ValueError(f"Expected 30 NBA teams, got {len(team_ids)}")
     events = []
+    records = {}
     for team_id in team_ids:
         for season, season_type in ((year, 2), (year, 3), (year + 1, 2)):
-            payload = get_json(
-                f"{ESPN}/basketball/nba/teams/{team_id}/schedule?season={season}&seasontype={season_type}",
-                missing_ok=True,
-            )
+            url = f"{ESPN}/basketball/nba/teams/{team_id}/schedule?season={season}&seasontype={season_type}"
+            payload = get_json(url, missing_ok=True)
+            record = _record((payload or {}).get("team", {}).get("recordSummary"))
             for row in rows(payload, "events") if payload is not None else []:
                 event = _espn_event(
                     row,
@@ -340,10 +395,18 @@ def nba_events(year: int) -> list[CalendarEvent]:
                     zone=EASTERN,
                     fallback_url="https://www.nba.com/schedule",
                     phase="postseason" if season_type == 3 else "regular_season",
+                    input_url=url,
                 )
                 if event:
                     events.append(event)
-    return _in_year(_dedupe(events), year)
+                    if record and str((payload.get("team") or {}).get("id")) == str(team_id):
+                        records[(event.event_id, str(team_id))] = (record, url)
+    result = _in_year(_dedupe(events), year)
+    for event in result:
+        for participant in event.participants:
+            if not participant.record and (event.event_id, participant.participant_id) in records:
+                participant.record, participant.team_source_url = records[(event.event_id, participant.participant_id)]
+    return result
 
 
 UCL_PHASES = {"league-phase": "league_phase", "final": "final"}
@@ -390,7 +453,8 @@ MLB_PHASES = {"R": "regular_season", "F": "postseason", "D": "postseason", "L": 
 
 
 def mlb_events(year: int) -> list[CalendarEvent]:
-    payload = get_json(f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W")
+    url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W"
+    payload = get_json(url)
     events = []
     for day in rows(payload, "dates"):
         for game in rows(day, "games"):
@@ -415,9 +479,7 @@ def mlb_events(year: int) -> list[CalendarEvent]:
                     sport="baseball",
                     upstream_id=game["gamePk"],
                     season=str(game.get("season", year)),
-                    title=f"{series} · Game {game.get('seriesGameNumber')} · teams TBD"
-                    if undecided
-                    else f"{away} at {home}",
+                    title=f"{series} · Game {game.get('seriesGameNumber')}" if undecided else f"{away} at {home}",
                     subtitle=subtitle,
                     utc=None if status.get("startTimeTBD") else game["gameDate"],
                     day=game.get("officialDate") or _local_date(game["gameDate"], EASTERN),
@@ -426,8 +488,25 @@ def mlb_events(year: int) -> list[CalendarEvent]:
                     phase=MLB_PHASES.get(game.get("gameType"), "regular_season"),
                     venue=(game.get("venue") or {}).get("name"),
                     source_url=f"https://www.mlb.com/gameday/{game['gamePk']}",
+                    status="finished"
+                    if status.get("abstractGameState") == "Final"
+                    or status.get("detailedState") in {"Final", "Game Over"}
+                    else "scheduled",
+                    facts_source_url=url,
+                    round_or_stage=(game.get("description") or subtitle) if series and not undecided else None,
                 )
             )
+            for participant in events[-1].participants:
+                row = game["teams"][participant.role]
+                team = row["team"]
+                participant.participant_id = str(team["id"]) if team.get("id") is not None else None
+                participant.short_name = team.get("shortName") or team.get("abbreviation")
+                record = row.get("leagueRecord") or {}
+                if type(record.get("wins")) is int and type(record.get("losses")) is int:
+                    participant.record = f"{record['wins']}-{record['losses']}" + (
+                        f"-{record['ties']}" if record.get("ties") else ""
+                    )
+                participant.final_score = _score(row.get("score")) if events[-1].status == "finished" else None
             events[-1].raw_source_payload = {
                 "game_number": game.get("gameNumber"),
                 "double_header": game.get("doubleHeader"),
@@ -441,7 +520,8 @@ def nhl_events(year: int) -> list[CalendarEvent]:
     cursor = date(year, 1, 1)
     end = date(year, 12, 31)
     while cursor <= end:
-        payload = get_json(f"https://api-web.nhle.com/v1/schedule/{cursor.isoformat()}")
+        url = f"https://api-web.nhle.com/v1/schedule/{cursor.isoformat()}"
+        payload = get_json(url)
         for week in rows(payload, "gameWeek"):
             for game in rows(week, "games"):
                 if game.get("gameType") not in (2, 3) or game.get("gameScheduleState") not in (None, "OK"):
@@ -463,8 +543,16 @@ def nhl_events(year: int) -> list[CalendarEvent]:
                         phase="postseason" if game["gameType"] == 3 else "regular_season",
                         venue=(game.get("venue") or {}).get("default"),
                         source_url=f"https://www.nhl.com/gamecenter/{game['id']}",
+                        status="finished" if game.get("gameState") in {"FINAL", "OFF"} else "scheduled",
+                        facts_source_url=url,
                     )
                 )
+                for participant in events[-1].participants:
+                    team = game[f"{participant.role}Team"]
+                    participant.participant_id = str(team["id"]) if team.get("id") is not None else None
+                    participant.short_name = (team.get("commonName") or {}).get("default") or team.get("abbrev")
+                    participant.record = _record(team.get("record"))
+                    participant.final_score = _score(team.get("score")) if events[-1].status == "finished" else None
         following = payload.get("nextStartDate")
         next_cursor = date.fromisoformat(following) if following else cursor + timedelta(days=7)
         cursor = max(next_cursor, cursor + timedelta(days=1))

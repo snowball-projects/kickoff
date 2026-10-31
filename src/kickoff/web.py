@@ -22,6 +22,11 @@ def _participant_payload(participant: Participant | None) -> dict[str, Any] | No
         "short_name": participant.short_name,
         "role": participant.role,
         "entity_type": participant.entity_type,
+        **{
+            key: getattr(participant, key)
+            for key in ("record", "team_source_url", "final_score")
+            if getattr(participant, key) is not None
+        },
         **(
             {"country_code": participant.metadata["country_code"]}
             if participant.entity_type == "national_team"
@@ -51,6 +56,11 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
         "start_time_local": event.start_time_local,
         "timezone": event.timezone,
         "status": event.status,
+        **(
+            {"facts_checked_date": event.facts_checked_date, "facts_source_url": event.facts_source_url}
+            if event.facts_checked_date
+            else {}
+        ),
         "venue": event.venue,
         "city": event.city,
         "region": event.region,

@@ -48,16 +48,16 @@ for (const scenario of [
     await page.getByRole("switch", { name: "Agenda view" }).click();
     const agenda = page.getByRole("region", { name: "Agenda", exact: true });
     await expect(agenda).toContainText(scenario.date);
-    await expect(agenda.getByRole("button").filter({ hasText: `${scenario.name} vs Away` })).toContainText(scenario.time);
+    await expect(agenda.locator(".agenda-row").filter({ hasText: scenario.name })).toContainText(scenario.time);
     if (scenario.name === "Summer clock") {
       for (const name of ["Repeated clock", "Missing clock"])
-        await expect(agenda.getByRole("button").filter({ hasText: `${name} vs Away` }).locator(".agenda-clock")).toHaveText("");
+        await expect(agenda.locator(".agenda-row").filter({ hasText: name }).locator(".agenda-time")).toHaveCount(0);
     }
     if (scenario.name === "Year boundary") {
       await expect(agenda).not.toContainText("Date-only clock");
       await page.getByRole("group", { name: "Agenda days", exact: true }).getByRole("button", { name: "Yesterday", exact: true }).click();
       await expect(agenda).toContainText("Thursday, December 31, 2026");
-      await expect(agenda.getByRole("button").filter({ hasText: "Date-only clock vs Away" }).locator(".agenda-clock")).toHaveText("");
+      await expect(agenda.locator(".agenda-row").filter({ hasText: "Date-only clock" }).locator(".agenda-time")).toHaveCount(0);
     }
   });
 }

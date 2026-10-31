@@ -459,4 +459,40 @@ def test_enriched_combat_keeps_wikipedia_component_membership_and_mixed_licenses
     assert component["license"] == component["data_licenses"]["wikipedia"] == "CC BY-SA 4.0"
     assert component["data_licenses"]["espn"] == bundle["data_licenses"]["espn"] == feeds.SOURCES["espn"]["license"]
     assert {source["kind"] for source in component["sources"]} == {"wikipedia", "espn"}
-    assert "Separately attributed start times retain their time source's terms" in component["license_notice"]
+    assert "Separately attributed team facts and start times retain their source's terms" in component["license_notice"]
+
+
+def test_existing_soccer_response_supplies_team_facts_without_extra_calls_or_clock_changes(monkeypatch):
+    pending = football(day="2026-10-27")
+    known = football(clock="20:00")
+    original_clock = (known.start_time_local, known.start_time_utc, known.timezone)
+    row = espn()
+    for competitor in row["competitions"][0]["competitors"]:
+        competitor["team"]["shortDisplayName"] = competitor["homeAway"] + " team"
+        competitor["records"] = [{"type": "total", "summary": "12-5-8"}]
+    calls = answer(monkeypatch, [row])
+    receipts = fill_missing_start_times([pending, known], 2026)
+    assert len(calls) == 1
+    assert (known.start_time_local, known.start_time_utc, known.timezone) == original_clock
+    assert not receipts[0]["clocks_added"]
+    assert receipts[0]["team_facts_added"] == [{"event_id": known.event_id, "team_source_url": row["links"][0]["href"]}]
+    assert known.facts_checked_date == date.today().isoformat()
+    for participant in [known.home_participant, known.away_participant, *known.participants]:
+        assert participant.short_name == participant.role + " team"
+        assert participant.record == "12-5-8"
+        assert participant.team_source_url == row["links"][0]["href"]
+    # A league with no missing kickoff times does not gain a new request.
+    assert fill_missing_start_times([known], 2026) == []
+    assert len(calls) == 1
+
+
+def test_soccer_optional_team_facts_omit_unsupported_records_and_short_names(monkeypatch):
+    event = football()
+    row = espn()
+    for competitor in row["competitions"][0]["competitors"]:
+        competitor["team"]["shortDisplayName"] = 100
+        competitor["records"] = [{"type": "total", "summary": "Unknown"}]
+    answer(monkeypatch, [row])
+    receipts = fill_missing_start_times([event], 2026)
+    assert receipts[0]["team_facts_added"] == []
+    assert event.home_participant.short_name is event.home_participant.record is None
