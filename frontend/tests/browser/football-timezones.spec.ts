@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "./test";
+import { publishedFiles } from "../published-fixture.mjs";
 
 // Exercise the real importer and confirmed league mappings with synthetic clocks.
 const root = fileURLToPath(new URL("../../../", import.meta.url));
@@ -37,12 +38,10 @@ for (const scenario of [
       leagues: ["EPL", "BRASILEIRAO", "LA_LIGA"],
       motorsport_events: [], climbing: { levels: [], genders: [], disciplines: [] }, weightlifting: { levels: [], genders: [] },
     })));
+    const files = publishedFiles([{ season: 2026, events }, { season: 2027, events: [] }]);
     await page.route("**/data/*.json", async (route) => {
-      const year = Number(route.request().url().match(/(\d{4})\.json$/)?.[1]);
-      await route.fulfill({ json: {
-        schema_version: "1", season: year, available_seasons: [2026, 2027], providers: [],
-        events: year === 2026 ? events : [],
-      } });
+      const file = route.request().url().split("/").at(-1)!;
+      await (file in files ? route.fulfill({ json: files[file] }) : route.fulfill({ status: 404, body: "missing" }));
     });
     await page.goto("/");
     await page.getByRole("switch", { name: "Agenda view" }).click();
