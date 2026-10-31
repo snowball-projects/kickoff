@@ -1,6 +1,7 @@
-import { addMonths, firstOfMonth, monthAnchorsInRange, formatShortDate, yearMonthAnchors } from "./date-utils";
+import { addMonths, firstOfMonth, monthAnchorsInRange, yearMonthAnchors } from "./date-utils";
 import { dayAfter, scheduleWindow } from "./month-feed-state";
-import { compareEvents } from "./calendar-helpers";
+import { compareEvents, leagueGroups } from "./calendar-helpers";
+import { eventInstant } from "./date-utils";
 import type { CalendarResponse, EventCard } from "./types";
 
 export type AgendaPeriod = "yesterday" | "today" | "upcoming";
@@ -50,7 +51,7 @@ export function agendaGroups(months: Record<string, CalendarResponse>, dates: st
   }));
 }
 
-export function agendaScopeLabel(event: EventCard, date: string) {
-  return event.end_calendar_date && event.end_calendar_date > date
-    ? `Through ${formatShortDate(event.end_calendar_date)}` : "";
+export function agendaLeagues(items: EventCard[]) {
+  return leagueGroups(items).map((group) => ({ ...group, items: group.items.sort((a, b) =>
+    (eventInstant(a) ?? -Infinity) - (eventInstant(b) ?? -Infinity) || compareEvents(a, b)) }));
 }

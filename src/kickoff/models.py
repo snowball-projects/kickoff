@@ -13,6 +13,9 @@ class Participant:
     short_name: str | None = None
     role: str | None = None
     entity_type: str = "team"
+    record: str | None = None
+    team_source_url: str | None = None
+    final_score: int | None = None
     metadata: dict[str, JsonValue] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -56,6 +59,8 @@ class CalendarEvent:
     start_time_source_url: str | None = None
     country_source_url: str | None = None
     country_checked_date: str | None = None
+    facts_checked_date: str | None = None
+    facts_source_url: str | None = None
     raw_source_payload: JsonValue = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

@@ -65,7 +65,7 @@ def _team_pair(row: dict) -> tuple[str | None, str | None]:
 
 
 def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dict]:
-    """Return source receipts, updating only independently confirmed missing clocks."""
+    """Return source receipts, updating confirmed missing clocks and matched soccer team facts."""
     pending = [
         e
         for e in events
@@ -84,6 +84,11 @@ def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dic
             requests[f"{feeds.ESPN}/baseball/mlb/scoreboard?dates={day}&limit=1000"].append(event)
         elif event.event_id in identities:
             requests[f"{feeds.ESPN}/mma/all/scoreboard?dates={year}&limit=1000"].append(event)
+    # Reuse a response already needed for missing clocks. No extra requests
+    # are made for team facts, and known kickoff times stay intact.
+    for selected in requests.values():
+        leagues = {event.league for event in selected if event.source == "openfootball"}
+        selected.extend(event for event in events if event.league in leagues and event not in selected)
     receipts = []
     for url, selected in requests.items():
         try:
@@ -92,15 +97,15 @@ def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dic
             # Optional third-party clocks must never prevent publishing schedules.
             logger.warning("ESPN clock lookup failed; keeping source schedules unchanged: %s: %s", url, error)
             continue
-        for event, fields in updates:
+        for item, fields in updates:
             for name, value in fields.items():
-                setattr(event, name, value)
+                setattr(item, name, value)
         receipts.append(receipt)
     return receipts
 
 
 def _lookup_clocks(url: str, selected: list[CalendarEvent], identities: dict) -> tuple[dict, list]:
-    """Stage a whole response before applying any clocks or source credits."""
+    """Stage a response before applying clocks, team facts or source credits."""
     payload = feeds.get_json(url)
     rows = feeds.rows(payload, "events")
     if len(rows) >= 1000:
@@ -110,7 +115,7 @@ def _lookup_clocks(url: str, selected: list[CalendarEvent], identities: dict) ->
         by_id[str(row["id"])].append(row)
         if len(row.get("competitions") or []) == 1:
             by_pair[_team_pair(row)].append(row)
-    changes, updates = [], []
+    changes, team_changes, updates = [], [], []
     for event in selected:
         if event.source == "openfootball":
             config = football_teams()[event.league]
@@ -170,10 +175,49 @@ def _lookup_clocks(url: str, selected: list[CalendarEvent], identities: dict) ->
         if len(candidates) != 1:
             continue
         row = candidates[0]
+        status = ((row.get("status") or {}).get("type") or {}).get("name", "")
+        if status in feeds.DROPPED_STATUSES or status.startswith("STATUS_CANCEL"):
+            continue
+        source_url = feeds._espn_link(row, url)
+        if event.source == "openfootball":
+            competitors = row["competitions"][0].get("competitors") or []
+            added = False
+            for competitor in competitors:
+                role = competitor.get("homeAway")
+                participant = (
+                    event.home_participant if role == "home" else event.away_participant if role == "away" else None
+                )
+                if participant is None:
+                    continue
+                short = (competitor.get("team") or {}).get("shortDisplayName") or (competitor.get("team") or {}).get(
+                    "abbreviation"
+                )
+                record = next(
+                    (
+                        feeds._record(r.get("summary"))
+                        for r in competitor.get("records") or []
+                        if r.get("type") == "total"
+                    ),
+                    None,
+                )
+                facts = {}
+                if isinstance(short, str) and short.strip():
+                    facts["short_name"] = short
+                if record is not None:
+                    facts["record"] = record
+                if facts:
+                    facts["team_source_url"] = source_url
+                    peers = [participant] + [p for p in event.participants if p.role == role and p is not participant]
+                    updates.extend((peer, facts) for peer in peers)
+                    added = True
+            if added:
+                team_changes.append({"event_id": event.event_id, "team_source_url": source_url})
+                updates.append((event, {"facts_checked_date": datetime.now(UTC).date().isoformat()}))
+        if event.start_time_utc or event.start_time_local:
+            continue
         utc = _confirmed_clock(row, zone, event.calendar_date, card=event.event_id in identities)
         if utc is None:
             continue
-        source_url = feeds._espn_link(row, url)
         changes.append(
             {"event_id": event.event_id, "schedule_source_url": event.source_url, "time_source_url": source_url}
         )
@@ -199,5 +243,6 @@ def _lookup_clocks(url: str, selected: list[CalendarEvent], identities: dict) ->
         "canonical_json_sha256": hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest(),
         "parsed_events": len(rows),
         "clocks_added": changes,
+        "team_facts_added": team_changes,
     }
     return receipt, updates

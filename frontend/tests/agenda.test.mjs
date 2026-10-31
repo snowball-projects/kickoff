@@ -15,9 +15,9 @@ test("agenda windows follow local dates across years, leap days and DST", async 
   assert.equal(agendaDates("2026-10-31", "upcoming").at(-1), "2026-11-07");
 });
 
-test("agenda uses the calendar's timezone, span and filter semantics; unknown clocks sort last", async () => {
+test("agenda preserves the calendar timezone, span and filter semantics", async () => {
   const { getCalendar } = await loadModule("data");
-  const { agendaGroups, agendaScopeLabel } = await loadModule("agenda-state");
+  const { agendaGroups } = await loadModule("agenda-state");
   const original = globalThis.fetch;
   const base = { status: "scheduled", season: "2026", competition_phase: "regular_season", title: "Fixture", event_type: "game", source: "fixture", sport: "soccer", league: "EPL", tags: [], participants: [],
     calendar_date: "2026-12-31", start_time_utc: null, start_time_local: null };
@@ -38,8 +38,6 @@ test("agenda uses the calendar's timezone, span and filter semantics; unknown cl
     const groups = agendaGroups({ "2026-12-01": december, "2027-01-01": january }, ["2026-12-31", "2027-01-01"]);
     assert.deepEqual(groups[0].items.map((event) => event.event_id), ["date-only", "span", "unverified"]);
     assert.deepEqual(groups[1].items.map((event) => event.event_id), ["early", "late", "span"]);
-    assert.equal(agendaScopeLabel(groups[0].items[1], "2026-12-31"), "Through Jan 2");
-    assert.equal(agendaScopeLabel({ ...base, end_calendar_date: "2026-12-31" }, "2026-12-31"), "");
     assert.deepEqual(agendaGroups({}, ["2026-12-31"]), [{ date: "2026-12-31", items: [] }]);
   } finally { globalThis.fetch = original; }
 });
@@ -75,4 +73,16 @@ test("Show more includes the rolling endpoint and excludes later dates in the sa
   const months = { fixture: { groups: ["2027-10-27", "2027-10-28"].map((date) => ({ date, items: [{}] })) } };
   assert.equal(nextAgendaEnd(months, "2027-10-26", "2027-10-27"), "2027-10-27");
   assert.equal(nextAgendaEnd(months, "2027-10-27", "2027-10-27"), null);
+});
+
+
+test("league sections keep existing tiers and put untimed events before chronological starts", async () => {
+  const { agendaLeagues } = await loadModule("agenda-state");
+  const event = (id, league, time = null) => ({ event_id: id, title: id, league, sport: "football", competition_phase: "regular_season", start_time_utc: time, start_time_local: null, tags: [] });
+  const groups = agendaLeagues([
+    event("Late NFL", "NFL", "2026-10-31T22:00:00Z"), event("EPL", "EPL"),
+    event("Early NFL", "NFL", "2026-10-31T18:00:00Z"), event("Untimed NFL", "NFL"), event("NBA", "NBA"),
+  ]);
+  assert.deepEqual(groups.map((g) => g.league), ["NFL", "NBA", "EPL"]);
+  assert.deepEqual(groups[0].items.map((e) => e.event_id), ["Untimed NFL", "Early NFL", "Late NFL"]);
 });

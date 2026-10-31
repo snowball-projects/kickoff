@@ -247,6 +247,12 @@ def football_events(payload: dict, key: str, season: str, source_url: str) -> li
                 round_or_stage=row.get("round"),
             )
         )
+        events[-1].facts_checked_date = datetime.now(timezone.utc).date().isoformat()
+        events[-1].facts_source_url = source_url
+        if finished:
+            events[-1].home_participant.final_score = full_time[0]
+            events[-1].away_participant.final_score = full_time[1]
+            events[-1].participants = [events[-1].home_participant, events[-1].away_participant]
         if local:
             events[-1].start_time_local = local.isoformat()
             events[-1].timezone = timezone_name
@@ -438,10 +444,11 @@ def refresh_open_schedules(
     kept_sources = {event.source_url for event in reviewed}
     notices = [notice for notice in notices if notice["url"] in kept_sources]
     events.extend(reviewed)
+    time_receipts = []
     if enrich_times:
         time_receipts = fill_missing_start_times(events, year)
         evidence.extend(time_receipts)
-        if any(receipt["clocks_added"] for receipt in time_receipts):
+        if any(receipt["clocks_added"] or receipt["team_facts_added"] for receipt in time_receipts):
             source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
     # Each input was validated where it was produced. Check only cross-feed identity here.
     if len({e.event_id for e in events}) != len(events):
@@ -476,7 +483,7 @@ def refresh_open_schedules(
             if reviewed
             else ""
         )
-        + "ESPN golf leaderboards appear only in event popups. Football kickoff times use confirmed league timezone conventions; "
+        + "ESPN golf leaderboards appear in current/past agenda sections and event popups. Football kickoff times use confirmed league timezone conventions; "
         "ESPN fills independently confirmed missing clocks with its own attribution. "
         "Unconfirmed clocks remain date-only. F1 times use the source's UTC fields."
     )
@@ -484,6 +491,7 @@ def refresh_open_schedules(
         (
             {event["source"] for event in bundle["events"]}
             | {event.get("start_time_source") for event in bundle["events"]}
+            | ({"espn"} if any(receipt["team_facts_added"] for receipt in time_receipts) else set())
         )
         & set(league_feeds.SOURCES)
     )
@@ -504,7 +512,7 @@ def refresh_open_schedules(
         "league and team names belong to their owners and kickoff is not affiliated with any league. "
         "Wikipedia-derived adaptations are shared under CC BY-SA 4.0, including in this collection. "
         "Source links identify the contributors and pinned revisions; changes are described in sources. "
-        "Separately attributed start times retain their time source's terms, rather than the original schedule's license."
+        "Separately attributed team facts and start times retain their source's terms, rather than the original schedule's license."
     )
     components = {}
     for kind in ("wikipedia",):

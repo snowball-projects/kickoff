@@ -23,7 +23,7 @@ type Competitor = {
 type Payload = { events?: { id?: string; status?: Status;
   competitions?: { status?: Status; competitors?: Competitor[] }[] }[] };
 export type GolfLeaderboardData = {
-  final: boolean; inProgress: boolean; round?: number;
+  final: boolean; inProgress: boolean; round?: number; status: string | null;
   players: { id: string; name: string; position: string; total: string; today: string; thru: string }[];
 };
 
@@ -45,6 +45,8 @@ export function readLeaderboard(payload: Payload, id: string, timezone: string, 
       return { id: player.id, name: player.athlete!.displayName!, position: status?.position?.displayName || "",
         total: player.score?.displayValue || "", today, thru: String(status?.thru ?? "") };
     });
-  return players.length ? { final, inProgress: !final && competition.status?.type?.state === "in",
+  const state = competition.status?.type?.state;
+  return players.length ? { final, inProgress: !final && state === "in",
+    status: final ? "Final tournament" : state === "in" ? "In progress" : state === "pre" ? "Scheduled" : null,
     round: competition.status?.period, players } : null;
 }

@@ -1,14 +1,15 @@
-import { countryIdentity } from "./countries";
 import { useLayoutEffect, useRef } from "react";
-import { agendaDates, agendaGroups, agendaScopeLabel, type AgendaPeriod } from "./agenda-state";
-import { firstOfMonth, eventTimeLabel, formatLongDate, formatShortDate } from "./date-utils";
-import { EventFlags, SportIcon } from "./EventIdentity";
+import { agendaDates, agendaGroups, agendaLeagues, type AgendaPeriod } from "./agenda-state";
+import { firstOfMonth, formatLongDate, formatShortDate } from "./date-utils";
+import { SportIcon } from "./EventIdentity";
 import { leagueVisual } from "./calendar-helpers";
 import { dayAfter } from "./month-feed-state";
+import AgendaEvent from "./AgendaEvent";
 import type { CalendarResponse } from "./types";
 
 export default function Agenda({ today, period, onPeriod, months, errors, timezone, resetKey, onOpenDay, onRetry,
-  upcomingEnd, onShowMore, canShowMore, moreLoading, moreErrors, noMore, expandedYears }: {
+  active, upcomingEnd, onShowMore, canShowMore, moreLoading, moreErrors, noMore, expandedYears }: {
+  active: boolean;
   today: string;
   period: AgendaPeriod;
   onPeriod: (period: AgendaPeriod) => void;
@@ -96,24 +97,14 @@ export default function Agenda({ today, period, onPeriod, months, errors, timezo
         {groups.filter((group) => group.items.length).map((group) => (
           <section className="agenda-day" key={group.date} aria-label={formatLongDate(group.date)}>
             {period === "upcoming" && <h2>{formatLongDate(group.date)}</h2>}
-            {group.items.map((event) => {
-              const scope = agendaScopeLabel(event, group.date);
-              const status = event.status === "scheduled" ? "" : event.status.replaceAll("_", " ");
-              const location = event.venue || [event.city, countryIdentity(event.country)?.name || event.country].filter(Boolean).join(" · ");
-              return (
-                <button className="agenda-row" key={event.event_id} id={`agenda-${group.date}-${event.event_id}`}
-                  onClick={() => onOpenDay(group.date, event.event_id)}>
-                  <span className="agenda-clock">{eventTimeLabel(event, timezone)}</span>
-                  <span className="agenda-summary">
-                    <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}><SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}</span>
-                    <span className="agenda-title">{event.title}<EventFlags event={event} /></span>
-                    {location && <span className="agenda-location">{location}</span>}
-                    {(scope || status) && <span className="agenda-status">{[scope, status].filter(Boolean).join(" · ")}</span>}
-                  </span>
-                  <span className="agenda-chevron" aria-hidden="true">›</span>
-                </button>
-              );
-            })}
+            {agendaLeagues(group.items).map((league) => <section className="agenda-league" key={league.league}
+              aria-label={leagueVisual(league.league, league.items[0].sport).shortLabel}>
+              <h3 className="agenda-league-heading"><SportIcon league={league.league} sport={league.items[0].sport} />
+                {leagueVisual(league.league, league.items[0].sport).shortLabel}</h3>
+              {league.items.map((event) => <AgendaEvent key={`${group.date}:${event.event_id}:${timezone}`} event={event}
+                date={group.date} today={today} timezone={timezone} active={active} upcoming={period === "upcoming"}
+                onOpen={() => onOpenDay(group.date, event.event_id)} />)}
+            </section>)}
           </section>
         ))}
       </div>

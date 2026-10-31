@@ -157,12 +157,24 @@ h1, h2, h3, p { margin: 0; }
 .agenda-range { margin-top: 12px; font-size: 13px; color: var(--muted); }
 .agenda-scroll { overflow: auto; flex: 1; padding: 0 18px 72px; }
 .agenda-day h2 { font-size: 15px; margin: 22px 0 5px; }
-.agenda-row { display: grid; width: 100%; grid-template-columns: 70px 1fr 10px; text-align: left; gap: 10px; padding: 17px 0; border-bottom: 1px solid var(--line); align-items: start; }
-.agenda-clock { font-size: 12px; color: var(--muted); padding-top: 4px; }
-.agenda-summary { display: grid; gap: 6px; min-width: 0; justify-items: start; }
+.agenda-league { margin: 20px 0; }
+.agenda-league-heading { display: flex; align-items: center; gap: 7px; font-size: 15px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.agenda-row { position: relative; border-bottom: 1px solid var(--line); }
+.agenda-open { width: 100%; padding: 17px 0; }
+.agenda-open::after { content: ""; position: absolute; inset: 0; }
+.agenda-centered { display: grid; justify-items: center; text-align: center; gap: 6px; }
 .agenda-title { font-size: 16px; line-height: 1.35; font-weight: 600; }
-.agenda-location, .agenda-status { font-size: 12px; color: var(--muted); }
-.agenda-chevron { color: var(--muted); }
+.agenda-round, .team-record { font-size: 12px; color: var(--muted); line-height: 1.35; }
+.agenda-time { font-size: 14px; }
+.agenda-match { display: grid; grid-template-columns: minmax(0, 1fr) minmax(78px, 1fr) minmax(0, 1fr); gap: 8px; align-items: center; }
+.agenda-team { display: grid; gap: 5px; justify-items: center; min-width: 0; text-align: center; }
+.team-name { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; line-height: 1.3; }
+.agenda-match-center { display: grid; gap: 5px; justify-items: center; text-align: center; }
+.agenda-result { font-size: 19px; font-weight: 650; }
+.nfl-logo { object-fit: contain; flex: none; vertical-align: middle; }
+.event-details h3 .nfl-logo { margin-right: 6px; }
+.golf-board { min-height: 1px; }
+.agenda-row .golf-leaderboard { margin-top: 0; margin-bottom: 16px; }
 .agenda-notice, .empty-state { font-size: 14px; padding: 15px 0; line-height: 1.5; }
 .agenda-more { flex: none; padding: 8px 18px 68px; font-size: 13px; }
 .agenda-more button { background: var(--surface); border-radius: 20px; padding: 9px 18px; }
