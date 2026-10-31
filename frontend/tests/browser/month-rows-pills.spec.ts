@@ -104,7 +104,7 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
     const pill = page.locator("#day-2026-10-28 .event-pill").filter({ hasText: "Premier League" });
     await expect(pill.locator(".country-flag")).toHaveAttribute("aria-label", "England");
     expect(await pill.locator(".country-flag").isVisible()).toBe(width === 700);
-    expect(await pill.locator(":scope > *").evaluateAll((elements) => elements.map((element) => element.getAttribute("class"))))
+    expect(await pill.locator(":scope > *").evaluateAll((elements) => elements.map((element) => element.classList[0])))
       .toEqual(["sport-icon", "pill-text", "country-flag"]);
   }
   await page.setViewportSize({ width: 320, height: 844 });
@@ -114,7 +114,7 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
   await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(4);
   await expect(page.locator(".all-day-strip .pill-text")).toHaveText(["Premier League", "All-day title, Round 1", "Another all-day title, Round 1", "Singleton title, Round 1"]);
   for (const pill of await page.locator(".day-timeline-stage .event-pill").all()) {
-    expect(await pill.locator(":scope > *").evaluateAll((elements) => elements.map((element) => element.getAttribute("class"))))
+    expect(await pill.locator(":scope > *").evaluateAll((elements) => elements.map((element) => element.classList[0])))
       .toEqual(["sport-icon", "pill-text", "country-flag"]);
     await expect(pill.locator(".country-flag")).toBeVisible();
   }

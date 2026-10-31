@@ -77,11 +77,12 @@ export type ProviderSummary = {
 };
 
 export type SourceNotice = {
+  kind: string;
   name: string;
   url: string;
   license: string;
   license_url: string;
-  revision: string;
+  revision?: string;
 };
 
 export type ManifestResponse = {

@@ -44,6 +44,8 @@ def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatc
     runner.refresh([2026], tmp_path, ROOT / "data/reviewed")
     bundle = json.loads((tmp_path / "2026.json").read_text())
     assert calls == [(league, 2026) for league in feeds.FEEDS]
+    assert all(source.get("kind") for source in bundle["sources"])
+    assert {"openfootball", "f1db"} <= {source["kind"] for source in bundle["sources"]}
     assert bundle["available_seasons"] == [2026]
     assert all(
         any(e["league"] == league and e["event_id"].endswith("fresh") for e in bundle["events"])
