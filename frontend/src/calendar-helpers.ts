@@ -1,7 +1,7 @@
 import { commonHostCountry } from "./countries";
 import { eventInstant } from "./date-utils";
 import type { EventCard } from "./types";
-import type { LeagueInterest } from "./interest-preferences";
+import { WEIGHTLIFTING_LEAGUE_LEVELS, type LeagueInterest } from "./interest-preferences";
 import { isGolf } from "./golf";
 
 const LEAGUE_META: Record<
@@ -54,6 +54,24 @@ const LEAGUE_META: Record<
   IFSC_YOUTH_WORLD_CHAMPIONSHIPS: {
     shortLabel: "YOUTH"
   },
+  IFSC_WORLDS: { shortLabel: "World Championships" },
+  IFSC_YOUTH_WORLDS: { shortLabel: "Youth World Championships" },
+  IFSC_PARA_WORLDS: { shortLabel: "Para World Championships" },
+  CLIMBING_EUROPE: { shortLabel: "European Championships" },
+  CLIMBING_ASIA: { shortLabel: "Asian Championships" },
+  CLIMBING_AFRICA: { shortLabel: "African Championships" },
+  CLIMBING_OCEANIA: { shortLabel: "Oceania Championships" },
+  CLIMBING_PAN_AMERICA: { shortLabel: "Pan-American Championships" },
+  CLIMBING_OLYMPIC_QUALIFIERS: { shortLabel: "Olympic qualifiers" },
+  CLIMBING_CONTINENTAL_CUP: { shortLabel: "Continental Cups" },
+  CLIMBING_YOUTH_CONTINENTAL_CUP: { shortLabel: "Youth Continental Cups" },
+  CLIMBING_CHALLENGER: { shortLabel: "Challenger" },
+  CLIMBING_NATIONS_GRAND_FINALE: { shortLabel: "Nations Grand Finale" },
+  CLIMBING_ASIAN_GAMES: { shortLabel: "Asian Games" },
+  CLIMBING_ASIAN_BEACH_GAMES: { shortLabel: "Asian Beach Games" },
+  CLIMBING_EUROPEAN_GAMES: { shortLabel: "European Games" },
+  CLIMBING_PAN_AM_GAMES: { shortLabel: "Pan Am Games" },
+  CLIMBING_SOUTH_AM_GAMES: { shortLabel: "South American Games" },
   PGA_TOUR: { shortLabel: "PGA Tour" },
   LPGA_TOUR: { shortLabel: "LPGA Tour" },
 };
@@ -78,30 +96,6 @@ export function pillCountry(items: EventCard[]) {
     ? undefined : SOCCER_COUNTRIES[league] || commonHostCountry(items);
 }
 
-const CLIMBING_COMPETITIONS: Record<string, string> = {
-  IFSC_WORLD_CUP: "World Cups",
-  IFSC_WORLDS: "World Championships",
-  IFSC_YOUTH_WORLDS: "Youth World Championships",
-  IFSC_YOUTH_WORLD_CHAMPIONSHIPS: "Youth World Championships",
-  IFSC_PARA_WORLD_CUP: "Para World Cups",
-  IFSC_PARA_WORLDS: "Para World Championships",
-  CLIMBING_EUROPE: "European Championships",
-  CLIMBING_ASIA: "Asian Championships",
-  CLIMBING_AFRICA: "African Championships",
-  CLIMBING_OCEANIA: "Oceania Championships",
-  CLIMBING_PAN_AMERICA: "Pan-American Championships",
-  CLIMBING_OLYMPIC_QUALIFIERS: "Olympic qualifiers",
-  CLIMBING_CONTINENTAL_CUP: "Continental Cups",
-  CLIMBING_YOUTH_CONTINENTAL_CUP: "Youth Continental Cups",
-  CLIMBING_CHALLENGER: "Challenger",
-  CLIMBING_NATIONS_GRAND_FINALE: "Nations Grand Finale",
-  CLIMBING_ASIAN_GAMES: "Asian Games",
-  CLIMBING_ASIAN_BEACH_GAMES: "Asian Beach Games",
-  CLIMBING_EUROPEAN_GAMES: "European Games",
-  CLIMBING_PAN_AM_GAMES: "Pan Am Games",
-  CLIMBING_SOUTH_AM_GAMES: "South American Games",
-};
-
 const SPORT_GROUPS = [
   { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE"] },
   { name: "Motorsports", leagues: ["F1", "NASCAR_CUP", "INDYCAR"] },
@@ -111,15 +105,13 @@ const SPORT_GROUPS = [
   { name: "Hockey", leagues: ["NHL"] },
   { name: "Combat sports", leagues: ["UFC", "PFL", "RIZIN", "ONE", "BOXING_MAJOR"] },
   { name: "Golf", leagues: ["PGA_TOUR", "LPGA_TOUR"] },
-  { name: "Climbing", leagues: Object.keys(CLIMBING_COMPETITIONS) },
-  { name: "Weightlifting", leagues: ["IWF_WORLDS", "IWF_JUNIOR_WORLDS", "IWF_YOUTH_WORLDS", "MASTERS_WORLDS",
-    "WEIGHTLIFTING_AFRICA", "WEIGHTLIFTING_ASIA", "WEIGHTLIFTING_EUROPE", "WEIGHTLIFTING_OCEANIA",
-    "WEIGHTLIFTING_PAN_AMERICA", "WEIGHTLIFTING_COMMONWEALTH_GAMES", "WEIGHTLIFTING_ASIAN_GAMES", "WEIGHTLIFTING_PAN_AM_GAMES"] },
+  { name: "Climbing", leagues: ["IFSC_WORLD_CUP", "IFSC_WORLDS", "IFSC_YOUTH_WORLDS", "IFSC_YOUTH_WORLD_CHAMPIONSHIPS",
+    "IFSC_PARA_WORLD_CUP", "IFSC_PARA_WORLDS", "CLIMBING_EUROPE", "CLIMBING_ASIA", "CLIMBING_AFRICA", "CLIMBING_OCEANIA",
+    "CLIMBING_PAN_AMERICA", "CLIMBING_OLYMPIC_QUALIFIERS", "CLIMBING_CONTINENTAL_CUP", "CLIMBING_YOUTH_CONTINENTAL_CUP",
+    "CLIMBING_CHALLENGER", "CLIMBING_NATIONS_GRAND_FINALE", "CLIMBING_ASIAN_GAMES", "CLIMBING_ASIAN_BEACH_GAMES",
+    "CLIMBING_EUROPEAN_GAMES", "CLIMBING_PAN_AM_GAMES", "CLIMBING_SOUTH_AM_GAMES"] },
+  { name: "Weightlifting", leagues: Object.keys(WEIGHTLIFTING_LEAGUE_LEVELS) },
 ];
-
-export function interestChoices(group: { name: string; leagues: string[] }) {
-  return group.leagues.map((league) => ({ name: CLIMBING_COMPETITIONS[league] || leagueVisual(league).shortLabel, leagues: [league] }));
-}
 
 export function interestGroups(leagues: LeagueInterest[]) {
   const available = new Map(leagues.map((league) => [league.value, league]));
@@ -168,7 +160,7 @@ export function leagueVisual(league: string, sport?: string) {
   const category = categoryForLeague(league, sport);
   return {
     ...(LEAGUE_META[league] || {
-      shortLabel: CLIMBING_COMPETITIONS[league] || league.replaceAll("_", " ")
+      shortLabel: league.replaceAll("_", " ")
     }),
     className: category ? `category-${category}` : "category-unknown",
   };
