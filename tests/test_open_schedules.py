@@ -132,6 +132,10 @@ def test_only_unpublished_season_404_is_optional(monkeypatch, tmp_path):
                 raise HTTPError(url, status, "source unavailable", {}, None)
             if "/commits/" in url:
                 return json.dumps({"sha": "a" * 40}).encode()
+            if url.endswith("/worldcup.json"):
+                from tests.test_reviewed_schedules import fake_open_read
+
+                return fake_open_read(url)
             if "/contents/" in url:
                 return json.dumps([{"type": "dir", "path": f"src/data/seasons/{year}/races/01"}]).encode()
             if url.endswith("race.yml"):

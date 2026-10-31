@@ -10,6 +10,17 @@ schema, retained supplied final scores, omitted canceled/postponed fixtures and
 unzoned kickoff times. Separately attributed ESPN team facts and clocks retain
 ESPN terms. No league endorsement.
 
+openfootball contributors: worldcup.json; CC0 1.0 Universal.
+https://github.com/openfootball/worldcup.json
+https://creativecommons.org/publicdomain/zero/1.0/
+Changes: selected World Cup fixtures, converted explicit UTC offsets, labeled
+groups/knockout phases, retained final on-field and penalty shootout scores,
+and added national-team flag identities. Revisions and file hashes accompany
+each snapshot. Venue-country facts use FIFA's 16-city host list, checked
+2026-10-31; each event includes that source link and check date. FIFA grants no
+data license for those separately attributed host facts.
+https://www.fifa.com/en/articles/fifa-world-cup-2026-hosts-cities-dates-usa-mexico-canada
+
 F1DB and contributors — Formula 1 database; CC BY 4.0.
 https://github.com/f1db/f1db
 https://creativecommons.org/licenses/by/4.0/
