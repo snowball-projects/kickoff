@@ -1,112 +1,109 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { SportIcon } from "./EventIdentity";
-import { CLIMBING_DISCIPLINES, GENDERS, GOLF_TOURS, type InterestPreferences, type LeagueInterest } from "./interest-preferences";
+import { allPreferences, CLIMBING_DISCIPLINES, GENDERS, MOTORSPORT_EVENTS, type InterestPreferences, type LeagueInterest } from "./interest-preferences";
 import { CATEGORY_KEYS, interestChoices, interestGroups, leagueVisual, SOCCER_COUNTRIES, toggleInterestGroup } from "./calendar-helpers";
 
-function SelectionCheckbox({ name, selected, total, onChange }: {
-  name?: string; selected: number; total: number; onChange: () => void;
-}) {
-  const input = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (input.current) input.current.indeterminate = selected > 0 && selected < total;
-  }, [selected, total]);
-  return <input ref={input} type="checkbox" checked={selected === total} onChange={onChange} aria-label={name} />;
-}
-
-function FacetChoices({ name, values, selected, onChange }: {
+function OptionPills({ name, values, selected, onChange }: {
   name: string; values: readonly string[]; selected: string[]; onChange: (value: string[]) => void;
 }) {
-  return (
-    <fieldset className="interest-facet">
-      <legend>{name}</legend>
-      <div className="interest-grid">
-        {values.map((value) => (
-          <label className={`interest ${selected.includes(value) ? "chosen" : ""}`} key={value}>
-            <input type="checkbox" checked={selected.includes(value)} onChange={() =>
-              onChange(selected.includes(value) ? selected.filter((item) => item !== value) : [...selected, value])} />
-            <span>{value}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
+  return <fieldset className="interest-facet">
+    <legend>{name}</legend>
+    <div className="interest-pills">{values.map((value) => <button type="button" className="interest-pill" key={value}
+      aria-pressed={selected.includes(value)} onClick={() => onChange(selected.includes(value)
+        ? selected.filter((item) => item !== value) : [...selected, value])}>
+      {value[0].toUpperCase() + value.slice(1)}
+    </button>)}</div>
+  </fieldset>;
 }
 
-function PreferenceCheckbox({ name, checked, onChange }: {
-  name: string; checked: boolean; onChange: (checked: boolean) => void;
+export default function InterestGroups({ leagues, preferences, onChange }: {
+  leagues: LeagueInterest[]; preferences: InterestPreferences; onChange: (value: InterestPreferences) => void;
 }) {
-  return <label className={`interest ${checked ? "chosen" : ""}`}>
-    <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
-    <span>{name}</span>
-  </label>;
-}
-
-export default function InterestGroups({ leagues, selected, onChange, preferences, onPreferencesChange }: {
-  leagues: LeagueInterest[]; selected: string[]; onChange: (value: string[]) => void;
-  preferences: InterestPreferences; onPreferencesChange: (value: InterestPreferences) => void;
-}) {
+  const [open, setOpen] = useState<string | null>(null);
+  const [trayAfter, setTrayAfter] = useState(0);
+  const panel = useRef<HTMLDivElement>(null);
+  const available = interestGroups(leagues);
+  const groups = Object.keys(CATEGORY_KEYS).map((name) => ({ name,
+    leagues: available.find((group) => group.name === name)?.leagues || [] }));
+  const selected = preferences.leagues;
   const leagueSports = new Map(leagues.map(({ value, sport }) => [value, sport]));
-  const majorsOnly = GOLF_TOURS.filter((tour) => preferences.golf_views[tour] === "majors_only").length;
-  return (
-    <div className="interest-groups">
-      {interestGroups(leagues).map((group) => {
-        const sport = group.name === "Climbing" ? "climbing" : group.name === "Weightlifting" ? "weightlifting" : null;
-        const count = group.leagues.filter((league) => selected.includes(league)).length;
-        return (
-          <section className="interest-group" key={group.name} aria-label={`${group.name} interests`}>
-            <label className="group-selection">
-              <SelectionCheckbox name={`Select all ${group.name}`} total={group.leagues.length} selected={count}
-                onChange={() => onChange(toggleInterestGroup(selected, group.leagues))} />
-              <span aria-hidden="true">{count}/{group.leagues.length}</span>
-            </label>
-            <details>
-              <summary><SportIcon category={CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS]} standalone />{group.name}</summary>
-              <div className="interest-grid">
-                {interestChoices(group).map((choice) => {
-                  const league = choice.leagues[0];
-                  const country = SOCCER_COUNTRIES[league];
-                  const count = choice.leagues.filter((league) => selected.includes(league)).length;
-                  return (
-                    <label key={league} className={`interest ${count ? "chosen" : ""}`}>
-                      <SelectionCheckbox total={choice.leagues.length} selected={count}
-                        onChange={() => onChange(toggleInterestGroup(selected, choice.leagues))} />
-                      <span aria-hidden="true" className={`interest-swatch ${leagueVisual(league, leagueSports.get(league)).className}`} />
-                      {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}
-                      <span>{choice.name}</span>
-                    </label>
-                  );
-                })}
-              </div>
-              {group.name === "Golf" && <fieldset className="interest-facet">
-                <legend>Events</legend>
-                <div className="interest-grid">
-                  <label className={`interest ${majorsOnly === GOLF_TOURS.length ? "chosen" : ""}`}>
-                    <SelectionCheckbox selected={majorsOnly} total={GOLF_TOURS.length} onChange={() => {
-                      const view = majorsOnly === GOLF_TOURS.length ? "full_tour" : "majors_only";
-                      onPreferencesChange({ ...preferences, golf_views: { PGA_TOUR: view, LPGA_TOUR: view } });
-                    }} />
-                    <span>Majors only</span>
-                  </label>
-                </div>
-              </fieldset>}
-              {group.name === "Motorsports" && <fieldset className="interest-facet">
-                <legend>Events</legend>
-                <div className="interest-grid">
-                  <PreferenceCheckbox name="Races only" checked={preferences.motorsport_view === "race_only"}
-                    onChange={(checked) => onPreferencesChange({ ...preferences,
-                      motorsport_view: checked ? "race_only" : "full_weekend" })} />
-                </div>
-              </fieldset>}
-              {sport && <FacetChoices name="Gender" values={GENDERS} selected={preferences[sport].genders}
-                onChange={(genders) => onPreferencesChange({ ...preferences,
-                  [sport]: { ...preferences[sport], genders } })} />}
-              {sport === "climbing" && <FacetChoices name="Discipline" values={CLIMBING_DISCIPLINES}
-                selected={preferences.climbing.disciplines} onChange={(disciplines) =>
-                  onPreferencesChange({ ...preferences, climbing: { ...preferences.climbing, disciplines } })} />}
-            </details>
-          </section>
-        );
-      })}
-    </div>
-  );
+  const active = groups.find((group) => group.name === open);
+  useLayoutEffect(() => {
+    if (!open) return;
+    const element = panel.current!;
+    const measure = () => {
+      const buttons = [...element.querySelectorAll<HTMLButtonElement>(".sport-pill")];
+      const gap = parseFloat(getComputedStyle(element).columnGap);
+      const index = groups.findIndex((group) => group.name === open);
+      let used = 0, first = 0;
+      // Measure the natural wrapped rows independently of the full-width tray.
+      for (const [i, button] of buttons.entries()) {
+        const width = button.getBoundingClientRect().width;
+        if (used && used + gap + width > element.clientWidth + .5) {
+          if (index >= first && index < i) { setTrayAfter(i - 1); return; }
+          first = i; used = 0;
+        }
+        used += (used ? gap : 0) + width;
+      }
+      setTrayAfter(buttons.length - 1);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [open, selected, leagues]);
+  function changeLeagues(group: typeof groups[number], next: string[]) {
+    const value = { ...preferences, leagues: next };
+    if (!group.leagues.some((league) => selected.includes(league))) {
+      const all = allPreferences(next);
+      if (group.name === "Motorsports") value.motorsport_events = all.motorsport_events;
+      if (group.name === "Climbing") value.climbing = all.climbing;
+      if (group.name === "Weightlifting") value.weightlifting = all.weightlifting;
+    }
+    onChange(value);
+  }
+  return <div className="sport-pills" ref={panel}>
+    {groups.flatMap((group, index) => {
+      const count = group.leagues.filter((league) => selected.includes(league)).length;
+      const partial = count > 0 && count < group.leagues.length;
+      const single = ["Football", "Basketball", "Baseball", "Hockey"].includes(group.name);
+      const category = CATEGORY_KEYS[group.name as keyof typeof CATEGORY_KEYS];
+      return [<button key={group.name} type="button" className={`sport-pill category-${category}${partial ? " partial" : ""}`}
+          aria-label={group.name} aria-pressed={partial ? "mixed" : count > 0}
+          aria-describedby={partial ? `count-${category}` : undefined}
+          aria-expanded={single ? undefined : open === group.name}
+          aria-controls={single ? undefined : `tray-${category}`} disabled={!group.leagues.length}
+          onClick={() => {
+            if (single) { changeLeagues(group, toggleInterestGroup(selected, group.leagues)); setOpen(null); }
+            else if (!count) { changeLeagues(group, toggleInterestGroup(selected, group.leagues)); setOpen(group.name); }
+            else setOpen(open === group.name ? null : group.name);
+          }}>
+          <SportIcon category={category} />{group.name}
+          {partial && <span id={`count-${category}`}>{count}/{group.leagues.length}</span>}
+        </button>,
+        active && index === trayAfter && <section key="tray" className={`interest-tray category-${CATEGORY_KEYS[active.name as keyof typeof CATEGORY_KEYS]}`}
+          id={`tray-${CATEGORY_KEYS[active.name as keyof typeof CATEGORY_KEYS]}`} aria-label={`${active.name} interests`}>
+          <div className="interest-pills">
+            <button type="button" className="interest-pill" aria-pressed={active.leagues.every((league) => selected.includes(league))}
+              onClick={() => changeLeagues(active, toggleInterestGroup(selected, active.leagues))}>All</button>
+            {interestChoices(active).map((choice) => {
+              const league = choice.leagues[0], country = SOCCER_COUNTRIES[league];
+              return <button type="button" key={league} className="interest-pill" aria-pressed={selected.includes(league)}
+                onClick={() => changeLeagues(active, toggleInterestGroup(selected, choice.leagues))}>
+                <span aria-hidden="true" className={`interest-swatch ${leagueVisual(league, leagueSports.get(league)).className}`} />
+                {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}{choice.name}
+              </button>;
+            })}
+          </div>
+          {active.name === "Motorsports" && <OptionPills name="Events" values={MOTORSPORT_EVENTS} selected={preferences.motorsport_events}
+            onChange={(motorsport_events) => onChange({ ...preferences, motorsport_events })} />}
+          {(active.name === "Climbing" || active.name === "Weightlifting") && <OptionPills name="Gender" values={GENDERS}
+            selected={active.name === "Climbing" ? preferences.climbing.genders : preferences.weightlifting.genders}
+            onChange={(genders) => onChange(active.name === "Climbing" ? { ...preferences, climbing: { ...preferences.climbing, genders } }
+              : { ...preferences, weightlifting: { genders } })} />}
+          {active.name === "Climbing" && <OptionPills name="Discipline" values={CLIMBING_DISCIPLINES} selected={preferences.climbing.disciplines}
+            onChange={(disciplines) => onChange({ ...preferences, climbing: { ...preferences.climbing, disciplines } })} />}
+        </section>];
+    })}
+  </div>;
 }

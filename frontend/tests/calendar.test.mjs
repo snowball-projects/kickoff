@@ -88,7 +88,7 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
       {
         ...filters,
         followed_leagues: ["EPL", "F1"],
-        motorsport_view: "race_only",
+        motorsport_events: ["race"],
       },
       "America/Chicago",
     );
@@ -100,7 +100,7 @@ test("timezone placement, multi-day dates, multiple interests, and motorsport ch
       "month",
       2026,
       "2026-09-01",
-      { ...filters, followed_leagues: ["F1"], motorsport_view: "full_weekend" },
+      { ...filters, followed_leagues: ["F1"], motorsport_events: ["practice", "qualifying", "sprint", "race"] },
       "UTC",
     );
     assert.equal(all.total_events, 2);

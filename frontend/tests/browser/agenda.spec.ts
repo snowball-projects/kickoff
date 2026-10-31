@@ -66,15 +66,15 @@ test("Show more filter changes retain scope, reveal sparse dates, and empty choi
   await expect(agenda).toContainText("Later fixture");
   await page.getByRole("button", { name: "Interests", exact: true }).click();
   await chooser(page).getByRole("button", { name: "Clear", exact: true }).click();
-  await chooser(page).getByRole("checkbox", { name: "Select all Basketball", exact: true }).check();
+  await chooser(page).getByRole("button", { name: "Basketball", exact: true }).click();
   await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
   await expect(agenda.locator(".agenda-row")).toHaveCount(0);
   await agenda.getByRole("button", { name: "Show more", exact: true }).click();
   await expect(agenda).toContainText("Other interest");
   await page.getByRole("button", { name: "Interests", exact: true }).click();
   await chooser(page).getByRole("button", { name: "Clear", exact: true }).click();
-  await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
-  await expect(agenda.getByRole("button", { name: "Show more", exact: true })).toHaveCount(0);
+  await expect(chooser(page).getByRole("button", { name: "Show my calendar" })).toBeDisabled();
+  await page.keyboard.press("Escape");
 });
 test("midnight advances the local day without reloading", async ({ page }) => {
   await setup(page, events, options);

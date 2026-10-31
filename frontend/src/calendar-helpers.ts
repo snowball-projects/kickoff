@@ -1,7 +1,7 @@
 import { commonHostCountry } from "./countries";
 import { eventInstant } from "./date-utils";
-import type { EventCard, EventDetail } from "./types";
-import { golfMajor, type LeagueInterest } from "./interest-preferences";
+import type { EventCard } from "./types";
+import type { LeagueInterest } from "./interest-preferences";
 import { isGolf } from "./golf";
 
 const LEAGUE_META: Record<
@@ -105,7 +105,7 @@ const CLIMBING_COMPETITIONS: Record<string, string> = {
 const SPORT_GROUPS = [
   { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE"] },
   { name: "Motorsports", leagues: ["F1", "NASCAR_CUP", "INDYCAR"] },
-  { name: "American football", leagues: ["NFL"] },
+  { name: "Football", leagues: ["NFL"] },
   { name: "Basketball", leagues: ["NBA"] },
   { name: "Baseball", leagues: ["MLB"] },
   { name: "Hockey", leagues: ["NHL"] },
@@ -117,19 +117,8 @@ const SPORT_GROUPS = [
     "WEIGHTLIFTING_PAN_AMERICA", "WEIGHTLIFTING_COMMONWEALTH_GAMES", "WEIGHTLIFTING_ASIAN_GAMES", "WEIGHTLIFTING_PAN_AM_GAMES"] },
 ];
 
-const CONTINENTAL_CHAMPIONSHIPS: Record<string, string[]> = {
-  Climbing: ["CLIMBING_EUROPE", "CLIMBING_ASIA", "CLIMBING_AFRICA", "CLIMBING_OCEANIA", "CLIMBING_PAN_AMERICA"],
-  Weightlifting: ["WEIGHTLIFTING_AFRICA", "WEIGHTLIFTING_ASIA", "WEIGHTLIFTING_EUROPE",
-    "WEIGHTLIFTING_OCEANIA", "WEIGHTLIFTING_PAN_AMERICA"],
-};
-
 export function interestChoices(group: { name: string; leagues: string[] }) {
-  const continental = group.leagues.filter((league) => CONTINENTAL_CHAMPIONSHIPS[group.name]?.includes(league));
-  return group.leagues.flatMap((league) => {
-    if (continental.includes(league)) return league === continental[0]
-      ? [{ name: "Continental championships", leagues: continental }] : [];
-    return [{ name: CLIMBING_COMPETITIONS[league] || leagueVisual(league).shortLabel, leagues: [league] }];
-  });
+  return group.leagues.map((league) => ({ name: CLIMBING_COMPETITIONS[league] || leagueVisual(league).shortLabel, leagues: [league] }));
 }
 
 export function interestGroups(leagues: LeagueInterest[]) {
@@ -138,14 +127,11 @@ export function interestGroups(leagues: LeagueInterest[]) {
     name: group.name,
     leagues: group.leagues.filter((league) => available.delete(league)),
   }));
-  const other: string[] = [];
   for (const { value, sport } of available.values()) {
     const category = categoryForLeague(value, sport);
     const group = groups.find(({ name }) => CATEGORY_KEYS[name as keyof typeof CATEGORY_KEYS] === category);
-    if (group) group.leagues.push(value);
-    else other.push(value);
+    if (group && group.name !== "Golf") group.leagues.push(value);
   }
-  groups.push({ name: "Miscellaneous", leagues: other });
   return groups.filter((group) => group.leagues.length);
 }
 
@@ -156,7 +142,7 @@ export function toggleInterestGroup(selected: string[], leagues: string[]) {
     : [...new Set([...selected, ...leagues])];
 }
 export const CATEGORY_KEYS = {
-  Soccer: "soccer", Motorsports: "motorsport", "American football": "american-football",
+  Soccer: "soccer", Motorsports: "motorsport", "Football": "american-football",
   Basketball: "basketball", Baseball: "baseball", Hockey: "hockey", "Combat sports": "combat",
   Golf: "golf", Climbing: "climbing", Weightlifting: "weightlifting",
 } as const;
@@ -204,8 +190,11 @@ const TIERS = [
     "WEIGHTLIFTING_PAN_AMERICA", "WEIGHTLIFTING_COMMONWEALTH_GAMES", "WEIGHTLIFTING_ASIAN_GAMES", "WEIGHTLIFTING_PAN_AM_GAMES"],
 ];
 const RANKS = new Map(TIERS.flatMap((tier, index) => tier.map((league, order) => [league, index * 100 + order] as const)));
+function golfMajor(event: EventCard) {
+  return ["PGA_TOUR", "LPGA_TOUR"].includes(event.league) && event.competition_phase === "championship";
+}
 function eventRank(event: EventCard) {
-  const league = golfMajor(event as EventDetail)
+  const league = golfMajor(event)
     ? event.league === "LPGA_TOUR" ? "LPGA_MAJOR" : "PGA_MAJOR" : event.league;
   return RANKS.get(league) ?? 899;
 }

@@ -4,7 +4,8 @@ import { browserTimezone, firstOfMonth, formatLongDate, monthAnchorsInRange, mon
   timezoneLabel, todayIso, WEEKDAY_NARROW, yearMonthAnchors } from "./date-utils";
 import type { EventCard, FilterState } from "./types";
 import InterestGroups from "./InterestGroups";
-import { defaultPreferences, INTERESTS_KEY, readPreferences, type InterestPreferences } from "./interest-preferences";
+import { interestGroups } from "./calendar-helpers";
+import { allPreferences, defaultPreferences, INTERESTS_KEY, readPreferences, type InterestPreferences } from "./interest-preferences";
 import MonthFeed, { type MonthNavigation } from "./MonthFeed";
 import { boundMonth, dayAfter, monthAt, monthIndex, scheduleWindow } from "./month-feed-state";
 import { useCalendarData } from "./use-calendar-data";
@@ -32,10 +33,9 @@ export default function App() {
   const [period, setPeriod] = useState<AgendaPeriod>("today");
   const [day, setDay] = useState(today);
   const [splitDate, setSplitDate] = useState<string | null>(null);
-  const [sheet, setSheet] = useState<OpenSheet>(null);
   const [preferences, setPreferences] = useState(savedPreferences);
-  const [draft, setDraft] = useState<string[] | null>(null);
-  const [draftPreferences, setDraftPreferences] = useState<InterestPreferences>(savedPreferences);
+  const [sheet, setSheet] = useState<OpenSheet>(() => preferences.leagues.length ? null : { kind: "interests" });
+  const [draftPreferences, setDraftPreferences] = useState<InterestPreferences>(preferences);
   const [storageNote, setStorageNote] = useState("");
   const [retry, setRetry] = useState(0);
   const [publishedYears, setPublishedYears] = useState<number[]>([]);
@@ -43,7 +43,7 @@ export default function App() {
   const dayHeading = useRef<HTMLHeadingElement>(null);
   const transition = useRef<ViewTransition | null>(null);
   const bounds = scheduleWindow(today);
-  const signature = JSON.stringify({ ...EMPTY, ...preferences, followed_leagues: preferences.leagues ?? undefined });
+  const signature = JSON.stringify({ ...EMPTY, ...preferences, followed_leagues: preferences.leagues });
   const upcomingKey = `${today}:${signature}`;
   const sameDay = savedUpcoming?.key.startsWith(`${today}:`);
   const upcoming: UpcomingWindow = savedUpcoming?.key === upcomingKey ? savedUpcoming : {
@@ -62,7 +62,7 @@ export default function App() {
     return loadingYears.includes(year) || boundaryLoadingYears.includes(year) || (!months[anchor] && !errors[year]);
   });
   const laterErrors = upcoming.expanded ? [...new Set(publishedYears.map((year) => errors[year]).filter(Boolean))] : [];
-  const canShowMore = !upcoming.done && preferences.leagues?.length !== 0 && laterAnchors.some((anchor) => `${anchor.slice(0, 4)}-12-31` > upcoming.end);
+  const canShowMore = !upcoming.done && preferences.leagues.length !== 0 && laterAnchors.some((anchor) => `${anchor.slice(0, 4)}-12-31` > upcoming.end);
   useEffect(() => {
     const available = [...new Set([...(facets?.available_seasons || []), ...Object.values(manifests).flatMap((item) => item.available_seasons)])].sort((a, b) => a - b);
     if (available.length) setPublishedYears((previous) => previous.join() === available.join() ? previous : available);
@@ -131,7 +131,7 @@ export default function App() {
     try { localStorage.setItem(VIEW_KEY, next); } catch { /* Active for this visit. */ }
   }
   function save() {
-    const next = { ...draftPreferences, leagues: draft ?? leagues.map((league) => league.value) };
+    const next = draftPreferences;
     setPreferences(next);
     try { localStorage.setItem(INTERESTS_KEY, JSON.stringify(next)); setStorageNote(""); }
     catch { setStorageNote("Interests are active for this visit; browser storage is unavailable."); }
@@ -161,7 +161,7 @@ export default function App() {
         </a>
         <div className="nav-right">
           <button className="interests-button" aria-label="Interests" onClick={() => {
-            setDraft(preferences.leagues); setDraftPreferences(preferences); setSheet({ kind: "interests" });
+            setDraftPreferences(preferences); setSheet({ kind: "interests" });
           }}><span className="hamburger" aria-hidden="true"><i /><i /><i /></span></button>
           <button className="icon-button" aria-label="About kickoff and schedule coverage" onClick={() => setSheet({ kind: "info" })}>i</button>
         </div>
@@ -214,12 +214,10 @@ export default function App() {
     <button className="today-button" onClick={jumpToday}>Today</button>
     {sheet?.kind === "events" && <EventSheet items={sheet.items} date={sheet.date} today={today} timezone={timezone} onClose={() => setSheet(null)} />}
     {sheet?.kind === "interests" && <Sheet title="Interests" onClose={() => setSheet(null)}>
-      {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} selected={draft ?? leagues.map((league) => league.value)} onChange={setDraft}
-        preferences={draftPreferences} onPreferencesChange={setDraftPreferences} />}
-      <div className="interest-actions"><button onClick={() => { setDraft(null);
-        const { climbing, weightlifting } = defaultPreferences(); setDraftPreferences((previous) => ({ ...previous, climbing, weightlifting })); }}>Select all</button>
-        <button onClick={() => setDraft([])}>Clear</button></div>
-      <button className="primary-button" disabled={!facets || loadingYears.length > 0} onClick={save}>Show my calendar</button>
+      {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} preferences={draftPreferences} onChange={setDraftPreferences} />}
+      <div className="interest-actions"><button disabled={!leagues.length} onClick={() => setDraftPreferences(allPreferences(interestGroups(leagues).flatMap((group) => group.leagues)))}>Select all</button>
+        <button onClick={() => setDraftPreferences(defaultPreferences())}>Clear</button></div>
+      <button className="primary-button" disabled={!draftPreferences.leagues.length || !facets || loadingYears.length > 0} onClick={save}>Show my calendar</button>
     </Sheet>}
     {sheet?.kind === "info" && <Sheet title="About kickoff" onClose={() => setSheet(null)}>
       <p>A sports calendar by <a href="https://snowball-projects.github.io/">snowball</a>.</p>

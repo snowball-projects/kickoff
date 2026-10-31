@@ -100,12 +100,6 @@ function normalized(value: string | null | undefined) {
 
 function matchesFilters(event: EventDetail, filters: FilterState) {
   if (!matchesInterestOptions(event, filters)) return false;
-  if (
-    filters.motorsport_view === "race_only" &&
-    event.sport === "motorsport" &&
-    event.event_type !== "race"
-  )
-    return false;
   if (filters.sport && normalized(event.sport) !== normalized(filters.sport))
     return false;
   if (filters.league && normalized(event.league) !== normalized(filters.league))
