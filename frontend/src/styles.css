@@ -155,7 +155,6 @@ h1, h2, h3, p { margin: 0; }
 .sport-pill.partial { background: color-mix(in srgb, var(--pill) 22%, var(--bg)); border-color: color-mix(in srgb, var(--pill) 55%, var(--line)); }
 .interest-tray { flex: 0 0 100%; min-width: 0; padding: 14px 12px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
 .interest-pill { padding: 8px 10px; font-size: 13px; }
-.interest-swatch { background: var(--pill); width: 6px; height: 14px; border-radius: 3px; flex: none; }
 .interest-facet { border: 0; padding: 0; margin: 15px 0 0; }
 .interest-facet legend { padding: 0; margin-bottom: 7px; font-size: 12px; color: var(--muted); }
 .interest-actions { display: flex; gap: 10px; margin: 20px 0 12px; }

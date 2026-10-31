@@ -135,8 +135,8 @@ export type CalendarResponse = {
 
 export type FilterState = {
   followed_leagues?: string[];
-  climbing?: { genders: string[]; disciplines: string[] };
-  weightlifting?: { genders: string[] };
+  climbing?: { levels?: string[]; genders: string[]; disciplines: string[] };
+  weightlifting?: { levels?: string[]; genders: string[] };
   motorsport_events?: string[];
   sport: string;
   league: string;

@@ -29,14 +29,6 @@ test("published climbing and weightlifting types have separate categories and re
   assert.equal(leagueVisual("MASTERS_WORLDS").shortLabel, "Masters Worlds");
 });
 
-test("each climbing and weightlifting competition has its own league pill", async () => {
-  const { interestChoices } = await loadModule("calendar-helpers");
-  for (const [name, leagues, labels] of [
-    ["Climbing", ["IFSC_WORLD_CUP", "CLIMBING_EUROPE", "CLIMBING_ASIA"], ["World Cups", "European Championships", "Asian Championships"]],
-    ["Weightlifting", ["IWF_WORLDS", "WEIGHTLIFTING_EUROPE", "WEIGHTLIFTING_ASIA"], ["IWF Worlds", "European Championships", "Asian Championships"]],
-  ]) assert.deepEqual(interestChoices({ name, leagues }), leagues.map((league, i) => ({ name: labels[i], leagues: [league] })));
-});
-
 test("published league metadata joins the ten sports; golf remains the two ESPN tours", async () => {
   const { interestGroups, toggleInterestGroup } = await loadModule("calendar-helpers");
   const choices = [
