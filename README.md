@@ -37,6 +37,7 @@ committed back. Checks run in CI on pull requests. Local refresh accepts `--year
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;
 edit records and their receipts together, preserving IDs and uncertainty.
-Generated data lives in `frontend/public/data`, and the build writes `frontend/dist`.
+The manifest and per-year sport files live in `frontend/public/data`; browsers load
+only selected sports. The build writes `frontend/dist`.
 The original local adapters remain available through `kickoff fetch`, `validate`,
 `audit` and `export-web`. Code is [MIT](LICENSE); data retains its [source terms](THIRD-PARTY-NOTICES.md).

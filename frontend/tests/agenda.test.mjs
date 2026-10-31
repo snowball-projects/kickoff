@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
+import { publishedFiles } from "./published-fixture.mjs";
 
 test("agenda windows follow local dates across years, leap days and DST", async () => {
   const { agendaDates, agendaAnchors } = await loadModule("agenda-state");
@@ -22,7 +23,7 @@ test("agenda preserves the calendar timezone, span and filter semantics", async 
   const base = { status: "scheduled", season: "2026", competition_phase: "regular_season", title: "Fixture", event_type: "game", source: "fixture", sport: "soccer", league: "EPL", tags: [], participants: [],
     calendar_date: "2026-12-31", start_time_utc: null, start_time_local: null };
   try {
-    globalThis.fetch = async (url) => url.endsWith("/2026.json") ? Response.json({
+    const files = publishedFiles([{
       schema_version: "1", season: 2026, available_seasons: [2026], providers: [], events: [
         { ...base, event_id: "date-only" },
         { ...base, event_id: "late", start_time_utc: "2026-12-31T23:00:00Z" },
@@ -31,7 +32,8 @@ test("agenda preserves the calendar timezone, span and filter semantics", async 
         { ...base, event_id: "span", calendar_date: "2026-12-30", end_calendar_date: "2027-01-02" },
         { ...base, event_id: "other-league", league: "NBA" },
       ],
-    }) : new Response("missing", { status: 404 });
+    }]);
+    globalThis.fetch = async (url) => files[url.split("/").at(-1)] ? Response.json(files[url.split("/").at(-1)]) : new Response("missing", { status: 404 });
     const filters = { sport: "", league: "", country: "", city: "", competition_phase: "", tags: [], followed_leagues: ["EPL"] };
     const december = await getCalendar("month", 2026, "2026-12-01", filters, "Asia/Tokyo");
     const january = await getCalendar("month", 2027, "2027-01-01", filters, "Asia/Tokyo");
