@@ -77,7 +77,8 @@ Twenty PNG logos retain team/NFL copyright and the original limited editorial
 identification basis; no redistribution license is claimed. Twelve SVG files
 carry the per-file public-domain designations listed in the metadata. Original
 sideline usage notes remain sourcing records; kickoff displays the small logos
-beside identified NFL teams in schedules and event popups, at 28 CSS pixels.
+beside identified NFL teams: 16 CSS pixels in month matchup pairs, 18 in day
+game pills, and 28 in agenda rows and event popups.
 These assets are separate from the MIT software and schedule-data licenses.
 Other leagues use text team identities.
 
