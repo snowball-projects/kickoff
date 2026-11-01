@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
 import { reviewedBundle } from "./reviewed-fixture.mjs";
-const { interestGroups, interestChoices, leagueVisual, compareEvents } = await loadModule("calendar-helpers");
+const { interestGroups, leagueVisual, compareEvents } = await loadModule("calendar-helpers");
 const bundle = reviewedBundle();
 
 test("every published Zuffa card joins combat interests and inherits the existing combat visual", () => {
@@ -11,7 +11,7 @@ test("every published Zuffa card joins combat interests and inherits the existin
   assert(cards.every((event) => event.sport === "boxing" && event.start_time_utc === null));
   const combat = interestGroups([{ value: "ZUFFA_BOXING", sport: "boxing" }, { value: "BOXING_MAJOR", sport: "boxing" }]);
   assert.deepEqual(combat, [{ name: "Combat sports", leagues: ["BOXING_MAJOR", "ZUFFA_BOXING"] }]);
-  assert.deepEqual(interestChoices(combat[0]).map((choice) => choice.name), ["Boxing", "Zuffa Boxing"]);
+  assert.deepEqual(combat[0].leagues.map((league) => leagueVisual(league).shortLabel), ["Boxing", "Zuffa Boxing"]);
   assert.equal(leagueVisual("ZUFFA_BOXING", "boxing").className, "category-combat");
   assert(compareEvents({ ...cards[0], league: "BOXING_MAJOR" }, cards[0]) < 0);
 });
