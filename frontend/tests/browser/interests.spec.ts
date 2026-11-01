@@ -187,10 +187,11 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await chooser(page).getByRole("button", { name: "Show my calendar" }).click();
       await agendaToggle(page).click();
       const agenda = page.getByRole("region", { name: "Agenda", exact: true });
-      for (const text of ["F1 qualifying", "Sprint qualifying", "Combined Lead", "Unknown Lead", "IWF Worlds", "Continental Europe", "PGA stop", "Masters Tournament", "LPGA stop", "Women's major"])
-        await expect(agenda).toContainText(text);
-      for (const text of ["F1 practice", "F1 race", "F1 sprint", "NASCAR_CUP race", "INDYCAR race", "Men Lead", "Women Boulder", "Continental Asia"])
-        await expect(agenda).not.toContainText(text);
+      // Filtering follows event identity even when agenda titles omit the league.
+      for (const id of ["F1 qualifying", "Sprint qualifying", "Combined Lead", "Unknown Lead", "IWF Worlds", "Continental Europe", "PGA stop", "Masters Tournament", "LPGA stop", "Women's major"])
+        await expect(agenda.locator(`[id="agenda-2026-10-28-${id}"]`)).toHaveCount(1);
+      for (const id of ["F1 practice", "F1 race", "F1 sprint", "NASCAR_CUP race", "INDYCAR race", "Men Lead", "Women Boulder", "Continental Asia"])
+        await expect(agenda.locator(`[id="agenda-2026-10-28-${id}"]`)).toHaveCount(0);
       await page.getByRole("button", { name: "Interests", exact: true }).click();
       await pill(page, "Motorsports").click();
       await motor.getByRole("button", { name: "Race", exact: true }).click();

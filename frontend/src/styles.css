@@ -114,6 +114,8 @@ h1, h2, h3, p { margin: 0; }
 .timeline-events { position: absolute; inset: 0 0 0 57px; }
 .timeline-events .event-pill, .timeline-more { position: absolute; height: 28px; font-size: 12px; }
 .timeline-more { background: var(--surface); border: 1px solid var(--line); border-radius: 5px; text-align: center; }
+.timeline-now { position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; border-top: 1px solid var(--today); }
+.timeline-now time { position: absolute; top: 0; left: 0; transform: translateY(-50%); min-width: 49px; padding: 3px 4px; border-radius: 12px; background: var(--today); color: #101820; font-size: 11px; font-weight: 650; text-align: center; font-variant-numeric: tabular-nums; }
 .schedule-notice, .loading-note { padding: 8px 16px; font-size: 13px; }
 .sheet { position: fixed; inset: auto 0 0; margin: 0 auto; padding: 0; border: 0; border-radius: 24px 24px 0 0; width: 100%; max-width: 100%; max-height: 90dvh; color: var(--text); background: var(--bg); box-shadow: 0 -8px 40px #0002; overflow: hidden; animation: sheet-in .22s ease-out; }
 .sheet[open] { display: flex; flex-direction: column; }
@@ -243,3 +245,21 @@ h1, h2, h3, p { margin: 0; }
 .about-source li + li { margin-top: 10px; }
 .about .about-license-notice { font-size: 11px; color: var(--muted); }
 .about-footer { padding-top: 20px; font-size: 14px; }
+
+.fight-card { margin: 20px 0; }
+.fight-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.fight-tabs button { flex: 1; min-width: 0; padding: 10px 3px; font: inherit; font-size: 12px; color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer; }
+.fight-tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: currentColor; font-weight: 650; }
+.fight-start, .event-details .fight-result { color: var(--muted); font-size: 11px; }
+.fight-bouts { list-style: none; margin: 0 0 12px; padding: 0; }
+.fight-bouts li { padding: 13px 0; border-bottom: 1px solid var(--line); }
+.fight-matchup { display: grid; grid-template-columns: minmax(0, 1fr) minmax(48px, .65fr) minmax(0, 1fr); gap: 8px; align-items: center; }
+.fight-fighter { display: flex; flex-direction: column; gap: 5px; min-width: 0; overflow-wrap: anywhere; }
+.fight-fighter:last-child { text-align: right; }
+.fight-fighter b { font-size: 13px; font-weight: 600; }
+.fight-fighter span { color: var(--muted); font-size: 11px; }
+.fight-fighter strong { display: block; color: var(--text); font-size: 10px; font-weight: 600; margin-top: 4px; }
+.fight-weight { text-align: center; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+.event-details .fight-result { margin: 9px 0 0; text-align: center; }
+.fight-source, .fight-checked { font-size: 11px; }
+.fight-checked { display: block; color: var(--muted); margin-top: 5px; }

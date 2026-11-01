@@ -58,14 +58,6 @@
       "default_include_special_events": false,
       "default_include_support_events": false
     },
-    "fifa_world_cup": {
-      "label": "FIFA World Cup",
-      "sport": "soccer",
-      "season_mode": "single_year",
-      "default_event_scope": "all_published",
-      "default_include_special_events": false,
-      "default_include_support_events": false
-    },
     "uefa_champions_league": {
       "label": "UEFA Champions League",
       "sport": "soccer",

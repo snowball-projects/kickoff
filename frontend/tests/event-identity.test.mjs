@@ -38,6 +38,22 @@ test("only explicit national-team identities get participant flags", () => {
     assert.deepEqual(nationalTeamCountries([participant]), []);
 });
 
+test("World Cup national flags and verified host countries keep their identities", () => {
+  assert.equal(countryIdentity("England"), undefined);
+  assert.equal(countryIdentity("Scotland"), undefined);
+  for (const [name, code, flag] of [
+    ["Mexico", "MX", "🇲🇽"],
+    ["England", "GB-ENG", "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}"],
+    ["Scotland", "GB-SCT", "\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}"],
+  ]) {
+    const identity = nationalTeamCountries([{ name, country_code: code, entity_type: "national_team" }])[0];
+    assert.equal(identity.country.name, name);
+    assert.equal(identity.country.flag, flag);
+  }
+  assert.equal(hostCountry({ source: "openfootball", country: "MX", country_source_url: "https://www.fifa.com/" })?.code, "MX");
+  assert.equal(hostCountry({ source: "openfootball", country: "Mexico" }), undefined);
+});
+
 
 test("league jurisdictions are not presented as verified event hosts", () => {
   assert.equal(hostCountry({ source: "openfootball", country: "France" }), undefined);

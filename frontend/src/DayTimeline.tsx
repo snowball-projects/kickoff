@@ -1,21 +1,23 @@
 import { useLayoutEffect, useRef } from "react";
 import { eventTimeLabel } from "./date-utils";
-import { DAY_HEIGHT, HOUR_HEIGHT, dayTimeline, hourLabel, initialMinute } from "./day-timeline";
+import { DAY_HEIGHT, HOUR_HEIGHT, currentMinute, dayTimeline, hourLabel, initialMinute } from "./day-timeline";
 import EventPill from "./EventPill";
 import type { EventCard } from "./types";
 
-export default function DayTimeline({ date, timezone, items, loading, error, onEvents, onRetry }: {
-  date: string; timezone: string; items: EventCard[]; loading: boolean; error?: string;
+export default function DayTimeline({ date, timezone, now, items, loading, error, onEvents, onRetry }: {
+  date: string; timezone: string; now: number; items: EventCard[]; loading: boolean; error?: string;
   onEvents: (events: EventCard[], date: string) => void; onRetry: () => void;
 }) {
   const scroller = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
   const { slots, allDay } = dayTimeline(items, timezone);
+  const minute = currentMinute(date, timezone, now);
+  const time = minute === null ? "" : `${Math.floor(minute / 60) % 12 || 12}:${String(minute % 60).padStart(2, "0")}`;
   useLayoutEffect(() => {
     if (loading || initialized.current) return;
     initialized.current = true;
-    scroller.current!.scrollTop = Math.max(0, initialMinute(date, timezone, slots[0] ? slots[0].top * 60 / HOUR_HEIGHT : undefined) * HOUR_HEIGHT / 60 - 40);
-  }, [loading, date, timezone, slots]);
+    scroller.current!.scrollTop = Math.max(0, initialMinute(date, timezone, slots[0] ? slots[0].top * 60 / HOUR_HEIGHT : undefined, now) * HOUR_HEIGHT / 60 - 40);
+  }, [loading, date, timezone, slots, now]);
   return <section className="day-timeline-stage" aria-label="Day events">
     {error && <div className="schedule-notice" role="status">{error} <button onClick={onRetry}>Retry</button></div>}
     {loading && <p className="loading-note" role="status">Loading schedule…</p>}
@@ -43,6 +45,9 @@ export default function DayTimeline({ date, timezone, items, loading, error, onE
               </EventPill>;
           })}
         </div>
+        {minute !== null && <div className="timeline-now" style={{ top: minute * HOUR_HEIGHT / 60 }}>
+          <time dateTime={new Date(now).toISOString()} aria-label={`Current time, ${time}${minute < 720 ? "am" : "pm"}`}>{time}</time>
+        </div>}
       </div>
     </div>
   </section>;
