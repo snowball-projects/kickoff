@@ -49,7 +49,7 @@ export default function About({ manifest, timezone, storageNote }: {
     <section aria-labelledby="about-privacy">
       <h3 id="about-privacy">Privacy</h3>
       <p>{storageNote || "Interests and options stay in this browser."} No accounts, analytics, advertising or location access.</p>
-      <p>Timezone stays in your browser. Past and current agenda golf sections and event popups contact ESPN; active rounds refresh while visible.
+      <p>Timezone stays in your browser. Past and current agenda golf sections, golf event popups and MMA event popups contact ESPN. Active golf rounds refresh while visible.
         GitHub Pages receives hosting requests.</p>
     </section>
     <nav className="about-footer" aria-label="Project links">

@@ -48,9 +48,11 @@ These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues, team records, short names,
 round labels and confirmed final scores), attributes each event to its source
 with checked dates, and omits feed logos, odds, articles and raw payloads.
-Agenda golf sections and popups request leaderboard facts directly from ESPN: positions, player
-names, total and round scores, tee times and holes completed. Those results
-carry ESPN's terms, not MIT or a new open-data license.
+Agenda golf sections and golf popups request leaderboard facts directly from
+ESPN: positions, player names, total and round scores, tee times and holes
+completed. MMA popups request fighter names, records, weight classes, bout start
+times and completed results from ESPN. These live facts carry ESPN's terms,
+not MIT or a new open-data license.
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
 its data is republished.
 
