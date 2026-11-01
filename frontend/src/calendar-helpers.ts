@@ -8,6 +8,17 @@ const LEAGUE_META: Record<
   string,
   { shortLabel: string; titleNames?: string[] }
 > = {
+  MOTOGP: { shortLabel: "MotoGP" },
+  WEC: { shortLabel: "WEC" },
+  TOUR_DE_FRANCE: { shortLabel: "Tour de France" },
+  GIRO_D_ITALIA: { shortLabel: "Giro d'Italia" },
+  VUELTA_A_ESPANA: { shortLabel: "Vuelta a España" },
+  UCI_WORLD_TOUR: { shortLabel: "UCI World Tour" },
+  DIAMOND_LEAGUE: { shortLabel: "Diamond League" },
+  WORLD_ATHLETICS_CHAMPIONSHIPS: { shortLabel: "World Athletics Championships" },
+  IPL: { shortLabel: "IPL" },
+  CRICKET_WORLD_CUP: { shortLabel: "Cricket World Cup" },
+  FIFA_WOMENS_WORLD_CUP: { shortLabel: "FIFA Women's World Cup" },
   EPL: { shortLabel: "Premier League" },
   BUNDESLIGA: {
     shortLabel: "Bundesliga"
@@ -126,8 +137,8 @@ export function pillCountry(items: EventCard[]) {
 }
 
 const SPORT_GROUPS = [
-  { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"] },
-  { name: "Motorsports", leagues: ["F1", "NASCAR_CUP", "INDYCAR"] },
+  { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "FIFA_WOMENS_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"] },
+  { name: "Motorsports", leagues: ["F1", "NASCAR_CUP", "INDYCAR", "MOTOGP", "WEC"] },
   { name: "Football", leagues: ["NFL", "COLLEGE_FOOTBALL"] },
   { name: "Basketball", leagues: ["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"] },
   { name: "Baseball", leagues: ["MLB"] },
@@ -139,6 +150,9 @@ const SPORT_GROUPS = [
     "NATIONS_CHAMPIONSHIP", "RUGBY_CHAMPIONS_CUP", "RUGBY_CHALLENGE_CUP", "PREMIERSHIP_RUGBY",
     "UNITED_RUGBY_CHAMPIONSHIP", "TOP_14", "SUPER_RUGBY_PACIFIC", "CURRIE_CUP", "NPC", "URBA_TOP_14",
     "MAJOR_LEAGUE_RUGBY", "BRITISH_IRISH_LIONS", "RUGBY_TESTS"] },
+  { name: "Cycling", leagues: ["TOUR_DE_FRANCE", "GIRO_D_ITALIA", "VUELTA_A_ESPANA", "UCI_WORLD_TOUR"] },
+  { name: "Athletics", leagues: ["DIAMOND_LEAGUE", "WORLD_ATHLETICS_CHAMPIONSHIPS"] },
+  { name: "Cricket", leagues: ["IPL", "CRICKET_WORLD_CUP"] },
   { name: "Climbing", leagues: ["IFSC_WORLD_CUP", "IFSC_WORLDS", "IFSC_YOUTH_WORLDS", "IFSC_YOUTH_WORLD_CHAMPIONSHIPS",
     "IFSC_PARA_WORLD_CUP", "IFSC_PARA_WORLDS", "CLIMBING_EUROPE", "CLIMBING_ASIA", "CLIMBING_AFRICA", "CLIMBING_OCEANIA",
     "CLIMBING_PAN_AMERICA", "CLIMBING_OLYMPIC_QUALIFIERS", "CLIMBING_CONTINENTAL_CUP", "CLIMBING_YOUTH_CONTINENTAL_CUP",
@@ -170,7 +184,7 @@ export function toggleInterestGroup(selected: string[], leagues: string[]) {
 export const CATEGORY_KEYS = {
   Soccer: "soccer", Motorsports: "motorsport", "Football": "american-football",
   Basketball: "basketball", Baseball: "baseball", Hockey: "hockey", "Combat sports": "combat",
-  Golf: "golf", Tennis: "tennis", Rugby: "rugby", Climbing: "climbing", Weightlifting: "weightlifting",
+  Golf: "golf", Tennis: "tennis", Rugby: "rugby", Cycling: "cycling", Athletics: "athletics", Cricket: "cricket", Climbing: "climbing", Weightlifting: "weightlifting",
 } as const;
 export type CategoryKey = typeof CATEGORY_KEYS[keyof typeof CATEGORY_KEYS];
 
@@ -179,7 +193,7 @@ const SPORT_CATEGORIES: Record<string, CategoryKey> = {
   football: "american-football", american_football: "american-football", "american-football": "american-football",
   basketball: "basketball", baseball: "baseball", hockey: "hockey", ice_hockey: "hockey",
   combat: "combat", combat_sports: "combat", mma: "combat", boxing: "combat",
-  golf: "golf", tennis: "tennis", rugby: "rugby", climbing: "climbing", weightlifting: "weightlifting",
+  golf: "golf", tennis: "tennis", rugby: "rugby", cycling: "cycling", athletics: "athletics", cricket: "cricket", climbing: "climbing", weightlifting: "weightlifting",
 };
 
 // New competitions inherit their event's sport; adding a league never allocates a colour.
@@ -209,12 +223,12 @@ export function leagueVisual(league: string, sport?: string) {
 
 // One order for every view. A final/playoff takes precedence over regular play.
 const TIERS = [
-  ["FIFA_WORLD_CUP", "PGA_MAJOR", "LPGA_MAJOR", "TENNIS_MAJOR", "RUGBY_WORLD_CUP", "WOMENS_RUGBY_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE"],
+  ["FIFA_WORLD_CUP", "FIFA_WOMENS_WORLD_CUP", "WORLD_ATHLETICS_CHAMPIONSHIPS", "CRICKET_WORLD_CUP", "PGA_MAJOR", "LPGA_MAJOR", "TENNIS_MAJOR", "RUGBY_WORLD_CUP", "WOMENS_RUGBY_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE"],
   ["NFL", "NBA", "F1", "EPL"],
   ["MLB", "NHL", "UFC", "BOXING_MAJOR", "COLLEGE_FOOTBALL"],
   ["LA_LIGA", "BUNDESLIGA", "SERIE_A", "LIGUE_1", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"],
-  ["NASCAR_CUP", "INDYCAR", "IWF_WORLDS", "IFSC_WORLD_CUP"],
-  ["PGA_TOUR", "LPGA_TOUR", "DP_WORLD_TOUR", "LIV_GOLF", "ATP", "WTA", "SIX_NATIONS", "RUGBY_CHAMPIONSHIP",
+  ["NASCAR_CUP", "INDYCAR", "MOTOGP", "WEC", "TOUR_DE_FRANCE", "GIRO_D_ITALIA", "VUELTA_A_ESPANA", "IWF_WORLDS", "IFSC_WORLD_CUP"],
+  ["PGA_TOUR", "LPGA_TOUR", "DP_WORLD_TOUR", "LIV_GOLF", "UCI_WORLD_TOUR", "DIAMOND_LEAGUE", "IPL", "ATP", "WTA", "SIX_NATIONS", "RUGBY_CHAMPIONSHIP",
     "NATIONS_CHAMPIONSHIP", "RUGBY_CHAMPIONS_CUP", "PREMIERSHIP_RUGBY", "UNITED_RUGBY_CHAMPIONSHIP", "TOP_14",
     "SUPER_RUGBY_PACIFIC", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"],
   ["RUGBY_CHALLENGE_CUP", "CURRIE_CUP", "NPC", "URBA_TOP_14", "MAJOR_LEAGUE_RUGBY", "BRITISH_IRISH_LIONS", "RUGBY_TESTS"],

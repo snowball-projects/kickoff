@@ -62,6 +62,17 @@ SOURCES = [
     },
 ]
 REVIEWED_LABELS = {
+    "MOTOGP": "MotoGP races",
+    "WEC": "World Endurance Championship races and published prologues",
+    "TOUR_DE_FRANCE": "Tour de France stages",
+    "GIRO_D_ITALIA": "Giro d'Italia stages or published dates",
+    "VUELTA_A_ESPANA": "Vuelta a España stages or published dates",
+    "UCI_WORLD_TOUR": "UCI World Tour one-day races",
+    "DIAMOND_LEAGUE": "Diamond League meetings",
+    "WORLD_ATHLETICS_CHAMPIONSHIPS": "World Athletics Championships dates",
+    "IPL": "Indian Premier League matches",
+    "CRICKET_WORLD_CUP": "Cricket World Cup fixtures",
+    "FIFA_WOMENS_WORLD_CUP": "FIFA Women's World Cup fixture slots",
     "IFSC_WORLD_CUP": "World Climbing World Cup records",
     "IFSC_WORLDS": "World Climbing Championships",
     "IFSC_YOUTH_WORLDS": "World Climbing Youth Championships",

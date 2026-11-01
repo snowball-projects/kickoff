@@ -53,7 +53,11 @@ def test_all_reviewed_assets_have_valid_provenance_and_dates():
     events, sources, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
     assert events and sources
     assert len({event.event_id for event in events}) == len(events)
-    assert all(event.start_time_utc is None for event in events if event.source == "wikipedia")
+    assert all(
+        event.start_time_utc is None
+        for event in events
+        if event.source == "wikipedia" and event.league not in {"IPL", "CRICKET_WORLD_CUP", "FIFA_WOMENS_WORLD_CUP"}
+    )
 
 
 @pytest.mark.parametrize("year", [2026, 2027])

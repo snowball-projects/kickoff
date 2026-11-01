@@ -8,6 +8,7 @@ const { CATEGORY_KEYS, categoryForLeague, pillCountry, SOCCER_COUNTRIES, leagueV
 
 test("sport shapes cover the shared category keys and future series use family identity", () => {
   assert.equal(Object.keys(SPORT_ICONS).length, Object.keys(CATEGORY_KEYS).length);
+  assert.equal(new Set(Object.values(SPORT_ICONS)).size, Object.keys(CATEGORY_KEYS).length);
   for (const category of Object.values(CATEGORY_KEYS)) assert.ok(SPORT_ICONS[category]);
   assert.ok(SPORT_ICONS[categoryForLeague("NEW_SERIES", "motorsport")]);
   assert.equal(categoryForLeague("NEW_BOXING", "boxing"), categoryForLeague("UFC", "mma"));

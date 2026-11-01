@@ -451,7 +451,7 @@ def test_enriched_combat_keeps_wikipedia_component_membership_and_mixed_licenses
     assert hashlib.sha256(body).hexdigest() == reference["sha256"]
     component = json.loads(body)
     assert {event["event_id"] for event in component["events"]} == set(origins)
-    enriched = [event for event in component["events"] if event.get("start_time_source")]
+    enriched = [event for event in component["events"] if event.get("start_time_source") == "espn"]
     assert len(enriched) == 18
     for event in enriched:
         origin = origins[event["event_id"]]

@@ -27,7 +27,7 @@ export default function About({ manifest, timezone, storageNote }: {
     <p className="about-updated">{updated && <>Updated {updated}{" · "}</>}{timezoneLabel(timezone)}</p>
     <section aria-labelledby="about-coverage">
       <h3 id="about-coverage">Coverage</h3>
-      <p>Published league schedules and reviewed climbing, weightlifting and combat events. Dates and times can change.</p>
+      <p>Published league schedules and reviewed motorsport, cycling, athletics, cricket, soccer, climbing, weightlifting and combat events. Dates and times can change.</p>
       <p>PGA Tour, LPGA Tour, DP World Tour and LIV Golf from ESPN. Rounds are all-day; past rounds show final tournament results when available.
         Tennis tournaments and rugby union schedules also come from ESPN.</p>
       <p>Boxing: reviewed four-belt undisputed bouts and unifications of at least three full WBA, WBC, IBF or WBO titles in one division.

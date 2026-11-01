@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 COUNTRY_LEAGUES = {
+    "DIAMOND_LEAGUE",
+    "WORLD_ATHLETICS_CHAMPIONSHIPS",
+    "FIFA_WOMENS_WORLD_CUP",
     "UFC",
     "PFL",
     "ONE",

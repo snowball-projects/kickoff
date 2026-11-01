@@ -1,4 +1,4 @@
-/* Twelve fixed family colours.
+/* Fixed sport-family colours.
    Contrast and colour-vision regression checks: tests/palette.test.mjs. */
 .category-soccer {
   --category-base: #30e090;
@@ -85,6 +85,30 @@
   --category-dark-ink: #ffffff;
 }
 
+.category-cycling {
+  --category-base: #fcec7c;
+  --category-light-bg: #fcec7c;
+  --category-light-ink: #101820;
+  --category-dark-bg: #fcec7c;
+  --category-dark-ink: #101820;
+}
+
+.category-athletics {
+  --category-base: #1c0040;
+  --category-light-bg: #1c0040;
+  --category-light-ink: #ffffff;
+  --category-dark-bg: #1c0040;
+  --category-dark-ink: #ffffff;
+}
+
+.category-cricket {
+  --category-base: #e4fcdc;
+  --category-light-bg: #e4fcdc;
+  --category-light-ink: #101820;
+  --category-dark-bg: #e4fcdc;
+  --category-dark-ink: #101820;
+}
+
 .category-unknown {
   --category-light-bg: #e5e9eb;
   --category-light-ink: #243b32;
@@ -92,13 +116,13 @@
   --category-dark-ink: #e8eef0;
 }
 
-:is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-tennis, .category-rugby, .category-unknown) {
+:is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-tennis, .category-rugby, .category-cycling, .category-athletics, .category-cricket, .category-unknown) {
   --pill: var(--category-light-bg);
   --ink: var(--category-light-ink);
 }
 
 @media (prefers-color-scheme: dark) {
-  :is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-tennis, .category-rugby, .category-unknown) {
+  :is(.category-soccer, .category-motorsport, .category-american-football, .category-basketball, .category-baseball, .category-hockey, .category-combat, .category-golf, .category-climbing, .category-weightlifting, .category-tennis, .category-rugby, .category-cycling, .category-athletics, .category-cricket, .category-unknown) {
     --pill: var(--category-dark-bg);
     --ink: var(--category-dark-ink);
   }
