@@ -64,6 +64,16 @@ h1, h2, h3, p { margin: 0; }
 .more-events:focus-visible { outline-offset: -3px; }
 .pill-text { display: block; flex: 0 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; }
 .pill-text.truncated { mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
+.nfl-day-matchups, .nfl-matchup, .nfl-calendar-team { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
+.nfl-day-matchups { overflow: hidden; gap: 8px; }
+.nfl-team-name, .nfl-matchup-name { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.event-pill .nfl-logo { width: 18px; height: 18px; }
+.nfl-phone-label { display: none; }
+.nfl-month-matchups { display: flex; align-items: center; flex: 1; min-width: 0; gap: 4px; position: relative; overflow: hidden; }
+.nfl-month-matchups .nfl-matchup { gap: 2px; }
+.nfl-month-matchups .nfl-logo { width: 16px; height: 16px; }
+.nfl-month-matchups .nfl-matchup, .nfl-more { flex: none; }
+.nfl-measurements { position: absolute; display: flex; gap: 4px; width: max-content; visibility: hidden; pointer-events: none; }
 .sport-icon { display: inline-block; width: 14px; height: 14px; fill: currentColor; stroke: none; flex: none; vertical-align: middle; }
 .country-flag { flex: none; font-size: 12px; line-height: 1; }
 .event-flags { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 5px; }
@@ -198,6 +208,8 @@ h1, h2, h3, p { margin: 0; }
 @keyframes sheet-out { to { transform: translateY(100%); } }
 @media (width < 700px) {
   .month-grid .country-flag { display: none; }
+  .nfl-month-matchups { display: none; }
+  .nfl-phone-label { display: block; }
 }
 @media (min-width: 700px) {
   .topbar { padding-inline: 26px; }

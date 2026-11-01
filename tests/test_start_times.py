@@ -1,6 +1,6 @@
 import copy
 import json
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 
@@ -476,7 +476,7 @@ def test_existing_soccer_response_supplies_team_facts_without_extra_calls_or_clo
     assert (known.start_time_local, known.start_time_utc, known.timezone) == original_clock
     assert not receipts[0]["clocks_added"]
     assert receipts[0]["team_facts_added"] == [{"event_id": known.event_id, "team_source_url": row["links"][0]["href"]}]
-    assert known.facts_checked_date == date.today().isoformat()
+    assert known.facts_checked_date == datetime.now(UTC).date().isoformat()
     for participant in [known.home_participant, known.away_participant, *known.participants]:
         assert participant.short_name == participant.role + " team"
         assert participant.record == "12-5-8"

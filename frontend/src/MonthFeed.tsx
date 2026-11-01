@@ -95,7 +95,7 @@ export default function MonthFeed({ start, end, today, months, navigation, activ
             aria-current={date === today ? "date" : undefined} onClick={() => onOpenDay(date)}
             onKeyDown={(event) => { if (move(date, event.key)) event.preventDefault(); }}>{Number(date.slice(-2))}</button>
           <div className="cell-pills">
-            {groups.slice(0, limit).map((group) => <EventPill key={group.items[0].event_id} items={group.items}
+            {groups.slice(0, limit).map((group) => <EventPill key={group.items[0].event_id} items={group.items} calendarView="month"
               aria-label={`${isGolf(group.items[0]) ? group.items[0].title : `${leagueVisual(group.league).shortLabel}, ${group.items.length} events`}, ${formatLongDate(date)}`}
               onClick={() => onEvents(group.items, date)} />)}
           </div>

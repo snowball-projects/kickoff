@@ -23,7 +23,7 @@ export default function DayTimeline({ date, timezone, now, items, loading, error
     {loading && <p className="loading-note" role="status">Loading schedule…</p>}
     <div className="all-day-strip" aria-label="All-day events">
       <span className="all-day-label">all-day</span>
-      <div>{allDay.map((group) => <EventPill key={group.items[0].event_id} items={group.items} onClick={() => onEvents(group.items, date)}>
+      <div>{allDay.map((group) => <EventPill key={group.items[0].event_id} items={group.items} calendarView="day" onClick={() => onEvents(group.items, date)}>
         {group.items.length === 1 ? group.items[0].title : undefined}
       </EventPill>)}</div>
     </div>
@@ -39,7 +39,7 @@ export default function DayTimeline({ date, timezone, now, items, loading, error
             return slot.overflow ? <button key={`more-${slot.top}`} className="timeline-more" style={style}
               aria-label={[`${slot.items.length} more events`, eventTimeLabel(event, timezone)].filter(Boolean).join(" at ")}
               onClick={() => onEvents(slot.items, date)}>+{slot.items.length}</button>
-              : <EventPill key={event.event_id} items={[event]} style={style} data-event-id={event.event_id}
+              : <EventPill key={event.event_id} items={[event]} calendarView="day" style={style} data-event-id={event.event_id}
                 aria-label={[event.title, eventTimeLabel(event, timezone)].filter(Boolean).join(", ")} onClick={() => onEvents([event], date)}>
                 {event.title}
               </EventPill>;
