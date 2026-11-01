@@ -165,3 +165,65 @@ def test_tournament_round_metadata_keeps_specific_round_and_full_popup_note(monk
     assert event.round_or_stage == "National Championship"
     assert event.subtitle == "NCAA Men's Basketball Championship - National Championship"
     assert event.competition_phase == "final"
+
+
+@pytest.mark.parametrize("known_side", [False, True])
+def test_undecided_bowl_retains_appointment_and_only_actual_team_entities(monkeypatch, known_side):
+    row = copy.deepcopy(CASES["future_cfb_bowl"]["event"])
+    if known_side:
+        home = copy.deepcopy(CASES["fbs_bowl"]["event"]["competitions"][0]["competitors"][0])
+        home["homeAway"] = "home"
+        row["competitions"][0]["competitors"] = [
+            home,
+            next(c for c in row["competitions"][0]["competitors"] if c["homeAway"] == "away"),
+        ]
+    monkeypatch.setattr(feeds, "get_json", lambda url: {"events": [row] if "dates=20270101&" in url else []})
+    (event,) = feeds.espn_team_events(2027, "COLLEGE_FOOTBALL")
+    assert event.event_id == f"espn-college_football-{row['id']}"
+    label = "College Football Playoff Quarterfinal at the Goodyear Cotton Bowl Classic"
+    assert event.title == label + (f" · {home['team']['displayName']}" if known_side else "")
+    assert event.subtitle is None and event.round_or_stage == label
+    assert event.calendar_date == "2027-01-01" and event.start_time_utc is None
+    assert event.is_postseason and event.week_label
+    assert event.away_participant is None
+    assert len(event.participants) == int(known_side)
+    if known_side:
+        assert event.home_participant.name == home["team"]["displayName"]
+        assert event.home_participant.short_name == home["team"]["shortDisplayName"]
+        assert event.title.count(event.home_participant.name) == 1
+    else:
+        assert event.home_participant is None
+    assert validate_batch([event]) == []
+
+
+@pytest.mark.parametrize(
+    "case",
+    json.loads((Path(__file__).parent / "fixtures/espn-nfl-appointments.json").read_text())["cases"],
+    ids=lambda case: case["expected_title"],
+)
+def test_nfl_undecided_playoffs_keep_source_label_and_explicit_clock(monkeypatch, case):
+    row = case["event"]
+    monkeypatch.setattr(feeds, "get_json", lambda url, **_: {"events": [row] if url == case["url"] else []})
+    (event,) = feeds.nfl_events(2027)
+    assert event.event_id == f"espn-nfl-{row['id']}"
+    assert event.title == case["expected_title"] and event.subtitle is None
+    assert event.participants == [] and event.home_participant is None and event.away_participant is None
+    assert event.competition_phase == "postseason"
+    assert event.week_label == event.round_or_stage == f"Week {row['week']['number']}"
+    expected_clock = "2027-02-14T23:30:00Z" if row["competitions"][0]["timeValid"] else None
+    assert event.start_time_utc == expected_clock
+    assert event.calendar_date == ("2027-02-14" if expected_clock else "2027-01-16")
+    assert validate_batch([event]) == []
+
+
+def test_swac_positive_ids_do_not_turn_tba_markers_into_real_teams(monkeypatch):
+    row = CASES["swac_positive_tba"]["event"]
+    assert all(int(c["team"]["id"]) > 0 for c in row["competitions"][0]["competitors"])
+    monkeypatch.setattr(feeds, "get_json", lambda url: {"events": [row] if "dates=20261205&" in url else []})
+    (event,) = feeds.espn_team_events(2026, "COLLEGE_FOOTBALL")
+    assert event.event_id == "espn-college_football-401872642"
+    assert event.title == event.round_or_stage == "SWAC Championship" and event.subtitle is None
+    assert event.participants == [] and event.home_participant is None and event.away_participant is None
+    assert event.calendar_date == "2026-12-05" and event.start_time_utc == "2026-12-05T19:00:00Z"
+    assert event.competition_phase == "postseason" and event.week_label
+    assert validate_batch([event]) == []

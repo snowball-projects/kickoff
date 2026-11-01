@@ -2225,6 +2225,210 @@
           }
         ]
       }
+    },
+    {
+      "label": "future_cfb_bowl",
+      "league": "COLLEGE_FOOTBALL",
+      "expected_phase": "postseason",
+      "checked_date": "2026-11-01",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=20270101&limit=200&groups=80",
+      "event": {
+        "id": "401874320",
+        "date": "2027-01-01T05:00Z",
+        "name": "TBD at TBD",
+        "shortName": "TBD VS TBD",
+        "season": {
+          "year": 2026,
+          "type": 3,
+          "slug": "post-season"
+        },
+        "week": {
+          "number": 1
+        },
+        "status": {
+          "clock": 0.0,
+          "displayClock": "0:00",
+          "period": 0,
+          "type": {
+            "id": "1",
+            "name": "STATUS_SCHEDULED",
+            "state": "pre",
+            "completed": false,
+            "description": "Scheduled",
+            "detail": "1/1 - TBD",
+            "shortDetail": "TBD"
+          }
+        },
+        "links": [
+          {
+            "href": "https://www.espn.com/college-football/game/_/gameId/401874320/tbd-tbd"
+          }
+        ],
+        "competitions": [
+          {
+            "id": "401874320",
+            "date": "2027-01-01T05:00Z",
+            "type": {
+              "id": "40",
+              "abbreviation": "Major Bowl"
+            },
+            "timeValid": false,
+            "conferenceCompetition": false,
+            "notes": [
+              {
+                "type": "event",
+                "headline": "College Football Playoff Quarterfinal at the Goodyear Cotton Bowl Classic"
+              }
+            ],
+            "status": {
+              "clock": 0.0,
+              "displayClock": "0:00",
+              "period": 0,
+              "type": {
+                "id": "1",
+                "name": "STATUS_SCHEDULED",
+                "state": "pre",
+                "completed": false,
+                "description": "Scheduled",
+                "detail": "1/1 - TBD",
+                "shortDetail": "TBD"
+              }
+            },
+            "competitors": [
+              {
+                "id": "-1",
+                "homeAway": "home",
+                "score": "0",
+                "team": {
+                  "id": "-1",
+                  "abbreviation": "TBD",
+                  "displayName": "TBD",
+                  "shortDisplayName": "TBD"
+                },
+                "records": []
+              },
+              {
+                "id": "-2",
+                "homeAway": "away",
+                "score": "0",
+                "team": {
+                  "id": "-2",
+                  "abbreviation": "TBD",
+                  "displayName": "TBD",
+                  "shortDisplayName": "TBD"
+                },
+                "records": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "swac_positive_tba",
+      "league": "COLLEGE_FOOTBALL",
+      "expected_phase": "postseason",
+      "checked_date": "2026-11-01",
+      "url": "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=20261205&limit=200&groups=81",
+      "event": {
+        "id": "401872642",
+        "date": "2026-12-05T19:00Z",
+        "name": "TBA  at TBA ",
+        "shortName": "TBA @ TBA",
+        "season": {
+          "year": 2026,
+          "type": 2,
+          "slug": "regular-season"
+        },
+        "week": {
+          "number": 14
+        },
+        "status": {
+          "clock": 0.0,
+          "displayClock": "0:00",
+          "period": 0,
+          "type": {
+            "id": "1",
+            "name": "STATUS_SCHEDULED",
+            "state": "pre",
+            "completed": false,
+            "description": "Scheduled",
+            "detail": "Sat, December 5th at 2:00 PM EST",
+            "shortDetail": "12/5 - 2:00 PM EST"
+          }
+        },
+        "links": [
+          {
+            "language": "en-US",
+            "rel": [
+              "summary",
+              "desktop",
+              "event"
+            ],
+            "href": "https://www.espn.com/college-football/game/_/gameId/401872642/tba-tba",
+            "text": "Gamecast",
+            "shortText": "Gamecast",
+            "isExternal": false,
+            "isPremium": false
+          }
+        ],
+        "competitions": [
+          {
+            "id": "401872642",
+            "date": "2026-12-05T19:00Z",
+            "timeValid": true,
+            "type": {
+              "id": "41",
+              "abbreviation": "Conference Championship"
+            },
+            "notes": [
+              {
+                "type": "event",
+                "headline": "SWAC Championship"
+              }
+            ],
+            "status": {
+              "clock": 0.0,
+              "displayClock": "0:00",
+              "period": 0,
+              "type": {
+                "id": "1",
+                "name": "STATUS_SCHEDULED",
+                "state": "pre",
+                "completed": false,
+                "description": "Scheduled",
+                "detail": "Sat, December 5th at 2:00 PM EST",
+                "shortDetail": "12/5 - 2:00 PM EST"
+              }
+            },
+            "conferenceCompetition": false,
+            "competitors": [
+              {
+                "id": "112351",
+                "homeAway": "home",
+                "team": {
+                  "id": "112351",
+                  "abbreviation": "TBA",
+                  "displayName": "TBA",
+                  "shortDisplayName": "TBA"
+                },
+                "score": "0"
+              },
+              {
+                "id": "112350",
+                "homeAway": "away",
+                "team": {
+                  "id": "112350",
+                  "abbreviation": "TBA",
+                  "displayName": "TBA",
+                  "shortDisplayName": "TBA"
+                },
+                "score": "0"
+              }
+            ]
+          }
+        ]
+      }
     }
   ],
   "coverage_checks": [

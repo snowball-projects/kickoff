@@ -42,3 +42,41 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }
+
+for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as const) for (const knownSide of [false, true]) test(`an undecided bowl preserves its label and known side ${knownSide} ${width} ${colorScheme}`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 844 });
+  await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
+  const label = "College Football Playoff Quarterfinal at the Goodyear Cotton Bowl Classic";
+  const team = { name: "Washington Huskies", participant_id: "264", short_name: "Washington", record: "7-1", role: "home", entity_type: "team" };
+  const title = label + (knownSide ? ` · ${team.name}` : "");
+  await setup(page, [event(title, "2027-01-01", { league: "COLLEGE_FOOTBALL", sport: "football",
+    competition_phase: "postseason", round_or_stage: label, week_label: "Week 1",
+    participants: knownSide ? [team] : [], home_participant: knownSide ? team : null, away_participant: null })], { now: "2027-01-01T17:00:00Z" });
+  await page.getByRole("switch", { name: "Agenda view" }).click();
+  const row = page.locator(".agenda-row");
+  await expect(row).toContainText("Playoff Quarterfinal at the Goodyear Cotton Bowl Classic");
+  await expect(row.locator(".team-name")).toHaveText(knownSide ? [team.short_name] : []);
+  await expect(row.locator(".team-record")).toHaveText(knownSide ? [team.record] : []);
+  await expect(row).not.toContainText("TBD");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await row.getByRole("button").click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toContainText(title);
+  expect((await dialog.innerText()).split(label).length - 1).toBe(1);
+  if (knownSide) expect((await dialog.innerText()).split(team.name).length - 1).toBe(1);
+});
+
+test("an undecided Super Bowl keeps its source name and clock without pseudoentities", async ({ page }) => {
+  await setup(page, [event("Super Bowl LXI", "2027-02-14", { league: "NFL", sport: "football",
+    competition_phase: "postseason", round_or_stage: "Week 4", week_label: "Week 4",
+    start_time_utc: "2027-02-14T23:30:00Z", participants: [], home_participant: null, away_participant: null })], { now: "2027-02-14T17:00:00Z" });
+  await page.getByRole("switch", { name: "Agenda view" }).click();
+  const row = page.locator(".agenda-row");
+  await expect(row).toContainText("Super Bowl LXI");
+  await expect(row.locator(".team-name, .team-record")).toHaveCount(0);
+  await expect(row).not.toContainText("TBD");
+  await row.getByRole("button").click();
+  const dialog = page.getByRole("dialog");
+  expect((await dialog.innerText()).split("Super Bowl LXI").length - 1).toBe(1);
+  await expect(dialog).toContainText("5:30 PM");
+});

@@ -304,6 +304,24 @@ def _dedupe(events: list[CalendarEvent]) -> list[CalendarEvent]:
     return list({event.event_id: event for event in events}.values())
 
 
+def _espn_appointment(event: CalendarEvent, label: str | None) -> None:
+    unknown = {p.role for p in event.participants if p.name.strip().upper() in {"TBD", "TBA"}}
+    if not unknown:
+        return
+    # A published bowl/bracket appointment is not a named matchup.
+    if not label:
+        raise ValueError(f"Missing published label for undecided ESPN appointment: {event.event_id}")
+    event.participants = [p for p in event.participants if p.role not in unknown]
+    names = [p.name for p in event.participants if p.name.casefold() not in label.casefold()]
+    event.title = " · ".join([label, *names])
+    if event.subtitle == label:
+        event.subtitle = None
+    if "home" in unknown:
+        event.home_participant = None
+    if "away" in unknown:
+        event.away_participant = None
+
+
 @cache
 def _phase_overrides() -> dict[str, dict]:
     """Reviewed event identities, never inferred postseason dates for future years."""
@@ -381,6 +399,13 @@ def nfl_events(year: int) -> list[CalendarEvent]:
                 phase=phase,
             )
             if event:
+                competition = (row.get("competitions") or [{}])[0]
+                label = " · ".join(
+                    note["headline"]
+                    for note in competition.get("notes") or []
+                    if note.get("type") == "event" and note.get("headline")
+                )
+                _espn_appointment(event, label)
                 events.append(event)
     return _in_year(_dedupe(events), year)
 
@@ -530,6 +555,7 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
                 tournament = (competition.get("type") or {}).get("abbreviation") == "TRNMNT"
                 rounds = [(note.partition(" - ")[2] or note) if tournament else note for note in notes]
                 event.round_or_stage = " · ".join(rounds)
+            _espn_appointment(event, event.subtitle or event.round_or_stage)
             if group in (80, 81):
                 event.tags.append("fbs" if group == 80 else "fcs")
             result.append(event)
