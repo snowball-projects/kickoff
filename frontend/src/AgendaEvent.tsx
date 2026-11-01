@@ -20,9 +20,10 @@ export default function AgendaEvent({ event, date, today, timezone, active, upco
   const [golfStatus, setGolfStatus] = useState<string | null>(null);
   const time = eventTimeLabel(event, timezone);
   const home = event.home_participant, away = event.away_participant;
-  const teams = home && away && ["football", "basketball", "hockey", "baseball", "soccer"].includes(event.sport);
+  const teams = (home || away) && ["football", "basketball", "hockey", "baseball", "soccer"].includes(event.sport);
   const scores = event.status === "finished" && home?.final_score != null && away?.final_score != null;
-  const round = event.week_label || event.round_or_stage;
+  const partial = Boolean(home) !== Boolean(away);
+  const round = partial ? event.round_or_stage || event.week_label : event.week_label || event.round_or_stage;
   const golf = isGolf(event), id = !upcoming && leaderboardId(event);
   const specificTitle = agendaEventTitle(event);
   const title = golf && round && specificTitle.endsWith(`, ${round}`) ? specificTitle.slice(0, -round.length - 2)
@@ -31,13 +32,13 @@ export default function AgendaEvent({ event, date, today, timezone, active, upco
   return <article className="agenda-row" id={`agenda-${date}-${event.event_id}`}>
     <button className={`agenda-open ${teams ? "agenda-match" : "agenda-centered"}`} onClick={onOpen} aria-label={!title && !teams ? event.title : undefined}>
       {teams ? <>
-        <Team team={away} league={event.league} />
+        {away ? <Team team={away} league={event.league} /> : <span />}
         <span className="agenda-match-center">
           {round && <span className="agenda-round">{round}</span>}
-          {scores ? <><span className="agenda-result">{away.final_score}–{home.final_score}</span><span className="agenda-round">Final</span></>
+          {scores && away && home ? <><span className="agenda-result">{away.final_score}–{home.final_score}</span><span className="agenda-round">Final</span></>
             : event.status !== "finished" && time && <span className="agenda-time">{time}</span>}
         </span>
-        <Team team={home} league={event.league} />
+        {home ? <Team team={home} league={event.league} /> : <span />}
       </> : <>
         <span className="agenda-title">{title}<EventFlags event={event} /></span>
         {golf ? <span className="agenda-round">{[round, !upcoming && golfStatus].filter(Boolean).join(" · ")}</span>

@@ -11,7 +11,9 @@ from __future__ import annotations
 import json
 import re
 import time
+from calendar import monthrange
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, date, datetime, timedelta
 from functools import cache
 from importlib.resources import files
@@ -302,6 +304,24 @@ def _dedupe(events: list[CalendarEvent]) -> list[CalendarEvent]:
     return list({event.event_id: event for event in events}.values())
 
 
+def _espn_appointment(event: CalendarEvent, label: str | None) -> None:
+    unknown = {p.role for p in event.participants if p.name.strip().upper() in {"TBD", "TBA"}}
+    if not unknown:
+        return
+    # A published bowl/bracket appointment is not a named matchup.
+    if not label:
+        raise ValueError(f"Missing published label for undecided ESPN appointment: {event.event_id}")
+    event.participants = [p for p in event.participants if p.role not in unknown]
+    names = [p.name for p in event.participants if p.name.casefold() not in label.casefold()]
+    event.title = " · ".join([label, *names])
+    if event.subtitle == label:
+        event.subtitle = None
+    if "home" in unknown:
+        event.home_participant = None
+    if "away" in unknown:
+        event.away_participant = None
+
+
 @cache
 def _phase_overrides() -> dict[str, dict]:
     """Reviewed event identities, never inferred postseason dates for future years."""
@@ -379,6 +399,13 @@ def nfl_events(year: int) -> list[CalendarEvent]:
                 phase=phase,
             )
             if event:
+                competition = (row.get("competitions") or [{}])[0]
+                label = " · ".join(
+                    note["headline"]
+                    for note in competition.get("notes") or []
+                    if note.get("type") == "event" and note.get("headline")
+                )
+                _espn_appointment(event, label)
                 events.append(event)
     return _in_year(_dedupe(events), year)
 
@@ -416,6 +443,140 @@ def nba_events(year: int) -> list[CalendarEvent]:
             if not participant.record and (event.event_id, participant.participant_id) in records:
                 participant.record, participant.team_source_url = records[(event.event_id, participant.participant_id)]
     return result
+
+
+TEAM_LEAGUES = {
+    "UEFA_EUROPA_LEAGUE": ("soccer/uefa.europa", "soccer", (None,), 1000),
+    "UEFA_CONFERENCE_LEAGUE": ("soccer/uefa.europa.conf", "soccer", (None,), 1000),
+    "UEFA_NATIONS_LEAGUE": ("soccer/uefa.nations", "soccer", (None,), 1000),
+    "MLS": ("soccer/usa.1", "soccer", (None,), 1000),
+    "WNBA": ("basketball/wnba", "basketball", (None,), 1000),
+    "NCAA_MENS_BASKETBALL": ("basketball/mens-college-basketball", "basketball", (50,), 1000),
+    "NCAA_WOMENS_BASKETBALL": ("basketball/womens-college-basketball", "basketball", (50,), 1000),
+    "COLLEGE_FOOTBALL": ("football/college-football", "football", (80, 81), 200),
+}
+SOCCER_TEAM_LEAGUES = {league for league, (_path, sport, *_rest) in TEAM_LEAGUES.items() if sport == "soccer"}
+
+
+def espn_team_phase(row: dict, league: str) -> str:
+    """Use source stages and tournament identity, including regular-type conference finals."""
+    season = row.get("season") or {}
+    slug = season.get("slug", "")
+    if season.get("type") == 1 or slug == "preseason":
+        return "preseason"
+    competition = (row.get("competitions") or [{}])[0]
+    kind = (competition.get("type") or {}).get("abbreviation")
+    notes = " · ".join(note.get("headline", "") for note in competition.get("notes") or [])
+    if kind in {"ALLSTAR", "EXH"} or (league == "MLS" and re.search(r"\ball[ -]stars?\b", row.get("name", ""), re.I)):
+        return "exhibition"
+    if kind == "CC":  # ESPN's explicit WNBA Commissioner's Cup championship type.
+        return "championship"
+    if league in SOCCER_TEAM_LEAGUES:
+        if slug == "all-star-game":
+            return "exhibition"
+        if slug in {"regular-season", "league-phase", "group-stage", "group-phase"}:
+            return {"league-phase": "league_phase", "group-stage": "group_stage", "group-phase": "group_stage"}.get(
+                slug, "regular_season"
+            )
+        if slug in {"final", "mls-cup"}:
+            return "final"
+        if slug:
+            return "knockout"
+    conference_tournament = (
+        league in {"NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"}
+        and competition.get("conferenceCompetition") is True
+        and (competition.get("type") or {}).get("abbreviation") == "TRNMNT"
+    )
+    football_postseason = league == "COLLEGE_FOOTBALL" and re.search(r"\b(?:bowl|playoff|championship)\b", notes, re.I)
+    if season.get("type") == 3 or slug in {"post-season", "postseason"} or conference_tournament or football_postseason:
+        if re.search(r"\bnational championship\b|\bncaa championship.*\bfinal\b", notes, re.I):
+            return "final"
+        return "postseason"
+    return "regular_season"
+
+
+def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
+    """Collect every published game, subdividing saturated year/month windows.
+
+    Checked 2026-10-31 against ESPN's primary scoreboards: YYYY, YYYYMM and
+    YYYYMMDD work; hyphenated date ranges return400. Football limit1000 silently
+    falls back to25, while200 returns all grouped games. College monthly requests
+    omit NCAA postseason even below the limit and ignore seasontype, so every
+    civil day is fetched for college leagues, including the off-season.
+    """
+    path, sport, groups, limit = TEAM_LEAGUES[league]
+    zone = CENTRAL_EUROPE if sport == "soccer" and league != "MLS" else EASTERN
+
+    def collect(prefix: str, group: int | None):
+        url = f"{ESPN}/{path}/scoreboard?dates={prefix}&limit={limit}"
+        if group is not None:
+            url += f"&groups={group}"
+        payload = get_json(url)
+        selected = rows(payload, "events")
+        if len(selected) >= limit:
+            if len(prefix) == 4:
+                children = [f"{prefix}{month:02}" for month in range(1, 13)]
+            elif len(prefix) == 6:
+                children = [
+                    f"{prefix}{day:02}" for day in range(1, monthrange(int(prefix[:4]), int(prefix[4:]))[1] + 1)
+                ]
+            else:
+                raise ValueError(f"ESPN daily feed reached its limit; refusing to truncate: {url}")
+            return [event for child in children for event in collect(child, group)]
+        result = []
+        for row in selected:
+            # ESPN's 2025-10-18 FCS scoreboard contains one empty calendar slot.
+            if league == "COLLEGE_FOOTBALL" and row == {}:
+                continue
+            event = _espn_event(
+                row,
+                league=league,
+                sport=sport,
+                zone=zone,
+                fallback_url=url,
+                input_url=url,
+                phase=espn_team_phase(row, league),
+            )
+            if event is None:
+                continue
+            competition = (row.get("competitions") or [{}])[0]
+            notes = [
+                note["headline"]
+                for note in competition.get("notes") or []
+                if note.get("type") == "event" and note.get("headline")
+            ]
+            if sport == "soccer" and (row.get("season") or {}).get("slug"):
+                event.round_or_stage = (row["season"]["slug"]).replace("-", " ").capitalize()
+                event.subtitle = " · ".join([event.round_or_stage, *notes])
+            elif notes:
+                event.subtitle = " · ".join(notes)
+                # ESPN tournament notes use "Competition - Round". Retain the
+                # complete note in details and the specific round in team rows.
+                tournament = (competition.get("type") or {}).get("abbreviation") == "TRNMNT"
+                rounds = [(note.partition(" - ")[2] or note) if tournament else note for note in notes]
+                event.round_or_stage = " · ".join(rounds)
+            _espn_appointment(event, event.subtitle or event.round_or_stage)
+            if group in (80, 81):
+                event.tags.append("fbs" if group == 80 else "fcs")
+            result.append(event)
+        return result
+
+    # Neighboring UTC dates can belong to this calendar year in the source zone.
+    if league in {"NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "COLLEGE_FOOTBALL"}:
+        first, last = date(year - 1, 12, 31), date(year + 1, 1, 1)
+        prefixes = [(first + timedelta(days=offset)).strftime("%Y%m%d") for offset in range((last - first).days + 1)]
+    else:
+        prefixes = [str(year), f"{year - 1}1231", f"{year + 1}0101"]
+    queries = [(prefix, group) for group in groups for prefix in prefixes]
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        collected = executor.map(lambda args: collect(*args), queries)
+        events = {}
+        for batch in collected:
+            for event in batch:
+                if event.event_id in events:
+                    event.tags = sorted(set(events[event.event_id].tags + event.tags))
+                events[event.event_id] = event
+    return _in_year(list(events.values()), year)
 
 
 UCL_PHASES = {"league-phase": "league_phase", "final": "final"}
@@ -602,4 +763,5 @@ FEEDS: dict[str, tuple[str, Callable[[int], list[CalendarEvent]]]] = {
         espn_season_feed("racing/nascar-premier", "NASCAR_CUP", "motorsport", "race", "https://www.nascar.com/"),
     ),
     "INDYCAR": ("espn", espn_season_feed("racing/irl", "INDYCAR", "motorsport", "race", "https://www.indycar.com/")),
+    **{league: ("espn", lambda year, league=league: espn_team_events(year, league)) for league in TEAM_LEAGUES},
 }
