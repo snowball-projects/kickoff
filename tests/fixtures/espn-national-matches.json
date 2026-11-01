@@ -1,0 +1,96 @@
+{
+  "checked_date": "2026-11-01",
+  "source_urls": [
+    "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.nations/scoreboard?dates=2026&limit=1000"
+  ],
+  "events": [
+    {
+      "id": "401861189",
+      "name": "Portugal at Wales",
+      "date": "2026-11-17T19:45Z",
+      "season": {
+        "year": 2026
+      },
+      "links": [
+        {
+          "href": "https://www.espn.com/soccer/match/_/gameId/401861189/portugal-wales"
+        }
+      ],
+      "status": {
+        "type": {
+          "name": "STATUS_SCHEDULED",
+          "completed": false
+        }
+      },
+      "competitions": [
+        {
+          "timeValid": true,
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "578",
+                "displayName": "Wales",
+                "shortDisplayName": "Wales",
+                "abbreviation": "WAL"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "482",
+                "displayName": "Portugal",
+                "shortDisplayName": "Portugal",
+                "abbreviation": "POR"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "401861191",
+      "name": "Northern Ireland at Hungary",
+      "date": "2026-11-17T19:45Z",
+      "season": {
+        "year": 2026
+      },
+      "links": [
+        {
+          "href": "https://www.espn.com/soccer/match/_/gameId/401861191/northern-ireland-hungary"
+        }
+      ],
+      "status": {
+        "type": {
+          "name": "STATUS_SCHEDULED",
+          "completed": false
+        }
+      },
+      "competitions": [
+        {
+          "timeValid": true,
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "480",
+                "displayName": "Hungary",
+                "shortDisplayName": "Hungary",
+                "abbreviation": "HUN"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "586",
+                "displayName": "Northern Ireland",
+                "shortDisplayName": "N Ireland",
+                "abbreviation": "NIR"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

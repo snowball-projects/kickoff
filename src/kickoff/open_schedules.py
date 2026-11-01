@@ -111,6 +111,11 @@ FEED_LABELS = {
     "UEFA_CHAMPIONS_LEAGUE": "UEFA Champions League",
     "PGA_TOUR": "PGA Tour",
     "LPGA_TOUR": "LPGA Tour",
+    "DP_WORLD_TOUR": "DP World Tour",
+    "LIV_GOLF": "LIV Golf",
+    "ATP": "ATP",
+    "WTA": "WTA",
+    **{league: label for league, (_, label) in league_feeds.RUGBY_LEAGUES.items()},
     "UFC": "UFC",
     "NASCAR_CUP": "NASCAR Cup",
     "INDYCAR": "IndyCar",
@@ -490,6 +495,8 @@ def refresh_open_schedules(
         raise ValueError("Duplicate event identity across feeds")
     if not events:
         raise ValueError("No events to publish")
+    national_sources = league_feeds.espn_national_sources(events)
+    source_notices.extend(national_sources)
     bundle = {
         "schema_version": SCHEMA_VERSION,
         "season": year,
@@ -549,6 +556,7 @@ def refresh_open_schedules(
         **({"world_climbing": CLIMBING_LICENSE} if any(s["kind"] == "world_climbing" for s in notices) else {}),
         **({"weightlifting": WEIGHTLIFTING_LICENSE} if any(s["kind"] == "weightlifting" for s in notices) else {}),
         **{kind: league_feeds.SOURCES[kind]["license"] for kind in feed_kinds},
+        **{source["kind"]: source["license"] for source in national_sources},
     }
     bundle["data_license_notice"] = (
         "Software is MIT. Schedule data retains the per-source licenses listed here. "

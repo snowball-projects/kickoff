@@ -6,8 +6,8 @@ const { SPORT_ICONS } = await loadModule("sport-icons");
 
 const { CATEGORY_KEYS, categoryForLeague, pillCountry, SOCCER_COUNTRIES, leagueVisual } = await loadModule("calendar-helpers");
 
-test("ten sport shapes cover the shared category keys and future series use family identity", () => {
-  assert.equal(Object.keys(SPORT_ICONS).length, 10);
+test("sport shapes cover the shared category keys and future series use family identity", () => {
+  assert.equal(Object.keys(SPORT_ICONS).length, Object.keys(CATEGORY_KEYS).length);
   for (const category of Object.values(CATEGORY_KEYS)) assert.ok(SPORT_ICONS[category]);
   assert.ok(SPORT_ICONS[categoryForLeague("NEW_SERIES", "motorsport")]);
   assert.equal(categoryForLeague("NEW_BOXING", "boxing"), categoryForLeague("UFC", "mma"));
@@ -52,6 +52,16 @@ test("World Cup national flags and verified host countries keep their identities
   }
   assert.equal(hostCountry({ source: "openfootball", country: "MX", country_source_url: "https://www.fifa.com/" })?.code, "MX");
   assert.equal(hostCountry({ source: "openfootball", country: "Mexico" }), undefined);
+});
+
+test("Wales and Kosovo have native national flags; Northern Ireland has identity without a substitute", () => {
+  assert.equal(countryIdentity("GB-WLS").name, "Wales");
+  assert.equal(countryIdentity("GB-WLS").flag, "\u{1F3F4}\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}");
+  assert.deepEqual(countryIdentity("GB-NIR"), { code: "GB-NIR", name: "Northern Ireland", flag: "" });
+  assert.equal(countryIdentity("XK").flag, "🇽🇰");
+  assert.deepEqual(nationalTeamCountries([{ name: "Northern Ireland", country_code: "GB-NIR", entity_type: "national_team" }]), []);
+  for (const country_code of ["ZZ", "GB-ABC", "Wales"])
+    assert.deepEqual(nationalTeamCountries([{ name: "Wales", country_code, entity_type: "national_team" }]), []);
 });
 
 

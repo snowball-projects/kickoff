@@ -20,7 +20,7 @@ export default function AgendaEvent({ event, date, today, timezone, active, upco
   const [golfStatus, setGolfStatus] = useState<string | null>(null);
   const time = eventTimeLabel(event, timezone);
   const home = event.home_participant, away = event.away_participant;
-  const teams = (home || away) && ["football", "basketball", "hockey", "baseball", "soccer"].includes(event.sport);
+  const teams = (home || away) && ["football", "basketball", "hockey", "baseball", "soccer", "rugby"].includes(event.sport);
   const scores = event.status === "finished" && home?.final_score != null && away?.final_score != null;
   const partial = Boolean(home) !== Boolean(away);
   const round = partial ? event.round_or_stage || event.week_label : event.week_label || event.round_or_stage;

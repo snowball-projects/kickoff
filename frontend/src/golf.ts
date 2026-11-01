@@ -11,7 +11,7 @@ export function golfRound(event: EventCard, date: string, start: string): EventC
 
 export function leaderboardId(event: Pick<EventCard, "source" | "event_id" | "sport">) {
   return isGolf(event) && event.source === "espn"
-    ? /^espn-(?:pga_tour|lpga_tour)-(\d+)$/.exec(event.event_id)?.[1] : undefined;
+    ? /^espn-(?:pga_tour|lpga_tour|dp_world_tour|liv_golf)-(\d+)$/.exec(event.event_id)?.[1] : undefined;
 }
 export const LEADERBOARD_URL = "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard";
 

@@ -13,6 +13,9 @@ export type ApiParticipant = {
   role: string | null;
   entity_type: string;
   country_code?: string;
+  country_source_url?: string;
+  country_checked_date?: string;
+  country_source_kind?: string;
   record?: string;
   team_source_url?: string;
   final_score?: number;
