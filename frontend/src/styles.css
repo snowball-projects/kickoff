@@ -64,6 +64,16 @@ h1, h2, h3, p { margin: 0; }
 .more-events:focus-visible { outline-offset: -3px; }
 .pill-text { display: block; flex: 0 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; }
 .pill-text.truncated { mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
+.nfl-day-matchups, .nfl-matchup, .nfl-calendar-team { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
+.nfl-day-matchups { overflow: hidden; gap: 8px; }
+.nfl-team-name, .nfl-matchup-name { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.event-pill .nfl-logo { width: 18px; height: 18px; }
+.nfl-phone-label { display: none; }
+.nfl-month-matchups { display: flex; align-items: center; flex: 1; min-width: 0; gap: 4px; position: relative; overflow: hidden; }
+.nfl-month-matchups .nfl-matchup { gap: 2px; }
+.nfl-month-matchups .nfl-logo { width: 16px; height: 16px; }
+.nfl-month-matchups .nfl-matchup, .nfl-more { flex: none; }
+.nfl-measurements { position: absolute; display: flex; gap: 4px; width: max-content; visibility: hidden; pointer-events: none; }
 .sport-icon { display: inline-block; width: 14px; height: 14px; fill: currentColor; stroke: none; flex: none; vertical-align: middle; }
 .country-flag { flex: none; font-size: 12px; line-height: 1; }
 .event-flags { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 5px; }
@@ -104,6 +114,8 @@ h1, h2, h3, p { margin: 0; }
 .timeline-events { position: absolute; inset: 0 0 0 57px; }
 .timeline-events .event-pill, .timeline-more { position: absolute; height: 28px; font-size: 12px; }
 .timeline-more { background: var(--surface); border: 1px solid var(--line); border-radius: 5px; text-align: center; }
+.timeline-now { position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; border-top: 1px solid var(--today); }
+.timeline-now time { position: absolute; top: 0; left: 0; transform: translateY(-50%); min-width: 49px; padding: 3px 4px; border-radius: 12px; background: var(--today); color: #101820; font-size: 11px; font-weight: 650; text-align: center; font-variant-numeric: tabular-nums; }
 .schedule-notice, .loading-note { padding: 8px 16px; font-size: 13px; }
 .sheet { position: fixed; inset: auto 0 0; margin: 0 auto; padding: 0; border: 0; border-radius: 24px 24px 0 0; width: 100%; max-width: 100%; max-height: 90dvh; color: var(--text); background: var(--bg); box-shadow: 0 -8px 40px #0002; overflow: hidden; animation: sheet-in .22s ease-out; }
 .sheet[open] { display: flex; flex-direction: column; }
@@ -196,6 +208,8 @@ h1, h2, h3, p { margin: 0; }
 @keyframes sheet-out { to { transform: translateY(100%); } }
 @media (width < 700px) {
   .month-grid .country-flag { display: none; }
+  .nfl-month-matchups { display: none; }
+  .nfl-phone-label { display: block; }
 }
 @media (min-width: 700px) {
   .topbar { padding-inline: 26px; }
@@ -231,3 +245,21 @@ h1, h2, h3, p { margin: 0; }
 .about-source li + li { margin-top: 10px; }
 .about .about-license-notice { font-size: 11px; color: var(--muted); }
 .about-footer { padding-top: 20px; font-size: 14px; }
+
+.fight-card { margin: 20px 0; }
+.fight-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.fight-tabs button { flex: 1; min-width: 0; padding: 10px 3px; font: inherit; font-size: 12px; color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer; }
+.fight-tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: currentColor; font-weight: 650; }
+.fight-start, .event-details .fight-result { color: var(--muted); font-size: 11px; }
+.fight-bouts { list-style: none; margin: 0 0 12px; padding: 0; }
+.fight-bouts li { padding: 13px 0; border-bottom: 1px solid var(--line); }
+.fight-matchup { display: grid; grid-template-columns: minmax(0, 1fr) minmax(48px, .65fr) minmax(0, 1fr); gap: 8px; align-items: center; }
+.fight-fighter { display: flex; flex-direction: column; gap: 5px; min-width: 0; overflow-wrap: anywhere; }
+.fight-fighter:last-child { text-align: right; }
+.fight-fighter b { font-size: 13px; font-weight: 600; }
+.fight-fighter span { color: var(--muted); font-size: 11px; }
+.fight-fighter strong { display: block; color: var(--text); font-size: 10px; font-weight: 600; margin-top: 4px; }
+.fight-weight { text-align: center; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+.event-details .fight-result { margin: 9px 0 0; text-align: center; }
+.fight-source, .fight-checked { font-size: 11px; }
+.fight-checked { display: block; color: var(--muted); margin-top: 5px; }

@@ -75,7 +75,7 @@ test("inline and popup never run competing timers; modal and Upcoming pause inli
   await expect.poll(() => calls.length).toBe(5);
   await page.clock.runFor(60_000); await expect.poll(() => calls.length).toBe(6);
   await page.getByRole("button", { name: "About kickoff and schedule coverage" }).click();
-  await expect(page.getByRole("dialog")).toContainText("agenda golf sections and event popups contact ESPN");
+  await expect(page.getByRole("dialog")).toContainText("agenda golf sections, golf event popups and MMA event popups contact ESPN");
   await page.clock.runFor(120_000); expect(calls).toHaveLength(6);
   await page.getByRole("button", { name: "Close", exact: true }).click();
   await page.clock.runFor(200);

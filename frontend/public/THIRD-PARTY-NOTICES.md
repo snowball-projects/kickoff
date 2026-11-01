@@ -10,6 +10,17 @@ schema, retained supplied final scores, omitted canceled/postponed fixtures and
 unzoned kickoff times. Separately attributed ESPN team facts and clocks retain
 ESPN terms. No league endorsement.
 
+openfootball contributors: worldcup.json; CC0 1.0 Universal.
+https://github.com/openfootball/worldcup.json
+https://creativecommons.org/publicdomain/zero/1.0/
+Changes: selected World Cup fixtures, converted explicit UTC offsets, labeled
+groups/knockout phases, retained final on-field and penalty shootout scores,
+and added national-team flag identities. Revisions and file hashes accompany
+each snapshot. Venue-country facts use FIFA's 16-city host list, checked
+2026-10-31; each event includes that source link and check date. FIFA grants no
+data license for those separately attributed host facts.
+https://www.fifa.com/en/articles/fifa-world-cup-2026-hosts-cities-dates-usa-mexico-canada
+
 F1DB and contributors — Formula 1 database; CC BY 4.0.
 https://github.com/f1db/f1db
 https://creativecommons.org/licenses/by/4.0/
@@ -37,9 +48,11 @@ These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues, team records, short names,
 round labels and confirmed final scores), attributes each event to its source
 with checked dates, and omits feed logos, odds, articles and raw payloads.
-Agenda golf sections and popups request leaderboard facts directly from ESPN: positions, player
-names, total and round scores, tee times and holes completed. Those results
-carry ESPN's terms, not MIT or a new open-data license.
+Agenda golf sections and golf popups request leaderboard facts directly from
+ESPN: positions, player names, total and round scores, tee times and holes
+completed. MMA popups request fighter names, records, weight classes, bout start
+times and completed results from ESPN. These live facts carry ESPN's terms,
+not MIT or a new open-data license.
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
 its data is republished.
 
@@ -77,7 +90,8 @@ Twenty PNG logos retain team/NFL copyright and the original limited editorial
 identification basis; no redistribution license is claimed. Twelve SVG files
 carry the per-file public-domain designations listed in the metadata. Original
 sideline usage notes remain sourcing records; kickoff displays the small logos
-beside identified NFL teams in schedules and event popups, at 28 CSS pixels.
+beside identified NFL teams: 16 CSS pixels in month matchup pairs, 18 in day
+game pills, and 28 in agenda rows and event popups.
 These assets are separate from the MIT software and schedule-data licenses.
 Other leagues use text team identities.
 

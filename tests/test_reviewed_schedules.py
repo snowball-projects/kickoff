@@ -1,6 +1,7 @@
 import copy
 import json
 from pathlib import Path
+from urllib.error import HTTPError
 
 import pytest
 
@@ -78,7 +79,7 @@ def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
     monkeypatch.setattr("kickoff.open_schedules.read_url", read)
     result = refresh_open_schedules(2026, tmp_path / "published")
     bundle = json.loads(result.read_text())
-    assert len(bundle["events"]) == 10
+    assert len(bundle["events"]) == 11
     assert sum(url.endswith("br.1.json") for url in requests) == 1
     assert any(url.endswith("/2026/br.1.json") for url in requests)
     assert all(
@@ -93,6 +94,25 @@ def test_openfootball_expansion_has_correct_season_paths(monkeypatch, tmp_path):
 def fake_open_read(url):
     if "/commits/" in url:
         return json.dumps({"sha": "a" * 40}).encode()
+    if url.endswith("/worldcup.json"):
+        if not url.endswith("/2026/worldcup.json"):
+            raise HTTPError(url, 404, "no World Cup edition", {}, None)
+        return json.dumps(
+            {
+                "matches": [
+                    {
+                        "date": "2026-06-11",
+                        "time": "13:00 UTC-6",
+                        "team1": "Mexico",
+                        "team2": "South Africa",
+                        "group": "Group A",
+                        "round": "Matchday 1",
+                        "ground": "Mexico City",
+                        "score": {"ft": [2, 0]},
+                    }
+                ]
+            }
+        ).encode()
     if "/contents/" in url:
         return json.dumps([{"type": "dir", "path": "src/data/seasons/2026/races/01"}]).encode()
     if url.endswith("race.yml"):
