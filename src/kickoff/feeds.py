@@ -238,6 +238,18 @@ def _espn_finished(event: dict, competition: dict) -> bool:
     )
 
 
+@cache
+def _espn_national_teams() -> dict[str, dict]:
+    """Reviewed national identities; scoreboard names and logos prove no nationality."""
+    return json.loads(files("kickoff").joinpath("config/espn-national-teams.json").read_text())["teams"]
+
+
+def espn_national_sources(events: list[CalendarEvent]) -> list[dict]:
+    kinds = {p.metadata.get("country_source_kind") for event in events for p in event.participants}
+    sources = json.loads(files("kickoff").joinpath("config/espn-national-teams.json").read_text()).get("sources", [])
+    return [source for source in sources if source["kind"] in kinds]
+
+
 def _espn_participants(event: CalendarEvent, competitors: list, finished: bool) -> None:
     for participant in event.participants:
         row = next((c for c in competitors if c.get("homeAway") == participant.role), {})
@@ -246,6 +258,15 @@ def _espn_participants(event: CalendarEvent, competitors: list, finished: bool) 
         participant.short_name = team.get("shortDisplayName") or team.get("abbreviation")
         participant.record = _espn_record(row, event.sport)
         participant.final_score = _score(row.get("score")) if finished else None
+        national = _espn_national_teams().get(f"{event.sport}/{participant.participant_id}")
+        if national:
+            participant.entity_type = "national_team"
+            participant.metadata.update(
+                country_code=national["country_code"],
+                country_source_url=national["source_url"],
+                country_checked_date=national["checked_date"],
+                country_source_kind=national.get("source_kind", "espn"),
+            )
 
 
 def _espn_event(
@@ -393,6 +414,22 @@ def espn_season_feed(
                 input_url=url,
             )
             if event:
+                if sport == "rugby":
+                    competition = (row.get("competitions") or [{}])[0]
+                    label = (
+                        " · ".join(
+                            note["headline"]
+                            for note in competition.get("notes") or []
+                            if note.get("type") == "event" and note.get("headline")
+                        )
+                        or event.round_or_stage
+                    )
+                    if label:
+                        event.round_or_stage = label
+                    # A dated source fixture remains an appointment even when
+                    # ESPN has not named either opponent. The catalog supplies
+                    # its competition identity; never turn TBD/TBA into a team.
+                    _espn_appointment(event, label or RUGBY_LEAGUES[league][1])
                 events.append(event)
         return _in_year(_dedupe(events), year)
 

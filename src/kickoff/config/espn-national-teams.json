@@ -1,0 +1,1513 @@
+{
+  "source": "Reviewed national identities from positive ESPN Core metadata or official World Rugby/Rugby Europe country directories. Conflicting Core false values remain recorded; clubs and composites are not inferred from names or logos.",
+  "country_code_references": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/main/en.xml",
+      "checked_date": "2026-11-01",
+      "sha256": "416fb34c500e969a9e3e9bd1e363f8af5938df3cdda72aa7e636fa7e72123aae"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/subdivisions/en.xml",
+      "checked_date": "2026-11-01",
+      "sha256": "997a14da1144bb66f36a829db1783afe41f7529e33070afbe964bdd8e387b1d2"
+    },
+    {
+      "url": "https://unstats.un.org/unsd/methodology/m49/overview",
+      "checked_date": "2026-11-01",
+      "sha256": "b9048114f6e7f2abda83bf03d4263c9d7cd1bd7230e3d0461025ee7839a7a1fb"
+    }
+  ],
+  "notes": "National subdivisions use explicit GB-ENG/SCT/WLS/NIR codes, separate from venue countries. XK is the CLDR Kosovo exception. GB-NIR has no standard native emoji flag.",
+  "teams": {
+    "rugby/1": {
+      "name": "England",
+      "country_code": "GB-ENG",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/1?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "d2c277c271626f4367e0ce2dc129d8ed8cf3d71d4643e862eb8c532b93596f06"
+    },
+    "rugby/10": {
+      "name": "Argentina",
+      "country_code": "AR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/10?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "e719e3af8a01e719398605e17ab79df8feaf33f1d354da78ff0e74ab9bd69eca"
+    },
+    "rugby/11": {
+      "name": "United States of America",
+      "country_code": "US",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/11?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "e4b2bc3dc8768953ed23890ea0527763c2bcf48562904155c539fe7fb2f96eee"
+    },
+    "rugby/12": {
+      "name": "Romania",
+      "country_code": "RO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/12?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "af22d97358be4b186dc53255947d655eb9ef5304022b2701995ee83123aa9af4"
+    },
+    "rugby/14": {
+      "name": "Fiji",
+      "country_code": "FJ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/14?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "deadcdf70501f7b30d85027951011ff8a155a58c2831376ace40379e7034b568"
+    },
+    "rugby/15": {
+      "name": "Samoa",
+      "country_code": "WS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/15?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "45cb1a51880ee3bb7129cf3e37557cde95ec5bc83ef5d714ce6e75951af3c984"
+    },
+    "rugby/16": {
+      "name": "Tonga",
+      "country_code": "TO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/16?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "5d07b6542de9c90d67071e32400b7fe41efeda0e53d99bebb92395c2f6010d0f"
+    },
+    "rugby/2": {
+      "name": "Scotland",
+      "country_code": "GB-SCT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/2?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "4df8ddf4a3dfa9507d80c69fe9ca245522b510f93338e550a16f64607d2edfd5"
+    },
+    "rugby/20": {
+      "name": "Italy",
+      "country_code": "IT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/20?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "4f6c2a4f6c2ca00f6b51abbc1de87320db477d77b316600ce4cfb7c00fd31631"
+    },
+    "rugby/23": {
+      "name": "Japan",
+      "country_code": "JP",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/23?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "d87cb3759239d963bc66d47fa7c23621a4560ba59b282374ca16db1e694dff0b"
+    },
+    "rugby/25": {
+      "name": "Canada",
+      "country_code": "CA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/25?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "dc4e21e9d7fc5a600baf9487a50d6ff9f6c4f09b418cdd0515a0116565e6b251"
+    },
+    "rugby/27": {
+      "name": "Portugal",
+      "country_code": "PT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/27?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "7634d819c205dedb4cc5160c2845616b243add837b52ae87ca968b4eddc6ae40"
+    },
+    "rugby/289244": {
+      "name": "Canada Women",
+      "country_code": "CA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289244?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "9a1b4ef4e3ea7508fc15d8d43e0505faef09c67112d474f908633bf5c5df78ae"
+    },
+    "rugby/289246": {
+      "name": "Wales Women",
+      "country_code": "GB-WLS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289246?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "93847782e1680861062b21f9f7c198b532320aac93825118ac79a490fb8ff843"
+    },
+    "rugby/289247": {
+      "name": "New Zealand Women",
+      "country_code": "NZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289247?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "da08c6d2491e67e39ed2800f685d953e0e1bf849c63a8ae0ac649c95d7b749ac"
+    },
+    "rugby/289248": {
+      "name": "Spain Women",
+      "country_code": "ES",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289248?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "b8f3a50ce0bfef30abcf7f009e38aae6bc887c5680d3711ea851234b02420afe"
+    },
+    "rugby/289249": {
+      "name": "England Women",
+      "country_code": "GB-ENG",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289249?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "92c82e9c9619b2d9fecd12dd333292454b9dd2ba0d164b9befdaf2282d371acb"
+    },
+    "rugby/289250": {
+      "name": "Italy Women",
+      "country_code": "IT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289250?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "dd0bbe254917d70a7c75026d78fc6eacd8b43166171e1bcb3ad1f859e49fe94c"
+    },
+    "rugby/289251": {
+      "name": "USA Women",
+      "country_code": "US",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289251?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "a2ec1af2bf2056a46c9a93bef2c5054dbe1e2865a9354ee2b85141c836e0a5eb"
+    },
+    "rugby/289252": {
+      "name": "Australia Women",
+      "country_code": "AU",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289252?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "de5a0da2fb93d424386c073612152834dd644c29ce10352835a896e4265d34ff"
+    },
+    "rugby/289253": {
+      "name": "Ireland Women",
+      "country_code": "IE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289253?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "0efb36ab20049572df8abc5b19d36ea2883441f97f7d45373005897693542bfc"
+    },
+    "rugby/289254": {
+      "name": "France Women",
+      "country_code": "FR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289254?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "c7b6a93dc8516097943c9af3ae693e180952e87b0d465b0126c60c94d9a2df05"
+    },
+    "rugby/289255": {
+      "name": "Japan Women",
+      "country_code": "JP",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289255?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "fc9ba88040ab9e43a8c22e049f9a9d9bfdaca521b3c9f08867071578ec14bee3"
+    },
+    "rugby/29": {
+      "name": "Uruguay",
+      "country_code": "UY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/29?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "65928c08b0e716958712d1adab41018e936073edcd5ba1b94681db3ef20fddd4"
+    },
+    "rugby/3": {
+      "name": "Ireland",
+      "country_code": "IE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/3?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "5498a06dddc1b3f19f73f6bf6de390aa031006c2d5745366f418cc0ad08dd635"
+    },
+    "rugby/33": {
+      "name": "Brazil",
+      "country_code": "BR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/33?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "4fca215566c76f48e9198c91facddfd45ea55f5aa3ce157f30f5709a77432ed2"
+    },
+    "rugby/4": {
+      "name": "Wales",
+      "country_code": "GB-WLS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/4?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "cf75aeeb6bcb17b1f1df1d97c972dcb967350b40fe2ebb6b7153be534b7d2da7"
+    },
+    "rugby/5": {
+      "name": "South Africa",
+      "country_code": "ZA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/5?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "556290761d157d6ad43bc6e15be655b218d8235262fcc159e52d6e76de40b959"
+    },
+    "rugby/6": {
+      "name": "Australia",
+      "country_code": "AU",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/6?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "d139d3cc5d1417921bb80551507f34376e8ae2c05eb4f9702f7231fbbedea744"
+    },
+    "rugby/8": {
+      "name": "New Zealand",
+      "country_code": "NZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/8?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "8bd83a8305b09ad6f70b57389ae2abf4de2ce8508ccab65657af0026251c4818"
+    },
+    "rugby/81": {
+      "name": "Georgia",
+      "country_code": "GE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/81?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "a90e4e5bef5c1496209937e5bb0339bf18d1b9f884bdaeb6bd864f2d420e0072"
+    },
+    "rugby/82": {
+      "name": "Namibia",
+      "country_code": "NA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/82?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "c809d9047f4ee3181211c6a24302a08633c9a2834b39046d2562263580c93fb7"
+    },
+    "rugby/9": {
+      "name": "France",
+      "country_code": "FR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/9?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "059e493ef7993b4197a5efc27b455659523b3c69be2bcd50b457b35e03705b8d"
+    },
+    "soccer/162": {
+      "name": "Italy",
+      "country_code": "IT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/162?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "c79b41590244d492b3fe47afb09c94a8ec5b4062edc72af87092fb25f18f1f3d"
+    },
+    "soccer/164": {
+      "name": "Spain",
+      "country_code": "ES",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/164?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "0965c8a773db19c29e9b2eef9c8482593fe552e541932dca7ffb7943767cc1a6"
+    },
+    "soccer/16721": {
+      "name": "Gibraltar",
+      "country_code": "GI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/16721?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "40f5474418fa9b73095307e81281f5d61e6a6bbb172cb1b1d2e597923a48dd34"
+    },
+    "soccer/18272": {
+      "name": "Kosovo",
+      "country_code": "XK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/18272?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "09f83fed4ae71940e23fe67b64bbd6b9c63d82482bbbe651b4fd901af2e33eb0"
+    },
+    "soccer/2619": {
+      "name": "Kazakhstan",
+      "country_code": "KZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/2619?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "098217c924c74a8717427d346a59a088ea2e36fe87613dab5cf720c8ea5c8867"
+    },
+    "soccer/444": {
+      "name": "Estonia",
+      "country_code": "EE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/444?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "be82b18cb0e061d8afe53f678a4426e08a0b80fe59069b01ac849aa911caf7ea"
+    },
+    "soccer/445": {
+      "name": "Cyprus",
+      "country_code": "CY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/445?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "e2bf59e03d5b600539f6e7e472091475a51dc0b4e647af5eae0e93c1a5132d87"
+    },
+    "soccer/447": {
+      "name": "Faroe Islands",
+      "country_code": "FO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/447?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "612885cb300d018cb7b770b2f28fdfa70900ebbfdc147d498352a4639945584f"
+    },
+    "soccer/448": {
+      "name": "England",
+      "country_code": "GB-ENG",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/448?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "6396bc08bc0ed667bc63e7bdb409e4c7804b712b065c4922051502413616a206"
+    },
+    "soccer/449": {
+      "name": "Netherlands",
+      "country_code": "NL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/449?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "b500da3efdb9f44fe8853fd9940c472913b120d86dfffaaa343c3d0679654d1f"
+    },
+    "soccer/450": {
+      "name": "Czechia",
+      "country_code": "CZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/450?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "ef5eb44102ad5f42b7c2fdd339c02521cc5950d7e32581a1f014c166e1e025f7"
+    },
+    "soccer/452": {
+      "name": "Bosnia-Herzegovina",
+      "country_code": "BA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/452?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "109724d680eb73b6c183387d7a929035402a88490df2b69b6b029ce429f1dac2"
+    },
+    "soccer/453": {
+      "name": "Malta",
+      "country_code": "MT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/453?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "f57b9cb6b0021e64afe9e55d35fec49eaa2b880c82b9d0eb1ac01224ac76bf7b"
+    },
+    "soccer/455": {
+      "name": "Greece",
+      "country_code": "GR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/455?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "52aacfd3db457e1edad0f578695836f973d10b16ffaa1129bbe3b5480fed6185"
+    },
+    "soccer/456": {
+      "name": "Latvia",
+      "country_code": "LV",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/456?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "9b2369d5cccd6b986c23609d2987149fdcbaffe0a8b3f47bc98f3b45d90a22d4"
+    },
+    "soccer/457": {
+      "name": "Ukraine",
+      "country_code": "UA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/457?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "434f9885bef1434362cb65198ceaa1906c7f28cd932e204613f2e1cfa98cc520"
+    },
+    "soccer/458": {
+      "name": "Finland",
+      "country_code": "FI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/458?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "8b598212a8edc5e3baeb05807c19a5166c305bfd53b7e7f77c0d5f40fd3aa597"
+    },
+    "soccer/459": {
+      "name": "Belgium",
+      "country_code": "BE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/459?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "8659ddd7d19bd2b2e71a371b9e5fa59e71907e5ac3aa3c156faf4dc45b74ffa7"
+    },
+    "soccer/460": {
+      "name": "Lithuania",
+      "country_code": "LT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/460?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "e4702e18bf1c6602adfa150c3ff1f31328e9a4cdf6ccb46897639d8ccdb151d3"
+    },
+    "soccer/461": {
+      "name": "Israel",
+      "country_code": "IL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/461?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "4dcc7ab9296b15ac243525577afcf3ff9c4a8f4e1bcd106e586496e2f8b8b370"
+    },
+    "soccer/462": {
+      "name": "Bulgaria",
+      "country_code": "BG",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/462?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "eadadefbf6ab9c54211a016363682acce1b47e45f8a6cf138e0153253deefa1e"
+    },
+    "soccer/463": {
+      "name": "North Macedonia",
+      "country_code": "MK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/463?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "609c258ebc5e44bf46eb37fbf857ef2906e58938587a4fd992e8f015757ca5cd"
+    },
+    "soccer/464": {
+      "name": "Norway",
+      "country_code": "NO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/464?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "feb0f620bb9dd93f27acde002a19af80b49b2bea31e4212e3f52bce01c6aee41"
+    },
+    "soccer/465": {
+      "name": "T\u00fcrkiye",
+      "country_code": "TR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/465?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "4016736d48d25aa08639f130beddf5ae911ebc90659400281e22ac1058c5eacc"
+    },
+    "soccer/466": {
+      "name": "Sweden",
+      "country_code": "SE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/466?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "4cc792ed8b6d37faad389c834a6235d29d4020276c7e718ba4e030851cf1d019"
+    },
+    "soccer/468": {
+      "name": "Slovakia",
+      "country_code": "SK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/468?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "c98421463a7a65a88e6d3c189231c6057ab62e881dae62ae877ffc5d0273a14f"
+    },
+    "soccer/470": {
+      "name": "Iceland",
+      "country_code": "IS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/470?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "e7f13b396273c3292f14d7fb77ce8705e3842d61b0532b5739dc0eaa55987482"
+    },
+    "soccer/471": {
+      "name": "Poland",
+      "country_code": "PL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/471?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "9179005f3a386eacb51b113890dc39603779eea258df62e6a4bab6449970c453"
+    },
+    "soccer/472": {
+      "name": "Slovenia",
+      "country_code": "SI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/472?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "0a547cf7136a88ada0dfe7ead78da94b8fcff15cc0ebca3da4187f78a619c14a"
+    },
+    "soccer/473": {
+      "name": "Romania",
+      "country_code": "RO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/473?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "59d3878c9b40826509ae2d8efd8dcbccec4ff217423bd1908448837de5984276"
+    },
+    "soccer/474": {
+      "name": "Austria",
+      "country_code": "AT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/474?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "b172f8ec216377d8b272f96ac9319ae1c3473a021de96bfc1456799b7bec688c"
+    },
+    "soccer/475": {
+      "name": "Switzerland",
+      "country_code": "CH",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/475?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "8b137c7f46aa51ee8eb98d8920d5f2b12ead0c78955550c21754db4c46f13862"
+    },
+    "soccer/476": {
+      "name": "Republic of Ireland",
+      "country_code": "IE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/476?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "5afd1aea869c2754dc9a35004c6e2ed9450f9d90c44ac53759963a7259202c50"
+    },
+    "soccer/477": {
+      "name": "Croatia",
+      "country_code": "HR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/477?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "e516bb3007057c47b8cc41282730668780d1580ffe5141112987f50bcb6b34b4"
+    },
+    "soccer/478": {
+      "name": "France",
+      "country_code": "FR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/478?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "f190f33d320255d230e702f83b07bf0ac507d04dfdfad59071d608269c01bbf3"
+    },
+    "soccer/479": {
+      "name": "Denmark",
+      "country_code": "DK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/479?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "36704a1b4a3da984b58a921933d50d1685612d17504c1af82e03d79033d612ed"
+    },
+    "soccer/480": {
+      "name": "Hungary",
+      "country_code": "HU",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/480?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "407ebc8ac93ead431da01f2a7b259ea979f329e588b6af55ee0ba290a3fce3cd"
+    },
+    "soccer/481": {
+      "name": "Germany",
+      "country_code": "DE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/481?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "514fd77cd342332aa1d8aea2e50bb4b24d0622b7f10d5e88c447cafb8285596e"
+    },
+    "soccer/482": {
+      "name": "Portugal",
+      "country_code": "PT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/482?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "d9b1546db7171953f0dc8ac96a985e1d9a8017cfd0ca333de016cd3260fd496d"
+    },
+    "soccer/483": {
+      "name": "Moldova",
+      "country_code": "MD",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/483?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "b9d36af74ddec42c598088a6701bb6dfb317189dd94946d866d4f63d09994508"
+    },
+    "soccer/578": {
+      "name": "Wales",
+      "country_code": "GB-WLS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/578?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "8a5d27ba6443a05ec991b5da3cb2697a813f72a8c001897083d1c4add32f9600"
+    },
+    "soccer/579": {
+      "name": "Armenia",
+      "country_code": "AM",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/579?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "80986351a7600085c155fb91582e0a4386d03b2dd7d1176eed682bf318ea23ea"
+    },
+    "soccer/580": {
+      "name": "Scotland",
+      "country_code": "GB-SCT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/580?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "bbb82664da8bd30eaaddb535782dae0ed226a9b0bce60a3427854096d10bc262"
+    },
+    "soccer/581": {
+      "name": "Azerbaijan",
+      "country_code": "AZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/581?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "d68b349c5e161b224863c1ceeb15c4d9e5c0860343a4bab6101c236cf964d99c"
+    },
+    "soccer/582": {
+      "name": "Luxembourg",
+      "country_code": "LU",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/582?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "af2c863286e8a47ae14943de3c550f3b280139b6df0c3c2cdf1be515478d39ee"
+    },
+    "soccer/583": {
+      "name": "Belarus",
+      "country_code": "BY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/583?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "ff9d0af20e776849ba6cda7070a2cfd35a81e94050e669f9c334d3775a90f720"
+    },
+    "soccer/584": {
+      "name": "Georgia",
+      "country_code": "GE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/584?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "f58539e0781decb3ba8e974f01c6b0ef34418faa9d15d2318407a08363c71414"
+    },
+    "soccer/585": {
+      "name": "Albania",
+      "country_code": "AL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/585?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "2c0cdd0dcc96468a471323b17767b817e2efdecbe596f0ea89d414d79b2b6dfb"
+    },
+    "soccer/586": {
+      "name": "Northern Ireland",
+      "country_code": "GB-NIR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/586?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "072632b68b20be4329d0d6b88aea40efa9b2af158c04911ec0295fa640d6e26b"
+    },
+    "soccer/587": {
+      "name": "Andorra",
+      "country_code": "AD",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/587?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "5cc58392acc0d23d99b55dcad0681dffeb8b4b164a9a03cec5a42e1f87694ddd"
+    },
+    "soccer/588": {
+      "name": "San Marino",
+      "country_code": "SM",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/588?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "e3add2fa838fb4e03cfce0963c014223d33968aa80162a8ca5e4aba5b61c58d1"
+    },
+    "soccer/589": {
+      "name": "Liechtenstein",
+      "country_code": "LI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/589?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "1c6d1bf43bde6883b6d85c4b16a0684fde7ab187d7979d0b660996197c16946e"
+    },
+    "soccer/6757": {
+      "name": "Serbia",
+      "country_code": "RS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/6757?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "fcc9e4cc5d8afa3d5cff0d58efa6ef3290d56cd271b7fe70c4eb68aae83b52ab"
+    },
+    "soccer/6775": {
+      "name": "Montenegro",
+      "country_code": "ME",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/6775?lang=en&region=us",
+      "checked_date": "2026-11-01",
+      "isNational": true,
+      "source_sha256": "c4903c2e7b99fe3cfa4449137e9ebce2a2e81aebd9089633a69191923bd97bad"
+    },
+    "rugby/289268": {
+      "name": "Hong Kong China",
+      "country_code": "HK",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Hong Kong China', href https://www.world.rugby/organisation/membership/asia/hong-kong-china",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/289268?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:20+00:00",
+        "sha256": "3b609064f1e15fa7c11bf153e958e11054a3bd12290fa32389c0762de70ca3ea"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289356": {
+      "name": "Zimbabwe",
+      "country_code": "ZW",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Zimbabwe', href https://www.world.rugby/organisation/membership/africa/zimbabwe",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/289356?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:20+00:00",
+        "sha256": "00f43fb0d7b98ffa4a6ad5e3259a4da646fcd2c1c066fde36da70ad3b1d997de"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289243": {
+      "name": "Chile",
+      "country_code": "CL",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Chile', href https://www.world.rugby/organisation/membership/south-america/chile",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/289243?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:20+00:00",
+        "sha256": "6073b0778cf3087e3bb07cbd71f789e8bda4e6e616b0600587688bef68ce56be"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289211": {
+      "name": "Spain",
+      "country_code": "ES",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Spain', href https://www.world.rugby/organisation/membership/europe/spain",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/164205/teams/289211?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "00dfae5ca414638efd64db557d3e97f383e838ea410841a4cee0e997dd1e9e81"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289444": {
+      "name": "Israel",
+      "country_code": "IL",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Israel', href https://www.world.rugby/organisation/membership/europe/israel",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289444?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "126540b4231291b4a7b7a30cdf634adbad6b1bed6203c65ef4ebf9085d5de675"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289430": {
+      "name": "Andorra",
+      "country_code": "AD",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Andorra', href https://www.world.rugby/organisation/membership/europe/andorra",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289430?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "0c45a99b364ce915fa7005c2073ccd8b0e5122710cd563b30cd2bcacd682d18c"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289361": {
+      "name": "Poland",
+      "country_code": "PL",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Poland', href https://www.world.rugby/organisation/membership/europe/poland",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289361?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "87041cd7275c9565b7068fc4f1aa0624c4835ef2ef3c4d6078c8a71caf0ae6c2"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289439": {
+      "name": "Croatia",
+      "country_code": "HR",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Croatia', href https://www.world.rugby/organisation/membership/europe/croatia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289439?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "cc6869a823d13c47e7e44cdbee1bd0f06f7f07e85dd56af1906d24cad59186e1"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289434": {
+      "name": "Czechia",
+      "country_code": "CZ",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Czechia', href https://www.world.rugby/organisation/membership/europe/czechia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289434?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "609895288e6e463701c33eabf11d61514552f09d6ab64df0c6b39de005bc5a94"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289483": {
+      "name": "Luxembourg",
+      "country_code": "LU",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Luxembourg', href https://www.world.rugby/organisation/membership/europe/luxembourg",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289483?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "b7a35b51c5d857b9554248bc482b272392efeef0205d10bea7d91c704539b800"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289442": {
+      "name": "Lithuania",
+      "country_code": "LT",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Lithuania', href https://www.world.rugby/organisation/membership/europe/lithuania",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289442?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "9bdb7671b80b33af1d68cc2f6191e368dca488e4f370c95bae875a5b6a1381ba"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289441": {
+      "name": "Sweden",
+      "country_code": "SE",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Sweden', href https://www.world.rugby/organisation/membership/europe/sweden",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289441?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "fd20a5d9c1f78369b2e81eff6af0dfc74e85204ae85f7c67840b5f7175b58b75"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289428": {
+      "name": "Cyprus",
+      "country_code": "CY",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Cyprus', href https://www.world.rugby/organisation/membership/europe/cyprus",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289428?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:21+00:00",
+        "sha256": "ac283f32b9d5c33d7875dfaa84a06b63523b238acb7b9078ac20b7de8530a07a"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289425": {
+      "name": "Bosnia and Herzegovina",
+      "country_code": "BA",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Bosnia and Herzegovina', href https://www.world.rugby/organisation/membership/europe/bosnia-and-herzegovina",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289425?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "8eeaea1771528386e365453cded804aab2322331f73a994f4b7ba00ea72757ad"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289549": {
+      "name": "Kosovo",
+      "country_code": "XK",
+      "source_url": "https://www.rugbyeurope.eu/rugby-europe-members",
+      "checked_date": "2026-11-01",
+      "source_sha256": "83ebacae83b94184e16ea305a67b286c640886c6aa56cab2e8ef450597193cdf",
+      "proof_locator": "Member-union list h4: Kosovo \ud83c\uddfd\ud83c\uddf0",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289549?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "f186b58ce655031dd0e212475fed255e19a55c9ed0722f576c139af696b67ad8"
+      },
+      "source_kind": "rugby_europe"
+    },
+    "rugby/289436": {
+      "name": "Malta",
+      "country_code": "MT",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Malta', href https://www.world.rugby/organisation/membership/europe/malta",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289436?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "7c1b5396c225d972424223beaade80a1424e43f882a9742b8eecac89c5d2462d"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289426": {
+      "name": "Turkey",
+      "country_code": "TR",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Turkey', href https://www.world.rugby/organisation/membership/europe/turkey",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289426?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "8f546f5554cdc529a8cb0453899ecacf92cd8c2b8034dc9c18c9cd7405e93943"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289431": {
+      "name": "Serbia",
+      "country_code": "RS",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Serbia', href https://www.world.rugby/organisation/membership/europe/serbia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289431?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "3b6206b3ca1bd09e5f63d13f14e249a0569c8910eaea85732f3157336331a609"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289433": {
+      "name": "Hungary",
+      "country_code": "HU",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Hungary', href https://www.world.rugby/organisation/membership/europe/hungary",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289433?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "5efe1dc1da939e82e2a1d39672646e47fbdd2d346ed661c924789f2b05a5b695"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289440": {
+      "name": "Ukraine",
+      "country_code": "UA",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Ukraine', href https://www.world.rugby/organisation/membership/europe/ukraine",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289440?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "df1d6e0211f272a6151ccd3f5cbd6216e7a3dbf85c20552e6f2101c29cf49cad"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289437": {
+      "name": "Bulgaria",
+      "country_code": "BG",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Bulgaria', href https://www.world.rugby/organisation/membership/europe/bulgaria",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289437?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "72f038ec2ea94d0d1da48184286ec674665a5c685e6d35007c54cd3b86b7c69d"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289445": {
+      "name": "Moldova",
+      "country_code": "MD",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Moldova', href https://www.world.rugby/organisation/membership/europe/moldova",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289445?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "d927b6916e72900b2d437324b544fe07f619a9bfbc2b35805fda3acb389cbc2b"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289432": {
+      "name": "Montenegro",
+      "country_code": "ME",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Montenegro', href https://www.world.rugby/organisation/membership/europe/montenegro",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289432?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "cb36b996e5d7e5fd085b56cb2fee7051aedb3c505ea935e535c46f631781f986"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289427": {
+      "name": "Slovenia",
+      "country_code": "SI",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Slovenia', href https://www.world.rugby/organisation/membership/europe/slovenia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289427?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "41cf03c0f1c7d003c488ae0e7ae13ed7cd09e4db20c33c78b3c48bfb93ac5c97"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289455": {
+      "name": "Malaysia",
+      "country_code": "MY",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Malaysia', href https://www.world.rugby/organisation/membership/asia/malaysia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289455?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "f42141cf2e771fc55c240a65373225500bebcea6aaf20ed2de115160fd2730b2"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289516": {
+      "name": "Sri Lanka",
+      "country_code": "LK",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Sri Lanka', href https://www.world.rugby/organisation/membership/asia/sri-lanka",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289516?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "5ff267606ae4b67940a20f96d9780db30a19c24275921134ace840d6372fba6a"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289429": {
+      "name": "Denmark",
+      "country_code": "DK",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Denmark', href https://www.world.rugby/organisation/membership/europe/denmark",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289429?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "d66d586b7e7b330d3132669555ba418d2ce288dab24c57e9e19d9281764d1dd2"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289448": {
+      "name": "Latvia",
+      "country_code": "LV",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Latvia', href https://www.world.rugby/organisation/membership/europe/latvia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289448?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "210f127ab1ed5a4697420aacd7dd3f33e21629afe19bb4620b0c939fcb2f54c4"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289435": {
+      "name": "Finland",
+      "country_code": "FI",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Finland', href https://www.world.rugby/organisation/membership/europe/finland",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289435?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "97e261b70886644025723ba7afc3b4f1da7e9b6113bd879bdd4ac3e394839047"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289519": {
+      "name": "Guyana",
+      "country_code": "GY",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Guyana', href https://www.world.rugby/organisation/membership/north-america/guyana",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289519?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "7475d3736a05f04504fe321722eb791e167383ea63179fcc2d474dc4d35d42fd"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289352": {
+      "name": "Cayman Islands",
+      "country_code": "KY",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Cayman Islands', href https://www.world.rugby/organisation/membership/north-america/cayman-islands",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289352?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "e7845de13f4784f2f8506c17c525a6fa3507642aad60171e76342f679065ba66"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289550": {
+      "name": "Estonia",
+      "country_code": "EE",
+      "source_url": "https://www.rugbyeurope.eu/rugby-europe-members",
+      "checked_date": "2026-11-01",
+      "source_sha256": "83ebacae83b94184e16ea305a67b286c640886c6aa56cab2e8ef450597193cdf",
+      "proof_locator": "Member-union list h4: Estonia \ud83c\uddea\ud83c\uddea",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289550?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "0b72944388c930ddba663c6fb4737f683d013acb24e5b92fa4b366a9abd350a5"
+      },
+      "source_kind": "rugby_europe"
+    },
+    "rugby/289438": {
+      "name": "Norway",
+      "country_code": "NO",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Norway', href https://www.world.rugby/organisation/membership/europe/norway",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289438?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "706b3cb43af9aaf58e000d5c0783df8f98c997fec5560ce87d0291901b34a014"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289482": {
+      "name": "Austria",
+      "country_code": "AT",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Austria', href https://www.world.rugby/organisation/membership/europe/austria",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289482?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "a9a7d95d4a30822b880a703e846d51b8f255a8ef9979490aa8623c6e69c8a25b"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289551": {
+      "name": "Slovakia",
+      "country_code": "SK",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Slovakia', href https://www.world.rugby/organisation/membership/europe/slovakia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289551?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:22+00:00",
+        "sha256": "2c9ab77a859cbf86411abea714ce9e6e9fe289b5073468715fe907ccc97ce4f6"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289353": {
+      "name": "Mexico",
+      "country_code": "MX",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Mexico', href https://www.world.rugby/organisation/membership/north-america/mexico",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289353?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "cbf718ffec508dc022332b60300d7e57c98b2cd1751723947d11fdf760e491a5"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289521": {
+      "name": "Jamaica",
+      "country_code": "JM",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Jamaica', href https://www.world.rugby/organisation/membership/north-america/jamaica",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289521?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "7107238b7690106ad5c5a2fc81cc32f11024f03285da0571c6f1d4ab8930c55f"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289453": {
+      "name": "Barbados",
+      "country_code": "BB",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Barbados', href https://www.world.rugby/organisation/membership/north-america/barbados",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289453?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "afa893dc1b8eb834f51e08dab7f2b27a691f1826c0708af42029480a02a2273c"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289452": {
+      "name": "Trinidad and Tobago",
+      "country_code": "TT",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Trinidad and Tobago', href https://www.world.rugby/organisation/membership/north-america/trinidad-and-tobago",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289452?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "3f2964bb06b7f2afd6eb7d3624e16e8f951be736782dd39344976121fc11c2a1"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289520": {
+      "name": "Bermuda",
+      "country_code": "BM",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Bermuda', href https://www.world.rugby/organisation/membership/north-america/bermuda",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289520?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "1724e28cb13fbf4b6cb370a61bb7a7e0c202cee7bd1f8bd3b5c2fa0d3818716d"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289267": {
+      "name": "Belgium",
+      "country_code": "BE",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Belgium', href https://www.world.rugby/organisation/membership/europe/belgium",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289267?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "0cfbfb078d206818b3a0efe3402eb32522a55ad40d34d32522ce2e9f429f3f34"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289514": {
+      "name": "Paraguay",
+      "country_code": "PY",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Paraguay', href https://www.world.rugby/organisation/membership/south-america/paraguay",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289514?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "28fdaaad45faf7c7696a9461ec02204b4e67b7fb0cf45df99c72132520fd3a89"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289541": {
+      "name": "Colombia",
+      "country_code": "CO",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Colombia', href https://www.world.rugby/organisation/membership/south-america/colombia",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289541?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "360788d821f92c98109353716212eeff6f458c45320960e6cac3e9fd75384cba"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289540": {
+      "name": "Peru",
+      "country_code": "PE",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Peru', href https://www.world.rugby/organisation/membership/south-america/peru",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289540?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "968097cb2817a58a6ef173f6b39f27dc286f37b9ad82da1c76e192c184eb87d2"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289853": {
+      "name": "Pakistan",
+      "country_code": "PK",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Pakistan', href https://www.world.rugby/organisation/membership/asia/pakistan",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289853?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "aa949b915c6115fdeaf8fc0636fd2b02d57f0944840c8c383093704932882b0d"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289854": {
+      "name": "Uzbekistan",
+      "country_code": "UZ",
+      "source_url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "source_sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "proof_locator": "Unions list: anchor text 'Uzbekistan', href https://www.world.rugby/organisation/membership/asia/uzbekistan",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289854?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "dd51e3c03e60363428b62ea3ddaebb519d6f367a8308e9ae34f4cec1f465c4ab"
+      },
+      "source_kind": "world_rugby"
+    },
+    "rugby/289555": {
+      "name": "Samoa Women",
+      "country_code": "WS",
+      "source_kind": "rugby_world_cup",
+      "source_url": "https://www.rugbyworldcup.com/2025/en/teams",
+      "checked_date": "2026-11-01",
+      "source_sha256": "0a93c330d5cfeb6c2d2bc36bb98a4d538aeeac9f0ec3508362196d2f038142a8",
+      "proof_locator": "Women's Rugby World Cup, Qualified Teams: https://www.rugbyworldcup.com/2025/en/teams/samoa",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289555?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "19cd38e272e3b038bc0cd4fff5f24630a421d806a23d0e91ec438c7294a906bb"
+      }
+    },
+    "rugby/289340": {
+      "name": "Scotland Women",
+      "country_code": "GB-SCT",
+      "source_kind": "rugby_world_cup",
+      "source_url": "https://www.rugbyworldcup.com/2025/en/teams",
+      "checked_date": "2026-11-01",
+      "source_sha256": "0a93c330d5cfeb6c2d2bc36bb98a4d538aeeac9f0ec3508362196d2f038142a8",
+      "proof_locator": "Women's Rugby World Cup, Qualified Teams: https://www.rugbyworldcup.com/2025/en/teams/scotland",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289340?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "372a29ef348da52146bef703a29d24394e0ba490ac831438c8d722ea716ac79c"
+      }
+    },
+    "rugby/289321": {
+      "name": "Fiji Women",
+      "country_code": "FJ",
+      "source_kind": "rugby_world_cup",
+      "source_url": "https://www.rugbyworldcup.com/2025/en/teams",
+      "checked_date": "2026-11-01",
+      "source_sha256": "0a93c330d5cfeb6c2d2bc36bb98a4d538aeeac9f0ec3508362196d2f038142a8",
+      "proof_locator": "Women's Rugby World Cup, Qualified Teams: https://www.rugbyworldcup.com/2025/en/teams/fiji",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289321?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:23+00:00",
+        "sha256": "3060be64db65356378e056c0c6da55b5b9e7ebb22289476233af16c1f3dc8c05"
+      }
+    },
+    "rugby/289320": {
+      "name": "South Africa Women",
+      "country_code": "ZA",
+      "source_kind": "rugby_world_cup",
+      "source_url": "https://www.rugbyworldcup.com/2025/en/teams",
+      "checked_date": "2026-11-01",
+      "source_sha256": "0a93c330d5cfeb6c2d2bc36bb98a4d538aeeac9f0ec3508362196d2f038142a8",
+      "proof_locator": "Women's Rugby World Cup, Qualified Teams: https://www.rugbyworldcup.com/2025/en/teams/south-africa",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289320?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:24+00:00",
+        "sha256": "be41d7849505816fe2623d299a23d960012b6840663243322b69e69044d45da2"
+      }
+    },
+    "rugby/289556": {
+      "name": "Brazil Women",
+      "country_code": "BR",
+      "source_kind": "rugby_world_cup",
+      "source_url": "https://www.rugbyworldcup.com/2025/en/teams",
+      "checked_date": "2026-11-01",
+      "source_sha256": "0a93c330d5cfeb6c2d2bc36bb98a4d538aeeac9f0ec3508362196d2f038142a8",
+      "proof_locator": "Women's Rugby World Cup, Qualified Teams: https://www.rugbyworldcup.com/2025/en/teams/brazil",
+      "conflicting_core_metadata": {
+        "isNational": false,
+        "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289556?lang=en&region=us",
+        "checked_at": "2026-11-01T01:24:24+00:00",
+        "sha256": "20887fafdb12287791dbbd206853792103f55bc7add309b3a962a0354f6af704"
+      }
+    }
+  },
+  "sources": [
+    {
+      "name": "World Rugby national member unions",
+      "url": "https://www.world.rugby/organisation/membership/",
+      "checked_date": "2026-11-01",
+      "sha256": "9e4dc7838dadf0e20cd9778cc01b8da15ea87ef79f56451649c491a0dda772c0",
+      "license": "Identity facts; no open data license granted",
+      "license_url": "https://www.world.rugby/terms-and-conditions",
+      "kind": "world_rugby"
+    },
+    {
+      "name": "Rugby Europe member unions",
+      "url": "https://www.rugbyeurope.eu/rugby-europe-members",
+      "checked_date": "2026-11-01",
+      "sha256": "83ebacae83b94184e16ea305a67b286c640886c6aa56cab2e8ef450597193cdf",
+      "license": "Identity facts; no open data license granted",
+      "license_url": "https://www.rugbyeurope.eu/terms-and-conditions-of-use/",
+      "kind": "rugby_europe"
+    },
+    {
+      "kind": "rugby_world_cup",
+      "name": "Women's Rugby World Cup national teams",
+      "url": "https://www.rugbyworldcup.com/2025/en/teams",
+      "checked_date": "2026-11-01",
+      "sha256": "0a93c330d5cfeb6c2d2bc36bb98a4d538aeeac9f0ec3508362196d2f038142a8",
+      "license": "Identity facts; no open data license granted",
+      "license_url": "https://www.rugbyworldcup.com/en/terms-and-conditions"
+    }
+  ]
+}

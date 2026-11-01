@@ -14,6 +14,11 @@ const aliases = new Map([...countries.values()].map((country) => [normalize(coun
 // National subdivisions use explicit codes; country-name aliases remain ISO countries.
 countries.set("GB-ENG", { code: "GB-ENG", name: "England", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}" });
 countries.set("GB-SCT", { code: "GB-SCT", name: "Scotland", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}" });
+countries.set("GB-WLS", { code: "GB-WLS", name: "Wales", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}" });
+// Northern Ireland has a national identity but no standard native emoji flag.
+countries.set("GB-NIR", { code: "GB-NIR", name: "Northern Ireland", flag: "" });
+// Unicode CLDR's explicit Kosovo territory code (not an ISO 3166-1 assignment).
+countries.set("XK", { code: "XK", name: "Kosovo", flag: "🇽🇰" });
 for (const [alias, code] of Object.entries({
   USA: "US", "United States of America": "US", UK: "GB", "Great Britain": "GB",
   "United Kingdom": "GB", Türkiye: "TR", Turkey: "TR", "Republic of Korea": "KR",
@@ -39,6 +44,6 @@ export function commonHostCountry(events: Pick<EventCard, "country" | "source">[
 export function nationalTeamCountries(participants: ApiParticipant[]) {
   return participants.flatMap((participant) => {
     const country = participant.entity_type === "national_team" ? countryIdentity(participant.country_code) : undefined;
-    return country ? [{ participant, country }] : [];
+    return country?.flag ? [{ participant, country }] : [];
   });
 }

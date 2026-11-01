@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from typing import Any
 
+from kickoff.countries import ISO_CODES
 from kickoff.dataset import load_events_from_json
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events
 from kickoff.settings import Settings
 
 SCHEMA_VERSION = "1"
+NATIONAL_COUNTRY_CODES = ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "XK"}
 
 
 def _participant_payload(participant: Participant | None) -> dict[str, Any] | None:
@@ -28,10 +29,17 @@ def _participant_payload(participant: Participant | None) -> dict[str, Any] | No
             if getattr(participant, key) is not None
         },
         **(
-            {"country_code": participant.metadata["country_code"]}
+            {
+                "country_code": participant.metadata["country_code"],
+                **{
+                    key: participant.metadata[key]
+                    for key in ("country_source_url", "country_checked_date", "country_source_kind")
+                    if key in participant.metadata
+                },
+            }
             if participant.entity_type == "national_team"
             and isinstance(participant.metadata.get("country_code"), str)
-            and re.fullmatch(r"[A-Z]{2}|GB-(?:ENG|SCT)", participant.metadata["country_code"])
+            and participant.metadata["country_code"] in NATIONAL_COUNTRY_CODES
             else {}
         ),
     }

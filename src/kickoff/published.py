@@ -64,6 +64,12 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
         for sport, events in sorted(groups.items()):
             name = f"{year}-{sport}.json"
             kinds = {event["source"] for event in events} | {event.get("start_time_source") for event in events}
+            kinds.update(
+                p["country_source_kind"]
+                for event in events
+                for p in event["participants"]
+                if p.get("country_source_kind")
+            )
             if any(
                 p.get("team_source_url", "").startswith(
                     ("https://www.espn.com/", "https://site.api.espn.com/", "https://site.web.api.espn.com/")

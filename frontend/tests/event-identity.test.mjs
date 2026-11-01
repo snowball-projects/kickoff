@@ -54,6 +54,16 @@ test("World Cup national flags and verified host countries keep their identities
   assert.equal(hostCountry({ source: "openfootball", country: "Mexico" }), undefined);
 });
 
+test("Wales and Kosovo have native national flags; Northern Ireland has identity without a substitute", () => {
+  assert.equal(countryIdentity("GB-WLS").name, "Wales");
+  assert.equal(countryIdentity("GB-WLS").flag, "\u{1F3F4}\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}");
+  assert.deepEqual(countryIdentity("GB-NIR"), { code: "GB-NIR", name: "Northern Ireland", flag: "" });
+  assert.equal(countryIdentity("XK").flag, "🇽🇰");
+  assert.deepEqual(nationalTeamCountries([{ name: "Northern Ireland", country_code: "GB-NIR", entity_type: "national_team" }]), []);
+  for (const country_code of ["ZZ", "GB-ABC", "Wales"])
+    assert.deepEqual(nationalTeamCountries([{ name: "Wales", country_code, entity_type: "national_team" }]), []);
+});
+
 
 test("league jurisdictions are not presented as verified event hosts", () => {
   assert.equal(hostCountry({ source: "openfootball", country: "France" }), undefined);

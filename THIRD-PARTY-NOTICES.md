@@ -61,6 +61,18 @@ ESPN: positions, player names, total and round scores, tee times and holes
 completed. MMA popups request fighter names, records, weight classes, bout start
 times and completed results from ESPN. These live facts carry ESPN's terms,
 not MIT or a new open-data license.
+Reviewed national-team identities use ESPN Core team metadata and official
+World Rugby member unions, Rugby Europe members and Women's Rugby World Cup
+qualified teams. Each identity retains its source URL and checked date.
+These official identity facts grant no open data license; schedule facts remain
+ESPN's. Conflicting ESPN non-national metadata is retained in the reviewed map.
+https://www.world.rugby/organisation/membership/
+https://www.rugbyeurope.eu/rugby-europe-members
+https://www.rugbyworldcup.com/2025/en/teams
+Country-code encoding uses Unicode CLDR and the UN M49 ISO code table. XK is
+CLDR's Kosovo exception; GB-ENG, GB-SCT, GB-WLS and GB-NIR identify national
+subdivisions separately from venue countries. Northern Ireland has no standard
+native emoji flag, so no substitute flag is displayed.
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
 its data is republished.
 

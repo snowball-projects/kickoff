@@ -102,6 +102,33 @@ def test_rugby_final_scores_are_published_but_tbd_clocks_keep_the_source_date(ca
     assert all(participant.final_score is None for participant in top14.participants)
 
 
+def test_rugby_undecided_opponents_use_shared_appointments_without_losing_known_facts(calendars, monkeypatch):
+    row = copy.deepcopy(calendars["feeds"]["rugby/164205/2027"]["events"][0])
+    competition = row["competitions"][0]
+    unknown = next(team for team in competition["competitors"] if team["homeAway"] == "away")
+    unknown["team"]["displayName"] = " TBD "
+    row["name"] = "Australia vs TBD"
+    competition["notes"] = [{"type": "event", "headline": "Quarterfinal"}]
+    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [row]})
+    (partial,) = feeds.FEEDS["RUGBY_WORLD_CUP"][1](2027)
+    assert partial.title == "Quarterfinal · Australia"
+    assert partial.round_or_stage == "Quarterfinal"
+    assert partial.home_participant.name == "Australia" and partial.away_participant is None
+    assert len(partial.participants) == 1
+    assert partial.calendar_date == "2027-10-01" and partial.start_time_utc == "2027-10-01T10:45:00Z"
+    assert partial.source_url == row["links"][0]["href"]
+
+    for team in competition["competitors"]:
+        team["team"]["displayName"] = "TBA"
+    row["name"] = "TBA vs TBA"
+    competition["notes"] = []
+    (appointment,) = feeds.FEEDS["RUGBY_WORLD_CUP"][1](2027)
+    assert appointment.title == "Rugby World Cup"
+    assert not appointment.participants and not appointment.home_participant and not appointment.away_participant
+    assert appointment.calendar_date == partial.calendar_date and appointment.start_time_utc == partial.start_time_utc
+    assert appointment.facts_source_url == partial.facts_source_url and appointment.facts_checked_date
+
+
 def test_new_sports_publish_with_existing_validation_and_espn_license(calendars, monkeypatch, tmp_path):
     monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
     selected = {
