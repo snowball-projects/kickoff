@@ -119,8 +119,11 @@ def test_duplicate_or_unreviewed_soccer_identity_does_not_choose_a_clock(monkeyp
         assert event.to_dict() == before
 
 
-def test_existing_clocks_and_multiday_tournaments_do_not_fetch(monkeypatch):
+def test_complete_team_facts_and_multiday_tournaments_do_not_fetch(monkeypatch):
     timed = football(clock="19:00")
+    for participant in [timed.home_participant, timed.away_participant, *timed.participants]:
+        participant.short_name = participant.name
+        participant.record = "0-0-0"
     span = football()
     span.end_calendar_date = "2026-10-29"
     span.event_id += "-span"
@@ -260,7 +263,7 @@ def test_doubleheader_matches_primary_game_number_not_first_matching_pair(monkey
     calls = answer(monkeypatch, rows)
     fill_missing_start_times([event], 2026)
     assert event.event_id == "mlb-mlb-824460" and event.start_time_utc == "2026-04-05T20:30:00Z"
-    assert "dates=20260405&" in calls[0]
+    assert "dates=202604&" in calls[0]
     assert event.start_time_source_url.endswith("game-2")
     assert event.source_url == "https://www.mlb.com/gameday/824460"
     # An unnumbered doubleheader is ambiguous, even if both clocks are valid.
