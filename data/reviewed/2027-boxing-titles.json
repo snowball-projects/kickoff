@@ -51,7 +51,7 @@
       "start_date": "2027-01-09",
       "end_date": "2027-01-09",
       "event_type": "bout",
-      "venue": null,
+      "venue": "Coliseo de Puerto Rico",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -80,7 +80,7 @@
       "country": "PR",
       "country_source_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
       "country_checked_date": "2026-10-31",
-      "city": "Coliseo de Puerto Rico, San Juan",
+      "city": "San Juan",
       "location_evidence": "Coliseo de Puerto Rico, San Juan, Puerto Rico"
     },
     {
@@ -97,7 +97,7 @@
       "start_date": "2027-01-23",
       "end_date": "2027-01-23",
       "event_type": "bout",
-      "venue": null,
+      "venue": "Forum Horsens",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -116,8 +116,28 @@
       "country": "DK",
       "country_source_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
       "country_checked_date": "2026-10-31",
-      "city": "Forum Horsens, Horsens",
-      "location_evidence": "Forum Horsens, Horsens, Denmark"
+      "city": "Horsens",
+      "location_evidence": {
+        "text": "Forum Horsens, Horsens, Denmark",
+        "sources": [
+          {
+            "url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
+            "checked_date": "2026-10-31",
+            "fields": [
+              "city",
+              "country"
+            ]
+          },
+          {
+            "url": "https://shop.primetimeboxing.dk/arrangementer/vol11_thetakeover",
+            "checked_date": "2026-11-01",
+            "sha256": "84d2a15a0b0da91d06d6b2ca456b7cdf2a8061e5a6abda7639721c5c3ac56d3b",
+            "fields": [
+              "venue"
+            ]
+          }
+        ]
+      }
     }
   ],
   "exclusions": [

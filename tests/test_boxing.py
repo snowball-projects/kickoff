@@ -155,3 +155,42 @@ def test_classification_uses_belt_status_on_bout_date_and_does_not_infer_other_b
     future = registry(2027)["events"]
     assert {r["start_date"] for r in future} == {"2027-01-09", "2027-01-23"}
     assert not any("Garner" in r["title"] or "Inoue" in r["title"] for r in future)
+
+
+@pytest.mark.parametrize(
+    "year,identity,venue,city",
+    [
+        (2026, "chaimabounouar-sarahbormann", "Messe Karlsruhe", "Karlsruhe"),
+        (2026, "anthonyolascuaga-yuberjenmartinez", "Dignity Health Sports Park", "Carson"),
+        (2026, "jassielamador-kenshiroteraji", "Ryogoku Kokugikan", None),
+        (2026, "davidbenavidez-michalcieslak", "Desert Diamond Arena", "Glendale"),
+        (2026, "callumsmith-dmitrybivol", "UMMC Arena", "Yekaterinburg"),
+        (2026, "anthonycacace-nickball", "The O2 Belfast", "Belfast"),
+        (2027, "amandaserrano-skyefalzon", "Coliseo de Puerto Rico", "San Juan"),
+        (2027, "jacobbank-janibekalimkhanuly", "Forum Horsens", "Horsens"),
+        (2026, "elifnurturhan-gabriellatellez", None, None),
+    ],
+)
+def test_reviewed_locations_export_source_known_venues_and_cities_without_guessing(year, identity, venue, city):
+    events, _ = reviewed_events(registry(year), year)
+    row = next(e for e in events if identity in e.event_id)
+    assert (row.venue, row.city) == (venue, city)
+    assert row.facts_checked_date == "2026-10-31"
+    if identity in {"jassielamador-kenshiroteraji", "anthonycacace-nickball", "elifnurturhan-gabriellatellez"}:
+        assert row.country is None
+
+
+def test_supplemental_venue_evidence_keeps_its_actual_source_and_check_date():
+    bivol = next(r for r in registry()["events"] if "callumsmith-dmitrybivol" in r["id"])
+    bank = next(r for r in registry(2027)["events"] if "jacobbank-janibek" in r["id"])
+    bivol_venue = next(s for s in bivol["location_evidence"]["sources"] if s["fields"] == ["venue"])
+    bank_venue = next(s for s in bank["location_evidence"]["sources"] if s["fields"] == ["venue"])
+    assert (bivol_venue["url"], bivol_venue["checked_date"]) == ("https://wboboxing.com/", "2026-10-31")
+    assert (bank_venue["url"], bank_venue["checked_date"]) == (
+        "https://shop.primetimeboxing.dk/arrangementer/vol11_thetakeover",
+        "2026-11-01",
+    )
+    assert len(bivol_venue["sha256"]) == len(bank_venue["sha256"]) == 64
+    assert bivol["checked_date"] == bank["checked_date"] == "2026-10-31"
+    arizona = next(r for r in registry()["events"] if "elifnurturhan-gabriellatellez" in r["id"])
+    assert arizona["location_evidence"] == "Arizona" and arizona["city"] is None

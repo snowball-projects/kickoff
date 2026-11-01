@@ -3496,7 +3496,7 @@
           "evidence": "Full IBF Female Lightweight (135 LBS) (135 LBS) Optional Defense. No world title interim, eliminator or regional qualifier applies."
         }
       ],
-      "city": "Arizona",
+      "city": null,
       "location_evidence": "Arizona"
     },
     {
@@ -4934,7 +4934,7 @@
       "start_date": "2026-10-31",
       "end_date": "2026-10-31",
       "event_type": "bout",
-      "venue": null,
+      "venue": "Messe Karlsruhe",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -4962,7 +4962,7 @@
       "country": "DE",
       "country_source_url": "https://fispo-karlsruhe.de/boxnight/boxer/sarah-bormann",
       "country_checked_date": "2026-10-31",
-      "city": "Messe Karlsruhe, Karlsruhe",
+      "city": "Karlsruhe",
       "location_evidence": "Messe Karlsruhe, Karlsruhe, Germany"
     },
     {
@@ -5311,7 +5311,7 @@
       "start_date": "2026-11-14",
       "end_date": "2026-11-14",
       "event_type": "bout",
-      "venue": null,
+      "venue": "Dignity Health Sports Park",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -5322,7 +5322,7 @@
           "evidence": "The promoter announces a WBO world flyweight defense with the exact opponent, date and venue."
         }
       ],
-      "city": "Dignity Health Sports Park, Carson, California",
+      "city": "Carson",
       "location_evidence": "Dignity Health Sports Park, Carson, California"
     },
     {
@@ -5562,7 +5562,7 @@
       "start_date": "2026-11-29",
       "end_date": "2026-11-29",
       "event_type": "bout",
-      "venue": null,
+      "venue": "Ryogoku Kokugikan",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -5578,7 +5578,7 @@
           ]
         }
       ],
-      "city": "Ryogoku Kokugikan",
+      "city": null,
       "location_evidence": "Ryogoku Kokugikan"
     },
     {
@@ -5595,7 +5595,7 @@
       "start_date": "2026-12-05",
       "end_date": "2026-12-05",
       "event_type": "bout",
-      "venue": null,
+      "venue": "Desert Diamond Arena",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -5636,7 +5636,7 @@
       "country": "US",
       "country_source_url": "https://www.premierboxingchampions.com/events/391735",
       "country_checked_date": "2026-10-31",
-      "city": "Desert Diamond Arena, Glendale, Arizona",
+      "city": "Glendale",
       "location_evidence": "Desert Diamond Arena, Glendale, Arizona, U.S."
     },
     {
@@ -5694,7 +5694,7 @@
       "start_date": "2026-12-12",
       "end_date": "2026-12-12",
       "event_type": "bout",
-      "venue": null,
+      "venue": "UMMC Arena",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -5737,8 +5737,28 @@
       "country": "Russia",
       "country_source_url": "https://www.badlefthook.com/boxing-news/119478/dmitry-bivol-vs-callum-smith-fight-official-date-and-location-set-boxing-news-2026",
       "country_checked_date": "2026-10-31",
-      "city": "UMMC Arena, Yekaterinburg, Russia",
-      "location_evidence": "UMMC Arena, Yekaterinburg, Russia"
+      "city": "Yekaterinburg",
+      "location_evidence": {
+        "text": "UMMC Arena, Yekaterinburg, Russia",
+        "sources": [
+          {
+            "url": "https://www.badlefthook.com/boxing-news/119478/dmitry-bivol-vs-callum-smith-fight-official-date-and-location-set-boxing-news-2026",
+            "checked_date": "2026-10-31",
+            "fields": [
+              "city",
+              "country"
+            ]
+          },
+          {
+            "url": "https://wboboxing.com/",
+            "checked_date": "2026-10-31",
+            "sha256": "7fb12b0de8ea7e895462dbcb95524d5b2ba7b215ad8b379eb5cf466c29b986d3",
+            "fields": [
+              "venue"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "boxing-2026-anthonycacace-nickball-1",
@@ -5754,7 +5774,7 @@
       "start_date": "2026-12-19",
       "end_date": "2026-12-19",
       "event_type": "bout",
-      "venue": null,
+      "venue": "The O2 Belfast",
       "checked_date": "2026-10-31",
       "titles": [
         {
@@ -5769,7 +5789,7 @@
           ]
         }
       ],
-      "city": "The O2 Belfast",
+      "city": "Belfast",
       "location_evidence": "The O2 Belfast"
     }
   ],
