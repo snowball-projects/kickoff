@@ -92,7 +92,9 @@
       "checked_date": "2026-10-31",
       "sha256": "b0d002de4735c87137e9fdd27d8a14e397a981b06822b30b6eb3652b5e1ea78c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382870338&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
-      "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0."
+      "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0.",
+      "clock_timezone": "America/Sao_Paulo",
+      "clock_evidence": "The schedule states all times are BRT (UTC−3); the final Football box explicitly lists 16:00 on 25 July 2027. All other fixture clocks are blank."
     }
   ],
   "events": [
@@ -3540,7 +3542,9 @@
       "country_source_url": "https://en.wikipedia.org/w/index.php?title=2027_FIFA_Women%27s_World_Cup&oldid=1382870338",
       "country_checked_date": "2026-10-31",
       "competition_phase": "final",
-      "notes": "Published slot date and venue; team assignments and kickoff clocks remain blank where the pinned schedule does not supply them."
+      "notes": "Published slot date and venue; team assignments and kickoff clocks remain blank where the pinned schedule does not supply them.",
+      "local_time": "16:00",
+      "event_timezone": "America/Sao_Paulo"
     }
   ],
   "exclusions": [

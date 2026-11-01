@@ -62,6 +62,9 @@ def test_only_source_explicit_wikipedia_clocks_become_instants():
     future, _ = reviewed_events(registry(2027), 2027)
     ipl = [event for event in current if event.league == "IPL"]
     cricket = [event for event in future if event.league == "CRICKET_WORLD_CUP"]
+    women_final = next(
+        event for event in future if event.league == "FIFA_WOMENS_WORLD_CUP" and event.round_or_stage == "Final"
+    )
     assert len(ipl) == 74 and all(event.timezone == "Asia/Kolkata" for event in ipl)
     assert ipl[0].start_time_utc == "2026-03-28T14:00:00Z"
     assert {p.name for p in ipl[0].participants} == {"Sunrisers Hyderabad", "Royal Challengers Bengaluru"}
@@ -69,10 +72,16 @@ def test_only_source_explicit_wikipedia_clocks_become_instants():
     assert cricket[0].start_time_utc == "2027-10-02T08:00:00Z"
     assert all(
         event.start_time_source == "wikipedia" and event.start_time_source_url == event.source_url
-        for event in ipl + cricket
+        for event in ipl + cricket + [women_final]
     )
+    assert women_final.timezone == "America/Sao_Paulo"
+    assert women_final.start_time_utc == "2027-07-25T19:00:00Z"
+    assert women_final.facts_checked_date == "2026-10-31"
+    assert sum(event.start_time_utc is not None for event in current + future) == 132
     assert all(
-        event.start_time_utc is None for event in current + future if event.league not in {"IPL", "CRICKET_WORLD_CUP"}
+        event.start_time_utc is None
+        for event in current + future
+        if event.league not in {"IPL", "CRICKET_WORLD_CUP"} and event != women_final
     )
 
 
@@ -127,7 +136,9 @@ def test_world_cup_slots_do_not_invent_team_assignments_or_kickoff_times():
     women = [event for event in events if event.league == "FIFA_WOMENS_WORLD_CUP"]
     assert len(women) == 64
     assert Counter(event.round_or_stage for event in women)["Group A"] == 6
-    assert all(not event.participants and event.start_time_utc is None for event in women)
+    assert all(not event.participants for event in women)
+    assert all(event.start_time_utc is None for event in women if event.round_or_stage != "Final")
+    assert next(event for event in women if event.round_or_stage == "Final").start_time_utc == "2027-07-25T19:00:00Z"
     assert all("TBA" not in event.title and "Winner" not in event.title for event in women)
     assert {event.country for event in women} == {"BR"}
     # Only calendar spans are published for these 2027 competitions.
