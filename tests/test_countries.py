@@ -115,7 +115,7 @@ def test_new_explicit_country_names_do_not_abort_publication(monkeypatch, tmp_pa
 
 def test_reviewed_countries_retain_pinned_sources_and_leave_unstated_locations_empty():
     events, sources, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
-    scoped = [event for event in events if event.league in {"UFC", "PFL", "ONE", "RIZIN"}]
+    scoped = [event for event in events if event.league in COUNTRY_LEAGUES - {"BOXING_MAJOR", "ZUFFA_BOXING"}]
     known = [event for event in scoped if event.country]
     assert Counter(event.league for event in known) == {
         "UFC": 42,

@@ -242,7 +242,9 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             home = Participant(name=row["home_team"], role="home")
             away = Participant(name=row["away_team"], role="away")
         participants = [away, home] if home and away else [Participant(name=name) for name in row.get("teams", [])]
-        checked = row.get("checked_date") if source["kind"] == "wikipedia" else None
+        checked = (
+            row.get("checked_date") if source["kind"] == "wikipedia" or source["kind"].startswith("boxing_") else None
+        )
         events.append(
             CalendarEvent(
                 event_id=row["id"],

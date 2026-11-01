@@ -95,6 +95,11 @@ def test_publication_retains_boxing_sources_and_does_not_relicense_wikipedia(mon
     assert bundle["data_licenses"]["boxing_ibf"] == BOXING_LICENSE
     assert bundle["data_licenses"]["wikipedia"] == "CC BY-SA 4.0"
     assert any(source["kind"].startswith("boxing_") for source in bundle["sources"])
+    for kind in ["boxing_ibf", "wikipedia"]:
+        published = [row for row in events if row["source"] == kind]
+        assert published
+        assert all(row["facts_source_url"] == row["source_url"] for row in published)
+        assert all(row["facts_checked_date"] == "2026-10-31" for row in published)
     assert all(row["source_url"] and row["facts_checked_date"] == "2026-10-31" for row in events)
     for component in bundle["components"]:
         adapted = json.loads((tmp_path / component["path"]).read_text())
