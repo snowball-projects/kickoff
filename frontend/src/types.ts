@@ -82,6 +82,7 @@ export type ProviderSummary = {
 };
 
 export type SourceNotice = {
+  publisher?: string;
   kind: string;
   name: string;
   url: string;

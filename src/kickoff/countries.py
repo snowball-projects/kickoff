@@ -11,6 +11,7 @@ COUNTRY_LEAGUES = {
     "ONE",
     "RIZIN",
     "BOXING_MAJOR",
+    "ZUFFA_BOXING",
     "PGA_TOUR",
     "LPGA_TOUR",
     "UEFA_CHAMPIONS_LEAGUE",

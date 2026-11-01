@@ -14,7 +14,7 @@ from urllib.request import Request, urlopen
 from kickoff import feeds as league_feeds
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
-from kickoff.reviewed_schedules import CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
+from kickoff.reviewed_schedules import BOXING_LICENSE, CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
 from kickoff.start_times import fill_missing_start_times
 from kickoff.timeutils import get_zoneinfo, isoformat_z
@@ -111,7 +111,8 @@ REVIEWED_LABELS = {
     "PFL": "PFL global cards",
     "RIZIN": "RIZIN cards",
     "ONE": "ONE Fight Night/Samurai cards",
-    "BOXING_MAJOR": "selected boxing unification",
+    "BOXING_MAJOR": "reviewed full world title boxing bouts",
+    "ZUFFA_BOXING": "Zuffa Boxing cards",
     "NFL": "selected NFL opener, international and holiday games (not the full schedule)",
 }
 FEED_LABELS = {
@@ -566,12 +567,13 @@ def refresh_open_schedules(
         "wikipedia": "CC BY-SA 4.0",
         **({"world_climbing": CLIMBING_LICENSE} if any(s["kind"] == "world_climbing" for s in notices) else {}),
         **({"weightlifting": WEIGHTLIFTING_LICENSE} if any(s["kind"] == "weightlifting" for s in notices) else {}),
+        **{s["kind"]: BOXING_LICENSE for s in notices if s["kind"].startswith("boxing_")},
         **{kind: league_feeds.SOURCES[kind]["license"] for kind in feed_kinds},
         **{source["kind"]: source["license"] for source in national_sources},
     }
     bundle["data_license_notice"] = (
         "Software is MIT. Schedule data retains the per-source licenses listed here. "
-        "League feed and ESPN schedule facts are attributed to their sources, which grant no data license; "
+        "League feed, reviewed boxing and ESPN schedule facts are attributed to their sources, which grant no data license; "
         "league and team names belong to their owners and kickoff is not affiliated with any league. "
         "Wikipedia-derived adaptations are shared under CC BY-SA 4.0, including in this collection. "
         "Source links identify the contributors and pinned revisions; changes are described in sources. "

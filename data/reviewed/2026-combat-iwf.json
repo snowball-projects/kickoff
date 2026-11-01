@@ -58,18 +58,6 @@
       "country_input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1374372383&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json"
     },
     {
-      "id": "wikipedia-navarrete",
-      "name": "Wikipedia contributors: Emanuel Navarrete",
-      "url": "https://en.wikipedia.org/w/index.php?title=Emanuel_Navarrete&oldid=1373169260",
-      "revision": "1373169260",
-      "license": "CC BY-SA 4.0",
-      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "retrieved_at": "2026-09-11T18:04:20.450466Z",
-      "sha256": "0d2376a9110920eda3e586291fac7e0019e8d0490ab11ba4134847f3ce9373bd",
-      "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1373169260&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
-      "changes": "Selected event names and calendar dates; removed markup, references, results and media; assigned stable IDs and sport/league labels. Dates are date-only, with no clock or duration inferred. Adapted schedule content remains CC BY-SA 4.0."
-    },
-    {
       "id": "wikipedia-pfl-chicago",
       "name": "Wikipedia contributors: PFL Chicago: Carmouche vs. Bishop 2",
       "url": "https://en.wikipedia.org/w/index.php?title=PFL_Chicago%3A_Carmouche_vs._Bishop_2&oldid=1374088812",
@@ -1037,18 +1025,6 @@
       "country_checked_date": "2026-10-29"
     },
     {
-      "id": "boxing-navarrete-foster-1",
-      "sport": "boxing",
-      "league": "BOXING_MAJOR",
-      "title": "Emanuel Navarrete vs. O'Shaquie Foster",
-      "source_id": "wikipedia-navarrete",
-      "start_date": "2026-10-24",
-      "end_date": "2026-10-24",
-      "event_type": "tournament",
-      "venue": "Frost Bank Center, San Antonio",
-      "notes": "Qualifying bout: reigning IBF and WBO super featherweight champion Emanuel Navarrete vs. reigning WBC champion O'Shaquie Foster, for those three full titles. The Ring title is additional and is not counted. Reviewed September 11, 2026; title status requires review near fight week."
-    },
-    {
       "id": "ufc-333",
       "sport": "mma",
       "league": "UFC",
@@ -1225,11 +1201,6 @@
       "league": "IWF_WORLDS",
       "event": "Other IWF meets and all individual lifting sessions",
       "reason": "Only the senior Worlds item has a reviewed reusable date span here. No session clock, timezone, venue or day-by-day lifting schedule is inferred."
-    },
-    {
-      "league": "BOXING_MAJOR",
-      "event": "All other boxing cards",
-      "reason": "This initial registry contains the one reviewed qualifying upcoming bout. It is not a complete 2026 boxing calendar. Single-title cards, two-belt unifications, and defenses of three belts are outside the rule unless all four full titles are contested; no owner exceptions selected."
     }
   ]
 }
