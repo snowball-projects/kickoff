@@ -162,7 +162,7 @@ def test_classification_uses_belt_status_on_bout_date_and_does_not_infer_other_b
     [
         (2026, "chaimabounouar-sarahbormann", "Messe Karlsruhe", "Karlsruhe"),
         (2026, "anthonyolascuaga-yuberjenmartinez", "Dignity Health Sports Park", "Carson"),
-        (2026, "jassielamador-kenshiroteraji", "Ryogoku Kokugikan", None),
+        (2026, "jassielamador-kenshiroteraji", "Ryogoku Kokugikan", "Tokyo"),
         (2026, "davidbenavidez-michalcieslak", "Desert Diamond Arena", "Glendale"),
         (2026, "callumsmith-dmitrybivol", "UMMC Arena", "Yekaterinburg"),
         (2026, "anthonycacace-nickball", "The O2 Belfast", "Belfast"),
@@ -194,3 +194,31 @@ def test_supplemental_venue_evidence_keeps_its_actual_source_and_check_date():
     assert bivol["checked_date"] == bank["checked_date"] == "2026-10-31"
     arizona = next(r for r in registry()["events"] if "elifnurturhan-gabriellatellez" in r["id"])
     assert arizona["location_evidence"] == "Arizona" and arizona["city"] is None
+
+
+def test_boxing_country_retains_its_separately_reviewed_body_source(monkeypatch, tmp_path):
+    events, _ = reviewed_events(registry(), 2026)
+    row = next(e for e in events if "chaimabounouar-sarahbormann" in e.event_id)
+    assert row.country == "DE"
+    assert row.country_source_url == "https://wboboxing.com/"
+    assert row.country_checked_date == "2026-10-31"
+    assert row.source_url == "https://fispo-karlsruhe.de/boxnight/boxer/sarah-bormann"
+    monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
+    path = refresh_open_schedules(2026, tmp_path, ROOT / "data/reviewed", feeds={})
+    published = next(r for r in json.loads(path.read_text())["events"] if r["event_id"] == row.event_id)
+    assert published["country_source_url"] == "https://wboboxing.com/"
+    assert published["country_checked_date"] == "2026-10-31"
+
+
+@pytest.mark.parametrize("mutation", ["missing", "wrong_url", "wrong_date"])
+def test_separate_country_proof_must_match_the_reviewed_url_and_check_date(mutation):
+    payload = registry()
+    row = next(r for r in payload["events"] if "chaimabounouar-sarahbormann" in r["id"])
+    if mutation == "missing":
+        row["location_evidence"]["sources"] = []
+    elif mutation == "wrong_url":
+        row["country_source_url"] = "https://wbcboxing.com/"
+    else:
+        row["location_evidence"]["sources"][1]["checked_date"] = "2026-11-01"
+    with pytest.raises(ValueError, match="Venue country needs its reviewed source link"):
+        reviewed_events(payload, 2026)

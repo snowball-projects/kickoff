@@ -4960,10 +4960,30 @@
         }
       ],
       "country": "DE",
-      "country_source_url": "https://fispo-karlsruhe.de/boxnight/boxer/sarah-bormann",
+      "country_source_url": "https://wboboxing.com/",
       "country_checked_date": "2026-10-31",
       "city": "Karlsruhe",
-      "location_evidence": "Messe Karlsruhe, Karlsruhe, Germany"
+      "location_evidence": {
+        "text": "Messe Karlsruhe, Karlsruhe, Germany",
+        "sources": [
+          {
+            "url": "https://fispo-karlsruhe.de/boxnight/boxer/sarah-bormann",
+            "checked_date": "2026-10-31",
+            "fields": [
+              "venue",
+              "city"
+            ]
+          },
+          {
+            "url": "https://wboboxing.com/",
+            "checked_date": "2026-10-31",
+            "sha256": "7fb12b0de8ea7e895462dbcb95524d5b2ba7b215ad8b379eb5cf466c29b986d3",
+            "fields": [
+              "country"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "boxing-2026-christianmbilli-saulalvarez-1",
@@ -5578,7 +5598,7 @@
           ]
         }
       ],
-      "city": null,
+      "city": "Tokyo",
       "location_evidence": "Ryogoku Kokugikan"
     },
     {

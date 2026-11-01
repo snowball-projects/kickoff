@@ -231,9 +231,20 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
         if row["league"] in COUNTRY_LEAGUES:
             country = venue_country(country)
             if country:
-                if row.get("country_source_url") != source["url"]:
-                    raise ValueError("Venue country needs its reviewed source link")
-                country_source_url = source["url"]
+                country_source_url = row.get("country_source_url")
+                if country_source_url != source["url"]:
+                    location = row.get("location_evidence")
+                    proofs = location.get("sources", []) if isinstance(location, dict) else []
+                    if row["league"] != "BOXING_MAJOR" or not any(
+                        proof.get("url") == country_source_url
+                        and "country" in proof.get("fields", [])
+                        and proof.get("checked_date") == row.get("country_checked_date")
+                        and urlparse(proof["url"]).scheme == "https"
+                        and urlparse(proof["url"]).netloc in BOXING_HOSTS
+                        and re.fullmatch(r"[a-f0-9]{64}", proof.get("sha256", ""))
+                        for proof in proofs
+                    ):
+                        raise ValueError("Venue country needs its reviewed source link")
                 country_checked_date = date.fromisoformat(row["country_checked_date"]).isoformat()
         home, away = None, None
         if row["event_type"] == "game":
