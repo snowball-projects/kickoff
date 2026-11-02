@@ -22,7 +22,7 @@ test("empty first visit fetches only metadata; staged choices download only afte
   expect(requests).toEqual(["manifest.json"]);
   await save(page).click();
   await expect(page.locator("#day-2026-10-28 .event-pill")).toHaveText("NFL");
-  expect([...requests].sort()).toEqual(["manifest.json", ...[2025, 2026, 2027].map((year) => `${year}-football.json`)].sort());
+  expect([...requests].sort()).toEqual(["manifest.json", ...[2025, 2026, 2027].map((year) => `${year}-football-nfl.json`)].sort());
 
   await openInterests(page);
   await sport(page, "Soccer").click();
@@ -52,7 +52,7 @@ test("all selected sports retain every event while downloading each published fi
   for (const id of ["NFL 2026", "Soccer 2026", "Basketball fixture", "Golf fixture"])
     await expect(page.locator(`[id="agenda-2026-10-28-${id}"]`)).toBeVisible();
   expect([...requests].sort()).toEqual(["manifest.json", "2026-basketball.json", "2026-golf.json",
-    ...[2025, 2026, 2027].flatMap((year) => [`${year}-football.json`, `${year}-soccer.json`])].sort());
+    ...[2025, 2026, 2027].flatMap((year) => [`${year}-football-nfl.json`, `${year}-soccer.json`])].sort());
   await openInterests(page);
   await expect(sport(page, "Football")).toHaveAttribute("aria-pressed", "true");
   await page.keyboard.press("Escape");
@@ -64,8 +64,8 @@ test("held sport files never block Interests and late results cannot restore a r
   const held = new Promise<void>((resolve) => { release = resolve; });
   const requests: string[] = [];
   await setup(page, catalog, { saved: { leagues: ["NFL"] }, requests,
-    holdFiles: { "2026-football.json": held }, wait: false });
-  await expect.poll(() => requests.includes("2026-football.json")).toBe(true);
+    holdFiles: { "2026-football-nfl.json": held }, wait: false });
+  await expect.poll(() => requests.includes("2026-football-nfl.json")).toBe(true);
   await openInterests(page);
   await expect(sport(page, "Football")).toBeEnabled();
   await expect(sport(page, "Soccer")).toBeEnabled();
@@ -74,7 +74,7 @@ test("held sport files never block Interests and late results cannot restore a r
   await sport(page, "Soccer").click();
   await save(page).click();
   await expect(page.locator("#day-2026-10-28 .event-pill .pill-text")).toHaveText("Premier League");
-  const settled = page.waitForResponse("**/data/2026-football.json");
+  const settled = page.waitForResponse("**/data/2026-football-nfl.json");
   release();
   await settled;
   await agendaToggle(page).click();
@@ -85,7 +85,7 @@ test("held sport files never block Interests and late results cannot restore a r
 
 test("a failed football file leaves metadata usable and switching to soccer clears the stale error", async ({ page }) => {
   const requests: string[] = [];
-  await setup(page, catalog, { saved: { leagues: ["NFL"] }, requests, failedFiles: ["2026-football.json"] });
+  await setup(page, catalog, { saved: { leagues: ["NFL"] }, requests, failedFiles: ["2026-football-nfl.json"] });
   await expect(page.locator(".calendar-status")).toContainText("could not be loaded");
   await openInterests(page);
   await expect(sport(page, "Soccer")).toBeEnabled();
@@ -96,24 +96,24 @@ test("a failed football file leaves metadata usable and switching to soccer clea
   await expect(page.locator("#day-2026-10-28 .event-pill .pill-text")).toHaveText("Premier League");
   await expect(page.locator(".calendar-status")).not.toContainText("could not be loaded");
   expect(requests.filter((file) => file === "manifest.json")).toHaveLength(1);
-  expect(requests.filter((file) => file === "2026-football.json").length).toBeGreaterThanOrEqual(1);
+  expect(requests.filter((file) => file === "2026-football-nfl.json").length).toBeGreaterThanOrEqual(1);
 });
 
 test("retry refreshes a failed sport download without fetching unselected sports", async ({ page }) => {
   const requests: string[] = [];
-  const options = { saved: { leagues: ["NFL"] }, requests, failedFiles: ["2026-football.json"] };
+  const options = { saved: { leagues: ["NFL"] }, requests, failedFiles: ["2026-football-nfl.json"] };
   await setup(page, catalog, options);
   await expect(page.locator(".calendar-status")).toContainText("could not be loaded");
   await page.clock.install({ time: new Date("2026-10-28T17:00:00Z") });
-  const failedRequests = requests.filter((file) => file === "2026-football.json").length;
+  const failedRequests = requests.filter((file) => file === "2026-football-nfl.json").length;
   await page.clock.fastForward(120_000);
-  expect(requests.filter((file) => file === "2026-football.json")).toHaveLength(failedRequests);
+  expect(requests.filter((file) => file === "2026-football-nfl.json")).toHaveLength(failedRequests);
   options.failedFiles = [];
   await page.locator(".calendar-status").getByRole("button", { name: "Retry", exact: true }).click();
   await expect(page.locator("#day-2026-10-28 .event-pill")).toHaveText("NFL");
   await expect(page.locator(".calendar-status")).not.toContainText("could not be loaded");
   expect(requests.filter((file) => file === "manifest.json")).toHaveLength(2);
-  expect(requests.filter((file) => file === "2026-football.json")).toHaveLength(failedRequests + 1);
+  expect(requests.filter((file) => file === "2026-football-nfl.json")).toHaveLength(failedRequests + 1);
   expect(requests.some((file) => file.endsWith("-soccer.json"))).toBe(false);
 });
 
@@ -138,7 +138,7 @@ test.describe("split files at year boundaries", () => {
     await page.locator('.week-strip [data-date="2027-01-03"]').click();
     await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(0);
     expect(requests.some((file) => file.endsWith("-basketball.json"))).toBe(false);
-    expect(requests).toContain("2026-football.json");
+    expect(requests).toContain("2026-football-nfl.json");
     expect(requests).toContain("2026-golf.json");
     expect(requests.some((file) => /^2027-/.test(file))).toBe(false);
   });
@@ -153,6 +153,8 @@ test.describe("published downloads without JavaScript", () => {
     await downloads.click();
     await expect(page).toHaveTitle("kickoff schedule data");
     await expect(page.getByRole("link", { name: "Manifest, sources and licenses (JSON)", exact: true })).toHaveAttribute("href", "manifest.json");
+    await expect(page.locator('li a[href="2026-football-nfl.json"]')).toHaveCount(1);
+    await expect(page.locator('li a[href="2026-football-college-football.json"]')).toHaveCount(1);
     const links = page.locator('li a[href$=".json"]');
     expect(await links.count()).toBeGreaterThan(0);
     const files = await links.evaluateAll((anchors) => anchors.map((anchor) => anchor.getAttribute("href")!));
@@ -165,3 +167,30 @@ test.describe("published downloads without JavaScript", () => {
     expect(bundle.data_license_notice).toBeTruthy();
   });
 });
+
+const footballCatalog = [2025, 2026, 2027].flatMap((year) => [
+  event(`NFL ${year}`, `${year}-10-28`, { sport: "football", league: "NFL" }),
+  event(`College ${year}`, `${year}-10-28`, { sport: "football", league: "COLLEGE_FOOTBALL" }),
+]);
+for (const selected of [["NFL"], ["COLLEGE_FOOTBALL"], ["NFL", "COLLEGE_FOOTBALL"]]) {
+  test(`first visit downloads only selected football leagues: ${selected.join(", ")}`, async ({ page }) => {
+    const requests: string[] = [];
+    await setup(page, footballCatalog, { firstVisit: true, requests });
+    await sport(page, "Football").focus();
+    await page.keyboard.press("Enter");
+    const tray = chooser(page).getByRole("region", { name: "Football interests", exact: true });
+    for (const [league, label] of [["NFL", "NFL"], ["COLLEGE_FOOTBALL", "College football"]]) {
+      if (!selected.includes(league)) {
+        await tray.getByRole("button", { name: label, exact: true }).focus();
+        await page.keyboard.press("Space");
+      }
+    }
+    expect(requests).toEqual(["manifest.json"]);
+    await save(page).click();
+    await expect(page.locator("#day-2026-10-28 .event-pill")).toHaveCount(selected.length);
+    expect([...requests].sort()).toEqual(["manifest.json", ...[2025, 2026, 2027].flatMap((year) =>
+      selected.map((league) => `${year}-football-${league.toLowerCase().replaceAll("_", "-")}.json`))].sort());
+    await agendaToggle(page).click();
+    await expect(page.locator(".agenda-row")).toHaveCount(selected.length);
+  });
+}

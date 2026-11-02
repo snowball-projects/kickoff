@@ -56,12 +56,12 @@ async function loadManifest(season: number) {
 
 async function loadEvents(season: number, filters: FilterState) {
   const manifest = await loadManifest(season);
-  const sports = new Set(manifest.leagues
+  const leagues = new Set(manifest.leagues
     .filter((league) => (!filters.followed_leagues || filters.followed_leagues.includes(league.value))
       && (!filters.league || normalized(league.value) === normalized(filters.league))
       && (!filters.sport || normalized(league.sport) === normalized(filters.sport)))
-    .map((league) => league.sport));
-  const bundles = await Promise.all(manifest.sports.filter((sport) => sports.has(sport.value)).map((sport) => {
+    .map((league) => league.value));
+  const bundles = await Promise.all(manifest.sports.filter((sport) => sport.leagues.some((league) => leagues.has(league))).map((sport) => {
     let request = sportCache.get(sport.file);
     if (!request) {
       request = readFile<SportBundle>(sport.file).catch(() => {
@@ -259,7 +259,7 @@ export async function getFilters(
   throwIfAborted(signal);
   if (filters.followed_leagues === undefined && Object.values(filters).every((value) => !value || (Array.isArray(value) && !value.length))) {
     return { season, total_events: manifest.all_events, available_seasons: manifest.available_seasons,
-      sports: manifest.sports.map(({ value, count }) => ({ value, count })), leagues: manifest.leagues };
+      sports: combineFacet(manifest.sports.map(({ value, count }) => ({ value, count }))), leagues: manifest.leagues };
   }
   const events = (await loadEvents(season, filters)).filter((event) => matchesFilters(event, filters));
   throwIfAborted(signal);
