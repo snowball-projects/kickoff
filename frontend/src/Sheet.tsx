@@ -80,9 +80,9 @@ function EventDetails({ event, date, today, timezone, active }: {
     <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}>
       <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
     </span>
-    <h3 tabIndex={-1}>{event.league === "NFL" && event.away_participant && event.home_participant ? <>
-      <NflLogo name={event.away_participant.name} league={event.league} />{event.away_participant.name}{" at "}
-      <NflLogo name={event.home_participant.name} league={event.league} />{event.home_participant.name}
+    <h3 tabIndex={-1}>{(event.league === "NFL" || event.away_participant?.logo_url || event.home_participant?.logo_url) && event.away_participant && event.home_participant ? <>
+      <NflLogo name={event.away_participant.name} league={event.league} participant={event.away_participant} />{event.away_participant.name}{" at "}
+      <NflLogo name={event.home_participant.name} league={event.league} participant={event.home_participant} />{event.home_participant.name}
     </> : event.title}<EventFlags event={event} /></h3>
     {event.subtitle && <p>{event.subtitle}</p>}
     {time && <p className="detail-time">{time}</p>}

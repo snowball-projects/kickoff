@@ -19,6 +19,9 @@ export type ApiParticipant = {
   record?: string;
   team_source_url?: string;
   final_score?: number;
+  logo_url?: string;
+  logo_source_url?: string;
+  logo_checked_date?: string;
 };
 
 export type EventCard = {

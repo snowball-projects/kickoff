@@ -51,6 +51,7 @@ export default function About({ manifest, timezone, storageNote }: {
       <h3 id="about-privacy">Privacy</h3>
       <p>{storageNote || "Interests and options stay in this browser."} No accounts, analytics, advertising or location access.</p>
       <p>Timezone stays in your browser. Past and current agenda golf sections, golf event popups and MMA event popups contact ESPN. Active golf rounds refresh while visible.
+        Source-supplied team images load from ESPN’s image CDN without a referrer.
         GitHub Pages receives hosting requests.</p>
     </section>
     <nav className="about-footer" aria-label="Project links">

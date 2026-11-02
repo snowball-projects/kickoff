@@ -46,7 +46,11 @@ NBA, MLB, NHL, UEFA Champions League, PGA Tour, LPGA Tour, DP World Tour, LIV Go
 ATP, WTA, top-level rugby union competitions, UFC, NASCAR Cup, IndyCar).
 Additional ESPN schedules: UEFA Europa League, UEFA Conference League, UEFA
 Nations League, MLS, WNBA, Division I men's and women's basketball, and FBS/FCS
-college football. College scoreboards use the explicit Division I/FBS/FCS groups
+college football. Added November 2, 2026: FA Cup, League Cup, Liga MX, Copa
+Libertadores, Copa Sudamericana, NWSL, WSL, UEFA Women's Champions League,
+NBA G League, NBL and UFL. CFL has no usable 2025–27 source events and is omitted.
+Source review, exact coverage and omissions: data/reviewed/ESPN-LEAGUES.md.
+College scoreboards use the explicit Division I/FBS/FCS groups
 and every civil date, retaining postseason, conference tournament and bowl facts;
 overlapping FBS/FCS game IDs are published once. Team records, short names and
 week/stage labels are retained only where ESPN supplies them. Each event carries
@@ -55,7 +59,13 @@ https://www.espn.com/  https://statsapi.mlb.com/  https://www.nhl.com/schedule
 These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues, team records, short names,
 round labels and confirmed final scores), attributes each event to its source
-with checked dates, and omits feed logos, odds, articles and raw payloads.
+with checked dates, and omits odds, articles and raw payloads.
+For the November 2 additions, source-supplied team-logo URLs identify teams in
+small factual schedule displays. Those images load from ESPN's existing image
+CDN without a referrer; they are not downloaded into this repository or licensed
+under MIT. Team and league owners retain their image rights; no affiliation or
+endorsement is implied. Each retained image URL has its source and checked date.
+Missing images remain text identities; club logos never establish nationality.
 Agenda golf sections and golf popups request leaderboard facts directly from
 ESPN: positions, player names, total and round scores, tee times and holes
 completed. MMA popups request fighter names, records, weight classes, bout start
@@ -113,7 +123,8 @@ sideline usage notes remain sourcing records; kickoff displays the small logos
 beside identified NFL teams: 16 CSS pixels in month matchup pairs, 18 in day
 game pills, and 28 in agenda rows and event popups.
 These assets are separate from the MIT software and schedule-data licenses.
-Other leagues use text team identities.
+Other leagues use text team identities unless a schedule supplies a reviewed
+ESPN team-logo URL as described above.
 
 React and React DOM: MIT, Meta Platforms, Inc. and affiliates.
 https://github.com/facebook/react/blob/main/LICENSE
