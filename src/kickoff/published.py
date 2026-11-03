@@ -75,6 +75,12 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
             name = f"{year}-{group}.json"
             kinds = {event["source"] for event in events} | {event.get("start_time_source") for event in events}
             kinds.update(country_source_kind(event.get("country_source_url")) for event in events)
+            identities = {event["event_id"] for event in events}
+            kinds.update(
+                receipt["kind"]
+                for receipt in bundle["input_evidence"]
+                if any(row["event_id"] in identities for row in receipt.get("countries_withheld", []))
+            )
             kinds.update(
                 p["country_source_kind"]
                 for event in events

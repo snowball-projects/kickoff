@@ -73,7 +73,12 @@ def fill_reviewed_countries(events):
         )
         reviewed = tuple(fact[key] for key in ("league", "title", "start_date", "end_date", "venue"))
         if identity != reviewed:
-            withheld[kind].append({"event_id": event.event_id, "reason": "Appointment changed since country review"})
+            withheld[kind].append(
+                {
+                    **{key: fact[key] for key in ("event_id", "source_url", "checked_date", "sha256")},
+                    "reason": "Appointment changed since country review",
+                }
+            )
             continue
         event.country = fact["country"]
         event.country_source_url = fact["source_url"]
@@ -85,4 +90,4 @@ def fill_reviewed_countries(events):
         {"kind": kind, "countries_added": added[kind], "countries_withheld": withheld[kind]}
         for kind in sorted(added.keys() | withheld.keys())
     ]
-    return evidence, [sources[kind] for kind, values in added.items() if values]
+    return evidence, [sources[receipt["kind"]] for receipt in evidence]
