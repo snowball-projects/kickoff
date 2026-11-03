@@ -58,6 +58,17 @@ const LEAGUE_META: Record<
   UEFA_CONFERENCE_LEAGUE: { shortLabel: "Conference League" },
   UEFA_NATIONS_LEAGUE: { shortLabel: "Nations League" },
   MLS: { shortLabel: "MLS" },
+  FA_CUP: { shortLabel: "FA Cup" },
+  LEAGUE_CUP: { shortLabel: "League Cup", titleNames: ["Carabao Cup"] },
+  LIGA_MX: { shortLabel: "Liga MX" },
+  COPA_LIBERTADORES: { shortLabel: "Copa Libertadores" },
+  COPA_SUDAMERICANA: { shortLabel: "Copa Sudamericana" },
+  NWSL: { shortLabel: "NWSL" },
+  WSL: { shortLabel: "WSL", titleNames: ["Women's Super League"] },
+  UEFA_WOMENS_CHAMPIONS_LEAGUE: { shortLabel: "Women's Champions League" },
+  G_LEAGUE: { shortLabel: "G League" },
+  NBL: { shortLabel: "NBL" },
+  UFL: { shortLabel: "UFL" },
   MLB: { shortLabel: "MLB" },
   NHL: { shortLabel: "NHL" },
   F1: { shortLabel: "F1" },
@@ -127,6 +138,10 @@ export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = 
   EREDIVISIE: { name: "Netherlands", flag: "🇳🇱" },
   PRIMEIRA_LIGA: { name: "Portugal", flag: "🇵🇹" },
   BRASILEIRAO: { name: "Brazil", flag: "🇧🇷" },
+  FA_CUP: { name: "England", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}" },
+  LEAGUE_CUP: { name: "England", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}" },
+  WSL: { name: "England", flag: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}" },
+  LIGA_MX: { name: "Mexico", flag: "🇲🇽" },
 };
 
 export const NO_FLAG_LEAGUES = new Set(["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "COLLEGE_FOOTBALL", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"]);
@@ -138,10 +153,10 @@ export function pillCountry(items: EventCard[]) {
 }
 
 const SPORT_GROUPS = [
-  { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "FIFA_WOMENS_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"] },
+  { name: "Soccer", leagues: [...Object.keys(SOCCER_COUNTRIES), "FIFA_WORLD_CUP", "FIFA_WOMENS_WORLD_CUP", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS", "COPA_LIBERTADORES", "COPA_SUDAMERICANA", "NWSL", "UEFA_WOMENS_CHAMPIONS_LEAGUE"] },
   { name: "Motorsports", leagues: ["F1", "NASCAR_CUP", "INDYCAR", "MOTOGP", "WEC"] },
-  { name: "Football", leagues: ["NFL", "COLLEGE_FOOTBALL"] },
-  { name: "Basketball", leagues: ["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"] },
+  { name: "Football", leagues: ["NFL", "COLLEGE_FOOTBALL", "UFL"] },
+  { name: "Basketball", leagues: ["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "G_LEAGUE", "NBL"] },
   { name: "Baseball", leagues: ["MLB"] },
   { name: "Hockey", leagues: ["NHL"] },
   { name: "Combat sports", leagues: ["UFC", "PFL", "RIZIN", "ONE", "BOXING_MAJOR", "ZUFFA_BOXING"] },
@@ -231,7 +246,7 @@ const TIERS = [
   ["NASCAR_CUP", "INDYCAR", "MOTOGP", "WEC", "TOUR_DE_FRANCE", "GIRO_D_ITALIA", "VUELTA_A_ESPANA", "IWF_WORLDS", "IFSC_WORLD_CUP"],
   ["PGA_TOUR", "LPGA_TOUR", "DP_WORLD_TOUR", "LIV_GOLF", "UCI_WORLD_TOUR", "DIAMOND_LEAGUE", "IPL", "ATP", "WTA", "SIX_NATIONS", "RUGBY_CHAMPIONSHIP",
     "NATIONS_CHAMPIONSHIP", "RUGBY_CHAMPIONS_CUP", "PREMIERSHIP_RUGBY", "UNITED_RUGBY_CHAMPIONSHIP", "TOP_14",
-    "SUPER_RUGBY_PACIFIC", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS"],
+    "SUPER_RUGBY_PACIFIC", "CHAMPIONSHIP", "EREDIVISIE", "PRIMEIRA_LIGA", "BRASILEIRAO", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "MLS", "FA_CUP", "LEAGUE_CUP", "LIGA_MX", "COPA_LIBERTADORES", "COPA_SUDAMERICANA", "NWSL", "WSL", "UEFA_WOMENS_CHAMPIONS_LEAGUE", "G_LEAGUE", "NBL", "UFL"],
   ["RUGBY_CHALLENGE_CUP", "CURRIE_CUP", "NPC", "URBA_TOP_14", "MAJOR_LEAGUE_RUGBY", "BRITISH_IRISH_LIONS", "RUGBY_TESTS"],
   ["PFL", "RIZIN", "ONE", "ZUFFA_BOXING"],
   ["IFSC_PARA_WORLD_CUP", "IFSC_PARA_WORLDS", "IFSC_YOUTH_WORLD_CHAMPIONSHIPS", "IFSC_YOUTH_WORLDS",

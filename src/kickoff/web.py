@@ -9,6 +9,7 @@ from kickoff.dataset import load_events_from_json
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events
 from kickoff.settings import Settings
+from kickoff.textutils import espn_logo_url
 
 SCHEMA_VERSION = "1"
 NATIONAL_COUNTRY_CODES = ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "XK"}
@@ -28,6 +29,19 @@ def _participant_payload(participant: Participant | None) -> dict[str, Any] | No
             for key in ("record", "team_source_url", "final_score")
             if getattr(participant, key) is not None
         },
+        **(
+            {
+                key: participant.metadata[key]
+                for key in ("logo_url", "logo_source_url", "logo_checked_date")
+                if key in participant.metadata
+            }
+            if espn_logo_url(participant.metadata.get("logo_url"))
+            and isinstance(participant.metadata.get("logo_source_url"), str)
+            and participant.metadata["logo_source_url"].startswith("https://site.api.espn.com/apis/site/v2/sports/")
+            and isinstance(participant.metadata.get("logo_checked_date"), str)
+            and participant.metadata["logo_checked_date"]
+            else {}
+        ),
         **(
             {
                 "country_code": participant.metadata["country_code"],

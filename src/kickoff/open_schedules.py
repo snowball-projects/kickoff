@@ -139,6 +139,7 @@ FEED_LABELS = {
     "NCAA_MENS_BASKETBALL": "Division I men's basketball",
     "NCAA_WOMENS_BASKETBALL": "Division I women's basketball",
     "COLLEGE_FOOTBALL": "FBS and FCS college football",
+    **{league: label for league, (_, _, _, label) in league_feeds.ADDITIONAL_TEAM_LEAGUES.items()},
 }
 
 

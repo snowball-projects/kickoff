@@ -8,7 +8,7 @@ import { EventFlags } from "./EventIdentity";
 import type { ApiParticipant, EventCard } from "./types";
 
 function Team({ team, league }: { team: ApiParticipant; league: string }) {
-  return <span className="agenda-team"><NflLogo name={team.name} league={league} />
+  return <span className="agenda-team"><NflLogo name={team.name} league={league} participant={team} />
     <span className="team-name" title={team.name}>{team.short_name || team.name}</span>
     {team.record && <span className="team-record">{team.record}</span>}
   </span>;
