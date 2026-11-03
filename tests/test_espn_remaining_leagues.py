@@ -7,7 +7,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import pytest
 
-from kickoff import feeds
+from kickoff import feeds, team_logos
 from kickoff.textutils import espn_logo_url
 from kickoff.validation import validate_batch
 from kickoff.web import _event_payload, _participant_payload
@@ -44,7 +44,7 @@ def test_source_stages_and_supplied_facts_survive_public_export(monkeypatch, cas
         original = next(c for c in row["competitions"][0]["competitors"] if c["homeAway"] == participant.role)
         assert participant.entity_type == "team"  # club logo never establishes nationality
         exported = _participant_payload(participant)
-        assert exported["logo_url"] == original["team"]["logo"]
+        assert exported["logo_url"] == espn_logo_url(original["team"]["logo"])
         assert exported["logo_checked_date"] == event.facts_checked_date
         assert exported["logo_source_url"] == event.facts_source_url
         assert "country_code" not in exported
@@ -170,56 +170,29 @@ def test_dated_g_league_bracket_slot_keeps_appointment_without_pseudo_teams(monk
 
 def test_supplied_historical_logo_guid_paths_remain_available():
     url = "https://a.espncdn.com/guid/6381f392-8ff3-3be9-af92-3beeaa1361ef/logos/default.png"
-    assert espn_logo_url(url) == url
+    assert espn_logo_url(url).startswith("https://a.espncdn.com/combiner/i?img=%2Fguid%2F")
 
 
-def test_missing_scoreboard_logo_uses_identified_team_metadata_with_own_receipt(monkeypatch):
+def test_missing_scoreboard_logo_uses_offline_registry_with_own_receipt(monkeypatch):
     row = copy.deepcopy(CASES[0]["event"])
     team = row["competitions"][0]["competitors"][0]["team"]
     source_logo = team.pop("logo")
-    url = f"{feeds.ESPN}/soccer/eng.fa/teams/{team['id']}"
-    calls = []
-
-    def get(value, **kwargs):
-        calls.append(value)
-        if value == url:
-            return {"team": {"id": team["id"], "displayName": team["displayName"], "logos": [{"href": source_logo}]}}
-        return {"events": [row] if "dates=2026&" in value else []}
-
-    feeds._espn_team_logo.cache_clear()
-    monkeypatch.setattr(feeds, "get_json", get)
+    monkeypatch.setattr(feeds, "get_json", lambda value: {"events": [row] if "dates=2026&" in value else []})
     (event,) = feeds.espn_team_events(2026, "FA_CUP")
     retained = next(p for p in event.participants if p.participant_id == team["id"])
-    public = _participant_payload(retained)
-    assert public["logo_url"] == source_logo
-    assert public["logo_source_url"] == url
-    assert public["logo_checked_date"]
-    assert calls.count(url) == 1
-    feeds._espn_team_logo.cache_clear()
-
-
-def test_current_logo_cannot_be_assigned_to_a_rebranded_historical_team(monkeypatch):
-    feeds._espn_team_logo.cache_clear()
+    key = team_logos.cohort_key(event, retained)
+    url = f"{feeds.ESPN}/soccer/eng.fa/teams/{team['id']}"
     monkeypatch.setattr(
-        feeds,
-        "get_json",
-        lambda *args, **kwargs: {
-            "team": {
-                "id": "123",
-                "displayName": "New Franchise",
-                "logos": [{"href": "https://a.espncdn.com/i/teamlogos/ufl/500/new.png"}],
-            }
-        },
+        team_logos,
+        "logo_registry",
+        lambda: (
+            {key: espn_logo_url(source_logo)},
+            {key: {"source_url": url, "checked_date": "2026-11-03"}},
+        ),
     )
-    assert feeds._espn_team_logo("football/ufl", "123", "Original Franchise") is None
-    feeds._espn_team_logo.cache_clear()
-
-
-@pytest.mark.parametrize(
-    "payload", [[], {"team": []}, {"team": {"id": "123", "displayName": "Original", "logos": [None, []]}}]
-)
-def test_optional_malformed_team_image_metadata_never_blocks_schedule(monkeypatch, payload):
-    feeds._espn_team_logo.cache_clear()
-    monkeypatch.setattr(feeds, "get_json", lambda *args, **kwargs: payload)
-    assert feeds._espn_team_logo("football/ufl", "123", "Original") is None
-    feeds._espn_team_logo.cache_clear()
+    monkeypatch.setattr(feeds, "get_json", lambda *a, **k: pytest.fail("Daily enrichment is offline"))
+    team_logos.enrich_team_logos([event])
+    public = _participant_payload(retained)
+    assert public["logo_url"] == espn_logo_url(source_logo)
+    assert public["logo_source_url"] == url
+    assert public["logo_checked_date"] == "2026-11-03"

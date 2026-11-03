@@ -9,6 +9,11 @@ export const event = (id: string, date = "2026-10-28", fields = {}) => ({
   venue: "Town Stadium", city: "London", country: "England", competition_phase: "regular_season", tags: [], participants: [],
   source_url: "https://example.com/schedule", ...fields,
 });
+export const teamLogoUrl = (path: string) => `https://a.espncdn.com/combiner/i?img=${encodeURIComponent(path)}&w=56&h=56`;
+export async function mockTeamLogos(page: Page) {
+  await page.route("https://a.espncdn.com/**", route => route.fulfill({ contentType: "image/svg+xml",
+    headers: { "Cache-Control": "public, max-age=86400" }, body: '<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" />' }));
+}
 export async function setup(page: Page, events: ReturnType<typeof event>[], options: {
   saved?: object; firstVisit?: boolean; missing?: number; now?: string; hold?: Promise<void>; wait?: boolean;
   metadata?: Pick<ManifestResponse, "sources" | "updated_at" | "data_license_notice">;

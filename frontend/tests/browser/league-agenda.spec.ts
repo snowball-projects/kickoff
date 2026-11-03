@@ -1,7 +1,8 @@
 import { expect, test } from "./test";
-import { agendaToggle, event, setup } from "./fixtures";
+import { agendaToggle, event, mockTeamLogos, setup, teamLogoUrl } from "./fixtures";
 const team = (role: string, name: string, short_name: string | null = null, record?: string, final_score?: number) => ({ name, short_name,
-  participant_id: name, role, entity_type: "team", ...(record ? { record } : {}), ...(final_score != null ? { final_score } : {}) });
+  participant_id: name, role, entity_type: "team", ...(["Jacksonville Jaguars", "Baltimore Ravens", "Seattle Seahawks", "New England Patriots"].includes(name) ? { logo_url: teamLogoUrl(`/i/teamlogos/nfl/500/${name.split(" ").at(-1)!.toLowerCase()}.png`), logo_source_url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/1", logo_checked_date: "2026-11-03" } : {}), ...(record ? { record } : {}), ...(final_score != null ? { final_score } : {}) });
+test.beforeEach(async ({ page }) => { await mockTeamLogos(page); });
 const date = "2026-10-30";
 const games = [
   event("Jaguars at Ravens", date, { league: "NFL", sport: "football", start_time_utc: `${date}T22:00:00Z`, week_label: "Week 9",
@@ -29,7 +30,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       const row = nfl.locator(".agenda-row").last();
       await expect(row.locator(".team-record")).toHaveText(["4-2", "4-3"]);
       await expect(row.locator(".agenda-match-center")).toHaveText("Week 95:00 PM");
-      await expect(nfl.locator(".nfl-logo")).toHaveCount(4);
+      await expect(nfl.locator(".team-logo")).toHaveCount(4);
       const nba = agenda.getByRole("region", { name: "NBA", exact: true });
       await expect(nba.locator(".agenda-match-center")).toHaveText("132–125Final");
       await expect(nba.locator("img")).toHaveCount(0);
@@ -49,8 +50,8 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await row.click();
       const popup = page.getByRole("dialog");
       await expect(popup.locator("h3")).toHaveText("Jacksonville Jaguars at Baltimore Ravens");
-      await expect(popup.locator(".nfl-logo")).toHaveCount(2);
-      for (const logo of await popup.locator(".nfl-logo").all()) await expect.poll(() => logo.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
+      await expect(popup.locator(".team-logo")).toHaveCount(2);
+      for (const logo of await popup.locator(".team-logo").all()) await expect.poll(() => logo.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
       await page.screenshot({ path: `test-results/nfl-popup-${width}-${colorScheme}.png` });
       await page.keyboard.press("Escape");
       await expect(row.getByRole("button")).toBeFocused();

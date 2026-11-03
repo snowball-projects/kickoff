@@ -1,7 +1,10 @@
 import { expect, test } from "./test";
-import { event, setup } from "./fixtures";
+import { event, mockTeamLogos, setup, teamLogoUrl } from "./fixtures";
 
-const team = (name: string, role: string) => ({ name, role, entity_type: "team", short_name: name.split(" ").at(-1) });
+const team = (name: string, role: string) => ({ name, role, entity_type: "team", short_name: name.split(" ").at(-1),
+  ...(!name.startsWith("Supplied") && { logo_url: teamLogoUrl(`/i/teamlogos/nfl/500/${name.split(" ").at(-1)!.toLowerCase()}.png`),
+    logo_source_url: "https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2026/teams/1", logo_checked_date: "2026-11-03" }) });
+test.beforeEach(async ({ page }) => { await mockTeamLogos(page); });
 const game = (id: string, away = "Kansas City Chiefs", home = "Buffalo Bills", date = "2026-10-28", hour = 17) =>
   event(id, date, { title: `${away} at ${home}`, sport: "football", league: "NFL", country: "US",
     start_time_utc: `${date}T${hour}:00:00Z`, participants: [team(home, "home"), team(away, "away")] });
@@ -74,7 +77,7 @@ for (const colorScheme of ["light", "dark"] as const) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
 
-    for (const width of [320, 1280]) test(`day shows both local logos and team names at ${width}px`, async ({ page }) => {
+    for (const width of [320, 1280]) test(`day shows both ESPN logos and team names at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 });
       const requests: string[] = [];
       page.on("request", (request) => { if (request.resourceType() === "image") requests.push(request.url()); });
@@ -82,10 +85,10 @@ for (const colorScheme of ["light", "dark"] as const) {
         event("Other sport", undefined, { league: "UFC", start_time_utc: "2026-10-28T21:00:00Z", country: "JP" })]);
       await page.locator("#day-2026-10-28 .day-number").click();
       const pill = page.locator('[data-event-id="day-game"]');
-      await expect(pill.locator(".nfl-logo")).toHaveCount(2);
+      await expect(pill.locator(".team-logo")).toHaveCount(2);
       await expect(pill.locator(".nfl-team-name")).toHaveText(["Chiefs", "Bills"]);
       await expect(pill).toHaveAccessibleName(/Kansas City Chiefs at Buffalo Bills/);
-      for (const logo of await pill.locator(".nfl-logo").all()) {
+      for (const logo of await pill.locator(".team-logo").all()) {
         await expect(logo).toBeVisible();
         expect(await logo.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
       }
@@ -94,13 +97,13 @@ for (const colorScheme of ["light", "dark"] as const) {
       await page.screenshot({ path: `test-results/nfl-day-${width}-${colorScheme}.png` });
       await pill.click();
       await expect(page.locator(".event-details h3")).toHaveText("Kansas City Chiefs at Buffalo Bills");
-      expect(requests.filter((url) => url.includes("team-logos/")).every((url) => url.startsWith("http://127.0.0.1:"))).toBe(true);
+      expect(requests.filter((url) => url.includes("/combiner/")).every((url) => url.startsWith("https://a.espncdn.com/") && new URL(url).searchParams.get("w") === "56")).toBe(true);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
   });
 }
 
-test("missing local logos use exact supplied names and leave every matchup accessible", async ({ page }) => {
+test("unmatched teams use exact supplied names and leave every matchup accessible", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1000 });
   await setup(page, [game("unknown", "Supplied Away Team", "Buffalo Bills"),
     game("known", "Dallas Cowboys", "New York Giants", "2026-10-28", 19)]);
@@ -109,9 +112,9 @@ test("missing local logos use exact supplied names and leave every matchup acces
   await expect(pill).toHaveAccessibleName(/Dallas Cowboys at New York Giants/);
   await page.locator("#day-2026-10-28 .day-number").click();
   const unknown = page.locator('[data-event-id="unknown"]');
-  await expect(unknown.locator(".nfl-logo")).toHaveCount(1);
+  await expect(unknown.locator(".team-logo")).toHaveCount(1);
   await expect(unknown.locator(".nfl-team-name")).toHaveText(["Supplied Away Team", "Bills"]);
-  await expect(unknown.locator("img")).toHaveAttribute("src", /team-logos\/BUF\.png$/);
+  await expect(unknown.locator("img")).toHaveAttribute("src", /combiner\/i\?img=.*bills.png&w=56&h=56$/);
   await unknown.click();
   await expect(page.locator(".event-details h3")).toHaveText("Supplied Away Team at Buffalo Bills");
 });
@@ -123,10 +126,10 @@ test("narrow simultaneous NFL pills preserve both logos and the existing overflo
   await page.locator("#day-2026-10-28 .day-number").click();
   await expect(page.locator(".timeline-events > .event-pill")).toHaveCount(2);
   for (const pill of await page.locator(".timeline-events > .event-pill").all()) {
-    await expect(pill.locator(".nfl-logo")).toHaveCount(2);
+    await expect(pill.locator(".team-logo")).toHaveCount(2);
     expect(await pill.evaluate((button) => {
       const bounds = button.getBoundingClientRect();
-      return [...button.querySelectorAll(".nfl-logo")].every((logo) => {
+      return [...button.querySelectorAll(".team-logo")].every((logo) => {
         const rect = logo.getBoundingClientRect();
         return rect.left >= bounds.left && rect.right <= bounds.right;
       });

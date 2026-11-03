@@ -6,7 +6,7 @@ import { eventTimeLabel, formatLongDate } from "./date-utils";
 import { EventFlags, SportIcon } from "./EventIdentity";
 import GolfLeaderboard from "./GolfLeaderboard";
 import FightCard from "./FightCard";
-import NflLogo from "./NflLogo";
+import TeamLogo from "./TeamLogo";
 import { leaderboardId } from "./golf";
 import type { EventCard } from "./types";
 
@@ -82,10 +82,10 @@ function EventDetails({ event, date, today, timezone, active }: {
     <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}>
       <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
     </span>
-    <h3 tabIndex={-1}>{(event.league === "NFL" || away?.logo_url || home?.logo_url) && away && home ? <>
-      <NflLogo name={away.name} league={event.league} participant={away} />{away.name}{" at "}
-      <NflLogo name={home.name} league={event.league} participant={home} />{home.name}
-    </> : event.title}<EventFlags event={event} /></h3>
+    <h3 tabIndex={-1}>{event.league === "NFL" && away && home ? <>
+      <TeamLogo participant={away} />{away.name}{" at "}
+      <TeamLogo participant={home} />{home.name}
+    </> : <><TeamLogo participant={away} /><TeamLogo participant={home} />{event.title}</>}<EventFlags event={event} /></h3>
     {event.subtitle && <p>{event.subtitle}</p>}
     {time && <p className="detail-time">{time}</p>}
     <p>{formatLongDate(start)}{end && end > start && <> through {formatLongDate(end)}</>}</p>
