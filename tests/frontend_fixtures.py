@@ -30,6 +30,10 @@ def build(output: Path) -> None:
                     "PGA_TOUR": ("espn", lambda _: pga),
                     "LPGA_TOUR": ("espn", lambda _: lpga),
                     "NFL": ("espn", lambda _: nfl),
+                    "COLLEGE_FOOTBALL": (
+                        "espn",
+                        lambda _: [replace(nfl[0], event_id="fixture-college", league="COLLEGE_FOOTBALL")],
+                    ),
                 },
             )
         current = json.loads(path.read_text())
