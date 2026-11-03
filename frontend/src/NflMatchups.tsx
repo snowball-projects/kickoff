@@ -1,6 +1,6 @@
 import { participantRoles } from "./participants";
 import { useLayoutEffect, useRef, useState } from "react";
-import NflLogo, { hasNflLogo } from "./NflLogo";
+import TeamLogo from "./TeamLogo";
 import type { EventCard } from "./types";
 
 export function nflMatchupName(event: EventCard) {
@@ -13,13 +13,14 @@ export function hasNflTeams(event: EventCard) {
   return Boolean(away && home);
 }
 
-function Matchup({ event, names = false }: { event: EventCard; names?: boolean }) {
+function Matchup({ event, names = false, measurement = false, failed, onFailure }: {
+  event: EventCard; names?: boolean; measurement?: boolean; failed: ReadonlySet<string>; onFailure: (url: string) => void;
+}) {
   const { away, home } = participantRoles(event);
   if (!away || !home) return <span className="nfl-matchup-name">{event.title}</span>;
   return <>{[away, home].map((team, index) => <span className="nfl-calendar-team" key={index}>
-    <NflLogo name={team.name} league="NFL" />
-    {(names || !hasNflLogo(team.name)) && <span className="nfl-team-name">{hasNflLogo(team.name)
-      ? team.short_name || team.name : team.name}</span>}
+    {team.logo_url && !failed.has(team.logo_url) && <TeamLogo participant={team} load={!measurement} onError={() => onFailure(team.logo_url!)} />}
+    <span className={`nfl-team-name${names ? "" : " nfl-logo-fallback"}`}>{team.logo_url ? team.short_name || team.name : team.name}</span>
   </span>)}</>;
 }
 
@@ -27,6 +28,8 @@ export default function NflMatchups({ items, view }: { items: EventCard[]; view:
   const root = useRef<HTMLSpanElement>(null);
   const measurements = useRef<HTMLSpanElement>(null);
   const [shown, setShown] = useState(0);
+  const [failed, setFailed] = useState<ReadonlySet<string>>(() => new Set());
+  const onFailure = (url: string) => setFailed((current) => current.has(url) ? current : new Set([...current, url]));
   useLayoutEffect(() => {
     if (view !== "month") return;
     const element = root.current!;
@@ -51,16 +54,16 @@ export default function NflMatchups({ items, view }: { items: EventCard[]; view:
     observer.observe(measurements.current!);
     measure();
     return () => observer.disconnect();
-  }, [items, view]);
+  }, [items, view, failed]);
   return view === "day" ? <span className="nfl-day-matchups" aria-hidden="true">
-    {items.map((event) => <span className="nfl-matchup" key={event.event_id}><Matchup event={event} names /></span>)}
+    {items.map((event) => <span className="nfl-matchup" key={event.event_id}><Matchup event={event} names failed={failed} onFailure={onFailure} /></span>)}
   </span> : <>
     <span className="nfl-phone-label" aria-hidden="true">NFL</span>
     <span className="nfl-month-matchups" ref={root} aria-hidden="true">
-      {items.slice(0, shown).map((event) => <span className="nfl-matchup" key={event.event_id}><Matchup event={event} /></span>)}
+      {items.slice(0, shown).map((event) => <span className="nfl-matchup" key={event.event_id}><Matchup event={event} failed={failed} onFailure={onFailure} /></span>)}
       {shown < items.length && <span className="nfl-more">+{items.length - shown}</span>}
       <span className="nfl-measurements" ref={measurements}>
-        {items.map((event) => <span className="nfl-matchup" key={event.event_id}><Matchup event={event} /></span>)}
+        {items.map((event) => <span className="nfl-matchup" key={event.event_id}><Matchup event={event} measurement failed={failed} onFailure={onFailure} /></span>)}
         {items.map((_, index) => <span className="nfl-more" key={index}>+{index + 1}</span>)}
       </span>
     </span>

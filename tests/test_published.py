@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from kickoff.published import publish_sports
 
 
@@ -199,3 +201,32 @@ def test_each_sport_publishes_one_file_per_league_with_all_facts_and_receipts(tm
     assert sorted(published, key=lambda event: event["event_id"]) == sorted(
         original["events"], key=lambda event: event["event_id"]
     )
+
+
+@pytest.mark.parametrize("league,sport,kind", [("MLB", "baseball", "mlb"), ("NHL", "hockey", "nhl")])
+def test_espn_image_source_keeps_license_with_official_schedule_bundle(tmp_path, league, sport, kind):
+    original = bundle()
+    original["sources"].append({"kind": kind, "name": "Official schedule", "url": "https://example.org/"})
+    original["data_licenses"][kind] = "Official factual schedule terms"
+    original["events"] = [
+        {
+            **original["events"][0],
+            "source": kind,
+            "league": league,
+            "sport": sport,
+            "participants": [
+                {
+                    "name": "Source team",
+                    "role": "home",
+                    "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fmlb%2F500%2Fbal.png&w=56&h=56",
+                    "logo_source_url": f"https://sports.core.api.espn.com/v2/sports/{sport}/leagues/{kind}/seasons/2025/teams/1",
+                    "logo_checked_date": "2026-11-03",
+                }
+            ],
+        }
+    ]
+    publish_sports([original], tmp_path)
+    payload = json.loads((tmp_path / f"2026-{sport}-{league.lower()}.json").read_text())
+    assert {source["kind"] for source in payload["sources"]} == {kind, "espn"}
+    assert set(payload["data_licenses"]) == {kind, "espn"}
+    assert payload["events"] == original["events"]

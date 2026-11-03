@@ -9,13 +9,14 @@ from kickoff.dataset import load_events_from_json
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events
 from kickoff.settings import Settings
+from kickoff.team_logos import TEAM_SPORTS
 from kickoff.textutils import espn_logo_url
 
 SCHEMA_VERSION = "1"
 NATIONAL_COUNTRY_CODES = ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "XK"}
 
 
-def _participant_payload(participant: Participant | None) -> dict[str, Any] | None:
+def _participant_payload(participant: Participant | None, *, include_logo: bool = True) -> dict[str, Any] | None:
     if participant is None:
         return None
     return {
@@ -31,13 +32,17 @@ def _participant_payload(participant: Participant | None) -> dict[str, Any] | No
         },
         **(
             {
-                key: participant.metadata[key]
+                key: espn_logo_url(participant.metadata[key]) if key == "logo_url" else participant.metadata[key]
                 for key in ("logo_url", "logo_source_url", "logo_checked_date")
                 if key in participant.metadata
             }
-            if espn_logo_url(participant.metadata.get("logo_url"))
+            if include_logo
+            and participant.entity_type in {"team", "club", "national_team"}
+            and espn_logo_url(participant.metadata.get("logo_url"))
             and isinstance(participant.metadata.get("logo_source_url"), str)
-            and participant.metadata["logo_source_url"].startswith("https://site.api.espn.com/apis/site/v2/sports/")
+            and participant.metadata["logo_source_url"].startswith(
+                ("https://site.api.espn.com/apis/site/v2/sports/", "https://sports.core.api.espn.com/v2/sports/")
+            )
             and isinstance(participant.metadata.get("logo_checked_date"), str)
             and participant.metadata["logo_checked_date"]
             else {}
@@ -92,7 +97,10 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
             if event.country_checked_date
             else {}
         ),
-        "participants": [_participant_payload(participant) for participant in event.participants],
+        "participants": [
+            _participant_payload(participant, include_logo=event.sport in TEAM_SPORTS)
+            for participant in event.participants
+        ],
         "home_participant_name": event.home_participant.name if event.home_participant else None,
         "away_participant_name": event.away_participant.name if event.away_participant else None,
         "round_or_stage": event.round_or_stage,

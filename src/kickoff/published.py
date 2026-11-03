@@ -75,11 +75,17 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
                 if p.get("country_source_kind")
             )
             if any(
-                p.get("team_source_url", "").startswith(
-                    ("https://www.espn.com/", "https://site.api.espn.com/", "https://site.web.api.espn.com/")
+                p.get(field, "").startswith(
+                    (
+                        "https://www.espn.com/",
+                        "https://site.api.espn.com/",
+                        "https://site.web.api.espn.com/",
+                        "https://sports.core.api.espn.com/",
+                    )
                 )
                 for event in events
                 for p in event["participants"]
+                for field in ("team_source_url", "logo_source_url")
             ):
                 kinds.add("espn")
             payload = {

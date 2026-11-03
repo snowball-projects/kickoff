@@ -4,12 +4,12 @@ import { agendaEventTitle } from "./agenda-title";
 import { eventTimeLabel } from "./date-utils";
 import { isGolf, leaderboardId } from "./golf";
 import GolfLeaderboard from "./GolfLeaderboard";
-import NflLogo from "./NflLogo";
+import TeamLogo from "./TeamLogo";
 import { EventFlags } from "./EventIdentity";
 import type { ApiParticipant, EventCard } from "./types";
 
-function Team({ team, league }: { team: ApiParticipant; league: string }) {
-  return <span className="agenda-team"><NflLogo name={team.name} league={league} participant={team} />
+function Team({ team }: { team: ApiParticipant }) {
+  return <span className="agenda-team"><TeamLogo participant={team} />
     <span className="team-name" title={team.name}>{team.short_name || team.name}</span>
     {team.record && <span className="team-record">{team.record}</span>}
   </span>;
@@ -33,13 +33,13 @@ export default function AgendaEvent({ event, date, today, timezone, active, upco
   return <article className="agenda-row" id={`agenda-${date}-${event.event_id}`}>
     <button className={`agenda-open ${teams ? "agenda-match" : "agenda-centered"}`} onClick={onOpen} aria-label={!title && !teams ? event.title : undefined}>
       {teams ? <>
-        {away ? <Team team={away} league={event.league} /> : <span />}
+        {away ? <Team team={away} /> : <span />}
         <span className="agenda-match-center">
           {round && <span className="agenda-round">{round}</span>}
           {scores && away && home ? <><span className="agenda-result">{away.final_score}–{home.final_score}</span><span className="agenda-round">Final</span></>
             : event.status !== "finished" && time && <span className="agenda-time">{time}</span>}
         </span>
-        {home ? <Team team={home} league={event.league} /> : <span />}
+        {home ? <Team team={home} /> : <span />}
       </> : <>
         <span className="agenda-title">{title}<EventFlags event={event} /></span>
         {golf ? <span className="agenda-round">{[round, !upcoming && golfStatus].filter(Boolean).join(" · ")}</span>

@@ -60,12 +60,15 @@ These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues, team records, short names,
 round labels and confirmed final scores), attributes each event to its source
 with checked dates, and omits odds, articles and raw payloads.
-For the November 2 additions, source-supplied team-logo URLs identify teams in
-small factual schedule displays. Those images load from ESPN's existing image
-CDN without a referrer; they are not downloaded into this repository or licensed
-under MIT. Team and league owners retain their image rights; no affiliation or
-endorsement is implied. Each retained image URL has its source and checked date.
-Missing images remain text identities; club logos never establish nationality.
+Team logos use ESPN metadata across all supported team competitions. Source
+team IDs or unique source-provided names within the true competition season
+identify teams; unmatched teams remain text and individuals have no team image.
+Images use ESPN's existing image combiner at 56 by 56 pixels, load lazily without
+a referrer and use normal HTTP caching. Images are not copied into this
+repository or licensed under MIT. ESPN and the team or league owners retain
+their image rights; no affiliation or endorsement is implied. Retained image
+URLs carry their source metadata URL and checked date. Club logos never
+establish nationality.
 Agenda golf sections and golf popups request leaderboard facts directly from
 ESPN: positions, player names, total and round scores, tee times and holes
 completed. MMA popups request fighter names, records, weight classes, bout start
@@ -109,22 +112,6 @@ documents, athlete entries, results, logos or prose are republished. Hash
 receipts identify raw document bytes where available and explicitly identify
 reviewed-fact hashes otherwise. These facts carry their sources' terms, not MIT
 or a new CC0 grant.
-
-NFL team logos identify teams in factual schedule and results reporting;
-no endorsement is implied. The 32 unmodified PNG/SVG assets and their original
-source, license URL, usage-basis and review receipts were copied read-only from
-sideline at 9b6963f90c64042532c9cd71b082bd4f1ce891c4:
-https://github.com/snowball-projects/sideline/tree/9b6963f90c64042532c9cd71b082bd4f1ce891c4/web/team-logos
-Per-file metadata: https://github.com/snowball-projects/kickoff/blob/main/frontend/src/team-assets.json
-Twenty PNG logos retain team/NFL copyright and the original limited editorial
-identification basis; no redistribution license is claimed. Twelve SVG files
-carry the per-file public-domain designations listed in the metadata. Original
-sideline usage notes remain sourcing records; kickoff displays the small logos
-beside identified NFL teams: 16 CSS pixels in month matchup pairs, 18 in day
-game pills, and 28 in agenda rows and event popups.
-These assets are separate from the MIT software and schedule-data licenses.
-Other leagues use text team identities unless a schedule supplies a reviewed
-ESPN team-logo URL as described above.
 
 React and React DOM: MIT, Meta Platforms, Inc. and affiliates.
 https://github.com/facebook/react/blob/main/LICENSE

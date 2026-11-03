@@ -43,7 +43,7 @@ def espn(*, clock="2026-10-28T23:30Z", valid=True, home="819", away="2029", iden
 
 def answer(monkeypatch, rows):
     calls = []
-    monkeypatch.setattr(feeds, "get_json", lambda url: calls.append(url) or {"events": rows})
+    monkeypatch.setattr(feeds, "get_json", lambda url, **kwargs: calls.append(url) or {"events": rows})
     return calls
 
 
@@ -388,7 +388,7 @@ def test_failed_clock_lookup_still_exports_date_only_events(monkeypatch, tmp_pat
 
     monkeypatch.setattr(open_schedules, "football_events", missing_brazil)
 
-    def fail(_):
+    def fail(_, **kwargs):
         raise failure
 
     monkeypatch.setattr(feeds, "get_json", fail)
@@ -406,7 +406,7 @@ def test_failed_clock_lookup_still_exports_date_only_events(monkeypatch, tmp_pat
 def test_primary_espn_schedule_failure_still_aborts_publication(monkeypatch, tmp_path):
     monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
 
-    def fail(_):
+    def fail(_, **kwargs):
         raise OSError("primary ESPN schedule unavailable")
 
     monkeypatch.setattr(feeds, "get_json", fail)

@@ -11,7 +11,6 @@ from __future__ import annotations
 import json
 import re
 import time
-import warnings
 from calendar import monthrange
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
@@ -26,7 +25,7 @@ from kickoff.countries import COUNTRY_LEAGUES, venue_country
 from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
 from kickoff.semantics import classification_fields
-from kickoff.textutils import espn_logo_url
+from kickoff.team_logos import TEAM_SPORTS, source_logo
 
 USER_AGENT = "kickoff-refresh/0.3 (https://github.com/snowball-projects/kickoff)"
 ESPN = "https://site.api.espn.com/apis/site/v2/sports"
@@ -252,7 +251,7 @@ def espn_national_sources(events: list[CalendarEvent]) -> list[dict]:
     return [source for source in sources if source["kind"] in kinds]
 
 
-def _espn_participants(event: CalendarEvent, competitors: list, finished: bool) -> None:
+def _espn_participants(event: CalendarEvent, competitors: list, finished: bool, image_source_url: str) -> None:
     for participant in event.participants:
         row = next((c for c in competitors if c.get("homeAway") == participant.role), {})
         team = row.get("team") or {}
@@ -260,10 +259,10 @@ def _espn_participants(event: CalendarEvent, competitors: list, finished: bool) 
         participant.short_name = team.get("shortDisplayName") or team.get("abbreviation")
         participant.record = _espn_record(row, event.sport)
         participant.final_score = _score(row.get("score")) if finished else None
-        if event.league in ADDITIONAL_TEAM_LEAGUES and (logo := espn_logo_url(team.get("logo"))):
+        if event.sport in TEAM_SPORTS and (logo := source_logo(team)):
             participant.metadata.update(
                 logo_url=logo,
-                logo_source_url=event.facts_source_url,
+                logo_source_url=image_source_url,
                 logo_checked_date=event.facts_checked_date,
             )
         national = _espn_national_teams().get(f"{event.sport}/{participant.participant_id}")
@@ -288,6 +287,7 @@ def _espn_event(
     phase: str = "regular_season",
     span: bool = False,
     input_url: str | None = None,
+    image_source_url: str | None = None,
 ) -> CalendarEvent | None:
     competition = (event.get("competitions") or [{}])[0]
     # Scoreboards expose event.status; team schedules use competition.status.
@@ -340,7 +340,7 @@ def _espn_event(
         round_or_stage=round_label,
         week_label=week_label,
     )
-    _espn_participants(result, competitors, finished)
+    _espn_participants(result, competitors, finished, image_source_url or input_url or result.facts_source_url)
     return result
 
 
@@ -450,9 +450,8 @@ def nfl_events(year: int) -> list[CalendarEvent]:
     weeks = [(year - 1, 2, week) for week in (17, 18)] + [(year - 1, 3, week) for week in range(1, 6)]
     weeks += [(year, 2, week) for week in range(1, 19)] + [(year, 3, week) for week in range(1, 6)]
     for season, season_type, week in weeks:
-        payload = get_json(
-            f"{ESPN}/football/nfl/scoreboard?dates={season}&seasontype={season_type}&week={week}", missing_ok=True
-        )
+        url = f"{ESPN}/football/nfl/scoreboard?dates={season}&seasontype={season_type}&week={week}"
+        payload = get_json(url, missing_ok=True)
         for row in rows(payload, "events") if payload is not None else []:
             name = row.get("name", "")
             if "Pro Bowl" in name:
@@ -468,6 +467,7 @@ def nfl_events(year: int) -> list[CalendarEvent]:
                 zone=EASTERN,
                 fallback_url="https://www.nfl.com/schedules/",
                 phase=phase,
+                image_source_url=url,
             )
             if event:
                 competition = (row.get("competitions") or [{}])[0]
@@ -597,29 +597,6 @@ def espn_team_phase(row: dict, league: str) -> str:
             return "final"
         return "postseason"
     return "regular_season"
-
-
-@cache
-def _espn_team_logo(path: str, team_id: str, team_name: str) -> tuple[str, str] | None:
-    """Optional source image for an identified team, without fetching team statistics."""
-    url = f"{ESPN}/{path}/teams/{team_id}"
-    try:
-        payload = get_json(url, missing_ok=True)
-    except (HTTPError, OSError, TimeoutError, ValueError) as error:
-        warnings.warn(f"Optional ESPN team image unavailable: {url}: {error}", stacklevel=2)
-        return None
-    team = payload.get("team") if isinstance(payload, dict) else None
-    if not isinstance(team, dict) or not isinstance(team.get("displayName"), str):
-        return None
-    if str(team.get("id")) != team_id or team["displayName"].casefold() != team_name.casefold():
-        return None
-    logos = team.get("logos")
-    candidates = (
-        [team.get("logo"), *(row.get("href") for row in logos if isinstance(row, dict))]
-        if isinstance(logos, list)
-        else [team.get("logo")]
-    )
-    return next(((logo, url) for candidate in candidates if (logo := espn_logo_url(candidate))), None)
 
 
 def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
@@ -762,16 +739,6 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
                                     participant.final_score = original.final_score
                 events[event.event_id] = event
     result = _in_year(list(events.values()), year)
-    if league in ADDITIONAL_TEAM_LEAGUES:
-        for event in result:
-            for participant in event.participants:
-                if not participant.metadata.get("logo_url") and participant.participant_id:
-                    if supplied := _espn_team_logo(path, participant.participant_id, participant.name):
-                        participant.metadata.update(
-                            logo_url=supplied[0],
-                            logo_source_url=supplied[1],
-                            logo_checked_date=datetime.now(UTC).date().isoformat(),
-                        )
     return result
 
 

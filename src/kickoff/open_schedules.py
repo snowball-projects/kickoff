@@ -17,6 +17,7 @@ from kickoff.normalize import sort_events, stable_event_id
 from kickoff.reviewed_schedules import BOXING_LICENSE, CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
 from kickoff.start_times import fill_missing_start_times
+from kickoff.team_logos import enrich_team_logos
 from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
 from kickoff.web import SCHEMA_VERSION, _event_payload
@@ -503,6 +504,8 @@ def refresh_open_schedules(
         evidence.extend({**item, "kind": "espn"} for item in time_receipts)
         if any(receipt["clocks_added"] or receipt["team_facts_added"] for receipt in time_receipts):
             source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
+        if any(item["logo_url"] for item in enrich_team_logos(events)):
+            source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
     # Each input was validated where it was produced. Check only cross-feed identity here.
     if len({e.event_id for e in events}) != len(events):
         raise ValueError("Duplicate event identity across feeds")
@@ -556,6 +559,11 @@ def refresh_open_schedules(
             {event["source"] for event in bundle["events"]}
             | {event.get("start_time_source") for event in bundle["events"]}
             | ({"espn"} if any(receipt["team_facts_added"] for receipt in time_receipts) else set())
+            | (
+                {"espn"}
+                if any(p.get("logo_url") for event in bundle["events"] for p in event["participants"])
+                else set()
+            )
         )
         & set(league_feeds.SOURCES)
     )

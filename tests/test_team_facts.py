@@ -1,5 +1,4 @@
 import copy
-import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -132,17 +131,6 @@ def test_produced_team_facts_require_dates_sources_and_confirmed_scores(change):
     event = espn(copy.deepcopy(FACTS["nfl_final"]))
     change(event)
     assert validate_event(event)
-
-
-def test_copied_nfl_assets_match_original_receipts():
-    assets = json.loads((ROOT / "frontend/src/team-assets.json").read_text())
-    assert len(assets) == 32
-    for asset in assets.values():
-        path = ROOT / "frontend/public" / asset["url"]
-        assert hashlib.sha256(path.read_bytes()).hexdigest() == asset["sha256"]
-        assert asset["source"].startswith("https://") and asset["license_url"].startswith("https://")
-        if path.suffix == ".png":
-            assert asset["usage_basis"] and asset["reviewed_at"]
 
 
 def test_a_finished_bout_does_not_mark_its_whole_card_finished():
