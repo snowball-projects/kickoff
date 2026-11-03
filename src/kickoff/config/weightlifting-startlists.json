@@ -1,0 +1,533 @@
+{
+  "books": [
+    {
+      "league": "WEIGHTLIFTING_EUROPE",
+      "year": 2026,
+      "name": "2026 EWF European Championships official start list",
+      "publisher": "European Weightlifting Federation",
+      "format": "easywl",
+      "landing_url": "https://ewf.sport/2026/01/14/2026-ewf-european-championships/",
+      "link_pattern": "/2026/\\d\\d/[^/?]*Start[_-]Book[^/?]*\\.pdf(?:\\?|$)"
+    },
+    {
+      "league": "WEIGHTLIFTING_ASIA",
+      "year": 2026,
+      "name": "2026 Asian Senior Championships official start list",
+      "publisher": "Asian Weightlifting Federation",
+      "format": "owlcms",
+      "landing_url": "https://awf.sport/official-athlete-start-list-published-for-2026-asian-senior-weightlifting-championships-in-india/",
+      "link_pattern": "/2026/\\d\\d/START[-_]LIST[-_][^/?]*\\.pdf(?:\\?|$)"
+    },
+    {
+      "league": "WEIGHTLIFTING_PAN_AMERICA",
+      "year": 2026,
+      "name": "2026 Pan-American Senior Championships official start list",
+      "publisher": "Pan-American Weightlifting Federation",
+      "format": "owlcms-es",
+      "landing_url": "https://panampesas.org/calendario-2026/",
+      "link_pattern": "/2026/\\d\\d/Start-Book-Campeonato-Panamericano-Panama[^/?]*\\.pdf(?:\\?|$)"
+    }
+  ],
+  "country_codes": {
+    "ALB": {
+      "code": "AL",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ARG": {
+      "code": "AR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ARM": {
+      "code": "AM",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ARU": {
+      "code": "AW",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "AUS": {
+      "code": "AU",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "AUT": {
+      "code": "AT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "AZE": {
+      "code": "AZ",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BAN": {
+      "code": "BD",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BAR": {
+      "code": "BB",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BEL": {
+      "code": "BE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BIH": {
+      "code": "BA",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BRA": {
+      "code": "BR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BRN": {
+      "code": "BH",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BRU": {
+      "code": "BN",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "BUL": {
+      "code": "BG",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CAN": {
+      "code": "CA",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CHI": {
+      "code": "CL",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CHN": {
+      "code": "CN",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "COL": {
+      "code": "CO",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CRC": {
+      "code": "CR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CRO": {
+      "code": "HR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CUB": {
+      "code": "CU",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CYP": {
+      "code": "CY",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "CZE": {
+      "code": "CZ",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "DEN": {
+      "code": "DK",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "DOM": {
+      "code": "DO",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ECU": {
+      "code": "EC",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ENG": {
+      "code": "GB-ENG",
+      "source_url": "https://crs-cg2026-static-assets.glasgow2026.com/CG2026/static/_PDF/CG2026/WLF/2026-07-25/WLF-------------------------------__C30_1.0.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ESA": {
+      "code": "SV",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ESP": {
+      "code": "ES",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "EST": {
+      "code": "EE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "FIN": {
+      "code": "FI",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "FRA": {
+      "code": "FR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "GBR": {
+      "code": "GB",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "GEO": {
+      "code": "GE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "GER": {
+      "code": "DE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "GIB": {
+      "code": "GI",
+      "source_url": "https://crs-cg2026-static-assets.glasgow2026.com/CG2026/static/_PDF/CG2026/WLF/2026-07-25/WLF-------------------------------__C30_1.0.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "GRE": {
+      "code": "GR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "GUA": {
+      "code": "GT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "HKG": {
+      "code": "HK",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "HUN": {
+      "code": "HU",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "IND": {
+      "code": "IN",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "IRI": {
+      "code": "IR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "IRL": {
+      "code": "IE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ISL": {
+      "code": "IS",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ISR": {
+      "code": "IL",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ITA": {
+      "code": "IT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "JAM": {
+      "code": "JM",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "JPN": {
+      "code": "JP",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "KAZ": {
+      "code": "KZ",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "KOR": {
+      "code": "KR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "KOS": {
+      "code": "XK",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "KSA": {
+      "code": "SA",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "KUW": {
+      "code": "KW",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "LAT": {
+      "code": "LV",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "LBN": {
+      "code": "LB",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "LTU": {
+      "code": "LT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "LUX": {
+      "code": "LU",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "MAS": {
+      "code": "MY",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "MDA": {
+      "code": "MD",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "MEX": {
+      "code": "MX",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "MGL": {
+      "code": "MN",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "MLT": {
+      "code": "MT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "NCA": {
+      "code": "NI",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "NED": {
+      "code": "NL",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "NIR": {
+      "code": "GB-NIR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "NOR": {
+      "code": "NO",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "NZL": {
+      "code": "NZ",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "OMA": {
+      "code": "OM",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "PAN": {
+      "code": "PA",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "PER": {
+      "code": "PE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "PHI": {
+      "code": "PH",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "POL": {
+      "code": "PL",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "POR": {
+      "code": "PT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "PRK": {
+      "code": "KP",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "PUR": {
+      "code": "PR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "QAT": {
+      "code": "QA",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "ROU": {
+      "code": "RO",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "RSA": {
+      "code": "ZA",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SCO": {
+      "code": "GB-SCT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SGP": {
+      "code": "SG",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SLO": {
+      "code": "SI",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SRB": {
+      "code": "RS",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SRI": {
+      "code": "LK",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SUI": {
+      "code": "CH",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SVK": {
+      "code": "SK",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SWE": {
+      "code": "SE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "SYR": {
+      "code": "SY",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "TKM": {
+      "code": "TM",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "TPE": {
+      "code": "TW",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "TTO": {
+      "code": "TT",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "TUR": {
+      "code": "TR",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "UAE": {
+      "code": "AE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "UKR": {
+      "code": "UA",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "URU": {
+      "code": "UY",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "USA": {
+      "code": "US",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "UZB": {
+      "code": "UZ",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "VEN": {
+      "code": "VE",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "VIE": {
+      "code": "VN",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    },
+    "WAL": {
+      "code": "GB-WLS",
+      "source_url": "https://iwf.sport/wp-content/uploads/downloads/2022/02/Constitution-and-Rules-of-IWF-Adopted-29-August-2021-Modified-30-January-2022-CLEAN.pdf",
+      "checked_date": "2026-11-03"
+    }
+  }
+}

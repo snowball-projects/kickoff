@@ -1,0 +1,9 @@
+.weightlifting-start-list { margin-top: 20px; }
+.weightlifting-start-list h4 { margin: 0 0 8px; }
+.weightlifting-start-list ol { list-style: none; margin: 0; padding: 0; }
+.weightlifting-start-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.weightlifting-start-list small, .start-list-source { color: var(--muted); font-size: 12px; }
+.start-list-category { display: block; }
+.start-list-total { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.weightlifting-start-list p { margin-top: 10px; }
+.weightlifting-start-list li > span:first-child { min-width: 0; overflow-wrap: anywhere; }

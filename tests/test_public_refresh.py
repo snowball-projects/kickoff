@@ -161,8 +161,16 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
     monkeypatch.setattr(runner, "publish_sports", lambda bundles, output: output / "manifest.json")
     runner.main()
     assert [year for year, _ in calls] == [2025, 2026, 2027]
+    shared_start_lists = calls[0][1]["start_list_loader"]
+    assert isinstance(shared_start_lists, runner.StartListLoader)
     assert all(
-        kwargs == {"feeds": runner.FEEDS, "available_seasons": [2025, 2026, 2027], "enrich_times": True}
+        kwargs
+        == {
+            "feeds": runner.FEEDS,
+            "available_seasons": [2025, 2026, 2027],
+            "enrich_times": True,
+            "start_list_loader": shared_start_lists,
+        }
         for _, kwargs in calls
     )
 

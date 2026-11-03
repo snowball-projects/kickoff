@@ -10,12 +10,15 @@ from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events
 from kickoff.settings import Settings
 from kickoff.team_logos import TEAM_SPORTS, participant_logo
+from kickoff.weightlifting_startlists import ENTRY_FIELDS, START_LIST_LEAGUES
 
 SCHEMA_VERSION = "1"
 NATIONAL_COUNTRY_CODES = ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "XK"}
 
 
-def _participant_payload(participant: Participant | None, *, include_logo: bool = True) -> dict[str, Any] | None:
+def _participant_payload(
+    participant: Participant | None, *, include_logo: bool = True, include_start_list: bool = False
+) -> dict[str, Any] | None:
     if participant is None:
         return None
     logo = participant_logo(participant, participant.metadata.get("logo_url"))
@@ -47,6 +50,11 @@ def _participant_payload(participant: Participant | None, *, include_logo: bool 
             else {}
         ),
         **(
+            {key: participant.metadata[key] for key in ENTRY_FIELDS if key in participant.metadata}
+            if include_start_list and participant.entity_type == "athlete"
+            else {}
+        ),
+        **(
             {
                 "country_code": participant.metadata["country_code"],
                 **{
@@ -55,7 +63,10 @@ def _participant_payload(participant: Participant | None, *, include_logo: bool 
                     if key in participant.metadata
                 },
             }
-            if participant.entity_type == "national_team"
+            if (
+                participant.entity_type == "national_team"
+                or (include_start_list and participant.entity_type == "athlete")
+            )
             and isinstance(participant.metadata.get("country_code"), str)
             and participant.metadata["country_code"] in NATIONAL_COUNTRY_CODES
             else {}
@@ -97,7 +108,11 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
             else {}
         ),
         "participants": [
-            _participant_payload(participant, include_logo=event.sport in TEAM_SPORTS)
+            _participant_payload(
+                participant,
+                include_logo=event.sport in TEAM_SPORTS,
+                include_start_list=event.sport == "weightlifting" and event.league in START_LIST_LEAGUES,
+            )
             for participant in event.participants
         ],
         "home_participant_name": event.home_participant.name if event.home_participant else None,

@@ -22,6 +22,7 @@ from kickoff.team_logos import enrich_team_logos
 from kickoff.timeutils import get_zoneinfo, isoformat_z
 from kickoff.validation import validate_batch
 from kickoff.web import SCHEMA_VERSION, _event_payload
+from kickoff.weightlifting_startlists import StartListLoader
 from kickoff.world_cup import SOURCE as WORLD_CUP_SOURCE
 from kickoff.world_cup import world_cup_events
 
@@ -363,6 +364,7 @@ def refresh_open_schedules(
     feeds: dict | None = None,
     available_seasons: list[int] | None = None,
     enrich_times: bool = False,
+    start_list_loader: StartListLoader | None = None,
 ) -> Path:
     """Fetch all configured schedules and export; primary feed failures abort publication."""
     now = datetime.now(timezone.utc)
@@ -498,6 +500,12 @@ def refresh_open_schedules(
     reviewed = [event for event in reviewed if event.league not in fed_leagues]
     kept_sources = {event.source_url for event in reviewed}
     notices = [notice for notice in notices if notice["url"] in kept_sources]
+    if start_list_loader is not None:
+        start_sources, start_evidence = start_list_loader.enrich(
+            reviewed, reviewed_dir or output_dir.parent / "reviewed", year
+        )
+        notices.extend(start_sources)
+        evidence.extend(start_evidence)
     events.extend(reviewed)
     country_receipts, country_notices = fill_reviewed_countries(events)
     evidence.extend(country_receipts)
