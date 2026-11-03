@@ -1045,7 +1045,47 @@
       "401743478",
       "401743494"
     ],
-    "ufl_annual_weekly_event_fact_differences": 0
+    "ufl_annual_weekly_event_fact_differences": 0,
+    "monthly_responses_per_league_year": 12,
+    "saturated_window_handling": {
+      "year": "Subdivide",
+      "month": "Subdivide",
+      "day": "Refuse rather than truncate"
+    },
+    "daily_scoreboard_spot_checks": {
+      "leagues": [
+        "G_LEAGUE",
+        "NBL"
+      ],
+      "dates": [
+        "postseason",
+        "preseason",
+        "cup"
+      ]
+    },
+    "ufl_recovered_games_year": 2025,
+    "ufl_recovered_games_status": "completed",
+    "ufl_incomplete_indexes": [
+      "annual",
+      "monthly",
+      "daily",
+      "Core"
+    ],
+    "ufl_week_collection": "Union every week in the published calendar, including postseason and the overlapping previous source season; no fixed week count.",
+    "ufl_example_week_url": "https://site.api.espn.com/apis/site/v2/sports/football/ufl/scoreboard?dates=2025&limit=1000&seasontype=2&week=1",
+    "ufl_sparse_weekly_team_fact_merge": "Retain annual team facts and their original receipts when weekly copies are sparse.",
+    "ufl_annual_weekly_audit": {
+      "independent": true,
+      "overlapping_games": 82,
+      "fields": [
+        "clocks",
+        "venue",
+        "city",
+        "state",
+        "country",
+        "stage"
+      ]
+    }
   },
   "cfl_omission": {
     "years": [
@@ -1068,7 +1108,13 @@
       "id": "401504210",
       "date": "2022-11-20",
       "reason": "Outside supported coverage years"
-    }
+    },
+    "core_season_events": "events=[] for every reviewed year and season type",
+    "team_schedules": "events=[] for every reviewed team, year and regular/postseason type",
+    "example_core_season_url": "https://sports.core.api.espn.com/v2/sports/football/leagues/cfl/seasons/2026/types/2/events?limit=1000",
+    "example_team_schedule_url": "https://site.api.espn.com/apis/site/v2/sports/football/cfl/teams/1/schedule?season=2026&seasontype=2",
+    "registered": false,
+    "shown": false
   },
   "missing_scoreboard_logo_team_metadata_review": [
     {
@@ -1328,5 +1374,160 @@
     }
   ],
   "image_policy": "Source scoreboard logo, otherwise optional matching-ID-and-full-name team metadata logo. No logo assets copied.",
-  "normalized_hash_scope": "SHA-256 of reviewed kickoff.web._event_payload JSON arrays, compact separators and final newline; private normalized audit files, not upstream raw responses."
+  "normalized_hash_scope": "SHA-256 of reviewed kickoff.web._event_payload JSON arrays, compact separators and final newline; private normalized audit files, not upstream raw responses.",
+  "coverage": {
+    "source_years": [
+      2025,
+      2026,
+      2027
+    ],
+    "normalized_count_meaning": "Usable calendar-year appointments after cancellation/postponement filtering, deduplication and date-zone handling.",
+    "zero_count_meaning": "No usable appointments published for that source year.",
+    "rolling_calendar_may_display_narrower_date_range": true,
+    "optional_competitions_included": false,
+    "synthetic_games_included": false,
+    "guessed_opponents_included": false
+  },
+  "competition_labels": {
+    "FA_CUP": "FA Cup",
+    "LEAGUE_CUP": "League Cup",
+    "LIGA_MX": "Liga MX",
+    "COPA_LIBERTADORES": "Copa Libertadores",
+    "COPA_SUDAMERICANA": "Copa Sudamericana",
+    "NWSL": "NWSL",
+    "WSL": "Women's Super League",
+    "UEFA_WOMENS_CHAMPIONS_LEAGUE": "UEFA Women's Champions League",
+    "G_LEAGUE": "NBA G League",
+    "NBL": "NBL",
+    "UFL": "UFL",
+    "CFL": "CFL (withheld)"
+  },
+  "status_omissions": [
+    {
+      "league": "G_LEAGUE",
+      "year": 2026,
+      "status": "postponed",
+      "rows": 4
+    },
+    {
+      "league": "COPA_SUDAMERICANA",
+      "year": 2025,
+      "status": "canceled",
+      "rows": 1
+    }
+  ],
+  "unknown_opponent_appointments": {
+    "league": "G_LEAGUE",
+    "year": 2026,
+    "rows": 31,
+    "retained": [
+      "source clocks",
+      "source venues"
+    ],
+    "label": "Source league name",
+    "team_entities": "Remove TBD entries; placeholders are not actual participants.",
+    "invented_facts": false,
+    "unsupplied_bracket_rounds_or_participants": "Not invented"
+  },
+  "date_semantics": {
+    "explicit_offsets": "Convert to UTC instants",
+    "timeValid_false": "Date-only",
+    "date_grouping_city_by_league": {
+      "FA_CUP": "London",
+      "LEAGUE_CUP": "London",
+      "WSL": "London",
+      "LIGA_MX": "Mexico City",
+      "COPA_LIBERTADORES": "São Paulo",
+      "COPA_SUDAMERICANA": "São Paulo",
+      "NWSL": "New York",
+      "G_LEAGUE": "New York",
+      "UFL": "New York",
+      "UEFA_WOMENS_CHAMPIONS_LEAGUE": "Paris",
+      "NBL": "Sydney"
+    },
+    "timed_display_zone": "Visitor's timezone"
+  },
+  "supplied_fact_policy": {
+    "retained_when_supplied": [
+      "source season",
+      "cup/league/group stage",
+      "leg/round/week notes",
+      "final scores",
+      "team records",
+      "short names",
+      "venue city",
+      "venue state",
+      "venue country"
+    ],
+    "regular_play": {
+      "WSL": "Season-title slug",
+      "LIGA_MX": "Apertura/Clausura"
+    },
+    "knockout_and_final_stages": "Separate from regular play",
+    "included_dates": [
+      "NBL preseason",
+      "G_LEAGUE cup",
+      "UFL postseason"
+    ],
+    "country_flags": "Source venue or existing competition-country display rule",
+    "club_national_identity": "Never infer national-team identity from a name, logo, venue or country.",
+    "missing_facts": "Remain missing"
+  },
+  "missing_venue_facts": {
+    "year": 2026,
+    "NBL": {
+      "events": 201,
+      "events_with_venues": 0
+    },
+    "G_LEAGUE": "Venues do not supply countries",
+    "events_without_venue_facts": {
+      "COPA_LIBERTADORES": 2,
+      "COPA_SUDAMERICANA": 1,
+      "UEFA_WOMENS_CHAMPIONS_LEAGUE": 1
+    }
+  },
+  "reviewed_image_delivery": {
+    "allowed_scheme": "https",
+    "allowed_host": "a.espncdn.com",
+    "allowed_paths": [
+      "team-logo paths",
+      "UUID logo paths"
+    ],
+    "loading": "Lazy",
+    "referrer": "None",
+    "caching": "Normal HTTP caching",
+    "raw_payloads_copied": false,
+    "per_image_receipt": [
+      "source URL",
+      "checked date"
+    ],
+    "FA_CUP": {
+      "missing_scoreboard_team_appearances": {
+        "2025": 15,
+        "2026": 16
+      },
+      "matching_team_metadata_endpoints_checked": 27,
+      "metadata_images_supplied": 0,
+      "fallback": "Text"
+    },
+    "UFL": {
+      "year": 2025,
+      "missing_scoreboard_images": 32,
+      "matching_historical_team_metadata_endpoints": 3,
+      "retained_team_appearances_with_sourced_logos": 86
+    },
+    "G_LEAGUE_placeholder_images": "None; placeholders are not actual participants"
+  },
+  "rights_and_retention": {
+    "images": "ESPN and image owners grant no new image license.",
+    "use": "Names and small images identify teams in factual schedule reporting; no affiliation is implied.",
+    "excluded": [
+      "odds",
+      "articles",
+      "raw responses"
+    ],
+    "public_refreshes": "Preserve per-event source links and checked dates",
+    "raw_evidence": "Private",
+    "third_party_notices": "../../../THIRD-PARTY-NOTICES.md"
+  }
 }

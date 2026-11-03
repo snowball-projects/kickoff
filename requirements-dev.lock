@@ -9,7 +9,7 @@ pluggy==1.6.0
 pypdf==6.19.0
 pytest==9.1.1
 ruff==0.16.5
-setuptools==84.0.0
+setuptools==84.1.0
 tomli==2.2.1; python_version < "3.11"
 typing_extensions==4.16.0; python_version < "3.11"
 tzdata==2026.3

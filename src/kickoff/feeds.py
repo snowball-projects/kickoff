@@ -527,7 +527,7 @@ TEAM_LEAGUES = {
     "COLLEGE_FOOTBALL": ("football/college-football", "football", (80, 81), 200),
 }
 # Checked against primary scoreboards 2026-11-02. CFL has no usable 2025–27
-# events and is intentionally absent (see data/reviewed/ESPN-LEAGUES.md).
+# events and is intentionally absent (see data/reviewed/receipts/espn-leagues-review.json).
 ADDITIONAL_TEAM_LEAGUES = {
     "FA_CUP": ("soccer/eng.fa", "soccer", "Europe/London", "FA Cup"),
     "LEAGUE_CUP": ("soccer/eng.league_cup", "soccer", "Europe/London", "League Cup"),

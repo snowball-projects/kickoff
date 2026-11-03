@@ -49,7 +49,7 @@ Nations League, MLS, WNBA, Division I men's and women's basketball, and FBS/FCS
 college football. Added November 2, 2026: FA Cup, League Cup, Liga MX, Copa
 Libertadores, Copa Sudamericana, NWSL, WSL, UEFA Women's Champions League,
 NBA G League, NBL and UFL. CFL has no usable 2025–27 source events and is omitted.
-Source review, exact coverage and omissions: data/reviewed/ESPN-LEAGUES.md.
+Source review, exact coverage and omissions: data/reviewed/receipts/espn-leagues-review.json.
 College scoreboards use the explicit Division I/FBS/FCS groups
 and every civil date, retaining postseason, conference tournament and bowl facts;
 overlapping FBS/FCS game IDs are published once. Team records, short names and
