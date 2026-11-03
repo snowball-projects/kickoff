@@ -504,8 +504,7 @@ def refresh_open_schedules(
         evidence.extend({**item, "kind": "espn"} for item in time_receipts)
         if any(receipt["clocks_added"] or receipt["team_facts_added"] for receipt in time_receipts):
             source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
-        if any(item["logo_url"] for item in enrich_team_logos(events)):
-            source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
+        enrich_team_logos(events)
     # Each input was validated where it was produced. Check only cross-feed identity here.
     if len({e.event_id for e in events}) != len(events):
         raise ValueError("Duplicate event identity across feeds")
@@ -520,6 +519,9 @@ def refresh_open_schedules(
         "providers": [],
         "events": [_event_payload(e) for e in sort_events(events)],
     }
+    has_team_logos = any(p.get("logo_url") for event in bundle["events"] for p in event["participants"])
+    if has_team_logos:
+        source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
     bundle["updated_at"] = retrieved
     reviewed_counts = Counter(event.league for event in reviewed)
     reviewed_coverage = ", ".join(
@@ -559,11 +561,7 @@ def refresh_open_schedules(
             {event["source"] for event in bundle["events"]}
             | {event.get("start_time_source") for event in bundle["events"]}
             | ({"espn"} if any(receipt["team_facts_added"] for receipt in time_receipts) else set())
-            | (
-                {"espn"}
-                if any(p.get("logo_url") for event in bundle["events"] for p in event["participants"])
-                else set()
-            )
+            | ({"espn"} if has_team_logos else set())
         )
         & set(league_feeds.SOURCES)
     )

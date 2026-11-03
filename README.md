@@ -34,8 +34,9 @@ main and on demand. A primary schedule feed failure stops publication, leaving
 the live site unchanged. Failed optional ESPN clock lookups log a warning and
 leave affected events date-only; existing source times are preserved. The daily
 build writes nothing back. Team logos use supplied ESPN images and the checked-in
-URL list, read offline. Refresh that list separately with
-`.venv/bin/python scripts/refresh-team-logos.py`. Checks run in CI on pull requests.
+URL list, read offline. Add missing URLs by hand in a normal PR to
+`src/kickoff/config/team_logos.json`, with their `source_url` and `checked_date`
+in `team_logo_receipts.json`. Checks run in CI on pull requests.
 Local schedule refresh accepts `--year 2026`.
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;

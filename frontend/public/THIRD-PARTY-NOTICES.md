@@ -60,11 +60,11 @@ These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues, team records, short names,
 round labels and confirmed final scores), attributes each event to its source
 with checked dates, and omits odds, articles and raw payloads.
-Team logos use ESPN metadata across all supported team competitions. Daily
-builds read the checked-in URL list offline and retain logos supplied by ESPN's
-schedule data. Source team IDs or unique source-provided names within the true
-competition season identify teams; unmatched teams remain text and individuals
-have no team image.
+Team logos use ESPN metadata and a manually maintained URL list across all
+supported team competitions. Daily builds read that list offline and retain
+logos supplied by ESPN's schedule data. Source team IDs or unique source-provided
+names within the true competition season identify teams; unmatched teams remain
+text and individuals have no team image.
 Images use ESPN's existing image combiner at 56 by 56 pixels, load lazily without
 a referrer and use normal HTTP caching. Images are not copied into this
 repository or licensed under MIT. ESPN and the team or league owners retain

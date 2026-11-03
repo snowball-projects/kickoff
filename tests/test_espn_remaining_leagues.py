@@ -8,7 +8,6 @@ from urllib.parse import parse_qs, urlsplit
 import pytest
 
 from kickoff import feeds, team_logos
-from kickoff import team_logo_refresh as weekly
 from kickoff.textutils import espn_logo_url
 from kickoff.validation import validate_batch
 from kickoff.web import _event_payload, _participant_payload
@@ -181,14 +180,14 @@ def test_missing_scoreboard_logo_uses_offline_registry_with_own_receipt(monkeypa
     monkeypatch.setattr(feeds, "get_json", lambda value: {"events": [row] if "dates=2026&" in value else []})
     (event,) = feeds.espn_team_events(2026, "FA_CUP")
     retained = next(p for p in event.participants if p.participant_id == team["id"])
-    key = team_logos.cohort_key(team_logos.cohort(event, retained))
+    key = team_logos.cohort_key(event, retained)
     url = f"{feeds.ESPN}/soccer/eng.fa/teams/{team['id']}"
     monkeypatch.setattr(
         team_logos,
         "logo_registry",
         lambda: (
             {key: espn_logo_url(source_logo)},
-            {key: {"source_url": url, "checked_date": "2026-11-03", "status": "logo"}},
+            {key: {"source_url": url, "checked_date": "2026-11-03"}},
         ),
     )
     monkeypatch.setattr(feeds, "get_json", lambda *a, **k: pytest.fail("Daily enrichment is offline"))
@@ -197,32 +196,3 @@ def test_missing_scoreboard_logo_uses_offline_registry_with_own_receipt(monkeypa
     assert public["logo_url"] == espn_logo_url(source_logo)
     assert public["logo_source_url"] == url
     assert public["logo_checked_date"] == "2026-11-03"
-
-
-def test_current_logo_cannot_be_assigned_to_a_rebranded_historical_team(monkeypatch):
-    monkeypatch.setattr(
-        feeds,
-        "get_json",
-        lambda url, **kwargs: (
-            {"id": "123", "displayName": "New Franchise", "logos": []}
-            if url.startswith(weekly.CORE)
-            else {
-                "team": {
-                    "id": "123",
-                    "displayName": "New Franchise",
-                    "logos": [{"href": "https://a.espncdn.com/i/teamlogos/ufl/500/new.png"}],
-                }
-            }
-        ),
-    )
-    logo, source, reason = weekly.Resolver().resolve(
-        {
-            "league": "UFL",
-            "source": "espn",
-            "competition_season": 2025,
-            "name": "Original Franchise",
-            "short_name": None,
-            "participant_id": "123",
-        }
-    )
-    assert logo is None and reason == "identity_conflict"
