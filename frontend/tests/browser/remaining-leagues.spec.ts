@@ -27,7 +27,7 @@ for (const width of [320, 1280]) test(`remaining league choices and supplied ide
   await dialog.getByRole("button", { name: "Show my calendar", exact: true }).click();
   await page.getByRole("switch", { name: "Agenda view" }).click();
   await expect(page.locator(".agenda-row")).toHaveCount(8);
-  expect(requests.filter(file => file !== "manifest.json").every(file => file.endsWith("-soccer.json"))).toBe(true);
+  expect([...requests].sort()).toEqual(["manifest.json", ...leagues.map(league => `2026-soccer-${league.toLowerCase().replaceAll("_", "-")}.json`)].sort());
   const logo = page.locator(".agenda-row img").first();
   await expect(logo).toHaveAttribute("referrerpolicy", "no-referrer");
   await expect(logo).toHaveJSProperty("naturalWidth", 28);

@@ -75,7 +75,7 @@ test("interests use only manifest metadata; calendar consumers share just select
   assert.equal((await getCalendar("month", 2026, "2026-09-01", { ...filters, followed_leagues: [] }, "UTC")).total_events, 0);
   assert.equal(requests.length, 2);
   assert.equal((await getCalendar("month", 2026, "2026-09-01", filters, "UTC")).total_events, 3);
-  assert.deepEqual(requests.slice(2).sort(), ["2026-basketball.json", "2026-soccer.json"]);
+  assert.deepEqual(requests.slice(2).sort(), ["2026-basketball-nba.json", "2026-soccer-epl.json"]);
 });
 
 test("direct sport and league filters intersect saved interests before downloading", async (t) => {
@@ -89,10 +89,10 @@ test("direct sport and league filters intersect saved interests before downloadi
   assert.deepEqual(none.leagues, []);
   assert.deepEqual(requests, ["manifest.json"]);
   assert.deepEqual(ids(await getCalendar("month", 2026, "2026-09-01", { ...filters, league: "epl", sport: "SOCCER", followed_leagues: ["NFL", "EPL"] }, "UTC")), ["epl"]);
-  assert.deepEqual(requests, ["manifest.json", "2026-soccer.json"]);
+  assert.deepEqual(requests, ["manifest.json", "2026-soccer-epl.json"]);
   assert.deepEqual((await getFilters(2026, { ...filters, followed_leagues: ["LA_LIGA"] }, "UTC")).leagues,
     [{ value: "LA_LIGA", count: 1, sport: "soccer" }]);
-  assert.equal(requests.length, 2);
+  assert.deepEqual(requests, ["manifest.json", "2026-soccer-epl.json", "2026-soccer-la-liga.json"]);
 });
 
 test("sport cache has no artificial year cap and revisiting loaded seasons reuses files", async (t) => {
@@ -107,11 +107,11 @@ test("sport cache has no artificial year cap and revisiting loaded seasons reuse
 test("a failed sport file retries without throwing away the shared manifest", async (t) => {
   let attempts = 0;
   const requests = serve(t, publishedFiles([bundle(2026, [event("game")])]), (file) =>
-    file.endsWith("-soccer.json") && ++attempts === 1 ? new Response("offline", { status: 503 }) : undefined);
+    file.endsWith("-soccer-epl.json") && ++attempts === 1 ? new Response("offline", { status: 503 }) : undefined);
   const { getCalendar } = await loadModule("data");
   await assert.rejects(getCalendar("month", 2026, "2026-09-01", filters, "UTC"), /2026 could not be loaded/);
   assert.deepEqual(ids(await getCalendar("month", 2026, "2026-09-01", filters, "UTC")), ["game"]);
-  assert.deepEqual(requests, ["manifest.json", "2026-soccer.json", "2026-soccer.json"]);
+  assert.deepEqual(requests, ["manifest.json", "2026-soccer-epl.json", "2026-soccer-epl.json"]);
 });
 
 test("changing interests recovers from a failed sport without an explicit Retry", async (t) => {
@@ -128,7 +128,7 @@ test("changing interests recovers from a failed sport without an explicit Retry"
   const recovered = await settled(store);
   assert.deepEqual(recovered.errors, {});
   assert.deepEqual(ids(recovered.months["2026-09-01"]), ["epl"]);
-  assert.deepEqual(requests, ["manifest.json", "2026-football-nfl.json", "2026-soccer.json"]);
+  assert.deepEqual(requests, ["manifest.json", "2026-football-nfl.json", "2026-soccer-epl.json"]);
 });
 
 test("aborting one consumer suppresses its result while the shared sport request finishes and caches", async (t) => {
@@ -136,27 +136,27 @@ test("aborting one consumer suppresses its result while the shared sport request
   const files = publishedFiles([bundle(2026, [event("game")])]);
   const requests = serve(t, files, (file, options) => {
     assert.equal(options?.signal, undefined, "shared transport outlives individual consumers");
-    return file === "2026-soccer.json" ? pending.promise : undefined;
+    return file === "2026-soccer-epl.json" ? pending.promise : undefined;
   });
   const { getCalendar } = await loadModule("data");
   const controller = new AbortController();
   const first = getCalendar("month", 2026, "2026-09-01", filters, "UTC", controller.signal);
   const aborted = assert.rejects(first, { name: "AbortError" });
   const second = getCalendar("month", 2026, "2026-09-01", filters, "UTC");
-  await started(() => requests.includes("2026-soccer.json"));
+  await started(() => requests.includes("2026-soccer-epl.json"));
   controller.abort();
-  pending.resolve(Response.json(files["2026-soccer.json"]));
+  pending.resolve(Response.json(files["2026-soccer-epl.json"]));
   await aborted;
   assert.deepEqual(ids(await second), ["game"]);
   assert.deepEqual(ids(await getCalendar("month", 2026, "2026-09-01", filters, "UTC")), ["game"]);
-  assert.equal(requests.filter((file) => file === "2026-soccer.json").length, 1);
+  assert.equal(requests.filter((file) => file === "2026-soccer-epl.json").length, 1);
 });
 
 test("explicit Retry reloads index and sports; a stale rejection cannot delete the replacement cache", async (t) => {
   const old = deferred();
   const files = publishedFiles([bundle(2026, [event("fresh")])]);
   let sportAttempts = 0;
-  const requests = serve(t, files, (file) => file === "2026-soccer.json" && ++sportAttempts === 1 ? old.promise : undefined);
+  const requests = serve(t, files, (file) => file === "2026-soccer-epl.json" && ++sportAttempts === 1 ? old.promise : undefined);
   const { CalendarDataStore, getCalendar } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
@@ -207,7 +207,7 @@ test("sliding windows reuse shared months and discard offscreen data", async (t)
   const second = await settled(store);
   assert.deepEqual(Object.keys(second.months), ["2026-10-01", "2026-11-01"]);
   assert.equal(second.months["2026-10-01"], first.months["2026-10-01"]);
-  assert.deepEqual(requests, ["manifest.json", "2026-soccer.json"]);
+  assert.deepEqual(requests, ["manifest.json", "2026-soccer-epl.json"]);
   store.update([], signature, "UTC", 0);
   assert.deepEqual(store.getSnapshot().months, {});
   assert.deepEqual(store.getSnapshot().manifests, {});
@@ -216,12 +216,12 @@ test("sliding windows reuse shared months and discard offscreen data", async (t)
 test("filter changes suppress stale sport results and pending windows load new anchors", async (t) => {
   const pending = deferred();
   const files = publishedFiles([bundle(2026, [event("football"), event("race", "F1", "motorsport")])]);
-  const requests = serve(t, files, (file) => file === "2026-soccer.json" ? pending.promise : undefined);
+  const requests = serve(t, files, (file) => file === "2026-soccer-epl.json" ? pending.promise : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
   store.update(["2026-08-01", "2026-09-01"], signature, "UTC", 0);
-  await started(() => requests.includes("2026-soccer.json"));
+  await started(() => requests.includes("2026-soccer-epl.json"));
   const next = JSON.stringify({ ...filters, followed_leagues: ["F1"] });
   store.update(["2026-09-01"], next, "America/Chicago", 0);
   store.update(["2026-09-01", "2026-10-01"], next, "America/Chicago", 0);
@@ -229,7 +229,7 @@ test("filter changes suppress stale sport results and pending windows load new a
   assert.deepEqual(Object.keys(state.months), ["2026-09-01", "2026-10-01"]);
   assert.deepEqual(ids(state.months["2026-09-01"]), ["race"]);
   assert.equal(state.months["2026-09-01"].timezone, "America/Chicago");
-  pending.resolve(Response.json(files["2026-soccer.json"]));
+  pending.resolve(Response.json(files["2026-soccer-epl.json"]));
   await tick();
   assert.deepEqual(ids(store.getSnapshot().months["2026-09-01"]), ["race"]);
   assert.deepEqual(store.getSnapshot().errors, {});
@@ -238,15 +238,15 @@ test("filter changes suppress stale sport results and pending windows load new a
 test("a year removed while its sport loads cannot repopulate the current window", async (t) => {
   const previous = deferred();
   const files = publishedFiles([bundle(2026, [event("old")]), bundle(2027, [event("new", "EPL", "soccer", 2027)])]);
-  const requests = serve(t, files, (file) => file === "2026-soccer.json" ? previous.promise : undefined);
+  const requests = serve(t, files, (file) => file === "2026-soccer-epl.json" ? previous.promise : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
   store.update(["2026-09-01", "2027-09-01"], signature, "UTC", 0);
-  await started(() => requests.includes("2026-soccer.json"));
+  await started(() => requests.includes("2026-soccer-epl.json"));
   store.update(["2027-09-01"], signature, "UTC", 0);
   await settled(store);
-  previous.resolve(Response.json(files["2026-soccer.json"]));
+  previous.resolve(Response.json(files["2026-soccer-epl.json"]));
   await tick();
   assert.deepEqual(Object.keys(store.getSnapshot().months), ["2027-09-01"]);
   assert.deepEqual(Object.keys(store.getSnapshot().manifests), ["2027"]);
@@ -308,4 +308,36 @@ test("switching between football leagues suppresses late results without refetch
   assert.deepEqual(ids(store.getSnapshot().months["2026-09-01"]), ["college"]);
   assert.deepEqual(ids(await getCalendar("month", 2026, "2026-09-01", { ...filters, followed_leagues: ["NFL"] }, "UTC")), ["nfl"]);
   assert.deepEqual(requests, ["manifest.json", "2026-football-nfl.json", "2026-football-college-football.json"]);
+});
+
+test("NBA, EPL and all soccer interests request only exact leagues while retaining shared sport facets", async (t) => {
+  const events = [event("nba", "NBA", "basketball"), event("wnba", "WNBA", "basketball"),
+    event("epl"), event("cup", "FA_CUP"), event("liga", "LA_LIGA")];
+  const files = publishedFiles([bundle(2026, events)]);
+  const requests = serve(t, files);
+  const { getCalendar, getCalendarRange, getFilters } = await loadModule("data");
+  assert.deepEqual((await getFilters(2026, filters, "UTC")).sports,
+    [{ value: "soccer", count: 3 }, { value: "basketball", count: 2 }]);
+  assert.deepEqual(requests, ["manifest.json"]);
+  for (const [league, id, file] of [["NBA", "nba", "basketball-nba"], ["EPL", "epl", "soccer-epl"]]) {
+    const selected = { ...filters, followed_leagues: [league] };
+    const [calendar, range] = await Promise.all([
+      getCalendar("month", 2026, "2026-09-01", selected, "UTC"),
+      getCalendarRange(2026, ["2026-09-01", "2026-10-01"], selected, "UTC"),
+    ]);
+    assert.deepEqual(ids(calendar), [id]);
+    assert.deepEqual(ids(range["2026-09-01"]), [id]);
+    assert.equal(requests.filter(request => request === `2026-${file}.json`).length, 1);
+  }
+  assert.deepEqual(requests, ["manifest.json", "2026-basketball-nba.json", "2026-soccer-epl.json"]);
+  const soccer = { ...filters, sport: "soccer", followed_leagues: ["EPL", "FA_CUP", "LA_LIGA"] };
+  const calendar = await getCalendar("month", 2026, "2026-09-01", soccer, "UTC");
+  assert.deepEqual(ids(calendar).sort(), ["cup", "epl", "liga"]);
+  for (const item of calendar.groups.flatMap(group => group.items)) {
+    const original = events.find(event => event.event_id === item.event_id);
+    assert.deepEqual(Object.fromEntries(Object.keys(original).map(key => [key, item[key]])), original);
+  }
+  assert.deepEqual(requests, ["manifest.json", "2026-basketball-nba.json", "2026-soccer-epl.json", "2026-soccer-fa-cup.json", "2026-soccer-la-liga.json"]);
+  await getCalendar("month", 2026, "2026-09-01", soccer, "UTC");
+  assert.equal(new Set(requests).size, requests.length);
 });
