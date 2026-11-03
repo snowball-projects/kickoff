@@ -32,7 +32,8 @@ for (const width of [390, 1280]) for (const colorScheme of ["light", "dark"] as 
       await cell.locator(".more-events").click();
       await expect(page.getByRole("region", { name: "Day events", exact: true })).toBeVisible();
       await expect(page.getByRole("heading", { name: "Wednesday, October 28, 2026", exact: true })).toBeVisible();
-      await expect(page.getByRole("switch")).toHaveCount(0);
+      await expect(agendaToggle(page)).toBeVisible();
+      await expect(agendaToggle(page)).toHaveAttribute("aria-checked", "false");
       await expect(page.locator(".timeline-hour")).toHaveCount(25);
       await page.getByRole("button", { name: "Thursday, October 29, 2026", exact: true }).click();
       await page.getByRole("button", { name: "Thursday, October 29, 2026", exact: true }).press("ArrowLeft");
