@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import logging
 import re
+import zlib
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from functools import cache
+from threading import Lock
 from urllib.error import HTTPError
 from urllib.parse import urlsplit
 
@@ -20,6 +22,26 @@ CORE = "https://sports.core.api.espn.com/v2/sports"
 TEAM_SPORTS = {"soccer", "football", "basketball", "baseball", "hockey", "rugby", "cricket"}
 LOGO_FIELDS = ("logo_url", "logo_source_url", "logo_checked_date")
 NAME_FIELDS = ("displayName", "name", "shortDisplayName", "location", "abbreviation")
+OPTIONAL_TIMEOUT_SECONDS = 3
+
+
+class _LookupCircuit:
+    def __init__(self):
+        self.lock = Lock()
+        self.failed = False
+
+    def allows_request(self) -> bool:
+        with self.lock:
+            return not self.failed
+
+    def stop(self) -> bool:
+        with self.lock:
+            first_failure = not self.failed
+            self.failed = True
+            return first_failure
+
+
+_metadata_circuit = _LookupCircuit()
 
 
 def _name(value: str) -> str:
@@ -66,10 +88,14 @@ def competition_season(event: CalendarEvent) -> int | None:
 def _optional_json(url: str) -> dict | None:
     from kickoff.feeds import get_json
 
+    circuit = _metadata_circuit
+    if not circuit.allows_request():
+        return None
     try:
-        payload = get_json(url, missing_ok=True)
-    except (HTTPError, OSError, TimeoutError, ValueError) as error:
-        logger.warning("Optional ESPN team image metadata unavailable: %s: %s", url, error)
+        payload = get_json(url, missing_ok=True, retries=1, timeout=OPTIONAL_TIMEOUT_SECONDS)
+    except (HTTPError, OSError, TimeoutError, ValueError, EOFError, zlib.error) as error:
+        if circuit.stop():
+            logger.warning("Optional ESPN image lookup failed; stopping further image requests: %s: %s", url, error)
         return None
     return payload if isinstance(payload, dict) else None
 
@@ -197,6 +223,11 @@ def _identity(event: CalendarEvent, participant: Participant) -> tuple:
 
 def enrich_team_logos(events: list[CalendarEvent]) -> list[dict]:
     """Return private coverage observations; only source-linked image fields are added."""
+    global _metadata_circuit
+    if not _metadata_circuit.allows_request():
+        for lookup in (_optional_json, _core_team, _season_teams, _name_index):
+            lookup.cache_clear()
+    _metadata_circuit = _LookupCircuit()
     checked = datetime.now(UTC).date().isoformat()
     observations = {}
     choices = {}

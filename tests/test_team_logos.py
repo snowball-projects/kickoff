@@ -1,5 +1,8 @@
 """Offline identity, season and optional-image contracts; no guessed team IDs."""
 
+import gzip
+import json
+import zlib
 from copy import deepcopy
 from dataclasses import replace
 from urllib.error import HTTPError
@@ -16,7 +19,8 @@ RAW = "https://a.espncdn.com/i/teamlogos/mlb/500/bal.png"
 
 
 @pytest.fixture(autouse=True)
-def clear_metadata_caches():
+def clear_metadata_caches(monkeypatch):
+    monkeypatch.setattr(team_logos, "_metadata_circuit", team_logos._LookupCircuit())
     for function in (
         team_logos._optional_json,
         team_logos._core_team,
@@ -331,3 +335,185 @@ def test_supplied_images_and_their_historical_receipts_take_priority_over_cohort
     expected = [deepcopy(e.to_dict()) for e in [earlier, later]]
     team_logos.enrich_team_logos([earlier, later])
     assert [e.to_dict() for e in [earlier, later]] == expected
+
+
+@pytest.mark.parametrize(
+    ("failure", "body_error"),
+    [
+        (TimeoutError("metadata timed out"), None),
+        (HTTPError("https://example.org", 503, "Unavailable", {}, None), None),
+        (EOFError("truncated gzip"), None),
+        (zlib.error("corrupt gzip"), None),
+        pytest.param(gzip.compress(b"{}")[:-8], EOFError, id="truncated-gzip-body"),
+        pytest.param(b"\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x07", zlib.error, id="invalid-deflate-body"),
+    ],
+)
+def test_multi_team_image_outage_still_publishes_core_schedules(monkeypatch, tmp_path, failure, body_error):
+    from io import BytesIO
+
+    from kickoff import open_schedules
+    from kickoff.http import read_bounded_response
+    from kickoff.published import publish_sports
+    from tests.test_reviewed_schedules import fake_open_read
+
+    monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
+    monkeypatch.setattr(open_schedules, "fill_missing_start_times", lambda *_: [])
+    original_football = open_schedules.football_events
+    before = {}
+    requests = []
+
+    def football_with_supplied_images(*args):
+        events = original_football(*args)
+        if args[1] == "en.1":
+            for event in events:
+                for participant in event.participants:
+                    team_logos._apply(
+                        event,
+                        participant,
+                        espn_logo_url(RAW),
+                        f"{feeds.ESPN}/soccer/eng.1/scoreboard?dates=2026",
+                        "2026-11-02",
+                    )
+        return events
+
+    class GzipResponse(BytesIO):
+        headers = {"Content-Encoding": "gzip"}
+
+    if body_error is not None:
+        with pytest.raises(body_error):
+            read_bounded_response(GzipResponse(failure))
+
+    def fail_request(request, timeout):
+        requests.append((request.full_url, timeout))
+        if body_error is not None:
+            return GzipResponse(failure)
+        raise failure
+
+    real_enrich = team_logos.enrich_team_logos
+
+    def audited_enrichment(events):
+        before.update({event.event_id: deepcopy(event.to_dict()) for event in events})
+        result = real_enrich(events)
+        assert {event.event_id: event.to_dict() for event in events} == before
+        return result
+
+    monkeypatch.setattr(open_schedules, "football_events", football_with_supplied_images)
+    monkeypatch.setattr(open_schedules, "enrich_team_logos", audited_enrichment)
+    monkeypatch.setattr(feeds, "urlopen", fail_request)
+    monkeypatch.setattr(feeds.time, "sleep", lambda *_: pytest.fail("Optional requests must not retry/back off"))
+    bundle = json.loads(open_schedules.refresh_open_schedules(2026, tmp_path / "annual", enrich_times=True).read_text())
+    assert len(bundle["events"]) == len(before) >= 10
+    assert len({event["league"] for event in bundle["events"] if event["participants"]}) > 3
+    assert len(requests) == 1 and requests[0][1] == 3
+    assert all(
+        "logo_url" not in p for event in bundle["events"] if event["league"] != "EPL" for p in event["participants"]
+    )
+    supplied = [p for event in bundle["events"] if event["league"] == "EPL" for p in event["participants"]]
+    assert supplied and all(
+        p["logo_url"] == espn_logo_url(RAW) and p["logo_checked_date"] == "2026-11-02" for p in supplied
+    )
+    publish_sports([bundle], tmp_path / "public")
+    assert (tmp_path / "public/manifest.json").exists()
+
+
+def test_concurrent_core_outage_stops_queued_team_and_fallback_requests(monkeypatch):
+    from threading import Barrier, Lock
+
+    barrier, lock = Barrier(6), Lock()
+    calls = []
+
+    def get(url, **kwargs):
+        with lock:
+            calls.append((url, kwargs))
+        if urlsplit(url).path.endswith("/teams"):
+            prefix = url.split("?", 1)[0]
+            return {
+                "count": 12,
+                "pageCount": 1,
+                "items": [{"$ref": f"{prefix}/{identity}"} for identity in range(1, 13)],
+            }
+        barrier.wait(timeout=3)
+        raise TimeoutError("shared Core outage")
+
+    monkeypatch.setattr(feeds, "get_json", get)
+    events = [fixture(name=f"Source team {identity}", identity=str(identity)) for identity in range(1, 13)]
+    before = [deepcopy(event.to_dict()) for event in events]
+    result = team_logos.enrich_team_logos(events)
+    assert len(result) == 12
+    assert len(calls) == 7  # One successful roster, at most six already-in-flight metadata calls.
+    assert all(kwargs == {"missing_ok": True, "retries": 1, "timeout": 3} for _, kwargs in calls)
+    assert [event.to_dict() for event in events] == before
+
+
+@pytest.mark.parametrize("missing_status", [400, 404])
+def test_missing_metadata_does_not_open_outage_circuit(monkeypatch, missing_status):
+    from io import BytesIO
+
+    calls = []
+
+    class Response(BytesIO):
+        headers = {}
+
+    def get(request, timeout):
+        calls.append(request.full_url)
+        if len(calls) == 1:
+            raise HTTPError(request.full_url, missing_status, "Missing metadata", {}, None)
+        return Response(
+            json.dumps({"team": {"id": "1", "displayName": "Baltimore Orioles", "logos": [{"href": RAW}]}}).encode()
+        )
+
+    monkeypatch.setattr(feeds, "urlopen", get)
+    monkeypatch.setattr(feeds.time, "sleep", lambda *_: pytest.fail("Missing metadata must not retry"))
+    event = fixture(source="espn", identity="1")
+    assert team_logos.enrich_team_logos([event])[0]["status"] == "logo"
+    assert len(calls) == 2
+
+
+def test_next_enrichment_recovers_same_team_after_cached_outage(monkeypatch):
+    calls = []
+
+    def get(url, **kwargs):
+        calls.append(url)
+        if len(calls) == 1:
+            raise TimeoutError("first collection outage")
+        return {"id": "1", "displayName": "Baltimore Orioles", "logos": [{"href": RAW}]}
+
+    monkeypatch.setattr(feeds, "get_json", get)
+    first = fixture(source="espn", identity="1")
+    assert team_logos.enrich_team_logos([first])[0]["status"] == "unavailable_metadata"
+    second = fixture(source="espn", identity="1")
+    assert team_logos.enrich_team_logos([second])[0]["status"] == "logo"
+    assert len(calls) == 2
+
+
+def test_primary_feed_timeout_and_retry_defaults_are_unchanged(monkeypatch):
+    from io import BytesIO
+
+    attempts, sleeps = [], []
+
+    class Response(BytesIO):
+        headers = {}
+
+    def get(request, timeout):
+        attempts.append(timeout)
+        if len(attempts) < 3:
+            raise TimeoutError("primary retry")
+        return Response(b'{"events":[]}')
+
+    monkeypatch.setattr(feeds, "urlopen", get)
+    monkeypatch.setattr(feeds.time, "sleep", sleeps.append)
+    assert feeds.get_json("https://example.org/primary") == {"events": []}
+    assert attempts == [60, 60, 60] and sleeps == [1, 2]
+
+
+def test_healthy_enrichment_keeps_successful_metadata_cache(monkeypatch):
+    calls = []
+
+    def get(url, **kwargs):
+        calls.append(url)
+        return {"id": "1", "displayName": "Baltimore Orioles", "logos": [{"href": RAW}]}
+
+    monkeypatch.setattr(feeds, "get_json", get)
+    for _ in range(2):
+        assert team_logos.enrich_team_logos([fixture(source="espn", identity="1")])[0]["status"] == "logo"
+    assert len(calls) == 1

@@ -17,7 +17,8 @@ CASES = FIXTURE["cases"]
 
 
 @pytest.fixture(autouse=True)
-def clear_logo_metadata_caches():
+def clear_logo_metadata_caches(monkeypatch):
+    monkeypatch.setattr(team_logos, "_metadata_circuit", team_logos._LookupCircuit())
     for function in (
         team_logos._optional_json,
         team_logos._core_team,

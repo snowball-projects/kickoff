@@ -95,11 +95,11 @@ SOURCES = {
 }
 
 
-def get_json(url: str, *, retries: int = 3, missing_ok: bool = False) -> dict | list | None:
+def get_json(url: str, *, retries: int = 3, missing_ok: bool = False, timeout: float = 60) -> dict | list | None:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json", "Accept-Encoding": "gzip"})
     for attempt in range(retries):
         try:
-            with urlopen(request, timeout=60) as response:
+            with urlopen(request, timeout=timeout) as response:
                 data = read_bounded_response(response, max_bytes=MAX_BYTES)
             return json.loads(data)
         except HTTPError as error:
