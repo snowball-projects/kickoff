@@ -85,7 +85,7 @@ def test_split_preserves_every_fact_and_specific_license_with_metadata_only_inde
     assert sorted(published, key=lambda e: e["event_id"]) == sorted(original["events"], key=lambda e: e["event_id"])
     assert year["sources"] == original["sources"]
     index = (tmp_path / "index.html").read_text()
-    assert "2026-football-nfl.json" in index and "2026-combat.json" in index
+    assert "2026-football-nfl.json" in index and "2026-combat-pfl.json" in index
     assert "manifest.json" in index and "Licenses" in index
     assert not (tmp_path / "2026.json").exists()
 
@@ -117,7 +117,7 @@ def test_optional_enrichment_evidence_contains_only_this_sports_matched_facts(tm
     original["events"][1]["start_time_source"] = "espn"
     publish_sports([original], tmp_path)
     football = json.loads((tmp_path / "2026-football-nfl.json").read_text())
-    combat = json.loads((tmp_path / "2026-combat.json").read_text())
+    combat = json.loads((tmp_path / "2026-combat-pfl.json").read_text())
     football_receipt = next(row for row in football["input_evidence"] if row["url"].endswith("mixed.json"))
     combat_receipt = next(row for row in combat["input_evidence"] if row["url"].endswith("mixed.json"))
     assert football_receipt["clocks_added"] == []
@@ -160,3 +160,42 @@ def test_football_leagues_have_independent_files_without_changing_sport_or_facts
     index = (tmp_path / "index.html").read_text()
     for item in football:
         assert f'href="{item["file"]}"' in index
+
+
+def test_each_sport_publishes_one_file_per_league_with_all_facts_and_receipts(tmp_path):
+    original = bundle()
+    template = original["events"][0]
+    original["events"] = [
+        {**template, "event_id": league, "league": league, "sport": sport}
+        for sport, league in [("basketball", "NBA"), ("basketball", "WNBA"), ("soccer", "EPL"), ("soccer", "FA_CUP")]
+    ]
+    original["input_evidence"].append(
+        {
+            "kind": "espn",
+            "url": "https://site.api.espn.com/optional-facts.json",
+            "sha256": "c" * 64,
+            "team_facts_added": [
+                {"event_id": event["event_id"], "team_source_url": event["source_url"]} for event in original["events"]
+            ],
+        }
+    )
+    publish_sports([original], tmp_path)
+    year = json.loads((tmp_path / "manifest.json").read_text())["seasons"]["2026"]
+    assert year["all_events"] == 4
+    assert len(year["sports"]) == 4
+    published = []
+    index = (tmp_path / "index.html").read_text()
+    for item in year["sports"]:
+        payload = json.loads((tmp_path / item["file"]).read_text())
+        assert len(item["leagues"]) == 1
+        assert payload["events"] == [event for event in original["events"] if event["league"] == item["leagues"][0]]
+        assert payload["data_licenses"] == {"espn": "No license granted"}
+        assert payload["input_evidence"][0] == original["input_evidence"][0]
+        assert payload["input_evidence"][1]["team_facts_added"] == [
+            row for row in original["input_evidence"][-1]["team_facts_added"] if row["event_id"] == item["leagues"][0]
+        ]
+        assert f'href="{item["file"]}"' in index
+        published.extend(payload["events"])
+    assert sorted(published, key=lambda event: event["event_id"]) == sorted(
+        original["events"], key=lambda event: event["event_id"]
+    )

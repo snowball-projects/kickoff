@@ -1,4 +1,4 @@
-"""Publish trusted collector output as a metadata index and independent sports."""
+"""Publish trusted collector output as a metadata index and independent leagues."""
 
 import json
 from collections import Counter, defaultdict
@@ -60,7 +60,7 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
         groups = defaultdict(list)
         for event in bundle["events"]:
             sport = event["sport"]
-            group = f"{sport}-{event['league'].lower().replace('_', '-')}" if sport == "football" else sport
+            group = f"{sport}-{event['league'].lower().replace('_', '-')}"
             groups[group].append(event)
         catalog = []
         for group, events in sorted(groups.items()):

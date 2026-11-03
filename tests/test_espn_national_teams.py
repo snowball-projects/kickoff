@@ -113,7 +113,7 @@ def test_official_positive_country_identity_keeps_conflicting_core_fact_private(
     assert "conflicting_core_metadata" not in participant and "source_sha256" not in participant
 
 
-def test_official_identity_attribution_survives_collector_and_sport_split(monkeypatch, tmp_path):
+def test_official_identity_attribution_survives_collector_and_league_split(monkeypatch, tmp_path):
     monkeypatch.setattr("kickoff.open_schedules.read_url", fake_open_read)
     monkeypatch.setattr(feeds, "get_json", lambda _: {"events": []})
     source_event = match("rugby", "289268", "Hong Kong")
@@ -130,9 +130,9 @@ def test_official_identity_attribution_survives_collector_and_sport_split(monkey
     assert notice["license"] == "Identity facts; no open data license granted"
     assert notice["license_url"] == "https://www.world.rugby/terms-and-conditions"
     assert notice in manifest["seasons"]["2026"]["sources"]
-    rugby = json.loads((tmp_path / "published/2026-rugby.json").read_text())
+    rugby = json.loads((tmp_path / "published/2026-rugby-six-nations.json").read_text())
     assert notice in rugby["sources"] and rugby["data_licenses"]["world_rugby"] == notice["license"]
     assert rugby["events"][0]["home_participant"]["country_source_url"] == notice["url"]
     for path in (tmp_path / "published").glob("2026-*.json"):
-        if path.name != "2026-rugby.json":
+        if path.name != "2026-rugby-six-nations.json":
             assert all(source["kind"] != "world_rugby" for source in json.loads(path.read_text())["sources"])

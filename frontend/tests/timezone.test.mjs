@@ -164,14 +164,14 @@ test("a slow neighboring year merges later without blocking the current year", a
   const files = fixtures(t, {
     2026: bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")]),
     2027: bundle(2027, [event("own", "2027-01-02")]),
-  }, (file) => file === "2026-soccer.json" ? previous : undefined);
+  }, (file) => file === "2026-soccer-epl.json" ? previous : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
   store.update(["2027-01-01"], signature, "UTC", 0);
   const ready = await until(store, (state) => !state.loadingYears.length);
   assert.equal(on(ready.months["2027-01-01"], "2027-01-02")[0].event_id, "own");
-  resolvePrevious(Response.json(files["2026-soccer.json"]));
+  resolvePrevious(Response.json(files["2026-soccer-epl.json"]));
   const merged = await until(store, (state) => on(state.months["2027-01-01"], "2027-01-01").length === 1);
   assert.equal(on(merged.months["2027-01-01"], "2027-01-01")[0].event_id, "spillover");
 });
@@ -213,7 +213,7 @@ test("a boundary fetch failure preserves primary events and an explicit retry re
   fixtures(t, {
     2026: bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")]),
     2027: bundle(2027, [event("own", "2027-01-02")]),
-  }, (file) => failed && file === "2026-soccer.json" ? new Response("failure", { status: 503 }) : undefined);
+  }, (file) => failed && file === "2026-soccer-epl.json" ? new Response("failure", { status: 503 }) : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
@@ -234,7 +234,7 @@ test("changing timezone while a neighbor loads cannot restore stale boundary pla
   const files = fixtures(t, {
     2026: bundle(2026, [event("spillover", "2026-12-31", "2027-01-01T01:00:00Z")]),
     2027: bundle(2027),
-  }, (file) => file === "2026-soccer.json" ? previous : undefined);
+  }, (file) => file === "2026-soccer-epl.json" ? previous : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
@@ -242,7 +242,7 @@ test("changing timezone while a neighbor loads cannot restore stale boundary pla
   await until(store, (state) => !state.loadingYears.length);
   store.update(["2027-01-01"], signature, "America/Los_Angeles", 0);
   await until(store, (state) => !state.loadingYears.length);
-  resolvePrevious(Response.json(files["2026-soccer.json"]));
+  resolvePrevious(Response.json(files["2026-soccer-epl.json"]));
   await new Promise((resolve) => setImmediate(resolve));
   const month = store.getSnapshot().months["2027-01-01"];
   assert.equal(month.timezone, "America/Los_Angeles");
@@ -257,7 +257,7 @@ test("a failed neighbor cannot block scrolling to June or recomputing interests"
     event("june-race", "2027-06-03", null, { league: "F1" }),
   ]);
   fixtures(t, { 2026: bundle(2026, [event("neighbor", "2026-12-31")]), 2027: current },
-    (file) => file === "2026-soccer.json" ? new Response("failure", { status: 503 }) : undefined);
+    (file) => file === "2026-soccer-epl.json" ? new Response("failure", { status: 503 }) : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
   t.after(() => store.cancel());
@@ -289,16 +289,16 @@ test("December spillovers publish while January's unrelated neighbor is still lo
     2025: bundle(2025, [event("unrelated", "2025-06-01")]),
     2026: bundle(2026),
     2027: bundle(2027, [event("december-spillover", "2027-01-01", "2027-01-01T01:00:00Z")]),
-  }, (file) => file === "2025-soccer.json" ? previous : undefined);
+  }, (file) => file === "2025-soccer-epl.json" ? previous : undefined);
   const { CalendarDataStore } = await loadModule("data");
   const store = new CalendarDataStore();
-  t.after(() => { store.cancel(); resolvePrevious(Response.json(files["2025-soccer.json"])); });
+  t.after(() => { store.cancel(); resolvePrevious(Response.json(files["2025-soccer-epl.json"])); });
   store.update(["2026-01-01", "2026-12-01"], signature, "America/Los_Angeles", 0);
   const state = await until(store, (snapshot) => snapshot.months["2026-12-01"]?.total_events === 1);
   assert.equal(on(state.months["2026-12-01"], "2026-12-31")[0].event_id, "december-spillover");
   assert.equal(state.months["2026-01-01"].total_events, 0);
   assert.deepEqual(state.errors, {});
-  resolvePrevious(Response.json(files["2025-soccer.json"]));
+  resolvePrevious(Response.json(files["2025-soccer-epl.json"]));
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(store.getSnapshot().months["2026-12-01"].total_events, 1);
 });

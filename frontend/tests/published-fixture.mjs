@@ -1,5 +1,5 @@
 // Test-only transport fixtures. Inputs stay convenient annual event collections;
-// mocks serve the same manifest and independent sport files as the publisher.
+// mocks serve the same manifest and independent league files as the publisher.
 export function publishedFiles(bundles) {
   const files = {};
   const available_seasons = bundles.map(({ season }) => season).sort((a, b) => a - b);
@@ -12,7 +12,7 @@ export function publishedFiles(bundles) {
       for (const value of values) totals.set(value, (totals.get(value) || 0) + 1);
       return [...totals].map(([value, count]) => ({ value, count })).sort((a, b) => b.count - a.count || a.value.localeCompare(b.value));
     };
-    const group = (event) => event.sport === "football" ? `${event.sport}-${event.league.toLowerCase().replaceAll("_", "-")}` : event.sport;
+    const group = (event) => `${event.sport}-${event.league.toLowerCase().replaceAll("_", "-")}`;
     const sports = counts(events.map(group)).sort((a, b) => a.value.localeCompare(b.value))
       .map(({ value, count }) => {
         const grouped = events.filter((event) => group(event) === value);
