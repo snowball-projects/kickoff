@@ -55,11 +55,20 @@ def fixture(
 @pytest.fixture(autouse=True)
 def offline_registry(monkeypatch):
     event = fixture()
-    key = team_logos.cohort_key(event, event.participants[0])
+    key = team_logos.team_key(event, event.participants[0])
     monkeypatch.setattr(
         team_logos,
         "logo_registry",
-        lambda: ({key: espn_logo_url(RAW)}, {key: {"source_url": URL, "checked_date": "2026-11-02"}}),
+        lambda: {
+            event.league: {
+                key: {
+                    "names": [event.participants[0].name],
+                    "logo_url": espn_logo_url(RAW),
+                    "source_url": URL,
+                    "checked_date": "2026-11-02",
+                }
+            }
+        },
     )
 
 
@@ -97,14 +106,12 @@ def test_daily_registry_is_offline_and_preserves_all_other_facts(monkeypatch):
     [
         {"league": "Other"},
         {"source": "espn"},
-        {"season": "2024"},
         {"identity": "111"},
         {"name": "Rebranded Orioles"},
-        {"short": "New short name"},
     ],
 )
 def test_missing_or_different_source_identity_keeps_text_without_network(monkeypatch, changes):
-    monkeypatch.setattr(feeds, "get_json", lambda *a, **k: pytest.fail("Missing cohorts are text"))
+    monkeypatch.setattr(feeds, "get_json", lambda *a, **k: pytest.fail("Missing teams are text"))
     event = fixture(**changes)
     before = deepcopy(event.to_dict())
     assert team_logos.enrich_team_logos([event]) is None
@@ -120,7 +127,11 @@ def test_each_supplied_receipt_wins_and_can_cover_bare_same_cohort(monkeypatch):
         "logo_checked_date": "2025-11-02",
     }
     later = deepcopy(earlier)
-    later.participants[0].metadata.update(logo_source_url=URL + "&a=2", logo_checked_date="2026-11-03")
+    later.participants[0].metadata.update(
+        logo_url=espn_logo_url(RAW.replace("/500/", "/500/scoreboard/")),
+        logo_source_url=URL + "&a=2",
+        logo_checked_date="2026-11-03",
+    )
     bare = fixture()
     before = [deepcopy(event.to_dict()) for event in [earlier, later]]
     team_logos.enrich_team_logos([bare, earlier, later])
@@ -144,41 +155,44 @@ def test_individual_sports_and_athletes_do_not_receive_or_publish_team_images(mo
     assert "logo_url" not in _event_payload(golf)["participants"][0]
 
 
-def test_committed_image_list_has_exact_source_receipts_and_unique_valid_keys():
+def test_committed_image_list_has_inline_source_receipts_and_unique_valid_identities():
     config = files("kickoff").joinpath("config")
     registry = json.loads(config.joinpath("team_logos.json").read_text(), object_pairs_hook=unique_object)
-    receipts = json.loads(config.joinpath("team_logo_receipts.json").read_text(), object_pairs_hook=unique_object)
-    assert set(registry) == {"schema_version", "logos"} and registry["schema_version"] == "1"
-    assert set(receipts) == {"schema_version", "teams"} and receipts["schema_version"] == "1"
-    logos, sources = registry["logos"], receipts["teams"]
-    assert logos and logos.keys() == sources.keys()
-    for key, logo in logos.items():
-        identity = json.loads(key)
-        assert isinstance(identity, list) and len(identity) == 6
-        league, source, season, participant_id, name, short_name = identity
-        assert all(isinstance(value, str) and value for value in (league, source, season, name))
-        assert all(value is None or isinstance(value, str) for value in (participant_id, short_name))
-        assert key == json.dumps(identity, ensure_ascii=True, separators=(",", ":"))
-        assert logo and logo == espn_logo_url(logo)
-        receipt = sources[key]
-        assert set(receipt) == {"source_url", "checked_date"}
-        assert receipt["source_url"].startswith(
-            ("https://site.api.espn.com/apis/site/v2/sports/", "https://sports.core.api.espn.com/v2/sports/")
-        )
-        assert date.fromisoformat(receipt["checked_date"]).isoformat() == receipt["checked_date"]
-        path = parse_qs(urlsplit(logo).query)["img"][0]
-        if path.casefold().startswith("/i/teamlogos/countries/"):
-            if source == "openfootball" and league == "FIFA_WORLD_CUP":
-                from kickoff.world_cup import TEAM_COUNTRIES
+    assert set(registry) == {"schema_version", "logos"} and registry["schema_version"] == "2"
+    assert not config.joinpath("team_logo_receipts.json").is_file()
+    assert registry["logos"]
+    for league, teams in registry["logos"].items():
+        assert league and teams
+        for key, record in teams.items():
+            source, kind, identity = key.split(":", 2)
+            assert source in {"espn", "openfootball", "mlb", "nhl"} and kind in {"id", "name"} and identity
+            assert set(record) == {"names", "logo_url", "source_url", "checked_date"}
+            assert record["names"] and all(isinstance(name, str) and name for name in record["names"])
+            assert record["names"] == sorted(set(record["names"]))
+            if kind == "name":
+                assert record["names"] == [identity]
+            logo = record["logo_url"]
+            assert logo and logo == espn_logo_url(logo)
+            assert record["source_url"].startswith(
+                ("https://site.api.espn.com/apis/site/v2/sports/", "https://sports.core.api.espn.com/v2/sports/")
+            )
+            assert date.fromisoformat(record["checked_date"]).isoformat() == record["checked_date"]
+            path = parse_qs(urlsplit(logo).query)["img"][0]
+            if path.casefold().startswith("/i/teamlogos/countries/"):
+                for name in record["names"]:
+                    if source == "openfootball" and league == "FIFA_WORLD_CUP":
+                        from kickoff.world_cup import TEAM_COUNTRIES
 
-                country = TEAM_COUNTRIES[name]
-            else:
-                sport = "rugby" if league in feeds.RUGBY_LEAGUES else "soccer"
-                reviewed = feeds._espn_national_teams().get(f"{sport}/{participant_id}")
-                assert source == "espn" and reviewed, f"Country image assigned to unreviewed team: {key}"
-                country = reviewed["country_code"]
-            participant = Participant(name=name, entity_type="national_team", metadata={"country_code": country})
-            assert team_logos.participant_logo(participant, logo) == logo
+                        country = TEAM_COUNTRIES[name]
+                    else:
+                        sport = "rugby" if league in feeds.RUGBY_LEAGUES else "soccer"
+                        reviewed = feeds._espn_national_teams().get(f"{sport}/{identity}")
+                        assert source == "espn" and kind == "id" and reviewed, key
+                        country = reviewed["country_code"]
+                    participant = Participant(
+                        name=name, entity_type="national_team", metadata={"country_code": country}
+                    )
+                    assert team_logos.participant_logo(participant, logo) == logo
 
 
 def test_logo_only_enrichment_adds_espn_source_and_license(monkeypatch, tmp_path):
@@ -358,11 +372,20 @@ def test_reviewed_world_cup_country_identity_needs_no_extra_metadata(monkeypatch
     participant = event.participants[0]
     assert participant.entity_type == "national_team" and participant.metadata == {"country_code": "CA"}
     before = _event_payload(event)
-    key = team_logos.cohort_key(event, participant)
+    key = team_logos.team_key(event, participant)
     monkeypatch.setattr(
         team_logos,
         "logo_registry",
-        lambda: ({key: espn_logo_url(COUNTRY_RAW)}, {key: {"source_url": URL, "checked_date": "2026-11-03"}}),
+        lambda: {
+            event.league: {
+                key: {
+                    "names": [participant.name],
+                    "logo_url": espn_logo_url(COUNTRY_RAW),
+                    "source_url": URL,
+                    "checked_date": "2026-11-03",
+                }
+            }
+        },
     )
     team_logos.enrich_team_logos([event])
     after = _event_payload(event)
@@ -430,7 +453,7 @@ def test_audited_collisions_are_blocked_at_ingestion_enrichment_and_export(monke
     participant.metadata.update(logo_url=espn_logo_url(unsafe), logo_source_url=URL, logo_checked_date="2026-11-03")
     event.home_participant = deepcopy(participant)
     assert _event_payload(event) == before  # Also safe with enrich_times=False.
-    monkeypatch.setattr(team_logos, "logo_registry", lambda: ({}, {}))
+    monkeypatch.setattr(team_logos, "logo_registry", lambda: {})
     team_logos.enrich_team_logos([event])
     assert event.home_participant == participant
     assert _event_payload(event) == before
@@ -447,3 +470,108 @@ def test_audited_slovenia_image_remains_available():
     )
     public = _event_payload(event)["participants"][0]
     assert public["country_code"] == "SI" and public["logo_url"] == espn_logo_url(raw)
+
+
+@pytest.mark.parametrize(
+    "changes", [{"season": "2028"}, {"short": "New short name"}, {"season": "2028", "short": None}]
+)
+def test_reviewed_team_keeps_logo_across_seasons_and_short_name_changes(monkeypatch, changes):
+    monkeypatch.setattr(feeds, "get_json", lambda *a, **k: pytest.fail("Registry lookup is offline"))
+    event = fixture(**changes)
+    before = _event_payload(event)
+    team_logos.enrich_team_logos([event])
+    after = _event_payload(event)
+    assert after["participants"][0]["logo_url"] == espn_logo_url(RAW)
+    assert after["participants"][0]["logo_source_url"] == URL
+    assert after["participants"][0]["logo_checked_date"] == "2026-11-02"
+    for field in team_logos.LOGO_FIELDS:
+        after["participants"][0].pop(field)
+    assert after == before
+
+
+def test_no_id_lookup_requires_the_exact_source_name_and_never_backs_up_an_id(monkeypatch):
+    event = fixture(identity=None)
+    key = team_logos.team_key(event, event.participants[0])
+    assert key == "mlb:name:Baltimore Orioles"
+    monkeypatch.setattr(
+        team_logos,
+        "logo_registry",
+        lambda: {
+            "MLB": {
+                key: {
+                    "names": ["Baltimore Orioles"],
+                    "logo_url": espn_logo_url(RAW),
+                    "source_url": URL,
+                    "checked_date": "2026-11-02",
+                }
+            }
+        },
+    )
+    changed = fixture(identity=None, name="baltimore Orioles")
+    other_source = fixture(identity=None, source="espn")
+    with_id = fixture()
+    team_logos.enrich_team_logos([event, changed, other_source, with_id])
+    assert event.participants[0].metadata["logo_url"] == espn_logo_url(RAW)
+    assert all(not row.participants[0].metadata for row in [changed, other_source, with_id])
+
+
+@pytest.mark.parametrize("changes", [{"season": "2026"}, {"name": "Rebranded Orioles"}, {"short": "Changed short"}])
+def test_supplied_image_sharing_retains_season_and_exact_source_cohort_boundaries(monkeypatch, changes):
+    monkeypatch.setattr(team_logos, "logo_registry", lambda: {})
+    supplied = fixture()
+    supplied.participants[0].metadata.update(
+        logo_url=espn_logo_url(RAW), logo_source_url=URL, logo_checked_date="2026-11-02"
+    )
+    same = fixture()
+    different = fixture(**changes)
+    team_logos.enrich_team_logos([supplied, same, different])
+    assert same.participants[0].metadata == supplied.participants[0].metadata
+    assert different.participants[0].metadata == {}
+
+
+@pytest.mark.parametrize(
+    "identity,name",
+    [
+        ("112646", "DC Defenders"),
+        ("112647", "Dallas Renegades"),
+        ("126073", "Birmingham Stallions"),
+        ("126075", "Houston Gamblers"),
+    ],
+)
+def test_conflicting_ufl_branding_has_no_registry_fallback_but_keeps_own_image(monkeypatch, identity, name):
+    registry = json.loads(files("kickoff").joinpath("config/team_logos.json").read_text())["logos"]
+    assert f"espn:id:{identity}" not in registry["UFL"]
+    monkeypatch.setattr(team_logos, "logo_registry", lambda: registry)
+    event = fixture(league="UFL", sport="football", source="espn", identity=identity, name=name)
+    team_logos.enrich_team_logos([event])
+    assert event.participants[0].metadata == {}
+    logo = espn_logo_url("https://a.espncdn.com/i/teamlogos/ufl/500/scoreboard/dc.png")
+    event.participants[0].metadata.update(logo_url=logo, logo_source_url=URL, logo_checked_date="2026-11-02")
+    before = deepcopy(event.to_dict())
+    team_logos.enrich_team_logos([event])
+    assert event.to_dict() == before
+
+
+def test_id_lookup_accepts_only_reviewed_exact_full_names_not_short_name_variants(monkeypatch):
+    event = fixture()
+    key = team_logos.team_key(event, event.participants[0])
+    monkeypatch.setattr(
+        team_logos,
+        "logo_registry",
+        lambda: {
+            "MLB": {
+                key: {
+                    "names": ["Baltimore Orioles", "Reviewed source name"],
+                    "logo_url": espn_logo_url(RAW),
+                    "source_url": URL,
+                    "checked_date": "2026-11-02",
+                }
+            }
+        },
+    )
+    reviewed = fixture(name="Reviewed source name", short="New short name", season="2028")
+    punctuation = fixture(name="Reviewed-source name")
+    short_only = fixture(name="Unreviewed name", short="Reviewed source name")
+    team_logos.enrich_team_logos([reviewed, punctuation, short_only])
+    assert reviewed.participants[0].metadata["logo_url"] == espn_logo_url(RAW)
+    assert punctuation.participants[0].metadata == short_only.participants[0].metadata == {}

@@ -61,13 +61,14 @@ def cohort_key(event: CalendarEvent, participant: Participant) -> str:
     )
 
 
+def team_key(event: CalendarEvent, participant: Participant) -> str:
+    identity = f"id:{participant.participant_id}" if participant.participant_id else f"name:{participant.name}"
+    return f"{event.source}:{identity}"
+
+
 @cache
-def logo_registry() -> tuple[dict, dict]:
-    config = files("kickoff").joinpath("config")
-    return (
-        json.loads(config.joinpath("team_logos.json").read_text())["logos"],
-        json.loads(config.joinpath("team_logo_receipts.json").read_text())["teams"],
-    )
+def logo_registry() -> dict:
+    return json.loads(files("kickoff").joinpath("config/team_logos.json").read_text())["logos"]
 
 
 def _apply(event: CalendarEvent, participant: Participant, logo: str, source_url: str, checked: str) -> None:
@@ -78,8 +79,8 @@ def _apply(event: CalendarEvent, participant: Participant, logo: str, source_url
 
 
 def enrich_team_logos(events: list[CalendarEvent]) -> None:
-    """Use source-supplied images first, then the checked-in cohort registry."""
-    logos, receipts = logo_registry()
+    """Use source-supplied images first, then the checked-in league/team registry."""
+    logos = logo_registry()
     supplied_images = {}
     for event in events:
         for participant in [*event.participants, event.home_participant, event.away_participant]:
@@ -112,8 +113,12 @@ def enrich_team_logos(events: list[CalendarEvent]) -> None:
                 if own and metadata.get("logo_source_url") and metadata.get("logo_checked_date")
                 else supplied_images.get(key)
             )
-            receipt = receipts.get(key, {})
-            registered = participant_logo(participant, logos.get(key))
-            choice = supplied or ((registered, receipt["source_url"], receipt["checked_date"]) if registered else None)
+            record = logos.get(event.league, {}).get(team_key(event, participant))
+            registered = (
+                participant_logo(participant, record["logo_url"])
+                if record and participant.name in record["names"]
+                else None
+            )
+            choice = supplied or ((registered, record["source_url"], record["checked_date"]) if registered else None)
             if choice:
                 _apply(event, participant, *choice)
