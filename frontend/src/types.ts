@@ -91,7 +91,7 @@ export type SourceNotice = {
   revision?: string;
 };
 
-export type SportFile = { value: string; count: number; file: string };
+export type SportFile = { value: string; count: number; file: string; leagues: string[] };
 
 export type ManifestResponse = {
   sports: SportFile[];

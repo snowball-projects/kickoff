@@ -85,7 +85,7 @@ def test_split_preserves_every_fact_and_specific_license_with_metadata_only_inde
     assert sorted(published, key=lambda e: e["event_id"]) == sorted(original["events"], key=lambda e: e["event_id"])
     assert year["sources"] == original["sources"]
     index = (tmp_path / "index.html").read_text()
-    assert "2026-football.json" in index and "2026-combat.json" in index
+    assert "2026-football-nfl.json" in index and "2026-combat.json" in index
     assert "manifest.json" in index and "Licenses" in index
     assert not (tmp_path / "2026.json").exists()
 
@@ -116,7 +116,7 @@ def test_optional_enrichment_evidence_contains_only_this_sports_matched_facts(tm
     )
     original["events"][1]["start_time_source"] = "espn"
     publish_sports([original], tmp_path)
-    football = json.loads((tmp_path / "2026-football.json").read_text())
+    football = json.loads((tmp_path / "2026-football-nfl.json").read_text())
     combat = json.loads((tmp_path / "2026-combat.json").read_text())
     football_receipt = next(row for row in football["input_evidence"] if row["url"].endswith("mixed.json"))
     combat_receipt = next(row for row in combat["input_evidence"] if row["url"].endswith("mixed.json"))
@@ -125,3 +125,38 @@ def test_optional_enrichment_evidence_contains_only_this_sports_matched_facts(tm
     assert combat_receipt["team_facts_added"] == []
     assert combat_receipt["clocks_added"] == original["input_evidence"][-1]["clocks_added"]
     assert len(original["input_evidence"][-1]["clocks_added"]) == 1
+
+
+def test_football_leagues_have_independent_files_without_changing_sport_or_facts(tmp_path):
+    original = bundle()
+    nfl = original["events"][0]
+    original["events"].extend(
+        [
+            {**nfl, "event_id": "college", "league": "COLLEGE_FOOTBALL", "title": "College game"},
+            {**nfl, "event_id": "ufl", "league": "UFL", "title": "UFL game"},
+        ]
+    )
+    publish_sports([original], tmp_path)
+    year = json.loads((tmp_path / "manifest.json").read_text())["seasons"]["2026"]
+    football = [item for item in year["sports"] if item["value"] == "football"]
+    assert football == [
+        {
+            "value": "football",
+            "count": 1,
+            "file": "2026-football-college-football.json",
+            "leagues": ["COLLEGE_FOOTBALL"],
+        },
+        {"value": "football", "count": 1, "file": "2026-football-nfl.json", "leagues": ["NFL"]},
+        {"value": "football", "count": 1, "file": "2026-football-ufl.json", "leagues": ["UFL"]},
+    ]
+    published = []
+    for item in year["sports"]:
+        payload = json.loads((tmp_path / item["file"]).read_text())
+        assert sorted({event["league"] for event in payload["events"]}) == item["leagues"]
+        published.extend(payload["events"])
+    assert sorted(published, key=lambda event: event["event_id"]) == sorted(
+        original["events"], key=lambda event: event["event_id"]
+    )
+    index = (tmp_path / "index.html").read_text()
+    for item in football:
+        assert f'href="{item["file"]}"' in index

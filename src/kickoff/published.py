@@ -59,10 +59,14 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
         year = bundle["season"]
         groups = defaultdict(list)
         for event in bundle["events"]:
-            groups[event["sport"]].append(event)
+            sport = event["sport"]
+            group = f"{sport}-{event['league'].lower().replace('_', '-')}" if sport == "football" else sport
+            groups[group].append(event)
         catalog = []
-        for sport, events in sorted(groups.items()):
-            name = f"{year}-{sport}.json"
+        for group, events in sorted(groups.items()):
+            sport = events[0]["sport"]
+            leagues = sorted({event["league"] for event in events})
+            name = f"{year}-{group}.json"
             kinds = {event["source"] for event in events} | {event.get("start_time_source") for event in events}
             kinds.update(
                 p["country_source_kind"]
@@ -90,9 +94,9 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
                 "input_evidence": list(sport_evidence(bundle["input_evidence"], kinds, events)),
             }
             write_json(output / name, payload)
-            catalog.append({"value": sport, "count": len(events), "file": name})
+            catalog.append({"value": sport, "count": len(events), "file": name, "leagues": leagues})
             links.append(
-                f'<li><a href="{escape(name)}">{year} · {escape(sport)} · {len(events):,} events (JSON)</a></li>'
+                f'<li><a href="{escape(name)}">{year} · {escape(group)} · {len(events):,} events (JSON)</a></li>'
             )
         facets = filters_for(bundle)
         manifest["seasons"][str(year)] = {
