@@ -90,6 +90,8 @@ for (const colorScheme of ["light", "dark"] as const) test(`pill flags follow na
   ]);
   const short = page.locator(`#day-${today} .event-pill`), medium = page.locator("#day-2026-10-29 .pill-text"), long = page.locator("#day-2026-10-30 .pill-text");
   await expect(short.locator(".pill-text")).toHaveCSS("mask-image", "none");
+  await expect(medium.locator(".pill-code")).toHaveText("PGA");
+  await expect(long.locator(".pill-code")).toHaveText("PGA");
   await expect(medium).toHaveClass(/truncated/); await expect(long).toHaveClass(/truncated/);
   await expect(short.locator(".country-flag")).toBeHidden();
   await page.setViewportSize({ width: 1280, height: 844 });

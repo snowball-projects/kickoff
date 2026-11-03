@@ -21,7 +21,7 @@ test("empty first visit fetches only metadata; staged choices download only afte
   await expect(save(page)).toBeEnabled();
   expect(requests).toEqual(["manifest.json"]);
   await save(page).click();
-  await expect(page.locator("#day-2026-10-28 .event-pill")).toHaveText("NFL");
+  await expect(page.locator("#day-2026-10-28 .event-pill .pill-label")).toHaveText("NFL");
   expect([...requests].sort()).toEqual(["manifest.json", ...[2025, 2026, 2027].map((year) => `${year}-football-nfl.json`)].sort());
 
   await openInterests(page);
@@ -34,7 +34,7 @@ test("empty first visit fetches only metadata; staged choices download only afte
   await openInterests(page);
   await sport(page, "Football").click();
   await save(page).click();
-  await expect(page.locator("#day-2026-10-28 .event-pill .pill-text")).toHaveText("Premier League");
+  await expect(page.locator("#day-2026-10-28 .event-pill .pill-label")).toHaveText("Premier League");
   expect(requests).toEqual(beforeRemoval);
   await agendaToggle(page).click();
   await expect(page.locator(".agenda-row")).toHaveCount(1);
@@ -73,7 +73,7 @@ test("held sport files never block Interests and late results cannot restore a r
   await sport(page, "Football").click();
   await sport(page, "Soccer").click();
   await save(page).click();
-  await expect(page.locator("#day-2026-10-28 .event-pill .pill-text")).toHaveText("Premier League");
+  await expect(page.locator("#day-2026-10-28 .event-pill .pill-label")).toHaveText("Premier League");
   const settled = page.waitForResponse("**/data/2026-football-nfl.json");
   release();
   await settled;
@@ -93,7 +93,7 @@ test("a failed football file leaves metadata usable and switching to soccer clea
   await sport(page, "Football").click();
   await sport(page, "Soccer").click();
   await save(page).click();
-  await expect(page.locator("#day-2026-10-28 .event-pill .pill-text")).toHaveText("Premier League");
+  await expect(page.locator("#day-2026-10-28 .event-pill .pill-label")).toHaveText("Premier League");
   await expect(page.locator(".calendar-status")).not.toContainText("could not be loaded");
   expect(requests.filter((file) => file === "manifest.json")).toHaveLength(1);
   expect(requests.filter((file) => file === "2026-football-nfl.json").length).toBeGreaterThanOrEqual(1);
@@ -110,7 +110,7 @@ test("retry refreshes a failed sport download without fetching unselected sports
   expect(requests.filter((file) => file === "2026-football-nfl.json")).toHaveLength(failedRequests);
   options.failedFiles = [];
   await page.locator(".calendar-status").getByRole("button", { name: "Retry", exact: true }).click();
-  await expect(page.locator("#day-2026-10-28 .event-pill")).toHaveText("NFL");
+  await expect(page.locator("#day-2026-10-28 .event-pill .pill-label")).toHaveText("NFL");
   await expect(page.locator(".calendar-status")).not.toContainText("could not be loaded");
   expect(requests.filter((file) => file === "manifest.json")).toHaveLength(2);
   expect(requests.filter((file) => file === "2026-football-nfl.json")).toHaveLength(failedRequests + 1);

@@ -11,7 +11,7 @@ test("group selection preserves other interests", async () => {
   ]);
   assert.deepEqual(toggleInterestGroup(["F1", "NFL", "OLD_SAVED_LEAGUE"], ["F1", "INDYCAR"]), ["F1", "NFL", "OLD_SAVED_LEAGUE", "INDYCAR"]);
   assert.deepEqual(toggleInterestGroup(["F1", "NFL", "INDYCAR"], ["F1", "INDYCAR"]), ["NFL"]);
-  assert.equal(leagueVisual("CHAMPIONSHIP").shortLabel, "EFL Championship");
+  assert.equal(leagueVisual("CHAMPIONSHIP").shortLabel, "Championship");
   assert.equal(SOCCER_COUNTRIES.CHAMPIONSHIP.name, "England");
   assert.equal(SOCCER_COUNTRIES.UEFA_CHAMPIONS_LEAGUE, undefined);
 });

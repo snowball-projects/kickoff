@@ -83,6 +83,6 @@ test("pills use league jurisdictions for domestic soccer and all-event hosts els
     assert.equal(pillCountry([event, { ...event, country }]), undefined);
   for (const league of ["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"])
     assert.equal(pillCountry([{ league, country: "US" }]), undefined);
-  assert.equal(leagueVisual("CHAMPIONSHIP").shortLabel, "EFL Championship");
+  assert.equal(leagueVisual("CHAMPIONSHIP").shortLabel, "Championship");
   assert.equal(leagueVisual("BRASILEIRAO").shortLabel, "Brasileirão");
 });

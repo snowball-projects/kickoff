@@ -74,7 +74,8 @@ test("every league uses the header identity, with word boundaries and conservati
   for (const league of [...leagues, "FUTURE_LEAGUE"]) {
     const label = leagueVisual(league).shortLabel;
     assert.equal(agendaEventTitle({ league, title: `${label} · Final` }), "Final", league);
-    assert.equal(agendaEventTitle({ league, title: `${label}ville Final` }), `${label}ville Final`, league);
+    const partialName = `${label.replace(/^(\S+)/, "$1ville")} Final`;
+    assert.equal(agendaEventTitle({ league, title: partialName }), partialName, league);
     assert.equal(agendaEventTitle({ league, title: `Final at ${label}` }), `Final at ${label}`, league);
   }
   assert.equal(agendaEventTitle({ league: "UFC", title: "UFC", city: "Paris", venue: "Arena" }), "Paris");

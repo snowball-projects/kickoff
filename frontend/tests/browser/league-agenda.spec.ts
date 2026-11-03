@@ -23,7 +23,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await setup(page, games, { now: `${date}T17:00:00Z` });
       await agendaToggle(page).click();
       const agenda = page.getByRole("region", { name: "Agenda", exact: true });
-      await expect(agenda.locator(".agenda-league-heading")).toHaveText(["NFL", "NBA", "F1", "Premier League", "NHL", "UFC", "IWF Worlds", "World Climbing"]);
+      await expect(agenda.locator(".agenda-league-heading")).toHaveText(["NFL", "NBA", "F1", "Premier League", "NHL", "UFC", "IWF Worlds", "World Cup"]);
       await expect(agenda.locator(".agenda-clock, .agenda-summary, .agenda-chevron")).toHaveCount(0);
       const nfl = agenda.getByRole("region", { name: "NFL", exact: true });
       await expect(nfl.locator(".agenda-team .team-name")).toHaveText(["Seahawks", "Patriots", "Jaguars", "Ravens"]);
@@ -41,7 +41,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await expect(soccer.locator(".team-name")).toHaveText(["Leeds", "Nottingham Forest"]);
       await expect(soccer.locator(".team-record")).toHaveCount(0);
       await expect(agenda.getByRole("region", { name: "F1", exact: true })).toContainText("Mexico Grand Prix · Race");
-      const climbing = agenda.getByRole("region", { name: "World Climbing", exact: true });
+      const climbing = agenda.getByRole("region", { name: "World Cup", exact: true });
       await expect(climbing.locator(".agenda-round, .agenda-time")).toHaveCount(0);
       await expect(agenda.getByRole("region", { name: "IWF Worlds", exact: true })).toContainText("Group A");
       await expect(agenda).not.toContainText(/TBD|record unavailable|past schedule/);

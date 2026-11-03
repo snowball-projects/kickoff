@@ -63,6 +63,7 @@ h1, h2, h3, p { margin: 0; }
 .event-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: -3px; }
 .more-events:focus-visible { outline-offset: -3px; }
 .pill-text { display: block; flex: 0 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; }
+.pill-code { display: none; }
 .pill-text.truncated { mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
 .nfl-day-matchups, .nfl-matchup, .nfl-calendar-team { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
 .nfl-day-matchups { overflow: hidden; gap: 8px; }
@@ -208,7 +209,8 @@ h1, h2, h3, p { margin: 0; }
 @keyframes sheet-in { from { transform: translateY(100%); } }
 @keyframes sheet-out { to { transform: translateY(100%); } }
 @media (width < 700px) {
-  .month-grid .country-flag { display: none; }
+  .month-grid .country-flag, .month-grid .pill-label { display: none; }
+  .month-grid .pill-code { display: inline; }
   .nfl-month-matchups { display: none; }
   .nfl-phone-label { display: block; }
 }

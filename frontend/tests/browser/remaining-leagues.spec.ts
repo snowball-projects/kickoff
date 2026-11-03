@@ -21,7 +21,7 @@ for (const width of [320, 1280]) test(`remaining league choices and supplied ide
   const dialog = chooser(page);
   await dialog.getByRole("button", { name: "Soccer", exact: true }).click();
   const tray = dialog.getByRole("region", { name: "Soccer interests", exact: true });
-  for (const name of ["England FA Cup", "England League Cup", "Mexico Liga MX", "Copa Libertadores", "Copa Sudamericana", "NWSL", "England WSL", "Women's Champions League"]) {
+  for (const name of ["England FA Cup", "England League Cup", "Mexico Liga MX", "Libertadores", "Sudamericana", "NWSL", "England WSL", "Women's Champions League"]) {
     await expect(tray.getByRole("button", { name, exact: true })).toBeVisible();
   }
   await dialog.getByRole("button", { name: "Show my calendar", exact: true }).click();
