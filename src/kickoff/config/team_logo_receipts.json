@@ -20301,10 +20301,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"NPC\",\"espn\",\"2026\",\"25933\",\"Canterbury\",\"Canterbury\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"NPC\",\"espn\",\"2026\",\"25935\",\"Counties Manukau\",\"Counties Manukau\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
@@ -20313,15 +20309,7 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"NPC\",\"espn\",\"2026\",\"25940\",\"Manawatu\",\"Manawatu\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"NPC\",\"espn\",\"2026\",\"25941\",\"North Harbour\",\"North Harbour\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"NPC\",\"espn\",\"2026\",\"25942\",\"Northland\",\"Northland\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -20349,10 +20337,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2026&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"NPC\",\"espn\",\"2027\",\"25933\",\"Canterbury\",\"Canterbury\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2026&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"NPC\",\"espn\",\"2027\",\"25935\",\"Counties Manukau\",\"Counties Manukau\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2026&limit=500",
       "checked_date": "2026-11-03"
@@ -20361,15 +20345,7 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2026&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"NPC\",\"espn\",\"2027\",\"25940\",\"Manawatu\",\"Manawatu\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2026&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"NPC\",\"espn\",\"2027\",\"25941\",\"North Harbour\",\"North Harbour\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2026&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"NPC\",\"espn\",\"2027\",\"25942\",\"Northland\",\"Northland\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270563/scoreboard?dates=2026&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -20857,10 +20833,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2025\",\"25920\",\"Perpignan\",\"Perpignan\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2025\",\"25923\",\"Connacht\",\"Connacht\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
@@ -20905,10 +20877,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2025\",\"289337\",\"Vannes\",\"Vannes\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2025\",\"99855\",\"Racing 92\",\"Racing 92\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
@@ -20934,10 +20902,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2026\",\"25918\",\"Montpellier Herault\",\"Montpellier Herault\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2026&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2026\",\"25920\",\"Perpignan\",\"Perpignan\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2026&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -21013,10 +20977,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2027&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2027\",\"25920\",\"Perpignan\",\"Perpignan\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2027&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2027\",\"25926\",\"Ulster\",\"Ulster\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2027&limit=500",
       "checked_date": "2026-11-03"
@@ -21050,10 +21010,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2027\",\"25986\",\"Toulon\",\"Toulon\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2027&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"RUGBY_CHALLENGE_CUP\",\"espn\",\"2027\",\"289337\",\"Vannes\",\"Vannes\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/272073/scoreboard?dates=2027&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -21405,10 +21361,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289268\",\"Hong Kong\",\"Hong Kong\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289352\",\"Cayman Islands\",\"Cayman Islands\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
@@ -21442,10 +21394,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289431\",\"Serbia\",\"Serbia\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289432\",\"Montenegro\",\"Montenegro\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -21497,10 +21445,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289482\",\"Austria\",\"Austria\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289483\",\"Luxembourg\",\"Luxembourg\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
@@ -21538,10 +21482,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289550\",\"Estonia\",\"Estonia\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"RUGBY_TESTS\",\"espn\",\"2025\",\"289551\",\"Slovakia\",\"Slovakia\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -21602,10 +21542,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"RUGBY_TESTS\",\"espn\",\"2026\",\"289267\",\"Belgium\",\"Belgium\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2026&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"RUGBY_TESTS\",\"espn\",\"2026\",\"289268\",\"Hong Kong\",\"Hong Kong\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/289234/scoreboard?dates=2026&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -21706,10 +21642,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"RUGBY_WORLD_CUP\",\"espn\",\"2027\",\"289243\",\"Chile\",\"Chile\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/164205/scoreboard?dates=2027&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"RUGBY_WORLD_CUP\",\"espn\",\"2027\",\"289268\",\"Hong Kong\",\"Hong Kong\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/164205/scoreboard?dates=2027&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -22189,10 +22121,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"TOP_14\",\"espn\",\"2025\",\"25920\",\"Perpignan\",\"Perpignan\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"TOP_14\",\"espn\",\"2025\",\"25921\",\"Stade Francais Paris\",\"Stade Francais Paris\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
@@ -22206,10 +22134,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"TOP_14\",\"espn\",\"2025\",\"270567\",\"Pau\",\"Pau\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2025&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"TOP_14\",\"espn\",\"2025\",\"289337\",\"Vannes\",\"Vannes\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2025&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -22238,10 +22162,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"TOP_14\",\"espn\",\"2026\",\"25918\",\"Montpellier Herault\",\"Montpellier Herault\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2026&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"TOP_14\",\"espn\",\"2026\",\"25920\",\"Perpignan\",\"Perpignan\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2026&limit=500",
       "checked_date": "2026-11-03"
     },
@@ -22289,10 +22209,6 @@
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
       "checked_date": "2026-11-03"
     },
-    "[\"TOP_14\",\"espn\",\"2027\",\"25920\",\"Perpignan\",\"Perpignan\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
-      "checked_date": "2026-11-03"
-    },
     "[\"TOP_14\",\"espn\",\"2027\",\"25921\",\"Stade Francais Paris\",\"Stade Francais Paris\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
       "checked_date": "2026-11-03"
@@ -22306,10 +22222,6 @@
       "checked_date": "2026-11-03"
     },
     "[\"TOP_14\",\"espn\",\"2027\",\"270567\",\"Pau\",\"Pau\"]": {
-      "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
-      "checked_date": "2026-11-03"
-    },
-    "[\"TOP_14\",\"espn\",\"2027\",\"289337\",\"Vannes\",\"Vannes\"]": {
       "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
       "checked_date": "2026-11-03"
     },

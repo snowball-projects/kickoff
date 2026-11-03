@@ -36,7 +36,9 @@ leave affected events date-only; existing source times are preserved. The daily
 build writes nothing back. Team logos use supplied ESPN images and the checked-in
 URL list, read offline. Add missing URLs by hand in a normal PR to
 `src/kickoff/config/team_logos.json`, with their `source_url` and `checked_date`
-in `team_logo_receipts.json`. Checks run in CI on pull requests.
+in `team_logo_receipts.json`. Country-image URLs also need an audited entry in
+`espn-country-images.json` matching the team's reviewed national country identity;
+clubs do not use country images. Checks run in CI on pull requests.
 Local schedule refresh accepts `--year 2026`.
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;

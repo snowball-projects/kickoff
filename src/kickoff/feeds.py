@@ -259,12 +259,6 @@ def _espn_participants(event: CalendarEvent, competitors: list, finished: bool, 
         participant.short_name = team.get("shortDisplayName") or team.get("abbreviation")
         participant.record = _espn_record(row, event.sport)
         participant.final_score = _score(row.get("score")) if finished else None
-        if event.sport in TEAM_SPORTS and (logo := source_logo(team)):
-            participant.metadata.update(
-                logo_url=logo,
-                logo_source_url=image_source_url,
-                logo_checked_date=event.facts_checked_date,
-            )
         national = _espn_national_teams().get(f"{event.sport}/{participant.participant_id}")
         if national:
             participant.entity_type = "national_team"
@@ -273,6 +267,12 @@ def _espn_participants(event: CalendarEvent, competitors: list, finished: bool, 
                 country_source_url=national["source_url"],
                 country_checked_date=national["checked_date"],
                 country_source_kind=national.get("source_kind", "espn"),
+            )
+        if event.sport in TEAM_SPORTS and (logo := source_logo(team, participant)):
+            participant.metadata.update(
+                logo_url=logo,
+                logo_source_url=image_source_url,
+                logo_checked_date=event.facts_checked_date,
             )
 
 

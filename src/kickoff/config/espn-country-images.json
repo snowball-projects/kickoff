@@ -1,0 +1,519 @@
+{
+  "assets": {
+    "/i/teamlogos/countries/500/alb.png": {
+      "country_code": "AL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/585?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/alg.png": {
+      "country_code": "DZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/624?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/and.png": {
+      "country_code": "AD",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289430?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/arg.png": {
+      "country_code": "AR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/202?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/aus.png": {
+      "country_code": "AU",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289252?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/aut.png": {
+      "country_code": "AT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/474?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/aze.png": {
+      "country_code": "AZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/581?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/bar.png": {
+      "country_code": "BB",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289453?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/bel.png": {
+      "country_code": "BE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/459?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ber.png": {
+      "country_code": "BM",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289520?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/bih.png": {
+      "country_code": "BA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/452?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/blr.png": {
+      "country_code": "BY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/583?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/bra.png": {
+      "country_code": "BR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/205?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/bul.png": {
+      "country_code": "BG",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289437?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/can.png": {
+      "country_code": "CA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289244?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/cay.png": {
+      "country_code": "KY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289352?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/chi.png": {
+      "country_code": "CL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289243?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/civ.png": {
+      "country_code": "CI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/4789?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/col.png": {
+      "country_code": "CO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/208?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/cpv.png": {
+      "country_code": "CV",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2597?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/cro.png": {
+      "country_code": "HR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/477?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/cyp.png": {
+      "country_code": "CY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289428?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/cze.png": {
+      "country_code": "CZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/450?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/den.png": {
+      "country_code": "DK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289429?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ecu.png": {
+      "country_code": "EC",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/209?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/egy.png": {
+      "country_code": "EG",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2620?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/eng.png": {
+      "country_code": "GB-ENG",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/448?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/esp.png": {
+      "country_code": "ES",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/164?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/est.png": {
+      "country_code": "EE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289550?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/fifa.armenia.png": {
+      "country_code": "AM",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/579?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/fij.png": {
+      "country_code": "FJ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289321?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/fin.png": {
+      "country_code": "FI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289435?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/fra.png": {
+      "country_code": "FR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/478?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/fro.png": {
+      "country_code": "FO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/447?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/geo.png": {
+      "country_code": "GE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/584?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ger.png": {
+      "country_code": "DE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/481?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/gha.png": {
+      "country_code": "GH",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/4469?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/gib.png": {
+      "country_code": "GI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/16721?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/gre.png": {
+      "country_code": "GR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/455?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/guy.png": {
+      "country_code": "GY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289519?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/hai.png": {
+      "country_code": "HT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2654?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/hun.png": {
+      "country_code": "HU",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289433?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/irl.png": {
+      "country_code": "IE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/476?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/irn.png": {
+      "country_code": "IR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/469?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/irq.png": {
+      "country_code": "IQ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/4375?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/isl.png": {
+      "country_code": "IS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/470?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/isr.png": {
+      "country_code": "IL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289444?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ita.png": {
+      "country_code": "IT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/162?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/jam.png": {
+      "country_code": "JM",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289521?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/jor.png": {
+      "country_code": "JO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2917?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/jpn.png": {
+      "country_code": "JP",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/627?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/kaz.png": {
+      "country_code": "KZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/2619?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/kors.png": {
+      "country_code": "KR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/451?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/kos.png": {
+      "country_code": "XK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289549?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/kosovo.png": {
+      "country_code": "XK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/18272?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ksa.png": {
+      "country_code": "SA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/655?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/lat.png": {
+      "country_code": "LV",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289448?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/lie.png": {
+      "country_code": "LI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/589?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ltu.png": {
+      "country_code": "LT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/460?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/lux.png": {
+      "country_code": "LU",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289483?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/lva.png": {
+      "country_code": "LV",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/456?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/mar.png": {
+      "country_code": "MA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2869?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/mda.png": {
+      "country_code": "MD",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/483?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/mex.png": {
+      "country_code": "MX",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/203?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/mkd.png": {
+      "country_code": "MK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/463?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/mlt.png": {
+      "country_code": "MT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/453?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/mtg.png": {
+      "country_code": "ME",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/6775?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ned.png": {
+      "country_code": "NL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/449?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/nir.png": {
+      "country_code": "GB-NIR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/586?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/nor.png": {
+      "country_code": "NO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/464?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/nzl.png": {
+      "country_code": "NZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2666?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/pak.png": {
+      "country_code": "PK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289853?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/pan.png": {
+      "country_code": "PA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2659?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/par.png": {
+      "country_code": "PY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/210?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/per.png": {
+      "country_code": "PE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289540?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/pol.png": {
+      "country_code": "PL",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289361?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/por.png": {
+      "country_code": "PT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/482?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/qat.png": {
+      "country_code": "QA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/4398?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/rdc.png": {
+      "country_code": "CD",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2850?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/rom.png": {
+      "country_code": "RO",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/473?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/rsa.png": {
+      "country_code": "ZA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/467?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/sam.png": {
+      "country_code": "WS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289555?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/sba.png": {
+      "country_code": "RS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/6757?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/sco.png": {
+      "country_code": "GB-SCT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/580?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/sen.png": {
+      "country_code": "SN",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/654?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ser.png": {
+      "country_code": "RS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289431?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/slo.png": {
+      "country_code": "SI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289427?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/smr.png": {
+      "country_code": "SM",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/588?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/spa.png": {
+      "country_code": "ES",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289211?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/sri.png": {
+      "country_code": "LK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289516?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/sui.png": {
+      "country_code": "CH",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/475?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/svk.png": {
+      "country_code": "SK",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/468?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/svn.png": {
+      "country_code": "SI",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/472?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/swe.png": {
+      "country_code": "SE",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/466?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/tri.png": {
+      "country_code": "TT",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289452?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/tun.png": {
+      "country_code": "TN",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/659?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/tur.png": {
+      "country_code": "TR",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/465?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/ukr.png": {
+      "country_code": "UA",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289440?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/uru.png": {
+      "country_code": "UY",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/212?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/usa.png": {
+      "country_code": "US",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289237/teams/289251?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/uzb.png": {
+      "country_code": "UZ",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/fifa.world/seasons/2026/teams/2570?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/wal.png": {
+      "country_code": "GB-WLS",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/soccer/leagues/uefa.nations/teams/578?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    },
+    "/i/teamlogos/countries/500/zim.png": {
+      "country_code": "ZW",
+      "source_url": "https://sports.core.api.espn.com/v2/sports/rugby/leagues/289234/teams/289356?lang=en&region=us",
+      "checked_date": "2026-11-03"
+    }
+  }
+}

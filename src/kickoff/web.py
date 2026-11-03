@@ -9,8 +9,7 @@ from kickoff.dataset import load_events_from_json
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events
 from kickoff.settings import Settings
-from kickoff.team_logos import TEAM_SPORTS
-from kickoff.textutils import espn_logo_url
+from kickoff.team_logos import TEAM_SPORTS, participant_logo
 
 SCHEMA_VERSION = "1"
 NATIONAL_COUNTRY_CODES = ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "XK"}
@@ -19,6 +18,7 @@ NATIONAL_COUNTRY_CODES = ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "X
 def _participant_payload(participant: Participant | None, *, include_logo: bool = True) -> dict[str, Any] | None:
     if participant is None:
         return None
+    logo = participant_logo(participant, participant.metadata.get("logo_url"))
     return {
         "name": participant.name,
         "participant_id": participant.participant_id,
@@ -32,13 +32,12 @@ def _participant_payload(participant: Participant | None, *, include_logo: bool 
         },
         **(
             {
-                key: espn_logo_url(participant.metadata[key]) if key == "logo_url" else participant.metadata[key]
+                key: logo if key == "logo_url" else participant.metadata[key]
                 for key in ("logo_url", "logo_source_url", "logo_checked_date")
                 if key in participant.metadata
             }
             if include_logo
-            and participant.entity_type in {"team", "club", "national_team"}
-            and espn_logo_url(participant.metadata.get("logo_url"))
+            and logo
             and isinstance(participant.metadata.get("logo_source_url"), str)
             and participant.metadata["logo_source_url"].startswith(
                 ("https://site.api.espn.com/apis/site/v2/sports/", "https://sports.core.api.espn.com/v2/sports/")
