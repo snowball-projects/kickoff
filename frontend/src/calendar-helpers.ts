@@ -1,4 +1,4 @@
-import { commonHostCountry } from "./countries";
+import { commonHostCountry, countryIdentity, type Country } from "./countries";
 import { eventInstant } from "./date-utils";
 import type { EventCard } from "./types";
 import { WEIGHTLIFTING_LEAGUE_LEVELS, type LeagueInterest } from "./interest-preferences";
@@ -140,10 +140,26 @@ export const SOCCER_COUNTRIES: Record<string, { name: string; flag: string }> = 
 
 export const NO_FLAG_LEAGUES = new Set(["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "COLLEGE_FOOTBALL", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"]);
 
-export function pillCountry(items: EventCard[]) {
+// A common venue is not a league jurisdiction for these international leagues.
+const NO_PILL_FLAG_LEAGUES = new Set([
+  "MLS", "NWSL", "UFL", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE",
+  "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "UEFA_WOMENS_CHAMPIONS_LEAGUE",
+  "COPA_LIBERTADORES", "COPA_SUDAMERICANA",
+]);
+const NORTH_AMERICAN_LEAGUES = new Set(["NFL", "NBA", "WNBA", "NHL", "MLB", "COLLEGE_FOOTBALL",
+  "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "G_LEAGUE"]);
+
+export function pillCountries(items: EventCard[]): Country[] {
+  if (!items.length) return [];
   const league = items[0].league;
-  return NO_FLAG_LEAGUES.has(league)
-    ? undefined : SOCCER_COUNTRIES[league] || commonHostCountry(items);
+  if (NO_PILL_FLAG_LEAGUES.has(league)) return [];
+  const domestic = SOCCER_COUNTRIES[league];
+  const jurisdiction = domestic ? countryIdentity(domestic.name === "England" ? "GB-ENG" : domestic.name) : undefined;
+  const host = commonHostCountry(items);
+  const foreign = host && (!NORTH_AMERICAN_LEAGUES.has(league) || !["US", "CA"].includes(host.code));
+  const distinct = host && jurisdiction && host.code !== jurisdiction.code
+    && !(jurisdiction.code.startsWith("GB-") && host.code === "GB");
+  return jurisdiction ? [jurisdiction, ...(distinct ? [host!] : [])] : foreign ? [host!] : [];
 }
 
 const SPORT_GROUPS = [

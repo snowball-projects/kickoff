@@ -54,9 +54,17 @@ def test_both_tours_keep_full_spans_and_all_nine_majors_once(monkeypatch, tmp_pa
     assert (three["calendar_date"], three["end_calendar_date"]) == ("2026-05-29", "2026-05-31")
     assert (monday["calendar_date"], monday["end_calendar_date"]) == ("2026-06-25", "2026-06-29")
     assert (cross["calendar_date"], cross["end_calendar_date"]) == ("2026-01-29", "2026-02-01")
-    # Scoreboard venue countries are absent. Never reuse obsolete Wikipedia
-    # countries or infer them from an event's title.
-    assert all(e["country"] is None for e in golf)
+    # Scoreboard countries remain absent. Exact reviewed course details add
+    # countries offline, with their own provenance, without another request.
+    assert by_id["espn-pga_tour-401811957"]["country"] == "GB"
+    assert by_id["espn-lpga_tour-401835162"]["country"] == "FR"
+    assert by_id["espn-lpga_tour-401835174"]["country"] == "MY"
+    assert all(
+        e["country_source_url"].startswith("https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=")
+        for e in golf
+        if e["country"]
+    )
+    assert all(e["country_checked_date"] == "2026-11-03" for e in golf if e["country"])
 
 
 @pytest.mark.parametrize("league", ["PGA_TOUR", "LPGA_TOUR"])

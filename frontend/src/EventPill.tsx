@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ButtonHTMLAttributes } from "react";
-import { leagueVisual, pillCountry } from "./calendar-helpers";
+import { leagueVisual, pillCountries } from "./calendar-helpers";
 import { SportIcon } from "./EventIdentity";
 import MonthMatchups from "./MonthMatchups";
 import { desktopMonthGames, monthMatchupName, orderedTeams } from "./month-matchups";
@@ -14,7 +14,7 @@ export default function EventPill({ items, children, calendarView, displayDate, 
   displayTimezone?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>) {
   const event = items[0];
-  const country = pillCountry(items);
+  const countries = pillCountries(items);
   const text = useRef<HTMLSpanElement>(null);
   const [truncated, setTruncated] = useState(false);
   const [failedMonthLogos, setFailedMonthLogos] = useState<ReadonlySet<string>>(() => new Set());
@@ -45,6 +45,6 @@ export default function EventPill({ items, children, calendarView, displayDate, 
     <SportIcon league={event.league} sport={event.sport} />
     {nfl ? <NflMatchups items={items} /> : <span ref={text} className={`pill-text${truncated ? " truncated" : ""}`}>{code ? <><span className="pill-label">{desktopLabel}</span><span className="pill-code" aria-hidden="true">{code}</span></> : desktopLabel}</span>}
     {calendarView === "month" && <MonthMatchups items={monthGames} single={single} failed={failedMonthLogos} onFailure={onMonthLogoFailure} />}
-    {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}
+    {countries.map((country) => <span key={country.code} className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>)}
   </button>;
 }

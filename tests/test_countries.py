@@ -69,8 +69,8 @@ def test_espn_reads_only_the_venue_country_and_exports_its_receipt(league):
     assert "country_checked_date" not in _event_payload(empty)
 
 
-@pytest.mark.parametrize("league", ["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"])
-def test_excluded_espn_leagues_do_not_gain_countries(league):
+@pytest.mark.parametrize("league", ["UNKNOWN_SERIES"])
+def test_unreviewed_espn_leagues_do_not_gain_countries(league):
     row = espn_game("9", "2026-10-28T17:00Z", "Japan", "France")
     row["competitions"][0]["venue"]["address"] = {"country": "USA"}
     event = feeds._espn_event(

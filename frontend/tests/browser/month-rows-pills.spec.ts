@@ -121,7 +121,7 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
   await page.screenshot({ path: "test-results/pill-day-320.png" });
 });
 
-test("shared country requires every event and excluded leagues never get pill flags", async ({ page }) => {
+test("shared country requires every event and traveling sports keep explicit hosts", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 1280, height: 1800 });
   await setup(page, [
@@ -135,12 +135,12 @@ test("shared country requires every event and excluded leagues never get pill fl
   ]);
   const cell = page.locator("#day-2026-10-28");
   await expect(cell.locator(".event-pill")).toHaveCount(9);
-  await expect(cell.locator(".country-flag")).toHaveCount(1);
+  await expect(cell.locator(".country-flag")).toHaveCount(3);
   await expect(cell.locator(".event-pill").filter({ hasText: "UFC" }).locator(".country-flag")).toHaveAttribute("aria-label", "Japan");
   await cell.locator(".day-number").click();
   const allDay = page.locator(".all-day-strip");
   await expect(allDay.locator(".event-pill")).toHaveCount(9);
-  await expect(allDay.locator(".country-flag")).toHaveCount(1);
+  await expect(allDay.locator(".country-flag")).toHaveCount(3);
   await expect(allDay.getByRole("button", { name: "UFC Japan", exact: true }).locator(".country-flag"))
     .toHaveAttribute("aria-label", "Japan");
   for (const [label, titles] of [
@@ -164,7 +164,7 @@ test("shared country requires every event and excluded leagues never get pill fl
   await page.screenshot({ path: "test-results/all-day-groups.png" });
 });
 
-test("excluded leagues suppress populated country flags in day groups, sheets and agenda", async ({ page }) => {
+test("routine team hosts stay suppressed while traveling host pills preserve existing popup flags", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 320, height: 844 });
   const leagues = ["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"];
@@ -172,10 +172,10 @@ test("excluded leagues suppress populated country flags in day groups, sheets an
     event(`${league} ${suffix}`, undefined, { league, country: "US" }))));
   await page.locator("#day-2026-10-28 .day-number").click();
   await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(6);
-  await expect(page.locator(".all-day-strip .country-flag")).toHaveCount(0);
+  await expect(page.locator(".all-day-strip .country-flag")).toHaveCount(2);
   for (const league of leagues) {
     await page.locator(".all-day-strip").getByRole("button", {
-      name: league === "NASCAR_CUP" ? "NASCAR" : league === "INDYCAR" ? "IndyCar" : league, exact: true,
+      name: league === "NASCAR_CUP" ? "NASCAR United States" : league === "INDYCAR" ? "IndyCar United States" : league, exact: true,
     }).click();
     const sheet = page.getByRole("dialog");
     await expect(sheet.locator(".sheet-event-row")).toHaveCount(2);
@@ -254,4 +254,41 @@ test("both halves of a split week have one selected-week transition and survive 
   expect(snapshots[0].dates).toEqual(["2026-09-27,2026-09-28,2026-09-29,2026-09-30"]);
   expect(snapshots[3].dates).toEqual(["2026-10-01,2026-10-02,2026-10-03"]);
   expect(snapshots[4].dates).toEqual(snapshots[3].dates);
+});
+
+
+test("a sourced overseas NFL host is shown on pills without implying a shared mixed-day host", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1280, height: 1800 });
+  await setup(page, [
+    event("London fixture", "2026-10-28", { league: "NFL", country: "GB" }),
+    event("Munich fixture", "2026-10-29", { league: "NFL", country: "DE" }),
+    event("Domestic fixture", "2026-10-29", { league: "NFL", country: "US" }),
+    event("Incidental international host", "2026-10-28", { league: "UEFA_CHAMPIONS_LEAGUE", country: "ES" }),
+  ]);
+  await expect(page.locator("#day-2026-10-28 .country-flag")).toHaveCount(1);
+  await expect(page.locator("#day-2026-10-28 .country-flag")).toHaveAttribute("aria-label", "United Kingdom");
+  await expect(page.locator("#day-2026-10-29 .country-flag")).toHaveCount(0);
+});
+
+
+test("a domestic league and its sourced foreign host both appear on month and day pills", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await setup(page, [event("Source overseas fixture", undefined, { league: "EPL", source: "espn", country: "ES" })]);
+  const pill = page.locator("#day-2026-10-28 .event-pill");
+  await expect(pill.locator(".country-flag")).toHaveCount(2);
+  expect(await pill.locator(".country-flag").evaluateAll(elements => elements.map(element => element.getAttribute("aria-label"))))
+    .toEqual(["England", "Spain"]);
+  const bounds = (await pill.boundingBox())!;
+  for (const flag of await pill.locator(".country-flag").all()) {
+    const box = (await flag.boundingBox())!;
+    expect(box.x + box.width).toBeLessThanOrEqual(bounds.x + bounds.width);
+  }
+  await page.setViewportSize({ width: 375, height: 1000 });
+  for (const flag of await pill.locator(".country-flag").all()) await expect(flag).toBeHidden();
+  await page.locator("#day-2026-10-28 .day-number").click();
+  const day = page.locator(".all-day-strip .event-pill");
+  await expect(day.locator(".country-flag")).toHaveCount(2);
+  for (const flag of await day.locator(".country-flag").all()) await expect(flag).toBeVisible();
 });

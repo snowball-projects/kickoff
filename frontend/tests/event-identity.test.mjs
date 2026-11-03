@@ -4,7 +4,7 @@ import { loadModule } from "./load-module.mjs";
 const { countryIdentity, hostCountry, commonHostCountry, nationalTeamCountries } = await loadModule("countries");
 const { SPORT_ICONS } = await loadModule("sport-icons");
 
-const { CATEGORY_KEYS, categoryForLeague, pillCountry, SOCCER_COUNTRIES, leagueVisual } = await loadModule("calendar-helpers");
+const { CATEGORY_KEYS, categoryForLeague, pillCountries, SOCCER_COUNTRIES, leagueVisual } = await loadModule("calendar-helpers");
 
 test("sport shapes cover the shared category keys and future series use family identity", () => {
   assert.equal(Object.keys(SPORT_ICONS).length, Object.keys(CATEGORY_KEYS).length);
@@ -76,13 +76,31 @@ test("league jurisdictions are not presented as verified event hosts", () => {
 
 test("pills use league jurisdictions for domestic soccer and all-event hosts elsewhere", () => {
   for (const [league, country] of Object.entries(SOCCER_COUNTRIES))
-    assert.deepEqual(pillCountry([{ league, source: "openfootball", country: "US" }, { league, country: null }]), country);
+    assert.equal(pillCountries([{ league, source: "openfootball", country: "US" }, { league, country: null }])[0].flag, country.flag);
   const event = { league: "UFC", country: "Japan" };
-  assert.equal(pillCountry([event, { ...event, country: "JP" }])?.code, "JP");
+  assert.equal(pillCountries([event, { ...event, country: "JP" }])[0]?.code, "JP");
   for (const country of [null, "", "China", "Unknown"])
-    assert.equal(pillCountry([event, { ...event, country }]), undefined);
-  for (const league of ["NBA", "NFL", "NHL", "MLB", "NASCAR_CUP", "INDYCAR"])
-    assert.equal(pillCountry([{ league, country: "US" }]), undefined);
+    assert.deepEqual(pillCountries([event, { ...event, country }]), []);
+  for (const league of ["NBA", "NFL", "NHL", "MLB"])
+    assert.deepEqual(pillCountries([{ league, country: "US" }]), []);
   assert.equal(leagueVisual("CHAMPIONSHIP").shortLabel, "Championship");
   assert.equal(leagueVisual("BRASILEIRAO").shortLabel, "Brasileirão");
+});
+
+
+test("pill flags separate league jurisdiction, traveling hosts and international competitions", () => {
+  const event = { league: "EPL", source: "espn", country: "Spain" };
+  assert.deepEqual(pillCountries([event]).map(c => c.code), ["GB-ENG", "ES"]);
+  assert.deepEqual(pillCountries([{ ...event, country: "GB" }]).map(c => c.code), ["GB-ENG"]);
+  assert.deepEqual(pillCountries([event, { ...event, country: null }]).map(c => c.code), ["GB-ENG"]);
+  for (const league of ["MLS", "NWSL", "UFL", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE",
+    "UEFA_NATIONS_LEAGUE", "UEFA_WOMENS_CHAMPIONS_LEAGUE", "COPA_LIBERTADORES", "COPA_SUDAMERICANA"])
+    assert.deepEqual(pillCountries([{ ...event, league }]), []);
+  for (const league of ["NFL", "NBA", "NHL", "MLB"]) {
+    assert.deepEqual(pillCountries([{ ...event, league }]).map(c => c.code), ["ES"]);
+    assert.deepEqual(pillCountries([{ ...event, league }, { ...event, league, country: "US" }]), []);
+  }
+  for (const league of ["UFC", "F1", "MOTOGP", "WEC", "INDYCAR", "PGA_TOUR", "ATP", "IWF_WORLDS"])
+    assert.deepEqual(pillCountries([{ ...event, league, country: "US" }]).map(c => c.code), ["US"]);
+  assert.deepEqual(pillCountries([]), []);
 });

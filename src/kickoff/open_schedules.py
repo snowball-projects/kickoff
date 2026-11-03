@@ -14,6 +14,7 @@ from urllib.request import Request, urlopen
 from kickoff import feeds as league_feeds
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
+from kickoff.reviewed_countries import fill_reviewed_countries
 from kickoff.reviewed_schedules import BOXING_LICENSE, CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
 from kickoff.start_times import fill_missing_start_times
@@ -498,6 +499,9 @@ def refresh_open_schedules(
     kept_sources = {event.source_url for event in reviewed}
     notices = [notice for notice in notices if notice["url"] in kept_sources]
     events.extend(reviewed)
+    country_receipts, country_notices = fill_reviewed_countries(events)
+    evidence.extend(country_receipts)
+    source_notices.extend(country_notices)
     time_receipts = []
     if enrich_times:
         time_receipts = fill_missing_start_times(events, year)
@@ -577,6 +581,7 @@ def refresh_open_schedules(
         **{s["kind"]: BOXING_LICENSE for s in notices if s["kind"].startswith("boxing_")},
         **{kind: league_feeds.SOURCES[kind]["license"] for kind in feed_kinds},
         **{source["kind"]: source["license"] for source in national_sources},
+        **{source["kind"]: source["license"] for source in country_notices},
     }
     bundle["data_license_notice"] = (
         "Software is MIT. Schedule data retains the per-source licenses listed here. "
