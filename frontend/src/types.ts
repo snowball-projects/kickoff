@@ -54,8 +54,6 @@ export type EventCard = {
   competition_phase: string;
   tags: string[];
   participants: ApiParticipant[];
-  home_participant: ApiParticipant | null;
-  away_participant: ApiParticipant | null;
   week_label: string | null;
   facts_checked_date?: string;
   facts_source_url?: string;

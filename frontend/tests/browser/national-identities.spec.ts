@@ -61,7 +61,7 @@ test("partial rugby appointments retain a centered stage and one known team", as
   // Synthetic future-state regression, not a claimed published RWC appointment.
   await setup(page, [event("Quarterfinal · Australia", "2026-10-28", {
     sport: "rugby", league: "RUGBY_WORLD_CUP", round_or_stage: "Quarterfinal", country: null,
-    participants: [australia], home_participant: australia, away_participant: null,
+    participants: [australia],
   }), event("Rugby World Cup", "2026-10-28", { sport: "rugby", league: "RUGBY_WORLD_CUP", country: null, venue: null, city: null })]);
   await agendaToggle(page).click();
   const partial = page.locator(".agenda-row").filter({ has: page.locator(".team-name") });
@@ -70,4 +70,19 @@ test("partial rugby appointments retain a centered stage and one known team", as
   await expect(partial).not.toContainText(/TBD|TBA/);
   await page.getByRole("button", { name: "Rugby World Cup", exact: true }).click();
   await expect(page.locator(".event-details h3")).toContainText("Rugby World Cup");
+});
+
+
+test("cricket keeps named participants without assigning home or away", async ({ page }) => {
+  const title = "IPL · Sunrisers Hyderabad vs Royal Challengers Bengaluru";
+  await setup(page, [event(title, "2026-10-28", { sport: "cricket", league: "IPL", participants: [
+    { name: "Sunrisers Hyderabad", role: null, entity_type: "team" },
+    { name: "Royal Challengers Bengaluru", role: null, entity_type: "team" },
+  ] })]);
+  await agendaToggle(page).click();
+  const row = page.locator(".agenda-row");
+  await expect(row.locator(".agenda-title")).toHaveText("Sunrisers Hyderabad vs Royal Challengers Bengaluru");
+  await expect(row.locator(".agenda-team")).toHaveCount(0);
+  await row.getByRole("button").click();
+  await expect(page.locator(".event-details h3")).toContainText(title);
 });

@@ -93,8 +93,6 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
             else {}
         ),
         "participants": [_participant_payload(participant) for participant in event.participants],
-        "home_participant": _participant_payload(event.home_participant),
-        "away_participant": _participant_payload(event.away_participant),
         "home_participant_name": event.home_participant.name if event.home_participant else None,
         "away_participant_name": event.away_participant.name if event.away_participant else None,
         "round_or_stage": event.round_or_stage,

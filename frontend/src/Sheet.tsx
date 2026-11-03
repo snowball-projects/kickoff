@@ -1,3 +1,4 @@
+import { participantRoles } from "./participants";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { countryIdentity } from "./countries";
 import { compareEvents, leagueGroups, leagueVisual } from "./calendar-helpers";
@@ -76,13 +77,14 @@ function EventDetails({ event, date, today, timezone, active }: {
   const end = event.end_calendar_date;
   const id = leaderboardId(event);
   const time = eventTimeLabel(event, timezone);
+  const { home, away } = participantRoles(event);
   return <article className="event-details" aria-label="Event details">
     <span className={`league-label ${leagueVisual(event.league, event.sport).className}`}>
       <SportIcon league={event.league} sport={event.sport} />{leagueVisual(event.league, event.sport).shortLabel}
     </span>
-    <h3 tabIndex={-1}>{(event.league === "NFL" || event.away_participant?.logo_url || event.home_participant?.logo_url) && event.away_participant && event.home_participant ? <>
-      <NflLogo name={event.away_participant.name} league={event.league} participant={event.away_participant} />{event.away_participant.name}{" at "}
-      <NflLogo name={event.home_participant.name} league={event.league} participant={event.home_participant} />{event.home_participant.name}
+    <h3 tabIndex={-1}>{(event.league === "NFL" || away?.logo_url || home?.logo_url) && away && home ? <>
+      <NflLogo name={away.name} league={event.league} participant={away} />{away.name}{" at "}
+      <NflLogo name={home.name} league={event.league} participant={home} />{home.name}
     </> : event.title}<EventFlags event={event} /></h3>
     {event.subtitle && <p>{event.subtitle}</p>}
     {time && <p className="detail-time">{time}</p>}

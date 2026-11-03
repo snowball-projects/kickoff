@@ -1,3 +1,4 @@
+import { participantRoles } from "./participants";
 import { matchesInterestOptions } from "./interest-preferences";
 import { golfRound, isGolf } from "./golf";
 import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
@@ -82,10 +83,11 @@ function throwIfAborted(signal?: AbortSignal) {
 }
 
 function eventCard(event: EventDetail): EventCard {
+  const { home, away } = participantRoles(event);
   return {
     ...event,
-    home_participant_name: event.home_participant?.name || null,
-    away_participant_name: event.away_participant?.name || null,
+    home_participant_name: home?.name || null,
+    away_participant_name: away?.name || null,
   };
 }
 

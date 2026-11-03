@@ -14,6 +14,8 @@ class WebExportTests(unittest.TestCase):
             root = Path(temp_dir)
             season_root = root / "data" / "normalized" / "2026"
             season_root.mkdir(parents=True)
+            home = Participant(name="Hosts", role="home")
+            away = Participant(name="Visitors", role="away", metadata={"private": "participant source"})
             event = CalendarEvent(
                 event_id="nba-2026-example",
                 source="official_schedule",
@@ -31,9 +33,9 @@ class WebExportTests(unittest.TestCase):
                 city="Chicago",
                 region="Illinois",
                 country="United States",
-                participants=[Participant(name="Visitors", metadata={"private": "participant source"})],
-                home_participant=Participant(name="Hosts", role="home"),
-                away_participant=Participant(name="Visitors", role="away"),
+                participants=[home, away],
+                home_participant=home,
+                away_participant=away,
                 calendar_date="2026-01-01",
                 end_calendar_date="2026-01-03",
                 competition_phase="regular_season",
@@ -77,7 +79,12 @@ class WebExportTests(unittest.TestCase):
             payload = json.loads(first_export)
             self.assertEqual(payload["schema_version"], "1")
             self.assertEqual(payload["events"][0]["end_calendar_date"], "2026-01-03")
-            self.assertEqual(payload["events"][0]["home_participant"]["name"], "Hosts")
+            public = payload["events"][0]
+            self.assertNotIn("home_participant", public)
+            self.assertNotIn("away_participant", public)
+            self.assertEqual([p["name"] for p in public["participants"]], ["Hosts", "Visitors"])
+            self.assertEqual(public["home_participant_name"], "Hosts")
+            self.assertEqual(public["away_participant_name"], "Visitors")
 
 
 def test_only_explicit_national_team_country_code_crosses_public_boundary():

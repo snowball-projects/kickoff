@@ -1,4 +1,7 @@
 import unittest
+from dataclasses import replace
+
+import pytest
 
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import dedupe_events, stable_event_id
@@ -90,3 +93,47 @@ class ValidationTests(unittest.TestCase):
         event = _sample_event("empty-matchup")
         event.title = " AT "
         self.assertTrue(is_malformed_event(event))
+
+
+@pytest.mark.parametrize("role", ["home", "away"])
+def test_duplicate_canonical_roles_are_rejected(role):
+    event = _sample_event("duplicate-role")
+    event.participants.append(replace(getattr(event, f"{role}_participant")))
+    assert any(f"duplicate {role} participant role" in error for error in validate_batch([event]))
+
+
+@pytest.mark.parametrize("role", ["home", "away"])
+def test_known_source_side_cannot_disappear_from_participants(role):
+    event = _sample_event("missing-known-role")
+    event.participants = [p for p in event.participants if p.role != role]
+    assert any(f"known {role} participant must match" in error for error in validate_batch([event]))
+
+
+@pytest.mark.parametrize(
+    "change", [{"record": "2-1"}, {"final_score": 3}, {"metadata": {"logo_source_url": "https://example.com/team"}}]
+)
+def test_canonical_participants_cannot_lose_known_side_facts(change):
+    event = _sample_event("different-team-facts")
+    event.participants = [replace(p, **change) if p.role == "home" else p for p in event.participants]
+    assert any("known home participant must match" in error for error in validate_batch([event]))
+
+
+@pytest.mark.parametrize("shape", ["empty", "home-only", "away-only", "unassigned"])
+def test_source_appointments_and_unassigned_matches_keep_their_roles(shape):
+    event = _sample_event("source-exception")
+    if shape == "empty":
+        event.participants = []
+        event.home_participant = event.away_participant = None
+    elif shape == "home-only":
+        event.participants = [event.home_participant]
+        event.away_participant = None
+    elif shape == "away-only":
+        event.participants = [event.away_participant]
+        event.home_participant = None
+    else:
+        event.sport, event.league, event.event_type = "cricket", "IPL", "match"
+        event.participants = [replace(p, role=None) for p in event.participants]
+        event.home_participant = event.away_participant = None
+    before = event.to_dict()
+    assert validate_batch([event]) == []
+    assert event.to_dict() == before

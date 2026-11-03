@@ -51,7 +51,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
   const title = label + (knownSide ? ` · ${team.name}` : "");
   await setup(page, [event(title, "2027-01-01", { league: "COLLEGE_FOOTBALL", sport: "football",
     competition_phase: "postseason", round_or_stage: label, week_label: "Week 1",
-    participants: knownSide ? [team] : [], home_participant: knownSide ? team : null, away_participant: null })], { now: "2027-01-01T17:00:00Z" });
+    participants: knownSide ? [team] : [] })], { now: "2027-01-01T17:00:00Z" });
   await page.getByRole("switch", { name: "Agenda view" }).click();
   const row = page.locator(".agenda-row");
   await expect(row).toContainText("Playoff Quarterfinal at the Goodyear Cotton Bowl Classic");
@@ -69,7 +69,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
 test("an undecided Super Bowl keeps its source name and clock without pseudoentities", async ({ page }) => {
   await setup(page, [event("Super Bowl LXI", "2027-02-14", { league: "NFL", sport: "football",
     competition_phase: "postseason", round_or_stage: "Week 4", week_label: "Week 4",
-    start_time_utc: "2027-02-14T23:30:00Z", participants: [], home_participant: null, away_participant: null })], { now: "2027-02-14T17:00:00Z" });
+    start_time_utc: "2027-02-14T23:30:00Z", participants: [] })], { now: "2027-02-14T17:00:00Z" });
   await page.getByRole("switch", { name: "Agenda view" }).click();
   const row = page.locator(".agenda-row");
   await expect(row).toContainText("Super Bowl LXI");

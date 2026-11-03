@@ -41,7 +41,7 @@ def test_espn_supplied_short_names_records_week_and_only_completed_scores():
     assert final.facts_source_url == "https://site.api.espn.com/source"
     assert validate_event(final) == []
     public = _event_payload(final)
-    assert public["home_participant"]["record"] == final.home_participant.record
+    assert next(p for p in public["participants"] if p["role"] == "home")["record"] == final.home_participant.record
     assert public["facts_checked_date"] == final.facts_checked_date
     assert "odds" not in public and "raw_source_payload" not in public
 

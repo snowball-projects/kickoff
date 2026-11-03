@@ -69,6 +69,7 @@ def test_only_source_explicit_wikipedia_clocks_become_instants():
     assert ipl[0].start_time_utc == "2026-03-28T14:00:00Z"
     assert {p.name for p in ipl[0].participants} == {"Sunrisers Hyderabad", "Royal Challengers Bengaluru"}
     assert len(cricket) == 57 and all(event.timezone == "Etc/GMT-2" for event in cricket)
+    assert all(p.role is None for event in ipl + cricket for p in event.participants)
     assert cricket[0].start_time_utc == "2027-10-02T08:00:00Z"
     assert all(
         event.start_time_source == "wikipedia" and event.start_time_source_url == event.source_url
