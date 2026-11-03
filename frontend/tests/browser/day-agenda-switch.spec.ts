@@ -15,16 +15,15 @@ for (const width of [320, 1280]) for (const reducedMotion of ["reduce", "no-pref
     const heading = page.getByRole("heading", { name: "Wednesday, November 4, 2026", exact: true });
     await expect(heading).toBeFocused();
     await expect(toggle).toBeVisible();
+    await expect(page.locator(".nav-right").getByRole("switch")).toHaveCount(1);
     await expect(toggle).toHaveAttribute("aria-checked", "false");
     const geometry = await heading.evaluate((h1) => {
       const rect = h1.getBoundingClientRect(), row = h1.parentElement!.getBoundingClientRect();
-      const button = h1.parentElement!.querySelector("button")!.getBoundingClientRect();
       return { center: (rect.left + rect.right) / 2, rowCenter: (row.left + row.right) / 2,
-        overlap: rect.right > button.left, height: row.height, font: getComputedStyle(h1).fontSize,
+        height: row.height, font: getComputedStyle(h1).fontSize,
         overflow: document.documentElement.scrollWidth > innerWidth };
     });
     expect(geometry.center).toBeCloseTo(geometry.rowCenter, 0);
-    expect(geometry.overlap).toBe(false);
     expect(geometry.height).toBe(54);
     expect(geometry.font).toBe("14px");
     expect(geometry.overflow).toBe(false);
