@@ -40,7 +40,8 @@ source name when no ID exists), with reviewed names, `source_url` and `checked_d
 Country-image URLs also need an audited entry in
 `espn-country-images.json` matching the team's reviewed national country identity;
 clubs do not use country images. Checks run in CI on pull requests.
-Local schedule refresh accepts `--year 2026`.
+Local schedule refresh accepts `--year 2026`. Optional EWF/AWF/Pan-American start books refresh
+athlete entry totals; unavailable or contradictory session rosters remain absent.
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;
 edit records and their receipts together, preserving IDs and uncertainty.

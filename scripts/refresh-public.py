@@ -11,14 +11,22 @@ from tempfile import TemporaryDirectory
 from kickoff.feeds import FEEDS
 from kickoff.open_schedules import refresh_open_schedules
 from kickoff.published import publish_sports
+from kickoff.weightlifting_startlists import StartListLoader
 
 
 def refresh(years: list[int], output: Path, reviewed: Path) -> None:
+    start_lists = StartListLoader()
     with TemporaryDirectory(prefix="kickoff-collect-") as staging:
         bundles = [
             json.loads(
                 refresh_open_schedules(
-                    year, Path(staging), reviewed, feeds=FEEDS, available_seasons=years, enrich_times=True
+                    year,
+                    Path(staging),
+                    reviewed,
+                    feeds=FEEDS,
+                    available_seasons=years,
+                    enrich_times=True,
+                    start_list_loader=start_lists,
                 ).read_text()
             )
             for year in years
