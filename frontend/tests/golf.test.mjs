@@ -70,7 +70,7 @@ test("the calendar expands golf spans into daily round cards before every view",
   const original = globalThis.fetch;
   try {
     const raw = { event_id: "espn-pga_tour-1", title: "Tournament", event_type: "tournament", sport: "golf", league: "PGA_TOUR", source: "espn",
-      calendar_date: "2026-10-29", end_calendar_date: "2026-11-02", start_time_utc: null, start_time_local: null, tags: [], competition_phase: "regular_season" };
+      calendar_date: "2026-10-29", end_calendar_date: "2026-11-02", start_time_utc: null, start_time_local: null, participants: [], tags: [], competition_phase: "regular_season" };
     const files = publishedFiles([{ season: 2026, events: [raw] }]);
     globalThis.fetch = async (url) => files[url.split("/").at(-1)] ? Response.json(files[url.split("/").at(-1)]) : new Response(null, { status: 404 });
     const { getCalendar } = await loadModule("data");

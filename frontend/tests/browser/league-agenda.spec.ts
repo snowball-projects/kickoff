@@ -1,15 +1,15 @@
 import { expect, test } from "./test";
 import { agendaToggle, event, setup } from "./fixtures";
-const team = (name: string, short_name: string | null = null, record?: string, final_score?: number) => ({ name, short_name,
-  participant_id: name, role: null, entity_type: "team", ...(record ? { record } : {}), ...(final_score != null ? { final_score } : {}) });
+const team = (role: string, name: string, short_name: string | null = null, record?: string, final_score?: number) => ({ name, short_name,
+  participant_id: name, role, entity_type: "team", ...(record ? { record } : {}), ...(final_score != null ? { final_score } : {}) });
 const date = "2026-10-30";
 const games = [
   event("Jaguars at Ravens", date, { league: "NFL", sport: "football", start_time_utc: `${date}T22:00:00Z`, week_label: "Week 9",
-    away_participant: team("Jacksonville Jaguars", "Jaguars", "4-2"), home_participant: team("Baltimore Ravens", "Ravens", "4-3") }),
-  event("Untimed NFL", date, { league: "NFL", sport: "football", away_participant: team("Seattle Seahawks", "Seahawks"), home_participant: team("New England Patriots", "Patriots") }),
-  event("Hawks at Magic", date, { league: "NBA", sport: "basketball", status: "finished", away_participant: team("Atlanta Hawks", "Hawks", "3-3", 132), home_participant: team("Orlando Magic", "Magic", "3-3", 125) }),
-  event("NHL finished without scores", date, { league: "NHL", sport: "hockey", status: "finished", away_participant: team("Chicago Blackhawks", "Blackhawks"), home_participant: team("Boston Bruins", "Bruins") }),
-  event("Leeds at Forest", date, { league: "EPL", sport: "soccer", start_time_utc: `${date}T18:00:00Z`, round_or_stage: "Matchday 7", away_participant: team("Leeds United", "Leeds"), home_participant: team("Nottingham Forest") }),
+    participants: [team("away", "Jacksonville Jaguars", "Jaguars", "4-2"), team("home", "Baltimore Ravens", "Ravens", "4-3")] }),
+  event("Untimed NFL", date, { league: "NFL", sport: "football", participants: [team("away", "Seattle Seahawks", "Seahawks"), team("home", "New England Patriots", "Patriots")] }),
+  event("Hawks at Magic", date, { league: "NBA", sport: "basketball", status: "finished", participants: [team("away", "Atlanta Hawks", "Hawks", "3-3", 132), team("home", "Orlando Magic", "Magic", "3-3", 125)] }),
+  event("NHL finished without scores", date, { league: "NHL", sport: "hockey", status: "finished", participants: [team("away", "Chicago Blackhawks", "Blackhawks"), team("home", "Boston Bruins", "Bruins")] }),
+  event("Leeds at Forest", date, { league: "EPL", sport: "soccer", start_time_utc: `${date}T18:00:00Z`, round_or_stage: "Matchday 7", participants: [team("away", "Leeds United", "Leeds"), team("home", "Nottingham Forest")] }),
   event("Mexico Grand Prix", date, { league: "F1", sport: "motorsport", event_type: "race", start_time_utc: `${date}T19:00:00Z` }),
   event("World Cup · Gunsan · Boulder Qualification", date, { league: "IFSC_WORLD_CUP", sport: "climbing", round_or_stage: "qualification" }),
   event("Worlds · Men 73 kg", date, { league: "IWF_WORLDS", sport: "weightlifting", round_or_stage: "Group A" }),

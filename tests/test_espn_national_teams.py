@@ -48,7 +48,7 @@ def match(sport, identity, name):
 )
 def test_reviewed_core_identity_preserves_name_and_source_provenance(sport, identity, name, code):
     event = match(sport, identity, name)
-    participant = _event_payload(event)["home_participant"]
+    participant = next(p for p in _event_payload(event)["participants"] if p["role"] == "home")
     assert participant["name"] == name and participant["participant_id"] == identity
     assert participant["entity_type"] == "national_team" and participant["country_code"] == code
     assert participant["country_source_url"].startswith(f"https://sports.core.api.espn.com/v2/sports/{sport}/")
@@ -56,7 +56,7 @@ def test_reviewed_core_identity_preserves_name_and_source_provenance(sport, iden
     assert participant["country_checked_date"] == "2026-11-01"
     assert participant["country_source_kind"] == "espn"
     assert _event_payload(event)["participants"][0] == participant
-    assert _event_payload(event)["away_participant"]["entity_type"] == "team"
+    assert next(p for p in _event_payload(event)["participants"] if p["role"] == "away")["entity_type"] == "team"
 
 
 @pytest.mark.parametrize(
@@ -132,7 +132,10 @@ def test_official_identity_attribution_survives_collector_and_league_split(monke
     assert notice in manifest["seasons"]["2026"]["sources"]
     rugby = json.loads((tmp_path / "published/2026-rugby-six-nations.json").read_text())
     assert notice in rugby["sources"] and rugby["data_licenses"]["world_rugby"] == notice["license"]
-    assert rugby["events"][0]["home_participant"]["country_source_url"] == notice["url"]
+    assert (
+        next(p for p in rugby["events"][0]["participants"] if p["role"] == "home")["country_source_url"]
+        == notice["url"]
+    )
     for path in (tmp_path / "published").glob("2026-*.json"):
         if path.name != "2026-rugby-six-nations.json":
             assert all(source["kind"] != "world_rugby" for source in json.loads(path.read_text())["sources"])

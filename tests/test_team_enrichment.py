@@ -100,7 +100,10 @@ def test_known_clocks_receive_missing_team_facts_with_independent_source_receipt
     ):
         assert getattr(event, field) == before[field]
     assert validate_event(event) == []
-    assert _event_payload(event)["home_participant"]["team_source_url"] == event.home_participant.team_source_url
+    assert (
+        next(p for p in _event_payload(event)["participants"] if p["role"] == "home")["team_source_url"]
+        == event.home_participant.team_source_url
+    )
     assert fill_missing_start_times([event], 2026) == []
 
 

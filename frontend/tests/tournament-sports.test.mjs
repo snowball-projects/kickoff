@@ -46,7 +46,7 @@ test("tennis keeps inclusive calendar spans while DP/LIV expand into rounds acro
   const original = globalThis.fetch;
   try {
     const event = (event_id,league,sport) => ({event_id,league,sport,title:league,event_type:"tournament",source:"espn",
-      calendar_date:"2026-01-30",end_calendar_date:"2026-02-02",start_time_utc:null,start_time_local:null,tags:[],competition_phase:"regular_season"});
+      calendar_date:"2026-01-30",end_calendar_date:"2026-02-02",start_time_utc:null,start_time_local:null,participants:[],tags:[],competition_phase:"regular_season"});
     const files=publishedFiles([{season:2026,events:[event("ATP","ATP","tennis"),event("WTA","WTA","tennis"),
       event("DP","DP_WORLD_TOUR","golf"),event("LIV","LIV_GOLF","golf")]}]);
     globalThis.fetch=async url=>files[url.split("/").at(-1)]?Response.json(files[url.split("/").at(-1)]):new Response(null,{status:404});

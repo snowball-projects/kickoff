@@ -1,26 +1,25 @@
+import { participantRoles } from "./participants";
 import { useLayoutEffect, useRef, useState } from "react";
 import NflLogo, { hasNflLogo } from "./NflLogo";
 import type { EventCard } from "./types";
 
-function teams(event: EventCard) {
-  return [event.away_participant?.name || event.away_participant_name,
-    event.home_participant?.name || event.home_participant_name];
-}
-
 export function nflMatchupName(event: EventCard) {
-  const [away, home] = teams(event);
-  return away && home ? `${away} at ${home}` : event.title;
+  const { away, home } = participantRoles(event);
+  return away && home ? `${away.name} at ${home.name}` : event.title;
 }
 
-export function hasNflTeams(event: EventCard) { return teams(event).every(Boolean); }
+export function hasNflTeams(event: EventCard) {
+  const { away, home } = participantRoles(event);
+  return Boolean(away && home);
+}
 
 function Matchup({ event, names = false }: { event: EventCard; names?: boolean }) {
-  const [away, home] = teams(event);
+  const { away, home } = participantRoles(event);
   if (!away || !home) return <span className="nfl-matchup-name">{event.title}</span>;
-  return <>{[away, home].map((name, index) => <span className="nfl-calendar-team" key={index}>
-    <NflLogo name={name} league="NFL" />
-    {(names || !hasNflLogo(name)) && <span className="nfl-team-name">{hasNflLogo(name)
-      ? (index === 0 ? event.away_participant?.short_name : event.home_participant?.short_name) || name : name}</span>}
+  return <>{[away, home].map((team, index) => <span className="nfl-calendar-team" key={index}>
+    <NflLogo name={team.name} league="NFL" />
+    {(names || !hasNflLogo(team.name)) && <span className="nfl-team-name">{hasNflLogo(team.name)
+      ? team.short_name || team.name : team.name}</span>}
   </span>)}</>;
 }
 

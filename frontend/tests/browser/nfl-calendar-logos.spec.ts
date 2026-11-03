@@ -1,10 +1,10 @@
 import { expect, test } from "./test";
 import { event, setup } from "./fixtures";
 
-const team = (name: string) => ({ name, entity_type: "team", short_name: name.split(" ").at(-1) });
+const team = (name: string, role: string) => ({ name, role, entity_type: "team", short_name: name.split(" ").at(-1) });
 const game = (id: string, away = "Kansas City Chiefs", home = "Buffalo Bills", date = "2026-10-28", hour = 17) =>
   event(id, date, { title: `${away} at ${home}`, sport: "football", league: "NFL", country: "US",
-    start_time_utc: `${date}T${hour}:00:00Z`, home_participant: team(home), away_participant: team(away) });
+    start_time_utc: `${date}T${hour}:00:00Z`, participants: [team(home, "home"), team(away, "away")] });
 const games = Array.from({ length: 12 }, (_, index) => game(`game-${index}`, index % 2 ? "Dallas Cowboys" : "Kansas City Chiefs",
   index % 2 ? "New York Giants" : "Buffalo Bills", "2026-10-28", 10 + index));
 

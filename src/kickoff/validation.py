@@ -51,6 +51,14 @@ def validate_event(event: CalendarEvent) -> list[str]:
     if event.away_participant and event.away_participant.role not in {None, "away"}:
         errors.append(f"{event.event_id}: away participant role should be 'away'")
 
+    for role in ("home", "away"):
+        matches = [participant for participant in event.participants if participant.role == role]
+        known = getattr(event, f"{role}_participant")
+        if len(matches) > 1:
+            errors.append(f"{event.event_id}: duplicate {role} participant role")
+        if known is not None and (len(matches) != 1 or matches[0] != known):
+            errors.append(f"{event.event_id}: known {role} participant must match exactly one role-tagged participant")
+
     participants = [*event.participants, event.home_participant, event.away_participant]
     has_team_facts = event.week_label is not None or any(
         p and (p.short_name is not None or p.record is not None or p.final_score is not None) for p in participants

@@ -10,7 +10,7 @@ for (const width of [320, 1280]) test(`remaining league choices and supplied ide
   const home = team("Home", "home"), away = team("Away", "away");
   const leagues = ["FA_CUP", "LEAGUE_CUP", "LIGA_MX", "COPA_LIBERTADORES", "COPA_SUDAMERICANA", "NWSL", "WSL", "UEFA_WOMENS_CHAMPIONS_LEAGUE"];
   const events = leagues.map(league => event(`${league} game`, undefined, { league,
-    home_participant: home, away_participant: away, participants: [home, away] }));
+    participants: [home, away] }));
   events.push(event("G League fixture", undefined, { league: "G_LEAGUE", sport: "basketball" }),
     event("NBL fixture", undefined, { league: "NBL", sport: "basketball" }),
     event("UFL fixture", undefined, { league: "UFL", sport: "football" }));
