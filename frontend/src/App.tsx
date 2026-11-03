@@ -197,22 +197,22 @@ export default function App() {
           <img src={`${import.meta.env.BASE_URL}icon.png`} width="24" height="24" alt="" />kickoff
         </a>
         <div className="nav-right">
+          <span className="view-label" aria-hidden="true">{calendarActive ? "Calendar view" : "Agenda view"}</span>
+          <button className={`view-slider ${!calendarActive ? "agenda-on" : ""}`} role="switch" aria-label="Agenda view"
+            aria-checked={!calendarActive} onClick={changeScheduleView}>
+            <span aria-hidden="true">▦</span><span aria-hidden="true">☷</span>
+          </button>
           <button className="interests-button" aria-label="Interests" onClick={() => {
             setDraftPreferences(preferences); setSheet({ kind: "interests" });
           }}><span className="hamburger" aria-hidden="true"><i /><i /><i /></span></button>
-          <button className="icon-button" aria-label="About kickoff and schedule coverage" onClick={() => setSheet({ kind: "info" })}>i</button>
         </div>
       </div>
       {view === "day" && calendarActive && <DayBar date={day} today={today} start={bounds.start} end={bounds.end} onSelect={switchDay} />}
-      <div className={`heading-row ${view === "day" && calendarActive ? "day-heading" : ""}`}>
-        {view === "day" && calendarActive
+      {calendarActive && <div className={`heading-row ${view === "day" ? "day-heading" : ""}`}>
+        {view === "day"
           ? <h1 className="long-date" ref={dayHeading} tabIndex={-1}>{formatLongDate(day)}</h1>
-          : <h1 aria-live="polite">{!calendarActive ? "Agenda" : view === "year" ? year : monthTitle(month)}</h1>}
-        <button className={`view-slider ${!calendarActive ? "agenda-on" : ""}`} role="switch" aria-label="Agenda view"
-          aria-checked={!calendarActive} onClick={changeScheduleView}>
-          <span aria-hidden="true">▦</span><span aria-hidden="true">☷</span>
-        </button>
-      </div>
+          : <h1 aria-live="polite">{view === "year" ? year : monthTitle(month)}</h1>}
+      </div>}
       {calendarActive && view !== "day" && <div className="weekday-row" aria-hidden="true">{WEEKDAY_NARROW.map((label, index) => <span key={index}>{label}</span>)}</div>}
     </header>
     <main className="calendar-body">
@@ -246,7 +246,8 @@ export default function App() {
         onOpenDay={(date, id) => { const items = months[firstOfMonth(date)]?.groups.find((group) => group.date === date)?.items || [];
           const event = items.find((item) => item.event_id === id); if (event) showEvents([event], date); }} onRetry={() => setRetry((value) => value + 1)} />}
     </main>
-    <button className="today-button" onClick={jumpToday}>Today</button>
+    <button className="today-button floating-button" onClick={jumpToday}>Today</button>
+    <button className="icon-button info-button floating-button" aria-label="About kickoff and schedule coverage" onClick={() => setSheet({ kind: "info" })}>i</button>
     {sheet?.kind === "events" && <EventSheet items={sheet.items} date={sheet.date} today={today} timezone={timezone} onClose={() => setSheet(null)} />}
     {sheet?.kind === "interests" && <Sheet title="Interests" onClose={() => setSheet(null)}>
       {!leagues.length ? <p>{errors[year] || "Loading available leagues…"}</p> : <InterestGroups leagues={leagues} preferences={draftPreferences} onChange={setDraftPreferences} />}
