@@ -135,7 +135,7 @@ test("phone singleton fits 50px and actual320px cells, roleless pairs and missin
   }
 });
 
-for (const missing of ["both-missing", "partial", "one-fails", "all-fail"]) test(`${missing} singleton keeps readable fallback text and full source names`, async ({ page }) => {
+for (const missing of ["both-missing", "partial", "one-fails", "all-fail"]) test(`${missing} singleton restores the league pill and keeps full source names`, async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 1000 });
   await page.route("https://a.espncdn.com/**", route => {
     const bad = missing === "all-fail" || (missing === "one-fails" && new URL(route.request().url()).searchParams.get("img")!.includes("away"));
@@ -145,13 +145,24 @@ for (const missing of ["both-missing", "partial", "one-fails", "all-fail"]) test
   const home = team("home", "home"), away = team("away", "away");
   const participants = [home, away].map((p, index) => ({ ...p,
     ...(missing === "both-missing" || (missing === "partial" && index === 0) ? { logo_url: undefined } : {}) }));
-  await setup(page, [game("Source title stays intact", undefined, "NBA", "basketball", { participants })]);
+  const sourceTitle = "Source: Full away team at Full home team";
+  await setup(page, [game("Source title stays intact", undefined, "NBA", "basketball", { participants, title: sourceTitle })]);
   const pill = page.locator("#day-2026-10-28 .event-pill");
   await expect(pill).toHaveAccessibleName(/Full away team at Full home team/);
-  if (missing === "all-fail" || missing === "both-missing") {
-    for (const name of await pill.locator(".month-phone-single .month-team-fallback").all()) await expect(name).toBeVisible();
-  } else await expect(pill.locator(`.month-phone-single .month-team-fallback`).filter({ hasText: missing === "partial" ? "home" : "away" })).toBeVisible();
-  expect(await pill.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  for (const width of [320, 375]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await expect(pill).not.toHaveClass(/\bmonth-single\b/);
+    await expect(pill.locator(".month-phone-single")).toHaveCount(0);
+    await expect(pill.locator(".sport-icon")).toBeVisible();
+    await expect(pill.locator(".pill-code")).toBeVisible();
+    await expect(pill.locator(".pill-code")).toHaveText("NBA");
+    await expect(pill).toHaveAccessibleName(/Full away team at Full home team/);
+    expect(await pill.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+    await pill.click();
+    await expect(page.locator(".event-details h3")).toHaveText(sourceTitle);
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+  }
   await page.setViewportSize({ width: 1280, height: 1000 });
   if (missing === "both-missing") await expect(pill.locator(".month-desktop-pairs")).toHaveCount(0);
   else {
@@ -159,7 +170,7 @@ for (const missing of ["both-missing", "partial", "one-fails", "all-fail"]) test
     for (const image of await pill.locator(".month-measurements img").all()) await expect(image).not.toHaveAttribute("src");
   }
   await pill.click();
-  await expect(page.locator(".event-details h3")).toHaveText("Original source Source title stays intact");
+  await expect(page.locator(".event-details h3")).toHaveText(sourceTitle);
 });
 
 test("offscreen month pairs request nothing before intersection and measurement clones never acquire src", async ({ page }) => {

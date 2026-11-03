@@ -17,11 +17,15 @@ export default function EventPill({ items, children, calendarView, displayDate, 
   const country = pillCountry(items);
   const text = useRef<HTMLSpanElement>(null);
   const [truncated, setTruncated] = useState(false);
+  const [failedMonthLogos, setFailedMonthLogos] = useState<ReadonlySet<string>>(() => new Set());
+  const onMonthLogoFailure = (url: string) => setFailedMonthLogos((current) => current.has(url) ? current : new Set([...current, url]));
   const visual = leagueVisual(event.league, event.sport);
   const label = children || (isGolf(event) && (calendarView === "month" || items.length === 1)
     ? items.map((item) => item.title).join("; ") : visual.shortLabel);
   const monthGames = calendarView === "month" ? desktopMonthGames(items, displayDate!, displayTimezone!) : [];
-  const single = calendarView === "month" && items.length === 1 && orderedTeams(event).length === 2 ? event : undefined;
+  const singleGame = calendarView === "month" && items.length === 1 && orderedTeams(event).length === 2 ? event : undefined;
+  const single = singleGame && orderedTeams(singleGame).every((team) => team.logo_url && !failedMonthLogos.has(team.logo_url))
+    ? singleGame : undefined;
   const desktopLabel = monthGames.length ? visual.code || visual.shortLabel : label;
   const code = calendarView === "month" ? visual.code : undefined;
   const nfl = event.league === "NFL" && items.some(hasNflTeams) && calendarView === "day";
@@ -33,14 +37,14 @@ export default function EventPill({ items, children, calendarView, displayDate, 
     observer.observe(element); measure();
     return () => observer.disconnect();
   }, [desktopLabel, code, nfl]);
-  const monthNames = single ? [single] : monthGames;
+  const monthNames = singleGame ? [singleGame] : monthGames;
   const matchupNames = nfl ? items.map(nflMatchupName).join("; ") : monthNames.map(monthMatchupName).join("; ");
   const accessibleName = matchupNames && !props["aria-label"]?.includes(matchupNames)
     ? [props["aria-label"], matchupNames].filter(Boolean).join(", ") : props["aria-label"];
   return <button {...props} aria-label={accessibleName} className={`event-pill ${visual.className} ${single ? "month-single" : ""} ${className}`}>
     <SportIcon league={event.league} sport={event.sport} />
     {nfl ? <NflMatchups items={items} /> : <span ref={text} className={`pill-text${truncated ? " truncated" : ""}`}>{code ? <><span className="pill-label">{desktopLabel}</span><span className="pill-code" aria-hidden="true">{code}</span></> : desktopLabel}</span>}
-    {calendarView === "month" && <MonthMatchups items={monthGames} single={single} />}
+    {calendarView === "month" && <MonthMatchups items={monthGames} single={single} failed={failedMonthLogos} onFailure={onMonthLogoFailure} />}
     {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}
   </button>;
 }

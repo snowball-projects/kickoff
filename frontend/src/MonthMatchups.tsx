@@ -14,12 +14,12 @@ function Matchup({ event, measurement = false, failed, onFailure }: {
   </span>)}</>;
 }
 
-export default function MonthMatchups({ items, single }: { items: EventCard[]; single?: EventCard }) {
+export default function MonthMatchups({ items, single, failed, onFailure }: {
+  items: EventCard[]; single?: EventCard; failed: ReadonlySet<string>; onFailure: (url: string) => void;
+}) {
   const root = useRef<HTMLSpanElement>(null);
   const measurements = useRef<HTMLSpanElement>(null);
   const [shown, setShown] = useState(0);
-  const [failed, setFailed] = useState<ReadonlySet<string>>(() => new Set());
-  const onFailure = (url: string) => setFailed((current) => current.has(url) ? current : new Set([...current, url]));
   useLayoutEffect(() => {
     const element = root.current;
     if (!element || !items.length) return;
