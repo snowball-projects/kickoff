@@ -41,7 +41,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await setup(page, [golf(), golf("401811953", "PGA_TOUR", "Other tournament")], { now });
       const cell = page.locator("#day-2026-10-30");
       await expect(cell.locator(".event-pill")).toHaveCount(2);
-      await expect(cell.locator(".pill-text")).toHaveText(["Other tournament, Round 2", "VidantaWorld Mexico Open, Round 2"]);
+      await expect(cell.locator(".pill-label")).toHaveText(["Other tournament, Round 2", "VidantaWorld Mexico Open, Round 2"]);
       await open(page);
       const sheet = page.getByRole("dialog");
       await expect(sheet.locator("h3")).toHaveText("VidantaWorld Mexico Open, Round 2");

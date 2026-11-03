@@ -13,7 +13,9 @@ export default function EventPill({ items, children, calendarView, className = "
   const country = pillCountry(items);
   const text = useRef<HTMLSpanElement>(null);
   const [truncated, setTruncated] = useState(false);
-  const label = children || (items.length === 1 && isGolf(event) ? event.title : leagueVisual(event.league, event.sport).shortLabel);
+  const visual = leagueVisual(event.league, event.sport);
+  const label = children || (items.length === 1 && isGolf(event) ? event.title : visual.shortLabel);
+  const code = calendarView === "month" ? visual.code : undefined;
   const nfl = event.league === "NFL" && items.some(hasNflTeams) && calendarView;
   useLayoutEffect(() => {
     const element = text.current;
@@ -22,13 +24,13 @@ export default function EventPill({ items, children, calendarView, className = "
     const observer = new ResizeObserver(measure);
     observer.observe(element); measure();
     return () => observer.disconnect();
-  }, [label, nfl]);
+  }, [label, code, nfl]);
   const matchupNames = nfl ? items.map(nflMatchupName).join("; ") : "";
   const accessibleName = nfl && !props["aria-label"]?.includes(matchupNames)
     ? [props["aria-label"], matchupNames].filter(Boolean).join(", ") : props["aria-label"];
-  return <button {...props} aria-label={accessibleName} className={`event-pill ${leagueVisual(event.league, event.sport).className} ${className}`}>
+  return <button {...props} aria-label={accessibleName} className={`event-pill ${visual.className} ${className}`}>
     <SportIcon league={event.league} sport={event.sport} />
-    {nfl ? <NflMatchups items={items} view={nfl} /> : <span ref={text} className={`pill-text${truncated ? " truncated" : ""}`}>{label}</span>}
+    {nfl ? <NflMatchups items={items} view={nfl} /> : <span ref={text} className={`pill-text${truncated ? " truncated" : ""}`}>{code ? <><span className="pill-label">{label}</span><span className="pill-code" aria-hidden="true">{code}</span></> : label}</span>}
     {country && <span className="country-flag" role="img" aria-label={country.name}>{country.flag}</span>}
   </button>;
 }

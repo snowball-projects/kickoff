@@ -144,7 +144,7 @@ test("shared country requires every event and excluded leagues never get pill fl
   await expect(allDay.getByRole("button", { name: "UFC Japan", exact: true }).locator(".country-flag"))
     .toHaveAttribute("aria-label", "Japan");
   for (const [label, titles] of [
-    ["UFC", ["Shared one", "Shared two"]], ["PFL", ["Missing one", "Missing two"]], ["One", ["Mixed one", "Mixed two"]],
+    ["UFC", ["Shared one", "Shared two"]], ["PFL", ["Missing one", "Missing two"]], ["ONE", ["Mixed one", "Mixed two"]],
   ] as const) {
     const pill = allDay.locator(".event-pill").filter({ has: page.locator(".pill-text", { hasText: new RegExp(`^${label}$`) }) });
     await expect(pill.locator(".sport-icon")).toHaveCount(1);
@@ -175,7 +175,7 @@ test("excluded leagues suppress populated country flags in day groups, sheets an
   await expect(page.locator(".all-day-strip .country-flag")).toHaveCount(0);
   for (const league of leagues) {
     await page.locator(".all-day-strip").getByRole("button", {
-      name: league === "NASCAR_CUP" ? "NASCAR" : league, exact: true,
+      name: league === "NASCAR_CUP" ? "NASCAR" : league === "INDYCAR" ? "IndyCar" : league, exact: true,
     }).click();
     const sheet = page.getByRole("dialog");
     await expect(sheet.locator(".sheet-event-row")).toHaveCount(2);
