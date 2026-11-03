@@ -35,6 +35,7 @@ for (const [sport, leagues] of Object.entries(leaguesBySport)) test(`one team-im
     }
     await row.getByRole("button").click();
     await expect(page.locator(".event-details h3 .team-logo")).toHaveCount(2);
+    if (league !== "NFL") await expect(page.locator(".event-details h3")).toHaveText(`${league} match`);
     await page.keyboard.press("Escape");
   }
   expect(requests.length).toBeGreaterThan(0);
@@ -45,6 +46,24 @@ for (const [sport, leagues] of Object.entries(leaguesBySport)) test(`one team-im
     expect(url.searchParams.get("h")).toBe("56");
     expect(request.referrer).toBeUndefined();
   }
+});
+
+for (const images of ["neither", "away", "home", "both"]) test(`non-NFL source title survives ${images} team images`, async ({ page }) => {
+  await mockTeamLogos(page);
+  const sourceTitle = "FA Cup Final: Northern FC vs Southern FC (neutral venue)";
+  const participants = ["away", "home"].map(role => {
+    return { ...team("FA_CUP", role), name: role === "away" ? "Northern FC" : "Southern FC",
+      ...(images !== "both" && images !== role ? { logo_url: undefined } : {}) };
+  });
+  await setup(page, [event("neutral-final", undefined, { title: sourceTitle, league: "FA_CUP", sport: "soccer",
+    venue: "National Stadium", participants })]);
+  await agendaToggle(page).click();
+  await page.locator(".agenda-row button").click();
+  const heading = page.locator(".event-details h3");
+  await expect(heading).toHaveText(sourceTitle);
+  await expect(heading.locator(".team-logo")).toHaveCount(images === "neither" ? 0 : images === "both" ? 2 : 1);
+  for (const image of await heading.locator(".team-logo").all()) await expect(image).toHaveJSProperty("naturalWidth", 56);
+  await expect(page.locator(".event-details")).toContainText("National Stadium");
 });
 
 test("missing and failed team images preserve text in agenda, popup and NFL month matchups", async ({ page }) => {
