@@ -1,4 +1,5 @@
 import { expect, test } from "./test";
+import { VIEW_KEY } from "../../src/agenda-state";
 import { agendaToggle, event, mockTeamLogos, setup, teamLogoUrl } from "./fixtures";
 
 const leaguesBySport = {
@@ -76,8 +77,8 @@ test("missing and failed team images preserve text in agenda, popup and NFL mont
     event("Unmatched source appointment", undefined, { league: "NBL", sport: "basketball", participants: [unmatched] }),
     event("Named individual", undefined, { league: "ATP", sport: "tennis", participants: [{ name: "Named individual", role: null, entity_type: "athlete" }] })]);
   const month = page.locator("#day-2026-10-28 .category-american-football");
-  await expect(month.locator(".nfl-month-matchups > .nfl-matchup .nfl-team-name")).toHaveText(["Chiefs", "Bills"]);
-  for (const text of await month.locator(".nfl-month-matchups > .nfl-matchup .nfl-team-name").all()) await expect(text).toBeVisible();
+  await expect(month.locator(".month-desktop-pairs > .month-pair .month-team-fallback")).toHaveText(["Chiefs", "Bills"]);
+  for (const text of await month.locator(".month-desktop-pairs > .month-pair .month-team-fallback").all()) await expect(text).toBeVisible();
   await expect(month).toHaveAccessibleName(/Kansas City Chiefs at Buffalo Bills/);
   await agendaToggle(page).click();
   const nfl = page.locator('[id="agenda-2026-10-28-Chiefs at Bills"]');
@@ -95,11 +96,11 @@ test("missing and failed team images preserve text in agenda, popup and NFL mont
 
 test("native lazy images do not download far-offscreen logos before scrolling", async ({ page }) => {
   const requested: string[] = [];
+  await page.addInitScript(key => localStorage.setItem(key, "agenda"), VIEW_KEY);
   await mockTeamLogos(page);
   page.on("request", request => { if (request.url().startsWith("https://a.espncdn.com/")) requested.push(request.url()); });
   const spacer = Array.from({ length: 100 }, (_, index) => event(`Session ${index}`, undefined, { league: "NFL", sport: "football", round_or_stage: `Source slot ${index}` }));
   await setup(page, [...spacer, event("Far team game", undefined, { league: "NBL", sport: "basketball", participants: [team("far", "home"), team("far", "away")] })]);
-  await agendaToggle(page).click();
   const far = page.locator('[id="agenda-2026-10-28-Far team game"]');
   await expect(far.locator(".team-logo")).toHaveCount(2);
   expect(await far.evaluate(element => element.getBoundingClientRect().top)).toBeGreaterThan(6000);
@@ -125,11 +126,11 @@ test("source images do not turn clubs into national teams", async ({ page }) => 
 
 test("logos just below the visible scroll area have no source until they intersect", async ({ page }) => {
   const requested: string[] = [];
+  await page.addInitScript(key => localStorage.setItem(key, "agenda"), VIEW_KEY);
   await mockTeamLogos(page);
   page.on("request", request => { if (request.url().startsWith("https://a.espncdn.com/")) requested.push(request.url()); });
   const spacer = Array.from({ length: 100 }, (_, index) => event(`Nearby session ${index}`, undefined, { league: "NFL", sport: "football", round_or_stage: `Source slot ${index}` }));
   await setup(page, [...spacer, event("Nearby team game", undefined, { league: "NBL", sport: "basketball", participants: [team("near", "home"), team("near", "away")] })]);
-  await agendaToggle(page).click();
   const images = page.locator('[id="agenda-2026-10-28-Nearby team game"] .team-logo');
   await images.first().evaluate(element => {
     const scroller = document.getElementById("agenda-scroll")!;
@@ -146,7 +147,7 @@ test("logos just below the visible scroll area have no source until they interse
 });
 
 test("hidden NFL measurement images do not fetch extra teams", async ({ page }) => {
-  await page.setViewportSize({ width: 700, height: 1000 });
+  await page.setViewportSize({ width: 900, height: 1000 });
   const requested: string[] = [];
   await mockTeamLogos(page);
   page.on("request", request => { if (request.url().startsWith("https://a.espncdn.com/")) requested.push(request.url()); });
@@ -154,9 +155,9 @@ test("hidden NFL measurement images do not fetch extra teams", async ({ page }) 
     participants: [team(id, "home"), team(id, "away")], start_time_utc: `2026-10-28T${17 + index}:00:00Z` }));
   await setup(page, games);
   const pill = page.locator("#day-2026-10-28 .event-pill");
-  await expect(pill.locator(".nfl-month-matchups > .nfl-matchup")).toHaveCount(1);
-  for (const image of await pill.locator(".nfl-month-matchups > .nfl-matchup .team-logo").all()) await expect(image).toHaveJSProperty("naturalWidth", 56);
-  for (const image of await pill.locator(".nfl-measurements .team-logo").all()) await expect(image).not.toHaveAttribute("src");
+  await expect(pill.locator(".month-desktop-pairs > .month-pair")).toHaveCount(1);
+  for (const image of await pill.locator(".month-desktop-pairs > .month-pair .team-logo").all()) await expect(image).toHaveJSProperty("naturalWidth", 56);
+  for (const image of await pill.locator(".month-measurements .team-logo").all()) await expect(image).not.toHaveAttribute("src");
   expect(requested).toHaveLength(2);
   expect(requested.every(url => new URL(url).searchParams.get("img")!.includes("first-"))).toBe(true);
 });
