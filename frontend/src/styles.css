@@ -70,15 +70,16 @@ h1, h2, h3, p { margin: 0; }
 .pill-text.truncated { mask-image: linear-gradient(to right, #000 calc(100% - 8px), transparent); }
 .nfl-day-matchups, .nfl-matchup, .nfl-calendar-team { display: inline-flex; align-items: center; gap: 3px; min-width: 0; }
 .nfl-day-matchups { overflow: hidden; gap: 8px; }
-.nfl-calendar-team .team-logo:not([hidden]) + .nfl-logo-fallback { display: none; }
 .nfl-team-name, .nfl-matchup-name { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .event-pill .team-logo { width: 18px; height: 18px; }
-.nfl-phone-label { display: none; }
-.nfl-month-matchups { display: flex; align-items: center; flex: 1; min-width: 0; gap: 4px; position: relative; overflow: hidden; }
-.nfl-month-matchups .nfl-matchup { gap: 2px; }
-.nfl-month-matchups .team-logo { width: 16px; height: 16px; }
-.nfl-month-matchups .nfl-matchup, .nfl-more { flex: none; }
-.nfl-measurements { position: absolute; display: flex; gap: 4px; width: max-content; visibility: hidden; pointer-events: none; }
+.month-calendar-team, .month-pair { display: inline-flex; align-items: center; gap: 2px; min-width: 0; }
+.month-calendar-team .team-logo:not([hidden]) + .month-team-fallback { display: none; }
+.month-team-fallback, .month-source-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.month-phone-single { display: none; min-width: 0; overflow: hidden; width: 100%; }
+.month-desktop-pairs { display: flex; align-items: center; flex: 1; min-width: 0; gap: 4px; position: relative; overflow: hidden; }
+.month-desktop-pairs .team-logo { width: 16px; height: 16px; }
+.month-desktop-pairs .month-pair, .month-more { flex: none; }
+.month-measurements { position: absolute; display: flex; gap: 4px; width: max-content; visibility: hidden; pointer-events: none; }
 .sport-icon { display: inline-block; width: 14px; height: 14px; fill: currentColor; stroke: none; flex: none; vertical-align: middle; }
 .country-flag { flex: none; font-size: 12px; line-height: 1; }
 .event-flags { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 5px; }
@@ -214,8 +215,12 @@ h1, h2, h3, p { margin: 0; }
 @media (width < 700px) {
   .month-grid .country-flag, .month-grid .pill-label { display: none; }
   .month-grid .pill-code { display: inline; }
-  .nfl-month-matchups { display: none; }
-  .nfl-phone-label { display: block; }
+  .month-desktop-pairs { display: none; }
+  .month-single > .sport-icon, .month-single > .pill-text { display: none; }
+  .month-phone-single, .month-phone-single > .month-pair { display: flex; }
+  .month-phone-single .month-pair { width: 100%; }
+  .month-phone-single .month-calendar-team { flex: 1; justify-content: center; overflow: hidden; }
+  .month-phone-single .team-logo { width: 14px; height: 14px; }
 }
 @media (min-width: 700px) {
   .topbar { padding-inline: 26px; }
