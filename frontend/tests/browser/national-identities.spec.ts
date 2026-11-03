@@ -81,7 +81,7 @@ test("cricket keeps named participants without assigning home or away", async ({
   ] })]);
   await agendaToggle(page).click();
   const row = page.locator(".agenda-row");
-  await expect(row.locator(".agenda-title")).toContainText(title);
+  await expect(row.locator(".agenda-title")).toHaveText("Sunrisers Hyderabad vs Royal Challengers Bengaluru");
   await expect(row.locator(".agenda-team")).toHaveCount(0);
   await row.getByRole("button").click();
   await expect(page.locator(".event-details h3")).toContainText(title);
