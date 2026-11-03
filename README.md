@@ -32,8 +32,11 @@ npm --prefix frontend run build
 Pages fetches all schedules, builds and deploys daily at 09:17 UTC, on pushes to
 main and on demand. A primary schedule feed failure stops publication, leaving
 the live site unchanged. Failed optional ESPN clock lookups log a warning and
-leave affected events date-only; existing source times are preserved. Nothing is
-committed back. Checks run in CI on pull requests. Local refresh accepts `--year 2026`.
+leave affected events date-only; existing source times are preserved. The daily
+build writes nothing back. Team logos use supplied ESPN images and the checked-in
+URL list, read offline. Refresh that list separately with
+`.venv/bin/python scripts/refresh-team-logos.py`. Checks run in CI on pull requests.
+Local schedule refresh accepts `--year 2026`.
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;
 edit records and their receipts together, preserving IDs and uncertainty.
