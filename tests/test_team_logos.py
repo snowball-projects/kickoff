@@ -270,7 +270,7 @@ def test_one_supplied_scoreboard_image_covers_its_identical_source_cohort(monkey
 
 def test_current_fallback_cannot_match_a_rebrand_only_by_short_name(monkeypatch):
     def get(url, **kwargs):
-        if "sports.core.api.espn.com" in url:
+        if urlsplit(url).hostname == "sports.core.api.espn.com":
             return {"id": "112647", "displayName": "Arlington Renegades", "shortDisplayName": "Renegades", "logos": []}
         return {
             "team": {
