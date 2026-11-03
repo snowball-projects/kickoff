@@ -34,9 +34,10 @@ main and on demand. A primary schedule feed failure stops publication, leaving
 the live site unchanged. Failed optional ESPN clock lookups log a warning and
 leave affected events date-only; existing source times are preserved. The daily
 build writes nothing back. Team logos use supplied ESPN images and the checked-in
-URL list, read offline. Add missing URLs by hand in a normal PR to
-`src/kickoff/config/team_logos.json`, with their `source_url` and `checked_date`
-in `team_logo_receipts.json`. Country-image URLs also need an audited entry in
+URL list, read offline across seasons. Add missing logos in a normal PR to
+`src/kickoff/config/team_logos.json`, under league and provider/team ID (or exact
+source name when no ID exists), with reviewed names, `source_url` and `checked_date`.
+Country-image URLs also need an audited entry in
 `espn-country-images.json` matching the team's reviewed national country identity;
 clubs do not use country images. Checks run in CI on pull requests.
 Local schedule refresh accepts `--year 2026`.

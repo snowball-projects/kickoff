@@ -180,15 +180,21 @@ def test_missing_scoreboard_logo_uses_offline_registry_with_own_receipt(monkeypa
     monkeypatch.setattr(feeds, "get_json", lambda value: {"events": [row] if "dates=2026&" in value else []})
     (event,) = feeds.espn_team_events(2026, "FA_CUP")
     retained = next(p for p in event.participants if p.participant_id == team["id"])
-    key = team_logos.cohort_key(event, retained)
+    key = team_logos.team_key(event, retained)
     url = f"{feeds.ESPN}/soccer/eng.fa/teams/{team['id']}"
     monkeypatch.setattr(
         team_logos,
         "logo_registry",
-        lambda: (
-            {key: espn_logo_url(source_logo)},
-            {key: {"source_url": url, "checked_date": "2026-11-03"}},
-        ),
+        lambda: {
+            event.league: {
+                key: {
+                    "names": [retained.name],
+                    "logo_url": espn_logo_url(source_logo),
+                    "source_url": url,
+                    "checked_date": "2026-11-03",
+                }
+            }
+        },
     )
     monkeypatch.setattr(feeds, "get_json", lambda *a, **k: pytest.fail("Daily enrichment is offline"))
     team_logos.enrich_team_logos([event])
