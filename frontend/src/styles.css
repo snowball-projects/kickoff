@@ -43,6 +43,9 @@ h1, h2, h3, p { margin: 0; }
 .hamburger i:nth-child(3) { width: 50%; }
 .heading-row { height: 54px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
 .heading-row h1 { font-size: 32px; letter-spacing: -.8px; font-weight: 750; }
+.heading-row.day-heading { display: grid; grid-template-columns: 76px minmax(0, 1fr) 76px; border-bottom: 1px solid var(--line); }
+.heading-row.day-heading h1 { grid-column: 2; font-size: 14px; font-weight: 550; letter-spacing: normal; padding: 0; border: 0; }
+.day-heading .view-slider { grid-column: 3; }
 .view-slider { display: flex; width: 76px; height: 34px; padding: 3px; border-radius: 20px; background: var(--surface); position: relative; }
 .view-slider::before { content: ""; position: absolute; width: 34px; height: 28px; left: 3px; top: 3px; border-radius: 18px; background: var(--bg); box-shadow: 0 1px 4px #0002; transition: transform .18s; }
 .view-slider.agenda-on::before { transform: translateX(36px); }

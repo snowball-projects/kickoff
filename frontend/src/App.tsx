@@ -185,7 +185,7 @@ export default function App() {
     document.querySelector<HTMLElement>(".year-grid")?.focus();
     setMonth(boundMonth(monthAt(monthIndex(month) + delta * 12), today));
   }
-  return <div className="app-shell" onClick={backdropHome} onKeyDown={(event) => { if (event.key === "Escape" && view === "day" && !sheet) closeDay(); }}>
+  return <div className="app-shell" onClick={backdropHome} onKeyDown={(event) => { if (event.key === "Escape" && calendarActive && view === "day" && !sheet) closeDay(); }}>
     <header className={`calendar-header ${view === "day" && calendarActive ? "day-header" : ""}`}>
       <div className="topbar">
         <div className="nav-left">{calendarActive && view !== "year" && <button className="back-button"
@@ -203,19 +203,17 @@ export default function App() {
           <button className="icon-button" aria-label="About kickoff and schedule coverage" onClick={() => setSheet({ kind: "info" })}>i</button>
         </div>
       </div>
-      {view === "day" && calendarActive ? <>
-        <DayBar date={day} today={today} start={bounds.start} end={bounds.end} onSelect={switchDay} />
-        <h1 className="long-date" ref={dayHeading} tabIndex={-1}>{formatLongDate(day)}</h1>
-      </> : <>
-        <div className="heading-row">
-          <h1 aria-live="polite">{!calendarActive ? "Agenda" : view === "year" ? year : monthTitle(month)}</h1>
-          <button className={`view-slider ${!calendarActive ? "agenda-on" : ""}`} role="switch" aria-label="Agenda view"
-            aria-checked={!calendarActive} onClick={changeScheduleView}>
-            <span aria-hidden="true">▦</span><span aria-hidden="true">☷</span>
-          </button>
-        </div>
-        {calendarActive && <div className="weekday-row" aria-hidden="true">{WEEKDAY_NARROW.map((label, index) => <span key={index}>{label}</span>)}</div>}
-      </>}
+      {view === "day" && calendarActive && <DayBar date={day} today={today} start={bounds.start} end={bounds.end} onSelect={switchDay} />}
+      <div className={`heading-row ${view === "day" && calendarActive ? "day-heading" : ""}`}>
+        {view === "day" && calendarActive
+          ? <h1 className="long-date" ref={dayHeading} tabIndex={-1}>{formatLongDate(day)}</h1>
+          : <h1 aria-live="polite">{!calendarActive ? "Agenda" : view === "year" ? year : monthTitle(month)}</h1>}
+        <button className={`view-slider ${!calendarActive ? "agenda-on" : ""}`} role="switch" aria-label="Agenda view"
+          aria-checked={!calendarActive} onClick={changeScheduleView}>
+          <span aria-hidden="true">▦</span><span aria-hidden="true">☷</span>
+        </button>
+      </div>
+      {calendarActive && view !== "day" && <div className="weekday-row" aria-hidden="true">{WEEKDAY_NARROW.map((label, index) => <span key={index}>{label}</span>)}</div>}
     </header>
     <main className="calendar-body">
       <div hidden={!calendarActive || view !== "month"} className="month-stage">
