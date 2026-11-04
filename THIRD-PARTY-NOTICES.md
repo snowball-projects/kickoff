@@ -119,11 +119,13 @@ and 2027-weightlifting.json. Combined timetable rows stay single sessions;
 parallel Masters platforms stay separate. Only published clocks are converted
 to UTC. Unpublished timetables retain confirmed date spans; unconfirmed months
 and absent Games editions are omitted with source-linked reasons. No source
-documents, results, logos or prose are republished. Current official EWF, AWF and Pan-American federation
+documents, results, logos or prose are republished. Official IWF, EWF, AWF, African and Pan-American federation
 start books also supply factual athlete names, source nation codes and entry totals;
 these facts retain the same source terms. Birth dates are not published. The optional
 start-list reader resolves the current source-linked book on each refresh, validates
-complete session rosters and omits contradictory cohorts. Source links, actual check
+complete session rosters and omits contradictory cohorts. Reviewed IWF and African
+rosters preserve their book revision and actual review date; automatic downloads
+are currently blocked. Their hashes identify canonical roster facts, not PDF bytes. Source links, actual check
 dates and raw-book hashes accompany the emitted facts. Hash receipts identify raw document bytes where available and explicitly identify
 reviewed-fact hashes otherwise. These facts carry their sources' terms, not MIT
 or a new CC0 grant.

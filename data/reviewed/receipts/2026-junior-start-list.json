@@ -1,0 +1,2280 @@
+{
+  "league": "IWF_JUNIOR_WORLDS",
+  "year": 2026,
+  "source_url": "https://iwf.sport/wp-content/uploads/downloads/2026/05/2026-IWF-WJC_START-BOOK-v1.1.pdf",
+  "revision": "Start book v1.1, 1 May 2026",
+  "checked_date": "2026-11-04",
+  "collection_method": "Complete official web-readable start-book roster reviewed; ordinary PDF download returns HTTP 403. No automatic revision access; not a daily PDF check.",
+  "hash_scope": "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes",
+  "sha256": "43d0b7d824000bef91b6e1df7220da4611c8d1c87418c1d6b522c397fe88e1d8",
+  "session_count": 28,
+  "athlete_count": 271,
+  "sessions": [
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-48-kg-group-b-women-s-53-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "48",
+          "group": "B"
+        },
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "17",
+          "name": "HUANG Pei Quan",
+          "nation": "TPE",
+          "weight": "48",
+          "total": 146
+        },
+        {
+          "lot": "28",
+          "name": "ALDLALI Awrad S",
+          "nation": "KUW",
+          "weight": "48",
+          "total": 70
+        },
+        {
+          "lot": "41",
+          "name": "ABDELNABY Ahmed Abdelmohsen Mohamed Fatm",
+          "nation": "EGY",
+          "weight": "48",
+          "total": 145
+        },
+        {
+          "lot": "61",
+          "name": "AVILA VALDEZ Giovanna Janette",
+          "nation": "MEX",
+          "weight": "48",
+          "total": 150
+        },
+        {
+          "lot": "135",
+          "name": "VAZQUEZ LOPEZ Lorena",
+          "nation": "ESP",
+          "weight": "48",
+          "total": 151
+        },
+        {
+          "lot": "255",
+          "name": "HUSAIN Tala N",
+          "nation": "KUW",
+          "weight": "48",
+          "total": 80
+        },
+        {
+          "lot": "62",
+          "name": "LOPEZ PONCIANO Kelly Alexandra",
+          "nation": "MEX",
+          "weight": "53",
+          "total": 160
+        },
+        {
+          "lot": "143",
+          "name": "STAROSTINA Kseniia",
+          "nation": "RUS",
+          "weight": "53",
+          "total": 175
+        },
+        {
+          "lot": "167",
+          "name": "MAY DZUL Kenia Germayony",
+          "nation": "MEX",
+          "weight": "53",
+          "total": 170
+        },
+        {
+          "lot": "205",
+          "name": "HOU Yu Si",
+          "nation": "TPE",
+          "weight": "53",
+          "total": 155
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-60-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "60",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "14",
+          "name": "DEL CAMINO DOMINGUEZ Jose Ramon",
+          "nation": "ESP",
+          "weight": "60",
+          "total": 236
+        },
+        {
+          "lot": "27",
+          "name": "MATSUBARA Atsuto",
+          "nation": "JPN",
+          "weight": "60",
+          "total": 245
+        },
+        {
+          "lot": "71",
+          "name": "PUENTE Jordan",
+          "nation": "ECU",
+          "weight": "60",
+          "total": 240
+        },
+        {
+          "lot": "73",
+          "name": "ACHMIZ Samir",
+          "nation": "RUS",
+          "weight": "60",
+          "total": 245
+        },
+        {
+          "lot": "88",
+          "name": "FUENTE CAMACHO Jose Antonio",
+          "nation": "VEN",
+          "weight": "60",
+          "total": 252
+        },
+        {
+          "lot": "182",
+          "name": "AL OJAIAN Mohammed Nawaf",
+          "nation": "KSA",
+          "weight": "60",
+          "total": 255
+        },
+        {
+          "lot": "189",
+          "name": "ALOTAIBI Mohammad H",
+          "nation": "KUW",
+          "weight": "60",
+          "total": 170
+        },
+        {
+          "lot": "196",
+          "name": "ALEMAN JUAREZ Wilfredo",
+          "nation": "MEX",
+          "weight": "60",
+          "total": 240
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-48-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "48",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "3",
+          "name": "NAJDOWSKA Weronika",
+          "nation": "POL",
+          "weight": "48",
+          "total": 166
+        },
+        {
+          "lot": "7",
+          "name": "GROULX Rebeka",
+          "nation": "CAN",
+          "weight": "48",
+          "total": 175
+        },
+        {
+          "lot": "9",
+          "name": "VONGHAJAK Naruemol",
+          "nation": "THA",
+          "weight": "48",
+          "total": 180
+        },
+        {
+          "lot": "16",
+          "name": "CHAMUNDA Mansi",
+          "nation": "IND",
+          "weight": "48",
+          "total": 170
+        },
+        {
+          "lot": "83",
+          "name": "KAEOSINGKHON Suthasini",
+          "nation": "THA",
+          "weight": "48",
+          "total": 180
+        },
+        {
+          "lot": "124",
+          "name": "GOMEZ SOSA Evelyn",
+          "nation": "ESP",
+          "weight": "48",
+          "total": 162
+        },
+        {
+          "lot": "155",
+          "name": "COLONIA Angeline",
+          "nation": "PHI",
+          "weight": "48",
+          "total": 180
+        },
+        {
+          "lot": "176",
+          "name": "ZENG Zailian",
+          "nation": "CHN",
+          "weight": "48",
+          "total": 185
+        },
+        {
+          "lot": "239",
+          "name": "ULACIO Enderlin",
+          "nation": "VEN",
+          "weight": "48",
+          "total": 168
+        },
+        {
+          "lot": "241",
+          "name": "KILIC Ezgi",
+          "nation": "TUR",
+          "weight": "48",
+          "total": 180
+        },
+        {
+          "lot": "267",
+          "name": "MALASHCHUK Kateryna",
+          "nation": "UKR",
+          "weight": "48",
+          "total": 175
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-60-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "60",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "51",
+          "name": "K Duong",
+          "nation": "VIE",
+          "weight": "60",
+          "total": 290
+        },
+        {
+          "lot": "70",
+          "name": "KUANG Chengmin",
+          "nation": "CHN",
+          "weight": "60",
+          "total": 291
+        },
+        {
+          "lot": "77",
+          "name": "PAPOLTI Narcis",
+          "nation": "ROU",
+          "weight": "60",
+          "total": 265
+        },
+        {
+          "lot": "103",
+          "name": "KANG Lixin",
+          "nation": "CHN",
+          "weight": "60",
+          "total": 285
+        },
+        {
+          "lot": "110",
+          "name": "DELOS SANTOS Prince Keil",
+          "nation": "PHI",
+          "weight": "60",
+          "total": 260
+        },
+        {
+          "lot": "112",
+          "name": "AMEKU Hoshina",
+          "nation": "JPN",
+          "weight": "60",
+          "total": 260
+        },
+        {
+          "lot": "147",
+          "name": "SANAPATHI Gurunaidu",
+          "nation": "IND",
+          "weight": "60",
+          "total": 260
+        },
+        {
+          "lot": "178",
+          "name": "ERDOGAN Yigit",
+          "nation": "TUR",
+          "weight": "60",
+          "total": 280
+        },
+        {
+          "lot": "183",
+          "name": "AYKUN Burak",
+          "nation": "TUR",
+          "weight": "60",
+          "total": 280
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-53-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "29",
+          "name": "MONASTERIO URBITARTE Malen",
+          "nation": "ESP",
+          "weight": "53",
+          "total": 186
+        },
+        {
+          "lot": "47",
+          "name": "GUNAIDY Basma Ramadan Abdelwahab",
+          "nation": "EGY",
+          "weight": "53",
+          "total": 190
+        },
+        {
+          "lot": "82",
+          "name": "AMANOVA Ogulshat",
+          "nation": "TKM",
+          "weight": "53",
+          "total": 190
+        },
+        {
+          "lot": "100",
+          "name": "KERIMBAYEVA Shabnam",
+          "nation": "TKM",
+          "weight": "53",
+          "total": 190
+        },
+        {
+          "lot": "115",
+          "name": "PERALTA Jhodie",
+          "nation": "PHI",
+          "weight": "53",
+          "total": 195
+        },
+        {
+          "lot": "116",
+          "name": "KAEWNOI Natcha",
+          "nation": "THA",
+          "weight": "53",
+          "total": 195
+        },
+        {
+          "lot": "120",
+          "name": "STRATOUDAKI Maria",
+          "nation": "GRE",
+          "weight": "53",
+          "total": 195
+        },
+        {
+          "lot": "125",
+          "name": "SATO Waka",
+          "nation": "JPN",
+          "weight": "53",
+          "total": 189
+        },
+        {
+          "lot": "171",
+          "name": "PENG Tianfeng",
+          "nation": "CHN",
+          "weight": "53",
+          "total": 200
+        },
+        {
+          "lot": "226",
+          "name": "YAMAGATA Nanami",
+          "nation": "JPN",
+          "weight": "53",
+          "total": 190
+        },
+        {
+          "lot": "227",
+          "name": "Y Lien",
+          "nation": "VIE",
+          "weight": "53",
+          "total": 185
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-58-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "58",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "26",
+          "name": "FAUSTINO Rosalinda",
+          "nation": "PHI",
+          "weight": "58",
+          "total": 195
+        },
+        {
+          "lot": "54",
+          "name": "ALMTAIRI Manar D",
+          "nation": "KUW",
+          "weight": "58",
+          "total": 72
+        },
+        {
+          "lot": "85",
+          "name": "HABANS AGUERREA Elena",
+          "nation": "ESP",
+          "weight": "58",
+          "total": 180
+        },
+        {
+          "lot": "107",
+          "name": "BISWAS Rajyashree",
+          "nation": "IND",
+          "weight": "58",
+          "total": 190
+        },
+        {
+          "lot": "142",
+          "name": "GENEREUX Alexandrine",
+          "nation": "CAN",
+          "weight": "58",
+          "total": 188
+        },
+        {
+          "lot": "203",
+          "name": "DEGEZ Florette",
+          "nation": "FRA",
+          "weight": "58",
+          "total": 187
+        },
+        {
+          "lot": "223",
+          "name": "WAKINAGA Aoi",
+          "nation": "JPN",
+          "weight": "58",
+          "total": 187
+        },
+        {
+          "lot": "249",
+          "name": "WU Yu Syuan",
+          "nation": "TPE",
+          "weight": "58",
+          "total": 170
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-65-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "65",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "55",
+          "name": "TARRO Mango Prince David",
+          "nation": "PHI",
+          "weight": "65",
+          "total": 280
+        },
+        {
+          "lot": "91",
+          "name": "DOROBETE Ion Daniel",
+          "nation": "ROU",
+          "weight": "65",
+          "total": 276
+        },
+        {
+          "lot": "164",
+          "name": "BETCA Dan Dorin",
+          "nation": "MDA",
+          "weight": "65",
+          "total": 280
+        },
+        {
+          "lot": "168",
+          "name": "MAHARAJAN A",
+          "nation": "IND",
+          "weight": "65",
+          "total": 280
+        },
+        {
+          "lot": "198",
+          "name": "ALMOHAIMEED Abdullah Abrahim A",
+          "nation": "KSA",
+          "weight": "65",
+          "total": 275
+        },
+        {
+          "lot": "208",
+          "name": "KOBAYASHI Kosei",
+          "nation": "JPN",
+          "weight": "65",
+          "total": 273
+        },
+        {
+          "lot": "237",
+          "name": "LI Yu Chun",
+          "nation": "TPE",
+          "weight": "65",
+          "total": 260
+        },
+        {
+          "lot": "248",
+          "name": "RIVERO HIDALGO Lissandro Andres",
+          "nation": "VEN",
+          "weight": "65",
+          "total": 269
+        },
+        {
+          "lot": "256",
+          "name": "MEZA Domingo Francisco",
+          "nation": "ARG",
+          "weight": "65",
+          "total": 275
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-58-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "58",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "19",
+          "name": "JIMENEZ CARRENO Yilihannys Griselina",
+          "nation": "VEN",
+          "weight": "58",
+          "total": 196
+        },
+        {
+          "lot": "32",
+          "name": "MOHAMED Abdalla Mohamed Yasmine",
+          "nation": "EGY",
+          "weight": "58",
+          "total": 208
+        },
+        {
+          "lot": "36",
+          "name": "HONCHAROVA Veronika",
+          "nation": "AUT",
+          "weight": "58",
+          "total": 196
+        },
+        {
+          "lot": "65",
+          "name": "LOPEZ GONZALEZ Joseline",
+          "nation": "MEX",
+          "weight": "58",
+          "total": 200
+        },
+        {
+          "lot": "98",
+          "name": "YE Xinye",
+          "nation": "CHN",
+          "weight": "58",
+          "total": 220
+        },
+        {
+          "lot": "146",
+          "name": "KOCHETOVA Margot",
+          "nation": "FRA",
+          "weight": "58",
+          "total": 200
+        },
+        {
+          "lot": "161",
+          "name": "KONONCHENKO Polina",
+          "nation": "UKR",
+          "weight": "58",
+          "total": 196
+        },
+        {
+          "lot": "165",
+          "name": "COJOCARU Nicoleta",
+          "nation": "MDA",
+          "weight": "58",
+          "total": 200
+        },
+        {
+          "lot": "175",
+          "name": "MONCAYO FUENTES Brithany Judith",
+          "nation": "ECU",
+          "weight": "58",
+          "total": 200
+        },
+        {
+          "lot": "265",
+          "name": "CASADEVALL Maria Paz",
+          "nation": "ARG",
+          "weight": "58",
+          "total": 215
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-65-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "65",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "72",
+          "name": "WAN Jinping",
+          "nation": "CHN",
+          "weight": "65",
+          "total": 300
+        },
+        {
+          "lot": "80",
+          "name": "WANG Liqian",
+          "nation": "CHN",
+          "weight": "65",
+          "total": 305
+        },
+        {
+          "lot": "93",
+          "name": "ELARABY Elsayed Aly Elsayed Attia",
+          "nation": "EGY",
+          "weight": "65",
+          "total": 290
+        },
+        {
+          "lot": "153",
+          "name": "GRIGORYAN Artush",
+          "nation": "ARM",
+          "weight": "65",
+          "total": 285
+        },
+        {
+          "lot": "186",
+          "name": "RRASA Samoel",
+          "nation": "ALB",
+          "weight": "65",
+          "total": 290
+        },
+        {
+          "lot": "190",
+          "name": "BADANEV Ion",
+          "nation": "MDA",
+          "weight": "65",
+          "total": 290
+        },
+        {
+          "lot": "194",
+          "name": "A Tieu",
+          "nation": "VIE",
+          "weight": "65",
+          "total": 295
+        },
+        {
+          "lot": "210",
+          "name": "YERSEIT Beibarys",
+          "nation": "KAZ",
+          "weight": "65",
+          "total": 292
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-71-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "71",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "21",
+          "name": "JOLICOEUR Etienne",
+          "nation": "CAN",
+          "weight": "71",
+          "total": 276
+        },
+        {
+          "lot": "37",
+          "name": "DEMIDA Nikita",
+          "nation": "RUS",
+          "weight": "71",
+          "total": 290
+        },
+        {
+          "lot": "68",
+          "name": "VARGAS CAMPOS Dionangel David",
+          "nation": "VEN",
+          "weight": "71",
+          "total": 290
+        },
+        {
+          "lot": "81",
+          "name": "ANDRZEJEWSKI Kamil",
+          "nation": "POL",
+          "weight": "71",
+          "total": 283
+        },
+        {
+          "lot": "87",
+          "name": "CHEN Yi-Heng",
+          "nation": "TPE",
+          "weight": "71",
+          "total": 260
+        },
+        {
+          "lot": "89",
+          "name": "NEPARIDZE Leri",
+          "nation": "GEO",
+          "weight": "71",
+          "total": 280
+        },
+        {
+          "lot": "96",
+          "name": "MRSO Luka",
+          "nation": "CRO",
+          "weight": "71",
+          "total": 220
+        },
+        {
+          "lot": "152",
+          "name": "KHANDAGALE Yash Vinod",
+          "nation": "IND",
+          "weight": "71",
+          "total": 290
+        },
+        {
+          "lot": "207",
+          "name": "GARCIA Luis",
+          "nation": "VEN",
+          "weight": "71",
+          "total": 292
+        },
+        {
+          "lot": "209",
+          "name": "TORRES CORONADO Leonardo Nicolas",
+          "nation": "MEX",
+          "weight": "71",
+          "total": 280
+        },
+        {
+          "lot": "211",
+          "name": "SHAHER Eissa S",
+          "nation": "KUW",
+          "weight": "71",
+          "total": 180
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-71-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "71",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "46",
+          "name": "ALHAWAR Ali Hussin M",
+          "nation": "KSA",
+          "weight": "71",
+          "total": 296
+        },
+        {
+          "lot": "86",
+          "name": "HOVHANNISYAN Hovhannes",
+          "nation": "ARM",
+          "weight": "71",
+          "total": 315
+        },
+        {
+          "lot": "94",
+          "name": "METWALLI Ali Sayed Ismail Mahmoud",
+          "nation": "EGY",
+          "weight": "71",
+          "total": 305
+        },
+        {
+          "lot": "113",
+          "name": "LOPEZ Jimmy",
+          "nation": "ECU",
+          "weight": "71",
+          "total": 300
+        },
+        {
+          "lot": "119",
+          "name": "GRIGORYAN Narek",
+          "nation": "ARM",
+          "weight": "71",
+          "total": 320
+        },
+        {
+          "lot": "136",
+          "name": "VALLEJO SIRES Aaron",
+          "nation": "ESP",
+          "weight": "71",
+          "total": 297
+        },
+        {
+          "lot": "154",
+          "name": "MILDIANI Revaz",
+          "nation": "GEO",
+          "weight": "71",
+          "total": 300
+        },
+        {
+          "lot": "169",
+          "name": "DELOS SANTOS Albert Ian",
+          "nation": "PHI",
+          "weight": "71",
+          "total": 310
+        },
+        {
+          "lot": "214",
+          "name": "BEREZHNYI Maksym",
+          "nation": "UKR",
+          "weight": "71",
+          "total": 303
+        },
+        {
+          "lot": "218",
+          "name": "ELTANTAWY Ayad Mouhamed Ali Abrahim",
+          "nation": "EGY",
+          "weight": "71",
+          "total": 300
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-63-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "63",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 13,
+      "entries": [
+        {
+          "lot": "1",
+          "name": "CHMUKH Oleksandra",
+          "nation": "UKR",
+          "weight": "63",
+          "total": 200
+        },
+        {
+          "lot": "18",
+          "name": "KHUDOYKULOVA Ziyoda",
+          "nation": "UZB",
+          "weight": "63",
+          "total": 200
+        },
+        {
+          "lot": "24",
+          "name": "KALDUZOVA Liliia",
+          "nation": "RUS",
+          "weight": "63",
+          "total": 205
+        },
+        {
+          "lot": "38",
+          "name": "JIANG Yanfang",
+          "nation": "CHN",
+          "weight": "63",
+          "total": 220
+        },
+        {
+          "lot": "56",
+          "name": "DADERKO Alina",
+          "nation": "UKR",
+          "weight": "63",
+          "total": 220
+        },
+        {
+          "lot": "95",
+          "name": "AMANOVA Medine",
+          "nation": "TKM",
+          "weight": "63",
+          "total": 210
+        },
+        {
+          "lot": "104",
+          "name": "ZENG Jing-Chun",
+          "nation": "TPE",
+          "weight": "63",
+          "total": 180
+        },
+        {
+          "lot": "197",
+          "name": "DRONOVA Zlata",
+          "nation": "RUS",
+          "weight": "63",
+          "total": 195
+        },
+        {
+          "lot": "201",
+          "name": "MIRAMONTES PONCE Lidett",
+          "nation": "MEX",
+          "weight": "63",
+          "total": 190
+        },
+        {
+          "lot": "233",
+          "name": "KARAKET Nattanicha",
+          "nation": "THA",
+          "weight": "63",
+          "total": 195
+        },
+        {
+          "lot": "236",
+          "name": "SAETIA Thanaporn",
+          "nation": "THA",
+          "weight": "63",
+          "total": 220
+        },
+        {
+          "lot": "259",
+          "name": "BELLORIN Diana",
+          "nation": "VEN",
+          "weight": "63",
+          "total": 203
+        },
+        {
+          "lot": "261",
+          "name": "MOERCK Ida Caroline",
+          "nation": "DEN",
+          "weight": "63",
+          "total": 183
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-69-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "11",
+          "name": "THEYAB Mariam H",
+          "nation": "KUW",
+          "weight": "69",
+          "total": 100
+        },
+        {
+          "lot": "23",
+          "name": "RELJAC Chiara",
+          "nation": "CRO",
+          "weight": "69",
+          "total": 170
+        },
+        {
+          "lot": "64",
+          "name": "CERVANTES RODRIGUEZ Camila",
+          "nation": "MEX",
+          "weight": "69",
+          "total": 200
+        },
+        {
+          "lot": "106",
+          "name": "ZAVACKA Rachel",
+          "nation": "SVK",
+          "weight": "69",
+          "total": 195
+        },
+        {
+          "lot": "130",
+          "name": "VECELOVA Lucia",
+          "nation": "SVK",
+          "weight": "69",
+          "total": 195
+        },
+        {
+          "lot": "151",
+          "name": "SANTANA CANSINO Athenea",
+          "nation": "ESP",
+          "weight": "69",
+          "total": 180
+        },
+        {
+          "lot": "170",
+          "name": "CHEN Tzu-Wei",
+          "nation": "TPE",
+          "weight": "69",
+          "total": 180
+        },
+        {
+          "lot": "191",
+          "name": "NIELSEN Emily",
+          "nation": "DEN",
+          "weight": "69",
+          "total": 179
+        },
+        {
+          "lot": "212",
+          "name": "DAVIDSDOTTIR Emilia Nott",
+          "nation": "ISL",
+          "weight": "69",
+          "total": 176
+        },
+        {
+          "lot": "269",
+          "name": "CARJA Enkileda",
+          "nation": "ALB",
+          "weight": "69",
+          "total": 196
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-79-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "79",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "13",
+          "name": "ALOTAIBI Khallaf B",
+          "nation": "KUW",
+          "weight": "79",
+          "total": 170
+        },
+        {
+          "lot": "75",
+          "name": "SKLEZ Andrii",
+          "nation": "UKR",
+          "weight": "79",
+          "total": 325
+        },
+        {
+          "lot": "133",
+          "name": "GALLART LECHON Nolan",
+          "nation": "ESP",
+          "weight": "79",
+          "total": 300
+        },
+        {
+          "lot": "157",
+          "name": "IAFRATE Adam",
+          "nation": "FRA",
+          "weight": "79",
+          "total": 293
+        },
+        {
+          "lot": "158",
+          "name": "ALZAWRI Mohammed Ali A",
+          "nation": "KSA",
+          "weight": "79",
+          "total": 322
+        },
+        {
+          "lot": "219",
+          "name": "TCHURZ Jan",
+          "nation": "CZE",
+          "weight": "79",
+          "total": 280
+        },
+        {
+          "lot": "253",
+          "name": "GRZYMALA Szymon",
+          "nation": "POL",
+          "weight": "79",
+          "total": 305
+        },
+        {
+          "lot": "273",
+          "name": "MAJER Paul",
+          "nation": "AUT",
+          "weight": "79",
+          "total": 285
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-69-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "20",
+          "name": "RENGIFO CHIRINOS Claudia Alejandra",
+          "nation": "VEN",
+          "weight": "69",
+          "total": 218
+        },
+        {
+          "lot": "43",
+          "name": "MOHAMED Moustafa Elfedawy Abeer",
+          "nation": "EGY",
+          "weight": "69",
+          "total": 210
+        },
+        {
+          "lot": "78",
+          "name": "IAFRATE Sara",
+          "nation": "FRA",
+          "weight": "69",
+          "total": 215
+        },
+        {
+          "lot": "179",
+          "name": "CHOINSKA Julia",
+          "nation": "POL",
+          "weight": "69",
+          "total": 202
+        },
+        {
+          "lot": "181",
+          "name": "KOZ Tugba Nur",
+          "nation": "TUR",
+          "weight": "69",
+          "total": 225
+        },
+        {
+          "lot": "185",
+          "name": "KUZNETSOVA Daria",
+          "nation": "RUS",
+          "weight": "69",
+          "total": 215
+        },
+        {
+          "lot": "193",
+          "name": "KOROL Anna",
+          "nation": "UKR",
+          "weight": "69",
+          "total": 202
+        },
+        {
+          "lot": "260",
+          "name": "AYALA Milena Madelein",
+          "nation": "ARG",
+          "weight": "69",
+          "total": 220
+        },
+        {
+          "lot": "266",
+          "name": "MISAKYAN Meri",
+          "nation": "ARM",
+          "weight": "69",
+          "total": 220
+        },
+        {
+          "lot": "272",
+          "name": "LIN Jingwei",
+          "nation": "CHN",
+          "weight": "69",
+          "total": 235
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-79-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "79",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "4",
+          "name": "KHAYDAROV Khikmatillo",
+          "nation": "UZB",
+          "weight": "79",
+          "total": 332
+        },
+        {
+          "lot": "59",
+          "name": "JUMABAYEV Didarbek",
+          "nation": "TKM",
+          "weight": "79",
+          "total": 330
+        },
+        {
+          "lot": "79",
+          "name": "AL MARZOUQ Mohammed Bassam A",
+          "nation": "KSA",
+          "weight": "79",
+          "total": 332
+        },
+        {
+          "lot": "121",
+          "name": "KURNAZ Kerem",
+          "nation": "TUR",
+          "weight": "79",
+          "total": 335
+        },
+        {
+          "lot": "132",
+          "name": "MKRTCHYAN Narek",
+          "nation": "ARM",
+          "weight": "79",
+          "total": 340
+        },
+        {
+          "lot": "188",
+          "name": "ABDELRADI Mohamed Moustafa Ali Ali",
+          "nation": "EGY",
+          "weight": "79",
+          "total": 335
+        },
+        {
+          "lot": "234",
+          "name": "BALDJI Alexandr",
+          "nation": "MDA",
+          "weight": "79",
+          "total": 330
+        },
+        {
+          "lot": "240",
+          "name": "HAMOUDA ABDELRAHMAN Hussein Metwally",
+          "nation": "EGY",
+          "weight": "79",
+          "total": 340
+        },
+        {
+          "lot": "268",
+          "name": "YOKUBOV Boburmirzo",
+          "nation": "UZB",
+          "weight": "79",
+          "total": 332
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-88-kg-group-c",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "C"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "22",
+          "name": "ALMAZAN ORELLANA Derisson Gabriel",
+          "nation": "GUA",
+          "weight": "88",
+          "total": 300
+        },
+        {
+          "lot": "50",
+          "name": "YU Wei Ming",
+          "nation": "TPE",
+          "weight": "88",
+          "total": 270
+        },
+        {
+          "lot": "66",
+          "name": "KLINGER Jonas",
+          "nation": "AUT",
+          "weight": "88",
+          "total": 280
+        },
+        {
+          "lot": "145",
+          "name": "MOHAMMED Adel Alsaagh",
+          "nation": "YEM",
+          "weight": "88",
+          "total": 220
+        },
+        {
+          "lot": "180",
+          "name": "TAGGART Zak",
+          "nation": "IRL",
+          "weight": "88",
+          "total": 270
+        },
+        {
+          "lot": "228",
+          "name": "ALHADDAD Hussain A",
+          "nation": "KUW",
+          "weight": "88",
+          "total": 170
+        },
+        {
+          "lot": "232",
+          "name": "ALBAOUR Abdulmalik Aboubark Aldoukali",
+          "nation": "LBA",
+          "weight": "88",
+          "total": 250
+        },
+        {
+          "lot": "245",
+          "name": "HERRERA LAPI Gonzalo",
+          "nation": "ESP",
+          "weight": "88",
+          "total": 301
+        },
+        {
+          "lot": "254",
+          "name": "DUROCHER Guillaume",
+          "nation": "CAN",
+          "weight": "88",
+          "total": 297
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-88-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "12",
+          "name": "CASTELLANO PECH Angel Luis",
+          "nation": "MEX",
+          "weight": "88",
+          "total": 320
+        },
+        {
+          "lot": "63",
+          "name": "DABEK Florian",
+          "nation": "POL",
+          "weight": "88",
+          "total": 320
+        },
+        {
+          "lot": "99",
+          "name": "LISIAK Dawid Zenon",
+          "nation": "POL",
+          "weight": "88",
+          "total": 325
+        },
+        {
+          "lot": "108",
+          "name": "GUADAMUD PICO Erik Ismael",
+          "nation": "ESP",
+          "weight": "88",
+          "total": 327
+        },
+        {
+          "lot": "138",
+          "name": "VILCU Nicu Alexandru",
+          "nation": "ROU",
+          "weight": "88",
+          "total": 330
+        },
+        {
+          "lot": "177",
+          "name": "VASILONOKS Maksims",
+          "nation": "LAT",
+          "weight": "88",
+          "total": 310
+        },
+        {
+          "lot": "217",
+          "name": "MANTILLA ALCOLEA Jose Orlando",
+          "nation": "MEX",
+          "weight": "88",
+          "total": 320
+        },
+        {
+          "lot": "225",
+          "name": "ROY Sandeep Das N",
+          "nation": "IND",
+          "weight": "88",
+          "total": 310
+        },
+        {
+          "lot": "247",
+          "name": "ZUEV Roman",
+          "nation": "RUS",
+          "weight": "88",
+          "total": 315
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-77-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "44",
+          "name": "KERIMBAYEVA Asal",
+          "nation": "TKM",
+          "weight": "77",
+          "total": 205
+        },
+        {
+          "lot": "45",
+          "name": "SILVA FERNANDEZ Keily Carolina",
+          "nation": "VEN",
+          "weight": "77",
+          "total": 217
+        },
+        {
+          "lot": "67",
+          "name": "HEENA",
+          "nation": "IND",
+          "weight": "77",
+          "total": 220
+        },
+        {
+          "lot": "109",
+          "name": "TURUKALO Tanja",
+          "nation": "CRO",
+          "weight": "77",
+          "total": 180
+        },
+        {
+          "lot": "117",
+          "name": "LIAN Pei-Yu",
+          "nation": "TPE",
+          "weight": "77",
+          "total": 190
+        },
+        {
+          "lot": "159",
+          "name": "SKRIPKO Alana",
+          "nation": "RUS",
+          "weight": "77",
+          "total": 220
+        },
+        {
+          "lot": "204",
+          "name": "VYBIRALOVA Natalie",
+          "nation": "CZE",
+          "weight": "77",
+          "total": 200
+        },
+        {
+          "lot": "242",
+          "name": "INIGUEZ ROSALES Valeria Alejandra",
+          "nation": "MEX",
+          "weight": "77",
+          "total": 205
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-88-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "25",
+          "name": "ASKERBAY Alikhan",
+          "nation": "KAZ",
+          "weight": "88",
+          "total": 350
+        },
+        {
+          "lot": "40",
+          "name": "DADVAND MESHGINSHAHR Mohammad Amin",
+          "nation": "IRI",
+          "weight": "88",
+          "total": 345
+        },
+        {
+          "lot": "53",
+          "name": "ALKATEB Mohamad",
+          "nation": "SYR",
+          "weight": "88",
+          "total": 331
+        },
+        {
+          "lot": "90",
+          "name": "RODRIGUEZ MENESES Angel Ignacio",
+          "nation": "VEN",
+          "weight": "88",
+          "total": 341
+        },
+        {
+          "lot": "114",
+          "name": "BONILLA GRANJA Adrian Norman",
+          "nation": "BRN",
+          "weight": "88",
+          "total": 334
+        },
+        {
+          "lot": "172",
+          "name": "SHCHOHALEU Artur",
+          "nation": "BLR",
+          "weight": "88",
+          "total": 333
+        },
+        {
+          "lot": "173",
+          "name": "BAKRY Moustafa Mahmoud",
+          "nation": "EGY",
+          "weight": "88",
+          "total": 345
+        },
+        {
+          "lot": "195",
+          "name": "SAULEBEKOV Yerasyl",
+          "nation": "KAZ",
+          "weight": "88",
+          "total": 355
+        },
+        {
+          "lot": "206",
+          "name": "KOTELEVSKYI Serhii",
+          "nation": "UKR",
+          "weight": "88",
+          "total": 335
+        },
+        {
+          "lot": "262",
+          "name": "RAHMATI Amirmohammad",
+          "nation": "IRI",
+          "weight": "88",
+          "total": 350
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-77-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "34",
+          "name": "ELKADY Amira Mohamed Abdelrahman Ibrahim",
+          "nation": "EGY",
+          "weight": "77",
+          "total": 230
+        },
+        {
+          "lot": "174",
+          "name": "ABDELKADER HANIN Elsayed Mohamed",
+          "nation": "EGY",
+          "weight": "77",
+          "total": 230
+        },
+        {
+          "lot": "192",
+          "name": "AMROYAN Anna",
+          "nation": "ARM",
+          "weight": "77",
+          "total": 240
+        },
+        {
+          "lot": "216",
+          "name": "STOWERS Seine",
+          "nation": "SAM",
+          "weight": "77",
+          "total": 260
+        },
+        {
+          "lot": "221",
+          "name": "KHORAVA Nana",
+          "nation": "GEO",
+          "weight": "77",
+          "total": 235
+        },
+        {
+          "lot": "222",
+          "name": "BOLANOS GANGULA Martha Salome",
+          "nation": "ECU",
+          "weight": "77",
+          "total": 221
+        },
+        {
+          "lot": "231",
+          "name": "KUZMINOVA Varvara",
+          "nation": "RUS",
+          "weight": "77",
+          "total": 240
+        },
+        {
+          "lot": "252",
+          "name": "YLISOINI Anna Janette Tellervo",
+          "nation": "FIN",
+          "weight": "77",
+          "total": 250
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-94-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "94",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "6",
+          "name": "ULIMASAO Emmanuel",
+          "nation": "SAM",
+          "weight": "94",
+          "total": 340
+        },
+        {
+          "lot": "30",
+          "name": "GULYAS Milan Attila",
+          "nation": "HUN",
+          "weight": "94",
+          "total": 305
+        },
+        {
+          "lot": "48",
+          "name": "LIAO Wen-Zhe",
+          "nation": "TPE",
+          "weight": "94",
+          "total": 286
+        },
+        {
+          "lot": "52",
+          "name": "AKMYRADOV Yslam",
+          "nation": "TKM",
+          "weight": "94",
+          "total": 340
+        },
+        {
+          "lot": "76",
+          "name": "BAKR Nader Mohamed A M",
+          "nation": "QAT",
+          "weight": "94",
+          "total": 310
+        },
+        {
+          "lot": "123",
+          "name": "AL MAHDI Abbas Fadhil A",
+          "nation": "KSA",
+          "weight": "94",
+          "total": 315
+        },
+        {
+          "lot": "149",
+          "name": "LARA CANSINO Angel Daniel",
+          "nation": "MEX",
+          "weight": "94",
+          "total": 320
+        },
+        {
+          "lot": "184",
+          "name": "PAGACIK Filip",
+          "nation": "SVK",
+          "weight": "94",
+          "total": 310
+        },
+        {
+          "lot": "270",
+          "name": "KHASANOV Islam",
+          "nation": "RUS",
+          "weight": "94",
+          "total": 330
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-110-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "5",
+          "name": "FARES Ahmed A Gaber",
+          "nation": "QAT",
+          "weight": "110",
+          "total": 355
+        },
+        {
+          "lot": "33",
+          "name": "JAFAROV Suleyman",
+          "nation": "TKM",
+          "weight": "110",
+          "total": 340
+        },
+        {
+          "lot": "57",
+          "name": "SCHWARZER Constantin Alois Alessandro",
+          "nation": "GER",
+          "weight": "110",
+          "total": 357
+        },
+        {
+          "lot": "69",
+          "name": "ADAMIA Saba",
+          "nation": "GEO",
+          "weight": "110",
+          "total": 355
+        },
+        {
+          "lot": "187",
+          "name": "TROSHIN Artem",
+          "nation": "RUS",
+          "weight": "110",
+          "total": 350
+        },
+        {
+          "lot": "202",
+          "name": "BRAULIO GIRON Vicente Federico",
+          "nation": "ECU",
+          "weight": "110",
+          "total": 360
+        },
+        {
+          "lot": "246",
+          "name": "AL RAYHAN Dali Muteb D",
+          "nation": "KSA",
+          "weight": "110",
+          "total": 335
+        },
+        {
+          "lot": "271",
+          "name": "FENG Chia-Le",
+          "nation": "TPE",
+          "weight": "110",
+          "total": 290
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "31",
+          "name": "LIN Shi-Rong",
+          "nation": "TPE",
+          "weight": "86",
+          "total": 200
+        },
+        {
+          "lot": "84",
+          "name": "CAN Busra",
+          "nation": "TUR",
+          "weight": "86",
+          "total": 250
+        },
+        {
+          "lot": "140",
+          "name": "FAYZULLAEVA Madina",
+          "nation": "UZB",
+          "weight": "86",
+          "total": 220
+        },
+        {
+          "lot": "156",
+          "name": "MURGVLIANI Mariam",
+          "nation": "GEO",
+          "weight": "86",
+          "total": 243
+        },
+        {
+          "lot": "199",
+          "name": "DAL BO Sara",
+          "nation": "ITA",
+          "weight": "86",
+          "total": 240
+        },
+        {
+          "lot": "200",
+          "name": "RUSTAMOVA Anamjan",
+          "nation": "TKM",
+          "weight": "86",
+          "total": 250
+        },
+        {
+          "lot": "235",
+          "name": "HORMAVIRTA Minni Maria Alexandra",
+          "nation": "FIN",
+          "weight": "86",
+          "total": 236
+        },
+        {
+          "lot": "243",
+          "name": "XU Linyue",
+          "nation": "CHN",
+          "weight": "86",
+          "total": 240
+        },
+        {
+          "lot": "244",
+          "name": "POGHOSYAN Emma",
+          "nation": "ARM",
+          "weight": "86",
+          "total": 240
+        },
+        {
+          "lot": "251",
+          "name": "VRAGOVA Sofia",
+          "nation": "RUS",
+          "weight": "86",
+          "total": 225
+        },
+        {
+          "lot": "258",
+          "name": "ELSAYED Rahma Ahmed Abdelrazek Hassan",
+          "nation": "EGY",
+          "weight": "86",
+          "total": 246
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-94-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "94",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "35",
+          "name": "MAHMOUD Abdelhay Ragheb Elshafei Mostafa",
+          "nation": "EGY",
+          "weight": "94",
+          "total": 350
+        },
+        {
+          "lot": "118",
+          "name": "ZAREI Hamidreza",
+          "nation": "IRI",
+          "weight": "94",
+          "total": 365
+        },
+        {
+          "lot": "131",
+          "name": "HABIBI Mohamadamin",
+          "nation": "IRI",
+          "weight": "94",
+          "total": 360
+        },
+        {
+          "lot": "134",
+          "name": "BAGAEV Aleksandr",
+          "nation": "RUS",
+          "weight": "94",
+          "total": 345
+        },
+        {
+          "lot": "137",
+          "name": "SILAGADZE Luka",
+          "nation": "GEO",
+          "weight": "94",
+          "total": 355
+        },
+        {
+          "lot": "139",
+          "name": "MOVSISYAN Valerik",
+          "nation": "ARM",
+          "weight": "94",
+          "total": 355
+        },
+        {
+          "lot": "141",
+          "name": "GOFIRJONOV Bekzod",
+          "nation": "UZB",
+          "weight": "94",
+          "total": 355
+        },
+        {
+          "lot": "229",
+          "name": "LOAIZA MEDINA Mauricio Osvaldo",
+          "nation": "VEN",
+          "weight": "94",
+          "total": 360
+        },
+        {
+          "lot": "263",
+          "name": "JAJVANI Goga",
+          "nation": "GEO",
+          "weight": "94",
+          "total": 365
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-110-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "39",
+          "name": "GRUDININ Artem",
+          "nation": "RUS",
+          "weight": "110",
+          "total": 370
+        },
+        {
+          "lot": "42",
+          "name": "GHAZARYAN Grigor",
+          "nation": "ARM",
+          "weight": "110",
+          "total": 365
+        },
+        {
+          "lot": "49",
+          "name": "ZARE Abolfazl",
+          "nation": "IRI",
+          "weight": "110",
+          "total": 395
+        },
+        {
+          "lot": "60",
+          "name": "GHOLIZADEH Farhad",
+          "nation": "IRI",
+          "weight": "110",
+          "total": 390
+        },
+        {
+          "lot": "97",
+          "name": "MURILLO LOPEZ Jhon Esteban",
+          "nation": "BRN",
+          "weight": "110",
+          "total": 367
+        },
+        {
+          "lot": "102",
+          "name": "ABATI Simone Karol",
+          "nation": "ITA",
+          "weight": "110",
+          "total": 365
+        },
+        {
+          "lot": "111",
+          "name": "ZIOLKOWSKI Marcin",
+          "nation": "POL",
+          "weight": "110",
+          "total": 370
+        },
+        {
+          "lot": "122",
+          "name": "TSUKHISHVILI Giga",
+          "nation": "GEO",
+          "weight": "110",
+          "total": 361
+        },
+        {
+          "lot": "148",
+          "name": "WANG Guizhou",
+          "nation": "CHN",
+          "weight": "110",
+          "total": 391
+        },
+        {
+          "lot": "163",
+          "name": "IKNE Beytullah",
+          "nation": "TUR",
+          "weight": "110",
+          "total": 363
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-men-s-plus110-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "+110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 13,
+      "entries": [
+        {
+          "lot": "8",
+          "name": "ATAJANOV Saparbay",
+          "nation": "TKM",
+          "weight": "+110",
+          "total": 350
+        },
+        {
+          "lot": "15",
+          "name": "DIUDIA Vladyslav",
+          "nation": "UKR",
+          "weight": "+110",
+          "total": 335
+        },
+        {
+          "lot": "74",
+          "name": "MOHAMMADITANHA Hamidreza",
+          "nation": "IRI",
+          "weight": "+110",
+          "total": 385
+        },
+        {
+          "lot": "101",
+          "name": "MAGDY Zaki Mohamed Attallah Mohamed",
+          "nation": "EGY",
+          "weight": "+110",
+          "total": 340
+        },
+        {
+          "lot": "127",
+          "name": "MKRTCHYAN Gagik",
+          "nation": "ARM",
+          "weight": "+110",
+          "total": 360
+        },
+        {
+          "lot": "129",
+          "name": "SHAKHNAMAZOV Mirbagir",
+          "nation": "RUS",
+          "weight": "+110",
+          "total": 355
+        },
+        {
+          "lot": "144",
+          "name": "CHMYKH Volodymyr",
+          "nation": "UKR",
+          "weight": "+110",
+          "total": 348
+        },
+        {
+          "lot": "150",
+          "name": "NEMATI MOGHADDAM Taha",
+          "nation": "IRI",
+          "weight": "+110",
+          "total": 390
+        },
+        {
+          "lot": "166",
+          "name": "VEKUA Irakli",
+          "nation": "GEO",
+          "weight": "+110",
+          "total": 360
+        },
+        {
+          "lot": "224",
+          "name": "KE Guan-Ting",
+          "nation": "TPE",
+          "weight": "+110",
+          "total": 340
+        },
+        {
+          "lot": "230",
+          "name": "OLIMOV Omadillo",
+          "nation": "UZB",
+          "weight": "+110",
+          "total": 370
+        },
+        {
+          "lot": "238",
+          "name": "ALTIN Selahattin",
+          "nation": "TUR",
+          "weight": "+110",
+          "total": 375
+        },
+        {
+          "lot": "250",
+          "name": "DARSAVELIDZE Givi",
+          "nation": "GEO",
+          "weight": "+110",
+          "total": 355
+        }
+      ]
+    },
+    {
+      "event_id": "iwf-junior-worlds-2026-women-s-plus86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "+86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "2",
+          "name": "TEBLOEVA Dana",
+          "nation": "RUS",
+          "weight": "+86",
+          "total": 235
+        },
+        {
+          "lot": "10",
+          "name": "SU Sheng-Ci",
+          "nation": "TPE",
+          "weight": "+86",
+          "total": 210
+        },
+        {
+          "lot": "58",
+          "name": "PRANTS Inger Iris",
+          "nation": "EST",
+          "weight": "+86",
+          "total": 165
+        },
+        {
+          "lot": "92",
+          "name": "YAHIA MAMOUN Amina",
+          "nation": "ALG",
+          "weight": "+86",
+          "total": 235
+        },
+        {
+          "lot": "105",
+          "name": "HU Wenxun",
+          "nation": "CHN",
+          "weight": "+86",
+          "total": 280
+        },
+        {
+          "lot": "126",
+          "name": "LOPEZ REVELES Geraldine Guadalupe",
+          "nation": "MEX",
+          "weight": "+86",
+          "total": 215
+        },
+        {
+          "lot": "128",
+          "name": "SUREN Tuana",
+          "nation": "TUR",
+          "weight": "+86",
+          "total": 255
+        },
+        {
+          "lot": "160",
+          "name": "ABDELAZIM Shams Mohamed Ahmed",
+          "nation": "EGY",
+          "weight": "+86",
+          "total": 235
+        },
+        {
+          "lot": "162",
+          "name": "KALASHNYK Hanna",
+          "nation": "UKR",
+          "weight": "+86",
+          "total": 240
+        },
+        {
+          "lot": "220",
+          "name": "ROBROO Natthida",
+          "nation": "THA",
+          "weight": "+86",
+          "total": 230
+        },
+        {
+          "lot": "257",
+          "name": "MENDOZA SALAZAR Barbara Nazaret",
+          "nation": "VEN",
+          "weight": "+86",
+          "total": 237
+        },
+        {
+          "lot": "264",
+          "name": "ZHANG Yuxin",
+          "nation": "CHN",
+          "weight": "+86",
+          "total": 275
+        }
+      ]
+    }
+  ]
+}

@@ -372,11 +372,14 @@ def test_catalog_has_only_reviewed_supported_publishers_and_country_identities()
         ("WEIGHTLIFTING_EUROPE", "easywl"),
         ("WEIGHTLIFTING_ASIA", "owlcms"),
         ("WEIGHTLIFTING_PAN_AMERICA", "owlcms-es"),
+        ("IWF_WORLDS", "reviewed-roster"),
+        ("IWF_JUNIOR_WORLDS", "reviewed-roster"),
+        ("WEIGHTLIFTING_AFRICA", "reviewed-roster"),
     }
-    assert len(config["books"]) == 3
+    assert len(config["books"]) == 6
     for book in config["books"]:
         assert book["year"] == 2026
-        assert urlsplit(book["landing_url"]).netloc in {"ewf.sport", "awf.sport", "panampesas.org"}
+        assert urlsplit(book["landing_url"]).netloc in {"ewf.sport", "awf.sport", "panampesas.org", "iwf.sport"}
     for code, identity in config["country_codes"].items():
         assert len(code) == 3 and code.isupper()
         assert identity["code"] in ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "XK"}
