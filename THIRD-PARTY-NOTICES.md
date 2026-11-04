@@ -2,6 +2,13 @@ kickoff original software: MIT; see LICENSE.
 
 Public schedule data is separate from the MIT software license:
 
+Country-only facts in `src/kickoff/config/event-countries.json` cite exact ESPN
+course or fixture responses and official MotoGP, FIA WEC, NBA, IndyCar and UCI
+statements. Each fact retains its source URL, checked date and response hash.
+No source grants an open data license for these facts; original schedule licenses
+and attribution remain unchanged. No page text, source responses or images are
+redistributed. A changed appointment does not inherit an old country's review.
+
 openfootball contributors — football.json; CC0 1.0 Universal.
 https://github.com/openfootball/football.json
 https://creativecommons.org/publicdomain/zero/1.0/
@@ -112,8 +119,12 @@ and 2027-weightlifting.json. Combined timetable rows stay single sessions;
 parallel Masters platforms stay separate. Only published clocks are converted
 to UTC. Unpublished timetables retain confirmed date spans; unconfirmed months
 and absent Games editions are omitted with source-linked reasons. No source
-documents, athlete entries, results, logos or prose are republished. Hash
-receipts identify raw document bytes where available and explicitly identify
+documents, results, logos or prose are republished. Current official EWF, AWF and Pan-American federation
+start books also supply factual athlete names, source nation codes and entry totals;
+these facts retain the same source terms. Birth dates are not published. The optional
+start-list reader resolves the current source-linked book on each refresh, validates
+complete session rosters and omits contradictory cohorts. Source links, actual check
+dates and raw-book hashes accompany the emitted facts. Hash receipts identify raw document bytes where available and explicitly identify
 reviewed-fact hashes otherwise. These facts carry their sources' terms, not MIT
 or a new CC0 grant.
 

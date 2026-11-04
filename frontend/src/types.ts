@@ -19,6 +19,12 @@ export type ApiParticipant = {
   record?: string;
   team_source_url?: string;
   final_score?: number;
+  entry_total_kg?: number;
+  start_list_category?: string;
+  start_list_nation?: string;
+  start_list_guest?: boolean;
+  start_list_source_url?: string;
+  start_list_checked_date?: string;
   logo_url?: string;
   logo_source_url?: string;
   logo_checked_date?: string;

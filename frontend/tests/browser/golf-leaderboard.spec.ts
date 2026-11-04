@@ -31,6 +31,8 @@ async function paused(page: Page) {
 }
 async function open(page: Page, date = "2026-10-30", name = "VidantaWorld Mexico Open") {
   await page.locator(`#day-${date} .event-pill`).filter({ hasText: name }).click();
+  const choices = page.locator(".sheet-event-row");
+  if (await choices.count()) await choices.filter({ hasText: name }).click();
 }
 
 for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as const) {
@@ -40,8 +42,8 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       const calls = await mock(page);
       await setup(page, [golf(), golf("401811953", "PGA_TOUR", "Other tournament")], { now });
       const cell = page.locator("#day-2026-10-30");
-      await expect(cell.locator(".event-pill")).toHaveCount(2);
-      await expect(cell.locator(".pill-label")).toHaveText(["Other tournament, Round 2", "VidantaWorld Mexico Open, Round 2"]);
+      await expect(cell.locator(".event-pill")).toHaveCount(1);
+      await expect(cell.locator(".pill-label")).toHaveText("Other tournament, Round 2; VidantaWorld Mexico Open, Round 2");
       await open(page);
       const sheet = page.getByRole("dialog");
       await expect(sheet.locator("h3")).toHaveText("VidantaWorld Mexico Open, Round 2");

@@ -3,6 +3,22 @@
 from __future__ import annotations
 
 COUNTRY_LEAGUES = {
+    "NFL",
+    "NBA",
+    "NHL",
+    "MLB",
+    "NASCAR_CUP",
+    "INDYCAR",
+    "ATP",
+    "WTA",
+    "DP_WORLD_TOUR",
+    "LIV_GOLF",
+    "MOTOGP",
+    "WEC",
+    "TOUR_DE_FRANCE",
+    "GIRO_D_ITALIA",
+    "VUELTA_A_ESPANA",
+    "UCI_WORLD_TOUR",
     "DIAMOND_LEAGUE",
     "WORLD_ATHLETICS_CHAMPIONSHIPS",
     "FIFA_WOMENS_WORLD_CUP",
@@ -37,6 +53,10 @@ ISO_CODES = set(
 # Source spellings, including explicitly named UK constituent countries.
 COUNTRY_ALIASES = {
     "Puerto Rico": "PR",
+    "Kenya": "KE",
+    "India": "IN",
+    "Mauritius": "MU",
+    "Bahamas": "BS",
     "Dominican Republic": "DO",
     "Bermuda": "BM",
     "USA": "US",
@@ -49,6 +69,9 @@ COUNTRY_ALIASES = {
     "Northern Ireland": "GB",
     "United Kingdom": "GB",
     "UK": "GB",
+    "Great Britain": "GB",
+    "China PR": "CN",
+    "Korea Republic": "KR",
     "Spain": "ES",
     "Slovakia": "SK",
     "Germany": "DE",
@@ -121,3 +144,26 @@ def venue_country(value: str | None) -> str | None:
         return None
     code = value.upper() if value.upper() in ISO_CODES else COUNTRIES.get(value.casefold())
     return code or value
+
+
+def tennis_venue_country(venue: dict) -> str | None:
+    """ESPN tennis's venue ends in an explicitly named country, not a city lookup."""
+    structured = (venue.get("address") or {}).get("country")
+    if structured:
+        return venue_country(structured)
+    location = venue.get("displayName") or ""
+    # Hong Kong, Hong Kong, China is a distinct source identity, not mainland CN.
+    if "hong kong" in location.casefold():
+        return None
+    if "," not in location:
+        return None
+    value = location.rsplit(",", 1)[1].strip()
+    explicit_names = {
+        "morocco": "MA",
+        "romania": "RO",
+        "monaco": "MC",
+        "croatia": "HR",
+        "slovenia": "SI",
+        "angola": "AO",
+    }
+    return COUNTRIES.get(value.casefold()) or explicit_names.get(value.casefold())

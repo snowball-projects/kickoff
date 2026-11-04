@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ButtonHTMLAttributes } from "react";
-import { leagueVisual, pillCountry } from "./calendar-helpers";
+import { leagueVisual, pillCountries } from "./calendar-helpers";
 import { dayPillTeams, dayPillTitle } from "./day-pill";
 import { SportIcon } from "./EventIdentity";
 import TeamLogo from "./TeamLogo";
@@ -13,7 +13,7 @@ export default function DayPill({ event, compact = false, className = "", ...pro
   const [stage, setStage] = useState(0);
   const [failed, setFailed] = useState<ReadonlySet<string>>(() => new Set());
   const visual = leagueVisual(event.league, event.sport);
-  const country = pillCountry([event]);
+  const countries = pillCountries([event]);
   const matchup = dayPillTeams(event);
   const title = dayPillTitle(event);
   const matchupName = matchup?.teams.map((team) => team.name).join(` ${matchup.separator} `);
@@ -64,7 +64,7 @@ export default function DayPill({ event, compact = false, className = "", ...pro
           </span>;
         })}
       </span> : title && <span className={measurement ? "day-pill-title" : "pill-text"}>{title}</span>}
-      {country && variant < 2 && <span className={measurement ? "day-pill-flag" : "country-flag"} role={measurement ? undefined : "img"} aria-label={measurement ? undefined : country.name}>{country.flag}</span>}
+      {variant < 2 && countries.map((country) => <span key={country.code} className={measurement ? "day-pill-flag" : "country-flag"} role={measurement ? undefined : "img"} aria-label={measurement ? undefined : country.name}>{country.flag}</span>)}
     </>;
   };
   return <><button {...props} aria-label={accessibleName} ref={root} className={`event-pill day-pill ${visual.className} ${className}`} data-detail={stage}>
