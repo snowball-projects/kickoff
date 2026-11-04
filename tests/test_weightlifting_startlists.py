@@ -1,98 +1,31 @@
-"""Offline, synthetic layout fixtures; no copied PDF pages or athlete birth dates."""
+"""Static source facts and regression fingerprints from the reviewed live80 publication."""
 
+import hashlib
+import json
 from copy import deepcopy
-from types import SimpleNamespace
-from zlib import error as ZlibError
+from pathlib import Path
 
 import pytest
-from pypdf.errors import PdfReadError
 
 from kickoff import weightlifting_startlists as startlists
 from kickoff.feeds import make_event
+from kickoff.reviewed_schedules import load_reviewed_schedules
+from kickoff.web import _event_payload
 
-EASY = """1 Women SE 48A 2 19/04 09:00
-START LIST WOMEN SE 48A
-101 Example Strong 01.01.2000 GER 48 SE 180
-102 Example Neutral 01.01.2000 AIN 48 SE 160
-"""
-OWL = """1 - GROUP A 79 KG M 4:00 PM 6:00 PM M 1
-Session GROUP A 79 KG M Weigh-in Time: 2026-05-14 16:00 Start Time: 2026-05-14 18:00
-GROUP A MEN 79 KG
-1 101 Example One GER 1/1/2000 SR M 79 300
-2 102 Example Guest [guest] AUS 1/1/2000 SR M 79 290
-"""
+ROOT = Path(__file__).resolve().parents[1]
 
 
-def pages(monkeypatch, texts):
-    monkeypatch.setattr(
-        startlists,
-        "_reader_from_bytes",
-        lambda _: SimpleNamespace(pages=[SimpleNamespace(extract_text=lambda text=text: text) for text in texts]),
-    )
+@pytest.fixture(autouse=True)
+def no_source_requests(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail("Static start lists must make zero network requests")
 
-
-def test_easywl_reads_only_roster_rows_and_confirms_complete_timetable(monkeypatch):
-    pages(monkeypatch, [EASY + "President: Some Official GER\n"])
-    (session,) = startlists.parse_start_book(b"fixture", "easywl")
-    assert session.categories == frozenset({("women", "48", "A")})
-    assert [(row.name, row.total, row.nation) for row in session.entries] == [
-        ("Example Strong", 180, "GER"),
-        ("Example Neutral", 160, "AIN"),
-    ]
-    assert session.expected == 2 and session.issue is None
-    assert not hasattr(session.entries[0], "dob")
-    pages(monkeypatch, [EASY.replace("48A 2", "48A 3")])
-    with pytest.raises(ValueError, match="count"):
-        startlists.parse_start_book(b"fixture", "easywl")
-
-
-@pytest.mark.parametrize("expected", [1, 2])
-def test_owlcms_keeps_guest_rows_whether_timetable_includes_or_excludes_guests(monkeypatch, expected):
-    pages(monkeypatch, [OWL.replace("6:00 PM M 1", f"6:00 PM M {expected}")])
-    (session,) = startlists.parse_start_book(b"fixture", "owlcms")
-    assert len(session.entries) == 2 and session.expected == expected
-    assert session.entries[1].guest and session.entries[1].name == "Example Guest"
-    assert session.issue is None
-    pages(monkeypatch, [OWL.replace("2 102", "3 102")])
-    with pytest.raises(ValueError, match="sequence"):
-        startlists.parse_start_book(b"fixture", "owlcms")
-
-
-@pytest.mark.parametrize(
-    "text",
-    [
-        OWL.replace("6:00 PM M 1", "6:00 PM M 2").replace("2 102 Example Guest [guest] AUS 1/1/2000 SR M 79 290\n", ""),
-        OWL.replace(" [guest]", ""),
-    ],
-    ids=["truncated-final-row", "unexplained-non-guest-extra-row"],
-)
-def test_owlcms_rejects_incomplete_and_unexplained_roster_counts(monkeypatch, text):
-    pages(monkeypatch, [text])
-    with pytest.raises(ValueError, match="count"):
-        startlists.parse_start_book(b"fixture", "owlcms")
-
-
-def test_contradictory_source_class_is_retained_for_audit_and_marks_whole_cohort(monkeypatch):
-    pages(monkeypatch, [OWL.replace("SR M 79 300", "SR M 71 300")])
-    (session,) = startlists.parse_start_book(b"fixture", "owlcms")
-    assert session.entries[0].weight == "71"
-    assert "lot 101, class 71" in session.issue
-
-
-def test_duplicate_or_missing_sessions_and_incomplete_rows_do_not_publish_a_partial_book(monkeypatch):
-    pages(monkeypatch, [EASY, EASY])
-    with pytest.raises(ValueError):
-        startlists.parse_start_book(b"fixture", "easywl")
-    pages(monkeypatch, [OWL.replace("1/1/2000 SR M 79 290", "not-a-date SR M 79 290")])
-    with pytest.raises(ValueError, match="sequence"):
-        startlists.parse_start_book(b"fixture", "owlcms")
-    pages(monkeypatch, ["Results are not a start list"])
-    with pytest.raises(ValueError):
-        startlists.parse_start_book(b"fixture", "easywl")
+    monkeypatch.setattr("urllib.request.urlopen", forbidden)
+    monkeypatch.setattr("socket.create_connection", forbidden)
 
 
 def event(identity, league="WEIGHTLIFTING_EUROPE"):
-    result = make_event(
+    item = make_event(
         source="weightlifting",
         league=league,
         sport="weightlifting",
@@ -103,185 +36,201 @@ def event(identity, league="WEIGHTLIFTING_EUROPE"):
         day="2026-04-19",
         event_type="session",
     )
-    result.event_id = identity
-    return result
+    item.event_id = identity
+    return item
 
 
 def setup_catalog(monkeypatch, tmp_path):
+    """A minimal reviewed snapshot fixture; no PDF parser or transport compatibility."""
     config = {
         "books": [
             {
                 "league": "WEIGHTLIFTING_EUROPE",
                 "year": 2026,
-                "format": "easywl",
+                "format": "reviewed-roster",
                 "name": "Official example start list",
                 "publisher": "EWF",
                 "landing_url": "https://ewf.sport/meet",
-                "link_pattern": r"/startbook-v\d+\.pdf",
+                "snapshot_file": "receipts/example.json",
             }
         ],
         "country_codes": {"GER": {"code": "DE", "source_url": "https://iwf.sport/codes", "checked_date": "2026-11-03"}},
     }
     monkeypatch.setattr(startlists, "catalog", lambda: config)
-    import json
-
+    categories = [{"gender": "women", "weight_class": "48", "group": "A"}]
+    sessions = [
+        {
+            "event_id": "session",
+            "categories": categories,
+            "athlete_count": 2,
+            "entries": [
+                {"lot": "101", "name": "Example Strong", "nation": "GER", "weight": "48", "total": 180},
+                {"lot": "102", "name": "Example Refugee", "nation": "WRT", "weight": "48", "total": 160},
+            ],
+        }
+    ]
+    snapshot = {
+        "league": "WEIGHTLIFTING_EUROPE",
+        "year": 2026,
+        "source_url": "https://ewf.sport/startbook-v1.pdf",
+        "revision": "Reviewed start book v1",
+        "checked_date": "2026-11-03",
+        "collection_method": "Dated reviewed facts",
+        "hash_scope": startlists.ROSTER_HASH_SCOPE,
+        "sha256": startlists.roster_hash(sessions),
+        "session_count": 1,
+        "athlete_count": 2,
+        "sessions": sessions,
+    }
     (tmp_path / "2026-weightlifting.json").write_text(
-        json.dumps(
-            {"events": [{"id": "session", "categories": [{"gender": "women", "weight_class": "48", "group": "A"}]}]}
-        )
+        json.dumps({"events": [{"id": "session", "categories": categories}]})
     )
-    pages(monkeypatch, [EASY])
-    calls = []
-
-    def read(url):
-        calls.append(url)
-        return b'<a href="/startbook-v1.pdf">Start book</a>' if url.endswith("/meet") else b"PDF1"
-
-    return config, calls, read
+    path = tmp_path / "receipts/example.json"
+    path.parent.mkdir(exist_ok=True)
+    path.write_text(json.dumps(snapshot))
+    return config, snapshot, path
 
 
-def test_source_revision_replaces_entire_cohort_and_preserves_every_schedule_fact(monkeypatch, tmp_path):
-    _, calls, read = setup_catalog(monkeypatch, tmp_path)
+def save_snapshot(snapshot, path):
+    snapshot["sha256"] = startlists.roster_hash(snapshot["sessions"])
+    path.write_text(json.dumps(snapshot))
+
+
+def test_snapshot_only_loader_keeps_dates_and_every_schedule_fact(monkeypatch, tmp_path):
+    _, _, _ = setup_catalog(monkeypatch, tmp_path)
     item = event("session")
-    before = deepcopy(item.to_dict())
-    loader = startlists.StartListLoader(read)
+    original = deepcopy(item.to_dict())
+    loader = startlists.StartListLoader()
     sources, evidence = loader.enrich([item], tmp_path, 2026)
     assert len(item.participants) == 2
     assert item.participants[0].metadata["country_code"] == "DE"
     assert "country_code" not in item.participants[1].metadata
-    assert item.participants[1].metadata["start_list_nation"] == "AIN"
-    assert sources and evidence[0]["athletes"] == 2
+    assert sources[0]["checked_date"] == evidence[0]["checked_date"] == "2026-11-03"
     after = item.to_dict()
     after["participants"] = []
-    assert after == before
+    assert after == original
+    assert not hasattr(loader, "_read") and not hasattr(startlists, "parse_start_book")
     loader.enrich([item], tmp_path, 2026)
-    loader.enrich([item], tmp_path, 2027)
-    assert calls == ["https://ewf.sport/meet", "https://ewf.sport/startbook-v1.pdf"]
-    pages(monkeypatch, [EASY.replace("48A 2", "48A 1").replace("102 Example Neutral 01.01.2000 AIN 48 SE 160\n", "")])
-    revised = startlists.StartListLoader(
-        lambda url: b'<a href="/startbook-v2.pdf">Start book</a>' if url.endswith("/meet") else b"PDF2"
-    )
-    revised.enrich([item], tmp_path, 2026)
-    assert len(item.participants) == 1
-    assert item.participants[0].metadata["start_list_source_url"].endswith("v2.pdf")
+    assert loader.enrich([item], tmp_path, 2027) == ([], [])
+    assert all(p.metadata["start_list_checked_date"] == "2026-11-03" for p in item.participants)
 
 
-@pytest.mark.parametrize(
-    "response",
-    [
-        OSError("403 or unavailable"),
-        EOFError("truncated gzip"),
-        ZlibError("invalid gzip"),
-        PdfReadError("invalid PDF"),
-        b'<a href="/startbook-v1.pdf">one</a><a href="/startbook-v2.pdf">two</a>',
-        b"no start list",
-    ],
-)
-def test_missing_failed_or_ambiguous_book_does_not_add_facts_or_abort_schedule(monkeypatch, tmp_path, response):
-    setup_catalog(monkeypatch, tmp_path)
-
-    def read(_):
-        if isinstance(response, Exception):
-            raise response
-        return response
-
-    item = event("session")
-    before = deepcopy(item.to_dict())
-    assert startlists.StartListLoader(read).enrich([item], tmp_path, 2026) == ([], [])
-    assert item.to_dict() == before
-
-
-@pytest.mark.parametrize(
-    "error", [OSError("unavailable"), EOFError("truncated"), ZlibError("corrupt"), PdfReadError("bad")]
-)
-def test_failed_pdf_parse_does_not_add_facts_or_abort_schedule(monkeypatch, tmp_path, error):
-    _, _, read = setup_catalog(monkeypatch, tmp_path)
-
-    def parse(*_):
-        raise error
-
-    monkeypatch.setattr(startlists, "parse_start_book", parse)
-    item = event("session")
-    before = deepcopy(item.to_dict())
-    assert startlists.StartListLoader(read).enrich([item], tmp_path, 2026) == ([], [])
-    assert item.to_dict() == before
-
-
-def test_invalid_revised_book_cannot_partially_attach_athletes(monkeypatch, tmp_path):
-    _, _, read = setup_catalog(monkeypatch, tmp_path)
-    pages(monkeypatch, [EASY.replace("48A 2", "48A 3")])
-    item = event("session")
-    assert startlists.StartListLoader(read).enrich([item], tmp_path, 2026) == ([], [])
-    assert item.participants == []
-
-
-def test_budget_prevents_new_requests_and_failed_reads_are_cached_once():
-    calls = []
-
-    def read(url):
-        calls.append(url)
-        raise OSError("outage")
-
-    loader = startlists.StartListLoader(read, clock=lambda: 10, budget=0)
-    assert loader._read("https://ewf.sport/one") is None and not calls
-    loader = startlists.StartListLoader(read)
-    loader._read("https://ewf.sport/one")
-    loader._read("https://ewf.sport/one")
-    for index in range(7):
-        loader._read(f"https://ewf.sport/{index}")
-    assert len(calls) == 6
-
-
-def test_public_export_keeps_only_requested_athlete_facts_and_scope(monkeypatch, tmp_path):
-    from kickoff.web import _event_payload
-
-    _, _, read = setup_catalog(monkeypatch, tmp_path)
-    item = event("session")
-    startlists.StartListLoader(read).enrich([item], tmp_path, 2026)
-    item.participants[0].metadata.update(birth_date="private", raw_pdf="private", unrelated="private")
-    payload = _event_payload(item)
-    athlete = payload["participants"][0]
-    assert athlete["entry_total_kg"] == 180
-    assert athlete["country_code"] == "DE"
-    assert athlete["start_list_nation"] == "GER"
-    assert athlete["start_list_source_url"] == "https://ewf.sport/startbook-v1.pdf"
-    assert all(field not in athlete for field in ["metadata", "birth_date", "raw_pdf", "unrelated", "logo_url"])
-    for league, sport in [
-        ("IWF_YOUTH_WORLDS", "weightlifting"),
-        ("MASTERS_WORLDS", "weightlifting"),
-        ("PGA_TOUR", "golf"),
-    ]:
-        other = deepcopy(item)
-        other.league, other.sport = league, sport
-        public = _event_payload(other)["participants"][0]
-        assert not any(field in public for field in startlists.ENTRY_FIELDS)
-        assert "country_code" not in public
-
-
-def test_ambiguous_session_is_omitted_whole_without_discarding_other_confirmed_cohorts(monkeypatch, tmp_path):
-    import json
-
-    _, _, read = setup_catalog(monkeypatch, tmp_path)
-    registry = json.loads((tmp_path / "2026-weightlifting.json").read_text())
-    registry["events"].append({"id": "bad", "categories": [{"gender": "men", "weight_class": "79", "group": "A"}]})
-    (tmp_path / "2026-weightlifting.json").write_text(json.dumps(registry))
-    parsed = [
-        startlists.Session(
-            frozenset({("women", "48", "A")}), [startlists.Entry("101", "Confirmed Athlete", "GER", "48", 180, 7)], 1
-        ),
-        startlists.Session(
-            frozenset({("men", "79", "A")}),
-            [startlists.Entry("102", "Ambiguous Athlete", "GER", "71", 300, 13)],
-            1,
-            "Source class 71 versus session 79",
-        ),
+def test_partial_frozen_cohort_keeps_frozen_values_and_loads_only_other_snapshot_members(monkeypatch, tmp_path):
+    _, snapshot, path = setup_catalog(monkeypatch, tmp_path)
+    second = deepcopy(snapshot["sessions"][0])
+    second["event_id"] = "second"
+    second["categories"][0]["weight_class"] = "53"
+    for row in second["entries"]:
+        row["lot"] += "0"
+        row["weight"] = "53"
+    snapshot["sessions"].append(second)
+    snapshot["session_count"] = 2
+    snapshot["athlete_count"] = 4
+    save_snapshot(snapshot, path)
+    definitions = {"events": [{"id": row["event_id"], "categories": row["categories"]} for row in snapshot["sessions"]]}
+    (tmp_path / "2026-weightlifting.json").write_text(json.dumps(definitions))
+    frozen, fresh = event("session"), event("second")
+    frozen.participants = [
+        startlists.Participant(name="Existing frozen facts", entity_type="athlete", metadata={"entry_total_kg": 199})
     ]
-    monkeypatch.setattr(startlists, "parse_start_book", lambda *_: parsed)
-    valid, invalid = event("session"), event("bad")
-    sources, evidence = startlists.StartListLoader(read).enrich([valid, invalid], tmp_path, 2026)
-    assert len(valid.participants) == 1 and not invalid.participants
-    assert sources and evidence[0]["sessions"] == 1 and evidence[0]["parsed_sessions"] == 2
-    assert evidence[0]["omitted_sessions"] == [{"event_id": "bad", "reason": parsed[1].issue}]
+    original = deepcopy(frozen.to_dict())
+    _, evidence = startlists.StartListLoader().enrich([frozen, fresh], tmp_path, 2026, skip_ids={"session"})
+    assert frozen.to_dict() == original
+    assert len(fresh.participants) == 2 and evidence[0]["sessions"] == 1
+    assert startlists.StartListLoader().enrich([frozen, fresh], tmp_path, 2026, skip_ids={"session", "second"}) == (
+        [],
+        [],
+    )
+
+
+def test_explicit_withheld_snapshot_session_stays_empty_and_does_not_hide_valid_session(monkeypatch, tmp_path):
+    _, snapshot, path = setup_catalog(monkeypatch, tmp_path)
+    omitted = {
+        "event_id": "withheld",
+        "categories": [{"gender": "men", "weight_class": "79", "group": "A"}],
+        "athlete_count": 0,
+        "entries": [],
+        "issue": "Source class 71 contradicts published class79",
+    }
+    snapshot["sessions"].append(omitted)
+    snapshot["session_count"] = 2
+    save_snapshot(snapshot, path)
+    (tmp_path / "2026-weightlifting.json").write_text(
+        json.dumps(
+            {"events": [{"id": row["event_id"], "categories": row["categories"]} for row in snapshot["sessions"]]}
+        )
+    )
+    valid, withheld = event("session"), event("withheld")
+    _, evidence = startlists.StartListLoader().enrich([valid, withheld], tmp_path, 2026)
+    assert len(valid.participants) == 2 and withheld.participants == []
+    assert evidence[0]["omitted_sessions"] == [{"event_id": "withheld", "reason": omitted["issue"]}]
+    snapshot["sessions"][-1].pop("issue")
+    save_snapshot(snapshot, path)
+    valid = event("session")
+    assert startlists.StartListLoader().enrich([valid, withheld], tmp_path, 2026) == ([], [])
+    assert valid.participants == []
+
+
+def test_public_export_keeps_only_requested_factual_fields(monkeypatch, tmp_path):
+    setup_catalog(monkeypatch, tmp_path)
+    item = event("session")
+    startlists.StartListLoader().enrich([item], tmp_path, 2026)
+    item.participants[0].metadata.update(birth_date="private", raw_pdf="private", unrelated="private")
+    public = _event_payload(item)["participants"][0]
+    assert public["entry_total_kg"] == 180 and public["country_code"] == "DE"
+    assert all(key not in public for key in ["metadata", "birth_date", "raw_pdf", "unrelated"])
+    for league in ["IWF_YOUTH_WORLDS", "MASTERS_WORLDS"]:
+        other = deepcopy(item)
+        other.league = league
+        assert not any(key in _event_payload(other)["participants"][0] for key in startlists.ENTRY_FIELDS)
+
+
+# Independent fingerprints of every public participant value/order in deployed live80.
+LIVE80 = {
+    "WEIGHTLIFTING_EUROPE": (36, 368, "5c46c51c207e1f7834ce1f219f3fc667ea01df5e39c592ae3c6966d86d328453"),
+    "WEIGHTLIFTING_ASIA": (17, 164, "ea8c5d4d4bc53ca408eb80ea3b8a31aaa234e574312d807ec064a878047468d8"),
+    "WEIGHTLIFTING_PAN_AMERICA": (16, 168, "fd1d409d90f9478b647de405aec8e3a91f3200084a62a861e62904ce6f184308"),
+    "IWF_WORLDS": (50, 528, "c47de936b9f016c9af2941b5fab265062697e18b7fe89d1fd21cc7326ddad001"),
+    "IWF_JUNIOR_WORLDS": (28, 271, "0fa2987b41b4a8374264f2a00a2a9587b853e03d0196f6a88adf4b412ae1137e"),
+    "WEIGHTLIFTING_AFRICA": (15, 126, "a4eaf26bd129dee19f1aeaf98add9ea1eef4614ee4fb64eb5a70d1b15d07db3f"),
+}
+
+
+@pytest.mark.parametrize("league", LIVE80)
+def test_all_live80_1625_athletes_dates_flags_and_public_values_are_exact(league):
+    events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
+    events = [e for e in events if e.league == league]
+    originals = {e.event_id: e.to_dict() for e in events}
+    sources, evidence = startlists.StartListLoader().enrich(events, ROOT / "data/reviewed", 2026)
+    expected_sessions, expected_athletes, digest = LIVE80[league]
+    public = {e.event_id: _event_payload(e)["participants"] for e in events}
+    assert len(events) == expected_sessions and sum(map(len, public.values())) == expected_athletes
+    assert hashlib.sha256(json.dumps(public, sort_keys=True, separators=(",", ":")).encode()).hexdigest() == digest
+    assert sources[0]["checked_date"] == evidence[0]["checked_date"] == "2026-11-04"
+    for item in events:
+        after = item.to_dict()
+        after["participants"] = []
+        assert after == originals[item.event_id]
+    if league == "WEIGHTLIFTING_ASIA":
+        assert evidence[0]["omitted_sessions"] == [
+            {
+                "event_id": "asian-2026-men-s-79-kg",
+                "reason": "Source athlete class disagrees with session: lot 96, class 71, page 13",
+            }
+        ]
+    if league.startswith("WEIGHTLIFTING_") and league != "WEIGHTLIFTING_AFRICA":
+        assert evidence[0]["source_raw_sha256"] != evidence[0]["sha256"]
+        assert evidence[0]["source_raw_checked_date"] == "2026-11-04"
+
+
+def test_all_six_catalog_entries_are_static_and_country_citations_are_unchanged():
+    config = startlists.catalog()
+    assert len(config["books"]) == 6 and all(book["format"] == "reviewed-roster" for book in config["books"])
+    assert not any("link_pattern" in book for book in config["books"])
+    assert (
+        hashlib.sha256(json.dumps(config["country_codes"], sort_keys=True).encode()).hexdigest()
+        == "66b94f632d6b0112253694dc533bf514c1dde1e78588079fe50d9c041e293e63"
+    )
 
 
 def test_publisher_calls_optional_loader_without_changing_schedule_or_primary_sources(monkeypatch, tmp_path):
@@ -334,61 +283,3 @@ def test_publisher_calls_optional_loader_without_changing_schedule_or_primary_so
     assert any(p.get("entry_total_kg") == 180 for item in result["events"] for p in item["participants"])
     assert any(source["name"] == "Official entries" for source in result["sources"])
     assert any(proof["url"] == "https://ewf.sport/startbook.pdf" for proof in result["input_evidence"])
-
-
-def test_spanish_book_reassembles_wrapped_names_and_requires_full_session_count(monkeypatch):
-    text = """CRONOGRAMA DE COMPETENCIAS
-F 53 12:00 a.m. 2:00 p.m. 2
-START LIST
-F 53 KG A
-Tanda F53 Hora de inicio: 2026-04-27 14:00
-1 122 Example First Middle
-Last BAR 23/4/1995 F 53 98
-2 131 Example Second PAN 30/12/2000 F 53 145
-"""
-    pages(monkeypatch, [text])
-    (session,) = startlists.parse_start_book(b"fixture", "owlcms-es")
-    assert session.categories == frozenset({("women", "53", "A")})
-    assert [(entry.name, entry.total) for entry in session.entries] == [
-        ("Example First Middle Last", 98),
-        ("Example Second", 145),
-    ]
-    pages(monkeypatch, [text.replace("2:00 p.m. 2", "2:00 p.m. 3")])
-    with pytest.raises(ValueError, match="count"):
-        startlists.parse_start_book(b"fixture", "owlcms-es")
-    pages(monkeypatch, [text.replace("2 131", "4 131")])
-    with pytest.raises(ValueError, match="sequence"):
-        startlists.parse_start_book(b"fixture", "owlcms-es")
-
-
-def test_catalog_has_only_reviewed_supported_publishers_and_country_identities():
-    from datetime import date
-    from urllib.parse import urlsplit
-
-    from kickoff.countries import ISO_CODES
-
-    config = startlists.catalog()
-    assert {(row["league"], row["format"]) for row in config["books"]} == {
-        ("WEIGHTLIFTING_EUROPE", "easywl"),
-        ("WEIGHTLIFTING_ASIA", "owlcms"),
-        ("WEIGHTLIFTING_PAN_AMERICA", "owlcms-es"),
-        ("IWF_WORLDS", "reviewed-roster"),
-        ("IWF_JUNIOR_WORLDS", "reviewed-roster"),
-        ("WEIGHTLIFTING_AFRICA", "reviewed-roster"),
-    }
-    assert len(config["books"]) == 6
-    for book in config["books"]:
-        assert book["year"] == 2026
-        assert urlsplit(book["landing_url"]).netloc in {"ewf.sport", "awf.sport", "panampesas.org", "iwf.sport"}
-    for code, identity in config["country_codes"].items():
-        assert len(code) == 3 and code.isupper()
-        assert identity["code"] in ISO_CODES | {"GB-ENG", "GB-SCT", "GB-WLS", "GB-NIR", "XK"}
-        assert identity["source_url"].startswith("https://")
-        assert date.fromisoformat(identity["checked_date"]).isoformat() == identity["checked_date"]
-    assert all(code not in config["country_codes"] for code in ["AIN", "EWF", "MAL", "JER", "TRI"])
-    assert {code: config["country_codes"][code]["code"] for code in ["BRN", "BRU", "SLO", "SVK"]} == {
-        "BRN": "BH",
-        "BRU": "BN",
-        "SLO": "SI",
-        "SVK": "SK",
-    }

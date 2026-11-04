@@ -5,27 +5,27 @@
       "year": 2026,
       "name": "2026 EWF European Championships official start list",
       "publisher": "European Weightlifting Federation",
-      "format": "easywl",
+      "format": "reviewed-roster",
       "landing_url": "https://ewf.sport/2026/01/14/2026-ewf-european-championships/",
-      "link_pattern": "/2026/\\d\\d/[^/?]*Start[_-]Book[^/?]*\\.pdf(?:\\?|$)"
+      "snapshot_file": "receipts/2026-europe-start-list.json"
     },
     {
       "league": "WEIGHTLIFTING_ASIA",
       "year": 2026,
       "name": "2026 Asian Senior Championships official start list",
       "publisher": "Asian Weightlifting Federation",
-      "format": "owlcms",
+      "format": "reviewed-roster",
       "landing_url": "https://awf.sport/official-athlete-start-list-published-for-2026-asian-senior-weightlifting-championships-in-india/",
-      "link_pattern": "/2026/\\d\\d/START[-_]LIST[-_][^/?]*\\.pdf(?:\\?|$)"
+      "snapshot_file": "receipts/2026-asia-start-list.json"
     },
     {
       "league": "WEIGHTLIFTING_PAN_AMERICA",
       "year": 2026,
       "name": "2026 Pan-American Senior Championships official start list",
       "publisher": "Pan-American Weightlifting Federation",
-      "format": "owlcms-es",
+      "format": "reviewed-roster",
       "landing_url": "https://panampesas.org/calendario-2026/",
-      "link_pattern": "/2026/\\d\\d/Start-Book-Campeonato-Panamericano-Panama[^/?]*\\.pdf(?:\\?|$)"
+      "snapshot_file": "receipts/2026-panamerica-start-list.json"
     },
     {
       "league": "IWF_WORLDS",

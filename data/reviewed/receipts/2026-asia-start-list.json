@@ -1,0 +1,1557 @@
+{
+  "league": "WEIGHTLIFTING_ASIA",
+  "year": 2026,
+  "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+  "revision": "Start book, 3 May 2026",
+  "checked_date": "2026-11-04",
+  "collection_method": "Reviewed snapshot of the already published official roster facts; retained check date, no build-time source refresh.",
+  "hash_scope": "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes",
+  "sha256": "874687ebae2d129f999d53a199bdbaafa72cc454a29ec40586718b43406522df",
+  "source_raw_sha256": "48d7ccae2632cadf16de15a503ea3a322193e92211815045bc7e5eaa722ad5be",
+  "source_raw_hash_scope": "raw PDF bytes retained from the published source receipt; no PDF fetched for this snapshot",
+  "source_raw_checked_date": "2026-11-04",
+  "source_raw_session_count": 17,
+  "source_raw_athlete_count": 179,
+  "session_count": 17,
+  "athlete_count": 164,
+  "sessions": [
+    {
+      "event_id": "asian-2026-women-s-48-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "48",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "51",
+          "name": "RAVIHARIGUNATHILAK Upamalika",
+          "nation": "SRI",
+          "weight": "48",
+          "total": 155,
+          "guest": false
+        },
+        {
+          "lot": "56",
+          "name": "FANG Wan-Ling",
+          "nation": "TPE",
+          "weight": "48",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "82",
+          "name": "HANSANIBOMIRIYAGE Dinusha",
+          "nation": "SRI",
+          "weight": "48",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "118",
+          "name": "SafiahSidek Liyana",
+          "nation": "BRU",
+          "weight": "48",
+          "total": 140,
+          "guest": false
+        },
+        {
+          "lot": "130",
+          "name": "JANEHENRY Irene",
+          "nation": "MAS",
+          "weight": "48",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "134",
+          "name": "KOHAR Komal",
+          "nation": "IND",
+          "weight": "48",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "155",
+          "name": "Jean Ramos Rose",
+          "nation": "PHI",
+          "weight": "48",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "167",
+          "name": "ALHAWAL Sarah",
+          "nation": "KUW",
+          "weight": "48",
+          "total": 90,
+          "guest": false
+        },
+        {
+          "lot": "168",
+          "name": "Bristy Mst",
+          "nation": "BAN",
+          "weight": "48",
+          "total": 140,
+          "guest": false
+        },
+        {
+          "lot": "179",
+          "name": "HUANG Yi-Chen",
+          "nation": "TPE",
+          "weight": "48",
+          "total": 185,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-60-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "60",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "15",
+          "name": "DILHARASOMATHILAK Supun",
+          "nation": "SRI",
+          "weight": "60",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "57",
+          "name": "AbdulrahimMpasspor Mansour",
+          "nation": "KSA",
+          "weight": "60",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "59",
+          "name": "ISURUKUMARAYODAG Dilanka",
+          "nation": "SRI",
+          "weight": "60",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "62",
+          "name": "ALOTAIBI Mohammad",
+          "nation": "KUW",
+          "weight": "60",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "120",
+          "name": "SINGHCHANAMBAM Rishikanta",
+          "nation": "IND",
+          "weight": "60",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "129",
+          "name": "AshikurRahmanTaj Md",
+          "nation": "BAN",
+          "weight": "60",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "150",
+          "name": "BinZaidi Hafiz",
+          "nation": "SGP",
+          "weight": "60",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "156",
+          "name": "CHOLPANG Un",
+          "nation": "PRK",
+          "weight": "60",
+          "total": 295,
+          "guest": false
+        },
+        {
+          "lot": "165",
+          "name": "ANIQKASDAN Mohamad",
+          "nation": "MAS",
+          "weight": "60",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "173",
+          "name": "THANHLAI Gia",
+          "nation": "VIE",
+          "weight": "60",
+          "total": 275,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-women-s-53-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "8",
+          "name": "CHENG Ting-I",
+          "nation": "TPE",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "26",
+          "name": "JUNG Hyedam",
+          "nation": "KOR",
+          "weight": "53",
+          "total": 187,
+          "guest": false
+        },
+        {
+          "lot": "40",
+          "name": "AkterEkra Marjia",
+          "nation": "BAN",
+          "weight": "53",
+          "total": 165,
+          "guest": false
+        },
+        {
+          "lot": "42",
+          "name": "KOYEL Bar",
+          "nation": "IND",
+          "weight": "53",
+          "total": 190,
+          "guest": true
+        },
+        {
+          "lot": "44",
+          "name": "MADUSHIKAPREMARA Dilini",
+          "nation": "SRI",
+          "weight": "53",
+          "total": 150,
+          "guest": false
+        },
+        {
+          "lot": "49",
+          "name": "YADAV Gyaneshwari",
+          "nation": "IND",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "53",
+          "name": "HUONGNGUYEN Hoai",
+          "nation": "VIE",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "71",
+          "name": "ALHASHMI Zahra",
+          "nation": "UAE",
+          "weight": "53",
+          "total": 125,
+          "guest": false
+        },
+        {
+          "lot": "89",
+          "name": "GYONG KANG Hyon",
+          "nation": "PRK",
+          "weight": "53",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "98",
+          "name": "LinnChua Jiin",
+          "nation": "SGP",
+          "weight": "53",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "109",
+          "name": "ZHAO Jinlan",
+          "nation": "CHN",
+          "weight": "53",
+          "total": 208,
+          "guest": false
+        },
+        {
+          "lot": "145",
+          "name": "ALSHAREEFI Amal",
+          "nation": "KUW",
+          "weight": "53",
+          "total": 115,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-65-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "65",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 14,
+      "entries": [
+        {
+          "lot": "5",
+          "name": "Ergashev Adkhamjon",
+          "nation": "UZB",
+          "weight": "65",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "7",
+          "name": "TRITRAN Minh",
+          "nation": "VIE",
+          "weight": "65",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "10",
+          "name": "NashrulHajiAbuBakar Mohammad",
+          "nation": "BRU",
+          "weight": "65",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "16",
+          "name": "DING Hongjie",
+          "nation": "CHN",
+          "weight": "65",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "20",
+          "name": "CHARU Pesi",
+          "nation": "IND",
+          "weight": "65",
+          "total": 285,
+          "guest": true
+        },
+        {
+          "lot": "23",
+          "name": "MADUWANTHA WIJESI Manoj",
+          "nation": "SRI",
+          "weight": "65",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "28",
+          "name": "JINPAK Myong",
+          "nation": "PRK",
+          "weight": "65",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "45",
+          "name": "DUTHSHANJAYAWARD Sandu",
+          "nation": "SRI",
+          "weight": "65",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "78",
+          "name": "Billah Baki",
+          "nation": "BAN",
+          "weight": "65",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "84",
+          "name": "MUTHUPANDI Raja",
+          "nation": "IND",
+          "weight": "65",
+          "total": 305,
+          "guest": false
+        },
+        {
+          "lot": "114",
+          "name": "LlyodPacaldo Dave",
+          "nation": "PHI",
+          "weight": "65",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "116",
+          "name": "MajeedMKalitit Ali",
+          "nation": "KSA",
+          "weight": "65",
+          "total": 295,
+          "guest": false
+        },
+        {
+          "lot": "144",
+          "name": "HE Yueji",
+          "nation": "CHN",
+          "weight": "65",
+          "total": 325,
+          "guest": false
+        },
+        {
+          "lot": "148",
+          "name": "aznilBidin Muhamad",
+          "nation": "MAS",
+          "weight": "65",
+          "total": 295,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-women-s-58-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "58",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "32",
+          "name": "GYONGKIM Il",
+          "nation": "PRK",
+          "weight": "58",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "43",
+          "name": "TESSA RIM Rim",
+          "nation": "AUS",
+          "weight": "58",
+          "total": 185,
+          "guest": true
+        },
+        {
+          "lot": "69",
+          "name": "TAMQUANG Thi",
+          "nation": "VIE",
+          "weight": "58",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "75",
+          "name": "Akter Sritey",
+          "nation": "BAN",
+          "weight": "58",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "79",
+          "name": "DEVISOROKHAIBAM Bindyarani",
+          "nation": "IND",
+          "weight": "58",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "99",
+          "name": "LIU Mengjia",
+          "nation": "CHN",
+          "weight": "58",
+          "total": 228,
+          "guest": false
+        },
+        {
+          "lot": "115",
+          "name": "CHEN Guan-Ling",
+          "nation": "TPE",
+          "weight": "58",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "127",
+          "name": "BOGHAITH Danah",
+          "nation": "KUW",
+          "weight": "58",
+          "total": 100,
+          "guest": false
+        },
+        {
+          "lot": "169",
+          "name": "ALKANDARI Anwar",
+          "nation": "KUW",
+          "weight": "58",
+          "total": 100,
+          "guest": false
+        },
+        {
+          "lot": "174",
+          "name": "WEI Tingna",
+          "nation": "CHN",
+          "weight": "58",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "178",
+          "name": "MADHUSHINIEGODAR Deshani",
+          "nation": "SRI",
+          "weight": "58",
+          "total": 150,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-71-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "71",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "9",
+          "name": "CHATHURANGADISSAN Indika",
+          "nation": "SRI",
+          "weight": "71",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "36",
+          "name": "SHAHER Eissa",
+          "nation": "KUW",
+          "weight": "71",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "37",
+          "name": "Rashidov Bunyad",
+          "nation": "TKM",
+          "weight": "71",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "47",
+          "name": "CHEN Wang-Heng",
+          "nation": "TPE",
+          "weight": "71",
+          "total": 315,
+          "guest": false
+        },
+        {
+          "lot": "81",
+          "name": "ALBUSAIDI Elyas",
+          "nation": "OMA",
+          "weight": "71",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "112",
+          "name": "Matrasulov Khusinboy",
+          "nation": "UZB",
+          "weight": "71",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "119",
+          "name": "NARAYANA Ajith",
+          "nation": "IND",
+          "weight": "71",
+          "total": 325,
+          "guest": false
+        },
+        {
+          "lot": "121",
+          "name": "THIRUMURUGAN Madhavan",
+          "nation": "IND",
+          "weight": "71",
+          "total": 310,
+          "guest": true
+        },
+        {
+          "lot": "146",
+          "name": "JURI Won",
+          "nation": "PRK",
+          "weight": "71",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "177",
+          "name": "CHEN Jian",
+          "nation": "CHN",
+          "weight": "71",
+          "total": 345,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-women-s-63-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "63",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "24",
+          "name": "CHIU Yu-Ling",
+          "nation": "TPE",
+          "weight": "63",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "34",
+          "name": "RI Suk",
+          "nation": "PRK",
+          "weight": "63",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "66",
+          "name": "AN Sisung",
+          "nation": "KOR",
+          "weight": "63",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "73",
+          "name": "SYAZWANI RADZI Nur",
+          "nation": "MAS",
+          "weight": "63",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "86",
+          "name": "AkterIsrat Sumaiya",
+          "nation": "BAN",
+          "weight": "63",
+          "total": 165,
+          "guest": false
+        },
+        {
+          "lot": "91",
+          "name": "YANG Liuyue",
+          "nation": "CHN",
+          "weight": "63",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "110",
+          "name": "MOHIDEEN Umeira",
+          "nation": "SRI",
+          "weight": "63",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "113",
+          "name": "NIRUPAMADEVI Seram",
+          "nation": "IND",
+          "weight": "63",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "128",
+          "name": "ALANEZI Nourah",
+          "nation": "KUW",
+          "weight": "63",
+          "total": 90,
+          "guest": false
+        },
+        {
+          "lot": "154",
+          "name": "ToCheng Ching",
+          "nation": "HKG",
+          "weight": "63",
+          "total": 150,
+          "guest": false
+        },
+        {
+          "lot": "157",
+          "name": "FANG Lin",
+          "nation": "CHN",
+          "weight": "63",
+          "total": 245,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-79-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "79",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 0,
+      "entries": [],
+      "issue": "Source athlete class disagrees with session: lot 96, class 71, page 13"
+    },
+    {
+      "event_id": "asian-2026-men-s-88-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "21",
+          "name": "HAFIZUDDINROSLIN Muhammad",
+          "nation": "MAS",
+          "weight": "88",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "33",
+          "name": "ALBLOOSHI Issa",
+          "nation": "UAE",
+          "weight": "88",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "70",
+          "name": "HUANG Pin-Hsun",
+          "nation": "TPE",
+          "weight": "88",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "117",
+          "name": "YinLim Kang",
+          "nation": "SGP",
+          "weight": "88",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "124",
+          "name": "JO Daehee",
+          "nation": "KOR",
+          "weight": "88",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "135",
+          "name": "SURESHNIPANE Abhishek",
+          "nation": "IND",
+          "weight": "88",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "141",
+          "name": "RANGITH JAYASENAUK Ruchira",
+          "nation": "SRI",
+          "weight": "88",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "163",
+          "name": "Torayev Ramazan",
+          "nation": "TKM",
+          "weight": "88",
+          "total": 330,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-women-s-69-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "3",
+          "name": "MIYAGOE Yui",
+          "nation": "JPN",
+          "weight": "69",
+          "total": 218,
+          "guest": false
+        },
+        {
+          "lot": "17",
+          "name": "Boldbaatar Khongorzul",
+          "nation": "MGL",
+          "weight": "69",
+          "total": 202,
+          "guest": false
+        },
+        {
+          "lot": "19",
+          "name": "KAMSHAD Alzahraa",
+          "nation": "KUW",
+          "weight": "69",
+          "total": 120,
+          "guest": false
+        },
+        {
+          "lot": "22",
+          "name": "CHEN Wen-Huei",
+          "nation": "TPE",
+          "weight": "69",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "46",
+          "name": "HYANGSONG Kuk",
+          "nation": "PRK",
+          "weight": "69",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "74",
+          "name": "KAUR Harjinder",
+          "nation": "IND",
+          "weight": "69",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "95",
+          "name": "YUN Hojin",
+          "nation": "KOR",
+          "weight": "69",
+          "total": 216,
+          "guest": false
+        },
+        {
+          "lot": "122",
+          "name": "Sim Rachelle",
+          "nation": "SGP",
+          "weight": "69",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "171",
+          "name": "MarieMina Alexa",
+          "nation": "LBN",
+          "weight": "69",
+          "total": 195,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-88-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "30",
+          "name": "PAN Yunhua",
+          "nation": "CHN",
+          "weight": "88",
+          "total": 370,
+          "guest": false
+        },
+        {
+          "lot": "52",
+          "name": "LEI Jiangqing",
+          "nation": "CHN",
+          "weight": "88",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "68",
+          "name": "LEE Seongwon",
+          "nation": "KOR",
+          "weight": "88",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "85",
+          "name": "UVAROV Alexandr",
+          "nation": "KAZ",
+          "weight": "88",
+          "total": 355,
+          "guest": false
+        },
+        {
+          "lot": "106",
+          "name": "Torayev Gaygysyz",
+          "nation": "TKM",
+          "weight": "88",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "125",
+          "name": "RAKHYMBERDI Alibek",
+          "nation": "KAZ",
+          "weight": "88",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "131",
+          "name": "Zafarjonov Sarvarbek",
+          "nation": "UZB",
+          "weight": "88",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "139",
+          "name": "RYOLRO Kwang",
+          "nation": "PRK",
+          "weight": "88",
+          "total": 375,
+          "guest": false
+        },
+        {
+          "lot": "160",
+          "name": "HSIEH Meng-En",
+          "nation": "TPE",
+          "weight": "88",
+          "total": 355,
+          "guest": false
+        },
+        {
+          "lot": "161",
+          "name": "ALKHANJARI Amur",
+          "nation": "OMA",
+          "weight": "88",
+          "total": 365,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-110-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 6,
+      "entries": [
+        {
+          "lot": "27",
+          "name": "alasadHalaak Hamza",
+          "nation": "SYR",
+          "weight": "110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "48",
+          "name": "FAAMAUSILI-FALA Malachi David",
+          "nation": "NZL",
+          "weight": "110",
+          "total": 330,
+          "guest": true
+        },
+        {
+          "lot": "67",
+          "name": "MutebDAlRayhan Dali",
+          "nation": "KSA",
+          "weight": "110",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "111",
+          "name": "SINGH Harcharan",
+          "nation": "IND",
+          "weight": "110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "132",
+          "name": "LokCheung Ka",
+          "nation": "HKG",
+          "weight": "110",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "153",
+          "name": "ALRUWEAI Mohammad",
+          "nation": "KUW",
+          "weight": "110",
+          "total": 230,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-women-s-77-kg-women-s-86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "A"
+        },
+        {
+          "gender": "women",
+          "weight_class": "86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 13,
+      "entries": [
+        {
+          "lot": "4",
+          "name": "ISABELLA SALLY Pilar Andueza",
+          "nation": "AUS",
+          "weight": "77",
+          "total": 221,
+          "guest": true
+        },
+        {
+          "lot": "12",
+          "name": "RYONGKIM Kyong",
+          "nation": "PRK",
+          "weight": "77",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "60",
+          "name": "ALAMEER Hanan",
+          "nation": "KUW",
+          "weight": "77",
+          "total": 120,
+          "guest": false
+        },
+        {
+          "lot": "64",
+          "name": "LIAO Guifang",
+          "nation": "CHN",
+          "weight": "77",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "97",
+          "name": "KIM Iseul",
+          "nation": "KOR",
+          "weight": "77",
+          "total": 255,
+          "guest": false
+        },
+        {
+          "lot": "102",
+          "name": "SANJANA Sanjana",
+          "nation": "IND",
+          "weight": "77",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "35",
+          "name": "VERMA Vanshita",
+          "nation": "IND",
+          "weight": "86",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "54",
+          "name": "Marushchak Alina",
+          "nation": "BRN",
+          "weight": "86",
+          "total": 265,
+          "guest": false
+        },
+        {
+          "lot": "65",
+          "name": "KhatunNisha Jahura",
+          "nation": "BAN",
+          "weight": "86",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "72",
+          "name": "LipiAkter Kazi",
+          "nation": "BAN",
+          "weight": "86",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "76",
+          "name": "PENG Cuiting",
+          "nation": "CHN",
+          "weight": "86",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "90",
+          "name": "JANG Hyeonju",
+          "nation": "KOR",
+          "weight": "86",
+          "total": 247,
+          "guest": false
+        },
+        {
+          "lot": "172",
+          "name": "PRIYANTHIBALAGE Chathurika",
+          "nation": "SRI",
+          "weight": "86",
+          "total": 190,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-94-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "94",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "18",
+          "name": "SYAHMINORGHAZALI Mohamad",
+          "nation": "MAS",
+          "weight": "94",
+          "total": 335,
+          "guest": false
+        },
+        {
+          "lot": "61",
+          "name": "YusufAPassport AlOth Ali",
+          "nation": "KSA",
+          "weight": "94",
+          "total": 355,
+          "guest": false
+        },
+        {
+          "lot": "77",
+          "name": "Annaberdiyev Rustem",
+          "nation": "TKM",
+          "weight": "94",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "80",
+          "name": "CHOUDHARY Parv",
+          "nation": "IND",
+          "weight": "94",
+          "total": 348,
+          "guest": false
+        },
+        {
+          "lot": "87",
+          "name": "TU Yi",
+          "nation": "CHN",
+          "weight": "94",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "93",
+          "name": "ALAJMI Murshid",
+          "nation": "OMA",
+          "weight": "94",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "103",
+          "name": "Toshtemirov Mukhammadkodir",
+          "nation": "UZB",
+          "weight": "94",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "107",
+          "name": "Uuganbaatar Munkhbayar",
+          "nation": "MGL",
+          "weight": "94",
+          "total": 259,
+          "guest": false
+        },
+        {
+          "lot": "123",
+          "name": "KIM Yushin",
+          "nation": "KOR",
+          "weight": "94",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "152",
+          "name": "MINUSHANDISANAYAK Shaluka",
+          "nation": "SRI",
+          "weight": "94",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "166",
+          "name": "IBRAHIMALBAKH Fares",
+          "nation": "QAT",
+          "weight": "94",
+          "total": 390,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-women-s-plus86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "+86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "38",
+          "name": "AkterMinju Sahala",
+          "nation": "BAN",
+          "weight": "+86",
+          "total": 164,
+          "guest": false
+        },
+        {
+          "lot": "88",
+          "name": "DEVIMAIBAM Martina",
+          "nation": "IND",
+          "weight": "+86",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "92",
+          "name": "WANG Ling-Chen",
+          "nation": "TPE",
+          "weight": "+86",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "94",
+          "name": "SURANGIWICKAMASIN Ashini",
+          "nation": "SRI",
+          "weight": "+86",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "100",
+          "name": "ANUSHKAKALUTHANT Ishani",
+          "nation": "SRI",
+          "weight": "+86",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "101",
+          "name": "PARK Hyejeong",
+          "nation": "KOR",
+          "weight": "+86",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "108",
+          "name": "Gendendamba Chinbolor",
+          "nation": "MGL",
+          "weight": "+86",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "133",
+          "name": "OUISAL Ikhlef",
+          "nation": "QAT",
+          "weight": "+86",
+          "total": 265,
+          "guest": false
+        },
+        {
+          "lot": "138",
+          "name": "LI Yan",
+          "nation": "CHN",
+          "weight": "+86",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "140",
+          "name": "Yee Melissa",
+          "nation": "SGP",
+          "weight": "+86",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "164",
+          "name": "aqilahfarhanadraman siti",
+          "nation": "MAS",
+          "weight": "+86",
+          "total": 230,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-110-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "25",
+          "name": "Hasanbayev Davranbek",
+          "nation": "TKM",
+          "weight": "110",
+          "total": 390,
+          "guest": false
+        },
+        {
+          "lot": "39",
+          "name": "NASIRI Alireza",
+          "nation": "IRI",
+          "weight": "110",
+          "total": 405,
+          "guest": false
+        },
+        {
+          "lot": "50",
+          "name": "CHEN Po-Jen",
+          "nation": "TPE",
+          "weight": "110",
+          "total": 420,
+          "guest": false
+        },
+        {
+          "lot": "55",
+          "name": "LIU Huanhua",
+          "nation": "CHN",
+          "weight": "110",
+          "total": 400,
+          "guest": false
+        },
+        {
+          "lot": "105",
+          "name": "GABER Fares",
+          "nation": "QAT",
+          "weight": "110",
+          "total": 355,
+          "guest": false
+        },
+        {
+          "lot": "136",
+          "name": "ALGHAFEER Ezzedine",
+          "nation": "UAE",
+          "weight": "110",
+          "total": 375,
+          "guest": false
+        },
+        {
+          "lot": "158",
+          "name": "DONG Bing-Cheng",
+          "nation": "TPE",
+          "weight": "110",
+          "total": 390,
+          "guest": false
+        },
+        {
+          "lot": "176",
+          "name": "MEIRAM Sultan",
+          "nation": "KAZ",
+          "weight": "110",
+          "total": 385,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "asian-2026-men-s-plus110-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "+110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "1",
+          "name": "SONG Yeonghwan",
+          "nation": "KOR",
+          "weight": "+110",
+          "total": 410,
+          "guest": false
+        },
+        {
+          "lot": "2",
+          "name": "HWANG Wooman",
+          "nation": "KOR",
+          "weight": "+110",
+          "total": 410,
+          "guest": false
+        },
+        {
+          "lot": "13",
+          "name": "YOUSEFI Alireza",
+          "nation": "IRI",
+          "weight": "+110",
+          "total": 430,
+          "guest": false
+        },
+        {
+          "lot": "29",
+          "name": "FARRISHAIKALKAMAR Muhammad",
+          "nation": "MAS",
+          "weight": "+110",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "31",
+          "name": "Tigran A. Minasyan Gor",
+          "nation": "BRN",
+          "weight": "+110",
+          "total": 450,
+          "guest": false
+        },
+        {
+          "lot": "149",
+          "name": "KE Guan-Ting",
+          "nation": "TPE",
+          "weight": "+110",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "159",
+          "name": "JIN Cheng",
+          "nation": "TPE",
+          "weight": "+110",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "170",
+          "name": "MOAYEDALNAJJAR Mohamed",
+          "nation": "UAE",
+          "weight": "+110",
+          "total": 395,
+          "guest": false
+        },
+        {
+          "lot": "175",
+          "name": "Abdullaev Amir",
+          "nation": "UZB",
+          "weight": "+110",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "181",
+          "name": "SINGH Lovepreet",
+          "nation": "IND",
+          "weight": "+110",
+          "total": 375,
+          "guest": false
+        }
+      ]
+    }
+  ]
+}
