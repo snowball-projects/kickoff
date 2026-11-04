@@ -3,6 +3,7 @@
 import argparse
 import json
 import shutil
+import sys
 from calendar import monthrange
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import replace
@@ -20,6 +21,7 @@ from kickoff.http import MAX_BYTES, read_bounded_response
 from kickoff.incremental import RefreshPlan
 from kickoff.open_schedules import refresh_open_schedules
 from kickoff.published import publish_sports
+from kickoff.refresh_metrics import refresh_metrics
 from kickoff.refresh_state import (
     Baseline,
     build_refresh_state,
@@ -237,58 +239,65 @@ def refresh(
     freeze_eligible=None,
     actual_end=None,
 ) -> RefreshPlan:
-    clock = clock or (lambda: datetime.now(timezone.utc))
-    now = clock()
-    if force_full:
-        baseline = Baseline(reason="force_full")
-    else:
-        if read_bytes is None:
-            reader = PublishedFiles()
-            read_bytes, read_many = reader.read_bytes, reader.read_many
-        baseline = load_published_baseline(read_bytes, read_many=read_many, now=now, expected_years=years)
-    plan = RefreshPlan(baseline, now)
-    start_lists = StartListLoader()
-    with TemporaryDirectory(prefix="kickoff-collect-") as staging:
-        staging = Path(staging)
-        collected = staging / "collected"
-        collected.mkdir()
-        bundles = [
-            json.loads(
-                refresh_open_schedules(
-                    year,
-                    collected,
-                    reviewed,
-                    feeds=FEEDS,
-                    available_seasons=years,
-                    enrich_times=True,
-                    start_list_loader=start_lists,
-                    result_loader=result_loader,
-                    plan=plan,
-                ).read_text()
+    with refresh_metrics() as metrics:
+        clock = clock or (lambda: datetime.now(timezone.utc))
+        now = clock()
+        if force_full:
+            baseline = Baseline(reason="force_full")
+        else:
+            if read_bytes is None:
+                reader = PublishedFiles()
+                read_bytes, read_many = reader.read_bytes, reader.read_many
+            baseline = load_published_baseline(read_bytes, read_many=read_many, now=now, expected_years=years)
+        plan = RefreshPlan(baseline, now)
+        metrics.plan = plan
+        metrics.frozen = len(plan.baseline.frozen_ids)
+        start_lists = StartListLoader()
+        with TemporaryDirectory(prefix="kickoff-collect-") as staging:
+            staging = Path(staging)
+            collected = staging / "collected"
+            collected.mkdir()
+            bundles = [
+                json.loads(
+                    refresh_open_schedules(
+                        year,
+                        collected,
+                        reviewed,
+                        feeds=FEEDS,
+                        available_seasons=years,
+                        enrich_times=True,
+                        start_list_loader=start_lists,
+                        result_loader=result_loader,
+                        plan=plan,
+                    ).read_text()
+                )
+                for year in years
+            ]
+            published = staging / "published"
+            publish_sports(bundles, published)
+            files = {path.name: path.read_bytes() for path in published.glob("*.json")}
+            manifest = json.loads(files["manifest.json"])
+            names = [row["file"] for season in manifest["seasons"].values() for row in season["sports"]]
+            events = {event["event_id"]: event for name in names for event in json.loads(files[name])["events"]}
+            published_at = clock()
+            units, eligible, bounds = finalized_state(
+                plan, events, published_at, freeze_eligible=freeze_eligible, actual_end=actual_end
             )
-            for year in years
-        ]
-        published = staging / "published"
-        publish_sports(bundles, published)
-        files = {path.name: path.read_bytes() for path in published.glob("*.json")}
-        manifest = json.loads(files["manifest.json"])
-        names = [row["file"] for season in manifest["seasons"].values() for row in season["sports"]]
-        events = {event["event_id"]: event for name in names for event in json.loads(files[name])["events"]}
-        published_at = clock()
-        units, eligible, bounds = finalized_state(
-            plan, events, published_at, freeze_eligible=freeze_eligible, actual_end=actual_end
-        )
-        state = build_refresh_state(files, units, published_at=published_at, frozen_ids=eligible, ended_before=bounds)
-        (published / "refresh-state.json").write_text(json.dumps(state, separators=(",", ":")) + "\n")
-        output.mkdir(parents=True, exist_ok=True)
-        # State and manifest follow the data; generated-file cleanup is confined
-        # to the fresh staging directory. Local ignored/extra files are retained.
-        paths = sorted(path for path in published.iterdir() if path.name not in {"manifest.json", "refresh-state.json"})
-        paths += [published / "manifest.json", published / "refresh-state.json"]
-        for path in paths:
-            shutil.copyfile(path, output / path.name)
-    print(output / "manifest.json")
-    return plan
+            metrics.frozen = len(eligible)
+            state = build_refresh_state(
+                files, units, published_at=published_at, frozen_ids=eligible, ended_before=bounds
+            )
+            (published / "refresh-state.json").write_text(json.dumps(state, separators=(",", ":")) + "\n")
+            output.mkdir(parents=True, exist_ok=True)
+            # State and manifest follow the data; generated-file cleanup is confined
+            # to the fresh staging directory. Local ignored/extra files are retained.
+            paths = sorted(
+                path for path in published.iterdir() if path.name not in {"manifest.json", "refresh-state.json"}
+            )
+            paths += [published / "manifest.json", published / "refresh-state.json"]
+            for path in paths:
+                shutil.copyfile(path, output / path.name)
+        return plan
 
 
 def coverage_years(today: date) -> list[int]:
@@ -326,4 +335,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        sys.exit(1)
