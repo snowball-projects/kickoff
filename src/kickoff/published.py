@@ -6,6 +6,7 @@ from html import escape
 from pathlib import Path
 
 from kickoff.reviewed_countries import country_source_kind
+from kickoff.weightlifting_startlists import ENTRY_FIELDS
 
 
 def facet(values):
@@ -69,6 +70,11 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
         groups = defaultdict(list)
         for event in bundle["events"]:
             sport = event["sport"]
+            if sport == "weightlifting" and event.get("result") is not None:
+                event = {
+                    **event,
+                    "participants": [p for p in event["participants"] if not any(key in p for key in ENTRY_FIELDS)],
+                }
             group = f"{sport}-{event['league'].lower().replace('_', '-')}"
             groups[group].append(event)
         catalog = []
