@@ -1,0 +1,3446 @@
+{
+  "league": "WEIGHTLIFTING_EUROPE",
+  "year": 2026,
+  "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+  "revision": "Start book rev2, 12 April 2026",
+  "checked_date": "2026-11-04",
+  "collection_method": "Reviewed snapshot of the already published official roster facts; retained check date, no build-time source refresh.",
+  "hash_scope": "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes",
+  "sha256": "6ec5ba167eeac6d6ee2670785f350039ad3e5cec358ef5cd1eaefd975e5c0b00",
+  "source_raw_sha256": "cd054538562560d7384076b9dc05c26f9079e4a1299b98ba8dd4bae4f9ca4b20",
+  "source_raw_hash_scope": "raw PDF bytes retained from the published source receipt; no PDF fetched for this snapshot",
+  "source_raw_checked_date": "2026-11-04",
+  "source_raw_session_count": 36,
+  "source_raw_athlete_count": 368,
+  "session_count": 36,
+  "athlete_count": 368,
+  "sessions": [
+    {
+      "event_id": "european-2026-women-s-48-kg-group-b-women-s-53-kg-group-c",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "48",
+          "group": "B"
+        },
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "C"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "151",
+          "name": "POLASKOVA Lenka",
+          "nation": "CZE",
+          "weight": "48",
+          "total": 146,
+          "guest": false
+        },
+        {
+          "lot": "205",
+          "name": "GRABUCEA Ecaterina",
+          "nation": "MDA",
+          "weight": "48",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "535",
+          "name": "MACKAY Alex",
+          "nation": "SCO",
+          "weight": "48",
+          "total": 142,
+          "guest": false
+        },
+        {
+          "lot": "597",
+          "name": "WONG Tammy",
+          "nation": "ENG",
+          "weight": "48",
+          "total": 158,
+          "guest": false
+        },
+        {
+          "lot": "815",
+          "name": "MAJER Tihana",
+          "nation": "CRO",
+          "weight": "48",
+          "total": 140,
+          "guest": false
+        },
+        {
+          "lot": "980",
+          "name": "STRZYKALA Mara",
+          "nation": "LUX",
+          "weight": "48",
+          "total": 162,
+          "guest": false
+        },
+        {
+          "lot": "18",
+          "name": "BROGAARD Diana Nygren",
+          "nation": "DEN",
+          "weight": "53",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "543",
+          "name": "USTUNER Serife",
+          "nation": "CYP",
+          "weight": "53",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "633",
+          "name": "BLOODWORTH Olivia",
+          "nation": "NIR",
+          "weight": "53",
+          "total": 155,
+          "guest": false
+        },
+        {
+          "lot": "668",
+          "name": "ROBERTS Nikole",
+          "nation": "WAL",
+          "weight": "53",
+          "total": 150,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-53-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "259",
+          "name": "GULAM Noorin",
+          "nation": "ENG",
+          "weight": "53",
+          "total": 174,
+          "guest": false
+        },
+        {
+          "lot": "289",
+          "name": "LASTOVKOVA Petra",
+          "nation": "CZE",
+          "weight": "53",
+          "total": 171,
+          "guest": false
+        },
+        {
+          "lot": "384",
+          "name": "CONNELLY Madaline",
+          "nation": "WAL",
+          "weight": "53",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "397",
+          "name": "KUTIAKINA Milana",
+          "nation": "AIN",
+          "weight": "53",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "443",
+          "name": "CAMILLERI LAGANA Kim",
+          "nation": "MLT",
+          "weight": "53",
+          "total": 168,
+          "guest": false
+        },
+        {
+          "lot": "471",
+          "name": "POPESCU Alina",
+          "nation": "MDA",
+          "weight": "53",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "652",
+          "name": "IOANNOU Dimitra",
+          "nation": "CYP",
+          "weight": "53",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "705",
+          "name": "TONG Jennifer",
+          "nation": "GBR",
+          "weight": "53",
+          "total": 174,
+          "guest": false
+        },
+        {
+          "lot": "932",
+          "name": "MALEN Monasterio Urbitarte",
+          "nation": "ESP",
+          "weight": "53",
+          "total": 186,
+          "guest": false
+        },
+        {
+          "lot": "992",
+          "name": "DRZAZGA Oliwia",
+          "nation": "POL",
+          "weight": "53",
+          "total": 180,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-58-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "58",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "23",
+          "name": "HONCHAROVA Veronika",
+          "nation": "AUT",
+          "weight": "58",
+          "total": 196,
+          "guest": false
+        },
+        {
+          "lot": "35",
+          "name": "DURAK Sarah",
+          "nation": "BIH",
+          "weight": "58",
+          "total": 122,
+          "guest": false
+        },
+        {
+          "lot": "288",
+          "name": "PRATT Eliza",
+          "nation": "ENG",
+          "weight": "58",
+          "total": 196,
+          "guest": false
+        },
+        {
+          "lot": "370",
+          "name": "PONTES Margarida",
+          "nation": "POR",
+          "weight": "58",
+          "total": 146,
+          "guest": false
+        },
+        {
+          "lot": "391",
+          "name": "GORDON BROWN Jessica",
+          "nation": "ENG",
+          "weight": "58",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "405",
+          "name": "VANDENABEELE Annelien",
+          "nation": "BEL",
+          "weight": "58",
+          "total": 194,
+          "guest": false
+        },
+        {
+          "lot": "462",
+          "name": "HAF JONES Catrin",
+          "nation": "WAL",
+          "weight": "58",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "703",
+          "name": "GOMEZ Rita",
+          "nation": "POR",
+          "weight": "58",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "998",
+          "name": "ANN JONES Catrin",
+          "nation": "WAL",
+          "weight": "58",
+          "total": 175,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-48-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "48",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "127",
+          "name": "GARCIA RINCON Marta",
+          "nation": "ESP",
+          "weight": "48",
+          "total": 176,
+          "guest": false
+        },
+        {
+          "lot": "130",
+          "name": "KOPONEN Sonja",
+          "nation": "FIN",
+          "weight": "48",
+          "total": 166,
+          "guest": false
+        },
+        {
+          "lot": "213",
+          "name": "ALTUN Gamze",
+          "nation": "TUR",
+          "weight": "48",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "229",
+          "name": "DANILOV Gabriela",
+          "nation": "MDA",
+          "weight": "48",
+          "total": 165,
+          "guest": false
+        },
+        {
+          "lot": "239",
+          "name": "ARVA Cintia Andrea",
+          "nation": "HUN",
+          "weight": "48",
+          "total": 172,
+          "guest": false
+        },
+        {
+          "lot": "393",
+          "name": "KILIC Ezgi",
+          "nation": "TUR",
+          "weight": "48",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "421",
+          "name": "IMPERIO Giulia",
+          "nation": "ITA",
+          "weight": "48",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "551",
+          "name": "MIRON Ioana Madalina",
+          "nation": "ROU",
+          "weight": "48",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "694",
+          "name": "KOSTADINOVA Boyana",
+          "nation": "BUL",
+          "weight": "48",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "808",
+          "name": "ZAGORAC Radmila",
+          "nation": "SRB",
+          "weight": "48",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "918",
+          "name": "MALASHCHUK Kateryna",
+          "nation": "UKR",
+          "weight": "48",
+          "total": 175,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-53-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "13",
+          "name": "DELIA Celine Ludovica",
+          "nation": "ITA",
+          "weight": "53",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "36",
+          "name": "GRIGORYAN Tanzela",
+          "nation": "ARM",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "332",
+          "name": "JACOBSEN Rebekka Tao",
+          "nation": "NOR",
+          "weight": "53",
+          "total": 191,
+          "guest": false
+        },
+        {
+          "lot": "402",
+          "name": "SANCHEZ FERRER Alba",
+          "nation": "ESP",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "449",
+          "name": "YAYLYAN Izabella",
+          "nation": "ARM",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "547",
+          "name": "STRATOUDAKI Maria",
+          "nation": "GRE",
+          "weight": "53",
+          "total": 197,
+          "guest": false
+        },
+        {
+          "lot": "645",
+          "name": "OZKAN Cansel",
+          "nation": "TUR",
+          "weight": "53",
+          "total": 202,
+          "guest": false
+        },
+        {
+          "lot": "678",
+          "name": "CAMBEI Mihaela Valentina",
+          "nation": "ROU",
+          "weight": "53",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "887",
+          "name": "STERCKX Nina",
+          "nation": "BEL",
+          "weight": "53",
+          "total": 201,
+          "guest": false
+        },
+        {
+          "lot": "978",
+          "name": "SIPOS Alexia Diana",
+          "nation": "ROU",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-60-kg-group-b-men-s-65-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "60",
+          "group": "B"
+        },
+        {
+          "gender": "men",
+          "weight_class": "65",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 6,
+      "entries": [
+        {
+          "lot": "97",
+          "name": "BETCA Iulian",
+          "nation": "MDA",
+          "weight": "60",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "367",
+          "name": "STILES Kieran",
+          "nation": "ENG",
+          "weight": "60",
+          "total": 233,
+          "guest": false
+        },
+        {
+          "lot": "388",
+          "name": "MAMMADOV Tehran",
+          "nation": "AZE",
+          "weight": "60",
+          "total": 265,
+          "guest": false
+        },
+        {
+          "lot": "764",
+          "name": "VLADISAVLJEV Stevan",
+          "nation": "SRB",
+          "weight": "60",
+          "total": 265,
+          "guest": false
+        },
+        {
+          "lot": "208",
+          "name": "LAMPRIDIS Konstantinos",
+          "nation": "GRE",
+          "weight": "65",
+          "total": 261,
+          "guest": false
+        },
+        {
+          "lot": "748",
+          "name": "RRASA Samoel",
+          "nation": "ALB",
+          "weight": "65",
+          "total": 270,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-60-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "60",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "76",
+          "name": "CHOLAKYAN Garnik",
+          "nation": "ARM",
+          "weight": "60",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "135",
+          "name": "BERDELIDZE Goderdzi",
+          "nation": "GEO",
+          "weight": "60",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "168",
+          "name": "ERDOGAN Yigit",
+          "nation": "TUR",
+          "weight": "60",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "350",
+          "name": "SHAMILISHVILI Ramini",
+          "nation": "GEO",
+          "weight": "60",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "380",
+          "name": "DANEV Deniz",
+          "nation": "BUL",
+          "weight": "60",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "518",
+          "name": "AYKUN Burak",
+          "nation": "TUR",
+          "weight": "60",
+          "total": 279,
+          "guest": false
+        },
+        {
+          "lot": "558",
+          "name": "LUCA Marian Cristian",
+          "nation": "ROU",
+          "weight": "60",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "620",
+          "name": "PAPOLTI Narcis",
+          "nation": "ROU",
+          "weight": "60",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "775",
+          "name": "RUSEV Angel",
+          "nation": "BUL",
+          "weight": "60",
+          "total": 276,
+          "guest": false
+        },
+        {
+          "lot": "890",
+          "name": "LUNGU Daniel",
+          "nation": "MDA",
+          "weight": "60",
+          "total": 270,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-65-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "65",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "32",
+          "name": "MINASIDIS Dimitris",
+          "nation": "CYP",
+          "weight": "65",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "182",
+          "name": "REVKO Andrii",
+          "nation": "UKR",
+          "weight": "65",
+          "total": 285,
+          "guest": false
+        },
+        {
+          "lot": "226",
+          "name": "DOROBETE Ion Daniel",
+          "nation": "ROU",
+          "weight": "65",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "292",
+          "name": "OZBEK Muhammed Furkan",
+          "nation": "TUR",
+          "weight": "65",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "473",
+          "name": "BADANEV Ion",
+          "nation": "MDA",
+          "weight": "65",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "606",
+          "name": "ISOFACHE Cosmin Florentin",
+          "nation": "ROU",
+          "weight": "65",
+          "total": 285,
+          "guest": false
+        },
+        {
+          "lot": "654",
+          "name": "DIMOV Ivan",
+          "nation": "BUL",
+          "weight": "65",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "657",
+          "name": "HARDAL Ferdi",
+          "nation": "TUR",
+          "weight": "65",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "734",
+          "name": "MASSIDDA Sergio",
+          "nation": "ITA",
+          "weight": "65",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "995",
+          "name": "PELOVSKI Zdravko",
+          "nation": "BUL",
+          "weight": "65",
+          "total": 287,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-58-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "58",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "6",
+          "name": "GRIGORYAN Aleksandra",
+          "nation": "ARM",
+          "weight": "58",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "37",
+          "name": "SCHUILWERVE Marlous",
+          "nation": "NED",
+          "weight": "58",
+          "total": 202,
+          "guest": false
+        },
+        {
+          "lot": "149",
+          "name": "BERCHI Dana",
+          "nation": "ROU",
+          "weight": "58",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "211",
+          "name": "TE Olga",
+          "nation": "AIN",
+          "weight": "58",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "420",
+          "name": "COJOCARU Nicoleta",
+          "nation": "MDA",
+          "weight": "58",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "461",
+          "name": "IVZHENKO Olha",
+          "nation": "UKR",
+          "weight": "58",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "494",
+          "name": "FILIPPAZZO Noemi",
+          "nation": "ITA",
+          "weight": "58",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "629",
+          "name": "KRASULINA Ekaterina",
+          "nation": "AIN",
+          "weight": "58",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "723",
+          "name": "POLKA Maria",
+          "nation": "POL",
+          "weight": "58",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "816",
+          "name": "KONOTOP Kamila",
+          "nation": "UKR",
+          "weight": "58",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "946",
+          "name": "PILZ Annika",
+          "nation": "GER",
+          "weight": "58",
+          "total": 203,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-63-kg-group-c",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "63",
+          "group": "C"
+        }
+      ],
+      "athlete_count": 6,
+      "entries": [
+        {
+          "lot": "266",
+          "name": "WATKINS Bethan",
+          "nation": "WAL",
+          "weight": "63",
+          "total": 183,
+          "guest": false
+        },
+        {
+          "lot": "628",
+          "name": "GRITSININA Jekaterina",
+          "nation": "EST",
+          "weight": "63",
+          "total": 145,
+          "guest": false
+        },
+        {
+          "lot": "708",
+          "name": "PAVLIC Petra",
+          "nation": "SLO",
+          "weight": "63",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "709",
+          "name": "STANCIU Cristina",
+          "nation": "BEL",
+          "weight": "63",
+          "total": 183,
+          "guest": false
+        },
+        {
+          "lot": "842",
+          "name": "STEVENSON Megan",
+          "nation": "NIR",
+          "weight": "63",
+          "total": 168,
+          "guest": false
+        },
+        {
+          "lot": "933",
+          "name": "ASHBEE Beth",
+          "nation": "SCO",
+          "weight": "63",
+          "total": 180,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-63-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "63",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "115",
+          "name": "CRYMBLE Hannah",
+          "nation": "IRL",
+          "weight": "63",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "121",
+          "name": "ARUNOVIC Tamara",
+          "nation": "SRB",
+          "weight": "63",
+          "total": 201,
+          "guest": false
+        },
+        {
+          "lot": "278",
+          "name": "SYTELA Siri",
+          "nation": "FIN",
+          "weight": "63",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "291",
+          "name": "PELTA Amelie",
+          "nation": "ENG",
+          "weight": "63",
+          "total": 188,
+          "guest": false
+        },
+        {
+          "lot": "308",
+          "name": "OLALLA MUNOZ Maria",
+          "nation": "ESP",
+          "weight": "63",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "349",
+          "name": "VECEROVA Bibiana",
+          "nation": "SVK",
+          "weight": "63",
+          "total": 195,
+          "guest": false
+        },
+        {
+          "lot": "447",
+          "name": "KETILSDOTTIR Katla Bjork",
+          "nation": "ISL",
+          "weight": "63",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "452",
+          "name": "TABONE Roberta",
+          "nation": "MLT",
+          "weight": "63",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "476",
+          "name": "WHALLEY Charlotte",
+          "nation": "WAL",
+          "weight": "63",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "911",
+          "name": "ZIKOWSKY Paula",
+          "nation": "AUT",
+          "weight": "63",
+          "total": 208,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-71-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "71",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 5,
+      "entries": [
+        {
+          "lot": "214",
+          "name": "FARMER Michael",
+          "nation": "WAL",
+          "weight": "71",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "522",
+          "name": "MCGROGAN Harrison",
+          "nation": "IRL",
+          "weight": "71",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "578",
+          "name": "CHIN Jonathan",
+          "nation": "GBR",
+          "weight": "71",
+          "total": 291,
+          "guest": false
+        },
+        {
+          "lot": "879",
+          "name": "DURAK Faris",
+          "nation": "BIH",
+          "weight": "71",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "885",
+          "name": "NOVKO Ivan",
+          "nation": "CRO",
+          "weight": "71",
+          "total": 270,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-63-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "63",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "153",
+          "name": "DAVIES Sarah",
+          "nation": "GBR",
+          "weight": "63",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "209",
+          "name": "OZKAN Aysel",
+          "nation": "TUR",
+          "weight": "63",
+          "total": 221,
+          "guest": false
+        },
+        {
+          "lot": "364",
+          "name": "COTRUTA Andreea",
+          "nation": "ROU",
+          "weight": "63",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "400",
+          "name": "MICHEL Maelyn",
+          "nation": "FRA",
+          "weight": "63",
+          "total": 222,
+          "guest": false
+        },
+        {
+          "lot": "446",
+          "name": "WOLK Wiktoria",
+          "nation": "POL",
+          "weight": "63",
+          "total": 218,
+          "guest": false
+        },
+        {
+          "lot": "546",
+          "name": "MOSKVINA Svitlana",
+          "nation": "UKR",
+          "weight": "63",
+          "total": 216,
+          "guest": false
+        },
+        {
+          "lot": "726",
+          "name": "CHIACCHIO Martina",
+          "nation": "ITA",
+          "weight": "63",
+          "total": 223,
+          "guest": false
+        },
+        {
+          "lot": "729",
+          "name": "GROSU Anca Georgiana",
+          "nation": "ROU",
+          "weight": "63",
+          "total": 216,
+          "guest": false
+        },
+        {
+          "lot": "750",
+          "name": "PICCINNO Chiara",
+          "nation": "ITA",
+          "weight": "63",
+          "total": 218,
+          "guest": false
+        },
+        {
+          "lot": "834",
+          "name": "MAISEYEVICH Dziyana",
+          "nation": "AIN",
+          "weight": "63",
+          "total": 224,
+          "guest": false
+        },
+        {
+          "lot": "947",
+          "name": "GASIOR Patricie",
+          "nation": "CZE",
+          "weight": "63",
+          "total": 217,
+          "guest": false
+        },
+        {
+          "lot": "964",
+          "name": "SHCHAPANAVA Alina",
+          "nation": "AIN",
+          "weight": "63",
+          "total": 224,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-71-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "71",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "98",
+          "name": "KINGUE MATAM Bernardin",
+          "nation": "FRA",
+          "weight": "71",
+          "total": 311,
+          "guest": false
+        },
+        {
+          "lot": "199",
+          "name": "GARAEV Zulfat",
+          "nation": "AIN",
+          "weight": "71",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "330",
+          "name": "SAHAKYAN Gor",
+          "nation": "ARM",
+          "weight": "71",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "565",
+          "name": "KARA Engin",
+          "nation": "TUR",
+          "weight": "71",
+          "total": 312,
+          "guest": false
+        },
+        {
+          "lot": "675",
+          "name": "RUSTAMOV Isa",
+          "nation": "AZE",
+          "weight": "71",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "732",
+          "name": "KUDLASZYK Piotr",
+          "nation": "POL",
+          "weight": "71",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "788",
+          "name": "PAPOU Yahor",
+          "nation": "AIN",
+          "weight": "71",
+          "total": 335,
+          "guest": false
+        },
+        {
+          "lot": "826",
+          "name": "GENC Yusuf Fehmi",
+          "nation": "TUR",
+          "weight": "71",
+          "total": 335,
+          "guest": false
+        },
+        {
+          "lot": "850",
+          "name": "CERNEI Gheorghii",
+          "nation": "MDA",
+          "weight": "71",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "914",
+          "name": "PAMPORDZHIEV Dian",
+          "nation": "BUL",
+          "weight": "71",
+          "total": 311,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-69-kg-group-c",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "C"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "4",
+          "name": "ROSHER Madeline",
+          "nation": "SCO",
+          "weight": "69",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "29",
+          "name": "MONAGHAN Rachel",
+          "nation": "IRL",
+          "weight": "69",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "33",
+          "name": "HUSTAVOVA Natalia",
+          "nation": "SVK",
+          "weight": "69",
+          "total": 195,
+          "guest": false
+        },
+        {
+          "lot": "103",
+          "name": "THORNTON Tenishia",
+          "nation": "MLT",
+          "weight": "69",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "107",
+          "name": "JOHANSSON Susanne",
+          "nation": "SWE",
+          "weight": "69",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "236",
+          "name": "O SHEA Holly",
+          "nation": "GIB",
+          "weight": "69",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "258",
+          "name": "TEITTINEN Ilona",
+          "nation": "FIN",
+          "weight": "69",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "483",
+          "name": "CHUTKERASHVILI Miranda",
+          "nation": "GEO",
+          "weight": "69",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "487",
+          "name": "VAN BEERS Roos",
+          "nation": "BEL",
+          "weight": "69",
+          "total": 196,
+          "guest": false
+        },
+        {
+          "lot": "555",
+          "name": "MINAROVA Lucie",
+          "nation": "CZE",
+          "weight": "69",
+          "total": 195,
+          "guest": false
+        },
+        {
+          "lot": "691",
+          "name": "MONTEIRO Mafalda",
+          "nation": "POR",
+          "weight": "69",
+          "total": 194,
+          "guest": false
+        },
+        {
+          "lot": "929",
+          "name": "MCMONAGLE Gina",
+          "nation": "IRL",
+          "weight": "69",
+          "total": 202,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-79-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "79",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 14,
+      "entries": [
+        {
+          "lot": "9",
+          "name": "APPLETON Tom",
+          "nation": "GIB",
+          "weight": "79",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "69",
+          "name": "URBAN Kacper",
+          "nation": "POL",
+          "weight": "79",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "256",
+          "name": "LAZUGA Konrad",
+          "nation": "POL",
+          "weight": "79",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "296",
+          "name": "UJVARI Lajos",
+          "nation": "HUN",
+          "weight": "79",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "453",
+          "name": "ROENNEVIK Stefan",
+          "nation": "NOR",
+          "weight": "79",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "490",
+          "name": "KNOX James",
+          "nation": "NIR",
+          "weight": "79",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "497",
+          "name": "CABALA Sebastian",
+          "nation": "SVK",
+          "weight": "79",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "523",
+          "name": "AUNE Remy Heggvik",
+          "nation": "NOR",
+          "weight": "79",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "677",
+          "name": "GUTU Roberto",
+          "nation": "GER",
+          "weight": "79",
+          "total": 325,
+          "guest": false
+        },
+        {
+          "lot": "704",
+          "name": "EPTON Jason",
+          "nation": "SCO",
+          "weight": "79",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "737",
+          "name": "WILSON Iain",
+          "nation": "SCO",
+          "weight": "79",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "782",
+          "name": "TODOROVIC Nikola",
+          "nation": "CRO",
+          "weight": "79",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "907",
+          "name": "MISAKYAN Hmayak",
+          "nation": "AUT",
+          "weight": "79",
+          "total": 325,
+          "guest": false
+        },
+        {
+          "lot": "953",
+          "name": "SKAPEC Vladimir",
+          "nation": "SVK",
+          "weight": "79",
+          "total": 320,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-69-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "78",
+          "name": "LOEN Julia Jordanger",
+          "nation": "NOR",
+          "weight": "69",
+          "total": 213,
+          "guest": false
+        },
+        {
+          "lot": "100",
+          "name": "TIAINEN Inka",
+          "nation": "FIN",
+          "weight": "69",
+          "total": 222,
+          "guest": false
+        },
+        {
+          "lot": "274",
+          "name": "LYTVYNETS Viktoriia",
+          "nation": "UKR",
+          "weight": "69",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "299",
+          "name": "JAKAITE Lijana",
+          "nation": "LTU",
+          "weight": "69",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "356",
+          "name": "TIMMERMANS Myrthe",
+          "nation": "NED",
+          "weight": "69",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "385",
+          "name": "BARTON Erin",
+          "nation": "GBR",
+          "weight": "69",
+          "total": 222,
+          "guest": false
+        },
+        {
+          "lot": "488",
+          "name": "CARJA Enkileda",
+          "nation": "ALB",
+          "weight": "69",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "569",
+          "name": "GHERMAN Daniela Mariana",
+          "nation": "ROU",
+          "weight": "69",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "727",
+          "name": "ACKERMANN Antonia",
+          "nation": "GER",
+          "weight": "69",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "927",
+          "name": "POLAKTSIDOU Despoina",
+          "nation": "GRE",
+          "weight": "69",
+          "total": 215,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-69-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "20",
+          "name": "SCHWEIZER Lisa Marie",
+          "nation": "GER",
+          "weight": "69",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "57",
+          "name": "ARRASATE YARNOZ Naroa",
+          "nation": "ESP",
+          "weight": "69",
+          "total": 231,
+          "guest": false
+        },
+        {
+          "lot": "109",
+          "name": "GUNGOR Nuray",
+          "nation": "TUR",
+          "weight": "69",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "181",
+          "name": "GUSALOVA Zarina",
+          "nation": "AIN",
+          "weight": "69",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "203",
+          "name": "DOLEGA Martyna",
+          "nation": "POL",
+          "weight": "69",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "315",
+          "name": "VALODZKA Siuzanna",
+          "nation": "AIN",
+          "weight": "69",
+          "total": 237,
+          "guest": false
+        },
+        {
+          "lot": "346",
+          "name": "STEFANSDOTTIR Gudny Bjork",
+          "nation": "ISL",
+          "weight": "69",
+          "total": 228,
+          "guest": false
+        },
+        {
+          "lot": "407",
+          "name": "MARTINEZ ANASAGASTI Garoa",
+          "nation": "ESP",
+          "weight": "69",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "450",
+          "name": "MISERENDINO Giulia",
+          "nation": "ITA",
+          "weight": "69",
+          "total": 226,
+          "guest": false
+        },
+        {
+          "lot": "626",
+          "name": "SHATOVA Galya",
+          "nation": "BUL",
+          "weight": "69",
+          "total": 228,
+          "guest": false
+        },
+        {
+          "lot": "763",
+          "name": "FAUVEL Laurene",
+          "nation": "FRA",
+          "weight": "69",
+          "total": 227,
+          "guest": false
+        },
+        {
+          "lot": "905",
+          "name": "GUSEVA Evgeniia",
+          "nation": "AIN",
+          "weight": "69",
+          "total": 230,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-79-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "79",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "42",
+          "name": "DADERKO Vitalii",
+          "nation": "UKR",
+          "weight": "79",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "160",
+          "name": "ALMAMMADOV Ravin",
+          "nation": "AZE",
+          "weight": "79",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "218",
+          "name": "KAHRIMAN Kaan",
+          "nation": "TUR",
+          "weight": "79",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "242",
+          "name": "MALAKMADZE Archil",
+          "nation": "GEO",
+          "weight": "79",
+          "total": 342,
+          "guest": false
+        },
+        {
+          "lot": "354",
+          "name": "DONOSE Tiberiu Ionut",
+          "nation": "ROU",
+          "weight": "79",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "588",
+          "name": "SEROBIAN Gevorg",
+          "nation": "AIN",
+          "weight": "79",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "596",
+          "name": "QERIMAJ Erkand",
+          "nation": "ALB",
+          "weight": "79",
+          "total": 332,
+          "guest": false
+        },
+        {
+          "lot": "716",
+          "name": "LIKHARAD Vadzim",
+          "nation": "AIN",
+          "weight": "79",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "740",
+          "name": "POGHOSYAN Martin",
+          "nation": "ARM",
+          "weight": "79",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "759",
+          "name": "FRALOU Andrei",
+          "nation": "AIN",
+          "weight": "79",
+          "total": 342,
+          "guest": false
+        },
+        {
+          "lot": "800",
+          "name": "CALJA Briken",
+          "nation": "ALB",
+          "weight": "79",
+          "total": 345,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-88-kg-group-c",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "C"
+        }
+      ],
+      "athlete_count": 5,
+      "entries": [
+        {
+          "lot": "51",
+          "name": "DOIG Angus",
+          "nation": "SCO",
+          "weight": "88",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "131",
+          "name": "PERERA James",
+          "nation": "GIB",
+          "weight": "88",
+          "total": 227,
+          "guest": false
+        },
+        {
+          "lot": "444",
+          "name": "BIRK David",
+          "nation": "SLO",
+          "weight": "88",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "771",
+          "name": "KORSVOLL Sigurd Haug",
+          "nation": "NOR",
+          "weight": "88",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "955",
+          "name": "SCHWERIN Johannes Bjorn",
+          "nation": "DEN",
+          "weight": "88",
+          "total": 288,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-77-kg-group-c",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "C"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "3",
+          "name": "FARLEY Madison",
+          "nation": "ENG",
+          "weight": "77",
+          "total": 208,
+          "guest": false
+        },
+        {
+          "lot": "62",
+          "name": "GAVRAN Ivona",
+          "nation": "CRO",
+          "weight": "77",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "173",
+          "name": "VANMECHELEN Senna",
+          "nation": "BEL",
+          "weight": "77",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "183",
+          "name": "MEENAN Abby",
+          "nation": "NIR",
+          "weight": "77",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "254",
+          "name": "RUS Anja",
+          "nation": "SLO",
+          "weight": "77",
+          "total": 179,
+          "guest": false
+        },
+        {
+          "lot": "272",
+          "name": "SAAR Mona",
+          "nation": "EST",
+          "weight": "77",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "309",
+          "name": "COLEMAN Keilin",
+          "nation": "IRL",
+          "weight": "77",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "351",
+          "name": "PIRILA Taika",
+          "nation": "FIN",
+          "weight": "77",
+          "total": 208,
+          "guest": false
+        },
+        {
+          "lot": "474",
+          "name": "RADLEY Georgia",
+          "nation": "ENG",
+          "weight": "77",
+          "total": 206,
+          "guest": false
+        },
+        {
+          "lot": "679",
+          "name": "HERBERT Agata",
+          "nation": "SCO",
+          "weight": "77",
+          "total": 209,
+          "guest": false
+        },
+        {
+          "lot": "837",
+          "name": "GERNSOEE Caroline",
+          "nation": "DEN",
+          "weight": "77",
+          "total": 211,
+          "guest": false
+        },
+        {
+          "lot": "981",
+          "name": "HUGHES Laura",
+          "nation": "WAL",
+          "weight": "77",
+          "total": 206,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-88-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "93",
+          "name": "KACINSKAS Irmantas",
+          "nation": "LTU",
+          "weight": "88",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "113",
+          "name": "VASILONOKS Arturs",
+          "nation": "LAT",
+          "weight": "88",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "138",
+          "name": "EL AMRANI Youssef",
+          "nation": "BEL",
+          "weight": "88",
+          "total": 314,
+          "guest": false
+        },
+        {
+          "lot": "255",
+          "name": "SUONIEMI Vaino",
+          "nation": "FIN",
+          "weight": "88",
+          "total": 315,
+          "guest": false
+        },
+        {
+          "lot": "361",
+          "name": "BROWN Sean",
+          "nation": "IRL",
+          "weight": "88",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "392",
+          "name": "OLUBEK Oskar",
+          "nation": "POL",
+          "weight": "88",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "412",
+          "name": "RUSS Christopher",
+          "nation": "GBR",
+          "weight": "88",
+          "total": 322,
+          "guest": false
+        },
+        {
+          "lot": "670",
+          "name": "SAMKO Karol",
+          "nation": "SVK",
+          "weight": "88",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "718",
+          "name": "GONZALEZ AYUSO Javier",
+          "nation": "ESP",
+          "weight": "88",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "721",
+          "name": "SMALE Edward",
+          "nation": "ENG",
+          "weight": "88",
+          "total": 322,
+          "guest": false
+        },
+        {
+          "lot": "801",
+          "name": "MARECEK Petr",
+          "nation": "CZE",
+          "weight": "88",
+          "total": 334,
+          "guest": false
+        },
+        {
+          "lot": "960",
+          "name": "TANASOIU Mihaita Constantin",
+          "nation": "ROU",
+          "weight": "88",
+          "total": 345,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-77-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "150",
+          "name": "TOLSTRUP Laura Vest",
+          "nation": "DEN",
+          "weight": "77",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "162",
+          "name": "KAROLAK Maria",
+          "nation": "POL",
+          "weight": "77",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "172",
+          "name": "JERABKOVA Simona",
+          "nation": "CZE",
+          "weight": "77",
+          "total": 216,
+          "guest": false
+        },
+        {
+          "lot": "262",
+          "name": "ROMANOVA Anastasiia",
+          "nation": "AIN",
+          "weight": "77",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "404",
+          "name": "KIREVA Maria Magdalena",
+          "nation": "BUL",
+          "weight": "77",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "631",
+          "name": "CIUBOTARU Alexandrina",
+          "nation": "MDA",
+          "weight": "77",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "805",
+          "name": "SMIGOVA Eliska",
+          "nation": "CZE",
+          "weight": "77",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "882",
+          "name": "KUZMINOVA Varvara",
+          "nation": "AIN",
+          "weight": "77",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "948",
+          "name": "LOWIK Nikki",
+          "nation": "NED",
+          "weight": "77",
+          "total": 231,
+          "guest": false
+        },
+        {
+          "lot": "959",
+          "name": "BRAZAITE Gintare",
+          "nation": "LTU",
+          "weight": "77",
+          "total": 225,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-88-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "283",
+          "name": "ASAYONAK Petr",
+          "nation": "AIN",
+          "weight": "88",
+          "total": 359,
+          "guest": false
+        },
+        {
+          "lot": "335",
+          "name": "RAMADANI Kristi",
+          "nation": "ALB",
+          "weight": "88",
+          "total": 355,
+          "guest": false
+        },
+        {
+          "lot": "340",
+          "name": "MSKHALADZE Zurab",
+          "nation": "GEO",
+          "weight": "88",
+          "total": 365,
+          "guest": false
+        },
+        {
+          "lot": "566",
+          "name": "DZHANKHOTOV Ramzan",
+          "nation": "AIN",
+          "weight": "88",
+          "total": 365,
+          "guest": false
+        },
+        {
+          "lot": "574",
+          "name": "KARAPETYAN Andranik",
+          "nation": "BIH",
+          "weight": "88",
+          "total": 365,
+          "guest": false
+        },
+        {
+          "lot": "599",
+          "name": "HARUTYUNYAN Rafik",
+          "nation": "ARM",
+          "weight": "88",
+          "total": 370,
+          "guest": false
+        },
+        {
+          "lot": "664",
+          "name": "KIANOUSH Rostami",
+          "nation": "KOS",
+          "weight": "88",
+          "total": 370,
+          "guest": false
+        },
+        {
+          "lot": "733",
+          "name": "MUELLER Lucas",
+          "nation": "GER",
+          "weight": "88",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "895",
+          "name": "FICCO Cristiano Giuseppe",
+          "nation": "ITA",
+          "weight": "88",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "906",
+          "name": "ROBU Marin",
+          "nation": "MDA",
+          "weight": "88",
+          "total": 375,
+          "guest": false
+        },
+        {
+          "lot": "940",
+          "name": "OKULOV Artem",
+          "nation": "AIN",
+          "weight": "88",
+          "total": 370,
+          "guest": false
+        },
+        {
+          "lot": "986",
+          "name": "GOGOKHIA Manuchar",
+          "nation": "GEO",
+          "weight": "88",
+          "total": 363,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-77-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "25",
+          "name": "JAMALI Yekta",
+          "nation": "GER",
+          "weight": "77",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "264",
+          "name": "SUKIASYAN Alina",
+          "nation": "ARM",
+          "weight": "77",
+          "total": 236,
+          "guest": false
+        },
+        {
+          "lot": "401",
+          "name": "YLISOINI Janette",
+          "nation": "FIN",
+          "weight": "77",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "437",
+          "name": "KHORAVA Nana",
+          "nation": "GEO",
+          "weight": "77",
+          "total": 238,
+          "guest": false
+        },
+        {
+          "lot": "630",
+          "name": "TOKO KEGNE Genna Romida",
+          "nation": "ITA",
+          "weight": "77",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "797",
+          "name": "AMROYAN Anna",
+          "nation": "ARM",
+          "weight": "77",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "862",
+          "name": "DOMBROVSKA Iryna",
+          "nation": "UKR",
+          "weight": "77",
+          "total": 242,
+          "guest": false
+        },
+        {
+          "lot": "866",
+          "name": "GOLD Celia Henna",
+          "nation": "ISR",
+          "weight": "77",
+          "total": 237,
+          "guest": false
+        },
+        {
+          "lot": "886",
+          "name": "BROWN Isabella",
+          "nation": "GBR",
+          "weight": "77",
+          "total": 237,
+          "guest": false
+        },
+        {
+          "lot": "982",
+          "name": "DANCZ Lara",
+          "nation": "GER",
+          "weight": "77",
+          "total": 237,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-86-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "86",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 7,
+      "entries": [
+        {
+          "lot": "228",
+          "name": "GLEISNER Emma",
+          "nation": "FIN",
+          "weight": "86",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "303",
+          "name": "RODRIGUES Ana Rita",
+          "nation": "POR",
+          "weight": "86",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "434",
+          "name": "SAUNDERS Kaitlin",
+          "nation": "NIR",
+          "weight": "86",
+          "total": 191,
+          "guest": false
+        },
+        {
+          "lot": "485",
+          "name": "SMITH Cheyenne",
+          "nation": "RSA",
+          "weight": "86",
+          "total": 178,
+          "guest": false
+        },
+        {
+          "lot": "552",
+          "name": "STIDDARD Nicola",
+          "nation": "WAL",
+          "weight": "86",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "722",
+          "name": "DE KONING Joyce",
+          "nation": "NED",
+          "weight": "86",
+          "total": 215,
+          "guest": false
+        },
+        {
+          "lot": "770",
+          "name": "PETERSON Eliise",
+          "nation": "EST",
+          "weight": "86",
+          "total": 220,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-94-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "94",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 14,
+      "entries": [
+        {
+          "lot": "66",
+          "name": "DALE Dino",
+          "nation": "CRO",
+          "weight": "94",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "194",
+          "name": "TSCHAN Yannick",
+          "nation": "SUI",
+          "weight": "94",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "197",
+          "name": "FEKECS Szilard",
+          "nation": "HUN",
+          "weight": "94",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "217",
+          "name": "PELTOKANGAS Antti",
+          "nation": "FIN",
+          "weight": "94",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "225",
+          "name": "HUTTON Joshua",
+          "nation": "ENG",
+          "weight": "94",
+          "total": 335,
+          "guest": false
+        },
+        {
+          "lot": "237",
+          "name": "TATARU Darius Stefan",
+          "nation": "ROU",
+          "weight": "94",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "245",
+          "name": "DOBNIK Peter",
+          "nation": "SLO",
+          "weight": "94",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "480",
+          "name": "WRIGHT Thomas",
+          "nation": "SCO",
+          "weight": "94",
+          "total": 296,
+          "guest": false
+        },
+        {
+          "lot": "624",
+          "name": "SUONIEMI Konsta",
+          "nation": "FIN",
+          "weight": "94",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "672",
+          "name": "BESTMAN Stephen",
+          "nation": "ENG",
+          "weight": "94",
+          "total": 333,
+          "guest": false
+        },
+        {
+          "lot": "747",
+          "name": "SIMBUERGER Elias",
+          "nation": "AUT",
+          "weight": "94",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "772",
+          "name": "BARTECEK Jakub",
+          "nation": "CZE",
+          "weight": "94",
+          "total": 321,
+          "guest": false
+        },
+        {
+          "lot": "869",
+          "name": "THOMASSON Yann",
+          "nation": "FRA",
+          "weight": "94",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "921",
+          "name": "KORDUSAS Lukas",
+          "nation": "LTU",
+          "weight": "94",
+          "total": 330,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-94-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "94",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 13,
+      "entries": [
+        {
+          "lot": "39",
+          "name": "AGHANYAN Ara",
+          "nation": "ARM",
+          "weight": "94",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "106",
+          "name": "NASAR Karlos May",
+          "nation": "BUL",
+          "weight": "94",
+          "total": 390,
+          "guest": false
+        },
+        {
+          "lot": "235",
+          "name": "SERDIUKOV Anton",
+          "nation": "UKR",
+          "weight": "94",
+          "total": 362,
+          "guest": false
+        },
+        {
+          "lot": "339",
+          "name": "KOLECKI Daniel",
+          "nation": "POL",
+          "weight": "94",
+          "total": 376,
+          "guest": false
+        },
+        {
+          "lot": "408",
+          "name": "GOBEJISHVILI Irakli",
+          "nation": "GEO",
+          "weight": "94",
+          "total": 370,
+          "guest": false
+        },
+        {
+          "lot": "430",
+          "name": "PODKORYTOV Mikhail",
+          "nation": "AIN",
+          "weight": "94",
+          "total": 371,
+          "guest": false
+        },
+        {
+          "lot": "560",
+          "name": "SAWULSKI Patryk",
+          "nation": "POL",
+          "weight": "94",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "586",
+          "name": "MEZINSKIS Armands",
+          "nation": "LAT",
+          "weight": "94",
+          "total": 366,
+          "guest": false
+        },
+        {
+          "lot": "649",
+          "name": "KURNAZ Hakan Sukru",
+          "nation": "TUR",
+          "weight": "94",
+          "total": 366,
+          "guest": false
+        },
+        {
+          "lot": "731",
+          "name": "IMADOUCHENE Romain",
+          "nation": "FRA",
+          "weight": "94",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "840",
+          "name": "FRIEDRICH Raphael",
+          "nation": "GER",
+          "weight": "94",
+          "total": 371,
+          "guest": false
+        },
+        {
+          "lot": "956",
+          "name": "KOFSHA Ertjan",
+          "nation": "ALB",
+          "weight": "94",
+          "total": 370,
+          "guest": false
+        },
+        {
+          "lot": "985",
+          "name": "MORA ROMERO Ramiro",
+          "nation": "EWF",
+          "weight": "94",
+          "total": 370,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-86-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "246",
+          "name": "SOTIEVA Iana",
+          "nation": "AIN",
+          "weight": "86",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "280",
+          "name": "DAL BO Sara",
+          "nation": "ITA",
+          "weight": "86",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "312",
+          "name": "JENSEN Anne Sofie Vejsgaard",
+          "nation": "DEN",
+          "weight": "86",
+          "total": 226,
+          "guest": false
+        },
+        {
+          "lot": "341",
+          "name": "ZIELINSKA Weronika",
+          "nation": "POL",
+          "weight": "86",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "456",
+          "name": "SENICOVA Nikola",
+          "nation": "SVK",
+          "weight": "86",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "532",
+          "name": "NGAKE Madias Dodo Nzesso",
+          "nation": "GBR",
+          "weight": "86",
+          "total": 241,
+          "guest": false
+        },
+        {
+          "lot": "561",
+          "name": "POGHOSYAN Emma",
+          "nation": "ARM",
+          "weight": "86",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "614",
+          "name": "GYURJYAN Liana",
+          "nation": "ARM",
+          "weight": "86",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "711",
+          "name": "KHEIDZER Darya",
+          "nation": "AIN",
+          "weight": "86",
+          "total": 241,
+          "guest": false
+        },
+        {
+          "lot": "839",
+          "name": "CAN Busra",
+          "nation": "TUR",
+          "weight": "86",
+          "total": 246,
+          "guest": false
+        },
+        {
+          "lot": "930",
+          "name": "GADELIA Natia",
+          "nation": "GEO",
+          "weight": "86",
+          "total": 242,
+          "guest": false
+        },
+        {
+          "lot": "957",
+          "name": "HORMAVIRTA Minni",
+          "nation": "FIN",
+          "weight": "86",
+          "total": 235,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-110-kg-group-c-men-s-plus110-kg-group-c",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "C"
+        },
+        {
+          "gender": "men",
+          "weight_class": "+110",
+          "group": "C"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "2",
+          "name": "O CONCHUBHAIR Seamus",
+          "nation": "IRL",
+          "weight": "110",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "210",
+          "name": "BURNS Drew",
+          "nation": "SCO",
+          "weight": "110",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "352",
+          "name": "REEDERS Christoffel",
+          "nation": "RSA",
+          "weight": "110",
+          "total": 312,
+          "guest": false
+        },
+        {
+          "lot": "564",
+          "name": "AXON Henry",
+          "nation": "SCO",
+          "weight": "110",
+          "total": 316,
+          "guest": false
+        },
+        {
+          "lot": "744",
+          "name": "HLYNSSON Thorbergur Ernir",
+          "nation": "ISL",
+          "weight": "110",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "792",
+          "name": "HOUSEN Seppe",
+          "nation": "BEL",
+          "weight": "110",
+          "total": 324,
+          "guest": false
+        },
+        {
+          "lot": "909",
+          "name": "DEBELJAK Matic",
+          "nation": "SLO",
+          "weight": "110",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "944",
+          "name": "ANDRIJAUSKAS Karolis",
+          "nation": "LTU",
+          "weight": "110",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "773",
+          "name": "DODDS Oliver",
+          "nation": "JER",
+          "weight": "+110",
+          "total": 280,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-110-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "22",
+          "name": "MUGURDUMOV Artur",
+          "nation": "ISR",
+          "weight": "110",
+          "total": 365,
+          "guest": false
+        },
+        {
+          "lot": "63",
+          "name": "REZAZADEH Rebin Kardo",
+          "nation": "FIN",
+          "weight": "110",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "77",
+          "name": "CIOBANU Tudor",
+          "nation": "MDA",
+          "weight": "110",
+          "total": 370,
+          "guest": false
+        },
+        {
+          "lot": "465",
+          "name": "GINEIKIS Neilas",
+          "nation": "LTU",
+          "weight": "110",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "526",
+          "name": "YANTSEVYCH Yevhenii",
+          "nation": "UKR",
+          "weight": "110",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "582",
+          "name": "HYSA Rilind",
+          "nation": "ALB",
+          "weight": "110",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "715",
+          "name": "SHUKURLU Ali",
+          "nation": "AZE",
+          "weight": "110",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "754",
+          "name": "TCHATCHET II Cyrille",
+          "nation": "GBR",
+          "weight": "110",
+          "total": 363,
+          "guest": false
+        },
+        {
+          "lot": "793",
+          "name": "DIAKOVASILIS Jacob Alexander",
+          "nation": "DEN",
+          "weight": "110",
+          "total": 335,
+          "guest": false
+        },
+        {
+          "lot": "855",
+          "name": "FERRE Benjamin",
+          "nation": "FRA",
+          "weight": "110",
+          "total": 380,
+          "guest": false
+        },
+        {
+          "lot": "999",
+          "name": "SUNDH Victor",
+          "nation": "SWE",
+          "weight": "110",
+          "total": 350,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-plus110-kg-group-b",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "+110",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "60",
+          "name": "BARKUS Deivydas",
+          "nation": "LTU",
+          "weight": "+110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "80",
+          "name": "GRIFFITHS Andrew",
+          "nation": "ENG",
+          "weight": "+110",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "90",
+          "name": "HILTON Jasper",
+          "nation": "ENG",
+          "weight": "+110",
+          "total": 352,
+          "guest": false
+        },
+        {
+          "lot": "251",
+          "name": "FERRA Franko",
+          "nation": "ALB",
+          "weight": "+110",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "509",
+          "name": "NOWLAN ROONEY Cian",
+          "nation": "IRL",
+          "weight": "+110",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "519",
+          "name": "KESKITALO Hanno",
+          "nation": "FIN",
+          "weight": "+110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "534",
+          "name": "WALES James",
+          "nation": "WAL",
+          "weight": "+110",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "794",
+          "name": "KIRVALIDZE Georgios",
+          "nation": "GRE",
+          "weight": "+110",
+          "total": 355,
+          "guest": false
+        },
+        {
+          "lot": "827",
+          "name": "STONKUS Karolis",
+          "nation": "LTU",
+          "weight": "+110",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "860",
+          "name": "ATHANASIOU Ioannis",
+          "nation": "GRE",
+          "weight": "+110",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "968",
+          "name": "KESHTA Omar",
+          "nation": "NIR",
+          "weight": "+110",
+          "total": 320,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-plus86-kg-group-b",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "+86",
+          "group": "B"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "72",
+          "name": "ZEMBOVA Lenka",
+          "nation": "SVK",
+          "weight": "+86",
+          "total": 227,
+          "guest": false
+        },
+        {
+          "lot": "120",
+          "name": "BOROS Viktoria",
+          "nation": "HUN",
+          "weight": "+86",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "247",
+          "name": "PALIC Anastasia",
+          "nation": "MDA",
+          "weight": "+86",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "638",
+          "name": "KISIL Valentyna",
+          "nation": "UKR",
+          "weight": "+86",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "831",
+          "name": "PEDERSEN Aurelia Rebekka",
+          "nation": "DEN",
+          "weight": "+86",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "841",
+          "name": "SEDA Pavlina",
+          "nation": "CZE",
+          "weight": "+86",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "864",
+          "name": "KALASHNYK Hanna",
+          "nation": "UKR",
+          "weight": "+86",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "931",
+          "name": "AGUSTSDOTTIR Erla",
+          "nation": "ISL",
+          "weight": "+86",
+          "total": 228,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-110-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "336",
+          "name": "FISCHEROV David",
+          "nation": "BUL",
+          "weight": "110",
+          "total": 400,
+          "guest": false
+        },
+        {
+          "lot": "445",
+          "name": "MARTIROSYAN Simon",
+          "nation": "ARM",
+          "weight": "110",
+          "total": 410,
+          "guest": false
+        },
+        {
+          "lot": "469",
+          "name": "BALAEV Khas Magomed",
+          "nation": "AIN",
+          "weight": "110",
+          "total": 405,
+          "guest": false
+        },
+        {
+          "lot": "663",
+          "name": "CHKHEIDZE Irakli",
+          "nation": "GEO",
+          "weight": "110",
+          "total": 393,
+          "guest": false
+        },
+        {
+          "lot": "717",
+          "name": "CHYNIAKOV Danylo",
+          "nation": "UKR",
+          "weight": "110",
+          "total": 390,
+          "guest": false
+        },
+        {
+          "lot": "795",
+          "name": "SHARANKOU Siarhei",
+          "nation": "AIN",
+          "weight": "110",
+          "total": 405,
+          "guest": false
+        },
+        {
+          "lot": "859",
+          "name": "LAURET RODRIGUEZ Luis Manuel",
+          "nation": "ROU",
+          "weight": "110",
+          "total": 410,
+          "guest": false
+        },
+        {
+          "lot": "936",
+          "name": "KARAPETYAN Garik",
+          "nation": "ARM",
+          "weight": "110",
+          "total": 410,
+          "guest": false
+        },
+        {
+          "lot": "939",
+          "name": "BRATU Tudor",
+          "nation": "MDA",
+          "weight": "110",
+          "total": 390,
+          "guest": false
+        },
+        {
+          "lot": "954",
+          "name": "HRISTOV Hristo",
+          "nation": "BUL",
+          "weight": "110",
+          "total": 405,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-women-s-plus86-kg-group-a",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "+86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "134",
+          "name": "CAMPBELL Emily",
+          "nation": "GBR",
+          "weight": "+86",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "136",
+          "name": "HAKOBYAN Tatev",
+          "nation": "ARM",
+          "weight": "+86",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "184",
+          "name": "KOANDA Solfrid",
+          "nation": "NOR",
+          "weight": "+86",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "223",
+          "name": "BONDZIKAVA Alena",
+          "nation": "AIN",
+          "weight": "+86",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "382",
+          "name": "CEVIK Fatmagul",
+          "nation": "TUR",
+          "weight": "+86",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "611",
+          "name": "HOTFRID Anastasiia",
+          "nation": "GEO",
+          "weight": "+86",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "684",
+          "name": "SUREN Tuana",
+          "nation": "TUR",
+          "weight": "+86",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "728",
+          "name": "LAGROU Ilke",
+          "nation": "BEL",
+          "weight": "+86",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "751",
+          "name": "FISCHER Sarah",
+          "nation": "AUT",
+          "weight": "+86",
+          "total": 243,
+          "guest": false
+        },
+        {
+          "lot": "920",
+          "name": "MURGVLIANI Mariam",
+          "nation": "GEO",
+          "weight": "+86",
+          "total": 242,
+          "guest": false
+        },
+        {
+          "lot": "987",
+          "name": "BROWN Mercy Opeyemi",
+          "nation": "GBR",
+          "weight": "+86",
+          "total": 241,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "european-2026-men-s-plus110-kg-group-a",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "+110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "174",
+          "name": "KOLAR Josef",
+          "nation": "CZE",
+          "weight": "+110",
+          "total": 365,
+          "guest": false
+        },
+        {
+          "lot": "302",
+          "name": "PRYLYPKO Vladyslav",
+          "nation": "UKR",
+          "weight": "+110",
+          "total": 400,
+          "guest": false
+        },
+        {
+          "lot": "334",
+          "name": "UJA Stanislav",
+          "nation": "MDA",
+          "weight": "+110",
+          "total": 375,
+          "guest": false
+        },
+        {
+          "lot": "348",
+          "name": "TURMANIDZE Bakari",
+          "nation": "GEO",
+          "weight": "+110",
+          "total": 395,
+          "guest": false
+        },
+        {
+          "lot": "355",
+          "name": "OTTOSSON Hugo",
+          "nation": "SWE",
+          "weight": "+110",
+          "total": 365,
+          "guest": false
+        },
+        {
+          "lot": "381",
+          "name": "LALAYAN Varazdat",
+          "nation": "ARM",
+          "weight": "+110",
+          "total": 450,
+          "guest": false
+        },
+        {
+          "lot": "454",
+          "name": "VAGAITSEV Daniil",
+          "nation": "AIN",
+          "weight": "+110",
+          "total": 420,
+          "guest": false
+        },
+        {
+          "lot": "787",
+          "name": "SEIM Mart",
+          "nation": "EST",
+          "weight": "+110",
+          "total": 400,
+          "guest": false
+        },
+        {
+          "lot": "804",
+          "name": "NANIEV Timur",
+          "nation": "AIN",
+          "weight": "+110",
+          "total": 415,
+          "guest": false
+        },
+        {
+          "lot": "824",
+          "name": "VIKINGSSON SJOBLOM Joen",
+          "nation": "SWE",
+          "weight": "+110",
+          "total": 375,
+          "guest": false
+        },
+        {
+          "lot": "888",
+          "name": "HOLME Ragnar Gamlestoel",
+          "nation": "NOR",
+          "weight": "+110",
+          "total": 392,
+          "guest": false
+        },
+        {
+          "lot": "972",
+          "name": "KUCERA Kamil",
+          "nation": "CZE",
+          "weight": "+110",
+          "total": 390,
+          "guest": false
+        }
+      ]
+    }
+  ]
+}

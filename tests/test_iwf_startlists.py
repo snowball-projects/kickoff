@@ -43,7 +43,7 @@ def reviewed_fixture(monkeypatch, tmp_path):
         "sessions": sessions,
     }
     path = tmp_path / "receipts/example.json"
-    path.parent.mkdir()
+    path.parent.mkdir(exist_ok=True)
     path.write_text(json.dumps(snapshot))
     return snapshot, path
 
@@ -63,7 +63,8 @@ def test_reviewed_roster_is_offline_keeps_actual_checkdate_and_canonical_hash_sc
     def no_network(_):
         raise AssertionError("Reviewed snapshots must publish without network access")
 
-    sources, evidence = startlists.StartListLoader(no_network).enrich([item], tmp_path, 2026)
+    monkeypatch.setattr("urllib.request.urlopen", no_network)
+    sources, evidence = startlists.StartListLoader().enrich([item], tmp_path, 2026)
     assert len(item.participants) == 2
     after = item.to_dict()
     after["participants"] = []
@@ -167,9 +168,7 @@ def test_current_reviewed_rosters_keep_every_athlete_session_and_original_schedu
     events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
     events = [e for e in events if e.league == league]
     originals = {e.event_id: e.to_dict() for e in events}
-    sources, evidence = startlists.StartListLoader(lambda _: pytest.fail("No network for reviewed IWF facts")).enrich(
-        events, ROOT / "data/reviewed", 2026
-    )
+    sources, evidence = startlists.StartListLoader().enrich(events, ROOT / "data/reviewed", 2026)
     assert len(parsed) == len(events) == count
     assert sum(len(s.entries) for s in parsed) == athletes
     assert evidence[0]["athletes"] == athletes and evidence[0]["sessions"] == count

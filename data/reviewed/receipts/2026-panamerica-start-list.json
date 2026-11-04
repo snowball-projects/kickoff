@@ -1,0 +1,1571 @@
+{
+  "league": "WEIGHTLIFTING_PAN_AMERICA",
+  "year": 2026,
+  "source_url": "https://panampesas.org/wp-content/uploads/2026/04/Start-Book-Campeonato-Panamericano-Panama-2026.pdf",
+  "revision": "Start book, 24 April 2026",
+  "checked_date": "2026-11-04",
+  "collection_method": "Reviewed snapshot of the already published official roster facts; retained check date, no build-time source refresh.",
+  "hash_scope": "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes",
+  "sha256": "6f5b039af6956e4cf932ea729e46c6f61ca2c3d730a2da063cf580888e9181d9",
+  "source_raw_sha256": "85405e5d969a863c496a28b97749ab808635fa3d9b728f7a6ddb9a45591824d1",
+  "source_raw_hash_scope": "raw PDF bytes retained from the published source receipt; no PDF fetched for this snapshot",
+  "source_raw_checked_date": "2026-11-04",
+  "source_raw_session_count": 16,
+  "source_raw_athlete_count": 168,
+  "session_count": 16,
+  "athlete_count": 168,
+  "sessions": [
+    {
+      "event_id": "panamerican-2026-women-s-48-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "48",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "32",
+          "name": "ORTIZ Dahiana",
+          "nation": "DOM",
+          "weight": "48",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "72",
+          "name": "MERCADO MENDOZA Patricia Valentina",
+          "nation": "VEN",
+          "weight": "48",
+          "total": 150,
+          "guest": false
+        },
+        {
+          "lot": "91",
+          "name": "MENDOZA ALCANTARA July Alexandra",
+          "nation": "ESA",
+          "weight": "48",
+          "total": 150,
+          "guest": false
+        },
+        {
+          "lot": "110",
+          "name": "SANABRIA RIVERA Victoria",
+          "nation": "PUR",
+          "weight": "48",
+          "total": 130,
+          "guest": false
+        },
+        {
+          "lot": "134",
+          "name": "MARTINEZ ROSALES Mariangeli Irene",
+          "nation": "VEN",
+          "weight": "48",
+          "total": 140,
+          "guest": false
+        },
+        {
+          "lot": "139",
+          "name": "SINGH Karin Ivana",
+          "nation": "TRI",
+          "weight": "48",
+          "total": 115,
+          "guest": false
+        },
+        {
+          "lot": "140",
+          "name": "GARCIA SUAREZ Macarena Del Pilar",
+          "nation": "CHI",
+          "weight": "48",
+          "total": 165,
+          "guest": false
+        },
+        {
+          "lot": "155",
+          "name": "GAVIDIA DIAZ Faviana Ayelen",
+          "nation": "PER",
+          "weight": "48",
+          "total": 150,
+          "guest": false
+        },
+        {
+          "lot": "162",
+          "name": "GONZALEZ MAIRENA Jessica Massiel",
+          "nation": "NCA",
+          "weight": "48",
+          "total": 150,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-60-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "60",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "9",
+          "name": "CHHUM Gabriel",
+          "nation": "USA",
+          "weight": "60",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "42",
+          "name": "O\u00d1ATE ARAUJO Otto Felix",
+          "nation": "CUB",
+          "weight": "60",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "55",
+          "name": "MART\u00cdNEZ GONZ\u00c1LEZ Juan Miguel",
+          "nation": "PAN",
+          "weight": "60",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "73",
+          "name": "CARDENAS RAM\u00cdREZ Esteban Ignacio",
+          "nation": "CRC",
+          "weight": "60",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "87",
+          "name": "SOLORZANO CARMONA Angello Rafael",
+          "nation": "VEN",
+          "weight": "60",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "105",
+          "name": "TORRES VASQUEZ Benjamin",
+          "nation": "CHI",
+          "weight": "60",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "124",
+          "name": "GOMEZ LOPEZ Jefferson Withman",
+          "nation": "VEN",
+          "weight": "60",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "127",
+          "name": "SERNA MENDOZA Jhon Jairo",
+          "nation": "COL",
+          "weight": "60",
+          "total": 265,
+          "guest": false
+        },
+        {
+          "lot": "136",
+          "name": "ROCHE Howard",
+          "nation": "PUR",
+          "weight": "60",
+          "total": 240,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-women-s-53-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 14,
+      "entries": [
+        {
+          "lot": "5",
+          "name": "RAMIREZ RANGEL Jeannis",
+          "nation": "MEX",
+          "weight": "53",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "6",
+          "name": "ULREY Miranda",
+          "nation": "USA",
+          "weight": "53",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "20",
+          "name": "ROSA FIGUEIREDO Nathasha",
+          "nation": "BRA",
+          "weight": "53",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "54",
+          "name": "YAT GONZ\u00c1LEZ Keily Michelle",
+          "nation": "GUA",
+          "weight": "53",
+          "total": 176,
+          "guest": false
+        },
+        {
+          "lot": "70",
+          "name": "MEGO CONTRERAS Shoely Mabel",
+          "nation": "PER",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "86",
+          "name": "ROSA FIGUEIREDO Emily",
+          "nation": "BRA",
+          "weight": "53",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "90",
+          "name": "RUIZ L\u00d3PEZ Gabriela",
+          "nation": "PAN",
+          "weight": "53",
+          "total": 135,
+          "guest": false
+        },
+        {
+          "lot": "109",
+          "name": "ALVAREZ GREFA Thaily Sadek",
+          "nation": "ECU",
+          "weight": "53",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "111",
+          "name": "GONZ\u00c1LEZ Asia",
+          "nation": "PUR",
+          "weight": "53",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "118",
+          "name": "ECHANDIA ZARATE Katherin Oriana",
+          "nation": "VEN",
+          "weight": "53",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "122",
+          "name": "GOODRIDGE Chelsea Tiffany Chantal",
+          "nation": "BAR",
+          "weight": "53",
+          "total": 98,
+          "guest": false
+        },
+        {
+          "lot": "131",
+          "name": "FERN\u00c1NDEZ BERNAL Massiel Elisa",
+          "nation": "PAN",
+          "weight": "53",
+          "total": 145,
+          "guest": false
+        },
+        {
+          "lot": "146",
+          "name": "GALVIS GONZALEZ Rohelys",
+          "nation": "COL",
+          "weight": "53",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "147",
+          "name": "JOO HU Li Hun",
+          "nation": "CHI",
+          "weight": "53",
+          "total": 175,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-65-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "65",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "24",
+          "name": "ESQUIVEL MORALES Henry Eduardo",
+          "nation": "GUA",
+          "weight": "65",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "48",
+          "name": "MOSQUERA VALENCIA Francisco Antonio",
+          "nation": "COL",
+          "weight": "65",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "53",
+          "name": "FELIX DA SILVA Thiago",
+          "nation": "BRA",
+          "weight": "65",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "79",
+          "name": "BARDALEZ TUSIMA Luis David",
+          "nation": "PER",
+          "weight": "65",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "80",
+          "name": "GARCIA BRITO Luis Alberto",
+          "nation": "DOM",
+          "weight": "65",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "95",
+          "name": "V\u00e1zquez Morales Orlando Antonio",
+          "nation": "NCA",
+          "weight": "65",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "115",
+          "name": "GARRIDO BUENAIRE Victor Jesus",
+          "nation": "ECU",
+          "weight": "65",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "116",
+          "name": "CARRAZCO CETZ Herseleid Antonio",
+          "nation": "MEX",
+          "weight": "65",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "121",
+          "name": "MORRIS Hampton",
+          "nation": "USA",
+          "weight": "65",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "135",
+          "name": "GONZALEZ RODRIGUEZ Luis",
+          "nation": "PUR",
+          "weight": "65",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "142",
+          "name": "LUGO RODRIGUEZ Wilkwinner Nahum",
+          "nation": "VEN",
+          "weight": "65",
+          "total": 230,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-women-s-58-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "58",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 14,
+      "entries": [
+        {
+          "lot": "31",
+          "name": "CORTEZ GONZALEZ Sohaila",
+          "nation": "MEX",
+          "weight": "58",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "35",
+          "name": "CASADEVALL Maria Luz",
+          "nation": "ARG",
+          "weight": "58",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "58",
+          "name": "GRENNI ALVARADO Victoria Maria",
+          "nation": "ESA",
+          "weight": "58",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "68",
+          "name": "VIEIRA RODRIGUES Julia",
+          "nation": "BRA",
+          "weight": "58",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "74",
+          "name": "ALFARO LE\u00d3N Allison Elieth",
+          "nation": "CRC",
+          "weight": "58",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "78",
+          "name": "QUINTERO VALERA Yasmin Juliannis",
+          "nation": "VEN",
+          "weight": "58",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "96",
+          "name": "AVILA JOSEPH Valery Yelinel",
+          "nation": "PAN",
+          "weight": "58",
+          "total": 130,
+          "guest": false
+        },
+        {
+          "lot": "97",
+          "name": "BOYCE Ettel",
+          "nation": "ARU",
+          "weight": "58",
+          "total": 135,
+          "guest": false
+        },
+        {
+          "lot": "102",
+          "name": "TASCHEREAU Ann-Sophie",
+          "nation": "CAN",
+          "weight": "58",
+          "total": 211,
+          "guest": false
+        },
+        {
+          "lot": "104",
+          "name": "MORERA AVILA Natalia",
+          "nation": "CRC",
+          "weight": "58",
+          "total": 170,
+          "guest": false
+        },
+        {
+          "lot": "114",
+          "name": "JUTO MARTINEZ Aneth",
+          "nation": "NCA",
+          "weight": "58",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "133",
+          "name": "HARVEY Rose",
+          "nation": "CAN",
+          "weight": "58",
+          "total": 197,
+          "guest": false
+        },
+        {
+          "lot": "141",
+          "name": "MOYA MENA Antonina",
+          "nation": "COL",
+          "weight": "58",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "164",
+          "name": "AGRAIT CALO Issi",
+          "nation": "PUR",
+          "weight": "58",
+          "total": 185,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-71-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "71",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "7",
+          "name": "DOYLE CRUZ Gustavo",
+          "nation": "PAN",
+          "weight": "71",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "10",
+          "name": "MONTOYA ALVARADO Vicente Uriel",
+          "nation": "MEX",
+          "weight": "71",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "22",
+          "name": "DUROCHER Louis",
+          "nation": "CAN",
+          "weight": "71",
+          "total": 274,
+          "guest": false
+        },
+        {
+          "lot": "30",
+          "name": "MART\u00cdNEZ CASTILLO Ronnier",
+          "nation": "PAN",
+          "weight": "71",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "34",
+          "name": "CARES VALDES Sergio Andres",
+          "nation": "CHI",
+          "weight": "71",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "71",
+          "name": "M\u00c9NDEZ YE Henry Geovany",
+          "nation": "GUA",
+          "weight": "71",
+          "total": 285,
+          "guest": false
+        },
+        {
+          "lot": "85",
+          "name": "CAMEY RODRIGUEZ Wilfredo",
+          "nation": "GUA",
+          "weight": "71",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "106",
+          "name": "ESTUPI\u00d1AN BACACELA Erick Wellington",
+          "nation": "ECU",
+          "weight": "71",
+          "total": 283,
+          "guest": false
+        },
+        {
+          "lot": "112",
+          "name": "MENDEZ DIAZ Jose Alexander",
+          "nation": "ESA",
+          "weight": "71",
+          "total": 265,
+          "guest": false
+        },
+        {
+          "lot": "158",
+          "name": "MOSQUERA LOZANO Luis Javier",
+          "nation": "COL",
+          "weight": "71",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "167",
+          "name": "BRITTON ROMERO Armando Justiniano",
+          "nation": "NCA",
+          "weight": "71",
+          "total": 280,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-women-s-63-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "63",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "21",
+          "name": "CHARTRAND Virginie",
+          "nation": "CAN",
+          "weight": "63",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "41",
+          "name": "RAMIREZ VEL\u00c1SQUEZ Sofia Daniela",
+          "nation": "CRC",
+          "weight": "63",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "46",
+          "name": "PAVON MONTIEL Javiana Del Socorro",
+          "nation": "NCA",
+          "weight": "63",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "64",
+          "name": "MOSQUERA CACERES Karen Tatiana",
+          "nation": "COL",
+          "weight": "63",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "75",
+          "name": "BECERRA ROMERO Jennifer Samantha",
+          "nation": "ECU",
+          "weight": "63",
+          "total": 210,
+          "guest": false
+        },
+        {
+          "lot": "84",
+          "name": "ODUBER CACO Beatriz Angelica",
+          "nation": "PAN",
+          "weight": "63",
+          "total": 160,
+          "guest": false
+        },
+        {
+          "lot": "92",
+          "name": "WRIGHT Katrina",
+          "nation": "CAN",
+          "weight": "63",
+          "total": 187,
+          "guest": false
+        },
+        {
+          "lot": "103",
+          "name": "SHAFT Sophia",
+          "nation": "USA",
+          "weight": "63",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "132",
+          "name": "RODRIGUEZ GOMEZ Genesis Lourdes",
+          "nation": "VEN",
+          "weight": "63",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "137",
+          "name": "SINISTERRA TORRES Yenny",
+          "nation": "COL",
+          "weight": "63",
+          "total": 225,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-79-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "79",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "18",
+          "name": "CAHOY Caden",
+          "nation": "USA",
+          "weight": "79",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "19",
+          "name": "MONTES HURTADO Hugo Fernando",
+          "nation": "COL",
+          "weight": "79",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "25",
+          "name": "MAYORA PERNIA Julio Ruben",
+          "nation": "VEN",
+          "weight": "79",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "28",
+          "name": "JOVEL SALINAS Axel Osiris",
+          "nation": "ESA",
+          "weight": "79",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "40",
+          "name": "GINNAN Edward",
+          "nation": "USA",
+          "weight": "79",
+          "total": 335,
+          "guest": false
+        },
+        {
+          "lot": "44",
+          "name": "ARANGO MENDEZ Reinner Josue",
+          "nation": "VEN",
+          "weight": "79",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "45",
+          "name": "GUERTIN Samuel",
+          "nation": "CAN",
+          "weight": "79",
+          "total": 308,
+          "guest": false
+        },
+        {
+          "lot": "100",
+          "name": "Mart\u00ednez Lopez Juan Camilo",
+          "nation": "COL",
+          "weight": "79",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "150",
+          "name": "CRUZ ESCOBAR Ramon Ernesto",
+          "nation": "ESA",
+          "weight": "79",
+          "total": 280,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-women-s-69-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 13,
+      "entries": [
+        {
+          "lot": "3",
+          "name": "PAREDES ARREAGA Bella Nancy",
+          "nation": "ECU",
+          "weight": "69",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "38",
+          "name": "SALAS PEREIRA Tatiana",
+          "nation": "CRC",
+          "weight": "69",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "47",
+          "name": "REEVES Olivia",
+          "nation": "USA",
+          "weight": "69",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "49",
+          "name": "ORTIZ PETERSON Karla Viviana",
+          "nation": "MEX",
+          "weight": "69",
+          "total": 220,
+          "guest": false
+        },
+        {
+          "lot": "50",
+          "name": "LOPEZ RODRIGUEZ Kidaisha",
+          "nation": "PUR",
+          "weight": "69",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "56",
+          "name": "CELIS GUTIERREZ Constanza Noelia",
+          "nation": "CHI",
+          "weight": "69",
+          "total": 208,
+          "guest": false
+        },
+        {
+          "lot": "63",
+          "name": "ROHR Estelle",
+          "nation": "USA",
+          "weight": "69",
+          "total": 222,
+          "guest": false
+        },
+        {
+          "lot": "76",
+          "name": "LEE Kathryn",
+          "nation": "CAN",
+          "weight": "69",
+          "total": 194,
+          "guest": false
+        },
+        {
+          "lot": "101",
+          "name": "MATIAS MARCIAL Fransheska Mari",
+          "nation": "DOM",
+          "weight": "69",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "120",
+          "name": "ASHWORTH Alexis",
+          "nation": "CAN",
+          "weight": "69",
+          "total": 221,
+          "guest": false
+        },
+        {
+          "lot": "151",
+          "name": "APARICIO LEON Kelly",
+          "nation": "PAN",
+          "weight": "69",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "159",
+          "name": "Ludrick Rivas Sema Nancy",
+          "nation": "NCA",
+          "weight": "69",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "160",
+          "name": "RODRIGUEZ QUINTERO Julieth Alejandra",
+          "nation": "COL",
+          "weight": "69",
+          "total": 250,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-88-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "13",
+          "name": "ROBERTS Khalil Martell Zion",
+          "nation": "BAR",
+          "weight": "88",
+          "total": 270,
+          "guest": false
+        },
+        {
+          "lot": "26",
+          "name": "FRATICELLI MARTINEZ Angel",
+          "nation": "PUR",
+          "weight": "88",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "29",
+          "name": "BOLES Hutton",
+          "nation": "USA",
+          "weight": "88",
+          "total": 335,
+          "guest": false
+        },
+        {
+          "lot": "43",
+          "name": "VICTORIAN Brandon",
+          "nation": "USA",
+          "weight": "88",
+          "total": 345,
+          "guest": false
+        },
+        {
+          "lot": "65",
+          "name": "MAROTO MORALES Ignacio",
+          "nation": "CRC",
+          "weight": "88",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "66",
+          "name": "LE\u00d3N DE PAZ Jaime Joel",
+          "nation": "GUA",
+          "weight": "88",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "89",
+          "name": "WASHINGTON PANTING Norwin Windel",
+          "nation": "NCA",
+          "weight": "88",
+          "total": 315,
+          "guest": false
+        },
+        {
+          "lot": "125",
+          "name": "AGRAZAL MARTINEZ Angel Antonio",
+          "nation": "PAN",
+          "weight": "88",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "130",
+          "name": "MEDINA PINZON Jorge Luis",
+          "nation": "PAN",
+          "weight": "88",
+          "total": 290,
+          "guest": false
+        },
+        {
+          "lot": "143",
+          "name": "GREFA VARGAS Neiser Javier",
+          "nation": "ECU",
+          "weight": "88",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "157",
+          "name": "LOPEZ LOPEZ Yeison",
+          "nation": "COL",
+          "weight": "88",
+          "total": 370,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-women-s-77-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "16",
+          "name": "BRICE\u00d1O BARQUERO Eva",
+          "nation": "CRC",
+          "weight": "77",
+          "total": 180,
+          "guest": false
+        },
+        {
+          "lot": "39",
+          "name": "PEGUERO AVILA Yopatrik",
+          "nation": "PUR",
+          "weight": "77",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "62",
+          "name": "SARRAUTE GALLO Mar\u00eda Emilia",
+          "nation": "URU",
+          "weight": "77",
+          "total": 200,
+          "guest": false
+        },
+        {
+          "lot": "99",
+          "name": "DE LEON CARDOZA Beverly Shanen",
+          "nation": "GUA",
+          "weight": "77",
+          "total": 185,
+          "guest": false
+        },
+        {
+          "lot": "107",
+          "name": "SANCHEZ PERI\u00d1AN Mari Leivis",
+          "nation": "COL",
+          "weight": "77",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "144",
+          "name": "DUMAS Rosalie",
+          "nation": "CAN",
+          "weight": "77",
+          "total": 231,
+          "guest": false
+        },
+        {
+          "lot": "145",
+          "name": "NASCIMENTO AMARO Laura",
+          "nation": "BRA",
+          "weight": "77",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "153",
+          "name": "MENA Maria Fernanda",
+          "nation": "COL",
+          "weight": "77",
+          "total": 245,
+          "guest": false
+        },
+        {
+          "lot": "156",
+          "name": "BEAUDOIN Rose",
+          "nation": "CAN",
+          "weight": "77",
+          "total": 226,
+          "guest": false
+        },
+        {
+          "lot": "163",
+          "name": "ROGERS Martha",
+          "nation": "USA",
+          "weight": "77",
+          "total": 240,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-94-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "94",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "2",
+          "name": "SANTAVY Noah",
+          "nation": "CAN",
+          "weight": "94",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "4",
+          "name": "GORDON Adam",
+          "nation": "JAM",
+          "weight": "94",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "23",
+          "name": "GUADAMUD PICO Juan David",
+          "nation": "ECU",
+          "weight": "94",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "27",
+          "name": "LOPEZ CAMERON Yomar",
+          "nation": "PUR",
+          "weight": "94",
+          "total": 310,
+          "guest": false
+        },
+        {
+          "lot": "33",
+          "name": "VALLENILLA SANCHEZ Keydomar Giovanni",
+          "nation": "VEN",
+          "weight": "94",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "37",
+          "name": "MALESPIN ORTIZ Francisco Rene",
+          "nation": "NCA",
+          "weight": "94",
+          "total": 285,
+          "guest": false
+        },
+        {
+          "lot": "67",
+          "name": "ALARCON MONGE Joshua",
+          "nation": "CRC",
+          "weight": "94",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "113",
+          "name": "GARCES FRANCO Oscar Andres",
+          "nation": "COL",
+          "weight": "94",
+          "total": 375,
+          "guest": false
+        },
+        {
+          "lot": "148",
+          "name": "BARRERAS CARMONA Ihann Enrique",
+          "nation": "MEX",
+          "weight": "94",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "161",
+          "name": "BELLEMARRE Alex",
+          "nation": "CAN",
+          "weight": "94",
+          "total": 348,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-women-s-86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "1",
+          "name": "WITTE Katelyn",
+          "nation": "USA",
+          "weight": "86",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "59",
+          "name": "NAVARRO DELGADO Paula",
+          "nation": "CRC",
+          "weight": "86",
+          "total": 175,
+          "guest": false
+        },
+        {
+          "lot": "60",
+          "name": "GONZALEZ ZU\u00d1IGA Fabiola Alessandra",
+          "nation": "PAN",
+          "weight": "86",
+          "total": 190,
+          "guest": false
+        },
+        {
+          "lot": "119",
+          "name": "NOLASCO HERNANDEZ Lizbeth Gabriela",
+          "nation": "MEX",
+          "weight": "86",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "128",
+          "name": "CHIRINOS LEON Dayana Aracelis",
+          "nation": "VEN",
+          "weight": "86",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "129",
+          "name": "MCELDERRY Anna",
+          "nation": "USA",
+          "weight": "86",
+          "total": 240,
+          "guest": false
+        },
+        {
+          "lot": "138",
+          "name": "JIMENEZ QUI\u00d1ONEZ Kelin Juliana",
+          "nation": "ECU",
+          "weight": "86",
+          "total": 230,
+          "guest": false
+        },
+        {
+          "lot": "154",
+          "name": "RIVAS MOSQUERA Valeria",
+          "nation": "COL",
+          "weight": "86",
+          "total": 240,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-110-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "11",
+          "name": "MEDINA Alejandro Jose",
+          "nation": "PUR",
+          "weight": "110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "15",
+          "name": "DALEY James",
+          "nation": "JAM",
+          "weight": "110",
+          "total": 280,
+          "guest": false
+        },
+        {
+          "lot": "36",
+          "name": "SANDOVAL NAJERA Enrrique Jos\u00e9",
+          "nation": "GUA",
+          "weight": "110",
+          "total": 275,
+          "guest": false
+        },
+        {
+          "lot": "51",
+          "name": "FERGUSON Kolbi",
+          "nation": "USA",
+          "weight": "110",
+          "total": 385,
+          "guest": false
+        },
+        {
+          "lot": "61",
+          "name": "ARIAS MOSQUERA Jeyson Alonso",
+          "nation": "VEN",
+          "weight": "110",
+          "total": 300,
+          "guest": false
+        },
+        {
+          "lot": "69",
+          "name": "DE SOUZA PESSANHA Matheus",
+          "nation": "BRA",
+          "weight": "110",
+          "total": 360,
+          "guest": false
+        },
+        {
+          "lot": "93",
+          "name": "CUEVAS IBORRA Nicolas Rodrigo",
+          "nation": "CHI",
+          "weight": "110",
+          "total": 330,
+          "guest": false
+        },
+        {
+          "lot": "123",
+          "name": "VIERA ESPINOZA Hernan Moises",
+          "nation": "PER",
+          "weight": "110",
+          "total": 340,
+          "guest": false
+        },
+        {
+          "lot": "149",
+          "name": "ALOMIA FERRIN Nikolay Hans",
+          "nation": "ECU",
+          "weight": "110",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "166",
+          "name": "LUSIGNAN Xavier",
+          "nation": "CAN",
+          "weight": "110",
+          "total": 364,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-women-s-plus86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "+86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "8",
+          "name": "PEREZ REVERON Naryury Alexandra",
+          "nation": "VEN",
+          "weight": "+86",
+          "total": 235,
+          "guest": false
+        },
+        {
+          "lot": "14",
+          "name": "BATISTA FERN\u00c1NDEZ Mariadni",
+          "nation": "PAN",
+          "weight": "+86",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "52",
+          "name": "SANTANA PEGUERO Crismery Dominga",
+          "nation": "DOM",
+          "weight": "+86",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "57",
+          "name": "UCELO MARROQUIN Scarleth Vanessa",
+          "nation": "GUA",
+          "weight": "+86",
+          "total": 205,
+          "guest": false
+        },
+        {
+          "lot": "81",
+          "name": "THEISEN-LAPPEN Mary",
+          "nation": "USA",
+          "weight": "+86",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "88",
+          "name": "JUSTINO DE LIMA Taiane",
+          "nation": "BRA",
+          "weight": "+86",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "94",
+          "name": "AYOVI CABEZAS Liseth Betzaida",
+          "nation": "ECU",
+          "weight": "+86",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "98",
+          "name": "JIMENEZ CAZARES Laura Anahi",
+          "nation": "MEX",
+          "weight": "+86",
+          "total": 250,
+          "guest": false
+        },
+        {
+          "lot": "117",
+          "name": "GOMEZ GARCIA Nestmarie",
+          "nation": "PUR",
+          "weight": "+86",
+          "total": 225,
+          "guest": false
+        },
+        {
+          "lot": "126",
+          "name": "PAVEZ MIRANDA Arantzazu",
+          "nation": "CHI",
+          "weight": "+86",
+          "total": 255,
+          "guest": false
+        },
+        {
+          "lot": "152",
+          "name": "RODRIGUEZ LUGO Abdeel Noemi",
+          "nation": "MEX",
+          "weight": "+86",
+          "total": 260,
+          "guest": false
+        },
+        {
+          "lot": "168",
+          "name": "SARRIA RUIZ Marifelix",
+          "nation": "CUB",
+          "weight": "+86",
+          "total": 270,
+          "guest": false
+        }
+      ]
+    },
+    {
+      "event_id": "panamerican-2026-men-s-plus110-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "+110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 7,
+      "entries": [
+        {
+          "lot": "12",
+          "name": "BIZAMA CONEJERO Alonso Javier",
+          "nation": "CHI",
+          "weight": "+110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "17",
+          "name": "WRIGHT Chad",
+          "nation": "JAM",
+          "weight": "+110",
+          "total": 305,
+          "guest": false
+        },
+        {
+          "lot": "77",
+          "name": "JORGE VANCE David",
+          "nation": "PUR",
+          "weight": "+110",
+          "total": 320,
+          "guest": false
+        },
+        {
+          "lot": "82",
+          "name": "CERRO CASTILLO Rafael De Jesus",
+          "nation": "COL",
+          "weight": "+110",
+          "total": 400,
+          "guest": false
+        },
+        {
+          "lot": "83",
+          "name": "ARROYO VALDEZ Dixon Bladimir",
+          "nation": "ECU",
+          "weight": "+110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "108",
+          "name": "LEMUS CALANCHE Gilberto Antonio",
+          "nation": "GUA",
+          "weight": "+110",
+          "total": 350,
+          "guest": false
+        },
+        {
+          "lot": "165",
+          "name": "WILLIAMS Aaron",
+          "nation": "USA",
+          "weight": "+110",
+          "total": 390,
+          "guest": false
+        }
+      ]
+    }
+  ]
+}
