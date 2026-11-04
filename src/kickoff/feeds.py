@@ -21,7 +21,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-from kickoff.countries import COUNTRY_LEAGUES, venue_country
+from kickoff.countries import COUNTRY_LEAGUES, tennis_venue_country, venue_country
 from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
 from kickoff.semantics import classification_fields
@@ -307,8 +307,10 @@ def _espn_event(
                 away = name
     end_day = _local_date(event["endDate"], zone) if span and event.get("endDate") else None
     season = event.get("season") or {}
-    venue = competition.get("venue") or {}
+    venue = competition.get("venue") or (event.get("venue") if league in {"ATP", "WTA"} else None) or {}
     country = venue_country((venue.get("address") or {}).get("country")) if league in COUNTRY_LEAGUES else None
+    if not country and league in {"ATP", "WTA"}:
+        country = tennis_venue_country(venue)
     finished = _espn_finished(event, competition if event_type == "game" else {})
     week = event.get("week") or {}
     week_label = week.get("text") or (f"Week {week['number']}" if type(week.get("number")) is int else None)
@@ -330,7 +332,7 @@ def _espn_event(
         away=away,
         event_type=event_type,
         phase=phase,
-        venue=venue.get("fullName"),
+        venue=venue.get("fullName") or venue.get("displayName"),
         source_url=_espn_link(event, fallback_url),
         country=country,
         country_source_url=(input_url or _espn_link(event, fallback_url)) if country else None,
@@ -786,7 +788,7 @@ MLB_PHASES = {"R": "regular_season", "F": "postseason", "D": "postseason", "L": 
 
 
 def mlb_events(year: int) -> list[CalendarEvent]:
-    url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W"
+    url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W&hydrate=venue(location)"
     payload = get_json(url)
     events = []
     for day in rows(payload, "dates"):
@@ -805,6 +807,7 @@ def mlb_events(year: int) -> list[CalendarEvent]:
             undecided = any(word in name for name in (away, home) for word in ("Seed", "League Champion"))
             if undecided:
                 away = home = None
+            country = venue_country(((game.get("venue") or {}).get("location") or {}).get("country"))
             events.append(
                 make_event(
                     source="mlb",
@@ -821,6 +824,9 @@ def mlb_events(year: int) -> list[CalendarEvent]:
                     phase=MLB_PHASES.get(game.get("gameType"), "regular_season"),
                     venue=(game.get("venue") or {}).get("name"),
                     source_url=f"https://www.mlb.com/gameday/{game['gamePk']}",
+                    country=country,
+                    country_source_url=url if country else None,
+                    country_checked_date=datetime.now(UTC).date().isoformat() if country else None,
                     status="finished"
                     if status.get("abstractGameState") == "Final"
                     or status.get("detailedState") in {"Final", "Game Over"}

@@ -6,29 +6,64 @@ const events = reviewedBundle().events.filter((event: { event_id: string }) => e
 for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as const) {
   test.describe(`ESPN LPGA schedule ${width}px ${colorScheme}`, () => {
     test.use({ viewport: { width, height: 844 }, colorScheme, reducedMotion: "reduce" });
-    test("full tournament span uses one ESPN source with no invented country", async ({ page }) => {
+    test("full tournament span retains its reviewed ESPN course country and source", async ({ page }) => {
       await page.route("https://site.web.api.espn.com/**", (route) => route.fulfill({ json: { events: [] }, headers: { "access-control-allow-origin": "*" } }));
+      expect(events).toHaveLength(1);
+      expect(events[0]).toMatchObject({
+        country: "MY",
+        country_source_url: "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401835174",
+        country_checked_date: "2026-11-03",
+      });
       await setup(page, events, { now: "2026-10-30T17:00:00Z" });
       for (const day of ["29", "30", "31"])
         await expect(page.locator(`#day-2026-10-${day} .event-pill`)).toHaveCount(1);
       await expect(page.locator("#day-2026-11-01 .event-pill")).toHaveCount(1);
       const cell = page.locator("#day-2026-10-30");
-      await expect(cell.locator(".event-pill .country-flag")).toHaveCount(0);
+      const monthFlag = cell.locator(".event-pill .country-flag");
+      await expect(monthFlag).toHaveCount(1);
+      await expect(monthFlag).toHaveAttribute("aria-label", "Malaysia");
+      if (width === 320) await expect(monthFlag).toBeHidden();
+      else await expect(monthFlag).toBeVisible();
       await cell.locator(".day-number").click();
       const pill = page.locator(".all-day-strip .event-pill");
       await expect(pill).toContainText("Maybank Championship");
+      await expect(pill.locator(".country-flag")).toHaveAttribute("aria-label", "Malaysia");
       await pill.click();
       const sheet = page.getByRole("dialog");
       await expect(sheet.getByRole("link", { name: "Schedule source", exact: false }))
         .toHaveAttribute("href", "https://www.espn.com/golf/leaderboard?tournamentId=401835174");
-      await expect(sheet.locator(".event-details h3")).toHaveText("Maybank Championship, Round 2");
+      await expect(sheet.locator(".event-details h3")).toContainText("Maybank Championship, Round 2");
+      await expect(sheet.locator(".event-details h3 .country-flag"))
+        .toHaveAttribute("aria-label", "Host country: Malaysia");
       await expect(sheet).toContainText("Friday, October 30, 2026");
       await expect(sheet).not.toContainText("Time TBD");
       await expect(sheet).not.toContainText("through");
       await expect(sheet).not.toContainText("Final date");
-      await expect(sheet.locator(".country-flag")).toHaveCount(0);
+      await expect(sheet.locator(".country-flag")).toHaveCount(1);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await page.screenshot({ path: `test-results/espn-golf-${width}-${colorScheme}.png` });
     });
   });
 }
+
+
+test("a golf event without a supplied country stays unflagged even with a familiar tournament identity", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.route("https://site.web.api.espn.com/**", (route) => route.fulfill({
+    json: { events: [] }, headers: { "access-control-allow-origin": "*" },
+  }));
+  await setup(page, events.map(event => ({ ...event, country: null, country_source_url: undefined, country_checked_date: undefined })),
+    { now: "2026-10-30T17:00:00Z" });
+  const cell = page.locator("#day-2026-10-30");
+  await expect(cell.locator(".event-pill .country-flag")).toHaveCount(0);
+  await cell.locator(".day-number").click();
+  const pill = page.locator(".all-day-strip .event-pill");
+  await expect(pill.locator(".country-flag")).toHaveCount(0);
+  await pill.click();
+  const sheet = page.getByRole("dialog");
+  await expect(sheet.locator(".event-details h3")).toHaveText("Maybank Championship, Round 2");
+  await expect(sheet.locator(".country-flag")).toHaveCount(0);
+  await expect(sheet.getByRole("link", { name: "Schedule source", exact: false }))
+    .toHaveAttribute("href", "https://www.espn.com/golf/leaderboard?tournamentId=401835174");
+});

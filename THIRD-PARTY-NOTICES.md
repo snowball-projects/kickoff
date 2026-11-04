@@ -2,6 +2,13 @@ kickoff original software: MIT; see LICENSE.
 
 Public schedule data is separate from the MIT software license:
 
+Country-only facts in `src/kickoff/config/event-countries.json` cite exact ESPN
+course or fixture responses and official MotoGP, FIA WEC, NBA, IndyCar and UCI
+statements. Each fact retains its source URL, checked date and response hash.
+No source grants an open data license for these facts; original schedule licenses
+and attribution remain unchanged. No page text, source responses or images are
+redistributed. A changed appointment does not inherit an old country's review.
+
 openfootball contributors — football.json; CC0 1.0 Universal.
 https://github.com/openfootball/football.json
 https://creativecommons.org/publicdomain/zero/1.0/

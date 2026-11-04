@@ -5,6 +5,8 @@ from collections import Counter, defaultdict
 from html import escape
 from pathlib import Path
 
+from kickoff.reviewed_countries import country_source_kind
+
 
 def facet(values):
     counts = Counter(value for value in values if value)
@@ -35,7 +37,11 @@ def sport_evidence(receipts, kinds, events):
     for receipt in receipts:
         if receipt["kind"] not in kinds:
             continue
-        fields = [key for key in ("clocks_added", "team_facts_added") if key in receipt]
+        fields = [
+            key
+            for key in ("clocks_added", "team_facts_added", "countries_added", "countries_withheld")
+            if key in receipt
+        ]
         if not fields:
             yield receipt
             continue
@@ -68,6 +74,13 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
             leagues = sorted({event["league"] for event in events})
             name = f"{year}-{group}.json"
             kinds = {event["source"] for event in events} | {event.get("start_time_source") for event in events}
+            kinds.update(country_source_kind(event.get("country_source_url")) for event in events)
+            identities = {event["event_id"] for event in events}
+            kinds.update(
+                receipt["kind"]
+                for receipt in bundle["input_evidence"]
+                if any(row["event_id"] in identities for row in receipt.get("countries_withheld", []))
+            )
             kinds.update(
                 p["country_source_kind"]
                 for event in events
