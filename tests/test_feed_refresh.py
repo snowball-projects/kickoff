@@ -445,3 +445,158 @@ def test_future_nba_postseason_waits_for_its_calendar_year_instead_of_duplicate_
     assert old not in calls
     feeds.nba_events(2026, plan=plan)
     assert calls.count(old) == 1
+
+
+def test_fact_identical_pending_duplicate_keeps_normal_object_citations_and_tag_order():
+    from copy import deepcopy
+
+    original = feeds.make_event(
+        source="espn",
+        league="MLS",
+        sport="soccer",
+        upstream_id="same",
+        season="2026",
+        title="Source title",
+        utc="2026-05-01T15:00Z",
+        day="2026-05-01",
+        home="Home",
+        away="Away",
+    )
+    original.tags = ["soccer", "espn"]
+    original.facts_source_url = "https://example.test/annual"
+    original.facts_checked_date = "2026-10-01"
+    original.participants[0].metadata.update(
+        logo_url="https://example.test/logo.png",
+        logo_source_url="https://example.test/annual",
+        logo_checked_date="2026-10-01",
+    )
+    candidate = deepcopy(original)
+    candidate.tags.reverse()
+    candidate.facts_source_url = "https://example.test/old-child"
+    candidate.facts_checked_date = "2026-11-04"
+    candidate.participants[0].metadata.update(
+        logo_source_url="https://example.test/old-child", logo_checked_date="2026-11-04"
+    )
+    candidate.raw_source_payload = {"different": "response layout"}
+    before = deepcopy(original.to_dict())
+    events = [original]
+    feeds._append_pending(events, [candidate])
+    assert events == [original] and events[0] is original
+    assert original.to_dict() == before
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("source", "mlb"),
+        ("status", "finished"),
+        ("calendar_date", "2026-05-02"),
+        ("start_time_utc", "2026-05-01T16:00:00Z"),
+        ("country", "FR"),
+        ("venue", "New source venue"),
+        ("result", {"kind": "podium", "rows": [{"rank": 1, "name": "Actual winner"}]}),
+    ],
+)
+def test_pending_factual_correction_is_not_hidden_by_provenance_preference(field, value):
+    from copy import deepcopy
+
+    original = feeds.make_event(
+        source="espn",
+        league="MLS",
+        sport="soccer",
+        upstream_id="same",
+        season="2026",
+        title="Source title",
+        utc="2026-05-01T15:00Z",
+        day="2026-05-01",
+        home="Home",
+        away="Away",
+    )
+    candidate = deepcopy(original)
+    setattr(candidate, field, value)
+    events = [original]
+    feeds._append_pending(events, [candidate])
+    assert events[-1] is candidate and getattr(events[-1], field) == value
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("name", "Corrected team"),
+        ("participant_id", "new-ID"),
+        ("role", "away"),
+        ("final_score", 3),
+        ("record", "10-2"),
+    ],
+)
+def test_pending_team_correction_is_retained(field, value):
+    from copy import deepcopy
+
+    original = feeds.make_event(
+        source="espn",
+        league="MLS",
+        sport="soccer",
+        upstream_id="same",
+        season="2026",
+        title="Source title",
+        utc="2026-05-01T15:00Z",
+        day="2026-05-01",
+        home="Home",
+        away="Away",
+    )
+    candidate = deepcopy(original)
+    setattr(candidate.participants[0], field, value)
+    events = [original]
+    feeds._append_pending(events, [candidate])
+    assert events[-1] is candidate and getattr(candidate.participants[0], field) == value
+
+
+@pytest.mark.parametrize("correction", [None, "score", "date", "team", "status", "logo"])
+def test_espn_pending_month_preserves_equal_normal_provenance_but_applies_real_corrections(monkeypatch, correction):
+    from copy import deepcopy
+
+    path = feeds.TEAM_LEAGUES["MLS"][0]
+    old = f"{feeds.ESPN}/{path}/scoreboard?dates=202605&limit=1000"
+    normal = f"{feeds.ESPN}/{path}/scoreboard?dates=2026&limit=1000"
+    row = finished("same", "2026-05-01T15:00Z")
+    row["competitions"][0]["competitors"][0]["team"]["logo"] = "https://a.espncdn.com/i/teamlogos/nba/500/bos.png"
+    changed = deepcopy(row)
+    if correction == "score":
+        changed["competitions"][0]["competitors"][0]["score"] = "3"
+    elif correction == "date":
+        changed["date"] = "2026-05-02T15:00Z"
+    elif correction == "team":
+        changed["competitions"][0]["competitors"][0]["team"]["displayName"] = "Corrected source team"
+    elif correction == "status":
+        changed["status"]["type"]["name"] = "STATUS_SCHEDULED"
+    elif correction == "logo":
+        changed["competitions"][0]["competitors"][0]["team"]["logo"] = (
+            "https://a.espncdn.com/i/teamlogos/nba/500/dal.png"
+        )
+    calls = []
+
+    def read(url, **_):
+        calls.append(url)
+        return {"events": [changed] if url == old else [row] if url == normal else []}
+
+    monkeypatch.setattr(feeds, "get_json", read)
+    (expected,) = feeds.espn_team_events(2026, "MLS")
+    plan = plan_for(units=[pending(old, "espn-mls-same")])
+    (actual,) = feeds.espn_team_events(2026, "MLS", plan=plan)
+    assert calls.count(old) == 1
+    if correction is None:
+        assert actual.to_dict() == expected.to_dict()
+        assert actual.facts_source_url == normal
+        assert actual.participants[0].metadata["logo_source_url"] == normal
+    else:
+        assert actual.facts_source_url == old
+        if correction == "score":
+            assert actual.participants[0].final_score == 3
+        elif correction == "date":
+            assert actual.calendar_date == "2026-05-02"
+        elif correction == "team":
+            assert actual.participants[0].name == "Corrected source team"
+        elif correction == "status":
+            assert actual.status == "scheduled"
+        else:
+            assert "dal.png" in actual.participants[0].metadata["logo_url"]

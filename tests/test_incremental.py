@@ -440,7 +440,8 @@ def test_parent_omission_or_incomplete_observation_never_reconciles_old_locator(
 
 
 @pytest.mark.parametrize("complete", [False, True])
-def test_default_timetable_status_never_erases_actual_previous_results(complete):
+@pytest.mark.parametrize("default_status", ["scheduled", "past schedule"])
+def test_default_timetable_status_never_erases_actual_previous_results(complete, default_status):
     old = event(
         result={
             "kind": "podium",
@@ -451,11 +452,11 @@ def test_default_timetable_status_never_erases_actual_previous_results(complete)
     )
     plan = RefreshPlan(baseline(events=[old], frozen=()), NOW)
     plan.observe(unit("reviewed:2026:source", unresolved={"game": "missing_confirmed_result"}, observed_at=OLD_DATE))
-    fresh = event(status="scheduled")
+    fresh = event(status=default_status)
     (merged,) = plan.public_events([fresh], 2026)
     assert merged["status"] == "finished" and merged["result"] == old["result"]
     assert merged["result"]["checked_date"] == "2026-10-30"
     assert plan.confirmed_results == ({"game"} if complete else set())
     plan.observe(unit("api-reopened", unresolved={"game": "STATUS_SCHEDULED"}, observed_at=NEW_DATE))
     (reopened,) = plan.public_events([fresh], 2026)
-    assert reopened["status"] == "scheduled" and "result" not in reopened
+    assert reopened["status"] == default_status and "result" not in reopened

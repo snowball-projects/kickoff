@@ -15,7 +15,7 @@ from kickoff.start_times import fill_missing_start_times
 from kickoff.web import _event_payload
 record = next(e for e in load_reviewed_schedules(Path('data/reviewed'), 2026)[0]
               if e.event_id == 'pfl-2026-global-08')
-feeds.get_json = lambda _: {'events': [{
+feeds.get_json = lambda _, **_options: {'events': [{
     'id': '600059277', 'date': '2026-06-28T00:00Z',
     'links': [{'href': 'https://www.espn.com/mma/fightcenter/_/id/600059277'}],
     'competitions': [{'date': '2026-06-28T00:00Z', 'timeValid': True}],

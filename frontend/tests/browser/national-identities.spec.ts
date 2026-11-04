@@ -18,7 +18,7 @@ result=[]
 for league,key,year in [('SIX_NATIONS','rugby/180659/2025',2025),
                         ('BRITISH_IRISH_LIONS','rugby/268565/2025',2025),
                         ('RUGBY_WORLD_CUP','rugby/164205/2027',2027)]:
-    with patch('kickoff.feeds.get_json',lambda _:fixture[key]):
+    with patch('kickoff.feeds.get_json',lambda _, **_options:fixture[key]):
         result.extend(_event_payload(event) for event in feeds.FEEDS[league][1](year))
 for row in national['events']:
     result.append(_event_payload(feeds._espn_event(row,league='UEFA_NATIONS_LEAGUE',sport='soccer',

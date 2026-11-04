@@ -222,7 +222,7 @@ class RefreshPlan:
             # Reviewed timetables and F1 schedule adapters have no completion
             # status. Their default appointment is not an actual source reopen.
             appointment_default = (
-                row.get("status") == "scheduled"
+                row.get("status") in {"scheduled", "past schedule"}
                 and bool(observed_reasons)
                 and all(reason == "missing_confirmed_result" for reason in observed_reasons)
             )
