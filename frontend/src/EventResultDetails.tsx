@@ -33,12 +33,12 @@ function TennisResult({ result }: { result: TennisFinalResult }) {
   </>;
 }
 
-function AthleteName({ athlete }: { athlete: WeightliftingAthlete | WeightliftingMedalist }) {
+function AthleteName({ athlete, medalist = false, mixed = false }: { athlete: WeightliftingAthlete | WeightliftingMedalist; medalist?: boolean; mixed?: boolean }) {
   const country = countryIdentity(athlete.country_code);
   return <>
     <span className="event-result-athlete-name">{country?.flag && <span role="img" aria-label={country.name}>{country.flag} </span>}{athlete.name}</span>
-    <small>{athlete.nation}{"guest" in athlete && athlete.guest && " · Guest"}</small>
-    <small>{weightliftingClass(athlete)}</small>
+    {!medalist && <small>{athlete.nation}{"guest" in athlete && athlete.guest && " · Guest"}</small>}
+    {(!medalist || mixed) && <small>{weightliftingClass(athlete)}</small>}
   </>;
 }
 
@@ -54,14 +54,14 @@ function AttemptCell({ attempt, lift, number }: { attempt: WeightliftingAttempt;
 function WeightliftingResults({ result }: { result: WeightliftingResult }) {
   const medals = [
     { label: "Total medalists", rows: weightliftingMedalists(result) },
-    { label: "Snatch medalists", rows: result.snatch_medalists },
-    { label: "Clean & jerk medalists", rows: result.clean_and_jerk_medalists },
+    { label: "Snatch medalists", rows: weightliftingMedalists(result, result.snatch_medalists) },
+    { label: "Clean & jerk medalists", rows: weightliftingMedalists(result, result.clean_and_jerk_medalists) },
   ];
   return <>
     {medals.filter(medal => medal.rows.length > 0).map(({ label, rows }) => <section aria-label={label} className="event-result-medalists" key={label}>
       <h5>{label}</h5>
       <ol>{rows.map((athlete, index) => <li key={index}>
-        <AthleteName athlete={athlete} />
+        <AthleteName athlete={athlete} medalist mixed={result.mixed_classes} />
         <small>Rank {athlete.rank}{athlete.weight_kg != null && ` · ${athlete.weight_kg} kg`}</small>
       </li>)}</ol>
     </section>)}
