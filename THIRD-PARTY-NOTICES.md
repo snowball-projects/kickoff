@@ -107,8 +107,8 @@ native emoji flag, so no substitute flag is displayed.
 OpenLigaDB (ODbL) is consulted only to find Champions League match dates; none of
 its data is republished.
 
-World Climbing and the event organizers: manually reviewed 2026 and 2027
-climbing schedule facts; no data license granted.
+World Climbing, Climbing Escalade Canada and the event organizers: manually reviewed
+2026 and 2027 climbing schedule facts; no data license granted.
 https://www.worldclimbing.com/calendar
 https://www.worldclimbing.com/terms-and-conditions/index
 Per-event official links, checked dates, source hashes, organizer timetable
@@ -119,8 +119,9 @@ and conflicting clocks remain explicit. No raw payloads, prose, results or
 media are republished; no automated collection from these sites is configured.
 
 IWF, EWF, AWF, Commonwealth Weightlifting Federation, IMWA and the Glasgow,
-Aichi-Nagoya and Lima Games organizers: reviewed weightlifting schedule facts;
-no data license granted. Per-event official links, checked dates, document
+Aichi-Nagoya and Lima Games organizers, Weightlifting House and the German
+Weightlifting Federation: reviewed weightlifting schedule facts; no data license
+granted. Per-event source links, checked dates, document
 versions, timezone and category details are in data/reviewed/2026-weightlifting.json
 and 2027-weightlifting.json. Combined timetable rows stay single sessions;
 parallel Masters platforms stay separate. Only published clocks are converted
@@ -135,6 +136,13 @@ requested revision is reviewed. Source links, actual check dates and raw-book
 hashes accompany the emitted facts. Hash receipts distinguish source document
 bytes from canonical reviewed roster facts. These facts carry their sources'
 terms, not MIT or a new CC0 grant.
+Structured pages replace document citations where they cover the same facts.
+Unmatched historical facts keep their reviewed document citations, read offline;
+no build or command downloads or parses PDFs. Country-code mappings cite the
+structured IWF federation directory and official Glasgow Games pages.
+BoxingScene, Uncrowned (Yahoo Sports), talkSPORT and Bad Left Hook supply reviewed
+boxing exclusion facts; source links and check dates stay with each exclusion.
+These sources grant no data license, and no article prose is republished.
 Junior Worlds results are a one-time reviewed factual snapshot of the official
 IWF results page: attempts, totals and explicit medal ranks, with the real review
 date and a hash identified as reviewed facts. The build never requests iwf.sport.

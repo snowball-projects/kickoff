@@ -26,6 +26,7 @@ CLIMBING_HOSTS = {
     "www.ifsc-climbing.org",
     "ifsc.results.info",
     "santafe2026.ar",
+    "climbingcanada.ca",
 }
 CLIMBING_LICENSE = "Schedule facts; no data license granted"
 CLIMBING_TERMS = "https://www.worldclimbing.com/terms-and-conditions/index"
@@ -56,6 +57,9 @@ WEIGHTLIFTING_HOSTS = {
     "resources.cwg-qbr.pulselive.com",
     "results.asiangames2026.org",
     "drive.google.com",
+    "store.weightliftinghouse.com",
+    "eustore.weightliftinghouse.com",
+    "german-weightlifting.de",
 }
 
 

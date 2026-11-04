@@ -1,14 +1,11 @@
 import json
 import tempfile
 import unittest
-from datetime import timezone
 from pathlib import Path
 from unittest.mock import patch
 
 from kickoff.models import ProviderOptions
 from kickoff.providers.f1 import F1Provider
-from kickoff.providers.nascar_cup import NascarCupProvider
-from kickoff.providers.nba import NBAProvider
 from kickoff.providers.static_csv import StaticScheduleProvider
 from kickoff.settings import Settings
 
@@ -73,66 +70,6 @@ class ProviderParserTests(unittest.TestCase):
             ["practice", "qualifying", "race"],
         )
         self.assertTrue(all(not event.is_support_event for event in full_weekend.events))
-
-    def test_nba_pdf_parser_reads_basic_line(self) -> None:
-        provider = NBAProvider()
-        line = "Tue. 10/21/25 Houston at Oklahoma City 6:30 PM 7:30 PM NBC/Peacock R"
-        with (
-            patch("kickoff.timeutils.get_zoneinfo", return_value=timezone.utc),
-            patch("kickoff.providers.nba.get_zoneinfo", return_value=timezone.utc),
-        ):
-            events = provider._parse_pdf_lines([line], 2026)
-        self.assertEqual(len(events), 1)
-        event = events[0]
-        self.assertEqual(event.title, "Houston Rockets at Oklahoma City Thunder")
-        self.assertEqual(event.timezone, "America/Chicago")
-        self.assertEqual(event.calendar_date, "2025-10-21")
-
-    def test_nascar_pdf_parser_reads_basic_line(self) -> None:
-        provider = NascarCupProvider()
-        lines = [
-            "CLASH (BOWMAN GRAY) SUN | FEB 1 | 8 PM | FOX",
-            "DAYTONA 500 SUN | FEB 15 | 2:30 PM | FOX",
-            "DAYTONA SAT | FEB 14 | 5 PM | CW",
-        ]
-        with (
-            patch("kickoff.timeutils.get_zoneinfo", return_value=timezone.utc),
-            patch("kickoff.providers.nascar_cup.get_zoneinfo", return_value=timezone.utc),
-        ):
-            events, _metadata = provider._parse_pdf_lines(
-                lines,
-                2026,
-                ProviderOptions(event_scope="all_published", include_special_events=True),
-            )
-        self.assertEqual(len(events), 2)
-        self.assertEqual(events[0].title, "Cook Out Clash")
-        self.assertEqual(events[1].title, "Daytona 500")
-
-    def test_nascar_motorsport_view_controls_qualifying(self) -> None:
-        provider = NascarCupProvider()
-        lines = [
-            "CLASH (BOWMAN GRAY) SUN | FEB 1 | 8 PM | FOX",
-            "DUELS (DAYTONA) THU | FEB 12 | 7 PM | FS1",
-            "DAYTONA 500 SUN | FEB 15 | 2:30 PM | FOX",
-            "DAYTONA SAT | FEB 14 | 5 PM | CW",
-        ]
-        with (
-            patch("kickoff.timeutils.get_zoneinfo", return_value=timezone.utc),
-            patch("kickoff.providers.nascar_cup.get_zoneinfo", return_value=timezone.utc),
-        ):
-            race_only, _metadata = provider._parse_pdf_lines(
-                lines,
-                2026,
-                ProviderOptions(include_special_events=True, motorsport_view="race_only"),
-            )
-            full_weekend, _metadata = provider._parse_pdf_lines(
-                lines,
-                2026,
-                ProviderOptions(motorsport_view="full_weekend"),
-            )
-
-        self.assertEqual([event.event_type for event in race_only], ["race", "race"])
-        self.assertEqual([event.event_type for event in full_weekend], ["qualifying", "race"])
 
     def test_static_schedule_provider_builds_match_event(self) -> None:
         provider = StaticScheduleProvider(

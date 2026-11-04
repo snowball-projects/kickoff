@@ -134,7 +134,14 @@ def test_complete_reviewed_census_has_unique_bouts_and_body_specific_evidence(ye
         else:
             assert source["kind"].startswith("boxing_") and source["publisher"]
             assert source["license"] == BOXING_LICENSE
-    assert all(e["checked_date"] == "2026-10-31" and e["source_url"] for e in payload["exclusions"])
+    recited = {
+        "Denzel Bentley vs. Endry Saavedra",
+        "Oscar Collazo vs. Neider Valdez",
+        "Denzel Bentley vs. Shane Mosley Jr.",
+    }
+    for excluded in payload["exclusions"]:
+        expected_date = "2026-11-04" if year == 2026 and excluded["event"] in recited else "2026-10-31"
+        assert excluded["checked_date"] == expected_date and excluded["source_url"]
 
 
 def test_classification_uses_belt_status_on_bout_date_and_does_not_infer_other_belts():

@@ -12,23 +12,45 @@
       "revision": "Start book rev2, 12 April 2026",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "e2c2f1b351502e7c16dda6e896f16947d21aa15d7953b4d80a3f37ca0563e00b",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
+      "sha256": "b1eb2d9631f5a19883bde4506a90de4e5561e07e3383cdcfd36421f947263831",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
     {
       "id": "panamerican-2026-official",
       "kind": "weightlifting",
-      "name": "Pan-American Weightlifting Championships official schedule",
-      "url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "name": "Reviewed structured schedule: Pan-American Weightlifting Championships schedule",
+      "url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "license": "Schedule facts; no data license granted",
-      "license_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
-      "revision": "Start book, 24 April 2026",
-      "checked_date": "2026-10-28",
-      "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "1b27fa9c857f672c43bf362718cba7e095dfb8e32e42ec7fd1d907ec21debdbf",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
-      "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
+      "license_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+      "revision": "structured-source-review-2026-11-04",
+      "checked_date": "2026-11-04",
+      "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
+      "sha256": "3eb381abf75b98437b73e7af9e43640a3f3227ab6cd99535e5107538c6edbb91",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
+      "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "evidence": [
+        {
+          "url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition identity",
+            "gender",
+            "weight class",
+            "start_date",
+            "end_date",
+            "local_time",
+            "host city where introductory text explicitly names it"
+          ]
+        },
+        {
+          "url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+          "checked_date": "2026-10-28",
+          "fields": [
+            "original timetable group/unsplit-session identity"
+          ]
+        }
+      ]
     },
     {
       "id": "african-2026-official",
@@ -54,8 +76,8 @@
       "revision": "Start book, 3 May 2026",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "b82968b28e4f949e838fd80f2c7702107bfa1430b959a703a895d43672833544",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
+      "sha256": "82272cffa6f166f64e378acbde7e5cda60ac5cef16f9ce94cc091b1caee0a612",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
     {
@@ -68,8 +90,8 @@
       "revision": "Final competition timetable",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "5695107918de2d93eed982eb669921f2c2c1d18d1deaf5ad811a8d294021b673",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
+      "sha256": "54864b3205592198fe558aa6635d1c3970febf5bd5026b69ad5bdb1742c8d122",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Meet combines Universal Cup, Oceania Senior/Junior/Youth and Commonwealth Junior/Youth. Final timetable explicitly has Women 77+kg and Men 94+kg additional sessions; these are preserved literally as +77/+94, not relabeled as adult classes. Senior results book contains only 48,53,58,63,69,77,86,+86 women / 60,65,71,79,88,94,110,+110 men.",
       "verification_source_url": "https://www.oceaniaweightlifting.com/Portals/0/news/2026/Oceania%20Senior%20Championships%20Results%20Book.pdf",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
@@ -118,16 +140,38 @@
     {
       "id": "commonwealth-games-2026-official",
       "kind": "weightlifting",
-      "name": "Commonwealth Games weightlifting official schedule",
-      "url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "name": "Reviewed structured schedule: Commonwealth Games weightlifting schedule",
+      "url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "license": "Schedule facts; no data license granted",
-      "license_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
-      "revision": "2026-07-13 v15",
-      "checked_date": "2026-10-28",
-      "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "24e880ca0271b7fc8b5d1abb99c010d17dd0ea80a258908c031b24ec94c3b1fa",
-      "hash_scope": "raw document bytes",
-      "coverage_notes": "Official event schedule lists 15 sessions, with women 53kg and 58kg together in session 5. All times local (BST, UTC+01:00). No separate Group B sessions in this published schedule. Para powerlifting is a separate sport and excluded."
+      "license_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+      "revision": "structured-source-review-2026-11-04",
+      "checked_date": "2026-11-04",
+      "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
+      "sha256": "73a254f59700586d5d46d633b0f730e4630f048b23b389197a74f2dd7a12df2e",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
+      "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "evidence": [
+        {
+          "url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition identity",
+            "gender",
+            "weight class",
+            "start_date",
+            "end_date",
+            "local_time",
+            "host city where introductory text explicitly names it"
+          ]
+        },
+        {
+          "url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+          "checked_date": "2026-10-28",
+          "fields": [
+            "venue"
+          ]
+        }
+      ]
     },
     {
       "id": "asian-games-2026-official",
@@ -157,6 +201,181 @@
       "hash_scope": "raw document bytes",
       "coverage_notes": "111 platform sessions (37 numbered time slots on 3 platforms). Combined age/bodyweight categories stay combined because the timetable supplies a platform session start, not an individual class start. Platform A/B/C labels are distinct from bodyweight Group A/B/C. The single adaptive M40 +110kg entry shares session 17/C with M45 70kg and 75kg and is retained explicitly as part of that shared session.",
       "source_page": "https://www.weightliftingevents.gr/home/schedule-technical-information"
+    },
+    {
+      "id": "asian-2026-official-structured-2",
+      "kind": "weightlifting",
+      "name": "Reviewed structured schedule: Asian Weightlifting Championships schedule",
+      "url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+      "revision": "structured-source-review-2026-11-04",
+      "checked_date": "2026-11-04",
+      "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
+      "sha256": "82b60977492d6b19f7c5944ab0c1104e67f6b392fc9535b7fcb8c6b44a85b66a",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
+      "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "evidence": [
+        {
+          "url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition identity",
+            "gender",
+            "weight class",
+            "start_date",
+            "end_date",
+            "local_time",
+            "host city where introductory text explicitly names it"
+          ]
+        },
+        {
+          "url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+          "checked_date": "2026-10-28",
+          "fields": [
+            "original timetable group/unsplit-session identity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oceania-2026-official-structured-3",
+      "kind": "weightlifting",
+      "name": "Reviewed structured schedule: Oceania Championships / Universal Weightlifting Cup schedule",
+      "url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+      "revision": "structured-source-review-2026-11-04",
+      "checked_date": "2026-11-04",
+      "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
+      "sha256": "910e63eafff56d8f9785e2c91f23808f977eba95298f9914739e9d4ec85a3522",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
+      "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "evidence": [
+        {
+          "url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition identity",
+            "gender",
+            "weight class",
+            "start_date",
+            "end_date",
+            "local_time",
+            "host city where introductory text explicitly names it"
+          ]
+        },
+        {
+          "url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+          "checked_date": "2026-10-28",
+          "fields": [
+            "original timetable group/unsplit-session identity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iwf-worlds-2026-official-structured-4",
+      "kind": "weightlifting",
+      "name": "Reviewed structured schedule: IWF World Championships schedule",
+      "url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+      "revision": "structured-source-review-2026-11-04",
+      "checked_date": "2026-11-04",
+      "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
+      "sha256": "9d3055e1bf3938a95f19c1128825bd92c9e180b262d90439b1758009bd36bdbd",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
+      "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "evidence": [
+        {
+          "url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition identity",
+            "gender",
+            "weight class",
+            "start_date",
+            "end_date",
+            "local_time",
+            "host city where introductory text explicitly names it"
+          ]
+        },
+        {
+          "url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+          "checked_date": "2026-10-28",
+          "fields": [
+            "original timetable group/unsplit-session identity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iwf-junior-worlds-2026-official-structured-5",
+      "kind": "weightlifting",
+      "name": "Reviewed structured schedule: IWF World Junior Championships schedule",
+      "url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+      "revision": "structured-source-review-2026-11-04",
+      "checked_date": "2026-11-04",
+      "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
+      "sha256": "98fd8b431d0e093fb42abac4dd6ee56b95491acf9bfb1855e6fb393b8cd21252",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
+      "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "evidence": [
+        {
+          "url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition identity",
+            "gender",
+            "weight class",
+            "start_date",
+            "end_date",
+            "local_time",
+            "host city where introductory text explicitly names it"
+          ]
+        },
+        {
+          "url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+          "checked_date": "2026-10-28",
+          "fields": [
+            "original timetable group/unsplit-session identity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "european-2026-official-structured-7",
+      "kind": "weightlifting",
+      "name": "Reviewed structured schedule: European Weightlifting Championships schedule",
+      "url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
+      "revision": "structured-source-review-2026-11-04",
+      "checked_date": "2026-11-04",
+      "changes": "Reviewed source substitution for unchanged schedule facts. Seven source-table sessions match all stored timetable facts exactly. The page gives Georgian local times explicitly; do not use the German-time column.",
+      "sha256": "46b35306b73180362ee83d962476eca370707062b967196f09c0bde3e6eff899",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
+      "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, group, start_date, end_date, local_time, Batumi city, Georgia host country. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "evidence": [
+        {
+          "url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition identity",
+            "gender",
+            "weight class",
+            "group",
+            "start_date",
+            "end_date",
+            "local_time",
+            "Batumi city",
+            "Georgia host country"
+          ]
+        }
+      ]
     }
   ],
   "events": [
@@ -406,7 +625,7 @@
       "id": "european-2026-women-s-58-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_EUROPE",
-      "source_id": "european-2026-official",
+      "source_id": "european-2026-official-structured-7",
       "event_type": "session",
       "title": "European Weightlifting Championships · Women's 58 kg, Group A",
       "start_date": "2026-04-20",
@@ -424,12 +643,15 @@
         }
       ],
       "notes": "Venue timezone: Asia/Tbilisi.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/"
+      ]
     },
     {
       "id": "european-2026-women-s-63-kg-group-c",
@@ -609,7 +831,7 @@
       "id": "european-2026-men-s-79-kg-group-b",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_EUROPE",
-      "source_id": "european-2026-official",
+      "source_id": "european-2026-official-structured-7",
       "event_type": "session",
       "title": "European Weightlifting Championships · Men's 79 kg, Group B",
       "start_date": "2026-04-22",
@@ -627,18 +849,21 @@
         }
       ],
       "notes": "Venue timezone: Asia/Tbilisi.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group B"
+      "round_or_stage": "Group B",
+      "evidence_urls": [
+        "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/"
+      ]
     },
     {
       "id": "european-2026-women-s-69-kg-group-b",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_EUROPE",
-      "source_id": "european-2026-official",
+      "source_id": "european-2026-official-structured-7",
       "event_type": "session",
       "title": "European Weightlifting Championships · Women's 69 kg, Group B",
       "start_date": "2026-04-22",
@@ -656,18 +881,21 @@
         }
       ],
       "notes": "Venue timezone: Asia/Tbilisi.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group B"
+      "round_or_stage": "Group B",
+      "evidence_urls": [
+        "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/"
+      ]
     },
     {
       "id": "european-2026-women-s-69-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_EUROPE",
-      "source_id": "european-2026-official",
+      "source_id": "european-2026-official-structured-7",
       "event_type": "session",
       "title": "European Weightlifting Championships · Women's 69 kg, Group A",
       "start_date": "2026-04-22",
@@ -685,12 +913,15 @@
         }
       ],
       "notes": "Venue timezone: Asia/Tbilisi.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/"
+      ]
     },
     {
       "id": "european-2026-men-s-79-kg-group-a",
@@ -841,7 +1072,7 @@
       "id": "european-2026-men-s-88-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_EUROPE",
-      "source_id": "european-2026-official",
+      "source_id": "european-2026-official-structured-7",
       "event_type": "session",
       "title": "European Weightlifting Championships · Men's 88 kg, Group A",
       "start_date": "2026-04-23",
@@ -859,18 +1090,21 @@
         }
       ],
       "notes": "Venue timezone: Asia/Tbilisi.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/"
+      ]
     },
     {
       "id": "european-2026-women-s-77-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_EUROPE",
-      "source_id": "european-2026-official",
+      "source_id": "european-2026-official-structured-7",
       "event_type": "session",
       "title": "European Weightlifting Championships · Women's 77 kg, Group A",
       "start_date": "2026-04-23",
@@ -888,12 +1122,15 @@
         }
       ],
       "notes": "Venue timezone: Asia/Tbilisi.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/"
+      ]
     },
     {
       "id": "european-2026-women-s-86-kg-group-b",
@@ -957,7 +1194,7 @@
       "id": "european-2026-men-s-94-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_EUROPE",
-      "source_id": "european-2026-official",
+      "source_id": "european-2026-official-structured-7",
       "event_type": "session",
       "title": "European Weightlifting Championships · Men's 94 kg, Group A",
       "start_date": "2026-04-24",
@@ -975,12 +1212,15 @@
         }
       ],
       "notes": "Venue timezone: Asia/Tbilisi.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://ewf.sport/wp-content/uploads/2026/04/EWF_Batumi_2026_Start_Book_rev2_260412_090457_compressed.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://german-weightlifting.de/meldungen/em-aktive-2026-alle-infos-und-news/"
+      ]
     },
     {
       "id": "european-2026-women-s-86-kg-group-a",
@@ -1241,12 +1481,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-60-kg",
@@ -1270,12 +1514,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-women-s-53-kg",
@@ -1299,12 +1547,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-65-kg",
@@ -1328,12 +1580,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-women-s-58-kg",
@@ -1357,12 +1613,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-71-kg",
@@ -1386,12 +1646,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-women-s-63-kg",
@@ -1415,12 +1679,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-79-kg",
@@ -1444,12 +1712,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-women-s-69-kg",
@@ -1473,12 +1745,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-88-kg",
@@ -1502,12 +1778,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-women-s-77-kg",
@@ -1531,12 +1811,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-94-kg",
@@ -1560,12 +1844,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-women-s-86-kg",
@@ -1589,12 +1877,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-110-kg",
@@ -1618,12 +1910,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-women-s-plus86-kg",
@@ -1647,12 +1943,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "panamerican-2026-men-s-plus110-kg",
@@ -1676,12 +1976,16 @@
         }
       ],
       "notes": "Venue timezone: America/Panama.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/pan-american-weightlifting-championships-2026-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2933"
+      ]
     },
     {
       "id": "african-2026-women-s-48-kg-women-s-53-kg",
@@ -2127,7 +2431,7 @@
       "id": "asian-2026-women-s-48-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Women's 48 kg",
       "start_date": "2026-05-11",
@@ -2145,18 +2449,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-60-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's 60 kg",
       "start_date": "2026-05-11",
@@ -2174,18 +2482,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-women-s-53-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Women's 53 kg",
       "start_date": "2026-05-13",
@@ -2203,18 +2515,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-65-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's 65 kg",
       "start_date": "2026-05-13",
@@ -2232,18 +2548,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-women-s-58-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Women's 58 kg",
       "start_date": "2026-05-13",
@@ -2261,18 +2581,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-71-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's 71 kg",
       "start_date": "2026-05-14",
@@ -2290,18 +2614,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-women-s-63-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Women's 63 kg",
       "start_date": "2026-05-14",
@@ -2319,18 +2647,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-79-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's 79 kg",
       "start_date": "2026-05-14",
@@ -2348,12 +2680,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-88-kg-group-b",
@@ -2388,7 +2724,7 @@
       "id": "asian-2026-women-s-69-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Women's 69 kg",
       "start_date": "2026-05-15",
@@ -2406,18 +2742,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-88-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's 88 kg, Group A",
       "start_date": "2026-05-15",
@@ -2435,12 +2775,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-110-kg-group-b",
@@ -2475,7 +2819,7 @@
       "id": "asian-2026-women-s-77-kg-women-s-86-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Women's 77 kg / Women's 86 kg",
       "start_date": "2026-05-16",
@@ -2498,18 +2842,22 @@
         }
       ],
       "notes": "Combined competition session; all listed categories share this published session start. Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-94-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's 94 kg",
       "start_date": "2026-05-16",
@@ -2527,18 +2875,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-women-s-plus86-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Women's +86 kg",
       "start_date": "2026-05-17",
@@ -2556,18 +2908,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-110-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's 110 kg, Group A",
       "start_date": "2026-05-17",
@@ -2585,18 +2941,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "asian-2026-men-s-plus110-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_ASIA",
-      "source_id": "asian-2026-official",
+      "source_id": "asian-2026-official-structured-2",
       "event_type": "session",
       "title": "Asian Weightlifting Championships · Men's +110 kg",
       "start_date": "2026-05-17",
@@ -2614,12 +2974,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Kolkata.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-asian-weightlifting-championships-results",
+        "https://awf.sport/wp-content/uploads/2026/05/START-LIST-03-MAY-26.pdf"
+      ]
     },
     {
       "id": "oceania-2026-men-s-60-kg-group-b-men-s-65-kg-group-b",
@@ -2659,7 +3023,7 @@
       "id": "oceania-2026-women-s-48-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's 48 kg",
       "start_date": "2026-04-27",
@@ -2677,18 +3041,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-men-s-60-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's 60 kg, Group A",
       "start_date": "2026-04-27",
@@ -2706,18 +3074,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-53-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's 53 kg",
       "start_date": "2026-04-27",
@@ -2735,12 +3107,16 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-58-kg-group-b-women-s-63-kg-group-b",
@@ -2780,7 +3156,7 @@
       "id": "oceania-2026-men-s-65-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's 65 kg, Group A",
       "start_date": "2026-04-28",
@@ -2798,18 +3174,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-58-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's 58 kg, Group A",
       "start_date": "2026-04-28",
@@ -2827,18 +3207,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-men-s-71-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's 71 kg",
       "start_date": "2026-04-28",
@@ -2856,12 +3240,16 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-men-s-79-kg-group-b-men-s-88-kg-group-b",
@@ -2901,7 +3289,7 @@
       "id": "oceania-2026-women-s-63-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's 63 kg, Group A",
       "start_date": "2026-04-29",
@@ -2919,18 +3307,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-men-s-79-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's 79 kg, Group A",
       "start_date": "2026-04-29",
@@ -2948,18 +3340,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-69-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's 69 kg",
       "start_date": "2026-04-29",
@@ -2977,18 +3373,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-men-s-88-kg-group-a",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's 88 kg, Group A",
       "start_date": "2026-04-29",
@@ -3006,18 +3406,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-77-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's 77 kg",
       "start_date": "2026-04-30",
@@ -3035,12 +3439,16 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-plus77-kg",
@@ -3075,7 +3483,7 @@
       "id": "oceania-2026-men-s-94-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's 94 kg",
       "start_date": "2026-04-30",
@@ -3093,18 +3501,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-86-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's 86 kg",
       "start_date": "2026-04-30",
@@ -3122,12 +3534,16 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-men-s-plus94-kg",
@@ -3162,7 +3578,7 @@
       "id": "oceania-2026-men-s-110-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's 110 kg",
       "start_date": "2026-05-01",
@@ -3180,18 +3596,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-women-s-plus86-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Women's +86 kg",
       "start_date": "2026-05-01",
@@ -3209,18 +3629,22 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "oceania-2026-men-s-plus110-kg",
       "sport": "weightlifting",
       "league": "WEIGHTLIFTING_OCEANIA",
-      "source_id": "oceania-2026-official",
+      "source_id": "oceania-2026-official-structured-3",
       "event_type": "session",
       "title": "Oceania Championships / Universal Weightlifting Cup · Men's +110 kg",
       "start_date": "2026-05-01",
@@ -3238,12 +3662,16 @@
         }
       ],
       "notes": "Venue timezone: Pacific/Apia.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D",
+      "checked_date": "2026-11-04",
+      "source_url": "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://eustore.weightliftinghouse.com/blogs/news/universal-cup-2026-weightlifting-results",
+        "https://www.commonwealthweightlifting.com/Portals/0/news/2026/FINAL%20TIME%20TABLE.pdf?ver=oJZVCC-fctN6i7YztGxTeQ%3D%3D"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-49-kg-group-b",
@@ -3307,7 +3735,7 @@
       "id": "iwf-worlds-2026-men-s-60-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's 60 kg, Group A",
       "start_date": "2026-10-27",
@@ -3325,18 +3753,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-49-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's 49 kg, Group A",
       "start_date": "2026-10-27",
@@ -3354,12 +3786,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-65-kg-group-d",
@@ -3452,7 +3888,7 @@
       "id": "iwf-worlds-2026-men-s-65-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's 65 kg, Group A",
       "start_date": "2026-10-28",
@@ -3470,12 +3906,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-53-kg-group-d-women-s-57-kg-group-b",
@@ -3573,7 +4013,7 @@
       "id": "iwf-worlds-2026-women-s-53-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's 53 kg, Group A",
       "start_date": "2026-10-29",
@@ -3591,12 +4031,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-75-kg-group-d",
@@ -3631,7 +4075,7 @@
       "id": "iwf-worlds-2026-women-s-57-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's 57 kg, Group A",
       "start_date": "2026-10-30",
@@ -3649,18 +4093,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-70-kg",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's 70 kg",
       "start_date": "2026-10-30",
@@ -3678,12 +4126,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-75-kg-group-c",
@@ -3747,7 +4199,7 @@
       "id": "iwf-worlds-2026-men-s-75-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's 75 kg, Group A",
       "start_date": "2026-10-31",
@@ -3765,12 +4217,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-61-kg-group-d",
@@ -3863,7 +4319,7 @@
       "id": "iwf-worlds-2026-women-s-61-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's 61 kg, Group A",
       "start_date": "2026-11-01",
@@ -3881,12 +4337,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-85-kg-group-d",
@@ -3979,7 +4439,7 @@
       "id": "iwf-worlds-2026-men-s-85-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's 85 kg, Group A",
       "start_date": "2026-11-02",
@@ -3997,12 +4457,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-69-kg-group-d",
@@ -4095,7 +4559,7 @@
       "id": "iwf-worlds-2026-women-s-69-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's 69 kg, Group A",
       "start_date": "2026-11-03",
@@ -4113,12 +4577,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-95-kg-group-d",
@@ -4211,7 +4679,7 @@
       "id": "iwf-worlds-2026-men-s-95-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's 95 kg, Group A",
       "start_date": "2026-11-04",
@@ -4229,12 +4697,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-77-kg-group-d",
@@ -4327,7 +4799,7 @@
       "id": "iwf-worlds-2026-women-s-77-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's 77 kg, Group A",
       "start_date": "2026-11-05",
@@ -4345,12 +4817,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-110-kg-group-c",
@@ -4443,7 +4919,7 @@
       "id": "iwf-worlds-2026-men-s-110-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's 110 kg, Group A",
       "start_date": "2026-11-06",
@@ -4461,12 +4937,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-men-s-plus110-kg-group-c",
@@ -4559,7 +5039,7 @@
       "id": "iwf-worlds-2026-women-s-86-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's 86 kg, Group A",
       "start_date": "2026-11-07",
@@ -4577,12 +5057,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-plus86-kg-group-c",
@@ -4646,7 +5130,7 @@
       "id": "iwf-worlds-2026-men-s-plus110-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Men's +110 kg, Group A",
       "start_date": "2026-11-08",
@@ -4664,18 +5148,22 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-worlds-2026-women-s-plus86-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_WORLDS",
-      "source_id": "iwf-worlds-2026-official",
+      "source_id": "iwf-worlds-2026-official-structured-4",
       "event_type": "session",
       "title": "IWF World Championships · Women's +86 kg, Group A",
       "start_date": "2026-11-08",
@@ -4693,12 +5181,16 @@
         }
       ],
       "notes": "Venue timezone: Asia/Shanghai.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-women-s-48-kg-group-b-women-s-53-kg-group-b",
@@ -4767,7 +5259,7 @@
       "id": "iwf-junior-worlds-2026-women-s-48-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's 48 kg, Group A",
       "start_date": "2026-05-02",
@@ -4785,18 +5277,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-60-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's 60 kg, Group A",
       "start_date": "2026-05-02",
@@ -4814,18 +5310,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-women-s-53-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's 53 kg, Group A",
       "start_date": "2026-05-02",
@@ -4843,12 +5343,16 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-women-s-58-kg-group-b",
@@ -4912,7 +5416,7 @@
       "id": "iwf-junior-worlds-2026-women-s-58-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's 58 kg, Group A",
       "start_date": "2026-05-03",
@@ -4930,18 +5434,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-65-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's 65 kg, Group A",
       "start_date": "2026-05-03",
@@ -4959,12 +5467,16 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-71-kg-group-b",
@@ -4999,7 +5511,7 @@
       "id": "iwf-junior-worlds-2026-men-s-71-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's 71 kg, Group A",
       "start_date": "2026-05-04",
@@ -5017,18 +5529,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-women-s-63-kg",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's 63 kg",
       "start_date": "2026-05-04",
@@ -5046,12 +5562,16 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-women-s-69-kg-group-b",
@@ -5115,7 +5635,7 @@
       "id": "iwf-junior-worlds-2026-women-s-69-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's 69 kg, Group A",
       "start_date": "2026-05-05",
@@ -5133,18 +5653,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-79-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's 79 kg, Group A",
       "start_date": "2026-05-05",
@@ -5162,12 +5686,16 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-88-kg-group-c",
@@ -5260,7 +5788,7 @@
       "id": "iwf-junior-worlds-2026-men-s-88-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's 88 kg, Group A",
       "start_date": "2026-05-06",
@@ -5278,18 +5806,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-women-s-77-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's 77 kg, Group A",
       "start_date": "2026-05-06",
@@ -5307,12 +5839,16 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-94-kg-group-b",
@@ -5376,7 +5912,7 @@
       "id": "iwf-junior-worlds-2026-women-s-86-kg",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's 86 kg",
       "start_date": "2026-05-07",
@@ -5394,18 +5930,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-94-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's 94 kg, Group A",
       "start_date": "2026-05-07",
@@ -5423,18 +5963,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-110-kg-group-a",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's 110 kg, Group A",
       "start_date": "2026-05-08",
@@ -5452,18 +5996,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": "Group A"
+      "round_or_stage": "Group A",
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-men-s-plus110-kg",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Men's +110 kg",
       "start_date": "2026-05-08",
@@ -5481,18 +6029,22 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Men"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "iwf-junior-worlds-2026-women-s-plus86-kg",
       "sport": "weightlifting",
       "league": "IWF_JUNIOR_WORLDS",
-      "source_id": "iwf-junior-worlds-2026-official",
+      "source_id": "iwf-junior-worlds-2026-official-structured-5",
       "event_type": "session",
       "title": "IWF World Junior Championships · Women's +86 kg",
       "start_date": "2026-05-08",
@@ -5510,12 +6062,16 @@
         }
       ],
       "notes": "Venue timezone: Africa/Cairo.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
       "tags": [
         "Women"
       ],
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/2026-junior-world-weightlifting-championships-results",
+        "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931"
+      ]
     },
     {
       "id": "youth-worlds-2026-women-s-44-kg",
@@ -6199,13 +6755,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-women-s-48-kg",
@@ -6229,13 +6789,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Women"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-men-s-65-kg",
@@ -6259,13 +6823,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-men-s-71-kg",
@@ -6289,13 +6857,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-women-s-53-kg-women-s-58-kg",
@@ -6324,13 +6896,17 @@
         }
       ],
       "notes": "Shared competition session 5 covers women 53kg and 58kg. Individual class start times are not supplied. Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Women"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-men-s-79-kg",
@@ -6354,13 +6930,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-men-s-88-kg",
@@ -6384,13 +6964,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-women-s-63-kg",
@@ -6414,13 +6998,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Women"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-women-s-69-kg",
@@ -6444,13 +7032,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Women"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-women-s-77-kg",
@@ -6474,13 +7066,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Women"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-men-s-94-kg",
@@ -6504,13 +7100,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-women-s-86-kg",
@@ -6534,13 +7134,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Women"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-men-s-110-kg",
@@ -6564,13 +7168,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-women-s-plus86-kg",
@@ -6594,13 +7202,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Women"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "commonwealth-games-2026-men-s-plus110-kg",
@@ -6624,13 +7236,17 @@
         }
       ],
       "notes": "Venue timezone: Europe/London.",
-      "checked_date": "2026-10-28",
-      "source_url": "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf",
+      "checked_date": "2026-11-04",
+      "source_url": "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
       "tags": [
         "Men"
       ],
       "venue": "SEC Armadillo",
-      "round_or_stage": null
+      "round_or_stage": null,
+      "evidence_urls": [
+        "https://store.weightliftinghouse.com/blogs/news/commonwealth-games-results-weightlifting-2026",
+        "https://resources.cwg-qbr.pulselive.com/qbr-commonwealth-games/document/2026/07/13/8d784373-7f4e-45ba-8f94-3341a0e209da/CWG26-Event-ALL-SPORTS_V15.pdf"
+      ]
     },
     {
       "id": "asian-games-2026-women-s-49-kg-group-b-women-s-53-kg-group-b",
