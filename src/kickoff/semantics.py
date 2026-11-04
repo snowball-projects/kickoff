@@ -18,14 +18,6 @@ COMPETITION_PHASES = {
     "support_event",
 }
 
-SPECIAL_COMPETITION_PHASES = {
-    "preseason",
-    "exhibition",
-    "special",
-    "qualifying",
-    "testing",
-}
-
 REGULAR_LIKE_PHASES = {
     "regular_season",
     "league_phase",
