@@ -1,5 +1,5 @@
 import { expect, test } from "./test";
-import { agendaToggle, chooser, event, setup } from "./fixtures";
+import { agendaToggle, chooser, event, openDayEvent, setup } from "./fixtures";
 
 const date = "2026-10-28";
 const events = [
@@ -28,8 +28,13 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       // selected families, including those behind the month's +N control.
       await page.locator(`#day-${date} .day-number`).click();
       const day = page.getByRole("region", { name: "Day events", exact: true });
-      for (const sport of ["cycling", "athletics", "cricket"]) await expect(day.locator(`.event-pill.category-${sport}`).first()).toBeVisible();
-      await day.locator(".event-pill.category-cricket").scrollIntoViewIfNeeded();
+      for (const [sport, id] of [["cycling", "stage"], ["athletics", "meeting"], ["cricket", "cricket"]]) {
+        const source = events.find(item => item.event_id === id)!;
+        await expect(day.locator(`.event-pill.category-${sport}[data-event-id="${source.event_id}"]`)).toBeAttached();
+        const control = await openDayEvent(page, source);
+        await page.getByRole("button", { name: "Close", exact: true }).click();
+        await control.scrollIntoViewIfNeeded();
+      }
       await page.screenshot({ path: `test-results/wikipedia-day-${width}-${colorScheme}.png` });
       await page.getByRole("button", { name: "Back to October", exact: true }).click();
       await agendaToggle(page).click();

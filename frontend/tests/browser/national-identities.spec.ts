@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "./test";
-import { agendaToggle, event, setup } from "./fixtures";
+import { agendaToggle, event, openDayEvent, setup } from "./fixtures";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const python = existsSync(`${root}.venv/bin/python`) ? `${root}.venv/bin/python` : "python";
@@ -41,7 +41,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
         // Each historical source date is viewed within the rolling window.
         await setup(page, events, { now: `${source.calendar_date}T17:00:00Z` });
         await page.locator(`#day-${source.calendar_date} .day-number`).click();
-        await page.locator(`.timeline-events [data-event-id="${id}"]`).click();
+        await openDayEvent(page, source);
         const details = page.locator(".event-details");
         await expect(details.locator("h3")).toContainText(source.title);
         await expect(details.getByRole("img", { name: flag, exact: true })).toBeVisible();
