@@ -1,0 +1,1148 @@
+{
+  "league": "WEIGHTLIFTING_AFRICA",
+  "year": 2026,
+  "source_url": "https://iwf.sport/wp-content/uploads/downloads/2026/05/StartbookAfrican-Senior-Championships-_AC__2026.pdf",
+  "revision": "Start book, printed 13 May 2026 15:52:28",
+  "checked_date": "2026-11-04",
+  "collection_method": "Complete official web-readable start-book roster reviewed; ordinary PDF download returns HTTP 403. No automatic revision access; not a daily PDF check.",
+  "hash_scope": "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes",
+  "sha256": "b199a089b5cb3a1c0afafa6484d1480f8b4c146e280cdf27a1705b1d5088a1c2",
+  "session_count": 15,
+  "athlete_count": 126,
+  "sessions": [
+    {
+      "event_id": "african-2026-women-s-48-kg-women-s-53-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "48",
+          "group": "A"
+        },
+        {
+          "gender": "women",
+          "weight_class": "53",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 12,
+      "entries": [
+        {
+          "lot": "12",
+          "name": "TIAVINA ANDRIAMITANTSOA Fabia",
+          "nation": "MAD",
+          "weight": "48",
+          "total": 135
+        },
+        {
+          "lot": "66",
+          "name": "RAKOTONOELY Tendry Tsiky Mahay Tia",
+          "nation": "MAD",
+          "weight": "48",
+          "total": 135
+        },
+        {
+          "lot": "69",
+          "name": "KHADHRAOUI Maissa",
+          "nation": "TUN",
+          "weight": "48",
+          "total": 140
+        },
+        {
+          "lot": "99",
+          "name": "ODUOR Janet Atieno",
+          "nation": "KEN",
+          "weight": "48",
+          "total": 120
+        },
+        {
+          "lot": "127",
+          "name": "NYONG Ruth Asuquo",
+          "nation": "NGR",
+          "weight": "48",
+          "total": 170
+        },
+        {
+          "lot": "130",
+          "name": "MATELOT Marie Maeva",
+          "nation": "MRI",
+          "weight": "48",
+          "total": 110
+        },
+        {
+          "lot": "6",
+          "name": "DIDIH Onome Omolola",
+          "nation": "NGR",
+          "weight": "53",
+          "total": 190
+        },
+        {
+          "lot": "8",
+          "name": "TALJAARD Johanni",
+          "nation": "RSA",
+          "weight": "53",
+          "total": 180
+        },
+        {
+          "lot": "23",
+          "name": "MOHAMED ALI Merna",
+          "nation": "EGY",
+          "weight": "53",
+          "total": 175
+        },
+        {
+          "lot": "38",
+          "name": "BEN WADA Tasnime",
+          "nation": "TUN",
+          "weight": "53",
+          "total": 160
+        },
+        {
+          "lot": "103",
+          "name": "AGOZI Yayra Akos",
+          "nation": "GHA",
+          "weight": "53",
+          "total": 120
+        },
+        {
+          "lot": "105",
+          "name": "JACOBSEN Jesse Grace",
+          "nation": "RSA",
+          "weight": "53",
+          "total": 143
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-women-s-58-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "58",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 6,
+      "entries": [
+        {
+          "lot": "22",
+          "name": "AOUADI Eya",
+          "nation": "TUN",
+          "weight": "58",
+          "total": 190
+        },
+        {
+          "lot": "39",
+          "name": "FAJRESLAM Maha",
+          "nation": "MAR",
+          "weight": "58",
+          "total": 160
+        },
+        {
+          "lot": "75",
+          "name": "RAFIATU FOLASHADE Lawal",
+          "nation": "NGR",
+          "weight": "58",
+          "total": 220
+        },
+        {
+          "lot": "77",
+          "name": "ESSAM HELMI Noura",
+          "nation": "EGY",
+          "weight": "58",
+          "total": 195
+        },
+        {
+          "lot": "84",
+          "name": "NTUMI Winnifred",
+          "nation": "GHA",
+          "weight": "58",
+          "total": 140
+        },
+        {
+          "lot": "141",
+          "name": "MUTESI Shabra",
+          "nation": "UGA",
+          "weight": "58",
+          "total": 140
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-60-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "60",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "9",
+          "name": "ALEX STEPHEN Donfack Ngaban",
+          "nation": "CMR",
+          "weight": "60",
+          "total": 210
+        },
+        {
+          "lot": "26",
+          "name": "WERTHI Idris",
+          "nation": "TUN",
+          "weight": "60",
+          "total": 230
+        },
+        {
+          "lot": "42",
+          "name": "RAKOTOMANDIMBY Havotriniaina Joseph",
+          "nation": "MAD",
+          "weight": "60",
+          "total": 230
+        },
+        {
+          "lot": "62",
+          "name": "BRINI Amen Allah",
+          "nation": "TUN",
+          "weight": "60",
+          "total": 230
+        },
+        {
+          "lot": "87",
+          "name": "MALIBE Eric",
+          "nation": "GHA",
+          "weight": "60",
+          "total": 142
+        },
+        {
+          "lot": "104",
+          "name": "MUNYENGWA Thabo",
+          "nation": "BOT",
+          "weight": "60",
+          "total": 150
+        },
+        {
+          "lot": "112",
+          "name": "NIYOYITA Davis",
+          "nation": "UGA",
+          "weight": "60",
+          "total": 210
+        },
+        {
+          "lot": "114",
+          "name": "AMUNGA Johsua",
+          "nation": "KEN",
+          "weight": "60",
+          "total": 230
+        },
+        {
+          "lot": "126",
+          "name": "RAMIARIMANANA Jean Elariont Ricardo",
+          "nation": "MAD",
+          "weight": "60",
+          "total": 230
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-women-s-63-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "63",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 7,
+      "entries": [
+        {
+          "lot": "4",
+          "name": "MUNDELL Alexandra Pearl",
+          "nation": "RSA",
+          "weight": "63",
+          "total": 171
+        },
+        {
+          "lot": "43",
+          "name": "KERUBO Mercy",
+          "nation": "KEN",
+          "weight": "63",
+          "total": 170
+        },
+        {
+          "lot": "59",
+          "name": "RAHMOUNI Chaima",
+          "nation": "TUN",
+          "weight": "63",
+          "total": 205
+        },
+        {
+          "lot": "101",
+          "name": "RANDRIAMPARANY Soloniaina Chaina",
+          "nation": "MAD",
+          "weight": "63",
+          "total": 180
+        },
+        {
+          "lot": "135",
+          "name": "AYODELE Ruth Imoleayo",
+          "nation": "NGR",
+          "weight": "63",
+          "total": 210
+        },
+        {
+          "lot": "138",
+          "name": "DRIS Inas",
+          "nation": "ALG",
+          "weight": "63",
+          "total": 155
+        },
+        {
+          "lot": "139",
+          "name": "AMERANE Aya",
+          "nation": "MAR",
+          "weight": "63",
+          "total": 170
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-65-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "65",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 11,
+      "entries": [
+        {
+          "lot": "14",
+          "name": "BOUHAJBA Mohamed Amine",
+          "nation": "TUN",
+          "weight": "65",
+          "total": 280
+        },
+        {
+          "lot": "25",
+          "name": "HUSSAIN ALI HUSSAIN Ahmed",
+          "nation": "EGY",
+          "weight": "65",
+          "total": 250
+        },
+        {
+          "lot": "35",
+          "name": "OKINYI Ian Adongo",
+          "nation": "KEN",
+          "weight": "65",
+          "total": 195
+        },
+        {
+          "lot": "36",
+          "name": "SNYMAN Zachary-Paul",
+          "nation": "RSA",
+          "weight": "65",
+          "total": 215
+        },
+        {
+          "lot": "46",
+          "name": "KATENDE Devis",
+          "nation": "UGA",
+          "weight": "65",
+          "total": 240
+        },
+        {
+          "lot": "50",
+          "name": "KIMBOWA Shaban",
+          "nation": "UGA",
+          "weight": "65",
+          "total": 210
+        },
+        {
+          "lot": "54",
+          "name": "KONDEH Francis",
+          "nation": "SLE",
+          "weight": "65",
+          "total": 200
+        },
+        {
+          "lot": "82",
+          "name": "MOHAMED MAHMOUD Noureldin",
+          "nation": "EGY",
+          "weight": "65",
+          "total": 300
+        },
+        {
+          "lot": "85",
+          "name": "FAVOUR OMOVIGHO Agboro",
+          "nation": "NGR",
+          "weight": "65",
+          "total": 265
+        },
+        {
+          "lot": "100",
+          "name": "KAMARA Lamin",
+          "nation": "SLE",
+          "weight": "65",
+          "total": 210
+        },
+        {
+          "lot": "109",
+          "name": "AHMED Ahmed Mohamed",
+          "nation": "SOM",
+          "weight": "65",
+          "total": 100
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-women-s-69-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "69",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "29",
+          "name": "GUESMI Jawaher",
+          "nation": "TUN",
+          "weight": "69",
+          "total": 210
+        },
+        {
+          "lot": "45",
+          "name": "ABDELNASER RAMADAN Shaima",
+          "nation": "EGY",
+          "weight": "69",
+          "total": 190
+        },
+        {
+          "lot": "57",
+          "name": "SELEKA Shamel",
+          "nation": "RSA",
+          "weight": "69",
+          "total": 163
+        },
+        {
+          "lot": "68",
+          "name": "ROSHDY FAROUK ALI Hagar",
+          "nation": "EGY",
+          "weight": "69",
+          "total": 185
+        },
+        {
+          "lot": "70",
+          "name": "LENT Ketty",
+          "nation": "MRI",
+          "weight": "69",
+          "total": 190
+        },
+        {
+          "lot": "83",
+          "name": "YUSUF lslamiyat Adebukolal",
+          "nation": "NGR",
+          "weight": "69",
+          "total": 230
+        },
+        {
+          "lot": "94",
+          "name": "MOLEKO Moelo Selina",
+          "nation": "LES",
+          "weight": "69",
+          "total": 100
+        },
+        {
+          "lot": "95",
+          "name": "NYON Rosine Muriel",
+          "nation": "CMR",
+          "weight": "69",
+          "total": 170
+        },
+        {
+          "lot": "137",
+          "name": "JEFFERIES Laryne",
+          "nation": "RSA",
+          "weight": "69",
+          "total": 205
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-71-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "71",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "3",
+          "name": "UMOAFIA Joseph Edidiong",
+          "nation": "NGR",
+          "weight": "71",
+          "total": 310
+        },
+        {
+          "lot": "11",
+          "name": "Makhanya Mokhethi Josph",
+          "nation": "les",
+          "weight": "71",
+          "total": 173
+        },
+        {
+          "lot": "48",
+          "name": "EL MOCTAR ELY Ehene",
+          "nation": "MTN",
+          "weight": "71",
+          "total": 165
+        },
+        {
+          "lot": "58",
+          "name": "MASOUD Mohammed Sameer",
+          "nation": "LBA",
+          "weight": "71",
+          "total": 240
+        },
+        {
+          "lot": "71",
+          "name": "SAID MOHAMED AHMED Ahmed",
+          "nation": "EGY",
+          "weight": "71",
+          "total": 310
+        },
+        {
+          "lot": "92",
+          "name": "AMO BOATENG Emmanuel",
+          "nation": "GHA",
+          "weight": "71",
+          "total": 255
+        },
+        {
+          "lot": "102",
+          "name": "MBAYE Bassirou",
+          "nation": "SEN",
+          "weight": "71",
+          "total": 180
+        },
+        {
+          "lot": "106",
+          "name": "GERARD THIBAULT Abeussa",
+          "nation": "CMR",
+          "weight": "71",
+          "total": 270
+        },
+        {
+          "lot": "116",
+          "name": "RACHIDI Ismail",
+          "nation": "MAR",
+          "weight": "71",
+          "total": 240
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-women-s-77-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "77",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "53",
+          "name": "GOMIS Clarisse",
+          "nation": "SEN",
+          "weight": "77",
+          "total": 175
+        },
+        {
+          "lot": "55",
+          "name": "MATAM Madeleine Ornella",
+          "nation": "CMR",
+          "weight": "77",
+          "total": 180
+        },
+        {
+          "lot": "63",
+          "name": "ECH-CHACHOUIY Ech-Chaibia",
+          "nation": "MAR",
+          "weight": "77",
+          "total": 180
+        },
+        {
+          "lot": "79",
+          "name": "LIADI Taiwo",
+          "nation": "NGR",
+          "weight": "77",
+          "total": 220
+        },
+        {
+          "lot": "81",
+          "name": "MELCK Martine",
+          "nation": "RSA",
+          "weight": "77",
+          "total": 179
+        },
+        {
+          "lot": "86",
+          "name": "ENOCK Rachael Achieng",
+          "nation": "KEN",
+          "weight": "77",
+          "total": 190
+        },
+        {
+          "lot": "91",
+          "name": "HOSNI Eya",
+          "nation": "TUN",
+          "weight": "77",
+          "total": 200
+        },
+        {
+          "lot": "119",
+          "name": "FATHI TAHA Roufida",
+          "nation": "EGY",
+          "weight": "77",
+          "total": 220
+        },
+        {
+          "lot": "129",
+          "name": "BOUABDALLAH Douaa Nawal",
+          "nation": "ALG",
+          "weight": "77",
+          "total": 190
+        },
+        {
+          "lot": "142",
+          "name": "TAFTAFI Sanae",
+          "nation": "MAR",
+          "weight": "77",
+          "total": 180
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-79-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "79",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "15",
+          "name": "PHILLIPS Jon-Antohein",
+          "nation": "RSA",
+          "weight": "79",
+          "total": 290
+        },
+        {
+          "lot": "32",
+          "name": "AUGUSTINE Terence Nigel",
+          "nation": "MRI",
+          "weight": "79",
+          "total": 280
+        },
+        {
+          "lot": "34",
+          "name": "NJOBVU Joseph",
+          "nation": "ZAM",
+          "weight": "79",
+          "total": 200
+        },
+        {
+          "lot": "52",
+          "name": "OPADEJI Adedapo Adeleke",
+          "nation": "NGR",
+          "weight": "79",
+          "total": 290
+        },
+        {
+          "lot": "60",
+          "name": "SOKOUDJOU SINETANG Roger Brest",
+          "nation": "CMR",
+          "weight": "79",
+          "total": 270
+        },
+        {
+          "lot": "93",
+          "name": "SHALABI Mohamed Ali",
+          "nation": "LBA",
+          "weight": "79",
+          "total": 250
+        },
+        {
+          "lot": "121",
+          "name": "JAKALASE Innocent",
+          "nation": "BOT",
+          "weight": "79",
+          "total": 220
+        },
+        {
+          "lot": "125",
+          "name": "ANDRIATSITOHAINA Tojonirina Alain",
+          "nation": "MAD",
+          "weight": "79",
+          "total": 310
+        },
+        {
+          "lot": "131",
+          "name": "SALEM Ayoub",
+          "nation": "TUN",
+          "weight": "79",
+          "total": 315
+        },
+        {
+          "lot": "143",
+          "name": "BOUAMATOU Abdellahi",
+          "nation": "MTN",
+          "weight": "79",
+          "total": 150
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-women-s-86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 6,
+      "entries": [
+        {
+          "lot": "1",
+          "name": "SAMIR ELSAYED Sara",
+          "nation": "EGY",
+          "weight": "86",
+          "total": 260
+        },
+        {
+          "lot": "19",
+          "name": "TAIWO Mary Osijo",
+          "nation": "NGR",
+          "weight": "86",
+          "total": 223
+        },
+        {
+          "lot": "74",
+          "name": "ONGONGA Juliana Anayngo",
+          "nation": "KEN",
+          "weight": "86",
+          "total": 175
+        },
+        {
+          "lot": "80",
+          "name": "NAOUI Zeineb",
+          "nation": "TUN",
+          "weight": "86",
+          "total": 200
+        },
+        {
+          "lot": "96",
+          "name": "DJIFACK MA'ATEMKENG ZOMGOUA Rayssa",
+          "nation": "CMR",
+          "weight": "86",
+          "total": 180
+        },
+        {
+          "lot": "122",
+          "name": "SMITH Cheyenne Lee Maria",
+          "nation": "RSA",
+          "weight": "86",
+          "total": 178
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-88-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "88",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 10,
+      "entries": [
+        {
+          "lot": "24",
+          "name": "SOARES SANCA Eder Isaias",
+          "nation": "CPV",
+          "weight": "88",
+          "total": 200
+        },
+        {
+          "lot": "37",
+          "name": "MOHAMED YOUNES Abdelrahman",
+          "nation": "EGY",
+          "weight": "88",
+          "total": 380
+        },
+        {
+          "lot": "40",
+          "name": "KATZAV Daniel",
+          "nation": "RSA",
+          "weight": "88",
+          "total": 259
+        },
+        {
+          "lot": "47",
+          "name": "ALIOUA Said",
+          "nation": "MAR",
+          "weight": "88",
+          "total": 320
+        },
+        {
+          "lot": "65",
+          "name": "ALZINTANI Mohammed Alsharif",
+          "nation": "LBA",
+          "weight": "88",
+          "total": 320
+        },
+        {
+          "lot": "72",
+          "name": "PANDOO Dinesh",
+          "nation": "MRI",
+          "weight": "88",
+          "total": 290
+        },
+        {
+          "lot": "73",
+          "name": "ATETE Frankline Omondi",
+          "nation": "KEN",
+          "weight": "88",
+          "total": 240
+        },
+        {
+          "lot": "89",
+          "name": "ALBAOUR Abdulmalik Aboubakr",
+          "nation": "LBA",
+          "weight": "88",
+          "total": 240
+        },
+        {
+          "lot": "128",
+          "name": "SWART William",
+          "nation": "RSA",
+          "weight": "88",
+          "total": 328
+        },
+        {
+          "lot": "132",
+          "name": "BENYE Jeremiah Teng-Gbul",
+          "nation": "GHA",
+          "weight": "88",
+          "total": 274
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-94-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "94",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 8,
+      "entries": [
+        {
+          "lot": "5",
+          "name": "MADANAMOOTHOO Jack Dorian",
+          "nation": "MRI",
+          "weight": "94",
+          "total": 270
+        },
+        {
+          "lot": "13",
+          "name": "TOUAIRI Faris",
+          "nation": "ALG",
+          "weight": "94",
+          "total": 340
+        },
+        {
+          "lot": "27",
+          "name": "DANIEL Onana Tanga",
+          "nation": "CMR",
+          "weight": "94",
+          "total": 320
+        },
+        {
+          "lot": "28",
+          "name": "DU PLOOY Nicolaas",
+          "nation": "RSA",
+          "weight": "94",
+          "total": 290
+        },
+        {
+          "lot": "33",
+          "name": "IBRAHIM IBRAHIM ALY Karim",
+          "nation": "EGY",
+          "weight": "94",
+          "total": 380
+        },
+        {
+          "lot": "44",
+          "name": "OSEI Christopher Forrester",
+          "nation": "GHA",
+          "weight": "94",
+          "total": 325
+        },
+        {
+          "lot": "110",
+          "name": "SAYED ASHOUR ALI Ahmed",
+          "nation": "EGY",
+          "weight": "94",
+          "total": 370
+        },
+        {
+          "lot": "113",
+          "name": "MASHEGO Vuyani",
+          "nation": "RSA",
+          "weight": "94",
+          "total": 298
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-women-s-plus86-kg",
+      "categories": [
+        {
+          "gender": "women",
+          "weight_class": "+86",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 4,
+      "entries": [
+        {
+          "lot": "10",
+          "name": "MOMENI Estelle Adele",
+          "nation": "CMR",
+          "weight": "+86",
+          "total": 170
+        },
+        {
+          "lot": "49",
+          "name": "ABDELKADER SALAHELDIN Mayar",
+          "nation": "EGY",
+          "weight": "+86",
+          "total": 220
+        },
+        {
+          "lot": "123",
+          "name": "AGBAH-HUGHES Marie-Korkor",
+          "nation": "GHA",
+          "weight": "+86",
+          "total": 140
+        },
+        {
+          "lot": "134",
+          "name": "MAHMOUD SADEK Fatma",
+          "nation": "EGY",
+          "weight": "+86",
+          "total": 230
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-110-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 9,
+      "entries": [
+        {
+          "lot": "18",
+          "name": "JUNIOR PÉRICLEX Ngadja Nyabeyeu",
+          "nation": "CMR",
+          "weight": "110",
+          "total": 345
+        },
+        {
+          "lot": "30",
+          "name": "HOSNY ELSAYED HASSAN Mahmoud",
+          "nation": "EGY",
+          "weight": "110",
+          "total": 370
+        },
+        {
+          "lot": "61",
+          "name": "ADJEI Abdul Salim Adjetey",
+          "nation": "GHA",
+          "weight": "110",
+          "total": 280
+        },
+        {
+          "lot": "76",
+          "name": "NJIE Muhammed",
+          "nation": "GAM",
+          "weight": "110",
+          "total": 210
+        },
+        {
+          "lot": "88",
+          "name": "GAMAL MOHAMED Ahmed",
+          "nation": "EGY",
+          "weight": "110",
+          "total": 370
+        },
+        {
+          "lot": "117",
+          "name": "ENGONO ESONO AYENDONO Jose Juan",
+          "nation": "GEQ",
+          "weight": "110",
+          "total": 200
+        },
+        {
+          "lot": "120",
+          "name": "TOUAIRI Aymen",
+          "nation": "ALG",
+          "weight": "110",
+          "total": 340
+        },
+        {
+          "lot": "124",
+          "name": "OJEDE Steven",
+          "nation": "UGA",
+          "weight": "110",
+          "total": 250
+        },
+        {
+          "lot": "140",
+          "name": "JAMMEH Alieu",
+          "nation": "GAM",
+          "weight": "110",
+          "total": 200
+        }
+      ]
+    },
+    {
+      "event_id": "african-2026-men-s-plus110-kg",
+      "categories": [
+        {
+          "gender": "men",
+          "weight_class": "+110",
+          "group": "A"
+        }
+      ],
+      "athlete_count": 6,
+      "entries": [
+        {
+          "lot": "16",
+          "name": "REEDERS Christoffel",
+          "nation": "RSA",
+          "weight": "+110",
+          "total": 312
+        },
+        {
+          "lot": "41",
+          "name": "JOSEPH Lucky",
+          "nation": "NGR",
+          "weight": "+110",
+          "total": 315
+        },
+        {
+          "lot": "51",
+          "name": "BOUAMR Bilal",
+          "nation": "MAR",
+          "weight": "+110",
+          "total": 360
+        },
+        {
+          "lot": "67",
+          "name": "TRAORE Kekoura",
+          "nation": "GUI",
+          "weight": "+110",
+          "total": 250
+        },
+        {
+          "lot": "97",
+          "name": "BACHA Aymen",
+          "nation": "TUN",
+          "weight": "+110",
+          "total": 360
+        },
+        {
+          "lot": "133",
+          "name": "TUMUKUNDE Dan",
+          "nation": "UGA",
+          "weight": "+110",
+          "total": 210
+        }
+      ]
+    }
+  ],
+  "source_count_discrepancy": {
+    "statistics": 141,
+    "timetable_and_rosters": 126,
+    "nation_differences": [
+      {
+        "nation": "EGY",
+        "statistics": 21,
+        "rosters": 16,
+        "by_gender": {
+          "women": {
+            "statistics": 10,
+            "rosters": 8
+          },
+          "men": {
+            "statistics": 11,
+            "rosters": 8
+          }
+        }
+      },
+      {
+        "nation": "GRE",
+        "statistics": 6,
+        "rosters": 0,
+        "by_gender": {
+          "women": {
+            "statistics": 4,
+            "rosters": 0
+          },
+          "men": {
+            "statistics": 2,
+            "rosters": 0
+          }
+        }
+      },
+      {
+        "nation": "LBA",
+        "statistics": 8,
+        "rosters": 4,
+        "by_gender": {
+          "women": {
+            "statistics": 0,
+            "rosters": 0
+          },
+          "men": {
+            "statistics": 8,
+            "rosters": 4
+          }
+        }
+      }
+    ],
+    "reason": "Not stated by source. No entries invented; every timetable count and actual roster row accounted for."
+  }
+}

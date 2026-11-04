@@ -266,8 +266,41 @@ def reviewed_categories(row: dict) -> SessionKey:
     )
 
 
+ROSTER_HASH_SCOPE = "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes"
+
+
+def roster_hash(sessions: list[dict]) -> str:
+    return hashlib.sha256(json.dumps(sessions, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def reviewed_start_book(book: dict, reviewed_dir: Path) -> tuple[list[Session], dict]:
+    """Read audited factual cohorts, keeping their actual review date and revision."""
+    snapshot = json.loads((reviewed_dir / book["snapshot_file"]).read_text())
+    if (snapshot["league"], snapshot["year"]) != (book["league"], book["year"]):
+        raise ValueError("Reviewed roster has the wrong competition")
+    if snapshot["hash_scope"] != ROSTER_HASH_SCOPE or snapshot["sha256"] != roster_hash(snapshot["sessions"]):
+        raise ValueError("Reviewed roster canonical-fact hash does not match")
+    datetime.fromisoformat(snapshot["checked_date"])
+    parsed = []
+    lots = []
+    for row in snapshot["sessions"]:
+        key = reviewed_categories(row)
+        entries = [Entry(**entry, page=0) for entry in row["entries"]]
+        if not entries or len(entries) != row["athlete_count"]:
+            raise ValueError("Reviewed roster athlete count does not match")
+        if any(entry.total <= 0 or sum(weight == entry.weight for _, weight, _ in key) != 1 for entry in entries):
+            raise ValueError("Reviewed athlete class or entry total contradicts session")
+        parsed.append(Session(key, entries, len(entries)))
+        lots.extend(entry.lot for entry in entries)
+    if len(parsed) != snapshot["session_count"] or len(lots) != snapshot["athlete_count"]:
+        raise ValueError("Reviewed roster book counts do not match")
+    if len(set(lots)) != len(lots) or len({row["event_id"] for row in snapshot["sessions"]}) != len(parsed):
+        raise ValueError("Reviewed roster contains duplicate athletes or sessions")
+    return parsed, snapshot
+
+
 class StartListLoader:
-    """One run's optional reads. No retries; at most three supported books/six URLs.
+    """One run's optional reads. No retries; at most two URLs per configured live book.
 
     The start budget and short socket timeout limit ordinary outages. They are not
     a hard wall-clock deadline against a server that slowly drips HTTP headers.
@@ -279,6 +312,7 @@ class StartListLoader:
         self.deadline = None
         self.budget = budget
         self.timeout = timeout
+        self.max_requests = 2 * sum(book["format"] != "reviewed-roster" for book in catalog()["books"])
         self.cache: dict[str, bytes | None] = {}
         self.checked: dict[str, str] = {}
 
@@ -290,7 +324,7 @@ class StartListLoader:
         self.cache[url] = None
         try:
             remaining = self.deadline - self.clock()
-            if remaining <= 0 or len(self.cache) > 6:
+            if remaining <= 0 or len(self.cache) > self.max_requests:
                 raise TimeoutError("Optional start-list budget exhausted")
             if self.read:
                 content = self.read(url)
@@ -321,31 +355,43 @@ class StartListLoader:
         for book in relevant:
             cohort = [event for event in events if event.league == book["league"] and event.event_type == "session"]
             try:
-                landing = self._read(book["landing_url"])
-                if landing is None:
-                    continue
-                links = Links()
-                links.feed(landing.decode("utf-8"))
-                urls = {
-                    urljoin(book["landing_url"], href)
-                    for href in links.hrefs
-                    if re.search(book["link_pattern"], href, re.IGNORECASE)
-                }
-                if len(urls) != 1:
-                    raise ValueError("Latest official start book is absent or ambiguous")
-                url = urls.pop()
-                if urlsplit(url).scheme != "https" or urlsplit(url).netloc != urlsplit(book["landing_url"]).netloc:
-                    raise ValueError("Start book is not on its reviewed publisher host")
-                content = self._read(url)
-                if content is None:
-                    continue
-                parsed = parse_start_book(content, book["format"])
+                provenance = {}
+                if book["format"] == "reviewed-roster":
+                    parsed, snapshot = reviewed_start_book(book, reviewed_dir)
+                    if {row["event_id"] for row in snapshot["sessions"]} != {event.event_id for event in cohort}:
+                        raise ValueError("Reviewed roster does not match every current session identity")
+                    url, checked, sha = snapshot["source_url"], snapshot["checked_date"], snapshot["sha256"]
+                    provenance = {
+                        "hash_scope": snapshot["hash_scope"],
+                        "revision": snapshot["revision"],
+                        "collection_method": snapshot["collection_method"],
+                    }
+                else:
+                    landing = self._read(book["landing_url"])
+                    if landing is None:
+                        continue
+                    links = Links()
+                    links.feed(landing.decode("utf-8"))
+                    urls = {
+                        urljoin(book["landing_url"], href)
+                        for href in links.hrefs
+                        if re.search(book["link_pattern"], href, re.IGNORECASE)
+                    }
+                    if len(urls) != 1:
+                        raise ValueError("Latest official start book is absent or ambiguous")
+                    url = urls.pop()
+                    if urlsplit(url).scheme != "https" or urlsplit(url).netloc != urlsplit(book["landing_url"]).netloc:
+                        raise ValueError("Start book is not on its reviewed publisher host")
+                    content = self._read(url)
+                    if content is None:
+                        continue
+                    parsed = parse_start_book(content, book["format"])
+                    checked = self.checked[url]
+                    sha = hashlib.sha256(content).hexdigest()
                 by_category = {session.categories: session for session in parsed}
                 keys = [reviewed_categories(definitions[event.event_id]) for event in cohort]
                 if len(set(keys)) != len(keys) or set(keys) != by_category.keys():
                     raise ValueError("Start book does not match every reviewed session")
-                checked = self.checked[url]
-                sha = hashlib.sha256(content).hexdigest()
                 replacements, omitted = [], []
                 for event, key in zip(cohort, keys, strict=True):
                     if by_category[key].issue:
@@ -363,7 +409,7 @@ class StartListLoader:
                             "start_list_source_url": url,
                             "start_list_checked_date": checked,
                         }
-                        country = specs["country_codes"].get(entry.nation)
+                        country = specs["country_codes"].get(entry.nation.upper())
                         if country:
                             metadata.update(
                                 country_code=country["code"],
@@ -391,6 +437,7 @@ class StartListLoader:
                         "license_url": url,
                         "checked_date": checked,
                         "sha256": sha,
+                        **provenance,
                         "changes": "Factual athlete names, source nation codes and entry totals from the complete current official start lists; no birth dates or source pages copied.",
                     }
                 )
@@ -402,6 +449,7 @@ class StartListLoader:
                         "sha256": sha,
                         "checked_date": checked,
                         "sessions": len(replacements),
+                        **provenance,
                         "parsed_sessions": len(parsed),
                         "parsed_athletes": sum(len(session.entries) for session in parsed),
                         "omitted_sessions": omitted,
