@@ -111,7 +111,7 @@ test("measured reductions keep logos, restore failed-logo names, and respond to 
 test("measurement clones and offscreen teams never request logos, and large all-day strips stay reachable", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 700 });
   const requested: string[] = [];
-  page.on("request", request => { if (request.url().startsWith("https://a.espncdn.com")) requested.push(request.url()); });
+  page.on("request", request => { if (new URL(request.url()).origin === "https://a.espncdn.com") requested.push(request.url()); });
   await setup(page, Array.from({ length: 30 }, (_, index) => fixture(`all-${index}`, "soccer", "EPL", {
     participants: [team(`Home${index}`, "home"), team(`Away${index}`, "away")],
   })));
