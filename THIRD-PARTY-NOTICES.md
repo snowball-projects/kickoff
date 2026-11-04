@@ -121,14 +121,13 @@ to UTC. Unpublished timetables retain confirmed date spans; unconfirmed months
 and absent Games editions are omitted with source-linked reasons. No source
 documents, results, logos or prose are republished. Official IWF, EWF, AWF, African and Pan-American federation
 start books also supply factual athlete names, source nation codes and entry totals;
-these facts retain the same source terms. Birth dates are not published. The optional
-start-list reader resolves the current source-linked book on each refresh, validates
-complete session rosters and omits contradictory cohorts. Reviewed IWF and African
-rosters preserve their book revision and actual review date; automatic downloads
-are currently blocked. Their hashes identify canonical roster facts, not PDF bytes. Source links, actual check
-dates and raw-book hashes accompany the emitted facts. Hash receipts identify raw document bytes where available and explicitly identify
-reviewed-fact hashes otherwise. These facts carry their sources' terms, not MIT
-or a new CC0 grant.
+these facts retain the same source terms. Birth dates are not published. All six
+start lists are committed dated roster snapshots, read offline without source
+requests. Their book revisions and actual review dates remain fixed until a
+requested revision is reviewed. Source links, actual check dates and raw-book
+hashes accompany the emitted facts. Hash receipts distinguish source document
+bytes from canonical reviewed roster facts. These facts carry their sources'
+terms, not MIT or a new CC0 grant.
 
 React and React DOM: MIT, Meta Platforms, Inc. and affiliates.
 https://github.com/facebook/react/blob/main/LICENSE

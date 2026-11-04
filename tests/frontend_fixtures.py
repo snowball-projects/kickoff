@@ -16,7 +16,9 @@ from tests.test_reviewed_schedules import ROOT, fake_open_read
 def build(output: Path) -> None:
     reviewed, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
     payload = json.loads((ROOT / "tests/fixtures/espn-golf.json").read_text())
-    with patch("kickoff.feeds.get_json", lambda url: payload["feeds"]["lpga" if "/lpga/" in url else "pga"]):
+    with patch(
+        "kickoff.feeds.get_json", lambda url, **_options: payload["feeds"]["lpga" if "/lpga/" in url else "pga"]
+    ):
         pga = feeds.FEEDS["PGA_TOUR"][1](2026)
         lpga = feeds.FEEDS["LPGA_TOUR"][1](2026)
     nfl = [replace(e, source="espn", source_url="https://www.espn.com/nfl/") for e in reviewed if e.league == "NFL"]
@@ -27,12 +29,12 @@ def build(output: Path) -> None:
                 Path(staging),
                 ROOT / "data/reviewed",
                 feeds={
-                    "PGA_TOUR": ("espn", lambda _: pga),
-                    "LPGA_TOUR": ("espn", lambda _: lpga),
-                    "NFL": ("espn", lambda _: nfl),
+                    "PGA_TOUR": ("espn", lambda _, **_options: pga),
+                    "LPGA_TOUR": ("espn", lambda _, **_options: lpga),
+                    "NFL": ("espn", lambda _, **_options: nfl),
                     "COLLEGE_FOOTBALL": (
                         "espn",
-                        lambda _: [replace(nfl[0], event_id="fixture-college", league="COLLEGE_FOOTBALL")],
+                        lambda _, **_options: [replace(nfl[0], event_id="fixture-college", league="COLLEGE_FOOTBALL")],
                     ),
                 },
             )

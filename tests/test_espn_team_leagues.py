@@ -52,7 +52,7 @@ def test_every_civil_day_including_ncaa_postseason_and_both_year_boundaries(monk
     ncaa = CASES["mens_final"]["event"]
     regular = CASES["mens_d1_regular"]["event"]
 
-    def get(url):
+    def get(url, **_):
         query = parse_qs(urlsplit(url).query)
         prefix = query["dates"][0]
         calls.append(prefix)
@@ -74,7 +74,7 @@ def test_fbs_and_fcs_union_keeps_cross_division_game_once_and_week_facts(monkeyp
     game = CASES["fbs_bowl"]["event"]
     game = {**game, "date": "2026-12-01T00:30Z"}
 
-    def get(url):
+    def get(url, **_):
         query = parse_qs(urlsplit(url).query)
         calls.append((query["dates"][0], query["groups"][0]))
         assert query["limit"] == ["200"]  # 1000 silently falls back to25 in this API
@@ -100,7 +100,7 @@ def test_grouped_heavy_days_retain_every_returned_game(monkeypatch, league, labe
     # Synthetic identities exercise the complete source-derived heavy-day count.
     games = [{**CASES[label]["event"], "id": f"synthetic-{i}"} for i in range(count)]
 
-    def get(url):
+    def get(url, **_):
         query = parse_qs(urlsplit(url).query)
         assert query["groups"] == ["50"]
         return {"events": games if query["dates"] == ["20260117"] else []}
@@ -119,7 +119,7 @@ def test_saturated_year_and_month_split_without_truncating_or_losing_source_urls
     two = {**regular, "id": "2", "date": "2026-01-02T20:00Z"}
     calls = []
 
-    def get(url):
+    def get(url, **_):
         prefix = parse_qs(urlsplit(url).query)["dates"][0]
         calls.append(prefix)
         if prefix in {"2026", "202601"}:
@@ -136,7 +136,7 @@ def test_saturated_year_and_month_split_without_truncating_or_losing_source_urls
 def test_a_saturated_daily_response_stops_publication(monkeypatch):
     path, sport, groups, _ = feeds.TEAM_LEAGUES["COLLEGE_FOOTBALL"]
     monkeypatch.setitem(feeds.TEAM_LEAGUES, "COLLEGE_FOOTBALL", (path, sport, groups, 1))
-    monkeypatch.setattr(feeds, "get_json", lambda _url: {"events": [CASES["fbs_bowl"]["event"]]})
+    monkeypatch.setattr(feeds, "get_json", lambda _url, **_options: {"events": [CASES["fbs_bowl"]["event"]]})
     with pytest.raises(ValueError, match="refusing to truncate"):
         feeds.espn_team_events(2026, "COLLEGE_FOOTBALL")
 
@@ -151,7 +151,7 @@ def test_in_season_invitational_is_not_a_conference_postseason_tournament():
 
 def test_soccer_leg_notes_preserve_the_published_competition_stage(monkeypatch):
     row = CASES["nations_playoff"]["event"]
-    monkeypatch.setattr(feeds, "get_json", lambda url: {"events": [row] if "dates=2026&" in url else []})
+    monkeypatch.setattr(feeds, "get_json", lambda url, **_options: {"events": [row] if "dates=2026&" in url else []})
     (event,) = feeds.espn_team_events(2026, "UEFA_NATIONS_LEAGUE")
     assert event.round_or_stage == "Relegation playoffs"
     assert event.subtitle == "Relegation playoffs · 1st Leg"
@@ -160,7 +160,9 @@ def test_soccer_leg_notes_preserve_the_published_competition_stage(monkeypatch):
 
 def test_tournament_round_metadata_keeps_specific_round_and_full_popup_note(monkeypatch):
     row = CASES["mens_final"]["event"]
-    monkeypatch.setattr(feeds, "get_json", lambda url: {"events": [row] if "dates=20260406&" in url else []})
+    monkeypatch.setattr(
+        feeds, "get_json", lambda url, **_options: {"events": [row] if "dates=20260406&" in url else []}
+    )
     (event,) = feeds.espn_team_events(2026, "NCAA_MENS_BASKETBALL")
     assert event.round_or_stage == "National Championship"
     assert event.subtitle == "NCAA Men's Basketball Championship - National Championship"
@@ -177,7 +179,9 @@ def test_undecided_bowl_retains_appointment_and_only_actual_team_entities(monkey
             home,
             next(c for c in row["competitions"][0]["competitors"] if c["homeAway"] == "away"),
         ]
-    monkeypatch.setattr(feeds, "get_json", lambda url: {"events": [row] if "dates=20270101&" in url else []})
+    monkeypatch.setattr(
+        feeds, "get_json", lambda url, **_options: {"events": [row] if "dates=20270101&" in url else []}
+    )
     (event,) = feeds.espn_team_events(2027, "COLLEGE_FOOTBALL")
     assert event.event_id == f"espn-college_football-{row['id']}"
     label = "College Football Playoff Quarterfinal at the Goodyear Cotton Bowl Classic"
@@ -219,7 +223,9 @@ def test_nfl_undecided_playoffs_keep_source_label_and_explicit_clock(monkeypatch
 def test_swac_positive_ids_do_not_turn_tba_markers_into_real_teams(monkeypatch):
     row = CASES["swac_positive_tba"]["event"]
     assert all(int(c["team"]["id"]) > 0 for c in row["competitions"][0]["competitors"])
-    monkeypatch.setattr(feeds, "get_json", lambda url: {"events": [row] if "dates=20261205&" in url else []})
+    monkeypatch.setattr(
+        feeds, "get_json", lambda url, **_options: {"events": [row] if "dates=20261205&" in url else []}
+    )
     (event,) = feeds.espn_team_events(2026, "COLLEGE_FOOTBALL")
     assert event.event_id == "espn-college_football-401872642"
     assert event.title == event.round_or_stage == "SWAC Championship" and event.subtitle is None

@@ -13,7 +13,7 @@ def golf_feeds(monkeypatch):
     fixture = json.loads((ROOT / "tests/fixtures/espn-golf.json").read_text())
     calls = []
 
-    def get_json(url):
+    def get_json(url, **_):
         calls.append(url)
         tour = "lpga" if "/lpga/" in url else "pga"
         assert url == fixture["sources"][tour]
@@ -91,13 +91,13 @@ def test_lpga_empty_calendar_placeholder_is_not_a_tournament(monkeypatch):
     payload = fixture["feeds"]["lpga"]
     expected = len(payload["events"])
     payload["events"].append({})
-    monkeypatch.setattr(feeds, "get_json", lambda _: payload)
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: payload)
     assert len(feeds.FEEDS["LPGA_TOUR"][1](2026)) == expected
 
 
 @pytest.mark.parametrize("bad_row", [None, {"id": "undated", "name": "Not a dated schedule"}])
 def test_incomplete_nonempty_golf_rows_still_fail_the_refresh(monkeypatch, bad_row):
-    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [bad_row]})
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: {"events": [bad_row]})
     with pytest.raises((KeyError, AttributeError)):
         feeds.FEEDS["LPGA_TOUR"][1](2026)
 
@@ -106,7 +106,7 @@ def test_lpga_without_an_event_link_uses_the_lpga_leaderboard(monkeypatch):
     fixture = json.loads((ROOT / "tests/fixtures/espn-golf.json").read_text())
     row = fixture["feeds"]["lpga"]["events"][0]
     row["links"] = []
-    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [row]})
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: {"events": [row]})
     (event,) = feeds.FEEDS["LPGA_TOUR"][1](2026)
     assert event.source_url == "https://www.espn.com/golf/leaderboard/_/tour/lpga"
 
@@ -114,7 +114,7 @@ def test_lpga_without_an_event_link_uses_the_lpga_leaderboard(monkeypatch):
 def test_2027_unsponsored_us_womens_open_remains_a_major(monkeypatch):
     fixture = json.loads((ROOT / "tests/fixtures/espn-golf.json").read_text())
 
-    def get_json(url):
+    def get_json(url, **_):
         assert url == fixture["sources"]["lpga2027"]
         return fixture["feeds"]["lpga2027"]
 

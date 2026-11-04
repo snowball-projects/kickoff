@@ -22,7 +22,7 @@ def test_source_stages_and_supplied_facts_survive_public_export(monkeypatch, cas
     league = case["league"]
     year = int(row["date"][:4])
 
-    def get(url):
+    def get(url, **_):
         prefix = parse_qs(urlsplit(url).query)["dates"][0]
         return {
             "events": [row] if prefix == str(year) and "week=" not in url else [],
@@ -73,7 +73,7 @@ def test_ufl_discovers_all_weeks_and_unions_missing_games_with_no_duplicates(mon
     missing = {**row, "id": "weekly-only", "date": "2026-04-01T00:00Z"}
     calls = []
 
-    def get(url):
+    def get(url, **_):
         query = parse_qs(urlsplit(url).query)
         calls.append(query)
         if query["dates"] == ["2026"] and "week" not in query:
@@ -109,7 +109,7 @@ def test_ufl_discovers_all_weeks_and_unions_missing_games_with_no_duplicates(mon
 
 def test_ufl_missing_calendar_fails_instead_of_publishing_known_incomplete_index(monkeypatch):
     monkeypatch.setattr(
-        feeds, "get_json", lambda _: {"events": [next(c["event"] for c in CASES if c["league"] == "UFL")]}
+        feeds, "get_json", lambda _, **_options: {"events": [next(c["event"] for c in CASES if c["league"] == "UFL")]}
     )
     with pytest.raises(ValueError, match="Missing UFL weekly calendar"):
         feeds.espn_team_events(2026, "UFL")
@@ -146,20 +146,20 @@ def test_all_requested_usable_leagues_registered_and_cfl_withheld():
 
 
 def test_ufl_unpublished_empty_year_needs_no_weekly_calendar(monkeypatch):
-    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": []})
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: {"events": []})
     assert feeds.espn_team_events(2027, "UFL") == []
 
 
 def test_ufl_stripped_calendar_cannot_silently_publish_a_partial_season(monkeypatch):
     row = next(c["event"] for c in CASES if c["league"] == "UFL")
-    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [row], "leagues": [{"calendar": []}]})
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: {"events": [row], "leagues": [{"calendar": []}]})
     with pytest.raises(ValueError, match="Missing UFL weekly calendar entries"):
         feeds.espn_team_events(2026, "UFL")
 
 
 def test_dated_g_league_bracket_slot_keeps_appointment_without_pseudo_teams(monkeypatch):
     row = next(c["event"] for c in CASES if c["event"]["id"] == "401932977")
-    monkeypatch.setattr(feeds, "get_json", lambda url: {"events": [row] if "dates=2026&" in url else []})
+    monkeypatch.setattr(feeds, "get_json", lambda url, **_options: {"events": [row] if "dates=2026&" in url else []})
     (event,) = feeds.espn_team_events(2026, "G_LEAGUE")
     assert event.title == "NBA G League"
     assert event.start_time_utc == "2026-12-19T17:30:00Z"
@@ -177,7 +177,9 @@ def test_missing_scoreboard_logo_uses_offline_registry_with_own_receipt(monkeypa
     row = copy.deepcopy(CASES[0]["event"])
     team = row["competitions"][0]["competitors"][0]["team"]
     source_logo = team.pop("logo")
-    monkeypatch.setattr(feeds, "get_json", lambda value: {"events": [row] if "dates=2026&" in value else []})
+    monkeypatch.setattr(
+        feeds, "get_json", lambda value, **_options: {"events": [row] if "dates=2026&" in value else []}
+    )
     (event,) = feeds.espn_team_events(2026, "FA_CUP")
     retained = next(p for p in event.participants if p.participant_id == team["id"])
     key = team_logos.team_key(event, retained)

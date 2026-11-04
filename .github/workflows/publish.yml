@@ -2,9 +2,15 @@ name: Publish calendar
 on:
   schedule:
     - cron: "17 9 * * *"
+    - cron: "17 21 * * *"
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      force_full:
+        description: Rebuild without the published baseline
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -39,7 +45,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci --prefix frontend
       - name: Fetch every schedule
-        run: python scripts/refresh-public.py
+        run: python scripts/refresh-public.py ${{ inputs.force_full && '--force-full' || '' }}
       - name: Build site
         run: npm --prefix frontend run build
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b

@@ -8,16 +8,19 @@ never odds or article content.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import time
 from calendar import monthrange
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import replace
 from datetime import UTC, date, datetime, timedelta
 from functools import cache
 from importlib.resources import files
 from urllib.error import HTTPError
+from urllib.parse import parse_qs, urlsplit
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
@@ -25,6 +28,7 @@ from kickoff.countries import COUNTRY_LEAGUES, tennis_venue_country, venue_count
 from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
 from kickoff.semantics import classification_fields
+from kickoff.source_units import espn_unit, mlb_unit, nhl_unit, unit_key
 from kickoff.team_logos import TEAM_SPORTS, source_logo
 
 USER_AGENT = "kickoff-refresh/0.3 (https://github.com/snowball-projects/kickoff)"
@@ -95,13 +99,25 @@ SOURCES = {
 }
 
 
-def get_json(url: str, *, retries: int = 3, missing_ok: bool = False) -> dict | list | None:
+def get_json(
+    url: str, *, retries: int = 3, missing_ok: bool = False, receipt: dict | None = None
+) -> dict | list | None:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json", "Accept-Encoding": "gzip"})
     for attempt in range(retries):
         try:
             with urlopen(request, timeout=60) as response:
                 data = read_bounded_response(response, max_bytes=MAX_BYTES)
-            return json.loads(data)
+            parsed = json.loads(data)
+            if receipt is not None:
+                checked = datetime.now(UTC)
+                receipt.update(
+                    url=url,
+                    checked_date=checked.date().isoformat(),
+                    observed_at=checked.isoformat(),
+                    sha256=hashlib.sha256(data).hexdigest(),
+                    hash_scope="decoded source response bytes",
+                )
+            return parsed
         except HTTPError as error:
             if missing_ok and error.code in {400, 404}:
                 return None
@@ -112,6 +128,109 @@ def get_json(url: str, *, retries: int = 3, missing_ok: bool = False) -> dict | 
                 raise
         time.sleep(2**attempt)
     return None
+
+
+def _schedule_source(url: str, league: str, kind: str, *, plan=None, **options):
+    """Reuse normalized frozen facts, never synthetic raw source responses."""
+    key = unit_key(url)
+    if plan is not None:
+        reused = plan.try_reuse(key)
+        if reused is not None:
+            return None, reused, {}
+    receipt = {}
+    payload = get_json(url, receipt=receipt, **options)
+    if plan is not None:
+        observed = datetime.fromisoformat(receipt["observed_at"]) if receipt else plan.now
+        if kind == "espn":
+            unit = espn_unit(url, payload, league, observed)
+        elif kind == "mlb":
+            unit = mlb_unit(url, payload, observed)
+        else:
+            unit = nhl_unit(url, payload, observed)
+        plan.observe(unit)
+        if receipt:
+            plan.receipts[key] = {**receipt, "kind": kind, "league": league}
+    return payload, None, receipt
+
+
+# These fields describe evidence, not the normalized event or team facts.
+_CITATION_FIELDS = {
+    "source_url",
+    "facts_source_url",
+    "facts_checked_date",
+    "start_time_source_url",
+    "country_source_url",
+    "country_checked_date",
+    "team_source_url",
+    "logo_source_url",
+    "logo_checked_date",
+    "start_list_source_url",
+    "start_list_checked_date",
+    "source_article_url",
+    "input_url",
+    "checked_date",
+    "sha256",
+    "hash_scope",
+    "revision",
+    "review_revision",
+    "raw_source_payload",
+}
+
+
+def _same_event_facts(first: CalendarEvent, second: CalendarEvent) -> bool:
+    def facts(value):
+        if isinstance(value, dict):
+            return {
+                key: sorted(set(item)) if key == "tags" else facts(item)
+                for key, item in value.items()
+                if key not in _CITATION_FIELDS
+            }
+        if isinstance(value, list):
+            return [facts(item) for item in value]
+        return value
+
+    return facts(first.to_dict()) == facts(second.to_dict())
+
+
+def _append_pending(events: list[CalendarEvent], batch: list[CalendarEvent]) -> None:
+    """Keep normal provenance for equal facts; actual corrections still win."""
+    previous = {event.event_id: event for event in events}
+    for event in batch:
+        original = previous.get(event.event_id)
+        if original is not None and _same_event_facts(original, event):
+            continue
+        events.append(event)
+        previous[event.event_id] = event
+
+
+def _pending_source_urls(plan, prefix: str) -> list[str]:
+    """Previously observed locators omitted by this run's current discovery."""
+    if plan is None:
+        return []
+    target = urlsplit(prefix)
+    pending = []
+    for key in sorted(plan.pending_unit_keys):
+        previous = plan.baseline.units[key]
+        parts = urlsplit(previous.source_url)
+        matches = parts.path.startswith(target.path) if target.path.endswith("/") else parts.path == target.path
+        if (parts.scheme, parts.netloc) != (target.scheme, target.netloc) or not matches:
+            continue
+        pending.append(previous.source_url)
+    return pending
+
+
+def _finish_source_children(plan, url: str, children: list[str]) -> None:
+    if plan is None:
+        return
+    key = unit_key(url)
+    unit = plan.current[key]
+    observed = plan.units
+    complete = bool(children) and all(child in observed and observed[child].complete for child in children)
+    end = datetime.fromisoformat(unit.end.replace("Z", "+00:00")) if unit.end else None
+    if end is not None and end.tzinfo is None:
+        end = end.replace(tzinfo=UTC)
+    closed = complete and end is not None and end < plan.now - timedelta(days=2)
+    plan.observe(replace(unit, children=tuple(children), complete=complete, closed=closed))
 
 
 def rows(payload: dict, key: str) -> list:
@@ -401,9 +520,10 @@ def espn_season_feed(
 ):
     """Annual scoreboards expose tournaments or games as top-level events."""
 
-    def fetch(year: int) -> list[CalendarEvent]:
-        url = f"{ESPN}/{path}/scoreboard?dates={year}&limit=500"
-        payload = get_json(url)
+    def collect(url, plan):
+        payload, reused, receipt = _schedule_source(url, league, "espn", plan=plan)
+        if reused is not None:
+            return reused
         events = []
         for row in rows(payload, "events"):
             # LPGA and Major League Rugby include empty calendar placeholders.
@@ -441,19 +561,30 @@ def espn_season_feed(
                     # its competition identity; never turn TBD/TBA into a team.
                     _espn_appointment(event, label or RUGBY_LEAGUES[league][1])
                 events.append(event)
+        return events
+
+    def fetch(year: int, *, plan=None) -> list[CalendarEvent]:
+        events = collect(f"{ESPN}/{path}/scoreboard?dates={year}&limit=500", plan)
+        for previous_url in _pending_source_urls(plan, f"{ESPN}/{path}/scoreboard"):
+            previous_year = int(parse_qs(urlsplit(previous_url).query)["dates"][0])
+            if previous_year < year:
+                _append_pending(events, collect(previous_url, plan))
         return _in_year(_dedupe(events), year)
 
     return fetch
 
 
-def nfl_events(year: int) -> list[CalendarEvent]:
+def nfl_events(year: int, *, plan=None) -> list[CalendarEvent]:
     """Weekly scoreboards for the season ending early in `year` and the one starting in it."""
     events = []
     weeks = [(year - 1, 2, week) for week in (17, 18)] + [(year - 1, 3, week) for week in range(1, 6)]
     weeks += [(year, 2, week) for week in range(1, 19)] + [(year, 3, week) for week in range(1, 6)]
-    for season, season_type, week in weeks:
-        url = f"{ESPN}/football/nfl/scoreboard?dates={season}&seasontype={season_type}&week={week}"
-        payload = get_json(url, missing_ok=True)
+
+    def collect(url, season_type, week):
+        payload, reused, _ = _schedule_source(url, "NFL", "espn", plan=plan, missing_ok=True)
+        if reused is not None:
+            return reused
+        batch = []
         for row in rows(payload, "events") if payload is not None else []:
             name = row.get("name", "")
             if "Pro Bowl" in name:
@@ -479,11 +610,24 @@ def nfl_events(year: int) -> list[CalendarEvent]:
                     if note.get("type") == "event" and note.get("headline")
                 )
                 _espn_appointment(event, label)
-                events.append(event)
+                batch.append(event)
+
+        return batch
+
+    for season, season_type, week in weeks:
+        events.extend(
+            collect(
+                f"{ESPN}/football/nfl/scoreboard?dates={season}&seasontype={season_type}&week={week}", season_type, week
+            )
+        )
+    for url in _pending_source_urls(plan, f"{ESPN}/football/nfl/scoreboard"):
+        query = parse_qs(urlsplit(url).query)
+        if int(query["dates"][0][:4]) <= year:
+            _append_pending(events, collect(url, int(query["seasontype"][0]), int(query["week"][0])))
     return _in_year(_dedupe(events), year)
 
 
-def nba_events(year: int) -> list[CalendarEvent]:
+def nba_events(year: int, *, plan=None) -> list[CalendarEvent]:
     """Per-team season schedules; ESPN rejects league-wide date ranges."""
     teams = get_json(f"{ESPN}/basketball/nba/teams")["sports"][0]["leagues"][0]["teams"]
     team_ids = [team["team"]["id"] for team in teams]
@@ -491,25 +635,47 @@ def nba_events(year: int) -> list[CalendarEvent]:
         raise ValueError(f"Expected 30 NBA teams, got {len(team_ids)}")
     events = []
     records = {}
+
+    def collect(url, team_id, season_type, *, pending=False):
+        payload, reused, _ = _schedule_source(url, "NBA", "espn", plan=plan, missing_ok=True)
+        if reused is not None:
+            return reused
+        record = _record((payload or {}).get("team", {}).get("recordSummary"))
+        batch = []
+        for row in rows(payload, "events") if payload is not None else []:
+            event = _espn_event(
+                row,
+                league="NBA",
+                sport="basketball",
+                zone=EASTERN,
+                fallback_url="https://www.nba.com/schedule",
+                phase="postseason" if season_type == 3 else "regular_season",
+                input_url=url,
+            )
+            if event:
+                batch.append(event)
+                if record and str((payload.get("team") or {}).get("id")) == str(team_id):
+                    identity = event.event_id, str(team_id)
+                    if not pending or identity not in records or records[identity][0] != record:
+                        records[identity] = (record, url)
+
+        return batch
+
     for team_id in team_ids:
         for season, season_type in ((year, 2), (year, 3), (year + 1, 2)):
-            url = f"{ESPN}/basketball/nba/teams/{team_id}/schedule?season={season}&seasontype={season_type}"
-            payload = get_json(url, missing_ok=True)
-            record = _record((payload or {}).get("team", {}).get("recordSummary"))
-            for row in rows(payload, "events") if payload is not None else []:
-                event = _espn_event(
-                    row,
-                    league="NBA",
-                    sport="basketball",
-                    zone=EASTERN,
-                    fallback_url="https://www.nba.com/schedule",
-                    phase="postseason" if season_type == 3 else "regular_season",
-                    input_url=url,
+            events.extend(
+                collect(
+                    f"{ESPN}/basketball/nba/teams/{team_id}/schedule?season={season}&seasontype={season_type}",
+                    team_id,
+                    season_type,
                 )
-                if event:
-                    events.append(event)
-                    if record and str((payload.get("team") or {}).get("id")) == str(team_id):
-                        records[(event.event_id, str(team_id))] = (record, url)
+            )
+    for url in _pending_source_urls(plan, f"{ESPN}/basketball/nba/teams/"):
+        parts = urlsplit(url)
+        query = parse_qs(parts.query)
+        season, season_type = int(query["season"][0]), int(query["seasontype"][0])
+        if parts.path.endswith("/schedule") and (season <= year or (season == year + 1 and season_type == 2)):
+            _append_pending(events, collect(url, parts.path.split("/")[-2], season_type, pending=True))
     result = _in_year(_dedupe(events), year)
     for event in result:
         for participant in event.participants:
@@ -601,7 +767,7 @@ def espn_team_phase(row: dict, league: str) -> str:
     return "regular_season"
 
 
-def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
+def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent]:
     """Collect every published game, subdividing saturated year/month windows.
 
     Checked 2026-10-31 against ESPN's primary scoreboards: YYYY, YYYYMM and
@@ -619,15 +785,24 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
         else EASTERN
     )
 
-    def collect(prefix: str, group: int | None, season_type: str | None = None, week: str | None = None):
+    def query_url(prefix, group, season_type=None, week=None):
         url = f"{ESPN}/{path}/scoreboard?dates={prefix}&limit={limit}"
         if season_type is not None:
             url += f"&seasontype={season_type}&week={week}"
         if group is not None:
             url += f"&groups={group}"
-        payload = get_json(url)
+        return url
+
+    def collect(
+        prefix: str, group: int | None, season_type: str | None = None, week: str | None = None, request_url=None
+    ):
+        url = request_url or query_url(prefix, group, season_type, week)
+        payload, reused, _ = _schedule_source(url, league, "espn", plan=plan)
+        if reused is not None:
+            return reused
         selected = rows(payload, "events")
         supplements = []
+        dependencies = []
         if league == "UFL" and len(prefix) == 4 and season_type is None:
             # ESPN's annual/monthly/daily/Core 2025 indexes omit four completed
             # games that remain in weekly scoreboards. Discover every published
@@ -645,6 +820,7 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
                     if not kind.isdigit() or not number.isdigit():
                         raise ValueError(f"Invalid UFL weekly calendar: {url}")
                     supplements.extend(collect(prefix, group, kind, number))
+                    dependencies.append(unit_key(query_url(prefix, group, kind, number)))
         if len(selected) >= limit:
             if season_type is not None:
                 raise ValueError(f"ESPN weekly feed reached its limit; refusing to truncate: {url}")
@@ -656,7 +832,10 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
                 ]
             else:
                 raise ValueError(f"ESPN daily feed reached its limit; refusing to truncate: {url}")
-            return [event for child in children for event in collect(child, group)] + supplements
+            result = [event for child in children for event in collect(child, group)] + supplements
+            dependencies.extend(unit_key(query_url(child, group)) for child in children)
+            _finish_source_children(plan, url, dependencies)
+            return result
         result = []
         for row in selected:
             # ESPN's 2025-10-18 FCS scoreboard contains one empty calendar slot.
@@ -700,6 +879,8 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
             if group in (80, 81):
                 event.tags.append("fbs" if group == 80 else "fcs")
             result.append(event)
+        if dependencies:
+            _finish_source_children(plan, url, dependencies)
         return result + supplements
 
     # Neighboring UTC dates can belong to this calendar year in the source zone.
@@ -711,35 +892,49 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
     if league == "UFL":
         prefixes.append(str(year - 1))
     queries = [(prefix, group) for group in groups for prefix in prefixes]
+    events = {}
+
+    def merge(batch, *, pending=False):
+        for event in batch:
+            if event.event_id in events:
+                previous = events[event.event_id]
+                event.tags = sorted(set(previous.tags + event.tags))
+                if league == "UFL":
+                    # Weekly indexes recover appointments but can omit logos
+                    # and records present in the same game's annual row.
+                    for participant in event.participants:
+                        original = next(
+                            (
+                                p
+                                for p in previous.participants
+                                if p.participant_id == participant.participant_id and p.role == participant.role
+                            ),
+                            None,
+                        )
+                        if original is not None:
+                            participant.metadata = {**original.metadata, **participant.metadata}
+                            participant.short_name = participant.short_name or original.short_name
+                            if participant.record is None and original.record is not None:
+                                participant.record = original.record
+                                participant.team_source_url = original.team_source_url or previous.facts_source_url
+                            if event.status == "finished" and participant.final_score is None:
+                                participant.final_score = original.final_score
+            if pending and event.event_id in events and _same_event_facts(events[event.event_id], event):
+                continue
+            events[event.event_id] = event
+
     with ThreadPoolExecutor(max_workers=4) as executor:
-        collected = executor.map(lambda args: collect(*args), queries)
-        events = {}
-        for batch in collected:
-            for event in batch:
-                if event.event_id in events:
-                    previous = events[event.event_id]
-                    event.tags = sorted(set(previous.tags + event.tags))
-                    if league == "UFL":
-                        # Weekly indexes recover appointments but can omit logos
-                        # and records present in the same game's annual row.
-                        for participant in event.participants:
-                            original = next(
-                                (
-                                    p
-                                    for p in previous.participants
-                                    if p.participant_id == participant.participant_id and p.role == participant.role
-                                ),
-                                None,
-                            )
-                            if original is not None:
-                                participant.metadata = {**original.metadata, **participant.metadata}
-                                participant.short_name = participant.short_name or original.short_name
-                                if participant.record is None and original.record is not None:
-                                    participant.record = original.record
-                                    participant.team_source_url = original.team_source_url or previous.facts_source_url
-                                if event.status == "finished" and participant.final_score is None:
-                                    participant.final_score = original.final_score
-                events[event.event_id] = event
+        for batch in executor.map(lambda args: collect(*args), queries):
+            merge(batch)
+    for url in _pending_source_urls(plan, f"{ESPN}/{path}/scoreboard"):
+        query = parse_qs(urlsplit(url).query)
+        prefix = query["dates"][0]
+        if int(prefix[:4]) > year:
+            continue
+        group = int(query["groups"][0]) if "groups" in query else None
+        merge(
+            collect(prefix, group, query.get("seasontype", [None])[0], query.get("week", [None])[0], url), pending=True
+        )
     result = _in_year(list(events.values()), year)
     return result
 
@@ -747,7 +942,7 @@ def espn_team_events(year: int, league: str) -> list[CalendarEvent]:
 UCL_PHASES = {"league-phase": "league_phase", "final": "final"}
 
 
-def ucl_events(year: int) -> list[CalendarEvent]:
+def ucl_events(year: int, *, plan=None) -> list[CalendarEvent]:
     """OpenLigaDB lists the match dates; ESPN supplies English names and kickoff times."""
     days = set()
     for season in (year - 1, year):
@@ -763,9 +958,22 @@ def ucl_events(year: int) -> list[CalendarEvent]:
                 if day.startswith(str(year)):
                     days.add(day)
     events = []
-    for day in sorted(days):
-        url = f"{ESPN}/soccer/uefa.champions/scoreboard?dates={day.replace('-', '')}"
-        payload = get_json(url, missing_ok=True)
+    urls = [f"{ESPN}/soccer/uefa.champions/scoreboard?dates={day.replace('-', '')}" for day in sorted(days)]
+    normal_urls = set(urls)
+    urls.extend(
+        url
+        for url in _pending_source_urls(plan, f"{ESPN}/soccer/uefa.champions/scoreboard")
+        if int(parse_qs(urlsplit(url).query)["dates"][0][:4]) <= year
+    )
+    for url in dict.fromkeys(urls):
+        payload, reused, _ = _schedule_source(url, "UEFA_CHAMPIONS_LEAGUE", "espn", plan=plan, missing_ok=True)
+        if reused is not None:
+            if url in normal_urls:
+                events.extend(reused)
+            else:
+                _append_pending(events, reused)
+            continue
+        batch = []
         for row in rows(payload, "events") if payload is not None else []:
             slug = (row.get("season") or {}).get("slug", "")
             event = _espn_event(
@@ -778,7 +986,11 @@ def ucl_events(year: int) -> list[CalendarEvent]:
                 input_url=url,
             )
             if event:
-                events.append(event)
+                batch.append(event)
+        if url in normal_urls:
+            events.extend(batch)
+        else:
+            _append_pending(events, batch)
     return _in_year(_dedupe(events), year)
 
 
@@ -787,87 +999,106 @@ def ucl_events(year: int) -> list[CalendarEvent]:
 MLB_PHASES = {"R": "regular_season", "F": "postseason", "D": "postseason", "L": "postseason", "W": "final"}
 
 
-def mlb_events(year: int) -> list[CalendarEvent]:
-    url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W&hydrate=venue(location)"
-    payload = get_json(url)
+def mlb_events(year: int, *, plan=None) -> list[CalendarEvent]:
     events = []
-    for day in rows(payload, "dates"):
-        for game in rows(day, "games"):
-            status = game.get("status") or {}
-            if status.get("detailedState") in {"Postponed", "Cancelled", "Suspended"}:
-                continue
-            away = game["teams"]["away"]["team"]["name"]
-            home = game["teams"]["home"]["team"]["name"]
-            series = game.get("seriesDescription") if game.get("gameType") in MLB_PHASES.keys() - {"R"} else None
-            subtitle = None
-            if series:
-                subtitle = f"{series} · Game {game.get('seriesGameNumber')} of {game.get('gamesInSeries')}"
-                subtitle += " · if necessary" if game.get("ifNecessary") == "Y" else ""
-            # Undecided postseason slots arrive as "NL Lower Seed" or "Higher Seed League Champion".
-            undecided = any(word in name for name in (away, home) for word in ("Seed", "League Champion"))
-            if undecided:
-                away = home = None
-            country = venue_country(((game.get("venue") or {}).get("location") or {}).get("country"))
-            events.append(
-                make_event(
-                    source="mlb",
-                    league="MLB",
-                    sport="baseball",
-                    upstream_id=game["gamePk"],
-                    season=str(game.get("season", year)),
-                    title=f"{series} · Game {game.get('seriesGameNumber')}" if undecided else f"{away} at {home}",
-                    subtitle=subtitle,
-                    utc=None if status.get("startTimeTBD") else game["gameDate"],
-                    day=game.get("officialDate") or _local_date(game["gameDate"], EASTERN),
-                    home=home,
-                    away=away,
-                    phase=MLB_PHASES.get(game.get("gameType"), "regular_season"),
-                    venue=(game.get("venue") or {}).get("name"),
-                    source_url=f"https://www.mlb.com/gameday/{game['gamePk']}",
-                    country=country,
-                    country_source_url=url if country else None,
-                    country_checked_date=datetime.now(UTC).date().isoformat() if country else None,
-                    status="finished"
-                    if status.get("abstractGameState") == "Final"
-                    or status.get("detailedState") in {"Final", "Game Over"}
-                    else "scheduled",
-                    facts_source_url=url,
-                    round_or_stage=(game.get("description") or subtitle) if series and not undecided else None,
-                )
-            )
-            for participant in events[-1].participants:
-                row = game["teams"][participant.role]
-                team = row["team"]
-                participant.participant_id = str(team["id"]) if team.get("id") is not None else None
-                participant.short_name = team.get("shortName") or team.get("abbreviation")
-                record = row.get("leagueRecord") or {}
-                if type(record.get("wins")) is int and type(record.get("losses")) is int:
-                    participant.record = f"{record['wins']}-{record['losses']}" + (
-                        f"-{record['ties']}" if record.get("ties") else ""
+
+    def collect(url):
+        payload, reused, _ = _schedule_source(url, "MLB", "mlb", plan=plan)
+        if reused is not None:
+            return reused
+        batch = []
+        for day in rows(payload, "dates"):
+            for game in rows(day, "games"):
+                status = game.get("status") or {}
+                if status.get("detailedState") in {"Postponed", "Cancelled", "Suspended"}:
+                    continue
+                away = game["teams"]["away"]["team"]["name"]
+                home = game["teams"]["home"]["team"]["name"]
+                series = game.get("seriesDescription") if game.get("gameType") in MLB_PHASES.keys() - {"R"} else None
+                subtitle = None
+                if series:
+                    subtitle = f"{series} · Game {game.get('seriesGameNumber')} of {game.get('gamesInSeries')}"
+                    subtitle += " · if necessary" if game.get("ifNecessary") == "Y" else ""
+                # Undecided postseason slots arrive as "NL Lower Seed" or "Higher Seed League Champion".
+                undecided = any(word in name for name in (away, home) for word in ("Seed", "League Champion"))
+                if undecided:
+                    away = home = None
+                country = venue_country(((game.get("venue") or {}).get("location") or {}).get("country"))
+                batch.append(
+                    make_event(
+                        source="mlb",
+                        league="MLB",
+                        sport="baseball",
+                        upstream_id=game["gamePk"],
+                        season=str(game.get("season", parse_qs(urlsplit(url).query)["season"][0])),
+                        title=f"{series} · Game {game.get('seriesGameNumber')}" if undecided else f"{away} at {home}",
+                        subtitle=subtitle,
+                        utc=None if status.get("startTimeTBD") else game["gameDate"],
+                        day=game.get("officialDate") or _local_date(game["gameDate"], EASTERN),
+                        home=home,
+                        away=away,
+                        phase=MLB_PHASES.get(game.get("gameType"), "regular_season"),
+                        venue=(game.get("venue") or {}).get("name"),
+                        source_url=f"https://www.mlb.com/gameday/{game['gamePk']}",
+                        country=country,
+                        country_source_url=url if country else None,
+                        country_checked_date=datetime.now(UTC).date().isoformat() if country else None,
+                        status="finished"
+                        if status.get("abstractGameState") == "Final"
+                        or status.get("detailedState") in {"Final", "Game Over"}
+                        else "scheduled",
+                        facts_source_url=url,
+                        round_or_stage=(game.get("description") or subtitle) if series and not undecided else None,
                     )
-                participant.final_score = _score(row.get("score")) if events[-1].status == "finished" else None
-            events[-1].raw_source_payload = {
-                "game_number": game.get("gameNumber"),
-                "double_header": game.get("doubleHeader"),
-            }
+                )
+                for participant in batch[-1].participants:
+                    row = game["teams"][participant.role]
+                    team = row["team"]
+                    participant.participant_id = str(team["id"]) if team.get("id") is not None else None
+                    participant.short_name = team.get("shortName") or team.get("abbreviation")
+                    record = row.get("leagueRecord") or {}
+                    if type(record.get("wins")) is int and type(record.get("losses")) is int:
+                        participant.record = f"{record['wins']}-{record['losses']}" + (
+                            f"-{record['ties']}" if record.get("ties") else ""
+                        )
+                    participant.final_score = _score(row.get("score")) if batch[-1].status == "finished" else None
+                    if batch[-1].status == "finished" and type(row.get("isWinner")) is bool:
+                        participant.metadata["result_winner"] = row["isWinner"]
+                batch[-1].raw_source_payload = {
+                    "game_number": game.get("gameNumber"),
+                    "double_header": game.get("doubleHeader"),
+                }
+
+        return batch
+
+    events.extend(
+        collect(
+            f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W&hydrate=venue(location)"
+        )
+    )
+    for previous_url in _pending_source_urls(plan, "https://statsapi.mlb.com/api/v1/schedule"):
+        previous_year = int(parse_qs(urlsplit(previous_url).query)["season"][0])
+        if previous_year < year:
+            _append_pending(events, collect(previous_url))
     return _in_year(_dedupe(events), year)
 
 
-def nhl_events(year: int) -> list[CalendarEvent]:
+def nhl_events(year: int, *, plan=None) -> list[CalendarEvent]:
     """Walk the week-by-week schedule across the calendar year (about 53 requests)."""
     events = []
-    cursor = date(year, 1, 1)
-    end = date(year, 12, 31)
-    while cursor <= end:
-        url = f"https://api-web.nhle.com/v1/schedule/{cursor.isoformat()}"
-        payload = get_json(url)
+
+    def collect(url):
+        payload, reused, _ = _schedule_source(url, "NHL", "nhl", plan=plan)
+        if reused is not None:
+            return plan.baseline.units[unit_key(url)].end[:10], reused
+        batch = []
         for week in rows(payload, "gameWeek"):
             for game in rows(week, "games"):
                 if game.get("gameType") not in (2, 3) or game.get("gameScheduleState") not in (None, "OK"):
                     continue
                 away = _nhl_team(game["awayTeam"])
                 home = _nhl_team(game["homeTeam"])
-                events.append(
+                batch.append(
                     make_event(
                         source="nhl",
                         league="NHL",
@@ -886,15 +1117,33 @@ def nhl_events(year: int) -> list[CalendarEvent]:
                         facts_source_url=url,
                     )
                 )
-                for participant in events[-1].participants:
+                for participant in batch[-1].participants:
                     team = game[f"{participant.role}Team"]
                     participant.participant_id = str(team["id"]) if team.get("id") is not None else None
                     participant.short_name = (team.get("commonName") or {}).get("default") or team.get("abbrev")
                     participant.record = _record(team.get("record"))
-                    participant.final_score = _score(team.get("score")) if events[-1].status == "finished" else None
-        following = payload.get("nextStartDate")
+                    participant.final_score = _score(team.get("score")) if batch[-1].status == "finished" else None
+        return payload.get("nextStartDate"), batch
+
+    cursor = date(year, 1, 1)
+    end = date(year, 12, 31)
+    while cursor <= end:
+        following, batch = collect(f"https://api-web.nhle.com/v1/schedule/{cursor.isoformat()}")
+        events.extend(batch)
         next_cursor = date.fromisoformat(following) if following else cursor + timedelta(days=7)
         cursor = max(next_cursor, cursor + timedelta(days=1))
+    for url in _pending_source_urls(plan, "https://api-web.nhle.com/v1/schedule/"):
+        if int(urlsplit(url).path.rsplit("/", 1)[-1][:4]) > year:
+            continue
+        visited = set()
+        while unit_key(url) not in plan.current and url not in visited:
+            visited.add(url)
+            following, batch = collect(url)
+            _append_pending(events, batch)
+            if not following or date.fromisoformat(following) > end:
+                break
+            next_url = f"https://api-web.nhle.com/v1/schedule/{following}"
+            url = next_url
     return _in_year(_dedupe(events), year)
 
 
@@ -980,5 +1229,8 @@ FEEDS: dict[str, tuple[str, Callable[[int], list[CalendarEvent]]]] = {
         espn_season_feed("racing/nascar-premier", "NASCAR_CUP", "motorsport", "race", "https://www.nascar.com/"),
     ),
     "INDYCAR": ("espn", espn_season_feed("racing/irl", "INDYCAR", "motorsport", "race", "https://www.indycar.com/")),
-    **{league: ("espn", lambda year, league=league: espn_team_events(year, league)) for league in TEAM_LEAGUES},
+    **{
+        league: ("espn", lambda year, league=league, plan=None: espn_team_events(year, league, plan=plan))
+        for league in TEAM_LEAGUES
+    },
 }

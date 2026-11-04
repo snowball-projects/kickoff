@@ -136,7 +136,7 @@ def test_complete_team_facts_and_multiday_tournaments_do_not_fetch(monkeypatch):
 
 @pytest.mark.parametrize("payload", [{}, {"events": None}, {"events": "missing"}, {"events": [None]}])
 def test_malformed_lookup_warns_and_preserves_events(monkeypatch, caplog, payload):
-    monkeypatch.setattr(feeds, "get_json", lambda _: payload)
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: payload)
     event = football()
     before = event.to_dict()
     assert fill_missing_start_times([event], 2026) == []
@@ -195,7 +195,7 @@ def test_failed_lookup_does_not_discard_other_lookups_or_existing_times(monkeypa
     for competitor in row["competitions"][0]["competitors"]:
         competitor["team"]["displayName"] = "Home" if competitor["homeAway"] == "home" else "Away"
 
-    def get_json(url):
+    def get_json(url, **_):
         if "/soccer/" in url:
             raise OSError("ESPN soccer clocks unavailable")
         return {"events": [row]}
@@ -250,7 +250,7 @@ def test_doubleheader_matches_primary_game_number_not_first_matching_pair(monkey
         "status": {"startTimeTBD": True, "detailedState": "Final"},
         "teams": {"home": {"team": {"name": "Cleveland Guardians"}}, "away": {"team": {"name": "Chicago Cubs"}}},
     }
-    monkeypatch.setattr(feeds, "get_json", lambda _: {"dates": [{"games": [game]}]})
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: {"dates": [{"games": [game]}]})
     event = feeds.mlb_events(2026)[0]
     assert event.raw_source_payload == {"game_number": 2, "double_header": "Y"}
     rows = []

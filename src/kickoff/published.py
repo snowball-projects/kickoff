@@ -34,7 +34,10 @@ def write_json(path, payload):
 
 def sport_evidence(receipts, kinds, events):
     identities = {event["event_id"] for event in events}
+    leagues = {event["league"] for event in events}
     for receipt in receipts:
+        if receipt.get("league") and receipt["league"] not in leagues:
+            continue
         if receipt["kind"] not in kinds:
             continue
         fields = [

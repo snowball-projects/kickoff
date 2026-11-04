@@ -61,6 +61,8 @@ class CalendarEvent:
     country_checked_date: str | None = None
     facts_checked_date: str | None = None
     facts_source_url: str | None = None
+    result: dict[str, JsonValue] | None = None
+    result_complete: bool = False
     raw_source_payload: JsonValue = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

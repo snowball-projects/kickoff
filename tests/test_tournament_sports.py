@@ -15,7 +15,7 @@ from tests.test_reviewed_schedules import ROOT, fake_open_read
 def calendars(monkeypatch):
     fixture = json.loads((ROOT / "tests/fixtures/espn-tournaments.json").read_text())
 
-    def fetch(url):
+    def fetch(url, **_):
         parsed = urlparse(url)
         sport, tour, _ = parsed.path.split("/sports/")[1].split("/")
         year = parse_qs(parsed.query)["dates"][0]
@@ -56,7 +56,7 @@ def test_every_top_level_tennis_tournament_is_one_date_only_span_with_source_maj
 def test_tennis_ignores_nested_matches_and_deduplicates_returned_tournament_identities(monkeypatch, calendars):
     rows = calendars["feeds"]["tennis/atp/2026"]["events"]
     row = next(event for event in rows if event.get("groupings"))
-    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [row, row]})
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: {"events": [row, row]})
     events = feeds.FEEDS["ATP"][1](2026)
     assert len(events) == 1
     assert events[0].event_id == f"espn-atp-{row['id']}"
@@ -109,7 +109,7 @@ def test_rugby_undecided_opponents_use_shared_appointments_without_losing_known_
     unknown["team"]["displayName"] = " TBD "
     row["name"] = "Australia vs TBD"
     competition["notes"] = [{"type": "event", "headline": "Quarterfinal"}]
-    monkeypatch.setattr(feeds, "get_json", lambda _: {"events": [row]})
+    monkeypatch.setattr(feeds, "get_json", lambda _, **_options: {"events": [row]})
     (partial,) = feeds.FEEDS["RUGBY_WORLD_CUP"][1](2027)
     assert partial.title == "Quarterfinal · Australia"
     assert partial.round_or_stage == "Quarterfinal"

@@ -6,14 +6,17 @@ import hashlib
 import json
 import re
 from collections import Counter
+from dataclasses import replace
 from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 from kickoff import feeds as league_feeds
+from kickoff.incremental import RefreshPlan
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
+from kickoff.refresh_state import SourceUnit
 from kickoff.reviewed_countries import fill_reviewed_countries
 from kickoff.reviewed_schedules import BOXING_LICENSE, CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
@@ -357,6 +360,78 @@ def f1_events(text: str, year: int, source_url: str, country: str | None = None)
     return events
 
 
+def _file_key(repo: str, path: str) -> str:
+    return f"github:{repo}:{path}"
+
+
+def _football_observation(
+    payload: dict, key: str, season: str, url: str, observed: str, current_start: int
+) -> SourceUnit:
+    identities, unresolved, seen = [], {}, set()
+    for row in payload["matches"]:
+        identity = stable_event_id("openfootball", key, season, row.get("team1"), row.get("team2"), row.get("round"))
+        if identity in seen:
+            unresolved[identity] = "duplicate_source_identity"
+        seen.add(identity)
+        identities.append(identity)
+        status = (row.get("status") or "").lower()
+        score = row.get("score")
+        score = score.get("ft") if isinstance(score, dict) else score
+        if status in {"canceled", "cancelled", "postponed"}:
+            unresolved[identity] = status
+        elif not row.get("date"):
+            unresolved[identity] = "undated"
+        elif not all(
+            isinstance(row.get(k), str)
+            and row[k].strip()
+            and row[k].strip().casefold() not in {"tbd", "tba", "unknown", "undecided"}
+            for k in ("team1", "team2")
+        ):
+            unresolved[identity] = "undecided"
+        elif not (isinstance(score, list) and len(score) == 2 and all(type(n) is int and n >= 0 for n in score)):
+            unresolved[identity] = "missing_final_score"
+    start = int(season[:4])
+    brazil = key == "br.1"
+    return SourceUnit(
+        key=_file_key("openfootball/football.json", f"{season}/{key}.json"),
+        source_url=url,
+        observed_at=observed,
+        event_ids=tuple(dict.fromkeys(identities)),
+        unresolved=unresolved,
+        complete=len(set(identities)) == len(identities),
+        closed=start < current_start,
+        start=f"{start}-{'01' if brazil else '07'}-01",
+        end=f"{start + 1}-{'01' if brazil else '07'}-01",
+    )
+
+
+def _reviewed_observations(plan: RefreshPlan, reviewed: list[CalendarEvent], notices: list[dict], year: int) -> None:
+    """Our reviewed registry is complete locally, not a complete upstream calendar."""
+    prefix = f"reviewed:{year}:"
+    keys = set()
+    for source in notices:
+        key = prefix + source["id"]
+        keys.add(key)
+        cohort = [e for e in reviewed if e.source_url == source["url"]]
+        observed = source.get("checked_date") or source["retrieved_at"]
+        plan.observe(
+            SourceUnit(
+                key=key,
+                source_url=source["url"],
+                observed_at=observed,
+                event_ids=tuple(e.event_id for e in cohort),
+                complete=True,
+                closed=False,
+                unresolved={e.event_id: "missing_confirmed_result" for e in cohort},
+            )
+        )
+    # A reviewed source removed locally no longer supplies a visible appointment.
+    # Its historical source check date remains historical, including retained IDs.
+    for key, previous in plan.baseline.units.items():
+        if key.startswith(prefix) and key not in keys:
+            plan.observe(replace(previous, event_ids=(), unresolved={}, complete=True, closed=False))
+
+
 def refresh_open_schedules(
     year: int,
     output_dir: Path,
@@ -365,6 +440,8 @@ def refresh_open_schedules(
     available_seasons: list[int] | None = None,
     enrich_times: bool = False,
     start_list_loader: StartListLoader | None = None,
+    plan: RefreshPlan | None = None,
+    result_loader=None,
 ) -> Path:
     """Fetch all configured schedules and export; primary feed failures abort publication."""
     now = datetime.now(timezone.utc)
@@ -378,82 +455,157 @@ def refresh_open_schedules(
         evidence.extend({**item, "kind": kind} for item in inputs)
         source_notices.extend(notices)
 
+    def file_receipt(url, body, count, league, observed):
+        return {
+            "url": url,
+            "sha256": hashlib.sha256(body).hexdigest(),
+            "parsed_events": count,
+            **({"league": league, "checked_date": observed[:10]} if plan is not None else {}),
+        }
+
     revisions = {}
-    for repo, branch in [
-        ("openfootball/football.json", "master"),
-        ("openfootball/worldcup.json", "master"),
-        ("f1db/f1db", "main"),
-    ]:
-        revision = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
-        if not re.fullmatch(r"[a-f0-9]{40}", revision):
-            raise ValueError("Invalid upstream revision")
-        revisions[repo] = revision
+
+    def revision_for(repo, branch):
+        if repo not in revisions:
+            revision = json.loads(read_url(f"https://api.github.com/repos/{repo}/commits/{branch}"))["sha"]
+            if not re.fullmatch(r"[a-f0-9]{40}", revision):
+                raise ValueError("Invalid upstream revision")
+            revisions[repo] = revision
+        return revisions[repo]
+
+    if plan is None:
+        for repo, branch in [
+            ("openfootball/football.json", "master"),
+            ("openfootball/worldcup.json", "master"),
+            ("f1db/f1db", "main"),
+        ]:
+            revision_for(repo, branch)
 
     def football(key):
         repo = "openfootball/football.json"
-        revision = revisions[repo]
         paths = (
             [f"{year}/br.1.json"]
             if key == "br.1"
             else [f"{start}-{str(start + 1)[-2:]}/{key}.json" for start in (year - 1, year)]
         )
-        result, inputs = [], []
+        result, inputs, notices = [], [], []
         for path in paths:
+            reused = plan.try_reuse(_file_key(repo, path)) if plan is not None else None
+            if reused is not None:
+                result.extend(e for e in reused if e.calendar_date.startswith(str(year)))
+                continue
+            revision = revision_for(repo, "master")
             url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
             start = int(path[:4])
             # European seasons run July-June; Brazil uses the calendar year.
             current_start = now.year if key == "br.1" else now.year - (now.month < 7)
             body = read_optional(url) if start > current_start else read_url(url)
+            observed = datetime.now(timezone.utc).isoformat(timespec="seconds")
             if body is None:
+                if plan is not None:
+                    plan.observe(SourceUnit(_file_key(repo, path), url, observed, complete=False, closed=False))
                 continue
+            payload = json.loads(body)
             parsed = football_events(
-                json.loads(body), key, path.split("/")[0], f"https://github.com/{repo}/blob/{revision}/{path}"
+                payload, key, path.split("/")[0], f"https://github.com/{repo}/blob/{revision}/{path}"
             )
+            if plan is not None:
+                plan.observe(_football_observation(payload, key, path.split("/")[0], url, observed, current_start))
+            notices.append({**SOURCES[0], "revision": revision})
             result.extend(e for e in parsed if e.calendar_date.startswith(str(year)))
-            inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)})
-        return result, [{**SOURCES[0], "revision": revision}], inputs
+            inputs.append(file_receipt(url, body, len(parsed), FOOTBALL[key][0], observed))
+        return result, notices, inputs
 
     for key, (league, _label, _country) in FOOTBALL.items():
         collect(league, "openfootball", lambda key=key: football(key))
 
     def world_cup():
         repo = "openfootball/worldcup.json"
-        revision = revisions[repo]
         path = f"{year}/worldcup.json"
+        reused = plan.try_reuse(_file_key(repo, path)) if plan is not None else None
+        if reused is not None:
+            return [e for e in reused if e.calendar_date.startswith(str(year))], [], []
+        revision = revision_for(repo, "master")
         url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
         # There is no men's World Cup in off years; a known edition's failure
         # must stop publication rather than silently remove the tournament.
         body = read_url(url) if year % 4 == 2 else read_optional(url)
+        observed = datetime.now(timezone.utc).isoformat(timespec="seconds")
         if body is None:
+            if plan is not None:
+                plan.observe(SourceUnit(_file_key(repo, path), url, observed, complete=False, closed=False))
             return [], [], []
         parsed = world_cup_events(json.loads(body), year, f"https://github.com/{repo}/blob/{revision}/{path}")
+        if plan is not None:
+            plan.observe(
+                SourceUnit(
+                    _file_key(repo, path),
+                    url,
+                    observed,
+                    event_ids=tuple(e.event_id for e in parsed),
+                    unresolved={e.event_id: "missing_final_score" for e in parsed if e.status != "finished"},
+                    complete=True,
+                    closed=False,
+                )
+            )
         return (
             parsed,
             [{**WORLD_CUP_SOURCE, "revision": revision, "checked_date": now.date().isoformat()}],
-            [{"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)}],
+            [file_receipt(url, body, len(parsed), "FIFA_WORLD_CUP", observed)],
         )
 
     collect("FIFA_WORLD_CUP", "openfootball", world_cup)
 
     def formula_one():
         repo = "f1db/f1db"
-        revision = revisions[repo]
         directory = f"src/data/seasons/{year}/races"
+        reused = plan.try_reuse(_file_key(repo, directory)) if plan is not None else None
+        if reused is not None:
+            return [e for e in reused if e.calendar_date.startswith(str(year))], [], []
+        revision = revision_for(repo, "main")
         url = f"https://api.github.com/repos/{repo}/contents/{directory}?ref={revision}"
         body = read_optional(url) if year > now.year else read_url(url)
+        observed = datetime.now(timezone.utc).isoformat(timespec="seconds")
         if body is None:
+            if plan is not None:
+                plan.observe(SourceUnit(_file_key(repo, directory), url, observed, complete=False, closed=False))
             return [], [], []
         listing = json.loads(body)
         if not isinstance(listing, list) or not listing:
             raise ValueError("No F1 races returned")
         result, inputs = [], []
+        if plan is not None:
+            plan.observe(
+                SourceUnit(
+                    _file_key(repo, directory),
+                    url,
+                    observed,
+                    complete=True,
+                    closed=False,
+                    children=tuple(
+                        _file_key(repo, item["path"] + "/race.yml") for item in listing if item["type"] == "dir"
+                    ),
+                )
+            )
+            inputs.append(file_receipt(url, body, 0, "F1", observed))
         circuit_countries = {}
         countries = {}
 
         def metadata(path):
             url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
             body = read_url(url)
-            inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": 0})
+            metadata_observed = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            inputs.append(file_receipt(url, body, 0, "F1", metadata_observed))
+            if plan is not None:
+                plan.observe(
+                    SourceUnit(
+                        _file_key(repo, path),
+                        url,
+                        metadata_observed,
+                        complete=True,
+                        closed=False,
+                    )
+                )
             return f1_fields(body.decode())
 
         def host_country(race):
@@ -476,13 +628,37 @@ def refresh_open_schedules(
             if item["type"] != "dir":
                 continue
             path = item["path"] + "/race.yml"
+            reused = plan.try_reuse(_file_key(repo, path)) if plan is not None else None
+            if reused is not None:
+                result.extend(e for e in reused if e.calendar_date.startswith(str(year)))
+                continue
             url = f"https://raw.githubusercontent.com/{repo}/{revision}/{path}"
             body = read_url(url)
+            race_observed = datetime.now(timezone.utc).isoformat(timespec="seconds")
             parsed = f1_events(
                 body.decode(), year, f"https://github.com/{repo}/blob/{revision}/{path}", host_country(body.decode())
             )
+            if plan is not None:
+                plan.f1_contexts.update(
+                    {
+                        e.event_id: {"race_path": item["path"], "race_body": body, "revision": revision}
+                        for e in parsed
+                        if e.event_type in {"race", "sprint"}
+                    }
+                )
+                plan.observe(
+                    SourceUnit(
+                        _file_key(repo, path),
+                        url,
+                        race_observed,
+                        event_ids=tuple(e.event_id for e in parsed),
+                        unresolved={e.event_id: "missing_confirmed_result" for e in parsed},
+                        complete=True,
+                        closed=False,
+                    )
+                )
             result.extend(e for e in parsed if e.calendar_date.startswith(str(year)))
-            inputs.append({"url": url, "sha256": hashlib.sha256(body).hexdigest(), "parsed_events": len(parsed)})
+            inputs.append(file_receipt(url, body, len(parsed), "F1", race_observed))
         if not result:
             raise ValueError("No F1 races parsed")
         return result, [{**SOURCES[1], "revision": revision}], inputs
@@ -491,18 +667,30 @@ def refresh_open_schedules(
     for league, (kind, fetch) in (feeds or {}).items():
 
         def league_feed(fetch=fetch, kind=kind):
-            return fetch(year), [{**league_feeds.SOURCES[kind], "kind": kind}], []
+            before = dict(plan.receipts) if plan is not None else {}
+            fresh = fetch(year, plan=plan) if plan is not None else fetch(year)
+            inputs = (
+                [receipt for key, receipt in plan.receipts.items() if before.get(key) != receipt]
+                if plan is not None
+                else []
+            )
+            return fresh, [{**league_feeds.SOURCES[kind], "kind": kind}], inputs
 
         collect(league, kind, league_feed)
     fed_leagues = {event.league for event in events if event.source in league_feeds.SOURCES}
     reviewed, notices, exclusions = load_reviewed_schedules(reviewed_dir or output_dir.parent / "reviewed", year)
+    if plan is not None:
+        _reviewed_observations(plan, reviewed, notices, year)
     # A full league feed supersedes the hand-reviewed selection for the same league.
     reviewed = [event for event in reviewed if event.league not in fed_leagues]
     kept_sources = {event.source_url for event in reviewed}
     notices = [notice for notice in notices if notice["url"] in kept_sources]
     if start_list_loader is not None:
         start_sources, start_evidence = start_list_loader.enrich(
-            reviewed, reviewed_dir or output_dir.parent / "reviewed", year
+            reviewed,
+            reviewed_dir or output_dir.parent / "reviewed",
+            year,
+            **({"skip_ids": plan.baseline.frozen_ids} if plan is not None else {}),
         )
         notices.extend(start_sources)
         evidence.extend(start_evidence)
@@ -512,24 +700,56 @@ def refresh_open_schedules(
     source_notices.extend(country_notices)
     time_receipts = []
     if enrich_times:
-        time_receipts = fill_missing_start_times(events, year)
+        targets = [e for e in events if plan is None or e.event_id not in plan.baseline.frozen_ids]
+        time_receipts = fill_missing_start_times(targets, year) if targets else []
         evidence.extend({**item, "kind": "espn"} for item in time_receipts)
         if any(receipt["clocks_added"] or receipt["team_facts_added"] for receipt in time_receipts):
             source_notices.append({**league_feeds.SOURCES["espn"], "kind": "espn"})
         enrich_team_logos(events)
+    if result_loader is not None:
+        result_sources, result_evidence = result_loader.enrich(
+            events,
+            year,
+            reviewed_dir or output_dir.parent / "reviewed",
+            frozen_ids=plan.baseline.frozen_ids if plan is not None else frozenset(),
+            f1_contexts=plan.f1_contexts if plan is not None else {},
+            baseline_events=plan.baseline.events if plan is not None else {},
+        )
+        notices.extend(result_sources)
+        evidence.extend(result_evidence)
+        if plan is not None:
+            plan.result_end_bounds.update(result_loader.ended_before)
     # Each input was validated where it was produced. Check only cross-feed identity here.
     if len({e.event_id for e in events}) != len(events):
         raise ValueError("Duplicate event identity across feeds")
-    if not events:
-        raise ValueError("No events to publish")
     national_sources = league_feeds.espn_national_sources(events)
     source_notices.extend(national_sources)
+    if plan is not None:
+        plan.confirmed_results.update(e.event_id for e in events if e.status == "finished" and e.result_complete)
+    fresh_public = [_event_payload(e) for e in sort_events(events)]
+    merged_public = plan.public_events(fresh_public, year) if plan is not None else fresh_public
+    if not merged_public:
+        raise ValueError("No events to publish")
+    retained_envelopes = []
+    if plan is not None:
+        fresh_ids = {e["event_id"] for e in fresh_public}
+        retained = {
+            e["event_id"]
+            for e in merged_public
+            if e["event_id"] in plan.baseline.frozen_ids or e["event_id"] not in fresh_ids
+        }
+        retained_envelopes = [
+            b for b in plan.baseline.year_bundles.get(year, []) if any(e["event_id"] in retained for e in b["events"])
+        ]
+        for previous in retained_envelopes:
+            source_notices.extend(previous.get("sources", []))
+            evidence.extend(previous.get("input_evidence", []))
     bundle = {
         "schema_version": SCHEMA_VERSION,
         "season": year,
         "available_seasons": available_seasons or [year],
         "providers": [],
-        "events": [_event_payload(e) for e in sort_events(events)],
+        "events": merged_public,
     }
     has_team_logos = any(p.get("logo_url") for event in bundle["events"] for p in event["participants"])
     if has_team_logos:
@@ -554,7 +774,7 @@ def refresh_open_schedules(
     bundle["coverage"] = (
         f"{year}: {' and '.join(open_coverage) or 'no open-data leagues yet'}. "
         + (
-            f"Published schedules for {fed_coverage} from official league feeds and ESPN, checked daily. "
+            f"Published schedules for {fed_coverage} from official league feeds and ESPN, refreshed with their sources; frozen finished results keep actual check dates. "
             if fed_coverage
             else ""
         )
@@ -578,7 +798,7 @@ def refresh_open_schedules(
         & set(league_feeds.SOURCES)
     )
     bundle["sources"] = list({json.dumps(s, sort_keys=True): s for s in source_notices + notices}.values())
-    bundle["input_evidence"] = evidence
+    bundle["input_evidence"] = list({json.dumps(item, sort_keys=True): item for item in evidence}.values())
     bundle["exclusions"] = exclusions
     bundle["data_licenses"] = {
         "openfootball": "CC0 1.0",
@@ -591,6 +811,9 @@ def refresh_open_schedules(
         **{source["kind"]: source["license"] for source in national_sources},
         **{source["kind"]: source["license"] for source in country_notices},
     }
+    for previous in retained_envelopes:
+        for kind, license_name in previous.get("data_licenses", {}).items():
+            bundle["data_licenses"].setdefault(kind, license_name)
     bundle["data_license_notice"] = (
         "Software is MIT. Schedule data retains the per-source licenses listed here. "
         "League feed, reviewed boxing and ESPN schedule facts are attributed to their sources, which grant no data license; "

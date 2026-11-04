@@ -15,7 +15,7 @@ from kickoff import feeds
 from kickoff.web import _event_payload
 fixture=json.loads(Path('tests/fixtures/espn-tournaments.json').read_text())['feeds']
 golf=json.loads(Path('tests/fixtures/espn-golf.json').read_text())['feeds']
-def read(url):
+def read(url, **_options):
     parsed=urlparse(url)
     sport,tour,_=parsed.path.split('/sports/')[1].split('/')
     year=parse_qs(parsed.query)['dates'][0]
