@@ -2,6 +2,7 @@ import copy
 import json
 from collections import Counter
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import pytest
 
@@ -150,16 +151,17 @@ def test_structured_schedule_citations_preserve_uncovered_groups_and_venue_evide
     payload = registry()
     by_id = {row["id"]: row for row in payload["events"]}
     sources = {row["id"]: row for row in payload["sources"]}
-    switched = [
-        row
-        for row in payload["events"]
-        if "weightliftinghouse.com/" in row["source_url"] or "german-weightlifting.de/" in row["source_url"]
-    ]
+    house_hosts = {"store.weightliftinghouse.com", "eustore.weightliftinghouse.com"}
+    structured_hosts = house_hosts | {"german-weightlifting.de"}
+    switched = [row for row in payload["events"] if urlsplit(row["source_url"]).hostname in structured_hosts]
     assert len(switched) == 101
-    assert "weightliftinghouse.com/" in by_id["iwf-worlds-2026-women-s-49-kg-group-a"]["source_url"]
-    assert "weightliftinghouse.com/" not in by_id["iwf-worlds-2026-women-s-49-kg-group-b"]["source_url"]
-    assert "weightliftinghouse.com/" not in by_id["asian-2026-men-s-88-kg-group-b"]["source_url"]
-    assert "weightliftinghouse.com/" not in by_id["oceania-2026-women-s-plus77-kg"]["source_url"]
+    assert urlsplit(by_id["iwf-worlds-2026-women-s-49-kg-group-a"]["source_url"]).hostname in house_hosts
+    for identity in [
+        "iwf-worlds-2026-women-s-49-kg-group-b",
+        "asian-2026-men-s-88-kg-group-b",
+        "oceania-2026-women-s-plus77-kg",
+    ]:
+        assert urlsplit(by_id[identity]["source_url"]).hostname not in house_hosts
     commonwealth = next(row for row in switched if row["league"] == "WEIGHTLIFTING_COMMONWEALTH_GAMES")
     evidence = sources[commonwealth["source_id"]]["evidence"]
     assert any(".pdf" in proof["url"] and proof["fields"] == ["venue"] for proof in evidence)
