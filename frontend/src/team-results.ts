@@ -18,8 +18,11 @@ export function teamOutcome(team: ApiParticipant, opponent: ApiParticipant | nul
   const unflagged = team.result_winner === undefined && opponent?.result_winner === undefined;
   const aggregateOrShootout = [team, opponent].some(side => side?.aggregate_score != null || side?.shootout_score != null);
   const scoreDecides = TEAM_SPORTS.has(sport) && sport !== "cricket" && unflagged && !aggregateOrShootout;
+  // In two-legged soccer, ESPN winner flags can identify the aggregate qualifier.
+  // Paired aggregate scores keep the leg score and qualification distinct.
+  const legDecides = sport === "soccer" && team.aggregate_score != null && opponent?.aggregate_score != null;
   return {
-    winner: higher && (team.result_winner === true || scoreDecides),
+    winner: higher && (team.result_winner === true || scoreDecides || legDecides),
     advances: team.result_advance === true,
   };
 }

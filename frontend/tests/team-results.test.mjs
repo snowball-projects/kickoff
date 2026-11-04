@@ -63,3 +63,12 @@ test("final scores retain zero, require completed status and two actual particip
   assert.deepEqual(completedTeams({ ...event, participants: [home, away] }), []);
   assert.deepEqual(completedTeams({ ...event, participants: [event.participants[0]] }), []);
 });
+
+
+test("paired aggregate facts distinguish a leg winner from the penalty qualifier", () => {
+  const home = team("Source leg winner", "home", { final_score: 2, result_winner: false, result_advance: false, aggregate_score: 3, shootout_score: 1 });
+  const away = team("Source qualifier", "away", { final_score: 1, result_winner: true, result_advance: true, aggregate_score: 3, shootout_score: 2 });
+  assert.deepEqual(teamOutcome(home, away, "soccer"), { winner: true, advances: false });
+  assert.deepEqual(teamOutcome(away, home, "soccer"), { winner: false, advances: true });
+  assert.deepEqual(teamOutcome({ ...home, final_score: 1 }, away, "soccer"), { winner: false, advances: false });
+});

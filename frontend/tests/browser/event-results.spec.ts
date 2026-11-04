@@ -19,7 +19,7 @@ for (const width of [320, 375, 1280]) test(`source-backed team outcomes and orde
   await page.emulateMedia({ reducedMotion: "reduce" });
   const games = [
     event("Drawn leg", undefined, { title: "Original neutral-venue title", league: "COPA_LIBERTADORES", status: "finished", participants: [team("Home club", "home", 1, { result_winner: false, aggregate_score: 3, shootout_score: 1 }), team("Away qualifier", "away", 1, { result_winner: true, result_advance: true, aggregate_score: 3, shootout_score: 2 })] }),
-    event("Lost leg", undefined, { league: "COPA_LIBERTADORES", status: "finished", participants: [team("Leg winner", "home", 2, { result_winner: false }), team("Advancing club", "away", 1, { result_winner: true, result_advance: true })] }),
+    event("Lost leg", undefined, { league: "COPA_LIBERTADORES", status: "finished", participants: [team("Leg winner", "home", 2, { result_winner: false, aggregate_score: 3, shootout_score: 1 }), team("Advancing club", "away", 1, { result_winner: true, result_advance: true, aggregate_score: 3, shootout_score: 2 })] }),
     event("Normal draw", undefined, { status: "finished", participants: [team("Draw home", "home", 0, { result_winner: false }), team("Draw away", "away", 0, { result_winner: false })] }),
     event("Basketball final", undefined, { league: "NBA", sport: "basketball", status: "finished", participants: [team("Home side", "home", 90, { result_winner: false }), team("Away side", "away", 100, { result_winner: true })] }),
     event("Winning advancer", undefined, { title: "Source winning-leg title", league: "COPA_LIBERTADORES", status: "finished", participants: [team("Winning qualifier", "home", 3, { result_winner: true, result_advance: true }), team("Other leg side", "away", 1, { result_winner: false })] }),
@@ -47,7 +47,7 @@ for (const width of [320, 375, 1280]) test(`source-backed team outcomes and orde
   await expect(nba.locator(".team-name")).toHaveText(["Away side", "Home side"]);
   await expect(nba.locator(".agenda-team-winner")).toContainText("Away side");
   await expect(page.locator('[id="agenda-2026-10-28-Normal draw"] .agenda-team-outcome')).toHaveCount(0);
-  await expect(page.locator('[id="agenda-2026-10-28-Lost leg"] .agenda-team-outcome')).toHaveText(["Advances"]);
+  await expect(page.locator('[id="agenda-2026-10-28-Lost leg"] .agenda-team-outcome')).toHaveText(["Advances", "Winner"]);
   const roleless = page.locator('[id="agenda-2026-10-28-Roleless cricket"]');
   await expect(roleless.locator(".agenda-team")).toHaveCount(0);
   await roleless.getByRole("button").click();
