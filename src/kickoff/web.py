@@ -128,6 +128,7 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
         "is_exhibition": event.is_exhibition,
         "is_support_event": event.is_support_event,
         "tags": event.tags,
+        **({"result": event.result} if event.result is not None else {}),
         **({"start_time_scope": event.start_time_scope} if event.start_time_scope != "event" else {}),
     }
 

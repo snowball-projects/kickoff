@@ -29,9 +29,13 @@ npm --prefix frontend run test:browser
 npm --prefix frontend run build
 ```
 
-Pages fetches all schedules, builds and deploys daily at 09:17 UTC, on pushes to
+Pages refreshes schedules and deploys daily at 09:17 and 21:17 UTC, on pushes to
 main and on demand. A primary schedule feed failure stops publication, leaving
-the live site unchanged. Failed optional ESPN clock lookups log a warning and
+the live site unchanged. Results stay refreshable for two days after a confirmed
+end; frozen facts retain their actual check dates. Unresolved records are checked
+again. A missing or invalid baseline triggers a full rebuild. Use
+`--force-full` with the refresh command, or the workflow’s manual rebuild option.
+Failed optional ESPN clock lookups log a warning and
 leave affected events date-only; existing source times are preserved. The daily
 build writes nothing back. Team logos use supplied ESPN images and the checked-in
 URL list, read offline across seasons. Add missing logos in a normal PR to
@@ -40,11 +44,8 @@ source name when no ID exists), with reviewed names, `source_url` and `checked_d
 Country-image URLs also need an audited entry in
 `espn-country-images.json` matching the team's reviewed national country identity;
 clubs do not use country images. Checks run in CI on pull requests.
-Local schedule refresh accepts `--year 2026`. Start lists use dated reviewed snapshots;
-publication never refreshes them. Revisions are added only when requested. Optional EWF/AWF/Pan-American start books refresh
-athlete entry totals; unavailable or contradictory session rosters remain absent.
-Reviewed IWF/Africa rosters retain their check dates; while downloads are blocked,
-revised books need a normal reviewed-data PR.
+Local schedule refresh accepts `--year 2026`. Start lists are dated reviewed snapshots,
+with no automatic source fetches. Revisions are added in a reviewed-data PR when requested.
 
 Reviewed facts, source links and historical check dates live in `data/reviewed`;
 edit records and their receipts together, preserving IDs and uncertainty.

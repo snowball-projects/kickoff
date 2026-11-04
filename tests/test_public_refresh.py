@@ -3,11 +3,13 @@ import json
 import os
 import subprocess
 import sys
-from datetime import date
+from datetime import date, datetime, timezone
 
 import pytest
 
 from kickoff import feeds, open_schedules
+from kickoff.refresh_state import SourceUnit
+from kickoff.web import _event_payload
 from tests.test_reviewed_schedules import ROOT, fake_open_read
 
 spec = importlib.util.spec_from_file_location("refresh_public", ROOT / "scripts/refresh-public.py")
@@ -20,9 +22,9 @@ def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatc
     monkeypatch.setattr(open_schedules, "fill_missing_start_times", lambda *_: [])
     calls = []
 
-    def fetch(league, kind, year):
+    def fetch(league, kind, year, plan):
         calls.append((league, year))
-        return [
+        events = [
             feeds.make_event(
                 source=kind,
                 league=league,
@@ -35,13 +37,23 @@ def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatc
                 source_url="https://example.test/schedule",
             )
         ]
+        plan.observe(
+            SourceUnit(
+                f"fixture:{league}:{year}",
+                "https://example.test/schedule",
+                plan.now.isoformat(),
+                event_ids=tuple(event.event_id for event in events),
+                complete=True,
+            )
+        )
+        return events
 
     configured = {
-        league: (kind, lambda year, league=league, kind=kind: fetch(league, kind, year))
+        league: (kind, lambda year, league=league, kind=kind, plan=None: fetch(league, kind, year, plan))
         for league, (kind, _) in feeds.FEEDS.items()
     }
     monkeypatch.setattr(runner, "FEEDS", configured)
-    runner.refresh([2026], tmp_path, ROOT / "data/reviewed")
+    runner.refresh([2026], tmp_path, ROOT / "data/reviewed", force_full=True)
     manifest = json.loads((tmp_path / "manifest.json").read_text())
     bundle = manifest["seasons"]["2026"]
     bundle["events"] = [
@@ -72,16 +84,16 @@ import sys
 from kickoff import feeds, open_schedules
 from tests.test_reviewed_schedules import ROOT, fake_open_read
 failed = sys.argv[1]
-def broken(_):
+def broken(_, **_kwargs):
     raise OSError(f"{failed}: source offline")
 def read(url):
     if (failed == "EPL" and url.endswith("en.1.json")) or (failed == "F1" and "f1db/f1db" in url):
         return broken(url)
     return fake_open_read(url)
 open_schedules.read_url = read
-feeds.FEEDS = {league: (kind, broken if league == failed else lambda _: [])
+feeds.FEEDS = {league: (kind, broken if league == failed else lambda _, **_kwargs: [])
                for league, (kind, _) in feeds.FEEDS.items()}
-sys.argv = ["scripts/refresh-public.py", "--year", "2026"]
+sys.argv = ["scripts/refresh-public.py", "--year", "2026", "--force-full"]
 runpy.run_path(str(ROOT / "scripts/refresh-public.py"), run_name="__main__")
 """)
     result = subprocess.run(
@@ -138,8 +150,6 @@ def test_default_coverage_contains_the_rolling_window_and_timezone_boundary_days
 
 
 def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tmp_path):
-    from datetime import datetime, timezone
-
     class Clock(datetime):
         @classmethod
         def now(cls, tz=None):
@@ -147,18 +157,54 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
 
     calls = []
     monkeypatch.setattr(runner, "datetime", Clock)
-    monkeypatch.setattr(sys, "argv", ["refresh-public.py"])
+    monkeypatch.setattr(sys, "argv", ["refresh-public.py", "--force-full"])
     monkeypatch.setattr(runner, "__file__", str(tmp_path / "scripts/refresh-public.py"))
     monkeypatch.setattr(runner.shutil, "copyfile", lambda *_: None)
 
     def collect(year, output, *_, **kwargs):
         calls.append((year, kwargs))
+        event = feeds.make_event(
+            source="espn",
+            league="NFL",
+            sport="american-football",
+            upstream_id=str(year),
+            season=str(year),
+            title="Source fixture",
+            day=f"{year}-10-27",
+            utc=None,
+            source_url="https://example.test/schedule",
+        )
+        kwargs["plan"].observe(
+            SourceUnit(
+                f"fixture:{year}",
+                "https://example.test/schedule",
+                Clock.now().isoformat(),
+                event_ids=(event.event_id,),
+                complete=True,
+            )
+        )
         path = output / f"{year}.json"
-        path.write_text(json.dumps({"season": year}))
+        path.write_text(
+            json.dumps(
+                {
+                    "schema_version": "1",
+                    "season": year,
+                    "events": [_event_payload(event)],
+                    "available_seasons": kwargs["available_seasons"],
+                    "updated_at": Clock.now().isoformat(),
+                    "sources": [],
+                    "input_evidence": [],
+                    "data_licenses": {},
+                    "data_license_notice": "Fixture facts",
+                    "providers": [],
+                    "coverage": "Offline fixture",
+                    "exclusions": [],
+                }
+            )
+        )
         return path
 
     monkeypatch.setattr(runner, "refresh_open_schedules", collect)
-    monkeypatch.setattr(runner, "publish_sports", lambda bundles, output: output / "manifest.json")
     runner.main()
     assert [year for year, _ in calls] == [2025, 2026, 2027]
     shared_start_lists = calls[0][1]["start_list_loader"]
@@ -170,6 +216,8 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
             "available_seasons": [2025, 2026, 2027],
             "enrich_times": True,
             "start_list_loader": shared_start_lists,
+            "result_loader": None,
+            "plan": calls[0][1]["plan"],
         }
         for _, kwargs in calls
     )
@@ -180,6 +228,6 @@ def test_explicit_refresh_years_override_the_default_window(monkeypatch, tmp_pat
     monkeypatch.setattr(sys, "argv", ["refresh-public.py", "--year", "2024", "--year", "2026"])
     monkeypatch.setattr(runner, "__file__", str(tmp_path / "scripts/refresh-public.py"))
     monkeypatch.setattr(runner.shutil, "copyfile", lambda *_: None)
-    monkeypatch.setattr(runner, "refresh", lambda years, *_: calls.extend(years))
+    monkeypatch.setattr(runner, "refresh", lambda years, *_, **_kwargs: calls.extend(years))
     runner.main()
     assert calls == [2024, 2026]
