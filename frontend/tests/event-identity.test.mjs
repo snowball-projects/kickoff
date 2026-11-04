@@ -93,7 +93,7 @@ test("pill flags separate league jurisdiction, traveling hosts and international
   assert.deepEqual(pillCountries([event]).map(c => c.code), ["GB-ENG", "ES"]);
   assert.deepEqual(pillCountries([{ ...event, country: "GB" }]).map(c => c.code), ["GB-ENG"]);
   assert.deepEqual(pillCountries([event, { ...event, country: null }]).map(c => c.code), ["GB-ENG"]);
-  for (const league of ["MLS", "NWSL", "UFL", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE",
+  for (const league of ["UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE", "UEFA_CONFERENCE_LEAGUE",
     "UEFA_NATIONS_LEAGUE", "UEFA_WOMENS_CHAMPIONS_LEAGUE", "COPA_LIBERTADORES", "COPA_SUDAMERICANA"])
     assert.deepEqual(pillCountries([{ ...event, league }]), []);
   for (const league of ["NFL", "NBA", "NHL", "MLB"]) {
@@ -103,4 +103,18 @@ test("pill flags separate league jurisdiction, traveling hosts and international
   for (const league of ["UFC", "F1", "MOTOGP", "WEC", "INDYCAR", "PGA_TOUR", "ATP", "IWF_WORLDS"])
     assert.deepEqual(pillCountries([{ ...event, league, country: "US" }]).map(c => c.code), ["US"]);
   assert.deepEqual(pillCountries([]), []);
+});
+
+
+test("MLS, NWSL and UFL hide routine hosts and show only a shared known foreign host", () => {
+  for (const league of ["MLS", "NWSL", "UFL"]) {
+    const event = { league, source: "espn", country: "ES" };
+    for (const country of ["US", "CA", null, "", "Unknown"])
+      assert.deepEqual(pillCountries([{ ...event, country }]), []);
+    assert.deepEqual(pillCountries([event, { ...event, country: "Spain" }]).map(c => c.code), ["ES"]);
+    assert.deepEqual(pillCountries([{ ...event, country: "GB" }]).map(c => c.code), ["GB"]);
+    for (const country of ["US", "CA", "JP", null, "Unknown"])
+      assert.deepEqual(pillCountries([event, { ...event, country }]), []);
+    assert.deepEqual(pillCountries([{ ...event, source: "openfootball", country: "Spain" }]), []);
+  }
 });

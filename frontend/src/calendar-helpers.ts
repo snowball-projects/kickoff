@@ -142,11 +142,11 @@ export const NO_FLAG_LEAGUES = new Set(["NBA", "WNBA", "NCAA_MENS_BASKETBALL", "
 
 // A common venue is not a league jurisdiction for these international leagues.
 const NO_PILL_FLAG_LEAGUES = new Set([
-  "MLS", "NWSL", "UFL", "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE",
+  "UEFA_CHAMPIONS_LEAGUE", "UEFA_EUROPA_LEAGUE",
   "UEFA_CONFERENCE_LEAGUE", "UEFA_NATIONS_LEAGUE", "UEFA_WOMENS_CHAMPIONS_LEAGUE",
   "COPA_LIBERTADORES", "COPA_SUDAMERICANA",
 ]);
-const NORTH_AMERICAN_LEAGUES = new Set(["NFL", "NBA", "WNBA", "NHL", "MLB", "COLLEGE_FOOTBALL",
+const NORTH_AMERICAN_LEAGUES = new Set(["MLS", "NWSL", "UFL", "NFL", "NBA", "WNBA", "NHL", "MLB", "COLLEGE_FOOTBALL",
   "NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "G_LEAGUE"]);
 
 export function pillCountries(items: EventCard[]): Country[] {

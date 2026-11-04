@@ -1,5 +1,6 @@
 import copy
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -217,3 +218,43 @@ def test_changed_indycar_country_receipt_retains_citations_and_terms_only_in_its
     assert not nascar["input_evidence"]
     assert {source["kind"] for source in nascar["sources"]} == {"espn"}
     assert set(nascar["data_licenses"]) == {"espn"}
+
+
+@pytest.mark.parametrize(
+    "league, path, sport",
+    [
+        ("MLS", "soccer/usa.1", "soccer"),
+        ("NWSL", "soccer/usa.nwsl", "soccer"),
+        ("UFL", "football/ufl", "football"),
+    ],
+)
+def test_mls_nwsl_and_ufl_keep_explicit_foreign_venue_country_with_its_source(league, path, sport):
+    row = espn_game("99", "2026-11-04T17:00Z", "Home", "Away")
+    venue = row["competitions"][0]["venue"]
+    venue["address"] = {"city": "Munich", "country": "Germany"}
+    url = f"{feeds.ESPN}/{path}/scoreboard?dates=20261104&limit=1000"
+    event = feeds._espn_event(row, league=league, sport=sport, zone=feeds.EASTERN, fallback_url=url, input_url=url)
+    assert event.country == "DE"
+    assert event.country_source_url == url
+    assert event.country_checked_date == datetime.now(UTC).date().isoformat()
+    public = _event_payload(event)
+    assert public["country"] == "DE"
+    assert public["country_source_url"] == url
+    assert public["country_checked_date"] == event.country_checked_date
+    # A recognizable venue/city never substitutes for a missing country fact.
+    venue["fullName"] = "London Stadium"
+    for address in (
+        {"city": "London"},
+        {"city": "London", "country": None},
+        {"city": "London", "country": ""},
+        {"city": "London", "country": "unknown"},
+        {"city": "London", "country": "TBD"},
+        {"city": "London", "country": "TBA"},
+    ):
+        venue["address"] = address
+        event = feeds._espn_event(row, league=league, sport=sport, zone=feeds.EASTERN, fallback_url=url, input_url=url)
+        assert event.country is event.country_source_url is event.country_checked_date is None
+        public = _event_payload(event)
+        assert public["country"] is None
+        assert "country_source_url" not in public
+        assert "country_checked_date" not in public
