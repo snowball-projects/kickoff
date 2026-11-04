@@ -1,0 +1,36 @@
+.event-result-details { margin-top: 20px; min-width: 0; }
+.event-result-details h4 { margin: 0 0 8px; }
+.event-result-details .event-result-status { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
+.event-result-details .event-result-table-wrap { max-width: 100%; overflow-x: auto; }
+.event-result-details table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.event-result-details th, .event-result-details td { padding: 8px 5px; text-align: left; border-bottom: 1px solid var(--line); }
+.event-result-details th { font-weight: 500; }
+.event-result-details thead th, .event-result-details small { color: var(--muted); font-size: 12px; }
+.event-result-details tbody th { min-width: 0; overflow-wrap: anywhere; }
+.event-result-details small { display: block; }
+.event-result-details .event-result-podium th:first-child, .event-result-details .event-result-podium td { width: 3.5em; font-variant-numeric: tabular-nums; }
+.event-result-details .event-result-tennis td, .event-result-details .event-result-tennis thead th:not(:first-child) { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.event-result-details .event-result-set-winner { font-weight: 700; }
+.event-result-details sup { font-size: .7em; }
+.event-result-details .event-result-source { margin-top: 10px; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+
+.event-result-details h5 { margin: 16px 0 8px; font-size: 13px; }
+.event-result-details .event-result-medalists ol { margin: 0; padding: 0; list-style: none; }
+.event-result-details .event-result-medalists li { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.event-result-details .event-result-athlete-name { display: block; overflow-wrap: anywhere; }
+.event-result-details .event-result-lifts-wrap { max-width: 100%; overflow-x: auto; }
+.event-result-details .event-result-lifts-wrap:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.event-result-details .event-result-lifts { min-width: 690px; }
+.event-result-details .event-result-lifts tbody th, .event-result-details .event-result-lifts thead tr:first-child th:first-child { min-width: 170px; max-width: 240px; }
+.event-result-details .event-result-lifts td, .event-result-details .event-result-lifts thead th { text-align: center; font-variant-numeric: tabular-nums; }
+.event-result-details .event-result-lifts thead tr:first-child th:first-child { text-align: left; }
+.event-result-details .event-result-attempt { min-width: 55px; white-space: nowrap; }
+.event-result-details .event-result-attempt s { text-decoration-thickness: 2px; }
+.event-result-details .event-result-total, .event-result-details .event-result-rank { white-space: nowrap; }
+
+.event-result-details .event-result-match-winner th, .event-result-details .event-result-match-winner td { font-weight: 700; }
+.event-result-details .event-result-team td { font-variant-numeric: tabular-nums; }
+.agenda-match .agenda-result-summary { grid-column: 1 / -1; }
+.agenda-result-summary { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.agenda-team-winner .team-name { font-weight: 700; }
+.agenda-team-outcome { display: block; color: var(--muted); font-size: 12px; }

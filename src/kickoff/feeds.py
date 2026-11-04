@@ -25,8 +25,10 @@ from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 from kickoff.countries import COUNTRY_LEAGUES, tennis_venue_country, venue_country
+from kickoff.espn_results import espn_result
 from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
+from kickoff.results import attach_result
 from kickoff.semantics import classification_fields
 from kickoff.source_units import espn_unit, mlb_unit, nhl_unit, unit_key
 from kickoff.team_logos import TEAM_SPORTS, source_logo
@@ -378,6 +380,13 @@ def _espn_participants(event: CalendarEvent, competitors: list, finished: bool, 
         participant.short_name = team.get("shortDisplayName") or team.get("abbreviation")
         participant.record = _espn_record(row, event.sport)
         participant.final_score = _score(row.get("score")) if finished else None
+        if finished:
+            for source_key, public_key in (("winner", "result_winner"), ("advance", "result_advance")):
+                if type(row.get(source_key)) is bool:
+                    participant.metadata[public_key] = row[source_key]
+            for source_key, public_key in (("aggregateScore", "aggregate_score"), ("shootoutScore", "shootout_score")):
+                if (value := _score(row.get(source_key))) is not None:
+                    participant.metadata[public_key] = value
         national = _espn_national_teams().get(f"{event.sport}/{participant.participant_id}")
         if national:
             participant.entity_type = "national_team"
@@ -544,6 +553,13 @@ def espn_season_feed(
                 input_url=url,
             )
             if event:
+                if receipt and league in {"NASCAR_CUP", "INDYCAR", "ATP", "WTA"}:
+                    result = espn_result(
+                        row, league, source_url=url, checked_date=receipt["checked_date"], sha256=receipt["sha256"]
+                    )
+                    if result is not None:
+                        result["hash_scope"] = receipt["hash_scope"]
+                    attach_result(event, result)
                 if sport == "rugby":
                     competition = (row.get("competitions") or [{}])[0]
                     label = (

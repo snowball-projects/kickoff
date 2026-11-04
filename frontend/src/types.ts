@@ -1,3 +1,5 @@
+import type { EventResult } from "./result-format";
+
 export type AppView = "month" | "year";
 export type CalendarView = "month" | "week" | "day";
 export type FeedScrollTarget = {
@@ -19,6 +21,10 @@ export type ApiParticipant = {
   record?: string;
   team_source_url?: string;
   final_score?: number;
+  result_winner?: boolean;
+  result_advance?: boolean;
+  aggregate_score?: number;
+  shootout_score?: number;
   entry_total_kg?: number;
   start_list_category?: string;
   start_list_nation?: string;
@@ -31,6 +37,7 @@ export type ApiParticipant = {
 };
 
 export type EventCard = {
+  result?: EventResult;
   event_id: string;
   source: string;
   sport: string;

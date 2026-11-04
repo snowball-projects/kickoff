@@ -34,15 +34,20 @@ https://creativecommons.org/licenses/by/4.0/
 Changes: selected race/session date and UTC time fields, simplified names,
 normalized into kickoff's event schema and grouped by calendar year. Host country
 uses the circuit's explicit country ID and ISO code from the same pinned F1DB revision.
+Top-three race and sprint finishers use the same pinned F1DB revision; only
+explicit classified positions and driver names are retained.
 Pinned source revisions, file hashes and attribution travel with each public
 snapshot. F1DB is community maintained, not an official Formula 1 service.
 
-Wikipedia contributors — selected sports schedules; CC BY-SA 4.0.
+Wikipedia contributors — selected sports schedules and weightlifting results; CC BY-SA 4.0.
 https://creativecommons.org/licenses/by-sa/4.0/
 https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use#7._Licensing_of_Content
 Changes: selected reviewed date-only events, normalized inclusive date spans,
 simplified labels and venues, classified competition phases; omitted article
-prose, images, results and unverified clocks. Adaptations remain CC BY-SA 4.0,
+prose, images and unverified clocks. Structured weight-class pages supply
+explicit athlete names, nation codes, lift attempts, totals and medal ranks;
+conflicting rows and unmatched sessions are omitted rather than repaired.
+Adaptations remain CC BY-SA 4.0,
 including their records in the combined calendar. Per-page contributor credits,
 pinned revision links, hashes, retrieval dates and detailed changes accompany
 all rows in the public bundle and the separately downloadable component.
@@ -65,7 +70,9 @@ its factual source URL and checked date; no ESPN data license is claimed.
 https://www.espn.com/  https://statsapi.mlb.com/  https://www.nhl.com/schedule
 These sources grant no data license. kickoff republishes factual schedule
 information only (dates, times, participants, venues, team records, short names,
-round labels and confirmed final scores), attributes each event to its source
+round labels, confirmed final scores, supplied winner/advancement facts,
+NASCAR/IndyCar final podiums and tennis singles finalists and final scores),
+attributes each event to its source
 with checked dates, and omits odds, articles and raw payloads.
 Team logos use ESPN metadata and a manually maintained URL list across all
 supported team competitions. Daily builds read that list offline and retain
@@ -128,6 +135,13 @@ requested revision is reviewed. Source links, actual check dates and raw-book
 hashes accompany the emitted facts. Hash receipts distinguish source document
 bytes from canonical reviewed roster facts. These facts carry their sources'
 terms, not MIT or a new CC0 grant.
+Junior Worlds results are a one-time reviewed factual snapshot of the official
+IWF results page: attempts, totals and explicit medal ranks, with the real review
+date and a hash identified as reviewed facts. The build never requests iwf.sport.
+World Climbing result overviews supply explicit final podiums; category allocation
+uses reviewed official timetable evidence, and uncertain allocations are omitted.
+Results retain their source links, actual check dates and hashes; no raw responses
+or source pages are republished.
 
 React and React DOM: MIT, Meta Platforms, Inc. and affiliates.
 https://github.com/facebook/react/blob/main/LICENSE

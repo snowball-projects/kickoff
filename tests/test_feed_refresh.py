@@ -253,7 +253,8 @@ def test_espn_old_month_or_week_requeried_after_current_discovery_omits_it(monke
     assert calls.count(old) == 1 and event.event_id == identity
     assert event.status == "finished" and plan.current[unit_key(old)].unresolved == {}
     first = event.participants[0]
-    assert first.final_score == 2
+    assert first.metadata["result_winner"] is True and first.metadata["result_advance"] is True
+    assert first.metadata["aggregate_score"] == 3 and first.metadata["shootout_score"] == 2
 
 
 def test_same_id_in_current_parent_does_not_prove_old_child_has_no_added_game(monkeypatch):

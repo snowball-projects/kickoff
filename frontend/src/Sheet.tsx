@@ -1,3 +1,5 @@
+import EventResultDetails from "./EventResultDetails";
+import TeamResultDetails from "./TeamResultDetails";
 import WeightliftingStartList from "./WeightliftingStartList";
 import { participantRoles } from "./participants";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -97,7 +99,9 @@ function EventDetails({ event, date, today, timezone, active }: {
     {id && <GolfLeaderboard key={`${id}:${date}:${today}:${timezone}`} id={id} date={date} today={today} timezone={timezone} active={active} />}
     <FightCard key={event.event_id} event={event} timezone={timezone} active={active} />
     {location && <p>{location}</p>}
-    {event.sport === "weightlifting" && <WeightliftingStartList participants={event.participants} />}
+    {event.sport === "weightlifting" && event.result?.kind !== "weightlifting" && <WeightliftingStartList participants={event.participants} />}
+    <TeamResultDetails event={event} />
+    <EventResultDetails result={event.result} />
     <div className="source-links">
       {event.source_url && <a href={event.source_url} target="_blank" rel="noreferrer">Schedule source ↗</a>}
       {event.start_time_source_url && <a href={event.start_time_source_url} target="_blank" rel="noreferrer">

@@ -28,6 +28,7 @@ from kickoff.refresh_state import (
     load_published_baseline,
     team_result_confirmed,
 )
+from kickoff.result_loader import ResultsLoader
 from kickoff.weightlifting_startlists import StartListLoader
 
 PUBLIC_DATA = "https://snowball-projects.github.io/kickoff/data/"
@@ -313,7 +314,13 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     years = args.year or coverage_years(datetime.now(timezone.utc).date())
-    refresh(years, root / "frontend/public/data", root / "data/reviewed", force_full=args.force_full)
+    refresh(
+        years,
+        root / "frontend/public/data",
+        root / "data/reviewed",
+        force_full=args.force_full,
+        result_loader=ResultsLoader(),
+    )
     for name in ["LICENSE", "THIRD-PARTY-NOTICES.md"]:
         shutil.copyfile(root / name, root / "frontend/public" / name)
 
