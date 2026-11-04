@@ -77,9 +77,12 @@ for (const width of [320, 375, 1280]) test(`two visible lanes plus overflow reta
 
 test("measured reductions keep logos, restore failed-logo names, and respond to resize and font loading", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1000 });
-  await setup(page, [fixture("resize", "soccer", "UEFA_WOMENS_CHAMPIONS_LEAGUE", { country: "China", start_time_utc: "2026-10-28T17:00:00Z" })]);
+  await setup(page, [fixture("resize", "soccer", "CHAMPIONSHIP", { country: "China", start_time_utc: "2026-10-28T17:00:00Z" })]);
   await openDay(page);
   const pill = page.locator('[data-event-id="resize"]');
+  await expect(pill.locator(".country-flag")).toHaveCount(2);
+  expect(await pill.locator(".country-flag").evaluateAll(flags => flags.map(flag => flag.getAttribute("aria-label"))))
+    .toEqual(["England", "China"]);
   const widths = await pill.evaluate(el => [...el.nextElementSibling!.children].map(sample => Math.ceil(sample.getBoundingClientRect().width) + 8));
   const stages: number[] = [];
   for (const width of widths) {
