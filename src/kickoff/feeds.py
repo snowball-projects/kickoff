@@ -599,7 +599,10 @@ def nba_events(year: int, *, window=None) -> list[CalendarEvent]:
                 phase=phase,
                 input_url=url,
             )
-            if event is not None:
+            if event is not None and any(p.participant_id not in {None, "-1", "-2"} for p in event.participants):
+                for participant in event.participants:
+                    if participant.record is not None:
+                        participant.team_source_url = url
                 events.append(event)
     return _in_year(_dedupe(events), year)
 
@@ -788,7 +791,9 @@ def espn_team_events(year: int, league: str, *, window=None) -> list[CalendarEve
                 appointment_label = ADDITIONAL_TEAM_LEAGUES[league][3]
             _espn_appointment(event, appointment_label)
             if group in (80, 81):
-                event.tags.append("fbs" if group == 80 else "fcs")
+                # The FCS weekly index also returns unassigned FBS playoff slots.
+                playoff = any(note.startswith("College Football Playoff") for note in notes)
+                event.tags.append("fbs" if group == 80 or playoff else "fcs")
             result.append(event)
         return result + supplements
 
@@ -821,7 +826,8 @@ def espn_team_events(year: int, league: str, *, window=None) -> list[CalendarEve
         for event in batch:
             if event.event_id in events:
                 previous = events[event.event_id]
-                event.tags = sorted(set(previous.tags + event.tags))
+                if previous.tags != event.tags:
+                    event.tags = sorted(set(previous.tags + event.tags))
                 if league == "UFL":
                     # Weekly indexes recover appointments but can omit logos
                     # and records present in the same game's annual row.

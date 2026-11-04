@@ -315,3 +315,27 @@ def test_openfootball_skips_old_season_files_and_checks_next_season_once(monkeyp
     assert not any("2025-26/en.1.json" in url for url in calls)
     assert len([url for url in calls if url.endswith("2026-27/en.1.json")]) == 1
     assert len([url for url in calls if url.endswith("2027-28/en.1.json")]) == 1
+
+
+def test_nba_monthly_slots_require_at_least_one_assigned_team(monkeypatch):
+    from tests.test_feeds import espn_game
+
+    empty = espn_game("slot", "2026-11-05T20:00Z", "TBD", "TBD")
+    for competitor, identity in zip(empty["competitions"][0]["competitors"], ["-1", "-2"], strict=True):
+        competitor["team"]["id"] = identity
+    assigned = deepcopy(empty)
+    assigned["id"] = "assigned"
+    assigned["competitions"][0]["competitors"][0]["team"].update(id="1", displayName="Hawks")
+    monkeypatch.setattr(feeds, "get_json", lambda url, **_: {"events": [empty, assigned]})
+    assert [e.event_id for e in feeds.nba_events(2026)] == ["espn-nba-assigned"]
+
+
+def test_weekly_fcs_index_does_not_relabel_fbs_playoff_slots(monkeypatch):
+    from tests.test_feeds import espn_game
+
+    row = espn_game("playoff", "2026-12-19T20:00Z", "TBD", "TBD")
+    row["competitions"][0]["notes"] = [{"type": "event", "headline": "College Football Playoff First Round Game"}]
+    monkeypatch.setattr(feeds, "_weekly_queries", lambda *a, **k: [("https://espn.com/weekly?dates=2026", 3, 999, 81)])
+    monkeypatch.setattr(feeds, "get_json", lambda *a, **k: {"events": [row]})
+    (item,) = feeds.espn_team_events(2026, "COLLEGE_FOOTBALL")
+    assert "fbs" in item.tags and "fcs" not in item.tags

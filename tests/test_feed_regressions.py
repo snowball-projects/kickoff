@@ -25,16 +25,16 @@ def test_espn_withholds_unplayable_games_in_both_status_shapes(status, location)
     assert event is None
 
 
-def test_nba_team_schedule_preserves_valid_games_but_not_postponed(monkeypatch):
+def test_nba_monthly_schedule_preserves_valid_games_but_not_postponed(monkeypatch):
     valid = espn_game("1", "2026-11-01T19:00Z", "Home", "Away")
     postponed = espn_game("2", "2026-11-02T19:00Z", "Home", "Away")
     for row, status in [(valid, "STATUS_SCHEDULED"), (postponed, "STATUS_POSTPONED")]:
         del row["status"]
         row["competitions"][0]["status"] = {"type": {"name": status}}
+        for competitor, identity in zip(row["competitions"][0]["competitors"], ["1", "2"], strict=True):
+            competitor["team"]["id"] = identity
 
     def get_json(url, **_):
-        if url.endswith("/teams"):
-            return {"sports": [{"leagues": [{"teams": [{"team": {"id": str(i)}} for i in range(30)]}]}]}
         return {"events": [valid, postponed]}
 
     monkeypatch.setattr(feeds, "get_json", get_json)

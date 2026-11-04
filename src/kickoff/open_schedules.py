@@ -564,7 +564,7 @@ def refresh_open_schedules(
     notices = [notice for notice in notices if notice["url"] in kept_sources]
     if start_list_loader is not None:
         start_sources, start_evidence = start_list_loader.enrich(
-            [e for e in reviewed if window is None or window.active(e, year)],
+            reviewed,
             reviewed_dir or output_dir.parent / "reviewed",
             year,
         )

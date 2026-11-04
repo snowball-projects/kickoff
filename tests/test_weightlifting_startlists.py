@@ -282,3 +282,31 @@ def test_publisher_calls_optional_loader_without_changing_schedule_or_primary_so
     assert any(p.get("entry_total_kg") == 180 for item in result["events"] for p in item["participants"])
     assert any(source["name"] == "Official entries" for source in result["sources"])
     assert any(proof["url"] == "https://ewf.sport/startbook.pdf" for proof in result["input_evidence"])
+
+
+def test_cutoff_keeps_pending_worlds_rosters_from_the_complete_snapshot(monkeypatch, tmp_path):
+    from datetime import datetime, timezone
+
+    from kickoff import open_schedules
+    from kickoff.published import PublishedWindow
+    from tests.test_reviewed_schedules import fake_open_read
+
+    monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
+    window = PublishedWindow(
+        datetime(2026, 11, 4, tzinfo=timezone.utc),
+        {(2026, "IWF_WORLDS"): {"events": []}},
+    )
+    payload = json.loads(
+        open_schedules.refresh_open_schedules(
+            2026,
+            tmp_path,
+            ROOT / "data/reviewed",
+            feeds={},
+            start_list_loader=startlists.StartListLoader(),
+            window=window,
+        ).read_text()
+    )
+    pending = [e for e in payload["events"] if e["league"] == "IWF_WORLDS" and e["calendar_date"] >= "2026-11-05"]
+    assert len(pending) == 16
+    assert sum(len(e["participants"]) for e in pending) == 166
+    assert all(p["start_list_source_url"] for e in pending for p in e["participants"])

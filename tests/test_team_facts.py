@@ -65,7 +65,7 @@ def test_nba_monthly_scoreboard_retains_both_records_without_team_requests(monke
     for participant in event.participants:
         source = next(p for p in FACTS["nba"] if p["team"]["id"] == participant.participant_id)
         assert participant.record == source["team"]["recordSummary"]
-        assert participant.team_source_url is None or "/scoreboard?" in participant.team_source_url
+        assert participant.team_source_url == event.facts_source_url
     assert event.week_label is None and event.round_or_stage is None
     assert validate_event(event) == []
 
