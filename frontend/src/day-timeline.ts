@@ -62,6 +62,24 @@ export function dayTimeline(items: EventCard[], timezone: string) {
   }
   return { allDay: pillGroups(items.filter(isAllDay)), slots };
 }
+// Keep baseline geometry for measurement and restoration. Only identical wall
+// clocks share a control; nearby starts keep their original lane and position.
+export function dayOverflow(slots: Slot[], unreadable: ReadonlySet<string>): Slot[] {
+  const more = new Map<number, Slot>();
+  const order = new Map(slots.flatMap((slot) => slot.items).map((event, index) => [event.event_id, index]));
+  const visible: Slot[] = [];
+  for (const slot of slots) if (slot.overflow) more.set(slot.top, { ...slot, items: [...slot.items] });
+  for (const slot of slots) {
+    if (slot.overflow) continue;
+    const event = slot.items[0];
+    if (!unreadable.has(event.event_id)) { visible.push(slot); continue; }
+    const existing = more.get(slot.top);
+    if (existing) existing.items.push(event);
+    else more.set(slot.top, { ...slot, overflow: true, items: [event] });
+  }
+  for (const slot of more.values()) slot.items.sort((a, b) => order.get(a.event_id)! - order.get(b.event_id)!);
+  return [...visible, ...more.values()].sort((a, b) => a.top - b.top || a.lane - b.lane);
+}
 export function initialMinute(date: string, timezone: string, firstMinute?: number, now = Date.now()) {
   return currentMinute(date, timezone, now) ?? firstMinute ?? 0;
 }

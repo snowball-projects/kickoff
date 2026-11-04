@@ -2,6 +2,10 @@ import { agendaEventText } from "./agenda-title";
 import { participantRoles } from "./participants";
 import type { EventCard } from "./types";
 
+export function isDayTeamSport(sport: string) {
+  return ["football", "american-football", "basketball", "baseball", "hockey", "soccer", "rugby", "cricket"].includes(sport);
+}
+
 export function dayPillTeams(event: EventCard) {
   const { home, away } = participantRoles(event);
   if (!home || !away) return null;
@@ -15,7 +19,7 @@ export function dayPillTeams(event: EventCard) {
 export function dayPillTitle(event: EventCard) {
   // Without both source roles, the source title retains its order and any
   // undecided opponent. It must not become an invented home/away matchup.
-  if (["football", "american-football", "basketball", "baseball", "hockey", "soccer", "rugby", "cricket"].includes(event.sport))
+  if (isDayTeamSport(event.sport))
     return event.title;
   const { title, session } = agendaEventText(event);
   const round = event.week_label || event.round_or_stage;
