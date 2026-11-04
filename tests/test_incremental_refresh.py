@@ -637,3 +637,35 @@ def test_result_end_bound_alone_cannot_certify_a_missing_or_failed_result(monkey
     runner.refresh([2026], output, tmp_path, force_full=True, clock=clock())
     assert state(output)["ended_before"] == {}
     assert state(output)["frozen_event_ids"] == []
+
+
+@pytest.mark.parametrize("force_full", [False, True])
+def test_one_line_real_http_baseline_reuse_and_frozen_counts(monkeypatch, tmp_path, capsys, force_full):
+    from tests.test_refresh_metrics import http_source, read
+
+    # Reuse the local source fixture without altering any external feeds.
+    fixture = http_source.__wrapped__()
+    base, attempts, bodies = next(fixture)
+    try:
+        files = baseline_files(tmp_path, frozen={"game"})
+        bodies.update({"/data/" + name: body for name, body in files.items()})
+        monkeypatch.setattr(runner, "PUBLIC_DATA", base + "/data/")
+
+        def observe(plan):
+            read(base + "/source")
+            if not force_full:
+                assert plan.try_reuse("source") is not None
+            plan.observe(unit("fresh", ("new",), observed_at=NOW.isoformat()))
+
+        collector(monkeypatch, [game("new")], observe)
+        plan = runner.refresh([2026], tmp_path / "output", tmp_path, force_full=force_full, clock=clock())
+        expected_requests = 1 if force_full else 1 + len(files)
+        assert sum(attempts.values()) == expected_requests
+        assert capsys.readouterr() == (
+            f"requests made: {expected_requests}, units reused: {int(not force_full)}, "
+            f"events frozen: {int(not force_full)}\n",
+            "",
+        )
+        assert plan.skipped == int(not force_full)
+    finally:
+        fixture.close()
