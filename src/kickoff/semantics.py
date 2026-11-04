@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from kickoff.models import CalendarEvent, ProviderOptions
+from kickoff.models import CalendarEvent
 
 COMPETITION_PHASES = {
     "regular_season",
@@ -50,22 +50,6 @@ def classification_fields(competition_phase: str) -> dict[str, bool | str]:
         "is_exhibition": competition_phase in {"preseason", "exhibition", "testing"},
         "is_support_event": competition_phase == "support_event",
     }
-
-
-def include_competition_phase(competition_phase: str, options: ProviderOptions) -> bool:
-    if competition_phase == "support_event":
-        return options.include_support_events
-    if competition_phase == "qualifying" and options.motorsport_view == "full_weekend":
-        return True
-    if competition_phase in POSTSEASON_PHASES:
-        return options.event_scope == "all_published"
-    if competition_phase in SPECIAL_COMPETITION_PHASES:
-        return options.include_special_events
-    return True
-
-
-def is_special_phase(competition_phase: str) -> bool:
-    return competition_phase in SPECIAL_COMPETITION_PHASES or competition_phase == "support_event"
 
 
 def is_malformed_event(event: CalendarEvent) -> bool:

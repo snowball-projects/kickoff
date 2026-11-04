@@ -1,14 +1,9 @@
 from __future__ import annotations
 
-import json
-from pathlib import Path
 from typing import Any
 
 from kickoff.countries import ISO_CODES
-from kickoff.dataset import load_events_from_json
 from kickoff.models import CalendarEvent, Participant
-from kickoff.normalize import sort_events
-from kickoff.settings import Settings
 from kickoff.team_logos import TEAM_SPORTS, participant_logo
 from kickoff.weightlifting_startlists import ENTRY_FIELDS, START_LIST_LEAGUES
 
@@ -136,68 +131,3 @@ def _event_payload(event: CalendarEvent) -> dict[str, Any]:
         **({"result": event.result} if event.result is not None else {}),
         **({"start_time_scope": event.start_time_scope} if event.start_time_scope != "event" else {}),
     }
-
-
-def _available_seasons(settings: Settings) -> list[int]:
-    if not settings.normalized_dir.exists():
-        return []
-    return sorted(
-        int(path.name)
-        for path in settings.normalized_dir.iterdir()
-        if path.is_dir() and path.name.isdigit() and (path / "all_events.json").exists()
-    )
-
-
-def _provider_payload(settings: Settings, season: int, item: dict[str, Any]) -> dict[str, Any]:
-    provider_key = str(item.get("provider", ""))
-    config = settings.providers_config.get(provider_key, {})
-    metadata = item.get("metadata") if isinstance(item.get("metadata"), dict) else {}
-    return {
-        "provider": provider_key,
-        "label": config.get("label"),
-        "sport": config.get("sport"),
-        "season_mode": config.get("season_mode"),
-        "season": int(item.get("season", season)),
-        "event_count": int(item.get("event_count", 0)),
-        "warnings": list(item.get("warnings", [])),
-        "default_event_scope": config.get("default_event_scope"),
-        "default_include_special_events": config.get("default_include_special_events"),
-        "default_include_support_events": config.get("default_include_support_events"),
-        "default_motorsport_view": config.get("default_motorsport_view"),
-        "semantics": metadata.get("semantics", {}),
-    }
-
-
-def export_web_bundle(settings: Settings, season: int, output_dir: Path) -> Path:
-    season_root = settings.normalized_dir / str(season)
-    events_path = season_root / "all_events.json"
-    manifest_path = season_root / "manifest.json"
-    if not events_path.exists():
-        raise FileNotFoundError(events_path)
-    if not manifest_path.exists():
-        raise FileNotFoundError(manifest_path)
-
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    events = sort_events(load_events_from_json(events_path))
-    seasons = _available_seasons(settings)
-    bundle = {
-        "schema_version": SCHEMA_VERSION,
-        "season": season,
-        "available_seasons": seasons,
-        "providers": [
-            _provider_payload(settings, season, item)
-            for item in manifest.get("providers", [])
-            if isinstance(item, dict)
-        ],
-        "events": [_event_payload(event) for event in events],
-    }
-
-    output_dir.mkdir(parents=True, exist_ok=True)
-    bundle_path = output_dir / f"{season}.json"
-    bundle_path.write_text(json.dumps(bundle, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
-    (output_dir / "index.json").write_text(
-        json.dumps({"schema_version": SCHEMA_VERSION, "available_seasons": seasons}, indent=2, ensure_ascii=True)
-        + "\n",
-        encoding="utf-8",
-    )
-    return bundle_path

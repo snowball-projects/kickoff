@@ -21,9 +21,6 @@ dev = [
     "ruff>=0.16,<0.17",
 ]
 
-[project.scripts]
-kickoff = "kickoff.cli:main"
-
 [tool.setuptools]
 package-dir = {"" = "src"}
 

@@ -54,7 +54,5 @@ edit records and their receipts together, preserving IDs and uncertainty.
 The manifest and per-year league files live in `frontend/public/data`; browsers load
 only selected leagues.
 The build writes `frontend/dist`.
-Other local adapters remain available through `kickoff fetch`, `validate`,
-`audit` and `export-web`; NBA and NASCAR use the published JSON feeds only.
-No build or command downloads or parses PDFs. Code is [MIT](LICENSE);
+The build downloads and parses no PDFs. Code is [MIT](LICENSE);
 data retains its [source terms](THIRD-PARTY-NOTICES.md).
