@@ -9,6 +9,7 @@ const lifters = Array.from({ length: 19 }, (_, i) => ({ name: `Source athlete ${
   snatch: [attempt(100, "missed"), attempt(100, "made"), attempt(null, "unused")], clean_and_jerk: [attempt(120, "made"), attempt(125, "missed"), attempt(null, "unused")] }));
 const medal = (name: string, rank: number, extra = {}) => ({ name, rank, nation: "GER", gender: "women", weight_class: "59", country_code: "DE", ...extra });
 const weightResult = { kind: "weightlifting", ...proof, athletes: lifters,
+  medal_classes: [{ gender: "women", weight_class: "59" }], mixed_classes: false,
   total_medalists: [medal("Global class gold", 1), medal("Global class silver", 2), medal("Global bronze from B", 3)],
   snatch_medalists: [medal("Explicit snatch gold", 1, { weight_kg: 110 })], clean_and_jerk_medalists: [medal("Explicit jerk bronze", 3, { weight_kg: 125 })],
   sources: [{ ...proof, gender: "women", weight_class: "59", revision: "101" }, { ...proof, source_url: "https://example.com/other-class", gender: "men", weight_class: "+109", checked_date: "2026-11-03", revision: "99" }] };
@@ -92,6 +93,12 @@ for (const width of [320, 375, 1280]) test(`complete weightlifting results repla
   await expect(popup.getByRole("region", { name: "Total medalists", exact: true }).locator("li")).toHaveCount(3);
   await expect(popup.getByRole("region", { name: "Snatch medalists", exact: true })).toContainText("Explicit snatch gold");
   await expect(popup.getByRole("region", { name: "Clean & jerk medalists", exact: true })).toContainText("Explicit jerk bronze");
+  const medalists = popup.locator(".event-result-medalists");
+  for (const section of await medalists.all()) {
+    await expect(section).not.toContainText("GER");
+    await expect(section).not.toContainText("Women's 59 kg");
+  }
+  await expect(medalists.getByRole("img", { name: "Germany", exact: true })).toHaveCount(5);
   const attempts = popup.getByRole("table", { name: "Weightlifting attempts and totals" });
   await expect(attempts.locator("tbody tr")).toHaveCount(19);
   const first = attempts.locator("tbody tr").first();
@@ -173,4 +180,34 @@ test("walkover and grouped source podiums show only supplied facts", async ({ pa
   await expect(result.getByRole("link", { name: "Session source" }).locator("..")).toHaveText("Session source ↗ · Checked 2026-11-03 · Page 3");
   await expect(result).not.toContainText("private-source-hash");
   await expect(result).not.toContainText("private-allocation-review-prose");
+});
+
+
+for (const width of [375, 1280]) test(`weightlifting lower and mixed groups keep their own attempts and only decided medals at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 960 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const otherClass = medal("57 kg gold decided later", 1, { weight_class: "57" });
+  const earlier = { ...weightResult, medal_classes: [], athletes: [lifters[0]], mixed_classes: false };
+  const mixed = { ...weightResult, medal_classes: [{ gender: "women", weight_class: "59" }], mixed_classes: true,
+    total_medalists: [...weightResult.total_medalists, otherClass], snatch_medalists: [otherClass], clean_and_jerk_medalists: [otherClass], athletes: [lifters[0]] };
+  await setup(page, [event("Earlier group", undefined, { league: "IWF_WORLDS", sport: "weightlifting", result: earlier }),
+    event("Mixed classes", undefined, { league: "IWF_WORLDS", sport: "weightlifting", result: mixed })]);
+  await agendaToggle(page).click();
+  await expect(page.locator('[id="agenda-2026-10-28-Earlier group"] .agenda-result-summary')).toHaveCount(0);
+  await expect(page.locator('[id="agenda-2026-10-28-Mixed classes"] .agenda-result-summary')).not.toContainText("57 kg gold decided later");
+  await page.locator('[id="agenda-2026-10-28-Earlier group"]').getByRole("button").click();
+  const popup = page.getByRole("dialog");
+  await expect(popup.locator(".event-result-medalists")).toHaveCount(0);
+  await expect(popup.getByRole("table", { name: "Weightlifting attempts and totals" }).locator("tbody tr")).toHaveCount(1);
+  await page.keyboard.press("Escape");
+  await page.locator('[id="agenda-2026-10-28-Mixed classes"]').getByRole("button").click();
+  await expect(popup.getByRole("region", { name: "Total medalists", exact: true }).locator("li")).toHaveCount(3);
+  await expect(popup.locator(".event-result-medalists")).not.toContainText("57 kg gold decided later");
+  await expect(popup.locator(".event-result-medalists")).not.toContainText("GER");
+  await expect(popup.locator(".event-result-medalists")).toContainText("Women's 59 kg");
+  await expect(popup.getByRole("region", { name: "Snatch medalists", exact: true })).toHaveCount(0);
+  await expect(popup.getByRole("region", { name: "Clean & jerk medalists", exact: true })).toHaveCount(0);
+  const attempts = popup.getByRole("table", { name: "Weightlifting attempts and totals" });
+  await expect(attempts.locator("tbody tr")).toHaveCount(1);
+  await expect(attempts.locator("tbody tr").first()).toContainText("Source athlete 0WRT");
 });

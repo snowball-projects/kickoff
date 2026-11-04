@@ -7,7 +7,7 @@ from copy import deepcopy
 import pytest
 
 from kickoff import feeds
-from kickoff.results import attach_result
+from kickoff.results import allocate_weightlifting_medals, attach_result
 from kickoff.web import _event_payload
 from tests.test_espn_results import final, race, status, tennis
 
@@ -402,3 +402,103 @@ def test_confirmed_medal_only_result_replaces_the_finished_sessions_start_list()
     )
     assert event.status == "finished" and event.participants == []
     assert event.result["complete"] is False
+
+
+@pytest.mark.parametrize("last_group", ["A", "B"])
+def test_weightlifting_medals_need_a_final_a_session_and_can_include_an_earlier_group_winner(last_group):
+    other_group = "B" if last_group == "A" else "A"
+
+    def session(id, group, hour):
+        return {
+            "id": id,
+            "league": "IWF_WORLDS",
+            "start_date": "2026-11-01",
+            "local_time": hour,
+            "event_timezone": "Asia/Shanghai",
+            "source_url": "https://example.test/timetable",
+            "checked_date": "2026-10-28",
+            "categories": [{"gender": "women", "weight_class": "59 kg", "group": group}],
+        }
+
+    medal = {
+        "name": "Bronze from an earlier group",
+        "gender": "women",
+        "weight_class": "59",
+        "group": other_group,
+        "rank": 3,
+    }
+    result = {
+        "kind": "weightlifting",
+        "athletes": [{"name": "Own group's athlete"}],
+        "total_medalists": [medal],
+        "snatch_medalists": [medal],
+        "clean_and_jerk_medalists": [medal],
+    }
+    events = [{"event_id": id, "result": deepcopy(result)} for id in ["earlier", "last"]]
+    original = deepcopy(events)
+    earlier, last = allocate_weightlifting_medals(
+        events, [session("earlier", other_group, "09:00"), session("last", last_group, "16:00")]
+    )
+    assert earlier["result"]["medal_classes"] == []
+    assert last["result"]["medal_classes"] == ([{"gender": "women", "weight_class": "59"}] if last_group == "A" else [])
+    assert last["result"]["mixed_classes"] is False
+    assert last["result"]["allocation_source"] == {
+        "source_url": "https://example.test/timetable",
+        "checked_date": "2026-10-28",
+    }
+    assert events == original  # Frozen baseline data is not mutated.
+    for item in [earlier, last]:
+        assert item["result"]["athletes"] == result["athletes"]
+        assert item["result"]["total_medalists"] == [medal]  # Keep global source facts, filter only popup presentation.
+
+
+def test_weightlifting_mixed_session_decides_only_its_finished_class_and_single_groups_need_no_clock():
+    def session(id, categories, hour):
+        return {
+            "id": id,
+            "league": "IWF_WORLDS",
+            "start_date": "2026-11-01",
+            "local_time": hour,
+            "event_timezone": "Asia/Shanghai",
+            "source_url": "https://example.test/timetable",
+            "checked_date": "2026-10-28",
+            "categories": categories,
+        }
+
+    def category(weight, group):
+        return {"gender": "women", "weight_class": weight, "group": group}
+
+    definitions = [
+        session("mixed", [category("53", "A"), category("57", "B")], "09:00"),
+        session("57-final", [category("57", "A")], "16:00"),
+        session("only", [category("+86", None)], None),
+    ]
+    events = [
+        {"event_id": id, "result": {"kind": "weightlifting", "athletes": []}}
+        for id in ["mixed", "57-final", "only", "missing"]
+    ]
+    mixed, final, only, missing = allocate_weightlifting_medals(events, definitions)
+    assert mixed["result"]["medal_classes"] == [{"gender": "women", "weight_class": "53"}]
+    assert mixed["result"]["mixed_classes"] is True
+    assert final["result"]["medal_classes"] == [{"gender": "women", "weight_class": "57"}]
+    assert only["result"]["medal_classes"] == [{"gender": "women", "weight_class": "+86"}]
+    assert missing["result"]["medal_classes"] == []
+
+
+@pytest.mark.parametrize("clock", [None, "16:00"])
+def test_weightlifting_uncertain_or_simultaneous_sessions_do_not_guess_a_medal_decider(clock):
+    definitions = [
+        {
+            "id": id,
+            "league": "IWF_WORLDS",
+            "start_date": "2026-11-01",
+            "local_time": hour,
+            "event_timezone": "Asia/Shanghai",
+            "source_url": "https://example.test/timetable",
+            "checked_date": "2026-10-28",
+            "categories": [{"gender": "men", "weight_class": "60", "group": group}],
+        }
+        for id, hour, group in [("first", clock, "B"), ("last", "16:00", "A")]
+    ]
+    events = [{"event_id": row["id"], "result": {"kind": "weightlifting"}} for row in definitions]
+    assert all(row["result"]["medal_classes"] == [] for row in allocate_weightlifting_medals(events, definitions))

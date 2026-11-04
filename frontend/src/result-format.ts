@@ -46,6 +46,8 @@ export type WeightliftingResult = ResultSource & {
   snatch_medalists: readonly WeightliftingMedalist[];
   clean_and_jerk_medalists: readonly WeightliftingMedalist[];
   sources?: readonly WeightliftingSource[];
+  medal_classes: readonly { gender: string; weight_class: string }[];
+  mixed_classes: boolean;
 };
 export type EventResult = PodiumResult | GroupedPodiumResult | TennisFinalResult | WeightliftingResult;
 
@@ -74,8 +76,9 @@ export function tennisStatusLabel(status: TennisFinalResult["status"]) {
   return { final: "Final", retired: "Retired", walkover: "Walkover" }[status];
 }
 
-export function weightliftingMedalists(result: WeightliftingResult) {
-  return result.total_medalists;
+export function weightliftingMedalists(result: WeightliftingResult, rows = result.total_medalists) {
+  return rows.filter(athlete => result.medal_classes.some(category =>
+    category.gender === athlete.gender && category.weight_class === athlete.weight_class));
 }
 
 export function weightliftingClass(athlete: { gender: string; weight_class: string; group?: string | null }) {

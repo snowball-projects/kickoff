@@ -110,7 +110,8 @@ test("weightlifting medals use explicit global-class entries without inventing a
   const other = { ...gold, name: "Other class gold", gender: "men", weight_class: "+109", weight_kg: 400 };
   const result = { kind: "weightlifting", athletes: Array.from({ length: 19 }, (_, i) => {
     const { lot, ...athlete } = lifter(`unranked-${i}`); return athlete;
-  }), total_medalists: [gold, bronze, other], snatch_medalists: [], clean_and_jerk_medalists: [], ...provenance };
+  }), total_medalists: [gold, bronze, other], snatch_medalists: [], clean_and_jerk_medalists: [], ...provenance,
+  medal_classes: [{ gender: "women", weight_class: "59" }, { gender: "men", weight_class: "+109" }], mixed_classes: true };
   const before = structuredClone(result);
   assert.deepEqual(weightliftingMedalists(result), [gold, bronze, other]);
   assert.equal(result.athletes.length, 19);
@@ -118,6 +119,13 @@ test("weightlifting medals use explicit global-class entries without inventing a
   assert.equal(resultSummary(result), "Women's 59 kg: 1 Source gold · Women's 59 kg: 3 Official bronze from B · Men's +109 kg: 1 Other class gold");
   assert.deepEqual(result, before);
   assert.equal(resultSummary({ ...result, total_medalists: [] }), "");
+  const lower = { ...result, medal_classes: [] };
+  assert.deepEqual(weightliftingMedalists(lower), []);
+  assert.equal(resultSummary(lower), "");
+  const mixed = { ...result, medal_classes: [{ gender: "women", weight_class: "59" }] };
+  assert.deepEqual(weightliftingMedalists(mixed), [gold, bronze]);
+  assert.equal(resultSummary(mixed), "Women's 59 kg: 1 Source gold · Women's 59 kg: 3 Official bronze from B");
+  assert.deepEqual(result, before);
 });
 
 test("class labels retain combined-class gender, weight and explicit group without inventing a group", () => {

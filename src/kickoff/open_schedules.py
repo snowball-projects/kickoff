@@ -17,6 +17,7 @@ from kickoff.incremental import RefreshPlan
 from kickoff.models import CalendarEvent, Participant
 from kickoff.normalize import sort_events, stable_event_id
 from kickoff.refresh_state import SourceUnit
+from kickoff.results import allocate_weightlifting_medals
 from kickoff.reviewed_countries import fill_reviewed_countries
 from kickoff.reviewed_schedules import BOXING_LICENSE, CLIMBING_LICENSE, WEIGHTLIFTING_LICENSE, load_reviewed_schedules
 from kickoff.semantics import classification_fields
@@ -730,6 +731,11 @@ def refresh_open_schedules(
         plan.confirmed_results.update(e.event_id for e in events if e.status == "finished" and e.result_complete)
     fresh_public = [_event_payload(e) for e in sort_events(events)]
     merged_public = plan.public_events(fresh_public, year) if plan is not None else fresh_public
+    if any((event.get("result") or {}).get("kind") == "weightlifting" for event in merged_public):
+        definitions = json.loads(
+            ((reviewed_dir or output_dir.parent / "reviewed") / f"{year}-weightlifting.json").read_text()
+        )["events"]
+        merged_public = allocate_weightlifting_medals(merged_public, definitions)
     if not merged_public:
         raise ValueError("No events to publish")
     retained_envelopes = []
