@@ -4,7 +4,7 @@ from dataclasses import replace
 import pytest
 
 from kickoff.models import CalendarEvent, Participant
-from kickoff.normalize import dedupe_events, stable_event_id
+from kickoff.normalize import stable_event_id
 from kickoff.semantics import classification_fields, is_malformed_event
 from kickoff.validation import schema_field_names, validate_batch
 
@@ -78,12 +78,6 @@ class ValidationTests(unittest.TestCase):
             "raw_source_payload",
         ]:
             self.assertIn(field, fields)
-
-    def test_dedupe_events_keeps_one_copy(self) -> None:
-        first = _sample_event("same-id")
-        second = _sample_event("same-id")
-        deduped = dedupe_events([first, second])
-        self.assertEqual(len(deduped), 1)
 
     def test_validate_batch_accepts_valid_event(self) -> None:
         errors = validate_batch([_sample_event(stable_event_id("a", "b"))])

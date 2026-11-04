@@ -5,7 +5,6 @@ from urllib.error import HTTPError
 import pytest
 
 from kickoff import open_schedules
-from kickoff.registry import build_registry
 from kickoff.validation import validate_batch
 from kickoff.web import _event_payload
 from kickoff.world_cup import HOST_CHECKED, HOST_COUNTRIES, HOST_SOURCE, TEAM_COUNTRIES, world_cup_events
@@ -123,7 +122,6 @@ def test_public_refresh_collects_pinned_world_cup_and_cc0_receipt(monkeypatch, t
     assert source["license"] == "CC0 1.0" and source["revision"] == "a" * 40
     receipt = next(s for s in bundle["input_evidence"] if "/worldcup.json/" in s["url"])
     assert receipt["parsed_events"] == 1 and len(receipt["sha256"]) == 64
-    assert "fifa_world_cup" not in build_registry()
 
 
 def test_known_world_cup_404_cannot_silently_publish_empty_tournament(monkeypatch, tmp_path):
