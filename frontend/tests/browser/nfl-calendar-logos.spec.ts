@@ -45,7 +45,7 @@ for (const colorScheme of ["light", "dark"] as const) {
       await page.locator("#day-2026-10-28 .day-number").click();
       const pill = page.locator('[data-event-id="day-game"]');
       await expect(pill.locator(".team-logo")).toHaveCount(2);
-      await expect(pill.locator(".nfl-team-name")).toHaveText(["Chiefs", "Bills"]);
+      await expect(pill.locator(".day-pill-name")).toHaveText(["Chiefs", "Bills"]);
       await expect(pill).toHaveAccessibleName(/Kansas City Chiefs at Buffalo Bills/);
       for (const logo of await pill.locator(".team-logo").all()) {
         await expect(logo).toBeVisible();
@@ -72,7 +72,7 @@ test("unmatched teams use exact supplied names and leave every matchup accessibl
   await page.locator("#day-2026-10-28 .day-number").click();
   const unknown = page.locator('[data-event-id="unknown"]');
   await expect(unknown.locator(".team-logo")).toHaveCount(1);
-  await expect(unknown.locator(".nfl-team-name")).toHaveText(["Supplied Away Team", "Bills"]);
+  await expect(unknown.locator(".day-pill-name")).toHaveText(["Team", "Bills"]);
   await expect(unknown.locator("img")).toHaveAttribute("src", /combiner\/i\?img=.*bills.png&w=56&h=56$/);
   await unknown.click();
   await expect(page.locator(".event-details h3")).toHaveText("Supplied Away Team at Buffalo Bills");

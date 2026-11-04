@@ -12,12 +12,12 @@ const cases = [
 ];
 
 for (const league of ["MLS", "NWSL", "UFL"]) for (const width of [375, 1280]) {
-  test(`${league} synthetic foreign-host flags agree in month and day at ${width}px`, async ({ page }) => {
+  test(`${league} synthetic foreign-host flags group in month and stay per event in day at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await setup(page, cases.flatMap(({ date, name, countries }) => countries.map((country, index) =>
       event(`Synthetic ${league} ${name} ${index + 1}`, date, {
-        league, sport: league === "UFL" ? "football" : "soccer", country,
+        title: `Synthetic ${index + 1}`, league, sport: league === "UFL" ? "football" : "soccer", country,
         country_source_url: `https://example.com/synthetic-host/${league}/${date}/${index + 1}`,
         country_checked_date: "2026-10-28",
       }))));
@@ -35,17 +35,22 @@ for (const league of ["MLS", "NWSL", "UFL"]) for (const width of [375, 1280]) {
       }
     }
 
-    // Open the same day groups without changing their source facts or opening a popup.
-    for (const { date, sharedForeignHost } of cases) {
+    // Day pills show each fixture's known host, including on mixed/unknown-host days.
+    for (const { date, countries } of cases) {
       await page.locator(`#day-${date} .day-number`).click();
       await expect(page.locator(".day-timeline-stage")).toBeVisible();
-      const pill = page.locator(".all-day-strip .event-pill");
-      await expect(pill).toHaveCount(1);
-      const flag = pill.locator(".country-flag");
-      await expect(flag).toHaveCount(sharedForeignHost ? 1 : 0);
-      if (sharedForeignHost) {
-        await expect(flag).toHaveAttribute("aria-label", "Spain");
-        await expect(flag).toBeVisible();
+      await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(2);
+      for (const [index, country] of countries.entries()) {
+        const pill = page.locator(".all-day-strip").getByRole("button", { name: `Synthetic ${index + 1}`, exact: true });
+        const flag = pill.locator(".country-flag");
+        const foreign = country === "ES" || country === "Spain" ? { name: "Spain", flag: "🇪🇸" }
+          : country === "FR" ? { name: "France", flag: "🇫🇷" } : null;
+        await expect(flag).toHaveCount(foreign ? 1 : 0);
+        if (foreign) {
+          await expect(flag).toHaveAttribute("aria-label", foreign.name);
+          await expect(flag).toHaveText(foreign.flag);
+          await expect(flag).toBeVisible();
+        }
       }
       await expect(page.getByRole("dialog")).toHaveCount(0);
       await page.getByRole("button", { name: "Back to October", exact: true }).click();

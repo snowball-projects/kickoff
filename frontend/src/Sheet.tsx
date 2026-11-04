@@ -31,8 +31,12 @@ export default function Sheet({ title, onClose, onDismiss, children }: {
     element.showModal();
     return () => {
       element.close();
-      const target = opener instanceof HTMLElement && opener.isConnected && opener.getClientRects().length
-        ? opener : document.querySelector<HTMLElement>(".today-button");
+      const available = (element: HTMLElement | null): element is HTMLElement => !!element && element.isConnected
+        && !!element.getClientRects().length && getComputedStyle(element).visibility === "visible" && !element.hasAttribute("disabled");
+      const original = opener instanceof HTMLElement ? opener : null;
+      const current = original?.id ? document.getElementById(original.id) : null;
+      const replacement = original?.dataset.focusReturn ? document.getElementById(original.dataset.focusReturn) : null;
+      const target = available(original) ? original : available(current) ? current : available(replacement) ? replacement : document.querySelector<HTMLElement>(".today-button");
       target?.focus({ preventScroll: true });
     };
   }, []);

@@ -1,6 +1,6 @@
 import { participantRoles } from "./participants";
 import { useState } from "react";
-import { agendaEventTitle } from "./agenda-title";
+import { agendaEventText } from "./agenda-title";
 import { eventTimeLabel } from "./date-utils";
 import { isGolf, leaderboardId } from "./golf";
 import GolfLeaderboard from "./GolfLeaderboard";
@@ -26,10 +26,7 @@ export default function AgendaEvent({ event, date, today, timezone, active, upco
   const partial = Boolean(home) !== Boolean(away);
   const round = partial ? event.round_or_stage || event.week_label : event.week_label || event.round_or_stage;
   const golf = isGolf(event), id = !upcoming && leaderboardId(event);
-  const specificTitle = agendaEventTitle(event);
-  const title = golf && round && specificTitle.endsWith(`, ${round}`) ? specificTitle.slice(0, -round.length - 2)
-    : event.sport === "motorsport" && event.event_type === "race" ? `${specificTitle} · Race` : specificTitle;
-  const session = !golf && event.sport !== "motorsport" && round && !title.toLowerCase().includes(round.toLowerCase()) ? round : "";
+  const { title, session } = agendaEventText(event, round);
   return <article className="agenda-row" id={`agenda-${date}-${event.event_id}`}>
     <button className={`agenda-open ${teams ? "agenda-match" : "agenda-centered"}`} onClick={onOpen} aria-label={!title && !teams ? event.title : undefined}>
       {teams ? <>

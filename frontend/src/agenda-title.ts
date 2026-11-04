@@ -1,4 +1,5 @@
 import { leagueTitleNames } from "./calendar-helpers";
+import { isGolf } from "./golf";
 import type { EventCard } from "./types";
 
 const words = (text: string) => [...text.matchAll(/[\p{L}\p{N}]+/gu)];
@@ -29,4 +30,16 @@ export function agendaEventTitle(event: Pick<EventCard, "title" | "league" | "sp
     return specific || event.city || event.venue || "";
   }
   return event.title;
+}
+
+// The agenda displays golf rounds separately; other source-derived sessions
+// share the title rule with the day calendar.
+export function agendaEventText(event: Pick<EventCard, "title" | "league" | "sport" | "city" | "venue" | "event_type" | "week_label" | "round_or_stage">,
+  round = event.week_label || event.round_or_stage) {
+  const specificTitle = agendaEventTitle(event);
+  const golf = isGolf(event);
+  const title = golf && round && specificTitle.endsWith(`, ${round}`) ? specificTitle.slice(0, -round.length - 2)
+    : event.sport === "motorsport" && event.event_type === "race" && !/\brace$/i.test(specificTitle) ? `${specificTitle} · Race` : specificTitle;
+  const session = !golf && event.sport !== "motorsport" && round && !title.toLowerCase().includes(round.toLowerCase()) ? round : "";
+  return { title, session };
 }

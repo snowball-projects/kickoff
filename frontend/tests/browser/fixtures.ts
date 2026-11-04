@@ -37,6 +37,28 @@ export async function setup(page: Page, events: ReturnType<typeof event>[], opti
   await page.goto("/");
   if (options.wait !== false) await expect(page.locator(".calendar-status")).not.toContainText("Loading");
 }
+// Open the same source event through its visible day control, including the
+// unreadable-pill fallback, without changing the desktop direct-pill flow.
+export async function openDayEvent(page: Page, source: { event_id: string; title: string }) {
+  const pill = page.locator(`.day-timeline-stage [data-event-id="${source.event_id}"]`);
+  await expect(pill).toBeAttached();
+  const hidden = await pill.getAttribute("aria-hidden") === "true";
+  const control = hidden ? page.locator(`[id="${await pill.getAttribute("data-focus-return")}"]`) : pill;
+  await expect(control).toBeVisible();
+  await expect(control).toBeEnabled();
+  if (hidden) await expect(control).toHaveText(/^\+\d+$/);
+  await control.click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  const row = page.locator(`[id="sheet-${source.event_id}"]`);
+  if (await row.count()) {
+    // Flags follow the source title in <b>; compare the literal title itself.
+    expect(await row.locator("b").evaluate(element => [...element.childNodes]
+      .filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent).join(""))).toBe(source.title);
+    await row.click();
+  }
+  await expect(page.locator(".event-details h3")).toContainText(source.title);
+  return control;
+}
 export async function month(page: Page, label: string) {
   await page.getByRole("button", { name: /Show .* year calendar/ }).click();
   await page.getByRole("button", { name: `Open ${label}`, exact: true }).click();
