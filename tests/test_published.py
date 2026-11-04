@@ -1,12 +1,9 @@
 import json
 from copy import deepcopy
-from datetime import datetime, timezone
 
 import pytest
 
-from kickoff.incremental import RefreshPlan
 from kickoff.published import publish_sports
-from kickoff.refresh_state import Baseline, SourceUnit
 
 
 def bundle(year=2026):
@@ -236,9 +233,8 @@ def test_espn_image_source_keeps_license_with_official_schedule_bundle(tmp_path,
     assert payload["events"] == original["events"]
 
 
-@pytest.mark.parametrize("path", ["fresh", "frozen", "retained_result", "unvisited"])
 @pytest.mark.parametrize("complete", [False, True])
-def test_weightlifting_result_omits_start_rows_after_reuse_without_mutating_inputs(tmp_path, path, complete):
+def test_weightlifting_result_omits_start_rows_after_reuse_without_mutating_inputs(tmp_path, complete):
     original = bundle()
     roster = {
         "name": "Start-list athlete",
@@ -257,28 +253,7 @@ def test_weightlifting_result_omits_start_rows_after_reuse_without_mutating_inpu
         "result": {"kind": "weightlifting", "complete": complete, "rows": [{"name": "Actual result"}]},
     }
     pending = {**row, "event_id": "pending", "result": None}
-    unit = SourceUnit(
-        key="source",
-        source_url="https://example.org/sessions",
-        observed_at="2026-11-01T00:00:00Z",
-        event_ids=("session",),
-        complete=True,
-        closed=True,
-    )
-    baseline = Baseline(
-        manifest={"available_seasons": [2026]},
-        bundles={"weightlifting.json": {"season": 2026, "events": [row]}},
-        units={unit.key: unit},
-        frozen_ids=frozenset({"session"} if path == "frozen" else ()),
-    )
-    plan = RefreshPlan(baseline, datetime(2026, 11, 4, tzinfo=timezone.utc))
-    fresh = deepcopy(row)
-    if path == "retained_result":
-        del fresh["result"]
-        plan.observe(unit)
-    merged = plan.public_events([fresh] if path in {"fresh", "retained_result"} else [], 2026)
-    assert merged[0]["result"] == row["result"]
-    original["events"] = [*merged, pending, {**row, "event_id": "other-sport", "sport": "other"}]
+    original["events"] = [row, pending, {**row, "event_id": "other-sport", "sport": "other"}]
     before = deepcopy(original)
     publish_sports([original], tmp_path)
     events = json.loads((tmp_path / "2026-weightlifting-iwf-worlds.json").read_text())["events"]
@@ -289,4 +264,3 @@ def test_weightlifting_result_omits_start_rows_after_reuse_without_mutating_inpu
         other,
     ]
     assert original == before
-    assert baseline.events["session"] == row

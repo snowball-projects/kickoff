@@ -45,8 +45,8 @@ def event(identity="final", **changes):
             "city": None,
             "region": None,
             "country": None,
-            "calendar_date": "2026-05-01",
-            "end_calendar_date": "2026-05-01",
+            "calendar_date": "2026-10-31",
+            "end_calendar_date": "2026-10-31",
             "source_url": URL,
             "round_or_stage": "final",
             "tags": ["Men", "Boulder"],
@@ -59,7 +59,7 @@ def enrich(loader, events, directory, **kwargs):
     return loader.enrich(events, 2026, directory, now=NOW, **kwargs)
 
 
-def test_zero_budget_frozen_existing_result_and_future_today_sources_are_not_read(tmp_path):
+def test_zero_budget_old_existing_result_and_future_today_sources_are_not_read(tmp_path):
     calls = []
     loader = module.ResultsLoader(lambda url: calls.append(url), budget=0)
     assert enrich(loader, [event()], tmp_path) == ([], [])
@@ -67,29 +67,13 @@ def test_zero_budget_frozen_existing_result_and_future_today_sources_are_not_rea
     current = event(source="weightlifting", sport="weightlifting", league="WEIGHTLIFTING_EUROPE")
     current.result = {"kind": "podium", "rows": [], "complete": True}
     current.result_complete = True
-    frozen = event("frozen")
+    old = event("old", calendar_date="2026-10-01", end_calendar_date="2026-10-01")
     today, future = (
         event("today", calendar_date="2026-11-04", end_calendar_date="2026-11-04"),
         event("future", end_calendar_date="2027-01-01"),
     )
-    assert enrich(loader, [current, frozen, today, future], tmp_path, frozen_ids={"frozen"}) == ([], [])
+    assert enrich(loader, [current, old, today, future], tmp_path) == ([], [])
     assert calls == []
-
-
-def test_same_scope_baseline_weight_result_skips_lookup_but_schedule_move_does_not(monkeypatch, tmp_path):
-    calls = []
-    loader = module.ResultsLoader(lambda url: calls.append(url))
-    item = event(source="weightlifting", sport="weightlifting", league="WEIGHTLIFTING_EUROPE")
-    monkeypatch.setattr(loader, "_weightlifting", lambda *_: loader._read(URL))
-    previous = item.to_dict()
-    previous["result"] = {"kind": "weightlifting", "athletes": [], "complete": True}
-    assert enrich(loader, [item], tmp_path, baseline_events={item.event_id: previous}) == ([], [])
-    assert not calls and item.result is None  # root preserves the actual old result
-    changed = event(
-        source="weightlifting", sport="weightlifting", league="WEIGHTLIFTING_EUROPE", calendar_date="2026-05-02"
-    )
-    enrich(loader, [changed], tmp_path, baseline_events={changed.event_id: previous})
-    assert calls == [URL]
 
 
 def test_climbing_url_read_parse_once_dates_do_not_freshen_and_attachment_has_no_alarm(monkeypatch, tmp_path):
@@ -119,7 +103,7 @@ def test_climbing_url_read_parse_once_dates_do_not_freshen_and_attachment_has_no
     assert calls == parses == [URL] and attachments == [0, 0, 0]
     assert one.result_complete and two.result_complete and third.result["checked_date"] == checked
     assert len(sources) == len(evidence) == 1 and len(evidence[0]["results_added"]) == 2
-    assert one.calendar_date == "2026-05-01" and loader.ended_before[one.event_id] == loader._observed[URL]
+    assert one.calendar_date == "2026-10-31"
     assert "infosheet" not in " ".join(calls)
 
 
@@ -281,7 +265,7 @@ def test_f1_uses_pinned_already_read_race_body_and_shared_driver_cache(tmp_path)
         [later],
         2027,
         tmp_path,
-        now=datetime(2027, 6, 1, tzinfo=timezone.utc),
+        now=datetime(2027, 5, 4, tzinfo=timezone.utc),
         f1_contexts={
             later.event_id: {
                 "race_path": second_path,
@@ -296,25 +280,16 @@ def test_f1_uses_pinned_already_read_race_body_and_shared_driver_cache(tmp_path)
     assert race.result["checked_date"] == loader.checked[f"{module.RAW}/{REVISION}/{PATH}/race-results.yml"]
 
 
-def test_real_junior_snapshot_reads_locally_with_global_direct_medals_and_true_observed_bound():
+def test_old_junior_sessions_are_not_looked_up_or_changed():
     events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
     events = [e for e in events if e.league == "IWF_JUNIOR_WORLDS"]
+    before = deepcopy([e.to_dict() for e in events])
 
     def no_requests(_):
-        pytest.fail("Junior results may never fetch IWF")
+        pytest.fail("Old sessions need no result requests")
 
-    loader = module.ResultsLoader(no_requests)
-    sources, evidence = enrich(loader, events, ROOT / "data/reviewed")
-    assert len(events) == 28 and sum(len(e.result["athletes"]) for e in events) == 261
-    assert all(e.result_complete and e.status == "finished" for e in events)
-    assert all(loader.ended_before[e.event_id] == "2026-11-04T04:25:07+00:00" for e in events)
-    assert all(set(module.MEDALS) <= e.result.keys() for e in events)
-    assert len(sources) == len(evidence) == 1
-    assert all(e.result["checked_date"] == "2026-11-04" for e in events)
-    assert any(
-        a.get("lot") == "180" and a["name"] == "TAGGART Zak William" for e in events for a in e.result["athletes"]
-    )
-    assert all("identity_source" not in a for e in events for a in e.result["athletes"])
+    assert enrich(module.ResultsLoader(no_requests), events, ROOT / "data/reviewed") == ([], [])
+    assert [e.to_dict() for e in events] == before
 
 
 def test_corrupt_junior_snapshot_is_omitted_atomically_without_network(tmp_path):
@@ -378,7 +353,6 @@ def test_wikipedia_only_missing_eligible_classes_are_read_with_actual_revision_a
                 "athletes": athletes if body == b"class60" else [],
                 **{key: deepcopy(medals) for key in module.MEDALS},
                 "_complete": complete if body == b"class60" else False,
-                "_ended_before": None,
                 "source_url": "https://en.wikipedia.org/w/index.php?title=Fixture&oldid=42",
                 "input_url": input_url,
                 "checked_date": checked_date,
@@ -403,7 +377,7 @@ def test_wikipedia_only_missing_eligible_classes_are_read_with_actual_revision_a
         for identity, weight, group in [
             ("a", "60", "A"),
             ("b", "60", "B"),
-            ("frozen", "65", "A"),
+            ("old", "65", "A"),
             ("existing", "71", "A"),
         ]
     ]
@@ -415,33 +389,24 @@ def test_wikipedia_only_missing_eligible_classes_are_read_with_actual_revision_a
 
     loader = module.ResultsLoader(read)
     events = [event(row["id"], source="weightlifting", sport="weightlifting", league=league) for row in registry]
-    previous = events[-1].to_dict()
-    previous["result"] = {"kind": "weightlifting", "athletes": [], "complete": True}
-    sources, evidence = enrich(loader, events, tmp_path, frozen_ids={"frozen"}, baseline_events={"existing": previous})
+    events[2].calendar_date = events[2].end_calendar_date = "2026-10-01"
+    events[3].result = {"kind": "weightlifting", "athletes": [], "complete": True}
+    sources, evidence = enrich(loader, events, tmp_path)
     assert calls == [main, class_urls["60"]]
-    assert all(events[i].result_complete is complete for i in [0, 1])
+    if not complete:
+        assert not sources and not evidence and all(e.result is None for e in events[:2])
+        return
+    assert all(events[i].result_complete for i in [0, 1])
     assert [len(events[i].result["athletes"]) for i in [0, 1]] == [2, 1]
     assert all("lot" not in a for e in events[:2] for a in e.result["athletes"])
     assert all(len(events[i].result[field]) == 3 for i in [0, 1] for field in module.MEDALS)
-    assert events[2].result is None and events[3].result is None
+    assert events[2].result is None and events[3].result is not None
     assert (
         sources[0]["kind"] == "wikipedia" and sources[0]["license"] == "CC BY-SA 4.0" and sources[0]["revision"] == "42"
     )
     assert sources[0]["license_url"] == "https://creativecommons.org/licenses/by-sa/4.0/"
     assert evidence[0]["input_url"] == class_urls["60"] and evidence[0]["revision"] == "42"
     assert events[0].result["sources"][0]["gender"] == "men"
-    assert loader.ended_before["a"] == loader._observed[class_urls["60"]]
-
-
-def test_end_proof_gate_does_not_relabel_a_past_scheduled_no_result_event(tmp_path):
-    calls = []
-    loader = module.ResultsLoader(lambda url: calls.append(url))
-    item = event()
-    original = deepcopy(item.to_dict())
-    assert enrich(loader, [item], tmp_path, ended_before={item.event_id: "2027-01-01T00:00:00Z"}) == ([], [])
-    assert not calls and item.to_dict() == original
-    enrich(loader, [item], tmp_path, ended_before={item.event_id: "2026-05-02T00:00:00Z"})
-    assert calls == [URL] and item.to_dict() == original and loader.ended_before == {}
 
 
 @pytest.mark.parametrize("error", [OSError("unavailable"), EOFError("truncated gzip"), zlib.error("corrupt gzip")])
@@ -476,7 +441,6 @@ def test_cache_keeps_original_observation_day_across_later_publication_year(monk
     loader.enrich([two], 2027, tmp_path, now=NOW)
     assert calls == [URL]
     assert one.result["checked_date"] == two.result["checked_date"] == "2026-11-04"
-    assert loader.ended_before["one"] == loader.ended_before["two"] == "2026-11-04T12:00:00+00:00"
 
 
 def test_default_transport_keeps_normal_caching_headers_and_bounded_gzip(monkeypatch, tmp_path):
@@ -510,15 +474,15 @@ def test_youth_and_masters_never_trigger_optional_result_requests(tmp_path):
     assert calls == []
 
 
-def test_partial_result_remains_eligible_and_can_upgrade_from_new_missing_facts(tmp_path):
+def test_stored_partial_result_needs_no_new_lookup(tmp_path):
     calls = []
     loader = module.ResultsLoader(lambda url: calls.append(url) or page([category()]))
     item = event()
     item.result = {"kind": "podium", "rows": [], "complete": False}
     item.result_complete = False
     previous = item.to_dict()
-    enrich(loader, [item], tmp_path, baseline_events={item.event_id: previous})
-    assert calls == [URL] and item.result_complete and len(item.result["rows"]) == 3
+    enrich(loader, [item], tmp_path)
+    assert calls == [] and item.to_dict() == previous
 
 
 def test_explicit_future_start_and_same_venue_day_prevent_lookup_before_session(tmp_path):
@@ -539,18 +503,18 @@ def test_explicit_future_start_and_same_venue_day_prevent_lookup_before_session(
     assert calls == []
 
 
-def test_complete_nonfrozen_climbing_result_is_rechecked_during_correction_window(tmp_path):
+def test_stored_complete_result_needs_no_new_lookup(tmp_path):
     calls = []
     loader = module.ResultsLoader(lambda url: calls.append(url) or page([category()]))
     item = event()
     item.result = {"kind": "podium", "rows": [], "complete": True}
     item.result_complete = True
     previous = item.to_dict()
-    enrich(loader, [item], tmp_path, baseline_events={item.event_id: previous})
-    assert calls == [URL] and len(item.result["rows"]) == 3 and item.result_complete
+    enrich(loader, [item], tmp_path)
+    assert calls == [] and item.to_dict() == previous
 
 
-def test_failure_does_not_clear_existing_nonfrozen_result(tmp_path):
+def test_failure_does_not_clear_existing_result(tmp_path):
     item = event()
     item.result = {"kind": "podium", "rows": [], "complete": True}
     item.result_complete = True
@@ -561,22 +525,3 @@ def test_failure_does_not_clear_existing_nonfrozen_result(tmp_path):
 
     assert enrich(module.ResultsLoader(failed), [item], tmp_path) == ([], [])
     assert item.to_dict() == original
-
-
-def test_rescheduled_future_scope_cannot_reuse_old_end_bound_for_lookup(tmp_path):
-    old = event()
-    old.result = {"kind": "podium", "rows": [], "complete": False}
-    rescheduled = event(calendar_date="2027-01-01", end_calendar_date="2027-01-01")
-    calls = []
-    loader = module.ResultsLoader(lambda url: calls.append(url))
-    assert enrich(
-        loader,
-        [rescheduled],
-        tmp_path,
-        baseline_events={old.event_id: old.to_dict()},
-        ended_before={old.event_id: "2026-05-02T00:00:00Z"},
-    ) == ([], [])
-    assert not calls
-    explicit = event(start_time_utc="2027-01-01T00:00:00Z")
-    assert enrich(loader, [explicit], tmp_path, ended_before={explicit.event_id: "2026-05-02T00:00:00Z"}) == ([], [])
-    assert not calls

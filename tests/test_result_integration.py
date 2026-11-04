@@ -290,90 +290,6 @@ def test_public_result_coverage_is_explicit_so_partial_facts_remain_refreshable(
     assert "_complete" not in _event_payload(event)["result"]
 
 
-def test_result_scope_does_not_reuse_changed_category_or_source_page():
-    from kickoff.results import same_result_scope
-
-    event = feeds.make_event(
-        source="world_climbing",
-        sport="climbing",
-        league="IFSC_WORLD_CUP",
-        upstream_id="block",
-        season="2026",
-        title="Women's Boulder Final",
-        utc=None,
-        day="2026-01-01",
-        event_type="session",
-    )
-    event.tags = ["women", "boulder"]
-    previous = _event_payload(event)
-    assert same_result_scope(event, previous)
-    event.tags = ["boulder", "women"]
-    assert same_result_scope(event, previous)
-    event.tags = ["men", "boulder"]
-    assert not same_result_scope(event, previous)
-    event.tags = previous["tags"]
-    event.source_url = "https://www.worldclimbing.com/another-event"
-    assert not same_result_scope(event, previous)
-
-
-@pytest.mark.parametrize("complete", [True, False])
-def test_reviewed_weightlifting_result_survives_loader_skip_or_optional_failure(complete):
-    from datetime import datetime, timezone
-    from pathlib import Path
-
-    from kickoff.incremental import RefreshPlan
-    from kickoff.open_schedules import _reviewed_observations
-    from kickoff.refresh_state import Baseline
-    from kickoff.result_loader import ResultsLoader
-    from kickoff.reviewed_schedules import load_reviewed_schedules
-    from kickoff.weightlifting_wikipedia import api_url, classes_for_session, parse_classes
-    from tests.test_weightlifting_wikipedia import TITLE, infobox, payload, table
-
-    # Use the real reviewed appointment and its source observation. The small
-    # invented result table is the same offline fixture used by the pure parser.
-    directory = Path(__file__).resolve().parents[1] / "data/reviewed"
-    reviewed, notices, _ = load_reviewed_schedules(directory, 2026)
-    fresh = next(e for e in reviewed if e.event_id == "iwf-worlds-2026-men-s-60-kg-group-a")
-    assert fresh.status == "past schedule"
-    definitions = json.loads((directory / "2026-weightlifting.json").read_text())["events"]
-    session = next(row for row in definitions if row["id"] == fresh.event_id)
-    body = payload(infobox() + table(first_attempt="70" if complete else ""))
-    classes = parse_classes(body, input_url=api_url(TITLE), checked_date="2026-11-03")
-    prior = deepcopy(fresh)
-    selected = classes_for_session(classes, session, reviewed_sessions=definitions)
-    attach_result(prior, ResultsLoader()._combine(selected, session))
-    previous = _event_payload(prior)
-    assert previous["result"]["complete"] is complete
-    baseline = Baseline(
-        manifest={"available_seasons": [2026]},
-        bundles={"2026-weightlifting-iwf-worlds.json": {"season": 2026, "events": [previous]}},
-    )
-    moment = datetime(2026, 11, 4, 12, tzinfo=timezone.utc)
-    plan = RefreshPlan(baseline, moment)
-    _reviewed_observations(plan, [fresh], [n for n in notices if n["url"] == fresh.source_url], 2026)
-    assert any(unit.unresolved.get(fresh.event_id) == "missing_confirmed_result" for unit in plan.current.values())
-    calls = []
-
-    def read(url):
-        calls.append(url)
-        if complete:
-            pytest.fail("An already complete weightlifting result needs no HTTP request")
-        raise OSError("Optional Wikipedia result source failed")
-
-    loader = ResultsLoader(read)
-    assert loader.enrich([fresh], 2026, directory, baseline_events=baseline.events, now=moment) == ([], [])
-    assert len(calls) == (0 if complete else 1)
-    incoming = _event_payload(fresh)
-    assert incoming["status"] == "past schedule" and "result" not in incoming
-    (merged,) = plan.public_events([incoming], 2026)
-    assert merged["status"] == "finished"
-    assert merged["result"] == previous["result"]
-    assert merged["result"]["checked_date"] == "2026-11-03"
-    assert plan.confirmed_results == ({fresh.event_id} if complete else set())
-    assert incoming["status"] == "past schedule" and "result" not in incoming
-    assert baseline.events[fresh.event_id] == previous
-
-
 def test_confirmed_medal_only_result_replaces_the_finished_sessions_start_list():
     from kickoff.models import Participant
 
@@ -446,7 +362,7 @@ def test_weightlifting_medals_need_a_final_a_session_and_can_include_an_earlier_
         "source_url": "https://example.test/timetable",
         "checked_date": "2026-10-28",
     }
-    assert events == original  # Frozen baseline data is not mutated.
+    assert events == original  # Input result data is not mutated.
     for item in [earlier, last]:
         assert item["result"]["athletes"] == result["athletes"]
         assert item["result"]["total_medalists"] == [medal]  # Keep global source facts, filter only popup presentation.

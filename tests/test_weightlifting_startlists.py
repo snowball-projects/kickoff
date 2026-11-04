@@ -115,34 +115,6 @@ def test_snapshot_only_loader_keeps_dates_and_every_schedule_fact(monkeypatch, t
     assert all(p.metadata["start_list_checked_date"] == "2026-11-03" for p in item.participants)
 
 
-def test_partial_frozen_cohort_keeps_frozen_values_and_loads_only_other_snapshot_members(monkeypatch, tmp_path):
-    _, snapshot, path = setup_catalog(monkeypatch, tmp_path)
-    second = deepcopy(snapshot["sessions"][0])
-    second["event_id"] = "second"
-    second["categories"][0]["weight_class"] = "53"
-    for row in second["entries"]:
-        row["lot"] += "0"
-        row["weight"] = "53"
-    snapshot["sessions"].append(second)
-    snapshot["session_count"] = 2
-    snapshot["athlete_count"] = 4
-    save_snapshot(snapshot, path)
-    definitions = {"events": [{"id": row["event_id"], "categories": row["categories"]} for row in snapshot["sessions"]]}
-    (tmp_path / "2026-weightlifting.json").write_text(json.dumps(definitions))
-    frozen, fresh = event("session"), event("second")
-    frozen.participants = [
-        startlists.Participant(name="Existing frozen facts", entity_type="athlete", metadata={"entry_total_kg": 199})
-    ]
-    original = deepcopy(frozen.to_dict())
-    _, evidence = startlists.StartListLoader().enrich([frozen, fresh], tmp_path, 2026, skip_ids={"session"})
-    assert frozen.to_dict() == original
-    assert len(fresh.participants) == 2 and evidence[0]["sessions"] == 1
-    assert startlists.StartListLoader().enrich([frozen, fresh], tmp_path, 2026, skip_ids={"session", "second"}) == (
-        [],
-        [],
-    )
-
-
 def test_explicit_withheld_snapshot_session_stays_empty_and_does_not_hide_valid_session(monkeypatch, tmp_path):
     _, snapshot, path = setup_catalog(monkeypatch, tmp_path)
     omitted = {

@@ -7,7 +7,7 @@ import json
 import re
 from copy import deepcopy
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from html.parser import HTMLParser
 from urllib.parse import parse_qs, quote, urlencode, urlsplit
 
@@ -577,9 +577,6 @@ def parse_classes(content: bytes | None, *, input_url: str, checked_date: str) -
                     **provenance,
                     "source_url": provenance["source_url"] + ("#" + quote(anchor) if anchor else ""),
                     "_source_date": source_date,
-                    "_ended_before": (date.fromisoformat(source_date) + timedelta(days=1)).isoformat()
-                    if source_date
-                    else None,
                 }
             )
         return results

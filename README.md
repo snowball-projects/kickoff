@@ -33,10 +33,10 @@ npm --prefix frontend run build
 
 Pages refreshes schedules and deploys daily at 09:17 and 21:17 UTC, on pushes to
 main and on demand. A primary schedule feed failure stops publication, leaving
-the live site unchanged. Results stay refreshable for two days after a confirmed
-end; frozen facts retain their actual check dates. Unresolved records are checked
-again. A missing or invalid baseline triggers a full rebuild. Use
-`--force-full` with the refresh command, or the workflow’s manual rebuild option.
+the live site unchanged. Events ending within the last seven days and future schedules are refreshed.
+Older events are copied unchanged from the published league files. A missing or
+unreadable league file rebuilds that league from sources. Use `--force-full`
+or the workflow's manual rebuild option to ignore all published files.
 Failed optional ESPN clock lookups log a warning and
 leave affected events date-only; existing source times are preserved. The daily
 build writes nothing back. Team logos use supplied ESPN images and the checked-in

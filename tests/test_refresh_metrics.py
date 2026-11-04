@@ -20,6 +20,14 @@ from kickoff.refresh_metrics import refresh_metrics
 from kickoff.result_loader import ResultsLoader
 
 
+def summary(total, counts=None):
+    counts = counts or {"other": total}
+    return (
+        "".join(f"{name}: requests made: {counts.get(name, 0)}\n" for name in module.FAMILIES)
+        + f"requests made: {total}\n"
+    )
+
+
 @pytest.fixture
 def http_source():
     attempts = Counter()
@@ -80,17 +88,21 @@ def test_all_http_attempts_include_retry_redirect_optional_failure_and_threads(h
         assert loader._run(lambda: loader._read(base + "/book.pdf")) is None
         with urlopen("data:application/json,%7B%7D") as response:
             assert response.read() == b"{}"
+        read(base + "/basketball/nba/example")
+        with module.request_family("results pages"):
+            read(base + "/result")
         logging.getLogger("kickoff").warning("An optional source did not respond")
-    assert metrics.requests == sum(attempts.values()) == 25
-    assert capsys.readouterr() == ("requests made: 25, units reused: 0, events frozen: 0\n", "")
+    assert metrics.requests == sum(attempts.values()) == 27
+    assert metrics.families == {"other": 25, "NBA": 1, "results pages": 1}
+    assert capsys.readouterr() == (summary(27, dict(metrics.families)), "")
     assert logging.root.manager.disable == previous_disabled
     # The persistent audit hook is inactive outside a refresh, and repeated runs
     # never accumulate hooks or inherit counts from previous HTTP attempts.
     read(base + "/outside")
     with refresh_metrics() as second:
         read(base + "/new-run")
-    assert metrics.requests == 25 and second.requests == 1
-    assert capsys.readouterr() == ("requests made: 1, units reused: 0, events frozen: 0\n", "")
+    assert metrics.requests == 27 and second.requests == 1
+    assert capsys.readouterr() == (summary(1), "")
 
 
 def test_failed_refresh_still_reports_actual_attempts_and_restores_logging(http_source, capsys):
@@ -100,7 +112,7 @@ def test_failed_refresh_still_reports_actual_attempts_and_restores_logging(http_
         with refresh_metrics():
             read(base + "/missing")
     assert sum(attempts.values()) == 1
-    assert capsys.readouterr() == ("requests made: 1, units reused: 0, events frozen: 0\n", "")
+    assert capsys.readouterr() == (summary(1), "")
     assert logging.root.manager.disable == previous_disabled
 
 
@@ -112,7 +124,7 @@ def test_only_one_hook_is_installed_across_runs(monkeypatch, capsys):
         with refresh_metrics():
             pass
     assert installed == [module._audit]
-    assert capsys.readouterr().out.count("requests made: 0") == 3
+    assert capsys.readouterr().out == summary(0) * 3
 
 
 def test_cli_failure_is_nonzero_with_one_summary_and_no_traceback():
@@ -134,5 +146,5 @@ with patch("kickoff.open_schedules.refresh_open_schedules", side_effect=ValueErr
         check=False,
     )
     assert completed.returncode == 1
-    assert completed.stdout == "requests made: 0, units reused: 0, events frozen: 0\n"
+    assert completed.stdout == summary(0)
     assert completed.stderr == ""

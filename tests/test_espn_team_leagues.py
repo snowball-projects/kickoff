@@ -14,6 +14,25 @@ FIXTURE = json.loads((Path(__file__).parent / "fixtures/espn-team-leagues.json")
 CASES = {row["label"]: row for row in FIXTURE["cases"]}
 
 
+@pytest.fixture(autouse=True)
+def parser_calendars(monkeypatch):
+    def calendar(path, league, season, **_):
+        if "basketball" in path:
+            return [f"{season}-01-17T08:00Z", f"{season}-04-06T07:00Z"]
+        return [
+            {
+                "value": str(kind),
+                "entries": [
+                    {"value": str(week), "startDate": f"{season}-01-01T00:00Z", "endDate": f"{season + 1}-02-28T23:59Z"}
+                    for week in range(1, 19)
+                ],
+            }
+            for kind in (2, 3)
+        ]
+
+    monkeypatch.setattr(feeds, "_season_calendar", calendar)
+
+
 @pytest.mark.parametrize("case", FIXTURE["cases"], ids=lambda case: case["label"])
 def test_primary_scoreboard_phases_and_factual_team_fields(case):
     row = case["event"]
@@ -47,26 +66,21 @@ def test_primary_scoreboard_phases_and_factual_team_fields(case):
     assert "raw_source_payload" not in public and "odds" not in public
 
 
-def test_every_civil_day_including_ncaa_postseason_and_both_year_boundaries(monkeypatch):
+def test_only_calendar_game_days_include_ncaa_postseason(monkeypatch):
     calls = []
-    ncaa = CASES["mens_final"]["event"]
-    regular = CASES["mens_d1_regular"]["event"]
+    regular, final = CASES["mens_d1_regular"]["event"], CASES["mens_final"]["event"]
 
     def get(url, **_):
-        query = parse_qs(urlsplit(url).query)
-        prefix = query["dates"][0]
+        q = parse_qs(urlsplit(url).query)
+        prefix = q["dates"][0]
         calls.append(prefix)
-        assert query["groups"] == ["50"] and query["limit"] == ["1000"]
-        assert len(prefix) == 8
-        return {"events": [ncaa] if prefix == "20260406" else [regular] if prefix == "20260117" else []}
+        assert q["groups"] == ["50"] and q["limit"] == ["1000"]
+        return {"events": [final] if prefix == "20260406" else [regular] if prefix == "20260117" else []}
 
     monkeypatch.setattr(feeds, "get_json", get)
     events = feeds.espn_team_events(2026, "NCAA_MENS_BASKETBALL")
-    assert len(calls) == len(set(calls)) == 367
-    assert "20251231" in calls and "20270101" in calls
-    assert "20260715" in calls  # no off-season date cap
+    assert calls == ["20260117", "20260406"]
     assert {e.competition_phase for e in events} == {"regular_season", "final"}
-    assert len(events) == 2
 
 
 def test_fbs_and_fcs_union_keeps_cross_division_game_once_and_week_facts(monkeypatch):
@@ -78,11 +92,15 @@ def test_fbs_and_fcs_union_keeps_cross_division_game_once_and_week_facts(monkeyp
         query = parse_qs(urlsplit(url).query)
         calls.append((query["dates"][0], query["groups"][0]))
         assert query["limit"] == ["200"]  # 1000 silently falls back to25 in this API
-        return {"events": [{}, game] if query["dates"] == ["20261130"] else []}
+        return {
+            "events": [{}, game]
+            if query["dates"] == ["2026"] and query.get("seasontype") == ["3"] and query.get("week") == ["1"]
+            else []
+        }
 
     monkeypatch.setattr(feeds, "get_json", get)
     (event,) = feeds.espn_team_events(2026, "COLLEGE_FOOTBALL")
-    assert len(calls) == 734 and {g for _, g in calls} == {"80", "81"}
+    assert {g for _, g in calls} == {"80", "81"}
     assert {"fbs", "fcs"} <= set(event.tags)
     assert event.calendar_date == "2026-11-30"
     assert event.is_postseason and event.week_label
@@ -133,7 +151,7 @@ def test_saturated_year_and_month_split_without_truncating_or_losing_source_urls
     assert all("dates=2026010" in e.facts_source_url for e in events)
 
 
-def test_a_saturated_daily_response_stops_publication(monkeypatch):
+def test_a_saturated_weekly_response_stops_publication(monkeypatch):
     path, sport, groups, _ = feeds.TEAM_LEAGUES["COLLEGE_FOOTBALL"]
     monkeypatch.setitem(feeds.TEAM_LEAGUES, "COLLEGE_FOOTBALL", (path, sport, groups, 1))
     monkeypatch.setattr(feeds, "get_json", lambda _url, **_options: {"events": [CASES["fbs_bowl"]["event"]]})
@@ -180,7 +198,9 @@ def test_undecided_bowl_retains_appointment_and_only_actual_team_entities(monkey
             next(c for c in row["competitions"][0]["competitors"] if c["homeAway"] == "away"),
         ]
     monkeypatch.setattr(
-        feeds, "get_json", lambda url, **_options: {"events": [row] if "dates=20270101&" in url else []}
+        feeds,
+        "get_json",
+        lambda url, **_options: {"events": [row] if "dates=2026&" in url and "seasontype=3&week=1&" in url else []},
     )
     (event,) = feeds.espn_team_events(2027, "COLLEGE_FOOTBALL")
     assert event.event_id == f"espn-college_football-{row['id']}"
@@ -207,7 +227,9 @@ def test_undecided_bowl_retains_appointment_and_only_actual_team_entities(monkey
 )
 def test_nfl_undecided_playoffs_keep_source_label_and_explicit_clock(monkeypatch, case):
     row = case["event"]
-    monkeypatch.setattr(feeds, "get_json", lambda url, **_: {"events": [row] if url == case["url"] else []})
+    monkeypatch.setattr(
+        feeds, "get_json", lambda url, **_: {"events": [row] if (case["url"].split("?", 1)[1] + "&") in url else []}
+    )
     (event,) = feeds.nfl_events(2027)
     assert event.event_id == f"espn-nfl-{row['id']}"
     assert event.title == case["expected_title"] and event.subtitle is None
@@ -224,7 +246,9 @@ def test_swac_positive_ids_do_not_turn_tba_markers_into_real_teams(monkeypatch):
     row = CASES["swac_positive_tba"]["event"]
     assert all(int(c["team"]["id"]) > 0 for c in row["competitions"][0]["competitors"])
     monkeypatch.setattr(
-        feeds, "get_json", lambda url, **_options: {"events": [row] if "dates=20261205&" in url else []}
+        feeds,
+        "get_json",
+        lambda url, **_options: {"events": [row] if "dates=2026&" in url and "seasontype=3&week=1&" in url else []},
     )
     (event,) = feeds.espn_team_events(2026, "COLLEGE_FOOTBALL")
     assert event.event_id == "espn-college_football-401872642"
