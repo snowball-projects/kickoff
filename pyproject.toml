@@ -12,7 +12,6 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Nas Delevski" }]
 dependencies = [
-    "pypdf>=6.19,<7",
     "tzdata>=2024.1",
 ]
 

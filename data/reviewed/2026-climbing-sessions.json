@@ -1091,6 +1091,93 @@
         }
       ],
       "changes": "Reviewed round/gender/discipline identities and September 22–25 dates from the May 7 technical manual; later organizer bulletins supersede its clocks. Shared blocks retain shared_session scope. The men’s Boulder final clock is disputed, and the following women’s Lead final has no separate clock, so both are date-only. ISEF 27 is in Santa Fe city; IANA America/Argentina/Cordoba explicitly covers Santa Fe province, UTC−03:00 in September 2026. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header."
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-structured-1",
+      "kind": "world_climbing",
+      "name": "Reviewed structured schedule: Santa Fe 2026 / World Climbing: South American Games climbing",
+      "url": "https://santafe2026.ar/node/859",
+      "revision": "structured-source-review-2026-11-04",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://santafe2026.ar/node/859",
+      "checked_date": "2026-11-04",
+      "sha256": "747108e59811d39ff6d83d90d9a37f5516e1e26bfa49f53c63846760ca7de814",
+      "evidence": [
+        {
+          "url": "https://santafe2026.ar/node/859",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition day",
+            "discipline",
+            "gender",
+            "round",
+            "published start time or explicit following-final order",
+            "ISEF 27 venue",
+            "Santa Fe city"
+          ]
+        }
+      ],
+      "changes": "Reviewed source substitution for unchanged schedule facts. Replace PDF primary source on these same facts; retain source for the two September23 male boulder sessions. September25 female final remains time-null: HTML only says follows male16:00final.",
+      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-structured-2",
+      "kind": "world_climbing",
+      "name": "Reviewed structured schedule: Santa Fe 2026 / World Climbing: South American Games climbing",
+      "url": "https://santafe2026.ar/es/node/903",
+      "revision": "structured-source-review-2026-11-04",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://santafe2026.ar/es/node/903",
+      "checked_date": "2026-11-04",
+      "sha256": "5decdd16e528e0e29321f512d16b1887a9c8adf3a91c6601b5ea8647ea25f543",
+      "evidence": [
+        {
+          "url": "https://santafe2026.ar/es/node/903",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition day",
+            "discipline",
+            "gender",
+            "round",
+            "published start time or explicit following-final order",
+            "ISEF 27 venue",
+            "Santa Fe city"
+          ]
+        }
+      ],
+      "changes": "Reviewed source substitution for unchanged schedule facts. Replace PDF primary source on these same facts; retain source for the two September23 male boulder sessions. September25 female final remains time-null: HTML only says follows male16:00final.",
+      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes"
+    },
+    {
+      "id": "south-american-games-santa-fe-2026-structured-3",
+      "kind": "world_climbing",
+      "name": "Reviewed structured schedule: Santa Fe 2026 / World Climbing: South American Games climbing",
+      "url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
+      "revision": "structured-source-review-2026-11-04",
+      "license": "Schedule facts; no data license granted",
+      "license_url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
+      "checked_date": "2026-11-04",
+      "sha256": "f168f2cad10027eb02db6e79823d11a2b382d811e78225a13d5cd03f5f895e21",
+      "evidence": [
+        {
+          "url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
+          "checked_date": "2026-11-04",
+          "fields": [
+            "competition day",
+            "discipline",
+            "gender",
+            "round",
+            "published start time or explicit following-final order",
+            "ISEF 27 venue",
+            "Santa Fe city"
+          ]
+        }
+      ],
+      "changes": "Reviewed source substitution for unchanged schedule facts. Replace PDF primary source on these same facts; retain source for the two September23 male boulder sessions. September25 female final remains time-null: HTML only says follows male16:00final.",
+      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
+      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes"
     }
   ],
   "events": [
@@ -12127,13 +12214,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-womens-boulder-qualification",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-1",
+      "source_url": "https://santafe2026.ar/node/859",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/node/859"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Women's Boulder Qualification",
@@ -12155,13 +12241,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-womens-boulder-final",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-1",
+      "source_url": "https://santafe2026.ar/node/859",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/node/859"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Women's Boulder Final",
@@ -12239,13 +12324,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-mens-speed-qualification",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-2",
+      "source_url": "https://santafe2026.ar/es/node/903",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/node/903"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Men's Speed Qualification",
@@ -12268,13 +12352,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-womens-speed-qualification",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-2",
+      "source_url": "https://santafe2026.ar/es/node/903",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/node/903"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Women's Speed Qualification",
@@ -12297,13 +12380,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-mens-speed-final",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-2",
+      "source_url": "https://santafe2026.ar/es/node/903",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/node/903"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Men's Speed Final",
@@ -12326,13 +12408,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-womens-speed-final",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-2",
+      "source_url": "https://santafe2026.ar/es/node/903",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/node/903"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Women's Speed Final",
@@ -12355,13 +12436,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-mens-lead-qualification",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-3",
+      "source_url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Men's Lead Qualification",
@@ -12384,13 +12464,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-womens-lead-qualification",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-3",
+      "source_url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Women's Lead Qualification",
@@ -12413,13 +12492,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-mens-lead-final",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-3",
+      "source_url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Men's Lead Final",
@@ -12441,13 +12519,12 @@
     },
     {
       "id": "south-american-games-santa-fe-2026-womens-lead-final",
-      "source_id": "south-american-games-santa-fe-2026",
-      "source_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
+      "source_id": "south-american-games-santa-fe-2026-structured-3",
+      "source_url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
       "evidence_urls": [
-        "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
         "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre"
       ],
-      "checked_date": "2026-10-28",
+      "checked_date": "2026-11-04",
       "sport": "climbing",
       "league": "CLIMBING_SOUTH_AM_GAMES",
       "title": "South American Games · Santa Fe · Women's Lead Final",

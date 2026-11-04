@@ -12,5 +12,5 @@ class SettingsTests(unittest.TestCase):
 
         self.assertEqual(settings.providers_config["f1"]["default_event_scope"], "all_published")
         self.assertEqual(settings.provider_options("f1").motorsport_view, "race_only")
-        self.assertEqual(settings.providers_config["nba"]["default_event_scope"], "regular_only")
+        self.assertEqual(settings.providers_config["nfl"]["default_event_scope"], "regular_only")
         self.assertEqual(settings.config_dir.name, "config")

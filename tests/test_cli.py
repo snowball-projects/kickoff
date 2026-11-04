@@ -13,3 +13,12 @@ class CliTests(unittest.TestCase):
         self.assertEqual(export.command, "export-web")
         with self.assertRaises(SystemExit):
             parser.parse_args(["refresh-results"])
+
+
+def test_removed_pdf_adapters_are_not_exposed_by_the_cli():
+    from kickoff.registry import build_registry
+
+    registry = build_registry()
+    assert "nba" not in registry
+    assert "nascar_cup" not in registry
+    assert "f1" in registry

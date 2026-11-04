@@ -185,14 +185,14 @@ def test_public_export_keeps_only_requested_factual_fields(monkeypatch, tmp_path
         assert not any(key in _event_payload(other)["participants"][0] for key in startlists.ENTRY_FIELDS)
 
 
-# Independent fingerprints of every public participant value/order in deployed live80.
+# Independent live80 participant facts/order, excluding country citations that can gain a structured source.
 LIVE80 = {
-    "WEIGHTLIFTING_EUROPE": (36, 368, "5c46c51c207e1f7834ce1f219f3fc667ea01df5e39c592ae3c6966d86d328453"),
-    "WEIGHTLIFTING_ASIA": (17, 164, "ea8c5d4d4bc53ca408eb80ea3b8a31aaa234e574312d807ec064a878047468d8"),
-    "WEIGHTLIFTING_PAN_AMERICA": (16, 168, "fd1d409d90f9478b647de405aec8e3a91f3200084a62a861e62904ce6f184308"),
-    "IWF_WORLDS": (50, 528, "c47de936b9f016c9af2941b5fab265062697e18b7fe89d1fd21cc7326ddad001"),
-    "IWF_JUNIOR_WORLDS": (28, 271, "0fa2987b41b4a8374264f2a00a2a9587b853e03d0196f6a88adf4b412ae1137e"),
-    "WEIGHTLIFTING_AFRICA": (15, 126, "a4eaf26bd129dee19f1aeaf98add9ea1eef4614ee4fb64eb5a70d1b15d07db3f"),
+    "WEIGHTLIFTING_EUROPE": (36, 368, "13badf40f59797405ed8b18c4c752b1510021bcdba8b7421fe77f6f067d69b8d"),
+    "WEIGHTLIFTING_ASIA": (17, 164, "081f5e13aaaee8d4edfe356c7ee422a20b3fbab25dbcae9f17f580fe9f8a0bae"),
+    "WEIGHTLIFTING_PAN_AMERICA": (16, 168, "3610142d5934aaa0615b8b4cffd7bec649d6d88672365ecfc22506c4ebb6ec42"),
+    "IWF_WORLDS": (50, 528, "ffa240a940da5f7824a755ca422b42385d4c9cb7fc739929c25c9bd4f51a1bf9"),
+    "IWF_JUNIOR_WORLDS": (28, 271, "853b089e5cddff5dbc250669633665880a4d02b6ac17bde106a08898fcb379d1"),
+    "WEIGHTLIFTING_AFRICA": (15, 126, "3a53689ea7ce6381b9112fa9369ff353055801b35a27f34f2b4b45edf63bfc2e"),
 }
 
 
@@ -205,7 +205,15 @@ def test_all_live80_1625_athletes_dates_flags_and_public_values_are_exact(league
     expected_sessions, expected_athletes, digest = LIVE80[league]
     public = {e.event_id: _event_payload(e)["participants"] for e in events}
     assert len(events) == expected_sessions and sum(map(len, public.values())) == expected_athletes
-    assert hashlib.sha256(json.dumps(public, sort_keys=True, separators=(",", ":")).encode()).hexdigest() == digest
+    # Citation-only source changes must not alter athlete facts, flags or ordering.
+    factual = {
+        identity: [
+            {key: value for key, value in row.items() if key not in {"country_source_url", "country_checked_date"}}
+            for row in rows
+        ]
+        for identity, rows in public.items()
+    }
+    assert hashlib.sha256(json.dumps(factual, sort_keys=True, separators=(",", ":")).encode()).hexdigest() == digest
     assert sources[0]["checked_date"] == evidence[0]["checked_date"] == "2026-11-04"
     for item in events:
         after = item.to_dict()
@@ -223,14 +231,33 @@ def test_all_live80_1625_athletes_dates_flags_and_public_values_are_exact(league
         assert evidence[0]["source_raw_checked_date"] == "2026-11-04"
 
 
-def test_all_six_catalog_entries_are_static_and_country_citations_are_unchanged():
+def test_all_six_catalog_entries_are_static_and_country_codes_use_structured_sources():
     config = startlists.catalog()
     assert len(config["books"]) == 6 and all(book["format"] == "reviewed-roster" for book in config["books"])
     assert not any("link_pattern" in book for book in config["books"])
-    assert (
-        hashlib.sha256(json.dumps(config["country_codes"], sort_keys=True).encode()).hexdigest()
-        == "66b94f632d6b0112253694dc533bf514c1dde1e78588079fe50d9c041e293e63"
-    )
+    countries = config["country_codes"]
+    assert len(countries) == 139
+    directory = "https://iwf.sport/focus-on-iwf/federations/?federation=all"
+    for nation, row in countries.items():
+        if nation == "ENG":
+            assert row["code"] == "GB-ENG"
+            assert row["source_url"] == "https://www.glasgow2026.com/teams/england"
+            assert row["checked_date"] == "2026-11-04"
+        elif nation == "GIB":
+            assert row["code"] == "GI"
+            assert row["source_url"] == "https://www.glasgow2026.com/results/detailed/#/athlete-details/37497"
+            assert row["checked_date"] == "2026-11-04"
+        else:
+            assert row["source_url"] == directory
+            assert row["checked_date"] == "2026-11-04"
+    assert {nation: countries[nation]["code"] for nation in ["ALG", "GER", "LES", "SLO", "SVK", "TPE"]} == {
+        "ALG": "DZ",
+        "GER": "DE",
+        "LES": "LS",
+        "SLO": "SI",
+        "SVK": "SK",
+        "TPE": "TW",
+    }
 
 
 def test_publisher_calls_optional_loader_without_changing_schedule_or_primary_sources(monkeypatch, tmp_path):

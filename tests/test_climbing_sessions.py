@@ -132,8 +132,12 @@ def test_2027_dates_keep_published_disciplines_and_actual_qualifier_identity_wit
     assert {"Men", "Women", "Boulder", "Lead", "Speed"} <= set(europe.tags)
     assert not any(e.league == "CLIMBING_OLYMPICS" for e in events)
     assert any("Boulder" in e["competition"] and "confirmed" in e["reason"] for e in payload["exclusions"])
-    assert all(r["source_url"] and r["checked_date"] == "2026-10-28" for r in payload["events"])
-    assert all(s["checked_date"] == "2026-10-28" for s in sources)
+    checked_dates = {source["id"]: source["checked_date"] for source in sources}
+    assert all(r["source_url"] and r["checked_date"] == checked_dates[r["source_id"]] for r in payload["events"])
+    assert all(
+        s["checked_date"] == ("2026-11-04" if s["id"] == "climbing-pan-am-games-2027" else "2026-10-28")
+        for s in sources
+    )
 
 
 @pytest.mark.parametrize("year", [2026, 2027])
@@ -254,3 +258,17 @@ def test_reviewed_climbing_hosts_keep_explicit_country_facts():
                 assert event.country == "Italy"
             if event.venue == "Los Angeles":
                 assert event.country == "United States"
+
+
+def test_structured_games_citations_keep_unmatched_session_evidence_and_unknown_times():
+    rows = [row for row in registry()["events"] if row["league"] == "CLIMBING_SOUTH_AM_GAMES"]
+    assert len(rows) == 12
+    assert sum(".pdf" in row["source_url"] for row in rows) == 2
+    assert all(".pdf" in row["source_url"] for row in rows if row["start_date"] == "2026-09-23")
+    female_final = next(row for row in rows if row["id"].endswith("womens-lead-final"))
+    assert female_final["local_time"] is None
+    assert female_final["source_url"].endswith("que-competencias-se-podran-ver-este-viernes-25-de-septiembre")
+    future = registry(2027)
+    source = next(row for row in future["sources"] if row["id"] == "climbing-pan-am-games-2027")
+    assert source["url"].startswith("https://climbingcanada.ca/")
+    assert all(".pdf" not in proof["url"] for proof in source["evidence"])

@@ -8,14 +8,6 @@
       "default_include_special_events": false,
       "default_include_support_events": false
     },
-    "nba": {
-      "label": "NBA",
-      "sport": "basketball",
-      "season_mode": "cross_year_end_label",
-      "default_event_scope": "regular_only",
-      "default_include_special_events": false,
-      "default_include_support_events": false
-    },
     "mlb": {
       "label": "MLB",
       "sport": "baseball",
@@ -34,15 +26,6 @@
     },
     "f1": {
       "label": "F1",
-      "sport": "motorsport",
-      "season_mode": "single_year",
-      "default_event_scope": "all_published",
-      "default_include_special_events": false,
-      "default_include_support_events": false,
-      "default_motorsport_view": "race_only"
-    },
-    "nascar_cup": {
-      "label": "NASCAR Cup Series",
       "sport": "motorsport",
       "season_mode": "single_year",
       "default_event_scope": "all_published",
