@@ -148,3 +148,11 @@ with patch("kickoff.open_schedules.refresh_open_schedules", side_effect=ValueErr
     assert completed.returncode == 1
     assert completed.stdout == summary(0)
     assert completed.stderr == ""
+
+
+@pytest.mark.parametrize(
+    "url",
+    ["https://evilespn.com/source", "https://espn.com.evil.test/source", "https://other.test/source?host=espn.com"],
+)
+def test_source_family_requires_a_real_espn_hostname(url):
+    assert module.source_family(url) == "other"

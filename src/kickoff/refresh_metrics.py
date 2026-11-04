@@ -47,7 +47,7 @@ def source_family(url):
     ):
         if marker in path:
             return family
-    if host.endswith("espn.com"):
+    if host == "espn.com" or host.endswith(".espn.com"):
         return "other ESPN"
     if host == "api-web.nhle.com":
         return "NHL"

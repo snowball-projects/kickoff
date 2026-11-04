@@ -226,7 +226,7 @@ def test_mlb_and_annual_espn_sources_skip_old_years(monkeypatch):
 
     def get(url, **_):
         calls.append(url)
-        return {"dates": []} if "statsapi.mlb.com" in url else {"events": []}
+        return {"dates": []} if urlsplit(url).hostname == "statsapi.mlb.com" else {"events": []}
 
     monkeypatch.setattr(feeds, "get_json", get)
     window = window_for("MLB", "ATP")
