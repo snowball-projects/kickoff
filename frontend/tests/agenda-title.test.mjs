@@ -83,3 +83,17 @@ test("every league uses the header identity, with word boundaries and conservati
   assert.equal(agendaEventTitle({ league: "UFC", title: "UFC" }), "");
   assert.equal(agendaEventTitle({ league: "ONE", title: "Someone at ONE" }), "Someone at ONE");
 });
+
+test("shared agenda/day sessions preserve golf rounds, race names and source session text", async () => {
+  const { agendaEventText } = await loadModule("agenda-title");
+  const defaults = { league: "F1", sport: "motorsport", event_type: "race", week_label: null, round_or_stage: null };
+  for (const [fields, expected] of [
+    [{ title: "F1 · Monaco Grand Prix" }, { title: "Monaco Grand Prix · Race", session: "" }],
+    [{ title: "F1 · Monaco Grand Prix · Race" }, { title: "Monaco Grand Prix · Race", session: "" }],
+    [{ league: "NASCAR_CUP", title: "NASCAR Cup Series All Star Race" }, { title: "All Star Race", session: "" }],
+    [{ title: "F1 · Qualifying", event_type: "qualifying" }, { title: "Qualifying", session: "" }],
+    [{ league: "PGA_TOUR", sport: "golf", title: "The Open, Round 2", round_or_stage: "Round 2" }, { title: "The Open", session: "" }],
+    [{ league: "IWF_WORLDS", sport: "weightlifting", title: "IWF Worlds · Women's 69 kg", round_or_stage: "Group D" }, { title: "Women's 69 kg", session: "Group D" }],
+    [{ league: "IWF_WORLDS", sport: "weightlifting", title: "IWF Worlds · Women's 69 kg, Group D", round_or_stage: "Group D" }, { title: "Women's 69 kg, Group D", session: "" }],
+  ]) assert.deepEqual(agendaEventText({ ...defaults, ...fields }), expected);
+});

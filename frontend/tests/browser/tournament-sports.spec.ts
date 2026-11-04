@@ -86,7 +86,7 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       await page.getByRole("button", { name: "Close", exact: true }).click();
       await page.locator(".today-button").click();
       const liv = source("espn-liv_golf-401807532");
-      await page.locator(".all-day-strip .event-pill").filter({ hasText: liv.title }).click();
+      await page.locator(".all-day-strip").getByRole("button", { name: `${liv.title}, Round 2`, exact: true }).click();
       await expect(page.locator(".event-details h3")).toContainText(`${liv.title}, Round 2`);
       await expect(page.getByRole("table").locator("tbody tr")).toHaveCount(5);
       await expect(page.getByRole("table").locator("tbody tr").first().locator("td").nth(1)).toHaveText("Elvis Smylie");

@@ -41,7 +41,7 @@ export function dayTimeline(items: EventCard[], timezone: string) {
       return { ...entry, lane };
     });
     const columns = Math.min(3, ends.length);
-    if (ends.length <= 3) {
+    if (ends.length <= 2) {
       slots.push(...packed.map(({ event, top, lane }) => ({ items: [event], top, lane, columns, overflow: false })));
       continue;
     }

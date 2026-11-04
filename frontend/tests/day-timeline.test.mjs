@@ -57,3 +57,16 @@ test("the current-time marker uses the viewer's date and wall clock across midni
     assert.equal(currentMinute("2026-09-10", zone, Date.parse(instant)), null);
   }
 });
+
+test("two overlaps remain visible and three or more reserve the third lane for overflow", () => {
+  for (const count of [2, 3, 4]) {
+    const items = Array.from({ length: count }, (_, index) => event(`same-${index}`));
+    const { slots } = dayTimeline(items, "UTC");
+    assert.equal(slots.filter((slot) => !slot.overflow).length, 2);
+    const overflow = slots.filter((slot) => slot.overflow);
+    assert.equal(overflow.length, count > 2 ? 1 : 0);
+    if (count > 2) assert.equal(overflow[0].items.length, count - 2);
+    assert.deepEqual(slots.flatMap((slot) => slot.items).map((item) => item.event_id).sort(), items.map((item) => item.event_id).sort());
+    for (const slot of slots) assert.equal(slot.top, 17.5 * HOUR_HEIGHT);
+  }
+});

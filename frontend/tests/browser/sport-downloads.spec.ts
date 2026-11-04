@@ -128,7 +128,7 @@ test.describe("split files at year boundaries", () => {
     ], { now: "2027-01-01T00:00:00Z", missing: 2027, saved: { leagues: ["NFL", "PGA_TOUR"] }, requests });
     await page.locator("#day-2027-01-01 .day-number").click();
     await expect(page.locator(".day-timeline-stage")).toContainText("No published schedule for 2027.");
-    await expect(page.locator(".timeline-events .event-pill")).toHaveText("Boundary kickoff");
+    await expect(page.locator(".timeline-events .event-pill .pill-text")).toHaveText("Boundary kickoff");
     await expect(page.locator(".all-day-strip")).toContainText("Inclusive tournament");
     await page.locator(".timeline-events .event-pill").click();
     await expect(page.getByRole("dialog")).toContainText("8:00 AM");

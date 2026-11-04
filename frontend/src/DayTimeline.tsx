@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { eventTimeLabel } from "./date-utils";
 import { DAY_HEIGHT, HOUR_HEIGHT, currentMinute, dayTimeline, hourLabel, initialMinute } from "./day-timeline";
-import EventPill from "./EventPill";
+import DayPill from "./DayPill";
 import type { EventCard } from "./types";
 
 export default function DayTimeline({ date, timezone, now, items, loading, error, onEvents, onRetry }: {
@@ -23,9 +23,8 @@ export default function DayTimeline({ date, timezone, now, items, loading, error
     {loading && <p className="loading-note" role="status">Loading schedule…</p>}
     <div className="all-day-strip" aria-label="All-day events">
       <span className="all-day-label">all-day</span>
-      <div>{allDay.map((group) => <EventPill key={group.items[0].event_id} items={group.items} calendarView="day" onClick={() => onEvents(group.items, date)}>
-        {group.items.length === 1 ? group.items[0].title : undefined}
-      </EventPill>)}</div>
+      <div>{allDay.flatMap((group) => group.items).map((event) => <DayPill key={event.event_id} event={event}
+        data-event-id={event.event_id} aria-label={event.title} onClick={() => onEvents([event], date)} />)}</div>
     </div>
     <div ref={scroller} className="timeline-scroll" tabIndex={0} aria-label="Hourly timeline">
       <div className="timeline-grid" style={{ height: DAY_HEIGHT }}>
@@ -39,10 +38,8 @@ export default function DayTimeline({ date, timezone, now, items, loading, error
             return slot.overflow ? <button key={`more-${slot.top}`} className="timeline-more" style={style}
               aria-label={[`${slot.items.length} more events`, eventTimeLabel(event, timezone)].filter(Boolean).join(" at ")}
               onClick={() => onEvents(slot.items, date)}>+{slot.items.length}</button>
-              : <EventPill key={event.event_id} items={[event]} calendarView="day" style={style} data-event-id={event.event_id}
-                aria-label={[event.title, eventTimeLabel(event, timezone)].filter(Boolean).join(", ")} onClick={() => onEvents([event], date)}>
-                {event.title}
-              </EventPill>;
+              : <DayPill key={event.event_id} event={event} compact={slot.columns === 3} style={style} data-event-id={event.event_id}
+                aria-label={[event.title, eventTimeLabel(event, timezone)].filter(Boolean).join(", ")} onClick={() => onEvents([event], date)} />;
           })}
         </div>
         {minute !== null && <div className="timeline-now" style={{ top: minute * HOUR_HEIGHT / 60 }}>

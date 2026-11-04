@@ -118,6 +118,19 @@ h1, h2, h3, p { margin: 0; }
 .timeline-hour span { position: absolute; top: -7px; left: 0; width: 47px; text-align: right; color: var(--muted); font-size: 10px; }
 .timeline-events { position: absolute; inset: 0 0 0 57px; }
 .timeline-events .event-pill, .timeline-more { position: absolute; height: 28px; font-size: 12px; }
+.day-pill { position: relative; overflow: hidden; font-size: 12px; }
+.all-day-strip .day-pill { width: 100%; }
+.day-pill-line { display: flex; align-items: center; gap: 3px; min-width: 0; width: 100%; }
+.day-pill-league, .day-pill-dot, .day-pill-separator { flex: none; }
+.day-pill-matchup, .day-pill-team { display: flex; align-items: center; gap: 3px; min-width: 0; }
+.day-pill-matchup { flex: 1; }
+.day-pill-team { flex: 0 1 auto; }
+.day-pill .team-logo, .day-pill-measurements .team-logo { flex: none; width: 18px; height: 18px; }
+.day-pill-measurements .day-pill-title { display: block; flex: 0 1 auto; min-width: 0; white-space: nowrap; }
+.day-pill-flag { flex: none; font-size: 12px; line-height: 1; }
+.day-pill-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.day-pill-measurements { position: fixed; top: 0; left: 0; width: 0; height: 0; overflow: hidden; visibility: hidden; pointer-events: none; contain: strict; font-size: 12px; font-weight: 600; }
+.day-pill-measurements .day-pill-line, .day-pill-measurements .day-pill-matchup, .day-pill-measurements .day-pill-team { width: max-content; flex: none; }
 .timeline-more { background: var(--surface); border: 1px solid var(--line); border-radius: 5px; text-align: center; }
 .timeline-now { position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; border-top: 1px solid var(--today); }
 .timeline-now time { position: absolute; top: 0; left: 0; transform: translateY(-50%); min-width: 49px; padding: 3px 4px; border-radius: 12px; background: var(--today); color: #101820; font-size: 11px; font-weight: 650; text-align: center; font-variant-numeric: tabular-nums; }

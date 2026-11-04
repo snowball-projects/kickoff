@@ -111,11 +111,11 @@ test("the 700px breakpoint hides only month flags and pills keep icon, title, co
   await page.locator("#day-2026-10-28 .day-number").click();
   await expect(page.locator('.timeline-events [data-event-id="Timed title"] .pill-text')).toHaveText("Timed title");
   await expect(page.locator('.timeline-events [data-event-id="Timed title"] .country-flag')).toBeVisible();
-  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(4);
-  await expect(page.locator(".all-day-strip .pill-text")).toHaveText(["Premier League", "All-day title, Round 1", "Another all-day title, Round 1", "Singleton title, Round 1"]);
+  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(5);
+  await expect(page.locator(".all-day-strip .pill-text")).toHaveText(["Domestic one", "Domestic two", "All-day title, Round 1", "Another all-day title, Round 1", "Singleton title, Round 1"]);
   for (const pill of await page.locator(".day-timeline-stage .event-pill").all()) {
-    expect(await pill.locator(":scope > *").evaluateAll((elements) => elements.map((element) => element.classList[0])))
-      .toEqual(["sport-icon", "pill-text", "country-flag"]);
+    expect(await pill.locator(".day-pill-line > *").evaluateAll((elements) => elements.map((element) => element.classList[0])))
+      .toEqual(["sport-icon", "day-pill-league", "day-pill-dot", "pill-text", "country-flag"]);
     await expect(pill.locator(".country-flag")).toBeVisible();
   }
   await page.screenshot({ path: "test-results/pill-day-320.png" });
@@ -139,24 +139,17 @@ test("shared country requires every event and excluded leagues never get pill fl
   await expect(cell.locator(".event-pill").filter({ hasText: "UFC" }).locator(".country-flag")).toHaveAttribute("aria-label", "Japan");
   await cell.locator(".day-number").click();
   const allDay = page.locator(".all-day-strip");
-  await expect(allDay.locator(".event-pill")).toHaveCount(9);
-  await expect(allDay.locator(".country-flag")).toHaveCount(1);
-  await expect(allDay.getByRole("button", { name: "UFC Japan", exact: true }).locator(".country-flag"))
-    .toHaveAttribute("aria-label", "Japan");
-  for (const [label, titles] of [
-    ["UFC", ["Shared one", "Shared two"]], ["PFL", ["Missing one", "Missing two"]], ["ONE", ["Mixed one", "Mixed two"]],
-  ] as const) {
-    const pill = allDay.locator(".event-pill").filter({ has: page.locator(".pill-text", { hasText: new RegExp(`^${label}$`) }) });
+  await expect(allDay.locator(".event-pill")).toHaveCount(12);
+  await expect(allDay.locator(".country-flag")).toHaveCount(5);
+  for (const [title, country] of [["Shared one", "Japan"], ["Shared two", "Japan"], ["Missing one", "Japan"],
+    ["Missing two", null], ["Mixed one", "Japan"], ["Mixed two", "United States"]] as const) {
+    const pill = allDay.getByRole("button", { name: title, exact: true });
     await expect(pill.locator(".sport-icon")).toHaveCount(1);
-    await expect(pill.locator(".country-flag")).toHaveCount(label === "UFC" ? 1 : 0);
+    await expect(pill.locator(".country-flag")).toHaveCount(country ? 1 : 0);
+    if (country) await expect(pill.locator(".country-flag")).toHaveAttribute("aria-label", country);
     await pill.click();
     const sheet = page.getByRole("dialog");
-    await expect(sheet.locator(".sheet-event-row b")).toContainText([...titles]);
-    const row = sheet.locator(".sheet-event-row").first();
-    await row.click();
-    await expect(sheet.locator(".event-details h3")).toContainText(titles[0]);
-    await sheet.getByRole("button", { name: "Back to events", exact: true }).click();
-    await expect(row).toBeFocused();
+    await expect(sheet.locator(".event-details h3")).toContainText(title);
     await page.keyboard.press("Escape");
     await expect(sheet).toHaveCount(0);
     await expect(pill).toBeFocused();
@@ -171,16 +164,11 @@ test("excluded leagues suppress populated country flags in day groups, sheets an
   await setup(page, leagues.flatMap((league) => ["one", "two"].map((suffix) =>
     event(`${league} ${suffix}`, undefined, { league, country: "US" }))));
   await page.locator("#day-2026-10-28 .day-number").click();
-  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(6);
+  await expect(page.locator(".all-day-strip .event-pill")).toHaveCount(12);
   await expect(page.locator(".all-day-strip .country-flag")).toHaveCount(0);
   for (const league of leagues) {
-    await page.locator(".all-day-strip").getByRole("button", {
-      name: league === "NASCAR_CUP" ? "NASCAR" : league === "INDYCAR" ? "IndyCar" : league, exact: true,
-    }).click();
+    await page.locator(".all-day-strip").getByRole("button", { name: `${league} one`, exact: true }).click();
     const sheet = page.getByRole("dialog");
-    await expect(sheet.locator(".sheet-event-row")).toHaveCount(2);
-    await expect(sheet.locator(".country-flag")).toHaveCount(0);
-    await sheet.locator(".sheet-event-row").first().click();
     await expect(sheet.locator(".event-details h3")).toHaveText(`${league} one`);
     await expect(sheet.locator(".country-flag")).toHaveCount(0);
     await page.keyboard.press("Escape");
