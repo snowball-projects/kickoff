@@ -209,6 +209,8 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
     assert [year for year, _ in calls] == [2025, 2026, 2027]
     shared_start_lists = calls[0][1]["start_list_loader"]
     assert isinstance(shared_start_lists, runner.StartListLoader)
+    shared_results = calls[0][1]["result_loader"]
+    assert isinstance(shared_results, runner.ResultsLoader)
     assert all(
         kwargs
         == {
@@ -216,7 +218,7 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
             "available_seasons": [2025, 2026, 2027],
             "enrich_times": True,
             "start_list_loader": shared_start_lists,
-            "result_loader": None,
+            "result_loader": shared_results,
             "plan": calls[0][1]["plan"],
         }
         for _, kwargs in calls

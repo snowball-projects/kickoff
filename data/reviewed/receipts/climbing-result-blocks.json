@@ -1,0 +1,808 @@
+{
+  "schema_version": 1,
+  "blocks": [
+    {
+      "event_id": "world-climbing-oceania-championship-mount-maunganui-2026-speed-final",
+      "event_title": "Oceania Championships · Mount Maunganui · Speed Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-oceania-championship-mount-maunganui-2026",
+      "calendar_date": "2026-02-14",
+      "scope_tags": [
+        "Speed"
+      ],
+      "categories": [
+        {
+          "category_id": "490",
+          "category": "men",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "510",
+          "category": "women",
+          "discipline": "speed"
+        }
+      ],
+      "expected_category_count": 2,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1491/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "70988fe0935e651da4e9356016cbfe347d0291f119fa44cba1ccf7575528fd07",
+        "page": 3,
+        "scope": "Complete championship programme has one Speed final block on 14 February, followed by the championship award ceremony; no separate gender final blocks are listed."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-oceania-championship-mount-maunganui-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "a00ba92f09b515e9a3fa94c0762e248942460e3d01238dd02436485ccc57cfca",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-para-series-salt-lake-city-2026-lead-final",
+      "event_title": "Para World Cup · Salt Lake City · Lead Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-salt-lake-city-2026",
+      "calendar_date": "2026-05-16",
+      "scope_tags": [
+        "Lead",
+        "Para"
+      ],
+      "categories": [
+        {
+          "category_id": "529",
+          "category": "men b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "533",
+          "category": "men b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "537",
+          "category": "men b3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "541",
+          "category": "women b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "545",
+          "category": "women b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "549",
+          "category": "women b3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "553",
+          "category": "al1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "561",
+          "category": "men al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "565",
+          "category": "women al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "577",
+          "category": "men au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "581",
+          "category": "women au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "585",
+          "category": "men rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "589",
+          "category": "men rp2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "593",
+          "category": "men rp3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "597",
+          "category": "women rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "601",
+          "category": "women rp2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "605",
+          "category": "women rp3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "753",
+          "category": "men au3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "758",
+          "category": "women au3",
+          "discipline": "lead"
+        }
+      ],
+      "expected_category_count": 19,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1477/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "8953c82a7c5fb1930bffeaaabb41cdd40cc6efa3773a877496c2b2d1a7644a98",
+        "page": 4,
+        "scope": "Complete para competition programme has one Lead final block on this date; no separate gender or sport-class final blocks are listed."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-salt-lake-city-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "18ea8379f10fd92edb0991b7041f16a40e04e2a686abdf0de0cf77713f2c1b47",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-para-series-innsbruck-2026-lead-final",
+      "event_title": "Para World Cup · Innsbruck · Lead Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-innsbruck-2026",
+      "calendar_date": "2026-06-16",
+      "scope_tags": [
+        "Lead",
+        "Para"
+      ],
+      "categories": [
+        {
+          "category_id": "529",
+          "category": "men b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "533",
+          "category": "men b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "537",
+          "category": "men b3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "541",
+          "category": "women b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "545",
+          "category": "women b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "549",
+          "category": "women b3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "553",
+          "category": "al1 mixed gender",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "561",
+          "category": "men al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "565",
+          "category": "women al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "577",
+          "category": "men au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "581",
+          "category": "women au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "585",
+          "category": "men rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "589",
+          "category": "men rp2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "593",
+          "category": "men rp3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "597",
+          "category": "women rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "601",
+          "category": "women rp2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "605",
+          "category": "women rp3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "753",
+          "category": "men au3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "758",
+          "category": "women au3",
+          "discipline": "lead"
+        }
+      ],
+      "expected_category_count": 19,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1481/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "feaddbcc7841c556693c00faefb09bac497d0e3a22fabcbded5b331e5d4042b3",
+        "page": 4,
+        "scope": "Complete para competition programme has one Lead final block on this date; no separate gender or sport-class final blocks are listed."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-innsbruck-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "5f7e19fc4602331630e5101cf57239ddebf6e32b4f433ae9ae34bada05e5e732",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-para-series-laval-2026-men-s-lead-final-session-1",
+      "event_title": "Para World Cup · Laval · Men's Lead Final (Session 1)",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+      "calendar_date": "2026-08-28",
+      "scope_tags": [
+        "Lead",
+        "Men",
+        "Para"
+      ],
+      "categories": [
+        {
+          "category_id": "561",
+          "category": "men al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "593",
+          "category": "men rp3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "753",
+          "category": "men au3",
+          "discipline": "lead"
+        }
+      ],
+      "expected_category_count": 3,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1486/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "6ceef8dde3ef2d4f3cfd03f0c3c7f0fde70086fabd7ca6e7e80624f90fd3e4c0",
+        "page": 4,
+        "scope": "Complete dated programme explicitly lists sport classes and M/W for this final session. AL1 in Session 2 has no gender allocation."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "f7ed3a853df9290252e9538fa9e2a3003378f32fefd2e99f04fc8bf0e5616e50",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-para-series-laval-2026-women-s-lead-final-session-1",
+      "event_title": "Para World Cup · Laval · Women's Lead Final (Session 1)",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+      "calendar_date": "2026-08-28",
+      "scope_tags": [
+        "Lead",
+        "Women",
+        "Para"
+      ],
+      "categories": [
+        {
+          "category_id": "549",
+          "category": "women b3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "565",
+          "category": "women al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "581",
+          "category": "women au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "758",
+          "category": "women au3",
+          "discipline": "lead"
+        }
+      ],
+      "expected_category_count": 4,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1486/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "6ceef8dde3ef2d4f3cfd03f0c3c7f0fde70086fabd7ca6e7e80624f90fd3e4c0",
+        "page": 4,
+        "scope": "Complete dated programme explicitly lists sport classes and M/W for this final session. AL1 in Session 2 has no gender allocation."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "f7ed3a853df9290252e9538fa9e2a3003378f32fefd2e99f04fc8bf0e5616e50",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-para-series-laval-2026-men-s-lead-final-session-2",
+      "event_title": "Para World Cup · Laval · Men's Lead Final (Session 2)",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+      "calendar_date": "2026-08-29",
+      "scope_tags": [
+        "Lead",
+        "Men",
+        "Para"
+      ],
+      "categories": [
+        {
+          "category_id": "529",
+          "category": "men b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "533",
+          "category": "men b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "537",
+          "category": "men b3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "577",
+          "category": "men au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "585",
+          "category": "men rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "589",
+          "category": "men rp2",
+          "discipline": "lead"
+        }
+      ],
+      "expected_category_count": 6,
+      "allocation_complete": false,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1486/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "6ceef8dde3ef2d4f3cfd03f0c3c7f0fde70086fabd7ca6e7e80624f90fd3e4c0",
+        "page": 4,
+        "scope": "Complete dated programme explicitly lists sport classes and M/W for this final session. AL1 in Session 2 has no gender allocation."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "f7ed3a853df9290252e9538fa9e2a3003378f32fefd2e99f04fc8bf0e5616e50",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      },
+      "unresolved_categories": [
+        {
+          "category_id": "553",
+          "category": "combined al1",
+          "reason": "Programme assigns AL1 to Session 2 without gender; the source podium is a combined category and the calendar slots are gender-specific."
+        }
+      ]
+    },
+    {
+      "event_id": "world-climbing-para-series-laval-2026-women-s-lead-final-session-2",
+      "event_title": "Para World Cup · Laval · Women's Lead Final (Session 2)",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+      "calendar_date": "2026-08-29",
+      "scope_tags": [
+        "Lead",
+        "Women",
+        "Para"
+      ],
+      "categories": [
+        {
+          "category_id": "541",
+          "category": "women b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "545",
+          "category": "women b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "597",
+          "category": "women rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "601",
+          "category": "women rp2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "605",
+          "category": "women rp3",
+          "discipline": "lead"
+        }
+      ],
+      "expected_category_count": 5,
+      "allocation_complete": false,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1486/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "6ceef8dde3ef2d4f3cfd03f0c3c7f0fde70086fabd7ca6e7e80624f90fd3e4c0",
+        "page": 4,
+        "scope": "Complete dated programme explicitly lists sport classes and M/W for this final session. AL1 in Session 2 has no gender allocation."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-laval-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "f7ed3a853df9290252e9538fa9e2a3003378f32fefd2e99f04fc8bf0e5616e50",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      },
+      "unresolved_categories": [
+        {
+          "category_id": "553",
+          "category": "combined al1",
+          "reason": "Programme assigns AL1 to Session 2 without gender; the source podium is a combined category and the calendar slots are gender-specific."
+        }
+      ]
+    },
+    {
+      "event_id": "world-climbing-europe-youth-series-imst-2026-u17-speed-final",
+      "event_title": "World Climbing Europe Youth Series Imst · U17 Speed Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-europe-youth-series-imst-2026",
+      "calendar_date": "2026-09-04",
+      "scope_tags": [
+        "Speed",
+        "U17",
+        "Youth"
+      ],
+      "categories": [
+        {
+          "category_id": "834",
+          "category": "u17 men",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "839",
+          "category": "u17 women",
+          "discipline": "speed"
+        }
+      ],
+      "expected_category_count": 2,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1510/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "8e089410753909975307b26ff372fc8d24e090c479cbcc75a23bf4e2d049373a",
+        "page": 3,
+        "scope": "Speed programme explicitly groups U17 and U19 finals and the subsequent award ceremony for all categories; this calendar record selects the stated age class."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-youth-series-imst-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "845665ff7e1ea00a3162cfbab927487bd6dd88e9acd638596b9a6f8ba6b0db74",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-europe-youth-series-imst-2026-u19-speed-final",
+      "event_title": "World Climbing Europe Youth Series Imst · U19 Speed Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-europe-youth-series-imst-2026",
+      "calendar_date": "2026-09-04",
+      "scope_tags": [
+        "Speed",
+        "U19",
+        "Youth"
+      ],
+      "categories": [
+        {
+          "category_id": "824",
+          "category": "u19 men",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "829",
+          "category": "u19 women",
+          "discipline": "speed"
+        }
+      ],
+      "expected_category_count": 2,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1510/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "8e089410753909975307b26ff372fc8d24e090c479cbcc75a23bf4e2d049373a",
+        "page": 3,
+        "scope": "Speed programme explicitly groups U17 and U19 finals and the subsequent award ceremony for all categories; this calendar record selects the stated age class."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-youth-series-imst-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "845665ff7e1ea00a3162cfbab927487bd6dd88e9acd638596b9a6f8ba6b0db74",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-europe-youth-series-leipzig-2026-speed-final",
+      "event_title": "World Climbing Europe Youth Series Leipzig · Speed Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-europe-youth-series-leipzig-2026",
+      "calendar_date": "2026-10-03",
+      "scope_tags": [
+        "Speed",
+        "Youth"
+      ],
+      "categories": [
+        {
+          "category_id": "824",
+          "category": "u19 men",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "829",
+          "category": "u19 women",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "834",
+          "category": "u17 men",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "839",
+          "category": "u17 women",
+          "discipline": "speed"
+        }
+      ],
+      "expected_category_count": 4,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1513/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "062934b70d1720f94ffce90680e3cb4429fd3ff1120139418a420805fae44631",
+        "page": 3,
+        "scope": "Complete Europe Youth Speed programme has one final block on 3 October, followed by the event and overall-series awards; no separate age or gender final blocks are listed."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-youth-series-leipzig-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "894a4597f8e5e24e80ab5ac0fe000737857ccc842f32397049e4d3e265de50fd",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-europe-series-leipzig-2026-speed-final",
+      "event_title": "World Climbing Europe Series Leipzig · Speed Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-europe-series-leipzig-2026",
+      "calendar_date": "2026-10-04",
+      "scope_tags": [
+        "Speed"
+      ],
+      "categories": [
+        {
+          "category_id": "226",
+          "category": "men",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "230",
+          "category": "women",
+          "discipline": "speed"
+        }
+      ],
+      "expected_category_count": 2,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1514/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "109c50b66b67691789aaf1ce7c60fce5048e460c535009984ea9572c4ceaf6b6",
+        "page": 3,
+        "scope": "Complete Europe Series Speed programme has one final block on 4 October, followed by event/overall-series awards; overall Adults/U21 rankings are not extra final podiums."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-europe-series-leipzig-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "bc5634057e5387d39f3d1f97527aa52c9f3636d57df4f23c3496c0ead0f1f6f6",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-para-series-gunsan-2026-lead-final",
+      "event_title": "Para World Cup · Gunsan · Lead Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-gunsan-2026",
+      "calendar_date": "2026-10-30",
+      "scope_tags": [
+        "Lead",
+        "Para"
+      ],
+      "categories": [
+        {
+          "category_id": "529",
+          "category": "men b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "533",
+          "category": "men b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "537",
+          "category": "men b3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "541",
+          "category": "women b1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "545",
+          "category": "women b2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "553",
+          "category": "al1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "561",
+          "category": "men al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "565",
+          "category": "women al2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "577",
+          "category": "men au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "581",
+          "category": "women au2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "585",
+          "category": "men rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "589",
+          "category": "men rp2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "593",
+          "category": "men rp3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "597",
+          "category": "women rp1",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "601",
+          "category": "women rp2",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "605",
+          "category": "women rp3",
+          "discipline": "lead"
+        },
+        {
+          "category_id": "753",
+          "category": "men au3",
+          "discipline": "lead"
+        }
+      ],
+      "expected_category_count": 17,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1521/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "ce083b5d37a36c634768c3a69b94c15e9c283d0e732b6f7411ba9c317700320e",
+        "page": 4,
+        "scope": "Complete para competition programme has one Lead final block on this date; no separate gender or sport-class final blocks are listed."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-para-series-gunsan-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "fdeb751926ab795a894d1d3300f4bcd70826a93747b9d5dbbbf597e7ec1d6f59",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    },
+    {
+      "event_id": "world-climbing-asia-series-gunsan-2026-speed-final",
+      "event_title": "World Climbing Asia Series Gunsan · Speed Final",
+      "event_source_url": "https://www.worldclimbing.com/events/world-climbing-asia-series-gunsan-2026",
+      "calendar_date": "2026-10-31",
+      "scope_tags": [
+        "Speed"
+      ],
+      "categories": [
+        {
+          "category_id": "186",
+          "category": "men",
+          "discipline": "speed"
+        },
+        {
+          "category_id": "190",
+          "category": "women",
+          "discipline": "speed"
+        }
+      ],
+      "expected_category_count": 2,
+      "allocation_complete": true,
+      "allocation_source": {
+        "source_url": "https://ifsc.results.info/events/1529/infosheet",
+        "checked_date": "2026-11-04",
+        "sha256": "2c9a6ea0f8042c88c6c5ffca88354e38fab11f112943e8dbd81c2d2e912d8b87",
+        "page": 4,
+        "scope": "Complete programme has one Speed final block on 31 October. The next day explicitly separates Boulder Women and Men; those other-discipline categories are excluded here."
+      },
+      "category_source": {
+        "source_url": "https://www.worldclimbing.com/events/world-climbing-asia-series-gunsan-2026",
+        "checked_date": "2026-11-04",
+        "sha256": "4545ac16e1da8a28e53897d126910099759a45af04820d4f8ffb2dad86aa6aad",
+        "scope": "The Podium dcats category IDs, names and discipline fields"
+      }
+    }
+  ]
+}

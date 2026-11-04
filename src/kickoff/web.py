@@ -33,6 +33,11 @@ def _participant_payload(
             for key in ("record", "team_source_url", "final_score")
             if getattr(participant, key) is not None
         },
+        **{
+            key: participant.metadata[key]
+            for key in ("result_winner", "result_advance", "aggregate_score", "shootout_score")
+            if key in participant.metadata
+        },
         **(
             {
                 key: logo if key == "logo_url" else participant.metadata[key]

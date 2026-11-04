@@ -1,0 +1,9 @@
+.team-result-details { margin-top: 20px; min-width: 0; }
+.team-result-details h4 { margin: 0 0 8px; }
+.team-result-details table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; }
+.team-result-details th, .team-result-details td { padding: 8px 4px; border-bottom: 1px solid var(--line); }
+.team-result-details th { text-align: left; font-weight: 500; overflow-wrap: anywhere; }
+.team-result-details thead th { color: var(--muted); font-size: 12px; }
+.team-result-details thead th:not(:first-child), .team-result-details td { width: 64px; text-align: center; font-variant-numeric: tabular-nums; }
+.team-result-name { display: flex; align-items: center; gap: 8px; overflow-wrap: anywhere; }
+.team-result-details small { display: block; margin-top: 4px; font-size: 12px; }

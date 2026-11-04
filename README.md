@@ -4,6 +4,8 @@
 Choose leagues, browse Calendar or Agenda, and open an event for its sources.
 Interests stay on your device. Times use your timezone; date-only events keep their source dates.
 Golf has daily rounds and ESPN top-five leaderboards in Agenda and event popups.
+Popups and Agenda also show sourced final scores, podiums, singles finalists and
+weightlifting attempts where available. Partial results remain refreshable.
 The calendar spans one year before today through one year after today,
 with events where sources provide them.
 

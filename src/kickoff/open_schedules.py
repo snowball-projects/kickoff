@@ -714,6 +714,8 @@ def refresh_open_schedules(
             frozen_ids=plan.baseline.frozen_ids if plan is not None else frozenset(),
             f1_contexts=plan.f1_contexts if plan is not None else {},
             baseline_events=plan.baseline.events if plan is not None else {},
+            ended_before=plan.baseline.ended_before if plan is not None else {},
+            now=plan.now if plan is not None else now,
         )
         notices.extend(result_sources)
         evidence.extend(result_evidence)
