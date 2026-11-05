@@ -6,7 +6,7 @@ import hashlib
 import json
 import logging
 import signal
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from io import BytesIO
 from pathlib import Path
 from time import monotonic
@@ -17,7 +17,7 @@ from zoneinfo import ZoneInfo
 from kickoff.climbing_results import _event_url, climbing_result, parse_climbing_podiums
 from kickoff.f1_results import RAW, load_f1_result
 from kickoff.http import read_bounded_response
-from kickoff.results import attach_result, same_result_scope
+from kickoff.results import attach_result
 from kickoff.reviewed_schedules import CLIMBING_LICENSE, CLIMBING_TERMS, WEIGHTLIFTING_LICENSE
 
 LOGGER = logging.getLogger(__name__)
@@ -40,24 +40,14 @@ def _instant(value):
     return parsed if isinstance(parsed, datetime) and parsed.tzinfo is not None else None
 
 
-def _eligible(event, now, ended_before):
-    """Past schedule dates permit a lookup; they never prove completion or an end."""
-    if event.status != "finished" and event.start_time_utc is not None:
-        start = _instant(event.start_time_utc)
-        if start is not None and start > now:
-            return False
-    bound = ended_before.get(event.event_id) or getattr(event, "end_time_utc", None)
-    if bound is not None:
-        instant = _instant(bound)
-        return instant is not None and instant <= now
-    if event.status == "finished":
-        return True
-    day = event.end_calendar_date or event.calendar_date
-    try:
-        zone = ZoneInfo(event.timezone) if event.timezone else timezone.utc
-        return bool(day and date.fromisoformat(day) < now.astimezone(zone).date())
-    except (ValueError, TypeError):
+def _eligible(event, now, *, rebuild=False):
+    day = date.fromisoformat(event.end_calendar_date or event.calendar_date)
+    if not rebuild and day < now.date() - timedelta(days=7):
         return False
+    if event.start_time_utc is not None and _instant(event.start_time_utc) > now:
+        return False
+    zone = ZoneInfo(event.timezone) if event.timezone else timezone.utc
+    return day < now.astimezone(zone).date() or (day == now.date() and event.status == "finished")
 
 
 def _scope_key(row):
@@ -75,10 +65,9 @@ class ResultsLoader:
     def __init__(self, read_bytes=None, budget=120, timeout=5):
         self.remaining = max(0.0, float(budget))
         self.timeout = max(0.0, float(timeout))
-        self.ended_before = {}
         self._transport = read_bytes
         self._deadline = None
-        self._bodies, self.checked, self._observed = {}, {}, {}
+        self._bodies, self.checked = {}, {}
         self._driver_cache, self._podiums = {}, {}
         self._definitions, self._allocations, self._junior = {}, {}, {}
         self._wiki_parsed, self._wiki_requests = {}, {}
@@ -148,7 +137,6 @@ class ResultsLoader:
         finally:
             observed = datetime.now(timezone.utc)
             self.checked[url] = observed.date().isoformat()
-            self._observed[url] = observed.isoformat()
 
     def _f1(self, event, context):
         result = load_f1_result(
@@ -165,7 +153,6 @@ class ResultsLoader:
             filename = "race-results.yml" if event.event_type == "race" else "sprint-race-results.yml"
             url = f"{RAW}/{context['revision']}/{context['race_path']}/{filename}"
             result["checked_date"] = self.checked[url]
-            result["_ended_before"] = self._observed[url]
         return result
 
     def _climbing(self, event, reviewed_dir):
@@ -184,8 +171,6 @@ class ResultsLoader:
             if path.exists():
                 self._allocations[directory] = {row["event_id"]: row for row in json.loads(path.read_text())["blocks"]}
         result = climbing_result(event, self._podiums[url], allocation=self._allocations[directory].get(event.event_id))
-        if result is not None:
-            result["_ended_before"] = self._observed[url]
         return result
 
     def _sessions(self, reviewed_dir, year):
@@ -222,16 +207,6 @@ class ResultsLoader:
             and bool(result["athletes"])
             and all(len(a.get("snatch", [])) == len(a.get("clean_and_jerk", [])) == 3 for a in result["athletes"])
         )
-        bounds = []
-        for row in classes:
-            instant = _instant(row.get("_ended_before"))
-            if instant is None:
-                instant = _instant(self._observed.get(row.get("input_url")))
-            if instant is None:
-                break
-            bounds.append(instant)
-        if actual == expected and len(bounds) == len(classes):
-            result["_ended_before"] = max(bounds).isoformat()
         return result
 
     def _junior_result(self, event, year, reviewed_dir, session):
@@ -271,7 +246,6 @@ class ResultsLoader:
                 "revision": snapshot["review_revision"],
                 "athletes": selected,
                 "_complete": True,
-                "_ended_before": snapshot["finished_observed_at"],
             }
             for field, rank_field, weight_field in [
                 ("total_medalists", "total_rank", "total_kg"),
@@ -344,39 +318,22 @@ class ResultsLoader:
         year,
         reviewed_dir,
         *,
-        frozen_ids=frozenset(),
         f1_contexts=None,
-        baseline_events=None,
-        ended_before=None,
         now=None,
+        window=None,
     ):
         sources, evidence = {}, {}
-        contexts, baseline = f1_contexts or {}, baseline_events or {}
+        contexts = f1_contexts or {}
         moment = now or datetime.now(timezone.utc)
         for event in events:
-            previous = baseline.get(event.event_id)
-            if (
-                event.event_id in frozen_ids
-                or self.remaining <= 0
-                or (
-                    event.result is not None
-                    and (event.source == "espn" or (event.sport == "weightlifting" and event.result_complete))
-                )
-                or (
-                    event.sport == "weightlifting"
-                    and previous
-                    and (previous.get("result") or {}).get("complete") is True
-                    and same_result_scope(event, previous)
-                )
-            ):
+            if self.remaining <= 0 or (event.result is not None and event.result.get("complete", True)):
                 continue
             if event.sport == "weightlifting" and ("YOUTH" in event.league or "MASTERS" in event.league):
                 continue
             try:
-                bounds = ended_before or {}
-                if previous and not same_result_scope(event, previous):
-                    bounds = {}  # an old scope cannot authorize a rescheduled lookup
-                eligible = _eligible(event, moment, bounds)
+                eligible = _eligible(
+                    event, moment, rebuild=window is not None and window.since(event.league, year) == date.min
+                )
             except (TypeError, ValueError, LookupError):
                 eligible = False
             if not eligible:
@@ -394,9 +351,6 @@ class ResultsLoader:
                 continue
             if result is None:
                 continue
-            bound = _instant(result.get("_ended_before"))
-            if bound is not None and bound <= datetime.now(timezone.utc):
-                self.ended_before[event.event_id] = bound.isoformat()
             attach_result(event, result)
             for source in result.get("sources", [result]):
                 url, checked, digest = source["source_url"], source["checked_date"], source["sha256"]

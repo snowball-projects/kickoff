@@ -8,8 +8,8 @@ from datetime import date, datetime, timezone
 import pytest
 
 from kickoff import feeds, open_schedules
-from kickoff.refresh_state import SourceUnit
 from kickoff.web import _event_payload
+from tests.test_refresh_metrics import summary
 from tests.test_reviewed_schedules import ROOT, fake_open_read
 
 spec = importlib.util.spec_from_file_location("refresh_public", ROOT / "scripts/refresh-public.py")
@@ -22,7 +22,7 @@ def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatc
     monkeypatch.setattr(open_schedules, "fill_missing_start_times", lambda *_: [])
     calls = []
 
-    def fetch(league, kind, year, plan):
+    def fetch(league, kind, year, window):
         calls.append((league, year))
         events = [
             feeds.make_event(
@@ -37,19 +37,10 @@ def test_success_fetches_every_configured_feed_and_exports_fresh_data(monkeypatc
                 source_url="https://example.test/schedule",
             )
         ]
-        plan.observe(
-            SourceUnit(
-                f"fixture:{league}:{year}",
-                "https://example.test/schedule",
-                plan.now.isoformat(),
-                event_ids=tuple(event.event_id for event in events),
-                complete=True,
-            )
-        )
         return events
 
     configured = {
-        league: (kind, lambda year, league=league, kind=kind, plan=None: fetch(league, kind, year, plan))
+        league: (kind, lambda year, league=league, kind=kind, window=None: fetch(league, kind, year, window))
         for league, (kind, _) in feeds.FEEDS.items()
     }
     monkeypatch.setattr(runner, "FEEDS", configured)
@@ -83,6 +74,7 @@ import runpy
 import sys
 from kickoff import feeds, open_schedules
 from tests.test_reviewed_schedules import ROOT, fake_open_read
+from tests.test_refresh_metrics import summary
 failed = sys.argv[1]
 def broken(_, **_kwargs):
     raise OSError(f"{failed}: source offline")
@@ -112,7 +104,7 @@ runpy.run_path(str(ROOT / "scripts/refresh-public.py"), run_name="__main__")
         },
     )
     assert result.returncode != 0
-    assert result.stdout == "requests made: 0, units reused: 0, events frozen: 0\n"
+    assert result.stdout == summary(0)
     assert result.stderr == ""
     assert not (tmp_path / "built").exists()
     assert not (tmp_path / "deployed").exists()
@@ -175,15 +167,6 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
             utc=None,
             source_url="https://example.test/schedule",
         )
-        kwargs["plan"].observe(
-            SourceUnit(
-                f"fixture:{year}",
-                "https://example.test/schedule",
-                Clock.now().isoformat(),
-                event_ids=(event.event_id,),
-                complete=True,
-            )
-        )
         path = output / f"{year}.json"
         path.write_text(
             json.dumps(
@@ -220,7 +203,7 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
             "enrich_times": True,
             "start_list_loader": shared_start_lists,
             "result_loader": shared_results,
-            "plan": calls[0][1]["plan"],
+            "window": calls[0][1]["window"],
         }
         for _, kwargs in calls
     )

@@ -15,7 +15,6 @@ import time
 from calendar import monthrange
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import replace
 from datetime import UTC, date, datetime, timedelta
 from functools import cache
 from importlib.resources import files
@@ -30,7 +29,6 @@ from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
 from kickoff.results import attach_result
 from kickoff.semantics import classification_fields
-from kickoff.source_units import espn_unit, mlb_unit, nhl_unit, unit_key
 from kickoff.team_logos import TEAM_SPORTS, source_logo
 
 USER_AGENT = "kickoff-refresh/0.3 (https://github.com/snowball-projects/kickoff)"
@@ -132,107 +130,57 @@ def get_json(
     return None
 
 
-def _schedule_source(url: str, league: str, kind: str, *, plan=None, **options):
-    """Reuse normalized frozen facts, never synthetic raw source responses."""
-    key = unit_key(url)
-    if plan is not None:
-        reused = plan.try_reuse(key)
-        if reused is not None:
-            return None, reused, {}
+def _schedule_source(url: str, league: str, kind: str, *, window=None, **options):
+    if window is not None and url in window.responses:
+        return window.responses[url]
     receipt = {}
     payload = get_json(url, receipt=receipt, **options)
-    if plan is not None:
-        observed = datetime.fromisoformat(receipt["observed_at"]) if receipt else plan.now
-        if kind == "espn":
-            unit = espn_unit(url, payload, league, observed)
-        elif kind == "mlb":
-            unit = mlb_unit(url, payload, observed)
-        else:
-            unit = nhl_unit(url, payload, observed)
-        plan.observe(unit)
+    if window is not None:
         if receipt:
-            plan.receipts[key] = {**receipt, "kind": kind, "league": league}
-    return payload, None, receipt
+            window.receipts[url] = {**receipt, "kind": kind, "league": league}
+        window.responses[url] = payload, receipt
+    return payload, receipt
 
 
-# These fields describe evidence, not the normalized event or team facts.
-_CITATION_FIELDS = {
-    "source_url",
-    "facts_source_url",
-    "facts_checked_date",
-    "start_time_source_url",
-    "country_source_url",
-    "country_checked_date",
-    "team_source_url",
-    "logo_source_url",
-    "logo_checked_date",
-    "start_list_source_url",
-    "start_list_checked_date",
-    "source_article_url",
-    "input_url",
-    "checked_date",
-    "sha256",
-    "hash_scope",
-    "revision",
-    "review_revision",
-    "raw_source_payload",
-}
+def _since(window, league, year):
+    return max(date(year, 1, 1), window.since(league, year)) if window is not None else date(year, 1, 1)
 
 
-def _same_event_facts(first: CalendarEvent, second: CalendarEvent) -> bool:
-    def facts(value):
-        if isinstance(value, dict):
-            return {
-                key: sorted(set(item)) if key == "tags" else facts(item)
-                for key, item in value.items()
-                if key not in _CITATION_FIELDS
-            }
-        if isinstance(value, list):
-            return [facts(item) for item in value]
-        return value
-
-    return facts(first.to_dict()) == facts(second.to_dict())
-
-
-def _append_pending(events: list[CalendarEvent], batch: list[CalendarEvent]) -> None:
-    """Keep normal provenance for equal facts; actual corrections still win."""
-    previous = {event.event_id: event for event in events}
-    for event in batch:
-        original = previous.get(event.event_id)
-        if original is not None and _same_event_facts(original, event):
-            continue
-        events.append(event)
-        previous[event.event_id] = event
-
-
-def _pending_source_urls(plan, prefix: str) -> list[str]:
-    """Previously observed locators omitted by this run's current discovery."""
-    if plan is None:
+def _season_calendar(path, league, season, *, window=None, group=None):
+    url = f"{ESPN}/{path}/scoreboard?dates={season}&limit=1"
+    if group is not None:
+        url += f"&groups={group}"
+    payload, _ = _schedule_source(url, league, "espn", window=window, missing_ok=True)
+    if payload is None:
         return []
-    target = urlsplit(prefix)
-    pending = []
-    for key in sorted(plan.pending_unit_keys):
-        previous = plan.baseline.units[key]
-        parts = urlsplit(previous.source_url)
-        matches = parts.path.startswith(target.path) if target.path.endswith("/") else parts.path == target.path
-        if (parts.scheme, parts.netloc) != (target.scheme, target.netloc) or not matches:
+    league_row = payload["leagues"][0]
+    # ESPN can answer an unpublished requested season with the current one.
+    if str((league_row.get("season") or {}).get("year")) != str(season):
+        return []
+    return league_row.get("calendar") or []
+
+
+def _weekly_queries(path, league, year, groups, *, window=None):
+    since = _since(window, league, year)
+    if since > date(year, 12, 31):
+        return []
+    queries = []
+    for season in (year - 1, year):
+        if season < since.year - (since.month <= 2):
             continue
-        pending.append(previous.source_url)
-    return pending
-
-
-def _finish_source_children(plan, url: str, children: list[str]) -> None:
-    if plan is None:
-        return
-    key = unit_key(url)
-    unit = plan.current[key]
-    observed = plan.units
-    complete = bool(children) and all(child in observed and observed[child].complete for child in children)
-    end = datetime.fromisoformat(unit.end.replace("Z", "+00:00")) if unit.end else None
-    if end is not None and end.tzinfo is None:
-        end = end.replace(tzinfo=UTC)
-    closed = complete and end is not None and end < plan.now - timedelta(days=2)
-    plan.observe(replace(unit, children=tuple(children), complete=complete, closed=closed))
+        calendar = _season_calendar(path, league, season, window=window, group=groups[0])
+        for phase in calendar:
+            if str(phase["value"]) not in {"2", "3"}:
+                continue
+            for week in phase.get("entries", []):
+                if week["endDate"][:10] < since.isoformat() or week["startDate"][:10] > f"{year}-12-31":
+                    continue
+                for group in groups:
+                    url = f"{ESPN}/{path}/scoreboard?dates={season}&seasontype={phase['value']}&week={week['value']}&limit=200"
+                    if group is not None:
+                        url += f"&groups={group}"
+                    queries.append((url, int(phase["value"]), int(week["value"]), group))
+    return queries
 
 
 def rows(payload: dict, key: str) -> list:
@@ -529,10 +477,8 @@ def espn_season_feed(
 ):
     """Annual scoreboards expose tournaments or games as top-level events."""
 
-    def collect(url, plan):
-        payload, reused, receipt = _schedule_source(url, league, "espn", plan=plan)
-        if reused is not None:
-            return reused
+    def collect(url, window):
+        payload, receipt = _schedule_source(url, league, "espn", window=window)
         events = []
         for row in rows(payload, "events"):
             # LPGA and Major League Rugby include empty calendar placeholders.
@@ -579,27 +525,19 @@ def espn_season_feed(
                 events.append(event)
         return events
 
-    def fetch(year: int, *, plan=None) -> list[CalendarEvent]:
-        events = collect(f"{ESPN}/{path}/scoreboard?dates={year}&limit=500", plan)
-        for previous_url in _pending_source_urls(plan, f"{ESPN}/{path}/scoreboard"):
-            previous_year = int(parse_qs(urlsplit(previous_url).query)["dates"][0])
-            if previous_year < year:
-                _append_pending(events, collect(previous_url, plan))
-        return _in_year(_dedupe(events), year)
+    def fetch(year: int, *, window=None) -> list[CalendarEvent]:
+        if _since(window, league, year) > date(year, 12, 31):
+            return []
+        return _in_year(_dedupe(collect(f"{ESPN}/{path}/scoreboard?dates={year}&limit=500", window)), year)
 
     return fetch
 
 
-def nfl_events(year: int, *, plan=None) -> list[CalendarEvent]:
-    """Weekly scoreboards for the season ending early in `year` and the one starting in it."""
-    events = []
-    weeks = [(year - 1, 2, week) for week in (17, 18)] + [(year - 1, 3, week) for week in range(1, 6)]
-    weeks += [(year, 2, week) for week in range(1, 19)] + [(year, 3, week) for week in range(1, 6)]
+def nfl_events(year: int, *, window=None) -> list[CalendarEvent]:
+    """Fetch only ESPN calendar weeks that overlap the cutoff and source year."""
 
     def collect(url, season_type, week):
-        payload, reused, _ = _schedule_source(url, "NFL", "espn", plan=plan, missing_ok=True)
-        if reused is not None:
-            return reused
+        payload, _ = _schedule_source(url, "NFL", "espn", window=window, missing_ok=True)
         batch = []
         for row in rows(payload, "events") if payload is not None else []:
             name = row.get("name", "")
@@ -630,74 +568,43 @@ def nfl_events(year: int, *, plan=None) -> list[CalendarEvent]:
 
         return batch
 
-    for season, season_type, week in weeks:
-        events.extend(
-            collect(
-                f"{ESPN}/football/nfl/scoreboard?dates={season}&seasontype={season_type}&week={week}", season_type, week
-            )
-        )
-    for url in _pending_source_urls(plan, f"{ESPN}/football/nfl/scoreboard"):
-        query = parse_qs(urlsplit(url).query)
-        if int(query["dates"][0][:4]) <= year:
-            _append_pending(events, collect(url, int(query["seasontype"][0]), int(query["week"][0])))
+    events = []
+    for url, season_type, week, _group in _weekly_queries("football/nfl", "NFL", year, (None,), window=window):
+        events.extend(collect(url, season_type, week))
     return _in_year(_dedupe(events), year)
 
 
-def nba_events(year: int, *, plan=None) -> list[CalendarEvent]:
-    """Per-team season schedules; ESPN rejects league-wide date ranges."""
-    teams = get_json(f"{ESPN}/basketball/nba/teams")["sports"][0]["leagues"][0]["teams"]
-    team_ids = [team["team"]["id"] for team in teams]
-    if len(team_ids) < 30:
-        raise ValueError(f"Expected 30 NBA teams, got {len(team_ids)}")
+def nba_events(year: int, *, window=None) -> list[CalendarEvent]:
+    """One scoreboard per month, including each month's published postseason."""
+    since = _since(window, "NBA", year)
     events = []
-    records = {}
-
-    def collect(url, team_id, season_type, *, pending=False):
-        payload, reused, _ = _schedule_source(url, "NBA", "espn", plan=plan, missing_ok=True)
-        if reused is not None:
-            return reused
-        record = _record((payload or {}).get("team", {}).get("recordSummary"))
-        batch = []
-        for row in rows(payload, "events") if payload is not None else []:
+    for month in range(1, 13):
+        if date(year, month, monthrange(year, month)[1]) < since:
+            continue
+        url = f"{ESPN}/basketball/nba/scoreboard?dates={year}{month:02}&limit=1000"
+        payload, _ = _schedule_source(url, "NBA", "espn", window=window, missing_ok=True)
+        selected = rows(payload, "events") if payload is not None else []
+        if len(selected) >= 1000:
+            raise ValueError("NBA monthly scoreboard reached its limit")
+        for row in selected:
+            phase = espn_team_phase(row, "NBA")
+            if phase in {"preseason", "exhibition"}:
+                continue
             event = _espn_event(
                 row,
                 league="NBA",
                 sport="basketball",
                 zone=EASTERN,
                 fallback_url="https://www.nba.com/schedule",
-                phase="postseason" if season_type == 3 else "regular_season",
+                phase=phase,
                 input_url=url,
             )
-            if event:
-                batch.append(event)
-                if record and str((payload.get("team") or {}).get("id")) == str(team_id):
-                    identity = event.event_id, str(team_id)
-                    if not pending or identity not in records or records[identity][0] != record:
-                        records[identity] = (record, url)
-
-        return batch
-
-    for team_id in team_ids:
-        for season, season_type in ((year, 2), (year, 3), (year + 1, 2)):
-            events.extend(
-                collect(
-                    f"{ESPN}/basketball/nba/teams/{team_id}/schedule?season={season}&seasontype={season_type}",
-                    team_id,
-                    season_type,
-                )
-            )
-    for url in _pending_source_urls(plan, f"{ESPN}/basketball/nba/teams/"):
-        parts = urlsplit(url)
-        query = parse_qs(parts.query)
-        season, season_type = int(query["season"][0]), int(query["seasontype"][0])
-        if parts.path.endswith("/schedule") and (season <= year or (season == year + 1 and season_type == 2)):
-            _append_pending(events, collect(url, parts.path.split("/")[-2], season_type, pending=True))
-    result = _in_year(_dedupe(events), year)
-    for event in result:
-        for participant in event.participants:
-            if not participant.record and (event.event_id, participant.participant_id) in records:
-                participant.record, participant.team_source_url = records[(event.event_id, participant.participant_id)]
-    return result
+            if event is not None and any(p.participant_id not in {None, "-1", "-2"} for p in event.participants):
+                for participant in event.participants:
+                    if participant.record is not None:
+                        participant.team_source_url = url
+                events.append(event)
+    return _in_year(_dedupe(events), year)
 
 
 TEAM_LEAGUES = {
@@ -783,15 +690,8 @@ def espn_team_phase(row: dict, league: str) -> str:
     return "regular_season"
 
 
-def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent]:
-    """Collect every published game, subdividing saturated year/month windows.
-
-    Checked 2026-10-31 against ESPN's primary scoreboards: YYYY, YYYYMM and
-    YYYYMMDD work; hyphenated date ranges return400. Football limit1000 silently
-    falls back to25, while200 returns all grouped games. College monthly requests
-    omit NCAA postseason even below the limit and ignore seasontype, so every
-    civil day is fetched for college leagues, including the off-season.
-    """
+def espn_team_events(year: int, league: str, *, window=None) -> list[CalendarEvent]:
+    """Use game-day calendars for college basketball and weeks for college football."""
     path, sport, groups, limit = TEAM_LEAGUES[league]
     zone = (
         ZoneInfo(ADDITIONAL_TEAM_LEAGUES[league][2])
@@ -813,12 +713,9 @@ def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent
         prefix: str, group: int | None, season_type: str | None = None, week: str | None = None, request_url=None
     ):
         url = request_url or query_url(prefix, group, season_type, week)
-        payload, reused, _ = _schedule_source(url, league, "espn", plan=plan)
-        if reused is not None:
-            return reused
+        payload, _ = _schedule_source(url, league, "espn", window=window)
         selected = rows(payload, "events")
         supplements = []
-        dependencies = []
         if league == "UFL" and len(prefix) == 4 and season_type is None:
             # ESPN's annual/monthly/daily/Core 2025 indexes omit four completed
             # games that remain in weekly scoreboards. Discover every published
@@ -835,8 +732,8 @@ def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent
                     kind, number = str(phase.get("value", "")), str(entry.get("value", ""))
                     if not kind.isdigit() or not number.isdigit():
                         raise ValueError(f"Invalid UFL weekly calendar: {url}")
-                    supplements.extend(collect(prefix, group, kind, number))
-                    dependencies.append(unit_key(query_url(prefix, group, kind, number)))
+                    if entry["endDate"][:10] >= _since(window, league, year).isoformat():
+                        supplements.extend(collect(prefix, group, kind, number))
         if len(selected) >= limit:
             if season_type is not None:
                 raise ValueError(f"ESPN weekly feed reached its limit; refusing to truncate: {url}")
@@ -848,9 +745,10 @@ def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent
                 ]
             else:
                 raise ValueError(f"ESPN daily feed reached its limit; refusing to truncate: {url}")
+            children = [
+                child for child in children if child >= _since(window, league, year).strftime("%Y%m%d")[: len(child)]
+            ]
             result = [event for child in children for event in collect(child, group)] + supplements
-            dependencies.extend(unit_key(query_url(child, group)) for child in children)
-            _finish_source_children(plan, url, dependencies)
             return result
         result = []
         for row in selected:
@@ -893,28 +791,48 @@ def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent
                 appointment_label = ADDITIONAL_TEAM_LEAGUES[league][3]
             _espn_appointment(event, appointment_label)
             if group in (80, 81):
-                event.tags.append("fbs" if group == 80 else "fcs")
+                # The FCS weekly index also returns unassigned FBS playoff slots.
+                playoff = any(note.startswith("College Football Playoff") for note in notes)
+                event.tags.append("fbs" if group == 80 or playoff else "fcs")
             result.append(event)
-        if dependencies:
-            _finish_source_children(plan, url, dependencies)
         return result + supplements
 
-    # Neighboring UTC dates can belong to this calendar year in the source zone.
-    if league in {"NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL", "COLLEGE_FOOTBALL"}:
-        first, last = date(year - 1, 12, 31), date(year + 1, 1, 1)
-        prefixes = [(first + timedelta(days=offset)).strftime("%Y%m%d") for offset in range((last - first).days + 1)]
+    since = _since(window, league, year)
+    if since > date(year, 12, 31):
+        return []
+    if league == "COLLEGE_FOOTBALL":
+        queries = []
+        for url, kind, week, group in _weekly_queries(path, league, year, groups, window=window):
+            prefix = parse_qs(urlsplit(url).query)["dates"][0]
+            queries.append((prefix, group, str(kind), str(week), url))
+    elif league in {"NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"}:
+        days = set()
+        for season in (year, year + 1):
+            if season == year and since.month > 6:
+                continue
+            calendar = _season_calendar(path, league, season, window=window, group=50)
+            days.update(value[:10] for value in calendar)
+            if calendar:
+                last = date.fromisoformat(max(calendar)[:10])
+                today = window.now.date() if window is not None else datetime.now(UTC).date()
+                end = min(date(season, 4, 15), today + timedelta(days=14))
+                days.update((last + timedelta(days=offset)).isoformat() for offset in range(1, (end - last).days + 1))
+        if window is not None:
+            days.update(
+                e["calendar_date"] for e in window.events.values() if e["league"] == league and e.get("is_postseason")
+            )
+        days = sorted(day.replace("-", "") for day in days if since.isoformat() <= day <= f"{year}-12-31")
+        queries = [(day, group) for group in groups for day in days]
     else:
-        prefixes = [str(year), f"{year - 1}1231", f"{year + 1}0101"]
-    if league == "UFL":
-        prefixes.append(str(year - 1))
-    queries = [(prefix, group) for group in groups for prefix in prefixes]
+        queries = [(str(year), group) for group in groups]
     events = {}
 
-    def merge(batch, *, pending=False):
+    def merge(batch):
         for event in batch:
             if event.event_id in events:
                 previous = events[event.event_id]
-                event.tags = sorted(set(previous.tags + event.tags))
+                if previous.tags != event.tags:
+                    event.tags = sorted(set(previous.tags + event.tags))
                 if league == "UFL":
                     # Weekly indexes recover appointments but can omit logos
                     # and records present in the same game's annual row.
@@ -935,22 +853,11 @@ def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent
                                 participant.team_source_url = original.team_source_url or previous.facts_source_url
                             if event.status == "finished" and participant.final_score is None:
                                 participant.final_score = original.final_score
-            if pending and event.event_id in events and _same_event_facts(events[event.event_id], event):
-                continue
             events[event.event_id] = event
 
     with ThreadPoolExecutor(max_workers=4) as executor:
         for batch in executor.map(lambda args: collect(*args), queries):
             merge(batch)
-    for url in _pending_source_urls(plan, f"{ESPN}/{path}/scoreboard"):
-        query = parse_qs(urlsplit(url).query)
-        prefix = query["dates"][0]
-        if int(prefix[:4]) > year:
-            continue
-        group = int(query["groups"][0]) if "groups" in query else None
-        merge(
-            collect(prefix, group, query.get("seasontype", [None])[0], query.get("week", [None])[0], url), pending=True
-        )
     result = _in_year(list(events.values()), year)
     return result
 
@@ -958,55 +865,29 @@ def espn_team_events(year: int, league: str, *, plan=None) -> list[CalendarEvent
 UCL_PHASES = {"league-phase": "league_phase", "final": "final"}
 
 
-def ucl_events(year: int, *, plan=None) -> list[CalendarEvent]:
-    """OpenLigaDB lists the match dates; ESPN supplies English names and kickoff times."""
-    days = set()
-    for season in (year - 1, year):
-        matches = get_json(f"https://api.openligadb.de/getmatchdata/ucl/{season}", missing_ok=True)
-        if matches is None:
-            continue
-        if not isinstance(matches, list):
-            raise ValueError("Invalid OpenLigaDB match list")
-        for match in matches:
-            utc = match.get("matchDateTimeUTC")
-            if utc and not utc.startswith("1970"):
-                day = _local_date(utc, CENTRAL_EUROPE)
-                if day.startswith(str(year)):
-                    days.add(day)
+def ucl_events(year: int, *, window=None) -> list[CalendarEvent]:
+    """One annual ESPN scoreboard supplies names, stages and kickoff times."""
+    if _since(window, "UEFA_CHAMPIONS_LEAGUE", year) > date(year, 12, 31):
+        return []
+    url = f"{ESPN}/soccer/uefa.champions/scoreboard?dates={year}&limit=1000"
+    payload, _ = _schedule_source(url, "UEFA_CHAMPIONS_LEAGUE", "espn", window=window)
+    selected = rows(payload, "events")
+    if len(selected) >= 1000:
+        raise ValueError("Champions League annual scoreboard reached its limit")
     events = []
-    urls = [f"{ESPN}/soccer/uefa.champions/scoreboard?dates={day.replace('-', '')}" for day in sorted(days)]
-    normal_urls = set(urls)
-    urls.extend(
-        url
-        for url in _pending_source_urls(plan, f"{ESPN}/soccer/uefa.champions/scoreboard")
-        if int(parse_qs(urlsplit(url).query)["dates"][0][:4]) <= year
-    )
-    for url in dict.fromkeys(urls):
-        payload, reused, _ = _schedule_source(url, "UEFA_CHAMPIONS_LEAGUE", "espn", plan=plan, missing_ok=True)
-        if reused is not None:
-            if url in normal_urls:
-                events.extend(reused)
-            else:
-                _append_pending(events, reused)
-            continue
-        batch = []
-        for row in rows(payload, "events") if payload is not None else []:
-            slug = (row.get("season") or {}).get("slug", "")
-            event = _espn_event(
-                row,
-                league="UEFA_CHAMPIONS_LEAGUE",
-                sport="soccer",
-                zone=CENTRAL_EUROPE,
-                fallback_url="https://www.uefa.com/uefachampionsleague/fixtures-results/",
-                phase=UCL_PHASES.get(slug, "knockout" if slug else "league_phase"),
-                input_url=url,
-            )
-            if event:
-                batch.append(event)
-        if url in normal_urls:
-            events.extend(batch)
-        else:
-            _append_pending(events, batch)
+    for row in selected:
+        slug = (row.get("season") or {}).get("slug", "")
+        event = _espn_event(
+            row,
+            league="UEFA_CHAMPIONS_LEAGUE",
+            sport="soccer",
+            zone=CENTRAL_EUROPE,
+            fallback_url="https://www.uefa.com/uefachampionsleague/fixtures-results/",
+            phase=UCL_PHASES.get(slug, "knockout" if slug else "league_phase"),
+            input_url=url,
+        )
+        if event is not None:
+            events.append(event)
     return _in_year(_dedupe(events), year)
 
 
@@ -1015,13 +896,11 @@ def ucl_events(year: int, *, plan=None) -> list[CalendarEvent]:
 MLB_PHASES = {"R": "regular_season", "F": "postseason", "D": "postseason", "L": "postseason", "W": "final"}
 
 
-def mlb_events(year: int, *, plan=None) -> list[CalendarEvent]:
+def mlb_events(year: int, *, window=None) -> list[CalendarEvent]:
     events = []
 
     def collect(url):
-        payload, reused, _ = _schedule_source(url, "MLB", "mlb", plan=plan)
-        if reused is not None:
-            return reused
+        payload, _ = _schedule_source(url, "MLB", "mlb", window=window)
         batch = []
         for day in rows(payload, "dates"):
             for game in rows(day, "games"):
@@ -1087,26 +966,23 @@ def mlb_events(year: int, *, plan=None) -> list[CalendarEvent]:
 
         return batch
 
+    since = _since(window, "MLB", year)
+    if since > date(year, 12, 31):
+        return []
     events.extend(
         collect(
-            f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&gameType=R,F,D,L,W&hydrate=venue(location)"
+            f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&season={year}&startDate={since.isoformat()}&endDate={year}-12-31&gameType=R,F,D,L,W&hydrate=venue(location)"
         )
     )
-    for previous_url in _pending_source_urls(plan, "https://statsapi.mlb.com/api/v1/schedule"):
-        previous_year = int(parse_qs(urlsplit(previous_url).query)["season"][0])
-        if previous_year < year:
-            _append_pending(events, collect(previous_url))
     return _in_year(_dedupe(events), year)
 
 
-def nhl_events(year: int, *, plan=None) -> list[CalendarEvent]:
-    """Walk the week-by-week schedule across the calendar year (about 53 requests)."""
+def nhl_events(year: int, *, window=None) -> list[CalendarEvent]:
+    """Walk only remaining source weeks, beginning at the cutoff."""
     events = []
 
     def collect(url):
-        payload, reused, _ = _schedule_source(url, "NHL", "nhl", plan=plan)
-        if reused is not None:
-            return plan.baseline.units[unit_key(url)].end[:10], reused
+        payload, _ = _schedule_source(url, "NHL", "nhl", window=window)
         batch = []
         for week in rows(payload, "gameWeek"):
             for game in rows(week, "games"):
@@ -1141,25 +1017,15 @@ def nhl_events(year: int, *, plan=None) -> list[CalendarEvent]:
                     participant.final_score = _score(team.get("score")) if batch[-1].status == "finished" else None
         return payload.get("nextStartDate"), batch
 
-    cursor = date(year, 1, 1)
+    cursor = _since(window, "NHL", year)
     end = date(year, 12, 31)
     while cursor <= end:
         following, batch = collect(f"https://api-web.nhle.com/v1/schedule/{cursor.isoformat()}")
         events.extend(batch)
-        next_cursor = date.fromisoformat(following) if following else cursor + timedelta(days=7)
+        if following is None:
+            break
+        next_cursor = date.fromisoformat(following)
         cursor = max(next_cursor, cursor + timedelta(days=1))
-    for url in _pending_source_urls(plan, "https://api-web.nhle.com/v1/schedule/"):
-        if int(urlsplit(url).path.rsplit("/", 1)[-1][:4]) > year:
-            continue
-        visited = set()
-        while unit_key(url) not in plan.current and url not in visited:
-            visited.add(url)
-            following, batch = collect(url)
-            _append_pending(events, batch)
-            if not following or date.fromisoformat(following) > end:
-                break
-            next_url = f"https://api-web.nhle.com/v1/schedule/{following}"
-            url = next_url
     return _in_year(_dedupe(events), year)
 
 
@@ -1246,7 +1112,7 @@ FEEDS: dict[str, tuple[str, Callable[[int], list[CalendarEvent]]]] = {
     ),
     "INDYCAR": ("espn", espn_season_feed("racing/irl", "INDYCAR", "motorsport", "race", "https://www.indycar.com/")),
     **{
-        league: ("espn", lambda year, league=league, plan=None: espn_team_events(year, league, plan=plan))
+        league: ("espn", lambda year, league=league, window=None: espn_team_events(year, league, window=window))
         for league in TEAM_LEAGUES
     },
 }

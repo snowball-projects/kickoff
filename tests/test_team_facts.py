@@ -45,28 +45,27 @@ def test_espn_supplied_short_names_records_week_and_only_completed_scores():
     assert "odds" not in public and "raw_source_payload" not in public
 
 
-def test_nba_top_level_records_join_both_team_ids_without_extra_requests(monkeypatch):
+def test_nba_monthly_scoreboard_retains_both_records_without_team_requests(monkeypatch):
+    row = copy.deepcopy(FACTS["nba"][0]["events"][0])
     calls = []
+    for competitor in row["competitions"][0]["competitors"]:
+        source = next(p for p in FACTS["nba"] if p["team"]["id"] == competitor["team"]["id"])
+        competitor["records"] = [{"type": "total", "summary": source["team"]["recordSummary"]}]
 
     def read(url, **_):
         calls.append(url)
-        if url.endswith("/nba/teams"):
-            return {"sports": [{"leagues": [{"teams": [{"team": {"id": str(i)}} for i in range(1, 31)]}]}]}
-        for payload in FACTS["nba"]:
-            if f"/teams/{payload['team']['id']}/schedule?season=2027&seasontype=2" in url:
-                return payload
-        return {"events": []}
+        return {"events": [row] if "dates=" + row["date"][:7].replace("-", "") + "&" in url else []}
 
     monkeypatch.setattr(feeds, "get_json", read)
     (event,) = feeds.nba_events(2026)
-    assert len(calls) == 91
+    assert len(calls) == 12 and all("/teams/" not in url for url in calls)
     assert event.status == "finished"
     assert event.home_participant.short_name == "Magic" and event.away_participant.short_name == "Hawks"
     assert event.home_participant.final_score == 125 and event.away_participant.final_score == 132
-    for p in event.participants:
-        original = next(row for row in FACTS["nba"] if row["team"]["id"] == p.participant_id)
-        assert p.record == original["team"]["recordSummary"]
-        assert f"/teams/{p.participant_id}/schedule?season=2027&seasontype=2" in p.team_source_url
+    for participant in event.participants:
+        source = next(p for p in FACTS["nba"] if p["team"]["id"] == participant.participant_id)
+        assert participant.record == source["team"]["recordSummary"]
+        assert participant.team_source_url == event.facts_source_url
     assert event.week_label is None and event.round_or_stage is None
     assert validate_event(event) == []
 

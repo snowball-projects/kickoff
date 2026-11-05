@@ -1,12 +1,125 @@
 """Publish trusted collector output as a metadata index and independent leagues."""
 
 import json
+import zlib
 from collections import Counter, defaultdict
+from copy import deepcopy
+from datetime import date, timedelta
 from html import escape
 from pathlib import Path
 
 from kickoff.reviewed_countries import country_source_kind
 from kickoff.weightlifting_startlists import ENTRY_FIELDS
+
+
+class PublishedWindow:
+    """Copy old event dictionaries verbatim; unreadable league files rebuild in full."""
+
+    def __init__(self, now, bundles=None):
+        self.now = now
+        self.cutoff = now.date() - timedelta(days=7)
+        self.bundles = bundles or {}
+        self.events = {e["event_id"]: e for b in self.bundles.values() for e in b["events"]}
+        self.receipts = {}
+        self.responses = {}
+        self.f1_contexts = {}
+
+    def since(self, league, year):
+        return self.cutoff if (year, league) in self.bundles else date.min
+
+    def old(self, row):
+        return (row.get("end_calendar_date") or row["calendar_date"]) < self.cutoff.isoformat()
+
+    def active(self, event, year):
+        previous = self.events.get(event.event_id)
+        return (
+            not (previous is not None and self.old(previous))
+            and (event.end_calendar_date or event.calendar_date) >= self.since(event.league, year).isoformat()
+        )
+
+    def restore_results(self, events):
+        for event in events:
+            previous = self.events.get(event.event_id) or {}
+            if (
+                (event.source == "f1db" or event.sport in {"climbing", "weightlifting"})
+                and event.result is None
+                and previous.get("result") is not None
+            ):
+                event.result = deepcopy(previous["result"])
+                event.result_complete = event.result.get("complete", True)
+                event.status = previous["status"]
+
+    def merge(self, fresh, year):
+        events = {
+            e["event_id"]: e
+            for e in fresh
+            if not (e["event_id"] in self.events and self.old(self.events[e["event_id"]]))
+        }
+        for (season, _league), bundle in self.bundles.items():
+            if season == year:
+                events.update((e["event_id"], deepcopy(e)) for e in bundle["events"] if self.old(e))
+        return sorted(
+            events.values(),
+            key=lambda e: (
+                e["calendar_date"] or "9999-12-31",
+                e.get("start_time_utc") is None,
+                e.get("start_time_utc") or e.get("start_time_local") or "",
+                e["league"],
+                e["title"],
+                e["event_id"],
+            ),
+        )
+
+
+def load_published_window(read_bytes, now, read_many=None):
+    window = PublishedWindow(now)
+    try:
+        manifest = json.loads(read_bytes("manifest.json"))
+        if manifest["schema_version"] != "1":
+            return window
+        catalog = [(int(year), item) for year, season in manifest["seasons"].items() for item in season["sports"]]
+        generations = {int(year): season["updated_at"] for year, season in manifest["seasons"].items()}
+        names = [item["file"] for _year, item in catalog]
+        if any("/" in name or "\\" in name or not name.endswith(".json") for name in names) or len(set(names)) != len(
+            names
+        ):
+            return window
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, EOFError, zlib.error):
+        return window
+    if read_many is None:
+        bodies = {}
+        for name in names:
+            try:
+                bodies[name] = read_bytes(name)
+            except (OSError, ValueError, KeyError, EOFError, zlib.error):
+                pass
+    else:
+        try:
+            bodies = read_many(names)
+        except (OSError, ValueError, EOFError, zlib.error):
+            return window
+    for year, item in catalog:
+        try:
+            bundle = json.loads(bodies[item["file"]])
+            events = bundle["events"]
+            if (
+                bundle["schema_version"] != "1"
+                or bundle["season"] != year
+                or bundle["sport"] != item["value"]
+                or bundle["updated_at"] != generations[year]
+                or len(events) != item["count"]
+                or len({e["event_id"] for e in events}) != len(events)
+                or {e["league"] for e in events} != set(item["leagues"])
+            ):
+                continue
+            for event in events:
+                date.fromisoformat(event.get("end_calendar_date") or event["calendar_date"])
+            for league in item["leagues"]:
+                window.bundles[year, league] = bundle
+        except (OSError, ValueError, KeyError, TypeError, AttributeError, EOFError, zlib.error):
+            continue
+    window.events = {e["event_id"]: e for b in window.bundles.values() for e in b["events"]}
+    return window
 
 
 def facet(values):

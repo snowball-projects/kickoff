@@ -96,16 +96,13 @@ def reviewed_start_book(book: dict, reviewed_dir: Path) -> tuple[list[Session], 
 class StartListLoader:
     """Publish complete dated snapshots; missing/corrupt cohorts are omitted atomically."""
 
-    def enrich(self, events: list[CalendarEvent], reviewed_dir: Path, year: int, *, skip_ids=frozenset()):
+    def enrich(self, events: list[CalendarEvent], reviewed_dir: Path, year: int):
         specs = catalog()
         relevant = [
             book
             for book in specs["books"]
             if book["year"] == year
-            and any(
-                event.league == book["league"] and event.event_type == "session" and event.event_id not in skip_ids
-                for event in events
-            )
+            and any(event.league == book["league"] and event.event_type == "session" for event in events)
         ]
         if not relevant:
             return [], []
@@ -145,8 +142,6 @@ class StartListLoader:
                 }
                 replacements, omitted = [], []
                 for event, key in zip(cohort, keys, strict=True):
-                    if event.event_id in skip_ids:
-                        continue
                     session = by_category[key]
                     if session.issue:
                         omitted.append({"event_id": event.event_id, "reason": session.issue})

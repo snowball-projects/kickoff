@@ -196,7 +196,7 @@ def test_api_revision_hash_request_identity_and_explicit_class_end_bound():
     assert result["sha256"] == hashlib.sha256(content).hexdigest()
     assert result["hash_scope"] == "raw MediaWiki API JSON response bytes"
     assert result["checked_date"] == CHECKED
-    assert result["_source_date"] == "2026-10-28" and result["_ended_before"] == "2026-10-29"
+    assert result["_source_date"] == "2026-10-28"
     assert parse_classes(content, input_url=api_url(TITLE.replace("60", "65")), checked_date=CHECKED) == []
     assert (
         parse_classes(
@@ -214,7 +214,7 @@ def test_inline_europe_classes_use_literal_heading_and_not_the_whole_competition
     )
     assert (result["league"], result["gender"], result["weight_class"]) == ("WEIGHTLIFTING_EUROPE", "men", "60")
     assert "#Men%27s_60_kg" in result["source_url"]
-    assert result["_source_date"] is result["_ended_before"] is None
+    assert result["_source_date"] is None
 
 
 def test_class_title_and_section_disagreement_and_duplicate_tables_are_ambiguous():
@@ -242,7 +242,7 @@ def overview():
 def test_medal_only_continental_classes_are_useful_explicit_partial_facts_with_no_attempts():
     (result,) = parse(overview(), title="2026 Pan American Weightlifting Championships")
     assert result["weight_class"] == "+110" and result["athletes"] == []
-    assert result["_complete"] is False and result["_ended_before"] is None
+    assert result["_complete"] is False
     for lift in ["total", "snatch", "clean_and_jerk"]:
         assert [row["rank"] for row in result[f"{lift}_medalists"]] == [1, 2, 3]
     assert [row["weight_kg"] for row in result["total_medalists"]] == [301, 302, 303]

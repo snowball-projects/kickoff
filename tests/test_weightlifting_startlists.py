@@ -115,34 +115,6 @@ def test_snapshot_only_loader_keeps_dates_and_every_schedule_fact(monkeypatch, t
     assert all(p.metadata["start_list_checked_date"] == "2026-11-03" for p in item.participants)
 
 
-def test_partial_frozen_cohort_keeps_frozen_values_and_loads_only_other_snapshot_members(monkeypatch, tmp_path):
-    _, snapshot, path = setup_catalog(monkeypatch, tmp_path)
-    second = deepcopy(snapshot["sessions"][0])
-    second["event_id"] = "second"
-    second["categories"][0]["weight_class"] = "53"
-    for row in second["entries"]:
-        row["lot"] += "0"
-        row["weight"] = "53"
-    snapshot["sessions"].append(second)
-    snapshot["session_count"] = 2
-    snapshot["athlete_count"] = 4
-    save_snapshot(snapshot, path)
-    definitions = {"events": [{"id": row["event_id"], "categories": row["categories"]} for row in snapshot["sessions"]]}
-    (tmp_path / "2026-weightlifting.json").write_text(json.dumps(definitions))
-    frozen, fresh = event("session"), event("second")
-    frozen.participants = [
-        startlists.Participant(name="Existing frozen facts", entity_type="athlete", metadata={"entry_total_kg": 199})
-    ]
-    original = deepcopy(frozen.to_dict())
-    _, evidence = startlists.StartListLoader().enrich([frozen, fresh], tmp_path, 2026, skip_ids={"session"})
-    assert frozen.to_dict() == original
-    assert len(fresh.participants) == 2 and evidence[0]["sessions"] == 1
-    assert startlists.StartListLoader().enrich([frozen, fresh], tmp_path, 2026, skip_ids={"session", "second"}) == (
-        [],
-        [],
-    )
-
-
 def test_explicit_withheld_snapshot_session_stays_empty_and_does_not_hide_valid_session(monkeypatch, tmp_path):
     _, snapshot, path = setup_catalog(monkeypatch, tmp_path)
     omitted = {
@@ -310,3 +282,31 @@ def test_publisher_calls_optional_loader_without_changing_schedule_or_primary_so
     assert any(p.get("entry_total_kg") == 180 for item in result["events"] for p in item["participants"])
     assert any(source["name"] == "Official entries" for source in result["sources"])
     assert any(proof["url"] == "https://ewf.sport/startbook.pdf" for proof in result["input_evidence"])
+
+
+def test_cutoff_keeps_pending_worlds_rosters_from_the_complete_snapshot(monkeypatch, tmp_path):
+    from datetime import datetime, timezone
+
+    from kickoff import open_schedules
+    from kickoff.published import PublishedWindow
+    from tests.test_reviewed_schedules import fake_open_read
+
+    monkeypatch.setattr(open_schedules, "read_url", fake_open_read)
+    window = PublishedWindow(
+        datetime(2026, 11, 4, tzinfo=timezone.utc),
+        {(2026, "IWF_WORLDS"): {"events": []}},
+    )
+    payload = json.loads(
+        open_schedules.refresh_open_schedules(
+            2026,
+            tmp_path,
+            ROOT / "data/reviewed",
+            feeds={},
+            start_list_loader=startlists.StartListLoader(),
+            window=window,
+        ).read_text()
+    )
+    pending = [e for e in payload["events"] if e["league"] == "IWF_WORLDS" and e["calendar_date"] >= "2026-11-05"]
+    assert len(pending) == 16
+    assert sum(len(e["participants"]) for e in pending) == 166
+    assert all(p["start_list_source_url"] for e in pending for p in e["participants"])

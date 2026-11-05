@@ -26,7 +26,7 @@ def test_source_stages_and_supplied_facts_survive_public_export(monkeypatch, cas
         prefix = parse_qs(urlsplit(url).query)["dates"][0]
         return {
             "events": [row] if prefix == str(year) and "week=" not in url else [],
-            "leagues": [{"calendar": [{"value": "2", "entries": [{"value": "1"}]}]}],
+            "leagues": [{"calendar": [{"value": "2", "entries": [{"value": "1", "endDate": "2026-12-31"}]}]}],
         }
 
     monkeypatch.setattr(feeds, "get_json", get)
@@ -82,8 +82,14 @@ def test_ufl_discovers_all_weeks_and_unions_missing_games_with_no_duplicates(mon
                 "leagues": [
                     {
                         "calendar": [
-                            {"value": "2", "entries": [{"value": "1"}, {"value": "27"}]},
-                            {"value": "3", "entries": [{"value": "2"}]},
+                            {
+                                "value": "2",
+                                "entries": [
+                                    {"value": "1", "endDate": "2026-12-31"},
+                                    {"value": "27", "endDate": "2026-12-31"},
+                                ],
+                            },
+                            {"value": "3", "entries": [{"value": "2", "endDate": "2026-12-31"}]},
                         ]
                     }
                 ],
@@ -100,7 +106,7 @@ def test_ufl_discovers_all_weeks_and_unions_missing_games_with_no_duplicates(mon
     events = feeds.espn_team_events(2026, "UFL")
     assert {e.event_id for e in events} == {"espn-ufl-annual", "espn-ufl-weekly-only"}
     assert {tuple(q["week"]) for q in calls if "week" in q} == {("1",), ("27",), ("2",)}
-    assert any(q["dates"] == ["2025"] for q in calls)  # overlapping source season
+    assert not any(q["dates"] == ["2025"] for q in calls)
     assert all("seasontype=" in e.facts_source_url for e in events)
     retained = next(e for e in events if e.event_id == "espn-ufl-annual")
     assert all(p.metadata.get("logo_url") for p in retained.participants)

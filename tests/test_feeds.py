@@ -3,6 +3,24 @@ import pytest
 from kickoff import feeds
 
 
+@pytest.fixture(autouse=True)
+def nfl_parser_calendar(monkeypatch):
+    monkeypatch.setattr(
+        feeds,
+        "_season_calendar",
+        lambda path, league, season, **_: [
+            {
+                "value": str(kind),
+                "entries": [
+                    {"value": str(week), "startDate": f"{season}-01-01T00:00Z", "endDate": f"{season + 1}-02-28T23:59Z"}
+                    for week in range(1, 19)
+                ],
+            }
+            for kind in (2, 3)
+        ],
+    )
+
+
 def espn_game(event_id, utc, home, away, status="STATUS_SCHEDULED", time_valid=True, **extra):
     return {
         "id": event_id,
