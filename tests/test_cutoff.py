@@ -339,3 +339,22 @@ def test_weekly_fcs_index_does_not_relabel_fbs_playoff_slots(monkeypatch):
     monkeypatch.setattr(feeds, "get_json", lambda *a, **k: {"events": [row]})
     (item,) = feeds.espn_team_events(2026, "COLLEGE_FOOTBALL")
     assert "fbs" in item.tags and "fcs" not in item.tags
+
+
+@pytest.mark.parametrize("league", ["NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"])
+@pytest.mark.parametrize(
+    "today,extra",
+    [("2027-02-21", []), ("2027-02-22", ["20270308"]), ("2027-04-02", [f"202704{d:02}" for d in range(1, 16)])],
+)
+def test_march_madness_guard_asks_unlisted_days_only_within_fourteen_days(monkeypatch, league, today, extra):
+    window = PublishedWindow(
+        datetime.fromisoformat(today).replace(tzinfo=timezone.utc), {(2027, league): {"events": []}}
+    )
+    calls = []
+    calendar = ["2027-03-07T08:00Z"] if today < "2027-04" else ["2027-03-31T08:00Z"]
+    monkeypatch.setattr(feeds, "_season_calendar", lambda path, league, season, **k: calendar if season == 2027 else [])
+    monkeypatch.setattr(feeds, "get_json", lambda url, **_: calls.append(url) or {"events": []})
+    feeds.espn_team_events(2027, league, window=window)
+    days = [parse_qs(urlsplit(url).query)["dates"][0] for url in calls]
+    expected = sorted({calendar[0][:10].replace("-", ""), *extra})
+    assert sorted(days) == expected

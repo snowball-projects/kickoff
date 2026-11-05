@@ -66,7 +66,7 @@ def test_primary_scoreboard_phases_and_factual_team_fields(case):
     assert "raw_source_payload" not in public and "odds" not in public
 
 
-def test_only_calendar_game_days_include_ncaa_postseason(monkeypatch):
+def test_calendar_game_days_and_postseason_guard_include_ncaa_postseason(monkeypatch):
     calls = []
     regular, final = CASES["mens_d1_regular"]["event"], CASES["mens_final"]["event"]
 
@@ -79,7 +79,7 @@ def test_only_calendar_game_days_include_ncaa_postseason(monkeypatch):
 
     monkeypatch.setattr(feeds, "get_json", get)
     events = feeds.espn_team_events(2026, "NCAA_MENS_BASKETBALL")
-    assert calls == ["20260117", "20260406"]
+    assert sorted(calls) == ["20260117", *[f"202604{day:02}" for day in range(6, 16)]]
     assert {e.competition_phase for e in events} == {"regular_season", "final"}
 
 

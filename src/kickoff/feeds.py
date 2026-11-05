@@ -812,6 +812,11 @@ def espn_team_events(year: int, league: str, *, window=None) -> list[CalendarEve
                 continue
             calendar = _season_calendar(path, league, season, window=window, group=50)
             days.update(value[:10] for value in calendar)
+            if calendar:
+                last = date.fromisoformat(max(calendar)[:10])
+                today = window.now.date() if window is not None else datetime.now(UTC).date()
+                end = min(date(season, 4, 15), today + timedelta(days=14))
+                days.update((last + timedelta(days=offset)).isoformat() for offset in range(1, (end - last).days + 1))
         if window is not None:
             days.update(
                 e["calendar_date"] for e in window.events.values() if e["league"] == league and e.get("is_postseason")

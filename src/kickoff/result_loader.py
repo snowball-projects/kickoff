@@ -40,9 +40,9 @@ def _instant(value):
     return parsed if isinstance(parsed, datetime) and parsed.tzinfo is not None else None
 
 
-def _eligible(event, now):
+def _eligible(event, now, *, rebuild=False):
     day = date.fromisoformat(event.end_calendar_date or event.calendar_date)
-    if day < now.date() - timedelta(days=7):
+    if not rebuild and day < now.date() - timedelta(days=7):
         return False
     if event.start_time_utc is not None and _instant(event.start_time_utc) > now:
         return False
@@ -310,8 +310,7 @@ class ResultsLoader:
                     if quality >= previous_quality:
                         candidates[key] = parsed
         selected = wiki.classes_for_session(list(candidates.values()), session, reviewed_sessions=sessions)
-        result = self._combine(selected, session)
-        return result if result is not None and result["_complete"] else None
+        return self._combine(selected, session)
 
     def enrich(
         self,
@@ -321,17 +320,20 @@ class ResultsLoader:
         *,
         f1_contexts=None,
         now=None,
+        window=None,
     ):
         sources, evidence = {}, {}
         contexts = f1_contexts or {}
         moment = now or datetime.now(timezone.utc)
         for event in events:
-            if self.remaining <= 0 or event.result is not None:
+            if self.remaining <= 0 or (event.result is not None and event.result.get("complete", True)):
                 continue
             if event.sport == "weightlifting" and ("YOUTH" in event.league or "MASTERS" in event.league):
                 continue
             try:
-                eligible = _eligible(event, moment)
+                eligible = _eligible(
+                    event, moment, rebuild=window is not None and window.since(event.league, year) == date.min
+                )
             except (TypeError, ValueError, LookupError):
                 eligible = False
             if not eligible:

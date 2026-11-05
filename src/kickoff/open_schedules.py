@@ -593,6 +593,7 @@ def refresh_open_schedules(
                 reviewed_dir or output_dir.parent / "reviewed",
                 f1_contexts=window.f1_contexts if window is not None else {},
                 now=now,
+                window=window,
             )
         notices.extend(result_sources)
         evidence.extend(result_evidence)

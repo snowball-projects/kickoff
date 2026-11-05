@@ -393,10 +393,7 @@ def test_wikipedia_only_missing_eligible_classes_are_read_with_actual_revision_a
     events[3].result = {"kind": "weightlifting", "athletes": [], "complete": True}
     sources, evidence = enrich(loader, events, tmp_path)
     assert calls == [main, class_urls["60"]]
-    if not complete:
-        assert not sources and not evidence and all(e.result is None for e in events[:2])
-        return
-    assert all(events[i].result_complete for i in [0, 1])
+    assert all(events[i].result_complete is complete for i in [0, 1])
     assert [len(events[i].result["athletes"]) for i in [0, 1]] == [2, 1]
     assert all("lot" not in a for e in events[:2] for a in e.result["athletes"])
     assert all(len(events[i].result[field]) == 3 for i in [0, 1] for field in module.MEDALS)
@@ -474,15 +471,24 @@ def test_youth_and_masters_never_trigger_optional_result_requests(tmp_path):
     assert calls == []
 
 
-def test_stored_partial_result_needs_no_new_lookup(tmp_path):
+def test_stored_partial_result_within_seven_days_is_refetched_and_replaced(tmp_path):
     calls = []
     loader = module.ResultsLoader(lambda url: calls.append(url) or page([category()]))
     item = event()
     item.result = {"kind": "podium", "rows": [], "complete": False}
     item.result_complete = False
+    from kickoff.published import PublishedWindow
+    from kickoff.web import _event_payload
+
+    stored = _event_payload(item)
+    item.result = None
+    window = PublishedWindow(NOW, {(2026, item.league): {"events": [stored]}})
+    window.restore_results([item])
+    assert item.result == stored["result"] and not item.result_complete
     previous = item.to_dict()
-    enrich(loader, [item], tmp_path)
-    assert calls == [] and item.to_dict() == previous
+    enrich(loader, [item], tmp_path, window=window)
+    assert calls == [URL] and item.to_dict() != previous
+    assert item.result_complete and len(item.result["rows"]) == 3
 
 
 def test_explicit_future_start_and_same_venue_day_prevent_lookup_before_session(tmp_path):
@@ -525,3 +531,80 @@ def test_failure_does_not_clear_existing_result(tmp_path):
 
     assert enrich(module.ResultsLoader(failed), [item], tmp_path) == ([], [])
     assert item.to_dict() == original
+
+
+@pytest.mark.parametrize("complete", [False, True])
+@pytest.mark.parametrize("family", ["F1", "climbing", "Wikipedia", "Junior"])
+@pytest.mark.parametrize("rebuild", ["force_full", "missing_league"])
+def test_rebuild_publishes_older_results_including_partial_ones(monkeypatch, tmp_path, family, complete, rebuild):
+    from kickoff.published import PublishedWindow
+    from kickoff.web import _event_payload
+
+    fields = {
+        "F1": dict(source="f1db", sport="motorsport", league="F1", event_type="race"),
+        "climbing": {},
+        "Wikipedia": dict(source="weightlifting", sport="weightlifting", league="IWF_WORLDS"),
+        "Junior": dict(source="weightlifting", sport="weightlifting", league="IWF_JUNIOR_WORLDS"),
+    }[family]
+    item = event("past", calendar_date="2026-05-01", end_calendar_date="2026-05-01", **fields)
+    result = {
+        "kind": "podium",
+        "rows": [{"rank": 1, "name": "Past Winner"}],
+        "source_url": URL,
+        "checked_date": "2026-11-04",
+        "sha256": "a" * 64,
+        "revision": REVISION,
+        "_complete": complete,
+    }
+    if item.sport == "weightlifting":
+        result.update(kind="weightlifting", athletes=[{"name": "Past Winner", "nation": "GER", "total_kg": 200}])
+        del result["rows"]
+    calls = []
+
+    def fetch(*_):
+        calls.append(item.event_id)
+        return result
+
+    method = "_f1" if family == "F1" else "_climbing" if family == "climbing" else "_weightlifting"
+    loader = module.ResultsLoader()
+    monkeypatch.setattr(loader, method, fetch)
+    bundles = {} if rebuild == "force_full" else {(2026, "OTHER_LEAGUE"): {"events": []}}
+    window = PublishedWindow(NOW, bundles)
+    enrich(loader, [item], tmp_path, window=window, f1_contexts={item.event_id: {}})
+    (public,) = window.merge([_event_payload(item)], 2026)
+    assert calls == ["past"]
+    assert public["result"]["complete"] is complete
+    assert (public["result"].get("rows") or public["result"].get("athletes"))[0]["name"] == "Past Winner"
+
+
+def test_restored_partial_older_than_seven_days_is_kept_without_lookup(tmp_path):
+    from kickoff.published import PublishedWindow
+    from kickoff.web import _event_payload
+
+    item = event(calendar_date="2026-10-01", end_calendar_date="2026-10-01")
+    item.result = {"kind": "podium", "rows": [{"rank": 1, "name": "Stored Winner"}], "complete": False}
+    stored = _event_payload(item)
+    window = PublishedWindow(NOW, {(2026, item.league): {"events": [stored]}})
+    item.result = None
+    window.restore_results([item])
+    calls = []
+    enrich(module.ResultsLoader(lambda url: calls.append(url)), [item], tmp_path, window=window)
+    assert calls == []
+    assert window.merge([_event_payload(item)], 2026) == [stored]
+
+
+def test_junior_snapshot_rebuild_restores_all_older_results_without_network():
+    from kickoff.published import PublishedWindow
+
+    events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
+    events = [e for e in events if e.league == "IWF_JUNIOR_WORLDS"]
+
+    def forbidden(_):
+        pytest.fail("The Junior snapshot is local")
+
+    sources, evidence = enrich(
+        module.ResultsLoader(forbidden), events, ROOT / "data/reviewed", window=PublishedWindow(NOW)
+    )
+    assert sources and evidence
+    assert len(events) == 28 and all(e.result is not None and e.result_complete for e in events)
+    assert sum(len(e.result["athletes"]) for e in events) == 261
