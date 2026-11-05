@@ -165,7 +165,9 @@ def test_committed_image_list_has_inline_source_receipts_and_unique_valid_identi
         assert league and teams
         for key, record in teams.items():
             source, kind, identity = key.split(":", 2)
-            assert source in {"espn", "openfootball", "mlb", "nhl"} and kind in {"id", "name"} and identity
+            assert source in {"espn", "openfootball", "mlb", "nhl", "wikipedia"} and kind in {"id", "name"} and identity
+            if source == "wikipedia":
+                assert league in {"IPL", "CRICKET_WORLD_CUP"} and kind == "name"
             assert set(record) == {"names", "logo_url", "source_url", "checked_date"}
             assert record["names"] and all(isinstance(name, str) and name for name in record["names"])
             assert record["names"] == sorted(set(record["names"]))
@@ -174,7 +176,11 @@ def test_committed_image_list_has_inline_source_receipts_and_unique_valid_identi
             logo = record["logo_url"]
             assert logo and logo == espn_logo_url(logo)
             assert record["source_url"].startswith(
-                ("https://site.api.espn.com/apis/site/v2/sports/", "https://sports.core.api.espn.com/v2/sports/")
+                (
+                    "https://site.api.espn.com/apis/site/v2/sports/",
+                    "https://sports.core.api.espn.com/v2/sports/",
+                    "https://www.espn.com/cricket/team/_/id/",
+                )
             )
             assert date.fromisoformat(record["checked_date"]).isoformat() == record["checked_date"]
             path = parse_qs(urlsplit(logo).query)["img"][0]
@@ -575,3 +581,94 @@ def test_id_lookup_accepts_only_reviewed_exact_full_names_not_short_name_variant
     team_logos.enrich_team_logos([reviewed, punctuation, short_only])
     assert reviewed.participants[0].metadata["logo_url"] == espn_logo_url(RAW)
     assert punctuation.participants[0].metadata == short_only.participants[0].metadata == {}
+
+
+def committed_logos(monkeypatch):
+    registry = json.loads(files("kickoff").joinpath("config/team_logos.json").read_text())["logos"]
+    monkeypatch.setattr(team_logos, "logo_registry", lambda: registry)
+    return registry
+
+
+def test_all_twenty_cricket_teams_publish_verified_espn_images_offline(monkeypatch):
+    from pathlib import Path
+
+    from kickoff.reviewed_schedules import load_reviewed_schedules
+
+    registry = committed_logos(monkeypatch)
+    events = [
+        e
+        for year in (2026, 2027)
+        for e in load_reviewed_schedules(Path(__file__).resolve().parents[1] / "data/reviewed", year)[0]
+        if e.league in {"IPL", "CRICKET_WORLD_CUP"}
+    ]
+    monkeypatch.setattr("urllib.request.urlopen", lambda *a, **k: pytest.fail("Logo lookup stays offline"))
+    team_logos.enrich_team_logos(events)
+    seen = {"IPL": set(), "CRICKET_WORLD_CUP": set()}
+    for event in events:
+        for participant in _event_payload(event)["participants"]:
+            seen[event.league].add(participant["name"])
+            receipt = registry[event.league]["wikipedia:name:" + participant["name"]]
+            assert participant["logo_url"] == receipt["logo_url"]
+            assert participant["logo_source_url"] == receipt["source_url"]
+            assert participant["logo_source_url"].startswith("https://www.espn.com/cricket/team/_/id/")
+            assert participant["logo_checked_date"] == receipt["checked_date"]
+    assert {league: len(names) for league, names in seen.items()} == {"IPL": 10, "CRICKET_WORLD_CUP": 10}
+
+
+@pytest.mark.parametrize(
+    "name,identity,canonical",
+    [("Bordeaux", "126831", "143737"), ("LOU Rugby", "289852", "143736"), ("Section Paloise", "289553", "270567")],
+)
+def test_rugby_name_variants_reuse_only_the_named_canonical_logo(monkeypatch, name, identity, canonical):
+    registry = committed_logos(monkeypatch)
+    event = fixture(league="TOP_14", sport="rugby", source="espn", name=name, short=None, identity=identity)
+    before = _event_payload(event)
+    team_logos.enrich_team_logos([event])
+    after = _event_payload(event)
+    receipt = registry["TOP_14"]["espn:id:" + canonical]
+    assert after["participants"][0]["logo_url"] == receipt["logo_url"]
+    assert after["participants"][0]["logo_source_url"] == receipt["source_url"]
+    for participant in after["participants"]:
+        for field in team_logos.LOGO_FIELDS:
+            participant.pop(field, None)
+    assert after == before
+
+
+@pytest.mark.parametrize(
+    "name,identity",
+    [
+        ("Bayonne", "25912"),
+        ("Bayonne", "289359"),
+        ("Perpignan", "25920"),
+        ("Perpignan", "289360"),
+        ("Vannes", "289337"),
+        ("RC Vannes", "289545"),
+        ("US Montauban", "289766"),
+    ],
+)
+def test_unsourced_rugby_clubs_and_variants_remain_blank(monkeypatch, name, identity):
+    registry = committed_logos(monkeypatch)
+    for league in ("TOP_14", "RUGBY_CHALLENGE_CUP", "RUGBY_CHAMPIONS_CUP"):
+        assert "espn:id:" + identity not in registry.get(league, {})
+        event = fixture(league=league, sport="rugby", source="espn", name=name, short=None, identity=identity)
+        team_logos.enrich_team_logos([event])
+        assert all(field not in p for p in _event_payload(event)["participants"] for field in team_logos.LOGO_FIELDS)
+
+
+@pytest.mark.parametrize(
+    "source,allowed",
+    [
+        ("https://www.espn.com/cricket/team/_/id/6/india/", True),
+        ("https://www.espn.com.evil.test/cricket/team/_/id/6/india/", False),
+        ("http://www.espn.com/cricket/team/_/id/6/india/", False),
+        ("https://www.espn.com/cricket/story/_/id/6/india/", False),
+    ],
+)
+def test_cricket_team_page_evidence_allowance_is_narrow(source, allowed):
+    event = fixture(league="CRICKET_WORLD_CUP", sport="cricket", source="wikipedia", name="India", identity=None)
+    event.participants[0].metadata.update(
+        logo_url=espn_logo_url("https://a.espncdn.com/i/teamlogos/cricket/500/6.png"),
+        logo_source_url=source,
+        logo_checked_date="2026-11-05",
+    )
+    assert ("logo_url" in _event_payload(event)["participants"][0]) is allowed
