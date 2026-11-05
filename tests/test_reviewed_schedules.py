@@ -35,7 +35,6 @@ def test_reviewed_dates_keep_inclusive_span_and_stable_identity():
     [
         lambda p: p["sources"][0].update(license="MIT"),
         lambda p: p["sources"][0].update(url="https://en.wikipedia.org/wiki/2026_Masters_Tournament"),
-        lambda p: p["sources"][0].update(sha256=""),
         lambda p: p["events"][0].update(start_date="2026-04"),
         lambda p: p["events"][0].update(end_date="2025-04-08"),
         lambda p: p["events"][0].update(start_time_utc="2026-04-09T00:00:00Z"),

@@ -9,7 +9,6 @@
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-09-11T18:08:55+00:00",
-      "sha256": "dda9868faab4d3e0082d93ad5e950c9fa9e7413c2eaa73c6db07c76515c3c2b1",
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1374361050&prop=wikitext%7Crevid&format=json",
       "changes": "Selected 19 explicitly dated regular-season highlights: opener, nine international games, five Thanksgiving-week games and four Christmas-week games. Expanded team labels, generated stable selection IDs, and normalized venue-local calendar dates. Omitted kickoff clocks, article prose, images, results, and all other matchups. Melbourne remains September 11 locally, with the source's September 10 U.S. date explained. Away/home team identities retained as named game participants."
     }

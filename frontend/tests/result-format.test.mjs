@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { loadModule } from "./load-module.mjs";
 const { resultRows, tennisSets, tennisSetLabel, tennisStatusLabel, resultSummary, weightliftingMedalists, weightliftingClass, weightliftingTotal, attemptLabel } = await loadModule("result-format");
-const provenance = { source_url: "https://example.com/official-result", checked_date: "2026-11-04", sha256: "source-proof" };
+const provenance = { source_url: "https://example.com/official-result", checked_date: "2026-11-04" };
 const final = (fields = {}) => ({ kind: "tennis-final", winner: { name: "Match winner", participant_id: "w" },
   runner_up: { name: "Runner-up", participant_id: "r" }, status: "final", ...provenance, ...fields });
 

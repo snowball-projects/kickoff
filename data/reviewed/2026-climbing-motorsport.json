@@ -9,7 +9,6 @@
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-09-11T18:02:08Z",
-      "sha256": "c493027406d12bf4b23d5d42911de47f2cab537bb1bfba7f22b5b71082663a1a",
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1373965067&prop=text&format=json",
       "changes": "Adapted by snowball: selected schedule fields, expanded merged cells, removed footnotes, media, results and clocks; normalized dates to inclusive ISO date spans and added stable event IDs. This adapted data remains CC BY-SA 4.0. Classified source-labeled Chase rounds 27–36 as postseason."
     },
@@ -21,7 +20,6 @@
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-09-11T18:02:03Z",
-      "sha256": "c46cb0b8a93d054468ae6c7310a55cf7865b8d1a8c48fdf44022ac83a0e34ab5",
       "input_url": "https://en.wikipedia.org/w/api.php?action=parse&oldid=1374195049&prop=text&format=json",
       "changes": "Adapted by snowball: selected schedule fields, expanded merged cells, removed footnotes, media, results and clocks; normalized dates to inclusive ISO date spans and added stable event IDs. This adapted data remains CC BY-SA 4.0."
     }

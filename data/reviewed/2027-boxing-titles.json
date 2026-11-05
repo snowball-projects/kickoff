@@ -12,7 +12,6 @@
       "license_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:58.206827+00:00",
-      "sha256": "564d41d9e873d1393263a2f88c7eb9099d2b61e67d9cf3b30507461f9ddbecbe",
       "input_url": "https://www.mostvaluablepromotions.com/amanda-serrano-vs-skye-falzon-the-last-walk-january-9/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "country_checked_date": "2026-10-31",
@@ -28,7 +27,6 @@
       "license_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:21:25.578985+00:00",
-      "sha256": "383c98d16b448879892622739d42a7600ac3b1234f74312a41f4ab3dba8caff0",
       "input_url": "https://www.mynewsdesk.com/dk/andco-a-slash-s/pressreleases/ventetiden-er-forbi-horsens-bliver-scenen-for-danmarks-stoerste-boksebrag-i-aarevis-3472921",
       "changes": "Selected the expressly announced date, opponents, location and full WBO world-title classification; omitted article prose and media. Source broadcast, door and first-bell times are not represented as a bout clock. No future fixture is inferred.",
       "country_checked_date": "2026-10-31",
@@ -131,7 +129,6 @@
           {
             "url": "https://shop.primetimeboxing.dk/arrangementer/vol11_thetakeover",
             "checked_date": "2026-11-01",
-            "sha256": "84d2a15a0b0da91d06d6b2ca456b7cdf2a8061e5a6abda7639721c5c3ac56d3b",
             "fields": [
               "venue"
             ]

@@ -169,7 +169,7 @@ def test_college_football_uses_remaining_weeks_bowls_cfp_both_groups_and_one_nex
 @pytest.mark.parametrize("league", ["NCAA_MENS_BASKETBALL", "NCAA_WOMENS_BASKETBALL"])
 def test_college_basketball_uses_calendar_and_known_postseason_days_without_empty_days(monkeypatch, league):
     window = window_for(league)
-    window.events["postseason"] = event("postseason", "2027-03-20", league=league, is_postseason=True)
+    window.events["postseason"] = event("postseason", "2027-03-20", league=league, competition_phase="postseason")
     calls = []
 
     def get(url, **_):
@@ -255,6 +255,7 @@ def test_f1_reads_only_races_that_reach_past_cutoff_and_keeps_old_sessions_exact
         source_url=f"https://github.com/f1db/f1db/blob/{'b' * 40}/{old_path}/race.yml",
     )
     cup = event("old-cup", "2026-06-01", season="2026", league="FIFA_WORLD_CUP", source="openfootball")
+    cup.pop("season", None)
     window = PublishedWindow(NOW, {(2026, "F1"): {"events": [old]}, (2026, "FIFA_WORLD_CUP"): {"events": [cup]}})
     calls = []
 
@@ -358,3 +359,39 @@ def test_march_madness_guard_asks_unlisted_days_only_within_fourteen_days(monkey
     days = [parse_qs(urlsplit(url).query)["dates"][0] for url in calls]
     expected = sorted({calendar[0][:10].replace("-", ""), *extra})
     assert sorted(days) == expected
+
+
+def test_reused_events_keep_file_attribution_without_participant_source_metadata(monkeypatch, tmp_path):
+    from kickoff import open_schedules as schedules
+
+    original = bundle(2025)
+    original["sources"][0] = {**feeds.SOURCES["espn"], "kind": "espn"}
+    original["data_licenses"]["espn"] = feeds.SOURCES["espn"]["license"]
+    original["events"] = [
+        event(
+            "old-cup",
+            "2025-07-01",
+            source="wikipedia",
+            league="IPL",
+            sport="cricket",
+            participants=[
+                {
+                    "name": "Club",
+                    "logo_url": "https://a.espncdn.com/team.png",
+                    "logo_source_url": "https://www.espn.com/team/club",
+                }
+            ],
+        )
+    ]
+    publish_sports([original], tmp_path / "before")
+    before = json.loads((tmp_path / "before/2025-cricket-ipl.json").read_text())
+    window = PublishedWindow(NOW, {(2025, "IPL"): before, (2025, "F1"): {"events": []}})
+    monkeypatch.setattr(schedules, "FOOTBALL", {})
+    monkeypatch.setattr(schedules, "load_reviewed_schedules", lambda *_: ([], [], []))
+    monkeypatch.setattr(schedules, "read_url", lambda *_: pytest.fail("Old leagues need no source fetch"))
+    path = schedules.refresh_open_schedules(2025, tmp_path / "staging", window=window)
+    publish_sports([json.loads(path.read_text())], tmp_path / "after")
+    after = json.loads((tmp_path / "after/2025-cricket-ipl.json").read_text())
+    assert after["events"] == before["events"]
+    assert after["sources"] == before["sources"]
+    assert after["data_licenses"] == before["data_licenses"]

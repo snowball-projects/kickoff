@@ -177,7 +177,6 @@ def test_default_refresh_passes_every_coverage_year_to_all_feeds(monkeypatch, tm
                     "available_seasons": kwargs["available_seasons"],
                     "updated_at": Clock.now().isoformat(),
                     "sources": [],
-                    "input_evidence": [],
                     "data_licenses": {},
                     "data_license_notice": "Fixture facts",
                     "providers": [],

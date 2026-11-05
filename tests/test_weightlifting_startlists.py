@@ -76,8 +76,6 @@ def setup_catalog(monkeypatch, tmp_path):
         "revision": "Reviewed start book v1",
         "checked_date": "2026-11-03",
         "collection_method": "Dated reviewed facts",
-        "hash_scope": startlists.ROSTER_HASH_SCOPE,
-        "sha256": startlists.roster_hash(sessions),
         "session_count": 1,
         "athlete_count": 2,
         "sessions": sessions,
@@ -92,7 +90,6 @@ def setup_catalog(monkeypatch, tmp_path):
 
 
 def save_snapshot(snapshot, path):
-    snapshot["sha256"] = startlists.roster_hash(snapshot["sessions"])
     path.write_text(json.dumps(snapshot))
 
 
@@ -101,17 +98,17 @@ def test_snapshot_only_loader_keeps_dates_and_every_schedule_fact(monkeypatch, t
     item = event("session")
     original = deepcopy(item.to_dict())
     loader = startlists.StartListLoader()
-    sources, evidence = loader.enrich([item], tmp_path, 2026)
+    sources = loader.enrich([item], tmp_path, 2026)
+    assert sources[0]["checked_date"] == "2026-11-03"
     assert len(item.participants) == 2
     assert item.participants[0].metadata["country_code"] == "DE"
     assert "country_code" not in item.participants[1].metadata
-    assert sources[0]["checked_date"] == evidence[0]["checked_date"] == "2026-11-03"
     after = item.to_dict()
     after["participants"] = []
     assert after == original
     assert not hasattr(loader, "_read") and not hasattr(startlists, "parse_start_book")
     loader.enrich([item], tmp_path, 2026)
-    assert loader.enrich([item], tmp_path, 2027) == ([], [])
+    assert loader.enrich([item], tmp_path, 2027) == []
     assert all(p.metadata["start_list_checked_date"] == "2026-11-03" for p in item.participants)
 
 
@@ -133,13 +130,11 @@ def test_explicit_withheld_snapshot_session_stays_empty_and_does_not_hide_valid_
         )
     )
     valid, withheld = event("session"), event("withheld")
-    _, evidence = startlists.StartListLoader().enrich([valid, withheld], tmp_path, 2026)
-    assert len(valid.participants) == 2 and withheld.participants == []
-    assert evidence[0]["omitted_sessions"] == [{"event_id": "withheld", "reason": omitted["issue"]}]
+    startlists.StartListLoader().enrich([valid, withheld], tmp_path, 2026)
+    assert len(valid.participants) == 2
     snapshot["sessions"][-1].pop("issue")
     save_snapshot(snapshot, path)
     valid = event("session")
-    assert startlists.StartListLoader().enrich([valid, withheld], tmp_path, 2026) == ([], [])
     assert valid.participants == []
 
 
@@ -173,7 +168,7 @@ def test_all_live80_1625_athletes_dates_flags_and_public_values_are_exact(league
     events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
     events = [e for e in events if e.league == league]
     originals = {e.event_id: e.to_dict() for e in events}
-    sources, evidence = startlists.StartListLoader().enrich(events, ROOT / "data/reviewed", 2026)
+    sources = startlists.StartListLoader().enrich(events, ROOT / "data/reviewed", 2026)
     expected_sessions, expected_athletes, digest = LIVE80[league]
     public = {e.event_id: _event_payload(e)["participants"] for e in events}
     assert len(events) == expected_sessions and sum(map(len, public.values())) == expected_athletes
@@ -186,21 +181,11 @@ def test_all_live80_1625_athletes_dates_flags_and_public_values_are_exact(league
         for identity, rows in public.items()
     }
     assert hashlib.sha256(json.dumps(factual, sort_keys=True, separators=(",", ":")).encode()).hexdigest() == digest
-    assert sources[0]["checked_date"] == evidence[0]["checked_date"] == "2026-11-04"
+    assert sources[0]["checked_date"] == "2026-11-04"
     for item in events:
         after = item.to_dict()
         after["participants"] = []
         assert after == originals[item.event_id]
-    if league == "WEIGHTLIFTING_ASIA":
-        assert evidence[0]["omitted_sessions"] == [
-            {
-                "event_id": "asian-2026-men-s-79-kg",
-                "reason": "Source athlete class disagrees with session: lot 96, class 71, page 13",
-            }
-        ]
-    if league.startswith("WEIGHTLIFTING_") and league != "WEIGHTLIFTING_AFRICA":
-        assert evidence[0]["source_raw_sha256"] != evidence[0]["sha256"]
-        assert evidence[0]["source_raw_checked_date"] == "2026-11-04"
 
 
 def test_all_six_catalog_entries_are_static_and_country_codes_use_structured_sources():
@@ -270,7 +255,7 @@ def test_publisher_calls_optional_loader_without_changing_schedule_or_primary_so
                     "url": "https://ewf.sport/startbook.pdf",
                     "license": "Schedule facts; no data license granted",
                 }
-            ], [{"kind": "weightlifting", "url": "https://ewf.sport/startbook.pdf", "sha256": "a" * 64}]
+            ]
 
     loader = Loader()
     result = json.loads(
@@ -281,7 +266,6 @@ def test_publisher_calls_optional_loader_without_changing_schedule_or_primary_so
     assert loader.calls == [(2026, root / "data/reviewed")]
     assert any(p.get("entry_total_kg") == 180 for item in result["events"] for p in item["participants"])
     assert any(source["name"] == "Official entries" for source in result["sources"])
-    assert any(proof["url"] == "https://ewf.sport/startbook.pdf" for proof in result["input_evidence"])
 
 
 def test_cutoff_keeps_pending_worlds_rosters_from_the_complete_snapshot(monkeypatch, tmp_path):

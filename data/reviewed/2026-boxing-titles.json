@@ -12,7 +12,6 @@
       "license_url": "https://www.ibf-usba-boxing.com/results/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:15.713948Z",
-      "sha256": "d531bc1a32f82bd8b648d438fea351c3a1988d8e5c6518028d3675b7787aecb6",
       "input_url": "https://www.ibf-usba-boxing.com/wp-json/bouts/v1/filter?bout_year=2026&ppp=-1",
       "changes": "Selected all full IBF and IBF Female world title defenses, vacancies and unifications; excluded regional/youth titles, eliminators, interim titles, the interim rematch and cancelled contests. Retained published dates without inferring clock times. Source labels for boxer names, weight classes and local dates were cross-checked where inconsistent.",
       "country_checked_date": "2026-10-31",
@@ -28,7 +27,6 @@
       "license_url": "https://www.ibf-usba-boxing.com/schedule/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:15.713948Z",
-      "sha256": "25f0f3fff13ea400f96385b2eab325ccdba367e71bafec7a37de302a3f908b2c",
       "input_url": "https://www.ibf-usba-boxing.com/wp-json/bouts/v1/filter?bout_year=2026&sched=1&ppp=-1",
       "changes": "Selected all full IBF and IBF Female world title defenses, vacancies and unifications; excluded regional/youth titles, eliminators, interim titles, the interim rematch and cancelled contests. Retained published dates without inferring clock times. Source labels for boxer names, weight classes and local dates were cross-checked where inconsistent.",
       "country_checked_date": "2026-10-31",
@@ -45,7 +43,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:15:15.713948Z",
       "checked_date": "2026-10-31",
-      "sha256": "a8f67efd68cb11be1fc6e90565aee04cf88f58ea95319315ea13f4ae21af071f",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1362943113&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -61,7 +58,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:15:15.713948Z",
       "checked_date": "2026-10-31",
-      "sha256": "c77429398a347e02c1b1882060b553684a2505b55b142b25adb50e3becb7dc3d",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1364966082&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -77,7 +73,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "f0ad5001339d64a7b73ba41a0253c351de2ff7825838759d74590ecd35f47f3a",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1362922621&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -93,7 +88,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:15:15.713948Z",
       "checked_date": "2026-10-31",
-      "sha256": "b187ef09b10d5e592a1d4ea2f53596ce8191367c733f219d2318402b1df29e6c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379650848&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -109,7 +103,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "f14900f0a5c8d9f19af7ed7763c212a63b29bb4b73a10f9e0f8c114d7db16a65",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1380869631&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -125,7 +118,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "fca02a5ffc5ff491506a0c04f95de66164fe69e71313882290d0476bdf81a4a0",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1381877626&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -141,7 +133,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "d65a8324222d0d0f97ce2f5bebee66043a7984fe36e872390b846ee9a90048da",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382778588&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -157,7 +148,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "e4dabcdf3db8e51568c11ba71f7464df7aec80aeefe83e544518a21e829983ab",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379647939&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -173,7 +163,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "f43f4d041a657aa396a2bb84b6389f780ba7b22877c656029217e6305bd2205c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1380870285&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -189,7 +178,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "9e5d67f0c6e9b84e608454a5f148c40b0921f0d66c6efc13a07c7097cf06db2c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1381845103&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -205,7 +193,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "0647cc67dd326e82fd088b93797a02e4abf82e4602018a192a9467bc716a65df",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379935030&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -221,7 +208,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "976857450b4520e1ace754b16db0c3ede200019345e7dec395aad31ffb81dfe0",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1381107134&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -237,7 +223,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "c67c2232240bb8121dd024433ed94c87494c258952a1cd3578d374095a4d7bba",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379654998&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -253,7 +238,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "709528970ac77ad89e759cdf247156f3fb81cefb2c37a7480d49716546a35f48",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1380748138&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -269,7 +253,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "381efb181c1f25dbe796c9b6c38911e1bc60f605d3b42874cd1f39ad529a99a4",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1380864485&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -285,7 +268,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "1bf8ab0b3a922f4a633fee82d4edd7d4fd37dc9e8374d7715e403ec040eb3a9e",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1375668175&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -301,7 +283,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "8f87309f7a46a05c72bae93259485fff104eb599de1eb6b8f0bdd0d67b9d4adb",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379651310&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -317,7 +298,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "cea60176a79fee6b6cf651b973d3b6acebb0134b49a29979c903fd737c8b53a6",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1371270491&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -333,7 +313,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "aff404203bd4a8ac193e9cef3ec4775b3aa18166541682afa15c20d6cc5e3733",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1380877846&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -349,7 +328,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "a7bfb8bf8a8f7f6ce5d76caaecd97192cb62065f4071fd6ec61bdef0c808372b",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379655953&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -365,7 +343,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "fce57568589d2192410c705d81e70c239f54ba59ca86defffcefe62ac1702fa3",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379654828&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -381,7 +358,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "bd6ac09ddcd8080036c194b0d44ac7ac266387f84762b7a9a4187c0d7671e1e9",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382435149&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -397,7 +373,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "71994e84ef20365b67aec14f53969e1790f1d8675deb6c768d07621cbd7cfd40",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1380655837&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -413,7 +388,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "0c8cf094b33d82b24b423fddb5a60dea144bb6a6bc09c328665336e5079f2269",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1362935618&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0."
     },
@@ -427,7 +401,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "a627c7b75cd4d08caf9a2bb7b14bd0d37c4d6278630623999c6f511e057aca5a",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1380488583&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -443,7 +416,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "adc0e3e2a0f5e772bd06d76481ebfd9d212e34c93dcb6cc51aa1f20888c69b14",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1379655942&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -459,7 +431,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "f302e31c3eaa6bef82ae515711dd9afb3341371fefbf850770931e76ee8f7c01",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382242295&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -475,7 +446,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "ce18f97fc70ed283fa0460eaed59de68f693c6e7e5d37e3f00c89b19c7d93a2d",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1383021100&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -491,7 +461,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "6898b011d372625cdb27c722eb679c925037bcbf22681b25ce838aaad00bfc4d",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1375265938&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -507,7 +476,6 @@
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "checked_date": "2026-10-31",
-      "sha256": "8ea3ae897f8c63f7da55b94a393e684c6377bf576c6765a7f6189f27a0431d5f",
       "changes": "Selected date, boxer names, venue and explicit WBO title classification; no copied page, prose, images or inferred time.",
       "input_url": "https://en.wikipedia.org/w/index.php?title=Katie_Taylor&oldid=1382827476",
       "retrieved_at": "2026-10-31T23:23:37.458192Z",
@@ -524,7 +492,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:08:53.868945Z",
       "checked_date": "2026-10-31",
-      "sha256": "a04a26ff9666c28739b4e02ac8dd4d3b3ab49d0dc4543346626479fdce09e259",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1383075816&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected boxer names, explicitly published event dates, venue and title classification facts; removed markup, results, references, media and prose. Assigned stable calendar identities and league labels. Dates are date-only with no clock or timezone inferred. Adapted Wikipedia schedule facts remain CC BY-SA 4.0.",
       "country_checked_date": "2026-10-31",
@@ -539,7 +506,6 @@
       "license_url": "https://fispo-karlsruhe.de/boxnight/boxer/sarah-bormann",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:21:24.946883+00:00",
-      "sha256": "74d6bfefa31d2f586e29ec90c218e503d8b426f7dd4f4ab155514c66f22da28b",
       "input_url": "https://fispo-karlsruhe.de/boxnight/boxer/sarah-bormann",
       "changes": "Selected the expressly announced date, opponents, location and full WBO world-title classification; omitted article prose and media. Source broadcast, door and first-bell times are not represented as a bout clock. No future fixture is inferred.",
       "country_checked_date": "2026-10-31",
@@ -555,7 +521,6 @@
       "license_url": "https://www.mostvaluablepromotions.com/mvp-espn-announce-full-mvpw-07-fight-card-nov-8/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:23.195680+00:00",
-      "sha256": "84de6556bdf07d0e6a7b626d6063ec2a9d7e762eeda88205afd75ad4079f407f",
       "input_url": "https://www.mostvaluablepromotions.com/mvp-espn-announce-full-mvpw-07-fight-card-nov-8/",
       "changes": "Selected explicitly announced opponents, date and full title stakes from primary promoter/body schedules or confirmed event reporting. No title is inferred from a boxer’s name or incumbent status alone. Broadcast and first-bell clocks are not bout clocks.",
       "publisher": "Most Valuable Promotions"
@@ -569,7 +534,6 @@
       "license_url": "https://www.matchroomboxing.com/news/olascuaga-pens-multi-fight-deal-with-matchroom-and-defends-world-title-against-two-time-olympian-yuberjen-martinez-on-nov-14-in-carson-ca/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:21:24.871339+00:00",
-      "sha256": "68be2bd6b3f04f60434a697e1be2b7c9681684101934c02b49c394b767c40604",
       "input_url": "https://www.matchroomboxing.com/news/olascuaga-pens-multi-fight-deal-with-matchroom-and-defends-world-title-against-two-time-olympian-yuberjen-martinez-on-nov-14-in-carson-ca/",
       "changes": "Selected the expressly announced date, opponents, location and full WBO world-title classification; omitted article prose and media. Source broadcast, door and first-bell times are not represented as a bout clock. No future fixture is inferred.",
       "publisher": "Matchroom Boxing"
@@ -583,7 +547,6 @@
       "license_url": "https://www.teiken.com/info/index.html",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:21:25.151977+00:00",
-      "sha256": "b2a466c9769c3369bff6e8f3d40619f9d331c1adf8bcf4cc4db74affc87ed83b",
       "input_url": "https://www.teiken.com/info/index.html",
       "changes": "Selected the expressly announced date, opponents, location and full WBO world-title classification; omitted article prose and media. Source broadcast, door and first-bell times are not represented as a bout clock. No future fixture is inferred.",
       "publisher": "Teiken Promotions"
@@ -597,7 +560,6 @@
       "license_url": "https://www.premierboxingchampions.com/events/391735",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:23.262694+00:00",
-      "sha256": "be88b2872afa4b711b9f6f552eecf6c2f355a3e699964252d9b9c140daa39d4c",
       "input_url": "https://www.premierboxingchampions.com/events/391735",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "country_checked_date": "2026-10-31",
@@ -613,7 +575,6 @@
       "license_url": "https://www.badlefthook.com/boxing-news/119478/dmitry-bivol-vs-callum-smith-fight-official-date-and-location-set-boxing-news-2026",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:22.743847+00:00",
-      "sha256": "6eec501a3e23187b3aa6b73493b0c39a1b988514ec8db4358c4211cb1d5c010c",
       "input_url": "https://www.badlefthook.com/boxing-news/119478/dmitry-bivol-vs-callum-smith-fight-official-date-and-location-set-boxing-news-2026",
       "changes": "Selected explicitly announced opponents, date and full title stakes from primary promoter/body schedules or confirmed event reporting. No title is inferred from a boxer’s name or incumbent status alone. Broadcast and first-bell clocks are not bout clocks.",
       "country_checked_date": "2026-10-31",
@@ -629,7 +590,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1767416400&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:50.869964+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1767416400&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -643,7 +603,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1770440400&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:52.266430+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1770440400&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -657,7 +616,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1771650000&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:59.226277+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1771650000&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -671,7 +629,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1771736400&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:59.984990+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1771736400&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -685,7 +642,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1773464400&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:16:07.122387+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1773464400&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -699,7 +655,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1777698000&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:16:24.608614+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1777698000&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -713,7 +668,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1778994000&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:16:32.119592+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1778994000&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -727,7 +681,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1779512400&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:16:32.583339+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1779512400&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -741,7 +694,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1780117200&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:16:37.818189+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1780117200&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -755,7 +707,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1781326800&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:16:45.529773+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1781326800&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -769,7 +720,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1783746000&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:16:55.902617+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1783746000&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -783,7 +733,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1786770000&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:03.133677+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1786770000&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -797,7 +746,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1787288400&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:08.655536+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1787288400&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -811,7 +759,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1787374800&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:10.523865+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1787374800&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -825,7 +772,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1788325200&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:16.401846+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1788325200&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -839,7 +785,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1791608400&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:25.683240+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1791608400&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -853,7 +798,6 @@
       "license_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1793422800&submit=submit",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:31.193238+00:00",
-      "sha256": "373c7c52cd8fe0851e7ddaa4ab4ca8d1001c4e07066e2a8770b125a218b6c571",
       "input_url": "https://www.wbaboxing.com/index.php?page_id=4094&date=1793422800&submit=submit",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBA"
@@ -867,7 +811,6 @@
       "license_url": "https://www.wbaboxing.com/wba-fights-schedule",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:29.030427+00:00",
-      "sha256": "2a81245e153fc800b75c58fc5dde0df38a9a7edbeb20961e7bf2c548eeb0cf2e",
       "input_url": "https://www.wbaboxing.com/wba-fights-schedule",
       "changes": "Selected explicitly announced opponents, date and full title stakes from primary promoter/body schedules or confirmed event reporting. No title is inferred from a boxer’s name or incumbent status alone. Broadcast and first-bell clocks are not bout clocks.",
       "country_checked_date": "2026-10-31",
@@ -883,7 +826,6 @@
       "license_url": "https://www.wbaboxing.com/boxing-news/wba-grants-david-jimenez-special-permit-to-defend-title-against-yuri-akui",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:25.856341+00:00",
-      "sha256": "968851e1347a7a6b9aeca55494538a3f4dee0d1be7a5265e8227e140436bda48",
       "input_url": "https://www.wbaboxing.com/boxing-news/wba-grants-david-jimenez-special-permit-to-defend-title-against-yuri-akui",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "country_checked_date": "2026-10-31",
@@ -899,7 +841,6 @@
       "license_url": "https://theo2belfast.com/events/cacace-v-ball",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:17:24.451914+00:00",
-      "sha256": "1892408c23c47dc5ecaa1c40617f51a8030c9f5030a60ed47814d85c6ed19a78",
       "input_url": "https://theo2belfast.com/events/cacace-v-ball",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "The O2 Belfast"
@@ -913,7 +854,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-matias-vs-smith/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:20.093510+00:00",
-      "sha256": "55038482759fe9baab1e978564c584fcbc2ed651dfab6d8d29516b5c80f375da",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-matias-vs-smith/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -927,7 +867,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-bruce-shu-shu-carrington-vs-carlos-castro/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:19.015015+00:00",
-      "sha256": "8d402166c3db3338ce11fc74fea9871c15a83536b4b76d70e483304212f7e30a",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-bruce-shu-shu-carrington-vs-carlos-castro/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -941,7 +880,6 @@
       "license_url": "https://wbcboxing.com/en/delfine-persoon-and-caroline-veyre-to-fight-for-the-wbc-super-featherweight-world-title-in-michigan/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:14.744680+00:00",
-      "sha256": "9750ee4976800c74765f47318c5812c2a87fbc39a2277acecb7dcd50111c3693",
       "input_url": "https://wbcboxing.com/en/delfine-persoon-and-caroline-veyre-to-fight-for-the-wbc-super-featherweight-world-title-in-michigan/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -955,7 +893,6 @@
       "license_url": "https://wbcboxing.com/en/camila-zamorano-to-defend-the-wbc-atomweight-world-championship-against-claudia-veronica-ruiz/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:13.531605+00:00",
-      "sha256": "63872ddd3eecd8fe3abc9d64f24e2451c3844f453b991aa7dd2c2ac973c31f94",
       "input_url": "https://wbcboxing.com/en/camila-zamorano-to-defend-the-wbc-atomweight-world-championship-against-claudia-veronica-ruiz/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -969,7 +906,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-barrios-vs-garcia/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:18.984860+00:00",
-      "sha256": "3cd575b6d9e2312cdbcc798986878a5f4e31240013735143164db1e116359db4",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-barrios-vs-garcia/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -983,7 +919,6 @@
       "license_url": "https://wbcboxing.com/en/sandy-ryan-and-karla-ramos-zamora-to-contest-the-vacant-wbc-super-lightweight-world-title-in-nottingham/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:17.095432+00:00",
-      "sha256": "f2a6e481eacb6c4c757c3027e407c7656d8ca9b7e546d33082cf4ed068995b4b",
       "input_url": "https://wbcboxing.com/en/sandy-ryan-and-karla-ramos-zamora-to-contest-the-vacant-wbc-super-lightweight-world-title-in-nottingham/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -997,7 +932,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-thammanoon-niyomtrong-vs-shokichi-iwata-wbc-light-flyweight-world-championship/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:21.534641+00:00",
-      "sha256": "9d82d8f69f60019fbe977c056b827aa662feb7b426f3ed9afc72a5b46522a605",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-thammanoon-niyomtrong-vs-shokichi-iwata-wbc-light-flyweight-world-championship/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1011,7 +945,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-carlos-adames-vs-austin-williams-2-2/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:19.429457+00:00",
-      "sha256": "07458c66c965c492aeda214eeb75c35e2542c88eb6a8ec789986bae45fcbaae3",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-carlos-adames-vs-austin-williams-2-2/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1025,7 +958,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-fundora-vs-thurman/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:19.735736+00:00",
-      "sha256": "c7a2ced9283e30e2e05df299829c4f6761a1354455a00184b5a6ba77a3dbcb61",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-fundora-vs-thurman/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1039,7 +971,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-takuma-inoue-vs-kazuto-ioka/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:21.215078+00:00",
-      "sha256": "d070deba9f119e08d62bb3298701010620d28e84fa515c21e6165178de806d9e",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-takuma-inoue-vs-kazuto-ioka/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1053,7 +984,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-melvin-jerusalem-vs-siyakholwa-kuse-ii/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:20.210117+00:00",
-      "sha256": "e187f1c1888650cfd73c036145cd1ba1acc4161a89a917b1e408300c21af9f70",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-melvin-jerusalem-vs-siyakholwa-kuse-ii/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1067,7 +997,6 @@
       "license_url": "https://wbcboxing.com/en/ryad-merhy-defeats-kevin-lerena-to-capture-the-wbc-bridgerweight-world-title/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:17.014541+00:00",
-      "sha256": "d3af454b4104948dfe9315e0e7d17fa9e8c22e1bd7b285f9d60f0e871587aeee",
       "input_url": "https://wbcboxing.com/en/ryad-merhy-defeats-kevin-lerena-to-capture-the-wbc-bridgerweight-world-title/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1081,7 +1010,6 @@
       "license_url": "https://wbcboxing.com/en/where-to-watch-juarez-vs-valle/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:22.357182+00:00",
-      "sha256": "75c1b1c9a5b80f14d34eda310029d3c776332d7c9e37352380735f05eeb583a5",
       "input_url": "https://wbcboxing.com/en/where-to-watch-juarez-vs-valle/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1095,7 +1023,6 @@
       "license_url": "https://wbcboxing.com/en/oshaquie-foster-defeats-raymond-ford-to-retain-wbc-super-featherweight-title/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:18.089606+00:00",
-      "sha256": "f775af17595ad60efc187c61beee5d837f4202ea8e751997cc3e3863d6643cdb",
       "input_url": "https://wbcboxing.com/en/oshaquie-foster-defeats-raymond-ford-to-retain-wbc-super-featherweight-title/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1109,7 +1036,6 @@
       "license_url": "https://wbcboxing.com/en/tiara-brown-vs-hannah-rapp-wbc-featherweight-world-title-clash-for-the-juneteenth-belt-in-orlando/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:18.432890+00:00",
-      "sha256": "e4df56a3215e967da6bad0773eaa1018716595c9d97bfdb3fcce4600fb52958f",
       "input_url": "https://wbcboxing.com/en/tiara-brown-vs-hannah-rapp-wbc-featherweight-world-title-clash-for-the-juneteenth-belt-in-orlando/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1123,7 +1049,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-bruce-carrington-vs-rene-palacios/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:19.033403+00:00",
-      "sha256": "e2119fd352aec5e50f0bd413134d55d9a3bc678eec06fe0e3cdb70d439892bd3",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-bruce-carrington-vs-rene-palacios/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1137,7 +1062,6 @@
       "license_url": "https://wbcboxing.com/en/ginny-fuchs-vs-adelaida-ruiz-for-the-wbc-world-title/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:15.673446+00:00",
-      "sha256": "75037931934a3e6fe3f8fc49d9f6cf6716b517e6d7c4f81458c7af7d19d4eb35",
       "input_url": "https://wbcboxing.com/en/ginny-fuchs-vs-adelaida-ruiz-for-the-wbc-world-title/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1151,7 +1075,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-shokichi-iwata-vs-erik-badillo-2/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:21.221542+00:00",
-      "sha256": "3ff1900cccb1e5c07eb4992c7ae40f5e1881215e4659a13d0e81b0ed754c968c",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-shokichi-iwata-vs-erik-badillo-2/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1165,7 +1088,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-william-zepeda-vs-lamont-roach/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:21.884420+00:00",
-      "sha256": "602934fa58e9ead7b3e98eeba5c18a908e0c2ef51ef1399da314b675d9f234b6",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-william-zepeda-vs-lamont-roach/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1179,7 +1101,6 @@
       "license_url": "https://wbcboxing.com/en/caroline-veyre-will-defend-her-world-title-against-undefeated-bernice-ferreira-in-atlanta/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:14.404593+00:00",
-      "sha256": "14a8b473d859c5668d1c99a71316a9a19ec9f880d36bcf0863b9a5a792da647d",
       "input_url": "https://wbcboxing.com/en/caroline-veyre-will-defend-her-world-title-against-undefeated-bernice-ferreira-in-atlanta/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1193,7 +1114,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-camila-zamorano-vs-perla-perez/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:19.272880+00:00",
-      "sha256": "335bc2d8264d1420031b6ae5f61e77f5d91ee1fe081b8db890476c91d89ada39",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-camila-zamorano-vs-perla-perez/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1207,7 +1127,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-ryan-garcia-vs-conor-benn/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:20.897513+00:00",
-      "sha256": "c96a85a92cce0edb6160bb797e451606ec19b87c81bd2a175648d0e9565a6c7f",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-ryan-garcia-vs-conor-benn/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1221,7 +1140,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-takuma-inoue-vs-tenshin-nasukawa/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:21.251884+00:00",
-      "sha256": "4c984322fa0856aa66aecc0c571be64755ae6983ca6634b0f0bb31e22dfd050b",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-takuma-inoue-vs-tenshin-nasukawa/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1235,7 +1153,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-tomoya-tsuboi-vs-ricardo-malajika/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:21.562930+00:00",
-      "sha256": "f3aa1f09b9b3008b8cd2703b83bb9d017598f8c8ac0116a5c667adcda2a0bf96",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-tomoya-tsuboi-vs-ricardo-malajika/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1249,7 +1166,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-sebastian-fundora-vs-ermal-hadribeaj/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:20.939503+00:00",
-      "sha256": "0c57e878a8e8816e5f4be0f7818cfd0b4a2f4392aa25c6e638446afc44d81d82",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-sebastian-fundora-vs-ermal-hadribeaj/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1263,7 +1179,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-dalton-smith-vs-alberto-puello/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:19.708417+00:00",
-      "sha256": "276806d6319a641f86859aebcdfbd37abeef1d39c71d35c8fa2be902cb6d2610",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-dalton-smith-vs-alberto-puello/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1277,7 +1192,6 @@
       "license_url": "https://wbcboxing.com/en/wbc-special-preview-canelo-vs-mbilli/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:19.391455+00:00",
-      "sha256": "8b1c83f187f12d50b03b113f4b7fd0d025a8a3167f5966956ad084d45335d6f8",
       "input_url": "https://wbcboxing.com/en/wbc-special-preview-canelo-vs-mbilli/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1291,7 +1205,6 @@
       "license_url": "https://wbcboxing.com/en/hutchinson-and-buatsi-to-meet-again-in-manchester-for-the-wbc-light-heavyweight-world-title/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:15.847874+00:00",
-      "sha256": "2874a6ab95f156f4a353713ae4cd363c80b50358bfc0ee18b04e76b370cc9aa7",
       "input_url": "https://wbcboxing.com/en/hutchinson-and-buatsi-to-meet-again-in-manchester-for-the-wbc-light-heavyweight-world-title/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1305,7 +1218,6 @@
       "license_url": "https://wbcboxing.com/en/skye-nicolson-to-defend-wbc-super-bantamweight-crown-against-miyo-yoshida-in-arlington/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:17.752304+00:00",
-      "sha256": "593652576f81b57db8312098ec090568de9988b311d8eb4784b09407d4fd6729",
       "input_url": "https://wbcboxing.com/en/skye-nicolson-to-defend-wbc-super-bantamweight-crown-against-miyo-yoshida-in-arlington/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1319,7 +1231,6 @@
       "license_url": "https://wbcboxing.com/en/camila-zamorano-defendera-su-titulo-mundial-wbc-en-la-cartelera-de-la-convencion-de-acapulco/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:13.114740+00:00",
-      "sha256": "6b54a5d7cfdf02cd55c47a84d95ad2d5fcbf2926b6c9c8768dfdb1ce702f1b36",
       "input_url": "https://wbcboxing.com/en/camila-zamorano-defendera-su-titulo-mundial-wbc-en-la-cartelera-de-la-convencion-de-acapulco/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1333,7 +1244,6 @@
       "license_url": "https://wbcboxing.com/en/gabriela-fundora-defendera-su-campeonato-mundial-wbc-ante-jasmina-zapotoczna/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:15.364074+00:00",
-      "sha256": "a9a0886012039b7b1a0bbd4447ddb5a5fc4d9c2cf1eb49ab4aea0ef5d2009a13",
       "input_url": "https://wbcboxing.com/en/gabriela-fundora-defendera-su-campeonato-mundial-wbc-ante-jasmina-zapotoczna/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -1347,7 +1257,6 @@
       "license_url": "https://wbcboxing.com/en/agit-kabayel-and-nelson-hysa-put-unbeaten-records-on-the-line-for-wbc-heavyweight-title/",
       "checked_date": "2026-10-31",
       "retrieved_at": "2026-10-31T23:15:11.937711+00:00",
-      "sha256": "b1def393f884e10bbffa5e7417595d4e981cf58ed79c0a44a90920ef8ea4e222",
       "input_url": "https://wbcboxing.com/en/agit-kabayel-and-nelson-hysa-put-unbeaten-records-on-the-line-for-wbc-heavyweight-title/",
       "changes": "Selected published fight dates, boxer names and full world-title recognition facts; removed prose, scores, media and markup. Checked contemporaneous full/interim/secondary recognition and later cancellations. Dates are date-only; no bout clock or timezone inferred.",
       "publisher": "WBC"
@@ -4977,7 +4886,6 @@
           {
             "url": "https://wboboxing.com/",
             "checked_date": "2026-10-31",
-            "sha256": "7fb12b0de8ea7e895462dbcb95524d5b2ba7b215ad8b379eb5cf466c29b986d3",
             "fields": [
               "country"
             ]
@@ -5772,7 +5680,6 @@
           {
             "url": "https://wboboxing.com/",
             "checked_date": "2026-10-31",
-            "sha256": "7fb12b0de8ea7e895462dbcb95524d5b2ba7b215ad8b379eb5cf466c29b986d3",
             "fields": [
               "venue"
             ]

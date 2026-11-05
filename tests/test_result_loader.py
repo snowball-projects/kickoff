@@ -1,7 +1,6 @@
 """Structured optional ingestion, real deadlines, immutable source-date caches."""
 
 import gzip
-import hashlib
 import json
 import signal
 import zlib
@@ -62,7 +61,7 @@ def enrich(loader, events, directory, **kwargs):
 def test_zero_budget_old_existing_result_and_future_today_sources_are_not_read(tmp_path):
     calls = []
     loader = module.ResultsLoader(lambda url: calls.append(url), budget=0)
-    assert enrich(loader, [event()], tmp_path) == ([], [])
+    assert enrich(loader, [event()], tmp_path) == []
     loader = module.ResultsLoader(lambda url: calls.append(url))
     current = event(source="weightlifting", sport="weightlifting", league="WEIGHTLIFTING_EUROPE")
     current.result = {"kind": "podium", "rows": [], "complete": True}
@@ -72,7 +71,7 @@ def test_zero_budget_old_existing_result_and_future_today_sources_are_not_read(t
         event("today", calendar_date="2026-11-04", end_calendar_date="2026-11-04"),
         event("future", end_calendar_date="2027-01-01"),
     )
-    assert enrich(loader, [current, old, today, future], tmp_path) == ([], [])
+    assert enrich(loader, [current, old, today, future], tmp_path) == []
     assert calls == []
 
 
@@ -96,13 +95,12 @@ def test_climbing_url_read_parse_once_dates_do_not_freshen_and_attachment_has_no
     loader = module.ResultsLoader(lambda url: calls.append(url) or body)
     one = event(source_url=URL.replace("www.", "") + "/")
     two = event("women", tags=["Women", "Boulder"])
-    sources, evidence = enrich(loader, [one, two], tmp_path)
+    enrich(loader, [one, two], tmp_path)
     checked = one.result["checked_date"]
     third = event("another")
     loader.enrich([third], 2027, tmp_path, now=NOW)
     assert calls == parses == [URL] and attachments == [0, 0, 0]
     assert one.result_complete and two.result_complete and third.result["checked_date"] == checked
-    assert len(sources) == len(evidence) == 1 and len(evidence[0]["results_added"]) == 2
     assert one.calendar_date == "2026-10-31"
     assert "infosheet" not in " ".join(calls)
 
@@ -124,7 +122,6 @@ def test_reviewed_climbing_allocation_keeps_partial_result_refreshable(monkeypat
         "allocation_source": {
             "source_url": "https://ifsc.results.info/events/42/infosheet",
             "checked_date": "2026-11-03",
-            "sha256": "a" * 64,
         },
     }
     (tmp_path / "receipts").mkdir()
@@ -163,7 +160,7 @@ def test_slow_reads_have_true_total_deadline_even_when_socket_stays_active(monke
     item = event()
     original = deepcopy(item.to_dict())
     start = monotonic()
-    assert enrich(loader, [item, event("later")], tmp_path) == ([], [])
+    assert enrich(loader, [item, event("later")], tmp_path) == []
     assert monotonic() - start < 0.15 and item.to_dict() == original and loader.remaining == 0
     assert len(calls) == 1 and 0 < calls[0][1] <= 0.015
     assert signal.getitimer(signal.ITIMER_REAL)[0] == 0
@@ -200,7 +197,7 @@ def test_completed_results_survive_later_timeout_and_budget_spans_calls(tmp_path
     one, two = event(), event("later", source_url=other)
     enrich(loader, [one, two], tmp_path)
     assert one.result is not None and two.result is None and loader.remaining == 0
-    assert loader.enrich([event("next-year")], 2027, tmp_path, now=NOW) == ([], [])
+    assert loader.enrich([event("next-year")], 2027, tmp_path, now=NOW) == []
     assert calls == [URL, other]
 
 
@@ -288,7 +285,7 @@ def test_old_junior_sessions_are_not_looked_up_or_changed():
     def no_requests(_):
         pytest.fail("Old sessions need no result requests")
 
-    assert enrich(module.ResultsLoader(no_requests), events, ROOT / "data/reviewed") == ([], [])
+    assert enrich(module.ResultsLoader(no_requests), events, ROOT / "data/reviewed") == []
     assert [e.to_dict() for e in events] == before
 
 
@@ -299,7 +296,7 @@ def test_corrupt_junior_snapshot_is_omitted_atomically_without_network(tmp_path)
     (tmp_path / "2026-weightlifting.json").write_text(json.dumps({"events": [{"id": "junior", "categories": []}]}))
     original = deepcopy(item.to_dict())
     calls = []
-    assert enrich(module.ResultsLoader(lambda u: calls.append(u)), [item], tmp_path) == ([], [])
+    assert enrich(module.ResultsLoader(lambda u: calls.append(u)), [item], tmp_path) == []
     assert item.to_dict() == original and calls == []
 
 
@@ -357,8 +354,6 @@ def test_wikipedia_only_missing_eligible_classes_are_read_with_actual_revision_a
                 "input_url": input_url,
                 "checked_date": checked_date,
                 "revision": "42",
-                "sha256": hashlib.sha256(body).hexdigest(),
-                "hash_scope": "raw MediaWiki API JSON response bytes",
             }
         ]
 
@@ -391,7 +386,7 @@ def test_wikipedia_only_missing_eligible_classes_are_read_with_actual_revision_a
     events = [event(row["id"], source="weightlifting", sport="weightlifting", league=league) for row in registry]
     events[2].calendar_date = events[2].end_calendar_date = "2026-10-01"
     events[3].result = {"kind": "weightlifting", "athletes": [], "complete": True}
-    sources, evidence = enrich(loader, events, tmp_path)
+    sources = enrich(loader, events, tmp_path)
     assert calls == [main, class_urls["60"]]
     assert all(events[i].result_complete is complete for i in [0, 1])
     assert [len(events[i].result["athletes"]) for i in [0, 1]] == [2, 1]
@@ -402,7 +397,6 @@ def test_wikipedia_only_missing_eligible_classes_are_read_with_actual_revision_a
         sources[0]["kind"] == "wikipedia" and sources[0]["license"] == "CC BY-SA 4.0" and sources[0]["revision"] == "42"
     )
     assert sources[0]["license_url"] == "https://creativecommons.org/licenses/by-sa/4.0/"
-    assert evidence[0]["input_url"] == class_urls["60"] and evidence[0]["revision"] == "42"
     assert events[0].result["sources"][0]["gender"] == "men"
 
 
@@ -416,7 +410,7 @@ def test_raised_source_failures_are_cached_and_never_abort_schedules(tmp_path, e
 
     loader = module.ResultsLoader(read)
     one, two = event("one"), event("two")
-    assert enrich(loader, [one, two], tmp_path) == ([], [])
+    assert enrich(loader, [one, two], tmp_path) == []
     assert calls == [URL] and one.result is None and two.result is None
 
 
@@ -455,7 +449,6 @@ def test_default_transport_keeps_normal_caching_headers_and_bounded_gzip(monkeyp
     monkeypatch.setattr(module, "urlopen", read)
     item = event()
     enrich(module.ResultsLoader(), [item], tmp_path)
-    assert item.result["sha256"] == hashlib.sha256(body).hexdigest()
     assert requests[0].get_header("Accept-encoding") == "gzip"
     assert requests[0].get_header("User-agent").startswith("kickoff-refresh/")
     assert requests[0].get_header("Cache-control") is None
@@ -467,7 +460,7 @@ def test_youth_and_masters_never_trigger_optional_result_requests(tmp_path):
         event(league, source="weightlifting", sport="weightlifting", league=league)
         for league in ["IWF_YOUTH_WORLDS", "MASTERS_WORLDS"]
     ]
-    assert enrich(module.ResultsLoader(lambda url: calls.append(url)), events, tmp_path) == ([], [])
+    assert enrich(module.ResultsLoader(lambda url: calls.append(url)), events, tmp_path) == []
     assert calls == []
 
 
@@ -505,7 +498,7 @@ def test_explicit_future_start_and_same_venue_day_prevent_lookup_before_session(
     date_only = event(
         "date-only", calendar_date="2026-11-03", end_calendar_date="2026-11-03", timezone="America/Los_Angeles"
     )
-    assert loader.enrich([future, date_only], 2026, tmp_path, now=early) == ([], [])
+    assert loader.enrich([future, date_only], 2026, tmp_path, now=early) == []
     assert calls == []
 
 
@@ -529,7 +522,7 @@ def test_failure_does_not_clear_existing_result(tmp_path):
     def failed(_):
         raise OSError("optional source unavailable")
 
-    assert enrich(module.ResultsLoader(failed), [item], tmp_path) == ([], [])
+    assert enrich(module.ResultsLoader(failed), [item], tmp_path) == []
     assert item.to_dict() == original
 
 
@@ -552,7 +545,6 @@ def test_rebuild_publishes_older_results_including_partial_ones(monkeypatch, tmp
         "rows": [{"rank": 1, "name": "Past Winner"}],
         "source_url": URL,
         "checked_date": "2026-11-04",
-        "sha256": "a" * 64,
         "revision": REVISION,
         "_complete": complete,
     }
@@ -602,9 +594,7 @@ def test_junior_snapshot_rebuild_restores_all_older_results_without_network():
     def forbidden(_):
         pytest.fail("The Junior snapshot is local")
 
-    sources, evidence = enrich(
-        module.ResultsLoader(forbidden), events, ROOT / "data/reviewed", window=PublishedWindow(NOW)
-    )
-    assert sources and evidence
+    sources = enrich(module.ResultsLoader(forbidden), events, ROOT / "data/reviewed", window=PublishedWindow(NOW))
+    assert sources
     assert len(events) == 28 and all(e.result is not None and e.result_complete for e in events)
     assert sum(len(e.result["athletes"]) for e in events) == 261

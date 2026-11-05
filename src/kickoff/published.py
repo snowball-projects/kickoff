@@ -20,7 +20,6 @@ class PublishedWindow:
         self.cutoff = now.date() - timedelta(days=7)
         self.bundles = bundles or {}
         self.events = {e["event_id"]: e for b in self.bundles.values() for e in b["events"]}
-        self.receipts = {}
         self.responses = {}
         self.f1_contexts = {}
 
@@ -146,29 +145,67 @@ def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=True, separators=(",", ":")) + "\n")
 
 
-def sport_evidence(receipts, kinds, events):
-    identities = {event["event_id"] for event in events}
-    leagues = {event["league"] for event in events}
-    for receipt in receipts:
-        if receipt.get("league") and receipt["league"] not in leagues:
-            continue
-        if receipt["kind"] not in kinds:
-            continue
-        fields = [
-            key
-            for key in ("clocks_added", "team_facts_added", "countries_added", "countries_withheld")
-            if key in receipt
-        ]
-        if not fields:
-            yield receipt
-            continue
-        selected = {key: [row for row in receipt[key] if row["event_id"] in identities] for key in fields}
-        if any(selected.values()):
-            yield {**receipt, **selected}
+EVENT_FIELDS_REMOVED = {
+    "facts_source_url",
+    "facts_checked_date",
+    "is_regular_season",
+    "is_postseason",
+    "is_exhibition",
+    "is_support_event",
+    "home_participant_name",
+    "away_participant_name",
+    "season",
+    "region",
+    "timezone",
+    "country_checked_date",
+}
+PARTICIPANT_FIELDS_REMOVED = {
+    "logo_source_url",
+    "logo_checked_date",
+    "team_source_url",
+    "country_source_url",
+    "country_checked_date",
+    "country_source_kind",
+}
+RESULT_FIELDS_REMOVED = {
+    "sha256",
+    "hash_scope",
+    "inputs",
+    "scope",
+    "membership_source",
+    "review_revision",
+    "input_url",
+    "country_source_url",
+    "country_checked_date",
+    "source_article_url",
+}
+
+
+def public_result(value, *, root=False):
+    if isinstance(value, dict):
+        return {
+            key: public_result(child)
+            for key, child in value.items()
+            if key not in RESULT_FIELDS_REMOVED and not (root and key == "revision")
+        }
+    if isinstance(value, list):
+        return [public_result(child) for child in value]
+    return value
+
+
+def public_event(event):
+    result = {key: value for key, value in event.items() if key not in EVENT_FIELDS_REMOVED}
+    result["participants"] = [
+        {key: value for key, value in participant.items() if key not in PARTICIPANT_FIELDS_REMOVED}
+        for participant in event["participants"]
+    ]
+    if "result" in result:
+        result["result"] = public_result(result["result"], root=True)
+    return result
 
 
 def publish_sports(bundles: list[dict], output: Path) -> Path:
-    """Split already-validated facts; retain source-specific licenses and evidence."""
+    """Split already-validated facts; retain source-specific licenses."""
     output.mkdir(parents=True, exist_ok=True)
     for old in output.glob("*.json"):
         old.unlink()
@@ -197,12 +234,8 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
             name = f"{year}-{group}.json"
             kinds = {event["source"] for event in events} | {event.get("start_time_source") for event in events}
             kinds.update(country_source_kind(event.get("country_source_url")) for event in events)
-            identities = {event["event_id"] for event in events}
-            kinds.update(
-                receipt["kind"]
-                for receipt in bundle["input_evidence"]
-                if any(row["event_id"] in identities for row in receipt.get("countries_withheld", []))
-            )
+            for league in leagues:
+                kinds.update(bundle.get("retained_source_kinds", {}).get(league, []))
             kinds.update(
                 p["country_source_kind"]
                 for event in events
@@ -228,11 +261,10 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
                 "season": year,
                 "sport": sport,
                 "updated_at": bundle["updated_at"],
-                "events": events,
+                "events": [public_event(event) for event in events],
                 "sources": [source for source in bundle["sources"] if source["kind"] in kinds],
                 "data_licenses": {kind: license for kind, license in bundle["data_licenses"].items() if kind in kinds},
                 "data_license_notice": bundle["data_license_notice"],
-                "input_evidence": list(sport_evidence(bundle["input_evidence"], kinds, events)),
             }
             write_json(output / name, payload)
             catalog.append({"value": sport, "count": len(events), "file": name, "leagues": leagues})
@@ -249,10 +281,8 @@ def publish_sports(bundles: list[dict], output: Path) -> Path:
             "leagues": facets["leagues"],
             "sources": bundle["sources"],
             "coverage": bundle["coverage"],
-            "providers": bundle["providers"],
             "data_licenses": bundle["data_licenses"],
             "data_license_notice": bundle["data_license_notice"],
-            "exclusions": bundle["exclusions"],
         }
     destination = output / "manifest.json"
     write_json(destination, manifest)

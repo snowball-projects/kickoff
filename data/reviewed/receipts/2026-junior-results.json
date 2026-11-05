@@ -8,8 +8,6 @@
   "finished_observed_at": "2026-11-04T04:25:07Z",
   "finished_observation_basis": "All sixteen completed category classifications observed on this date; this is an observation upper bound, not an actual session end or scheduled timetable date.",
   "lot_identity_basis": "LOTs retained from the previously audited official result-book identities, not extracted from the results page. The corroborated source-name variant is recorded separately.",
-  "hash_scope": "canonical reviewed result sessions (sorted keys, compact ASCII JSON), not raw source HTML or PDF bytes",
-  "sha256": "5242b39c9e7cb251a029b1ade275d372f768682a4b33b118a9996edcceb1884e",
   "session_count": 28,
   "athlete_count": 261,
   "start_lots_without_result": [
@@ -11475,9 +11473,7 @@
   ],
   "identity_source": {
     "source_url": "https://iwf.sport/wp-content/uploads/downloads/2026/05/2026-IWF-WJC_RESULTS-BOOK.pdf",
-    "checked_date": "2026-11-04",
-    "reviewed_facts_sha256": "c4e4d7b7d4f07bcc502e9eaa0d09542d38900dadfe5b2730ee73c51933f6fad5",
-    "hash_scope": "canonical prior reviewed DOB-free result facts and Total medalists, not raw PDF bytes; no new PDF read"
+    "checked_date": "2026-11-04"
   },
   "identity_name_variants": [
     {

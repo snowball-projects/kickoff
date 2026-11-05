@@ -12,8 +12,6 @@
       "revision": "checked 2026-10-28",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "e0913f86ce94aaec754662ed3695d70c7f4a2852a5be5dea3005b29cda7261bf",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
       "coverage_notes": "Competition dates confirmed in IWF calendar. Session timetable not found as of check date.",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
@@ -27,8 +25,6 @@
       "revision": "checked 2026-10-28",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "5f0b56cfa1c2afd4c5aa0fc5ff87c334cc722e5bfb31f5abf2737a4b5cde5ec1",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
       "coverage_notes": "Competition dates confirmed in IWF calendar. Session timetable not found as of check date.",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
@@ -42,8 +38,6 @@
       "revision": "checked 2026-10-28",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "593571a6e700bd374e3c30fee08aa7982c937d5a0703a2785e10facc14e5c095",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
       "coverage_notes": "Competition dates confirmed in IWF calendar. Session timetable not found as of check date.",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
@@ -57,8 +51,6 @@
       "revision": "checked 2026-10-28",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "916e4dabdc663944611e468419c2092271a3c39af15dad3b2fcc4aed5fd96d01",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
       "coverage_notes": "Competition dates confirmed in IWF calendar. Session timetable not found as of check date.",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
@@ -72,8 +64,6 @@
       "revision": "structured-corroboration-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "c5b51eb02512516216925a9511a7302a405037ec42379f0d655238496b121ab1",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Date-only: timetable will be produced after entries are collated. IMWA event-specific page states May 17-25, 2027; its general events calendar still states May 16-24. Weightlifting Scotland and Weightlifting Canada Masters structured pages corroborate May 17-25. The final schedule depends on entries; preserve the conflict receipt.",
       "conflicting_source_url": "https://www.imwla.com/events-calendar",
       "corroborating_source_url": "https://www.weightliftingscotland.com/masters",
@@ -107,8 +97,6 @@
       "revision": "2026-05-14",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "29ae451d619a435a34223a781498c6270fe95f5ec8e915f25ebf2aba5be8ce58",
-      "hash_scope": "raw document bytes",
       "coverage_notes": "Date-only: official Panam Sports calendar highlights weightlifting August 4-7, 2027. No session/class timetable is supplied. Date grid visually checked.",
       "source_page": "https://www.panamsports.org/en/news-sport/official-sports-schedule-for-the-lima-2027-pan-american-games-confirmed/"
     }
