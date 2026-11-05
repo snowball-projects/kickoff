@@ -43,7 +43,11 @@ def _participant_payload(
             and logo
             and isinstance(participant.metadata.get("logo_source_url"), str)
             and participant.metadata["logo_source_url"].startswith(
-                ("https://site.api.espn.com/apis/site/v2/sports/", "https://sports.core.api.espn.com/v2/sports/")
+                (
+                    "https://site.api.espn.com/apis/site/v2/sports/",
+                    "https://sports.core.api.espn.com/v2/sports/",
+                    "https://www.espn.com/cricket/team/_/id/",
+                )
             )
             and isinstance(participant.metadata.get("logo_checked_date"), str)
             and participant.metadata["logo_checked_date"]

@@ -4696,6 +4696,88 @@
         "checked_date": "2026-11-03"
       }
     },
+    "CRICKET_WORLD_CUP": {
+      "wikipedia:name:Afghanistan": {
+        "names": [
+          "Afghanistan"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F40.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/40",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Australia": {
+        "names": [
+          "Australia"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F2.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/2",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Bangladesh": {
+        "names": [
+          "Bangladesh"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F25.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/25",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:England": {
+        "names": [
+          "England"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F1.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/1",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:India": {
+        "names": [
+          "India"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F6.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/6",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:New Zealand": {
+        "names": [
+          "New Zealand"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F5.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/5",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Pakistan": {
+        "names": [
+          "Pakistan"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F7.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/7",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:South Africa": {
+        "names": [
+          "South Africa"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F3.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/3",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Sri Lanka": {
+        "names": [
+          "Sri Lanka"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F8.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/8",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Zimbabwe": {
+        "names": [
+          "Zimbabwe"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F9.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/9",
+        "checked_date": "2026-11-05"
+      }
+    },
     "EPL": {
       "openfootball:name:AFC Bournemouth": {
         "names": [
@@ -6672,6 +6754,88 @@
         "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fnba-development%2F500%2Fscoreboard%2Fgbo.png&w=56&h=56",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba-development/scoreboard?dates=2027&limit=1000",
         "checked_date": "2026-11-03"
+      }
+    },
+    "IPL": {
+      "wikipedia:name:Chennai Super Kings": {
+        "names": [
+          "Chennai Super Kings"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F335974.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/335974",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Delhi Capitals": {
+        "names": [
+          "Delhi Capitals"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F335975.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/335975",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Gujarat Titans": {
+        "names": [
+          "Gujarat Titans"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F1298769.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/1298769",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Kolkata Knight Riders": {
+        "names": [
+          "Kolkata Knight Riders"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F335971.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/335971",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Lucknow Super Giants": {
+        "names": [
+          "Lucknow Super Giants"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F1298768.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/1298768",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Mumbai Indians": {
+        "names": [
+          "Mumbai Indians"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F335978.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/335978",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Punjab Kings": {
+        "names": [
+          "Punjab Kings"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F335973.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/335973/punjab-kings/",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Rajasthan Royals": {
+        "names": [
+          "Rajasthan Royals"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F335977.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/335977",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Royal Challengers Bengaluru": {
+        "names": [
+          "Royal Challengers Bengaluru"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F335970.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/335970",
+        "checked_date": "2026-11-05"
+      },
+      "wikipedia:name:Sunrisers Hyderabad": {
+        "names": [
+          "Sunrisers Hyderabad"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fcricket%2F500%2F628333.png&w=56&h=56",
+        "source_url": "https://www.espn.com/cricket/team/_/id/628333",
+        "checked_date": "2026-11-05"
       }
     },
     "LA_LIGA": {
@@ -20128,6 +20292,14 @@
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
         "checked_date": "2026-11-03"
       },
+      "espn:id:126831": {
+        "names": [
+          "Bordeaux"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Frugby%2Fteams%2F500%2F143737.png&w=56&h=56",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
+        "checked_date": "2026-11-03"
+      },
       "espn:id:143736": {
         "names": [
           "Lyon"
@@ -20197,6 +20369,22 @@
           "Pau"
         ],
         "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Frugby%2Fteams%2F500%2F270567.png&w=56&h=56",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
+        "checked_date": "2026-11-03"
+      },
+      "espn:id:289553": {
+        "names": [
+          "Section Paloise"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Frugby%2Fteams%2F500%2F270567.png&w=56&h=56",
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
+        "checked_date": "2026-11-03"
+      },
+      "espn:id:289852": {
+        "names": [
+          "LOU Rugby"
+        ],
+        "logo_url": "https://a.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Frugby%2Fteams%2F500%2F143736.png&w=56&h=56",
         "source_url": "https://site.api.espn.com/apis/site/v2/sports/rugby/270559/scoreboard?dates=2027&limit=500",
         "checked_date": "2026-11-03"
       },
