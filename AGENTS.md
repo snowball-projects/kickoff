@@ -35,6 +35,7 @@ Work
   scope). Otherwise proceed, and merge when checks pass.
 - GitHub is the source of truth. Push all work; nothing lives only on
   one machine.
+- After changing the logo list, committed snapshots or published fields, run the manual full rebuild, because events older than 7 days are otherwise copied as they are.
 
 Public copy and data
 
