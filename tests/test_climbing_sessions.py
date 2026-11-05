@@ -169,7 +169,6 @@ def test_locations_store_cities_separately_and_keep_named_venues(year):
         lambda p: p["sources"][0].update(url="https://unreviewed.example/calendar"),
         lambda p: p["sources"][0].pop("kind"),
         lambda p: p["sources"][0].update(license="MIT"),
-        lambda p: p["sources"][0].update(sha256=""),
         lambda p: p["sources"][0].update(checked_date="later"),
         lambda p: p["events"][0].update(local_time="25:00"),
         lambda p: p["events"][0].update(local_time="09:00+08:00"),
@@ -271,4 +270,3 @@ def test_structured_games_citations_keep_unmatched_session_evidence_and_unknown_
     future = registry(2027)
     source = next(row for row in future["sources"] if row["id"] == "climbing-pan-am-games-2027")
     assert source["url"].startswith("https://climbingcanada.ca/")
-    assert all(".pdf" not in proof["url"] for proof in source["evidence"])

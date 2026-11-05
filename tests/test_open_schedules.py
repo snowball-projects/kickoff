@@ -175,4 +175,3 @@ def test_f1_host_country_uses_pinned_circuit_metadata_not_grand_prix_title(monke
     for path in ["circuits/monaco.yml", "countries/monaco.yml"]:
         url = next(url for url in requests if url.endswith(path))
         assert "/" + "a" * 40 + "/" in url
-        assert sum(receipt["url"] == url for receipt in bundle["input_evidence"]) == 1

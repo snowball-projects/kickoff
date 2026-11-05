@@ -10,11 +10,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "c43a60cda23bac4502c7e810907b87733c08078a0aa8c414a9a55f46ca0c0856",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1542/infosheet",
-          "sha256": "389d460e18c7df99b4568411ae160a6b10847b2075ba2d8f6683e3712818771e",
           "checked_date": "2026-10-28"
         }
       ],
@@ -29,11 +27,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "66411b3e72fccabb2e3c1c7ef1ab67e4902e5f48300734eb30bfaa4ed1bd49f5",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1541/infosheet",
-          "sha256": "3d714efe8c9c9300a91df2478210fdae73acef3ad39453719e5cff9701aef709",
           "checked_date": "2026-10-28"
         }
       ],
@@ -48,11 +44,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "770a1f44562139c235deb1bf6af564fc1ae52de60f948942f489f93e83a2dae9",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1540/infosheet",
-          "sha256": "cdead5b51a72245c1fa849109aff5f17b63c0801c2ea13ee17bf5a17574efd75",
           "checked_date": "2026-10-28"
         }
       ],
@@ -67,16 +61,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "867389ed771f5800862ce2f995b2dbfb7b2bb134e23fe3a95d7d8067acc85ff6",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1531/infosheet",
-          "sha256": "85fd89eee5281dc6123d26a972782af20acec7feaaeb66879453f124f65be354",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/northamerica",
-          "sha256": "4046b382ee56e287a5ea0cfddae67297badcf9c8fb6b6e2ee8086898c847e147",
           "checked_date": "2026-10-28"
         }
       ],
@@ -91,11 +82,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "845b3e06d4b44e184b67f1ff3d30eb709ae64b99ed36ed55d0bc7bac7292c8f9",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1530/infosheet",
-          "sha256": "ede8e59d5f0585ff8fd24b8865bce48d46a9ea2920ced1f8894ef0507b567542",
           "checked_date": "2026-10-28"
         }
       ],
@@ -110,11 +99,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "1877661a4c2bbee7598ecc6e05692eb6ee573ebae4822dbb531aa9c3f9ad302d",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1536/infosheet",
-          "sha256": "157f8efd832d5c073eeb8e28a092d0f14fb503db04c7c84cf845deea677f0b79",
           "checked_date": "2026-10-28"
         }
       ],
@@ -129,16 +116,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "0b040e3122e4f003fdce8d3851b10daa9b816388b58f963126fab891a3db92d2",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1534/infosheet",
-          "sha256": "7c6b9c161ac794d8ce374d38619b4a63936ab0047776d1155e030695cd0ab751",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://ifsc.results.info/events/1486/infosheet",
-          "sha256": "6ceef8dde3ef2d4f3cfd03f0c3c7f0fde70086fabd7ca6e7e80624f90fd3e4c0",
           "checked_date": "2026-10-28"
         }
       ],
@@ -153,11 +137,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "2ed01aed21ef3c57911a7b2b3a90667c4e46dec6a9d8ddffb72120e07dec37ff",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1529/infosheet",
-          "sha256": "cc3901d104a01658569017f2ffaebb32afe9b11a53faae3e253ba432410c113c",
           "checked_date": "2026-10-28"
         }
       ],
@@ -172,16 +154,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "10200834946aa3724f96a19f9344cf1c1f3822b5f8f1a45a5167c2998b016844",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1495/infosheet",
-          "sha256": "881d4be4f773f7d338a85442a595f50beb9b59dac05ce23e670954819aae4caa",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/europe",
-          "sha256": "0fef17177d871af93188f2985e6034029bfd83e43d2a1c3838e4320712dba7c1",
           "checked_date": "2026-10-28"
         }
       ],
@@ -196,31 +175,25 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "a7d1ce74e842df047d91f9ca3b4c564513324772eaf59189668d39df851e4a22",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1515/infosheet",
-          "sha256": "765904ffaaa940922fde504ea4833b7f27dd5fc4a69d45a4801181722186d379",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/asia-championship-live-on-youtube",
-          "sha256": "9a2a3bad586b0a931f76a91c88b6bace6fd72c60f82b702a6935fa1c86fa8156",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/kusuma-dewi-shatters-asian-record-to-claim-speed-gold",
-          "sha256": "ed7c941bcfe4b2db587bf45a19e9a7b7ffb050312ec38a7c13a54dcef1da4b5a",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/mori-perfect-lee-near-flawless-in-boulder-finals-in-meishan",
-          "sha256": "e826987968c83c3bcfbe75a0b1ed099c814eeb93d8e954976254570ca82aa4a7",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/team-japan-take-two-lead-golds-in-meishan",
-          "sha256": "cfd6566b71e3aca4695061a8dbe8d2a69d4061859ec30deb8842654cb76e3a7f",
           "checked_date": "2026-10-28"
         }
       ],
@@ -235,12 +208,10 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "b465fee4cf8adb3f534fe6fd4163b39bf3b4978844320d0741293bad081b4aa3",
       "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header. Location fields split into city, named venue and country without repeating the country.",
       "evidence": [
         {
           "url": "https://www.worldclimbing.com/events/world-climbing-asia-championship-meishan-2026/news/team-japan-take-two-lead-golds-in-meishan",
-          "sha256": "cfd6566b71e3aca4695061a8dbe8d2a69d4061859ec30deb8842654cb76e3a7f",
           "checked_date": "2026-10-28"
         }
       ]
@@ -254,11 +225,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "09c9c75849a472381dc3bbbde88a2d02f270b97411c94522eb8e6f60025c4e4f",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1494/infosheet",
-          "sha256": "117c2e5e3c024d00174f48171d234f6d75fc66876bd4c4f930c20dc47805ed20",
           "checked_date": "2026-10-28"
         }
       ],
@@ -273,11 +242,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "f71634baafbea5db06720721876e78507bb2d9ef5d2a313ff1c417139f8ddd14",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1496/infosheet",
-          "sha256": "2f33d8b7146770068774c3526a6c92b77c7ef189d660eb7be0d365c7d21127af",
           "checked_date": "2026-10-28"
         }
       ],
@@ -292,11 +259,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "b4e220352efd09a065691431be96253649ee71d53cd223009b82f066ac85cd26",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1497/infosheet",
-          "sha256": "906113b7756751409e51fa8c6aefffbb3ac1e7625302cf87fb6c6259b09bfbc5",
           "checked_date": "2026-10-28"
         }
       ],
@@ -311,11 +276,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "bb8e91c17d9425276b87c758ea8fab4118e1dc66007a9e4b81ba91b90f2b4b06",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1499/infosheet",
-          "sha256": "56eec47f1f6c3984a59aa89e82e577ea9445aadd45b06a6e4745b621888302ff",
           "checked_date": "2026-10-28"
         }
       ],
@@ -330,11 +293,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "404ba75fc1bffc6ba46f666e8b9244a966b976e00f9700c14f0442a243c146cb",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1502/infosheet",
-          "sha256": "a0f014cd6fb108109ac16d11822e9e0633e9cf1584c91dc8271a40a9941881fc",
           "checked_date": "2026-10-28"
         }
       ],
@@ -349,11 +310,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "64eb426d6afded21198f094890ea5f62aca44a36fac896c7c53c2121fea22281",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1501/infosheet",
-          "sha256": "74e12d779e49a1e934f9acd0553a6b0bd081d8cb0956ecdf0086ea60f421140d",
           "checked_date": "2026-10-28"
         }
       ],
@@ -368,11 +327,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "5ae7e1256c00f8f6aa5cb01dc4b65769abb8f18ec9bf58d5222b22a9c0df6148",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1500/infosheet",
-          "sha256": "a3fd81a49f5c270092c7dee052dd0a2557fc38f5d40c199d08aa50edb8e10d94",
           "checked_date": "2026-10-28"
         }
       ],
@@ -387,11 +344,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "160f5a06a500336d60d02d16a14541b2deefa0a95509c6812b10cb116cf8947a",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1503/infosheet",
-          "sha256": "e9b6108215240198132b0ed51f8782ed46495f3e5fc3fd4acf1904967a7e502c",
           "checked_date": "2026-10-28"
         }
       ],
@@ -406,11 +361,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "9e836a9e2c0d483915292e1be06e492bf5a4ada0e6a9e2600e8c02bbba45cbaa",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1505/infosheet",
-          "sha256": "ff2a40b02192f697b715d4493f5f940775decb742e4ef8255b4fafa9ba500104",
           "checked_date": "2026-10-28"
         }
       ],
@@ -425,11 +378,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "58064484729239ad2458d5fe981231b875d4507c2c03811a0aa1edefce7b1996",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1504/infosheet",
-          "sha256": "abe8efe3f645f65e23d010cfe7e398586cfa0559afd923e0abdbb66fff06412f",
           "checked_date": "2026-10-28"
         }
       ],
@@ -444,11 +395,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "fff853ae065f7e6cf75075d731e4b2a5c33293121066d51c5200a67539f36ed4",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1506/infosheet",
-          "sha256": "137ff25a32be4331c6ece7e1473ce8394fdefc6cb30b0de628c48c2b97a8f0fd",
           "checked_date": "2026-10-28"
         }
       ],
@@ -463,11 +412,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "5d63a4cd723892c8b304538efdd888ef349bcd0b12da46ed5b3d4fb36eb7fe3d",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1507/infosheet",
-          "sha256": "1d74889c929a59021c5c833a563a31c84b8f70f74aa099be641a630b82db50de",
           "checked_date": "2026-10-28"
         }
       ],
@@ -482,16 +429,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "61273a53952369d21e76e49940b33a4c5b478644bb8cd0edb6a871955cc07930",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1508/infosheet",
-          "sha256": "793332f085d694b629d48bf9ba92807f6aa770986a39c562d52d75a1f839024e",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/europe",
-          "sha256": "0fef17177d871af93188f2985e6034029bfd83e43d2a1c3838e4320712dba7c1",
           "checked_date": "2026-10-28"
         }
       ],
@@ -506,7 +450,6 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "e9953dead5d60d56ab69f8dc0e141c85ed99edac86007cb94b3f98743d42a741",
       "changes": "Reviewed schedule facts only: competition identity, published round/category dates, discipline and gender, and venue-local clocks where supported. Shared starts and not-before bounds are distinguished; conflicting clocks are withheld. No prose, results, media or source payloads republished. Host country normalized from explicit reviewed venue text or the linked official location/calendar header. Location fields split into city, named venue and country without repeating the country."
     },
     {
@@ -518,11 +461,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "642c86ef681d026f2d560fcb8f02d7903f2ab942b7313d4a1e06144b83320a39",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1510/infosheet",
-          "sha256": "8e089410753909975307b26ff372fc8d24e090c479cbcc75a23bf4e2d049373a",
           "checked_date": "2026-10-28"
         }
       ],
@@ -537,11 +478,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "88c654dd9ae660cf324d2ece0ad6a7ed7fa83532ed5bc53896c10fd08e424693",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1517/infosheet",
-          "sha256": "5ef329db0d2fd5ea054e1b973df03155b1770949579f676919aa942779377b0f",
           "checked_date": "2026-10-28"
         }
       ],
@@ -556,16 +495,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "29490a51cb4c4cacbf4c2221dbba388f17c217a0476b789021a8f6590357213b",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1509/infosheet",
-          "sha256": "724080299ac5bd49bae9b40b8ac307ed96174139ffc8acb73b6258c2019f64a2",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/europe",
-          "sha256": "0fef17177d871af93188f2985e6034029bfd83e43d2a1c3838e4320712dba7c1",
           "checked_date": "2026-10-28"
         }
       ],
@@ -580,11 +516,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "454d7babe9ff99b0ad8b3606bd65a2658ccd21fd6c58efcc926dd98276e888da",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1514/infosheet",
-          "sha256": "109c50b66b67691789aaf1ce7c60fce5048e460c535009984ea9572c4ceaf6b6",
           "checked_date": "2026-10-28"
         }
       ],
@@ -599,16 +533,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "3741e402425bd77b93af95b7443627ad41c3781bd44e5c4b56db5ef3abbacdfb",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1523/infosheet",
-          "sha256": "80a92a3fffdc7cd8072f960db3cb8be8d4fe6cd832b99812843fc565bf69e090",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/australasia",
-          "sha256": "846ba455578e3e0f9eb850f05be3cc06d02ff51bbe4b726f755be9dc765f16c9",
           "checked_date": "2026-10-28"
         }
       ],
@@ -623,11 +554,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "8fa67c769f1d9e5587efa5719c7d9fe86fec50be013b50c6e1cf282f784c1cc9",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1522/infosheet",
-          "sha256": "377119b81357a79b88e16054841c05477958d7085fda3f1e80d3cbb460c6f214",
           "checked_date": "2026-10-28"
         }
       ],
@@ -642,11 +571,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "be72595e41f809e8e51cc9fb258bb02a28cc3a25d5da6174a84a0a657428d8e8",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1521/infosheet",
-          "sha256": "ce083b5d37a36c634768c3a69b94c15e9c283d0e732b6f7411ba9c317700320e",
           "checked_date": "2026-10-28"
         }
       ],
@@ -661,11 +588,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "abc9f7fdf6811c0b5311e695ff095d6b34d0c7687589de3452c661afa37177c0",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1526/infosheet",
-          "sha256": "4e1237e1699fd98b4bd69869a975e549019416a5a692188a0cc1de3cdbc8e66f",
           "checked_date": "2026-10-28"
         }
       ],
@@ -680,11 +605,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "4ee109905822f45ce97bfec8b8308613b27a00cc67ad19ac2fc1a5dbf99610e4",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1527/infosheet",
-          "sha256": "4a607ca21df1765703578a8840d0bcda22c49d18be61076c8f3480ad84019121",
           "checked_date": "2026-10-28"
         }
       ],
@@ -699,11 +622,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "6ff071886b95f1e28081b898102656702e50ffd74f450b9de317781f57a16288",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1525/infosheet",
-          "sha256": "c38e7240f345d28dde57556b998d9a7858e7aec9486f083fe4a9802fdfc9ffa9",
           "checked_date": "2026-10-28"
         }
       ],
@@ -718,11 +639,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "e9743291e348cb01b034beb30cacf3e6ecb4eb6138a07796dbb96363e9ad8e17",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1524/infosheet",
-          "sha256": "00e778d7786eb6422a181577d4224f343069df9aacc348da861d8a756fcca60c",
           "checked_date": "2026-10-28"
         }
       ],
@@ -737,11 +656,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "4f5f191e235d15ea8547a613fc9eae968d48a8517f96c7b89ba581a9548d5051",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1513/infosheet",
-          "sha256": "062934b70d1720f94ffce90680e3cb4429fd3ff1120139418a420805fae44631",
           "checked_date": "2026-10-28"
         }
       ],
@@ -756,16 +673,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "754eab0b11d79713c1a3fa3b6da72fea4add34a6350e1ac64825f437832b4d16",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1491/infosheet",
-          "sha256": "70988fe0935e651da4e9356016cbfe347d0291f119fa44cba1ccf7575528fd07",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/australasia",
-          "sha256": "846ba455578e3e0f9eb850f05be3cc06d02ff51bbe4b726f755be9dc765f16c9",
           "checked_date": "2026-10-28"
         }
       ],
@@ -780,31 +694,25 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "83017ac328ff81624f9fa66b10ffeba63dd5b65c710c2239c2020cfb973c1c29",
       "evidence": [
         {
           "url": "https://www.worldclimbing.com/events/asian-games-aichi-nagoya-2026/news/today-at-the-asian-games-day-1",
-          "sha256": "04cc914055d50f334e27929b07c4b08d407c60a8a4dda50b5b2a75ab3943375c",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/asian-games-aichi-nagoya-2026/news/today-at-the-asian-games-day-2",
-          "sha256": "376b17c0b864623016cea3b2a8d5f76688835ae08962bab5fe566eea8a5df350",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/asian-games-aichi-nagoya-2026/news/today-at-the-asian-games-day-3",
-          "sha256": "72c91a0b8613024a2e007b1ff94a0495ffd55a09a4a29a93a23539239fbae5f3",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/asian-games-aichi-nagoya-2026/news/today-at-the-asian-games-day-4",
-          "sha256": "5a4c36456d8b4ee61cd8c7d97f4a89b4d99c49406a3b19cf89cc6cd074e3bef1",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/asian-games-aichi-nagoya-2026/news/today-at-the-asian-games-day-5",
-          "sha256": "ea841f4784d1d3ee0f87ed6f17a78afd7dae89e582b587f56b36a67703aaaf22",
           "checked_date": "2026-10-28"
         }
       ],
@@ -819,16 +727,13 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "991aa2bef61e1b9a39d32c27e7796184b9f1db099176debc7e29cb2315fad539",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1489/infosheet",
-          "sha256": "d2be0925d052513f16b358ef054fd1b7067eadd0278242fd99972224df5be63d",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/world-climbing-series-santiago-2026/news/asian-champ-suzuki-out-to-enjoy-santiago",
-          "sha256": "041e4409eef47221b9feca52f9f94d3ee3214a91178966a535c538ae47a4ca9f",
           "checked_date": "2026-10-28"
         }
       ],
@@ -843,11 +748,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "c993d4588898438a1f18c9ef986519b28f37a81cc7bc447fc02cb351ed899f63",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1484/infosheet",
-          "sha256": "47689372a716ceac7fdc0273b822ee9f79627c046d34f1e34c24a5c9233892ea",
           "checked_date": "2026-10-28"
         }
       ],
@@ -862,11 +765,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "eebbd008e5bae1abf4f9ed289c487b50aafd2d1a38234eb37e796523bbccd5b4",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1479/infosheet",
-          "sha256": "664706a6bcafd721d5f1ebe1cf904b349eb3ea960672cbe20b28f18a2dd69899",
           "checked_date": "2026-10-28"
         }
       ],
@@ -881,11 +782,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "92fa74e1a11bf9cac890a1f751e58e0a5896d81aa1cc0b12821ef930e16a3777",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1477/infosheet",
-          "sha256": "8953c82a7c5fb1930bffeaaabb41cdd40cc6efa3773a877496c2b2d1a7644a98",
           "checked_date": "2026-10-28"
         }
       ],
@@ -900,21 +799,17 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "f5ee46cf4687b95a2406fee80183ee6e351681cb85ccc345534fc4863af268b6",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1488/infosheet",
-          "sha256": "8df88fe54b615d2e2e5f308af4a6dca639485b03ca5ced045220e8b5529ad1ab",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://www.worldclimbing.com/events/world-climbing-series-salt-lake-city-2026/news/where-to-watch-the-world-climbing-series-salt-lake-city-2026",
-          "sha256": "f4267b8a1ad7aa09c18e0fb1e37cb2a2b55dbff9122add2f176fc17f9cf204c6",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/northamerica",
-          "sha256": "4046b382ee56e287a5ea0cfddae67297badcf9c8fb6b6e2ee8086898c847e147",
           "checked_date": "2026-10-28"
         }
       ],
@@ -929,11 +824,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "bbc052caf864f55a67a9593c5dbdfbcff63c5f82220ee97f91cf9d63c7bfbed8",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1487/infosheet",
-          "sha256": "d1eb2a3eb0d6767a9a4818d41fdfd1f4ae6bd6a01e78b0593df0cff4eafe4819",
           "checked_date": "2026-10-28"
         }
       ],
@@ -948,11 +841,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "dd3402b510ab1d21c00e5eba137fb02467ef6094d6c3faa762ece9307a84467e",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1480/infosheet",
-          "sha256": "4c07b295ec573bf12dbec2197c5ef5b19c56a65d1582616d81bb521f24f42e8d",
           "checked_date": "2026-10-28"
         }
       ],
@@ -967,11 +858,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "4dc7014963864166153804f63034b2b64992638cbd999c2c916c900741cecb09",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1483/infosheet",
-          "sha256": "40774b9ee5fb4c08e4cea8943a4064740d3bb7214065853bd98007cf11307e7b",
           "checked_date": "2026-10-28"
         }
       ],
@@ -986,11 +875,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "0c4060998fc37c9ce9dd5f4d1268767ddb5aa9bbcc5b38e448b6957549c1fa5b",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1478/infosheet",
-          "sha256": "8bbdf0fc7a4bc43823b923355f748317d3ebb7b1c3ed632e613bc05f9207da24",
           "checked_date": "2026-10-28"
         }
       ],
@@ -1005,11 +892,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "8e6037f17bcc0c2929c4fa235fd3c18d807bed48c1107383f9c054e26e175bf8",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1481/infosheet",
-          "sha256": "feaddbcc7841c556693c00faefb09bac497d0e3a22fabcbded5b331e5d4042b3",
           "checked_date": "2026-10-28"
         }
       ],
@@ -1024,11 +909,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "893edeedcca46db1b1359320200edfdb55fdbd48879a4d665032ff082457e11b",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1482/infosheet",
-          "sha256": "1915aa393e1dcc91684d828780fcb427b47f67a646f3fc461a6f91af4292055e",
           "checked_date": "2026-10-28"
         }
       ],
@@ -1043,11 +926,9 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://www.worldclimbing.com/terms-and-conditions/index",
       "checked_date": "2026-10-28",
-      "sha256": "bc4fd631cd1aacff01edbe47121eeda3e62e9ed4830a4b8600deb53153f1c138",
       "evidence": [
         {
           "url": "https://ifsc.results.info/events/1486/infosheet",
-          "sha256": "6ceef8dde3ef2d4f3cfd03f0c3c7f0fde70086fabd7ca6e7e80624f90fd3e4c0",
           "checked_date": "2026-10-28"
         }
       ],
@@ -1062,31 +943,25 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://santafe2026.ar/sites/default/files/2026-05/ESCALADA_Manual%20Te%CC%81cnico%20Deportivo_V5-07MAY.pdf",
       "checked_date": "2026-10-28",
-      "sha256": "4c7e10adfb22d615d44f1b22268cf111597138c8a625caacfb543a81e5f1ba5e",
       "evidence": [
         {
           "url": "https://santafe2026.ar/es/deportes/escalada",
-          "sha256": "4d920e074a4d73f2dc426cf89c376da11cd94b562c8f6307aeea71a183c61912",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://santafe2026.ar/node/859",
-          "sha256": "bb79dbe91502dd61ccca5fa79125853079d15f8b9387176a9a61fa24c9b0924a",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://santafe2026.ar/es/node/903",
-          "sha256": "14b93f4ea6d31a3365d955dbe82a5e8448718bbcd6f0ae972f25a6e4c6d1aa68",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
-          "sha256": "5958134734e187b0c66975230378c75dfa49ee5319def302947f669a511a16c7",
           "checked_date": "2026-10-28"
         },
         {
           "url": "https://data.iana.org/time-zones/tzdb-2026c/southamerica",
-          "sha256": "c6e17ee367c6d7c1ab613444641538bca6d11818d46feb96e565e98c45238a2b",
           "checked_date": "2026-10-28"
         }
       ],
@@ -1101,7 +976,6 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://santafe2026.ar/node/859",
       "checked_date": "2026-11-04",
-      "sha256": "747108e59811d39ff6d83d90d9a37f5516e1e26bfa49f53c63846760ca7de814",
       "evidence": [
         {
           "url": "https://santafe2026.ar/node/859",
@@ -1118,8 +992,7 @@
         }
       ],
       "changes": "Reviewed source substitution for unchanged schedule facts. Replace PDF primary source on these same facts; retain source for the two September23 male boulder sessions. September25 female final remains time-null: HTML only says follows male16:00final.",
-      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes"
+      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed."
     },
     {
       "id": "south-american-games-santa-fe-2026-structured-2",
@@ -1130,7 +1003,6 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://santafe2026.ar/es/node/903",
       "checked_date": "2026-11-04",
-      "sha256": "5decdd16e528e0e29321f512d16b1887a9c8adf3a91c6601b5ea8647ea25f543",
       "evidence": [
         {
           "url": "https://santafe2026.ar/es/node/903",
@@ -1147,8 +1019,7 @@
         }
       ],
       "changes": "Reviewed source substitution for unchanged schedule facts. Replace PDF primary source on these same facts; retain source for the two September23 male boulder sessions. September25 female final remains time-null: HTML only says follows male16:00final.",
-      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes"
+      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed."
     },
     {
       "id": "south-american-games-santa-fe-2026-structured-3",
@@ -1159,7 +1030,6 @@
       "license": "Schedule facts; no data license granted",
       "license_url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
       "checked_date": "2026-11-04",
-      "sha256": "f168f2cad10027eb02db6e79823d11a2b382d811e78225a13d5cd03f5f895e21",
       "evidence": [
         {
           "url": "https://santafe2026.ar/es/noticias/que-competencias-se-podran-ver-este-viernes-25-de-septiembre",
@@ -1176,8 +1046,7 @@
         }
       ],
       "changes": "Reviewed source substitution for unchanged schedule facts. Replace PDF primary source on these same facts; retain source for the two September23 male boulder sessions. September25 female final remains time-null: HTML only says follows male16:00final.",
-      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes"
+      "coverage_notes": "Structured HTML covers: competition day, discipline, gender, round, published start time or explicit following-final order, ISEF 27 venue, Santa Fe city. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed."
     }
   ],
   "events": [

@@ -1,6 +1,5 @@
 """Optional results use actual fetched provenance without changing schedule identity."""
 
-import hashlib
 import json
 from copy import deepcopy
 
@@ -51,17 +50,6 @@ def scheduled(row, identity="event"):
     }
 
 
-def test_receipt_hashes_actual_decoded_bytes_not_a_json_reserialization(monkeypatch):
-    body, calls = serve_bytes(monkeypatch, {"events": []})
-    receipt = {}
-    assert feeds.get_json("https://example.test/source", receipt=receipt) == {"events": []}
-    assert calls == ["https://example.test/source"]
-    assert receipt["sha256"] == hashlib.sha256(body).hexdigest()
-    assert receipt["sha256"] != hashlib.sha256(b'{"events":[]}').hexdigest()
-    assert receipt["hash_scope"] == "decoded source response bytes"
-    assert len(receipt["checked_date"]) == 10
-
-
 def test_annual_racing_attaches_confirmed_podium_and_public_provenance_once(monkeypatch):
     row = scheduled(race(), "race")
     body, calls = serve_bytes(monkeypatch, {"events": [row]})
@@ -75,9 +63,7 @@ def test_annual_racing_attaches_confirmed_podium_and_public_provenance_once(monk
     assert event.title == "Source competition"
     assert event.status == "finished" and event.result_complete
     assert [p["name"] for p in result["rows"]] == ["Winning Driver", "Second Driver", "Third Driver"]
-    assert result["sha256"] == hashlib.sha256(body).hexdigest()
     assert result["source_url"] == calls[0]
-    assert result["hash_scope"] == "decoded source response bytes"
     assert not any(key.startswith("_") for key in result)
 
 
@@ -130,10 +116,10 @@ def test_attachment_keeps_original_source_object_and_omits_internal_completion_e
     before = deepcopy(event.to_dict())
     attach_result(event, None)
     assert event.to_dict() == before
-    result = {"kind": "podium", "rows": [], "_complete": True, "_completion_evidence": "official_podium"}
-    proof = deepcopy(result)
+    result = {"kind": "podium", "rows": [], "_complete": True}
+    original_result = deepcopy(result)
     attach_result(event, result)
-    assert result == proof
+    assert result == original_result
     assert event.status == "finished" and event.result_complete
     assert _event_payload(event)["result"] == {"kind": "podium", "rows": [], "complete": True}
 
@@ -174,8 +160,6 @@ def test_weightlifting_replaces_start_list_and_keeps_medals_without_duplicate_at
         "total_medalists": [athlete],
         "source_url": "https://example.test/results.pdf",
         "checked_date": "2026-11-04",
-        "sha256": "a" * 64,
-        "hash_scope": "raw PDF bytes",
         "source_sessions": [{"local_time": "15:00"}],
         "join_methods": ["Reviewed category"],
     }

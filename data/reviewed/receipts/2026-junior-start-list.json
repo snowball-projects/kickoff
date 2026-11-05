@@ -5,8 +5,6 @@
   "revision": "Start book v1.1, 1 May 2026",
   "checked_date": "2026-11-04",
   "collection_method": "Complete official web-readable start-book roster reviewed; ordinary PDF download returns HTTP 403. No automatic revision access; not a daily PDF check.",
-  "hash_scope": "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes",
-  "sha256": "43d0b7d824000bef91b6e1df7220da4611c8d1c87418c1d6b522c397fe88e1d8",
   "session_count": 28,
   "athlete_count": 271,
   "sessions": [

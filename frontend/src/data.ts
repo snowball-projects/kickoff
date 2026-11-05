@@ -1,4 +1,3 @@
-import { participantRoles } from "./participants";
 import { matchesInterestOptions } from "./interest-preferences";
 import { golfRound, isGolf } from "./golf";
 import { eventCalendarDate, eventTimestamp, safeTimezone } from "./date-utils";
@@ -80,15 +79,6 @@ function throwIfAborted(signal?: AbortSignal) {
   if (signal?.aborted) {
     throw new DOMException("The request was aborted.", "AbortError");
   }
-}
-
-function eventCard(event: EventDetail): EventCard {
-  const { home, away } = participantRoles(event);
-  return {
-    ...event,
-    home_participant_name: home?.name || null,
-    away_participant_name: away?.name || null,
-  };
 }
 
 function normalized(value: string | null | undefined) {
@@ -301,7 +291,7 @@ export async function getCalendar(
     // one-day event uses its display-zone date, not the provider's venue date.
     for (const day of grouped.keys())
       if (day >= date && day <= (end || date)) {
-        const card = { ...eventCard(event), start_calendar_date: date, calendar_date: day, end_calendar_date: end };
+        const card = { ...event, start_calendar_date: date, calendar_date: day, end_calendar_date: end };
         grouped.get(day)?.push(isGolf(event) ? golfRound(card, day, date) : card);
       }
   }

@@ -19,7 +19,6 @@
         "semifinals",
         "third-round"
       ],
-      "sha256": "b7f83dc33c9c3ca9e933df9ac37b1c31bc60a88d073136621598f42cc335bb83",
       "first": "2025-01-09T19:00Z",
       "last": "2025-12-08T19:30Z",
       "league": "English FA Cup",
@@ -39,7 +38,6 @@
         "semifinals",
         "third-round"
       ],
-      "sha256": "186b2168e5632cd5ad223971b90bb8b8d82039548e764e1c9156f3cc88a770c2",
       "first": "2026-01-09T19:30Z",
       "last": "2026-11-09T19:30Z",
       "league": "English FA Cup",
@@ -51,7 +49,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.fa/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "29b999a8fe789899025b1ac8112ca5c9d86920189eac2fa0cafb40800e57d2ac",
       "first": null,
       "last": null,
       "league": "English FA Cup",
@@ -72,7 +69,6 @@
         "semifinals",
         "third-round"
       ],
-      "sha256": "db27316b1e9bc0665d493cc8a4f64a62f5b7af67f5688a89c48dffb71b74ecf6",
       "first": "2025-01-07T20:00Z",
       "last": "2025-12-23T20:00Z",
       "league": "English Carabao Cup",
@@ -93,7 +89,6 @@
         "semifinals",
         "third-round"
       ],
-      "sha256": "0018238b7ccdf04f6ffe702877854e24accdd6ec572143248d9b7858142d14a0",
       "first": "2026-01-13T20:00Z",
       "last": "2026-12-15T20:00Z",
       "league": "English Carabao Cup",
@@ -105,7 +100,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.league_cup/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "49fd6a15222dc367cbd78acff86a7781e71387b94ce1733e7dc12bdcb532a220",
       "first": null,
       "last": null,
       "league": "English Carabao Cup",
@@ -132,7 +126,6 @@
         "torneo-apertura",
         "torneo-clausura"
       ],
-      "sha256": "e80530aae1c3b1450806ccd9d8c2aaed0ef5800846aade0b316b63089b942c51",
       "first": "2025-01-11T01:00Z",
       "last": "2025-12-15T01:00Z",
       "league": "Mexican Liga BBVA MX",
@@ -150,7 +143,6 @@
         "torneo-apertura",
         "torneo-clausura"
       ],
-      "sha256": "bc12de7b57fe9c5489def7164f6a9f7fe86b77646ef925e67107b1f575c7b444",
       "first": "2026-01-10T01:00Z",
       "last": "2026-11-23T01:00Z",
       "league": "Mexican Liga BBVA MX",
@@ -162,7 +154,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/mex.1/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "90464a6d2f4b32bdb8d1e549c4011cd60f6ba25afc9ae8ed74051dcf60cb6ef5",
       "first": null,
       "last": null,
       "league": "Mexican Liga BBVA MX",
@@ -183,7 +174,6 @@
         "semifinals",
         "third-stage"
       ],
-      "sha256": "1cbbbf4afdcbe58cfb0dac19ac313f2cd831d06ab77968d41a8fcd3bf656e3b5",
       "first": "2025-02-05T00:30Z",
       "last": "2025-11-29T21:15Z",
       "league": "CONMEBOL Libertadores",
@@ -204,7 +194,6 @@
         "semifinals",
         "third-stage"
       ],
-      "sha256": "e8c925c70a6b40b093bf6eeb809e1cabd332107e4e37d9b3472c4080a6c6c1a4",
       "first": "2026-02-04T00:30Z",
       "last": "2026-11-28T20:00Z",
       "league": "CONMEBOL Libertadores",
@@ -216,7 +205,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/conmebol.libertadores/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "0ddf4fb0910b0aca0313f363c958837b8888eb1d8bca4cb767875cb5bc24a572",
       "first": null,
       "last": null,
       "league": "CONMEBOL Libertadores",
@@ -236,7 +224,6 @@
         "round-of-16",
         "semifinals"
       ],
-      "sha256": "87cd0a34103d032e9d5d52e14d590af67bd1902fc2615bfc96f131d3d6a70f52",
       "first": "2025-03-05T00:30Z",
       "last": "2025-11-22T20:00Z",
       "league": "CONMEBOL Sudamericana",
@@ -256,7 +243,6 @@
         "round-of-16",
         "semifinals"
       ],
-      "sha256": "483a889a8bfde6ee54841f4c147114a730674a42dc921e2ca8b0583b6797af3f",
       "first": "2026-03-03T22:00Z",
       "last": "2026-11-21T22:30Z",
       "league": "CONMEBOL Sudamericana",
@@ -268,7 +254,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/conmebol.sudamericana/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "8a9512a43a52ca9e71ad962a3756e1aa2b9dd2ce4d475f5a319770f9f5c95b3c",
       "first": null,
       "last": null,
       "league": "CONMEBOL Sudamericana",
@@ -285,7 +270,6 @@
         "playoffs---semifinals",
         "regular-season"
       ],
-      "sha256": "8544286ecd3a0afd2fd64d210ad80b903b0df72fadb07e91c06e05ef84f9deed",
       "first": "2025-03-15T00:00Z",
       "last": "2025-11-23T01:00Z",
       "league": "NWSL",
@@ -300,7 +284,6 @@
         "playoffs---quarterfinals",
         "regular-season"
       ],
-      "sha256": "af09a62e7d4917942edb939114f1ae62551bb29e5a2a02750c1fc6ac758e957b",
       "first": "2026-03-14T00:00Z",
       "last": "2026-11-08T20:00Z",
       "league": "NWSL",
@@ -312,7 +295,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/usa.nwsl/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "90b218852720ebdec5338610b51455b172d20333b549767d0eef7962c1331ecc",
       "first": null,
       "last": null,
       "league": "NWSL",
@@ -327,7 +309,6 @@
         "2024-25-english-womens-super-league",
         "2025-26-english-womens-super-league"
       ],
-      "sha256": "709f0d9c663376b21723398906041def2e29929d0c7d54670d905014833750b5",
       "first": "2025-01-17T19:00Z",
       "last": "2025-12-14T14:30Z",
       "league": "English Women's Super League",
@@ -342,7 +323,6 @@
         "2025-26-english-womens-super-league",
         "2026-27-english-womens-super-league"
       ],
-      "sha256": "ef9ee3d9e05882f327d084efc2e717b2d6c2cf34db5602016a45598aeb7f7c42",
       "first": "2026-01-10T12:30Z",
       "last": "2026-12-20T14:30Z",
       "league": "English Women's Super League",
@@ -356,7 +336,6 @@
       "slugs": [
         "2026-27-english-womens-super-league"
       ],
-      "sha256": "c8e788da3462cd199088fddd9128722cb09142349c1d30fa982605c14e790190",
       "first": "2027-01-10T12:30Z",
       "last": "2027-05-22T18:00Z",
       "league": "English Women's Super League",
@@ -373,7 +352,6 @@
         "quarterfinals",
         "semifinals"
       ],
-      "sha256": "12c327d8a960052a5678b53f9d96e35f8c73a79e30448e4cc40201f35e7a6875",
       "first": "2025-03-18T17:45Z",
       "last": "2025-12-17T20:00Z",
       "league": "UEFA Women's Champions League",
@@ -391,7 +369,6 @@
         "quarterfinals",
         "semifinals"
       ],
-      "sha256": "7b2d2cfc5d7b057ef0aca5dd64264427c9b5c4db6afdcb7f809d1c5c852347a4",
       "first": "2026-02-11T17:45Z",
       "last": "2026-12-16T20:00Z",
       "league": "UEFA Women's Champions League",
@@ -403,7 +380,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.wchampions/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "8f48bfb98111d6640aa133f8eeff2336570797a4fa5b36fa0e77aaae50ca9f68",
       "first": null,
       "last": null,
       "league": "UEFA Women's Champions League",
@@ -419,7 +395,6 @@
         "regular-season",
         "showdown-cup"
       ],
-      "sha256": "b7d1eff4c32881cb188420b6de1b2cabde4580a9d3662a392786b56161312913",
       "first": "2025-01-01T18:00Z",
       "last": "2026-01-01T01:00Z",
       "league": "NBA G League",
@@ -435,7 +410,6 @@
         "regular-season",
         "showdown-cup"
       ],
-      "sha256": "7fb4cd4ef9f643f00090e536147bf1859a9230829cb9fb4677908cfff253d5e3",
       "first": "2026-01-01T20:00Z",
       "last": "2027-01-01T02:00Z",
       "league": "NBA G League",
@@ -449,7 +423,6 @@
       "slugs": [
         "regular-season"
       ],
-      "sha256": "1206da6b76ae417f2ceb3323754b58b024697e5c810a4428a77e70ca08d32082",
       "first": "2027-01-01T19:00Z",
       "last": "2027-03-28T02:00Z",
       "league": "NBA G League",
@@ -465,7 +438,6 @@
         "preseason",
         "regular-season"
       ],
-      "sha256": "47f254cae11f6c15ae3eba1791cf3c0ca9c29baa62e5ea1c4b7318be11364553",
       "first": "2025-01-02T08:30Z",
       "last": "2025-12-31T08:30Z",
       "league": "National Basketball League",
@@ -481,7 +453,6 @@
         "preseason",
         "regular-season"
       ],
-      "sha256": "9133c1f8588c698c1028ca33ac723e4e9cc9c998153558e9119a644169f25ad2",
       "first": "2026-01-01T08:30Z",
       "last": "2026-12-31T08:30Z",
       "league": "National Basketball League",
@@ -495,7 +466,6 @@
       "slugs": [
         "regular-season"
       ],
-      "sha256": "7cefda1b7ce3754b5a0a99e9b6019d7ead03c630c07936c62011ec5466547c4c",
       "first": "2027-01-01T08:30Z",
       "last": "2027-02-14T06:00Z",
       "league": "National Basketball League",
@@ -510,7 +480,6 @@
         "post-season",
         "regular-season"
       ],
-      "sha256": "82d62cbfc5cf72ac83e33fb85027c6098dddb47703629f57f757d409d2f85686",
       "first": "2025-03-29T00:00Z",
       "last": "2025-06-15T00:00Z",
       "league": "United Football League",
@@ -525,7 +494,6 @@
         "post-season",
         "regular-season"
       ],
-      "sha256": "4bf36a31cb9257dc965d39a791f032831fbf649e18b16680e72fea36774cd4f5",
       "first": "2026-03-28T00:00Z",
       "last": "2026-06-13T19:00Z",
       "league": "United Football League",
@@ -537,7 +505,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/football/ufl/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "aa6916eaa78d87bc37da93364a681615fc20e94d8e60aa56cc2dc7e1691ea066",
       "first": null,
       "last": null,
       "league": "United Football League",
@@ -549,7 +516,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/football/cfl/scoreboard?dates=2025&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "71e9e32442daacf51cf8d9a1104b4b761f198b17ec2e311091a4fc0bd55869f1",
       "first": null,
       "last": null,
       "league": "Canadian Football League",
@@ -561,7 +527,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/football/cfl/scoreboard?dates=2026&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "71e9e32442daacf51cf8d9a1104b4b761f198b17ec2e311091a4fc0bd55869f1",
       "first": null,
       "last": null,
       "league": "Canadian Football League",
@@ -573,7 +538,6 @@
       "url": "https://site.api.espn.com/apis/site/v2/sports/football/cfl/scoreboard?dates=2027&limit=1000",
       "count": 0,
       "slugs": [],
-      "sha256": "71e9e32442daacf51cf8d9a1104b4b761f198b17ec2e311091a4fc0bd55869f1",
       "first": null,
       "last": null,
       "league": "Canadian Football League",
@@ -592,8 +556,7 @@
       "logos": 231,
       "participants": 246,
       "country": 123,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "169c8a24c65378a71c1940634d598d376110767761276281d8aad88804a8e62e"
+      "unnamed_appointments": 0
     },
     {
       "league": "FA_CUP",
@@ -606,8 +569,7 @@
       "logos": 190,
       "participants": 206,
       "country": 103,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "fb415f98ece6fdbb3a7737f431bd35dafc7c955a47e58df77d8674f044235305"
+      "unnamed_appointments": 0
     },
     {
       "league": "FA_CUP",
@@ -617,8 +579,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     },
     {
       "league": "LEAGUE_CUP",
@@ -631,8 +592,7 @@
       "logos": 186,
       "participants": 186,
       "country": 93,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "0a5d6466a03eb79be47a8f8b622f7ba330f9d8ab7ace0e511476ff733af7c580"
+      "unnamed_appointments": 0
     },
     {
       "league": "LEAGUE_CUP",
@@ -645,8 +605,7 @@
       "logos": 186,
       "participants": 186,
       "country": 93,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "87e5d5afa95b84c5e5b59a7a5506be6a728de962e8368090ce494758d74cfb2f"
+      "unnamed_appointments": 0
     },
     {
       "league": "LEAGUE_CUP",
@@ -656,8 +615,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     },
     {
       "league": "LIGA_MX",
@@ -671,8 +629,7 @@
       "logos": 680,
       "participants": 680,
       "country": 340,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "9e8b72ca3fe03a86bb03eeb1cf420695ceb4f4af52010431df09eafd10d7a5d3"
+      "unnamed_appointments": 0
     },
     {
       "league": "LIGA_MX",
@@ -686,8 +643,7 @@
       "logos": 640,
       "participants": 640,
       "country": 320,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "dccf0f10ee882dcda3d098224d79cae3eff947914296f6fec0b636fdfa5ab755"
+      "unnamed_appointments": 0
     },
     {
       "league": "LIGA_MX",
@@ -697,8 +653,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     },
     {
       "league": "COPA_LIBERTADORES",
@@ -712,8 +667,7 @@
       "logos": 310,
       "participants": 310,
       "country": 155,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "d09e7f3d73024049d89d9d5fcc0b239fb05f29ffe92028b29d5d7524832f33ba"
+      "unnamed_appointments": 0
     },
     {
       "league": "COPA_LIBERTADORES",
@@ -727,8 +681,7 @@
       "logos": 310,
       "participants": 310,
       "country": 153,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "1363590363367aaf30fd49d8028b7d9d630c454c5b59bc896226524b46d85d8d"
+      "unnamed_appointments": 0
     },
     {
       "league": "COPA_LIBERTADORES",
@@ -738,8 +691,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     },
     {
       "league": "COPA_SUDAMERICANA",
@@ -753,8 +705,7 @@
       "logos": 312,
       "participants": 312,
       "country": 156,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "51466a54b7d9ab26b291f9a788038f3d86340efa4f4df9a969eac524d038d787"
+      "unnamed_appointments": 0
     },
     {
       "league": "COPA_SUDAMERICANA",
@@ -768,8 +719,7 @@
       "logos": 314,
       "participants": 314,
       "country": 156,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "0af11d5ada645b41304dd7f0bdd4948348f1b0152990530d63ff1cf0df18811b"
+      "unnamed_appointments": 0
     },
     {
       "league": "COPA_SUDAMERICANA",
@@ -779,8 +729,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     },
     {
       "league": "NWSL",
@@ -794,8 +743,7 @@
       "logos": 378,
       "participants": 378,
       "country": 189,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "b55eadaad19b1f10f1fdfa147d79f8ed7f11a1c0b19385392c5725597b1aeff8"
+      "unnamed_appointments": 0
     },
     {
       "league": "NWSL",
@@ -808,8 +756,7 @@
       "logos": 488,
       "participants": 488,
       "country": 244,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "45833b5940232be3d5d342452c0cf9e70af833a57ef19d2072924fd98d1a6ad0"
+      "unnamed_appointments": 0
     },
     {
       "league": "NWSL",
@@ -819,8 +766,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     },
     {
       "league": "WSL",
@@ -832,8 +778,7 @@
       "logos": 276,
       "participants": 276,
       "country": 138,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "6a6fab50b3c31355c7808c7298aea05ff9176c6e3386dc894969d425a24bd725"
+      "unnamed_appointments": 0
     },
     {
       "league": "WSL",
@@ -845,8 +790,7 @@
       "logos": 314,
       "participants": 314,
       "country": 157,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "832230fcb6f37b1455314fe894c86b16ce272279cf72b8e7b66ed858a3defba4"
+      "unnamed_appointments": 0
     },
     {
       "league": "WSL",
@@ -858,8 +802,7 @@
       "logos": 182,
       "participants": 182,
       "country": 91,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "ce45e19b7ccdf4527c4104d646828c7ee21ba4d8cfbbdc2f2682244d2faa0dbb"
+      "unnamed_appointments": 0
     },
     {
       "league": "UEFA_WOMENS_CHAMPIONS_LEAGUE",
@@ -873,8 +816,7 @@
       "logos": 134,
       "participants": 134,
       "country": 67,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "49172845c087369c43fda49c182e2ee0a0caabe7e459d38a6c4b4ac0bee6aac6"
+      "unnamed_appointments": 0
     },
     {
       "league": "UEFA_WOMENS_CHAMPIONS_LEAGUE",
@@ -888,8 +830,7 @@
       "logos": 150,
       "participants": 150,
       "country": 74,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "ca76a5f4dafb3e237e03757cd302d21319c0e2a9bc1b140483a369267964ecc5"
+      "unnamed_appointments": 0
     },
     {
       "league": "UEFA_WOMENS_CHAMPIONS_LEAGUE",
@@ -899,8 +840,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     },
     {
       "league": "G_LEAGUE",
@@ -913,8 +853,7 @@
       "logos": 1590,
       "participants": 1590,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "051b4cc7cf822188b2a679fdf31c02f7029483b8f1a5f9f917d5fc45d79bd3ed"
+      "unnamed_appointments": 0
     },
     {
       "league": "G_LEAGUE",
@@ -927,8 +866,7 @@
       "logos": 1516,
       "participants": 1516,
       "country": 0,
-      "unnamed_appointments": 31,
-      "normalized_sha256": "71b4b715cacababd6d11a66a2c350ed7222d8ff297452a1f53e9ba20f4e59cd1"
+      "unnamed_appointments": 31
     },
     {
       "league": "G_LEAGUE",
@@ -940,8 +878,7 @@
       "logos": 984,
       "participants": 984,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "9fae4e3a314d7236caede045e29f9023680964c90108225c626b1714a9fe5107"
+      "unnamed_appointments": 0
     },
     {
       "league": "NBL",
@@ -955,8 +892,7 @@
       "logos": 340,
       "participants": 340,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "cbc30e4bf056f92ec1e803642c47124a1f8a49e862f867092b2bb961b17d4fb5"
+      "unnamed_appointments": 0
     },
     {
       "league": "NBL",
@@ -970,8 +906,7 @@
       "logos": 402,
       "participants": 402,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "40d3faae9a23eb78dc5a687d3901b47f50089d3c31139d5152a82b238e0644a7"
+      "unnamed_appointments": 0
     },
     {
       "league": "NBL",
@@ -983,8 +918,7 @@
       "logos": 112,
       "participants": 112,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "17ee1675bbc172ba7818f07cdee4124bccf12e26c60a0e8b6b2b36845c637309"
+      "unnamed_appointments": 0
     },
     {
       "league": "UFL",
@@ -998,8 +932,7 @@
       "logos": 86,
       "participants": 86,
       "country": 43,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "0dfb3d8327891ab5bb09f747a3a914b8eb81aa6145c46e3e3d9bc519c832e433"
+      "unnamed_appointments": 0
     },
     {
       "league": "UFL",
@@ -1013,8 +946,7 @@
       "logos": 86,
       "participants": 86,
       "country": 43,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "64328e1132c1ad1770add3e9cd70f825d0f1392ea04c92e16416601fd1fdcec7"
+      "unnamed_appointments": 0
     },
     {
       "league": "UFL",
@@ -1024,8 +956,7 @@
       "logos": 0,
       "participants": 0,
       "country": 0,
-      "unnamed_appointments": 0,
-      "normalized_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "unnamed_appointments": 0
     }
   ],
   "collection_review": {
@@ -1374,7 +1305,6 @@
     }
   ],
   "image_policy": "Source scoreboard logo, otherwise optional matching-ID-and-full-name team metadata logo. No logo assets copied.",
-  "normalized_hash_scope": "SHA-256 of reviewed kickoff.web._event_payload JSON arrays, compact separators and final newline; private normalized audit files, not upstream raw responses.",
   "coverage": {
     "source_years": [
       2025,
@@ -1497,10 +1427,6 @@
     "referrer": "None",
     "caching": "Normal HTTP caching",
     "raw_payloads_copied": false,
-    "per_image_receipt": [
-      "source URL",
-      "checked date"
-    ],
     "FA_CUP": {
       "missing_scoreboard_team_appearances": {
         "2025": 15,
@@ -1527,7 +1453,6 @@
       "raw responses"
     ],
     "public_refreshes": "Preserve per-event source links and checked dates",
-    "raw_evidence": "Private",
     "third_party_notices": "../../../THIRD-PARTY-NOTICES.md"
   }
 }

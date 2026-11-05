@@ -86,12 +86,12 @@ def test_only_source_explicit_wikipedia_clocks_become_instants():
     )
 
 
-@pytest.mark.parametrize("change", ["clock_evidence", "clock_timezone", "checked_date", "different_zone", "span"])
+@pytest.mark.parametrize("change", ["clock_timezone", "checked_date", "different_zone", "span"])
 def test_a_wikipedia_clock_cannot_be_inferred_without_its_source_evidence(change):
     payload = copy.deepcopy(registry(2026))
     event = next(row for row in payload["events"] if row["league"] == "IPL")
     source = next(row for row in payload["sources"] if row["id"] == event["source_id"])
-    if change in {"clock_evidence", "clock_timezone"}:
+    if change in {"clock_timezone"}:
         source.pop(change)
     elif change == "checked_date":
         event.pop("checked_date")

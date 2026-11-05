@@ -6,7 +6,6 @@ unmatched records remain intact; an API date alone never establishes a time.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import logging
 import re
@@ -110,8 +109,8 @@ def _hockey_identity(event: CalendarEvent) -> tuple | None:
     return (event.league, feeds._iso_utc(event.start_time_utc), *pair)
 
 
-def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dict]:
-    """Return source receipts for independently missing clocks and team facts."""
+def fill_missing_start_times(events: list[CalendarEvent], year: int) -> bool:
+    """Fill independently missing clocks and team facts; report whether any changed."""
     requests = defaultdict(list)
     primary_pairs = Counter(
         identity for event in events if (identity := _soccer_identity(event) or _hockey_identity(event))
@@ -135,10 +134,10 @@ def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dic
             requests[f"{feeds.ESPN}/{path}/scoreboard?dates={month}&limit=1000"].append(event)
         elif missing_clock and event.event_id in identities:
             requests[f"{feeds.ESPN}/mma/all/scoreboard?dates={year}&limit=1000"].append(event)
-    receipts = []
+    enriched = False
     for url, selected in requests.items():
         try:
-            receipt, updates = _lookup_clocks(url, selected, identities, primary_pairs)
+            updates = _lookup_clocks(url, selected, identities, primary_pairs)
         except Exception as error:
             # Optional third-party facts must never prevent publishing schedules.
             logger.warning("ESPN clock lookup failed; keeping source schedules unchanged: %s: %s", url, error)
@@ -146,13 +145,11 @@ def fill_missing_start_times(events: list[CalendarEvent], year: int) -> list[dic
         for item, fields in updates:
             for name, value in fields.items():
                 setattr(item, name, value)
-        receipts.append(receipt)
-    return receipts
+        enriched = enriched or bool(updates)
+    return enriched
 
 
-def _lookup_clocks(
-    url: str, selected: list[CalendarEvent], identities: dict, primary_pairs: Counter
-) -> tuple[dict, list]:
+def _lookup_clocks(url: str, selected: list[CalendarEvent], identities: dict, primary_pairs: Counter) -> list:
     """Stage a response before applying clocks, team facts or source credits."""
     payload = feeds.get_json(url)
     rows = feeds.rows(payload, "events")
@@ -169,7 +166,7 @@ def _lookup_clocks(
             if len(home) == len(away) == 1:
                 by_names[(home[0], away[0])].append(row)
                 by_unordered[frozenset((home[0], away[0]))].append(row)
-    changes, team_changes, updates = [], [], []
+    updates = []
     for event in selected:
         if event.source == "openfootball":
             config = football_teams()[event.league]
@@ -291,16 +288,12 @@ def _lookup_clocks(
                     updates.extend((peer, facts) for peer in peers)
                     added = True
             if added:
-                team_changes.append({"event_id": event.event_id, "team_source_url": source_url})
                 updates.append((event, {"facts_checked_date": datetime.now(UTC).date().isoformat()}))
         if event.start_time_utc or event.start_time_local:
             continue
         utc = _confirmed_clock(row, zone, event.calendar_date, card=event.event_id in identities)
         if utc is None:
             continue
-        changes.append(
-            {"event_id": event.event_id, "schedule_source_url": event.source_url, "time_source_url": source_url}
-        )
         # The original schedule and its licence still cover titles, dates
         # and venues. Attribute the separately supplied clock to ESPN.
         updates.append(
@@ -317,12 +310,4 @@ def _lookup_clocks(
                 },
             )
         )
-    receipt = {
-        "url": url,
-        "checked_date": datetime.now(UTC).date().isoformat(),
-        "canonical_json_sha256": hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest(),
-        "parsed_events": len(rows),
-        "clocks_added": changes,
-        "team_facts_added": team_changes,
-    }
-    return receipt, updates
+    return updates

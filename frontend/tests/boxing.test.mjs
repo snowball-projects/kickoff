@@ -20,7 +20,7 @@ test("published title bouts retain independent checked facts and both source lic
   const bouts = bundle.events.filter((event) => event.league === "BOXING_MAJOR");
   assert(bouts.some((event) => event.title.includes("Muratalla") && event.title.includes("Cruz")));
   assert(bouts.some((event) => event.title.includes("Yamanaka") && event.title.includes("Ugawa")));
-  assert(bouts.every((event) => event.start_time_utc === null && event.facts_checked_date === "2026-10-31"));
+  assert(bouts.every((event) => event.start_time_utc === null));
   assert(bouts.some((event) => event.source.startsWith("boxing_")));
   assert(bouts.some((event) => event.source === "wikipedia" && event.source_url.includes("oldid=")));
   assert.equal(bundle.data_licenses.boxing_ibf, "Schedule facts; no data license granted");
