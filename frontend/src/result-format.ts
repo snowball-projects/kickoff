@@ -19,7 +19,6 @@ export type TennisFinalResult = ResultSource & {
 };
 export type WeightliftingAttempt = { weight_kg: number | null; status: "made" | "missed" | "unused" };
 export type WeightliftingAthlete = {
-  lot?: string;
   name: string;
   nation: string;
   gender: string;
@@ -27,8 +26,6 @@ export type WeightliftingAthlete = {
   group: string | null;
   guest?: boolean;
   total_rank: number | null;
-  snatch_rank?: number | null;
-  clean_and_jerk_rank?: number | null;
   total_kg: number | null;
   snatch: readonly WeightliftingAttempt[];
   clean_and_jerk: readonly WeightliftingAttempt[];
@@ -36,7 +33,7 @@ export type WeightliftingAthlete = {
 };
 export type WeightliftingMedalist = {
   name: string; nation: string; rank: number; gender: string; weight_class: string;
-  weight_kg?: number; country_code?: string; source_article_url?: string; lot?: string;
+  weight_kg?: number; country_code?: string;
 };
 export type WeightliftingSource = ResultSource & { gender: string; weight_class: string; revision?: string };
 export type WeightliftingResult = ResultSource & {

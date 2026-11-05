@@ -168,6 +168,12 @@ PARTICIPANT_FIELDS_REMOVED = {
     "country_source_kind",
 }
 RESULT_FIELDS_REMOVED = {
+    "lot",
+    "snatch_rank",
+    "clean_and_jerk_rank",
+    "snatch_best_kg",
+    "clean_and_jerk_best_kg",
+    "country",
     "sha256",
     "hash_scope",
     "inputs",
