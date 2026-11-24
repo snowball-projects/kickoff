@@ -1,6 +1,5 @@
 """Small invented MediaWiki tables; no fetched pages, DOB or copied source rows."""
 
-import hashlib
 import json
 from copy import deepcopy
 
@@ -189,14 +188,11 @@ def test_parenthesized_name_suffix_without_a_structured_country_code_stays_in_th
     assert result["athletes"][0]["nation"] == ""
 
 
-def test_api_revision_hash_request_identity_and_explicit_class_end_bound():
+def test_api_revision_and_request_identity_match_the_class():
     content = payload(infobox("27–28 October") + table())
     (result,) = parse_classes(content, input_url=api_url(TITLE), checked_date=CHECKED)
     assert result["revision"] == "1234" and "oldid=1234" in result["source_url"]
-    assert result["sha256"] == hashlib.sha256(content).hexdigest()
-    assert result["hash_scope"] == "raw MediaWiki API JSON response bytes"
     assert result["checked_date"] == CHECKED
-    assert result["_source_date"] == "2026-10-28"
     assert parse_classes(content, input_url=api_url(TITLE.replace("60", "65")), checked_date=CHECKED) == []
     assert (
         parse_classes(
@@ -214,7 +210,6 @@ def test_inline_europe_classes_use_literal_heading_and_not_the_whole_competition
     )
     assert (result["league"], result["gender"], result["weight_class"]) == ("WEIGHTLIFTING_EUROPE", "men", "60")
     assert "#Men%27s_60_kg" in result["source_url"]
-    assert result["_source_date"] is None
 
 
 def test_class_title_and_section_disagreement_and_duplicate_tables_are_ambiguous():
@@ -257,7 +252,6 @@ def test_overview_source_uses_only_actual_heading_ids_and_keeps_raw_hash_and_fac
     (result,) = parse_classes(content, input_url=api_url(title), checked_date=CHECKED)
     assert result["source_url"].endswith(f"#{heading_id}")
     assert "Men%27s_110_kg" not in result["source_url"]
-    assert result["sha256"] == hashlib.sha256(content).hexdigest()
     assert result["revision"] == "1234" and result["checked_date"] == CHECKED
     assert [row["rank"] for row in result["total_medalists"]] == [1, 2, 3]
     assert "_source_anchor" not in result

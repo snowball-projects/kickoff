@@ -1,6 +1,5 @@
 """Validate the one-time reviewed Junior page snapshot without source requests."""
 
-import hashlib
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -17,10 +16,8 @@ def athletes(data):
     return [row for session in data["sessions"] for row in session["athletes"]]
 
 
-def test_snapshot_is_hash_bound_to_dated_reviewed_facts_without_inferred_end_times():
+def test_snapshot_keeps_dated_reviewed_facts_without_inferred_end_times():
     data = snapshot()
-    canonical = json.dumps(data["sessions"], sort_keys=True, separators=(",", ":")).encode()
-    assert hashlib.sha256(canonical).hexdigest() == data["sha256"]
     assert data["league"] == "IWF_JUNIOR_WORLDS" and data["year"] == 2026
     assert data["source_url"] == (
         "https://iwf.sport/results/results-by-events/results-by-events-2025-2026/?event_id=684"
@@ -28,7 +25,6 @@ def test_snapshot_is_hash_bound_to_dated_reviewed_facts_without_inferred_end_tim
     assert data["checked_date"] == data["review_revision"] == "2026-11-04"
     assert data["finished_observed_at"] == "2026-11-04T04:25:07Z"
     assert "not an actual session end" in data["finished_observation_basis"]
-    assert "not raw source" in data["hash_scope"]
     assert "No build-time IWF requests" in data["collection_method"] or (
         "no build-time IWF requests" in data["collection_method"]
     )
@@ -144,7 +140,6 @@ def test_source_lot_identity_is_cited_separately_from_the_current_page_name():
     data = snapshot()
     assert data["identity_source"]["source_url"].endswith("2026-IWF-WJC_RESULTS-BOOK.pdf")
     assert data["identity_source"]["checked_date"] == "2026-11-04"
-    assert "not raw PDF bytes" in data["identity_source"]["hash_scope"]
     assert "not extracted from the results page" in data["lot_identity_basis"]
     assert data["identity_name_variants"][0]["lot"] == "180"
     assert data["identity_name_variants"][0]["identity_source_name"] == "TAGGART Zak"

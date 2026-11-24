@@ -36,15 +36,14 @@ def test_country_registry_is_offline_exact_and_keeps_direct_source_facts():
     _, facts = reviewed_country_facts()
     fact = next(row for row in facts.values() if row["league"] == "PGA_TOUR")
     event = appointment(fact)
-    evidence, sources = fill_reviewed_countries([event])
+    sources = fill_reviewed_countries([event])
     assert event.country == fact["country"]
     assert event.country_source_url == fact["source_url"]
     assert event.country_checked_date == fact["checked_date"]
-    assert evidence[0]["countries_added"][0]["sha256"] == fact["sha256"]
     assert sources[0]["kind"] == "espn"
     event.country = "MX"
     event.country_source_url = "https://direct-source.test/"
-    assert fill_reviewed_countries([event]) == ([], [])
+    assert fill_reviewed_countries([event]) == []
     assert event.country == "MX"
     assert event.country_source_url == "https://direct-source.test/"
 
@@ -64,15 +63,9 @@ def test_changed_appointment_does_not_reuse_country(field, value):
     fact = next(row for row in facts.values() if row["league"] == "PGA_TOUR")
     event = appointment(fact)
     setattr(event, field, value)
-    evidence, sources = fill_reviewed_countries([event])
+    sources = fill_reviewed_countries([event])
     assert event.country is None
-    assert sources[0]["kind"] == "espn"
-    withheld = evidence[0]["countries_withheld"][0]
-    assert withheld["event_id"] == event.event_id
-    assert withheld["source_url"] == fact["source_url"]
-    assert withheld["checked_date"] == fact["checked_date"]
-    assert withheld["sha256"] == fact["sha256"]
-    assert "country" not in withheld
+    assert sources == []
 
 
 def test_physical_motogp_and_wec_hosts_and_unconfirmed_future_prologue():
@@ -158,66 +151,18 @@ def test_country_only_source_evidence_survives_per_league_publication(tmp_path):
     _, facts = reviewed_country_facts()
     fact = next(row for row in facts.values() if row["league"] == "PGA_TOUR")
     event = appointment(fact)
-    evidence, sources = fill_reviewed_countries([event])
+    sources = fill_reviewed_countries([event])
     public = _event_payload(event)
     # ESPN country-only supplements must also be attributed for a native source.
     public.update(source="nhl", sport="hockey", league="NHL")
     original["events"] = [public]
     original["sources"] += sources + [{"kind": "nhl", "name": "NHL", "url": "https://www.nhl.com/"}]
     original["data_licenses"]["nhl"] = "No license granted"
-    original["input_evidence"] = evidence
     publish_sports([original], tmp_path)
     published = json.loads((tmp_path / "2026-hockey-nhl.json").read_text())
     assert {s["kind"] for s in published["sources"]} == {"nhl", "espn"}
     assert set(published["data_licenses"]) == {"nhl", "espn"}
     assert published["events"][0]["country_source_url"] == fact["source_url"]
-    assert published["input_evidence"][0]["countries_added"][0]["event_id"] == event.event_id
-
-
-def test_changed_indycar_country_receipt_retains_citations_and_terms_only_in_its_league(tmp_path):
-    _, facts = reviewed_country_facts()
-    fact = facts["espn-indycar-202608164264"]
-    event = appointment(fact)
-    event.sport = "motorsport"
-    # The published ESPN appointment supplies this venue; the reviewed fact had none.
-    event.venue = "Streets of Markham"
-    evidence, sources = fill_reviewed_countries([event])
-    assert event.source == "espn"
-    assert event.country is event.country_source_url is event.country_checked_date is None
-    assert len(sources) == 1 and sources[0]["kind"] == "indycar"
-    assert not evidence[0]["countries_added"]
-    withheld = evidence[0]["countries_withheld"][0]
-    assert withheld == {
-        "event_id": event.event_id,
-        "reason": "Appointment changed since country review",
-        "source_url": "https://www.indycar.com/Schedule/2026/Markham",
-        "checked_date": fact["checked_date"],
-        "sha256": fact["sha256"],
-    }
-    original = bundle()
-    public = _event_payload(event)
-    unrelated = {**public, "event_id": "unrelated-nascar", "league": "NASCAR_CUP", "title": "Other race"}
-    original["events"] = [public, unrelated]
-    original["input_evidence"] = evidence
-    original["sources"] += sources
-    original["data_licenses"].update({source["kind"]: source["license"] for source in sources})
-    publish_sports([original], tmp_path)
-    indycar = json.loads((tmp_path / "2026-motorsport-indycar.json").read_text())
-    assert indycar["input_evidence"] == evidence
-    assert sources[0] in indycar["sources"]
-    assert indycar["data_licenses"]["indycar"] == sources[0]["license"]
-    assert (
-        next(source for source in indycar["sources"] if source["kind"] == "indycar")["license_url"]
-        == sources[0]["license_url"]
-    )
-    for row in indycar["events"]:
-        assert row["country"] is None
-        assert "country_source_url" not in row
-        assert "country_checked_date" not in row
-    nascar = json.loads((tmp_path / "2026-motorsport-nascar-cup.json").read_text())
-    assert not nascar["input_evidence"]
-    assert {source["kind"] for source in nascar["sources"]} == {"espn"}
-    assert set(nascar["data_licenses"]) == {"espn"}
 
 
 @pytest.mark.parametrize(

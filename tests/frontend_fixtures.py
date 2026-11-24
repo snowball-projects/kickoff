@@ -40,7 +40,7 @@ def build(output: Path) -> None:
             )
         current = json.loads(path.read_text())
     # An empty source year still appears in metadata without an event-file request.
-    boundary = {**current, "season": 2027, "events": [], "sources": [], "input_evidence": [], "exclusions": []}
+    boundary = {**current, "season": 2027, "events": [], "sources": []}
     publish_sports([current, boundary], output)
 
 

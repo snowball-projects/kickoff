@@ -15,11 +15,7 @@ export type ApiParticipant = {
   role: string | null;
   entity_type: string;
   country_code?: string;
-  country_source_url?: string;
-  country_checked_date?: string;
-  country_source_kind?: string;
   record?: string;
-  team_source_url?: string;
   final_score?: number;
   result_winner?: boolean;
   result_advance?: boolean;
@@ -32,8 +28,6 @@ export type ApiParticipant = {
   start_list_source_url?: string;
   start_list_checked_date?: string;
   logo_url?: string;
-  logo_source_url?: string;
-  logo_checked_date?: string;
 };
 
 export type EventCard = {
@@ -42,7 +36,6 @@ export type EventCard = {
   source: string;
   sport: string;
   league: string;
-  season: string;
   event_type: string;
   title: string;
   subtitle: string | null;
@@ -51,14 +44,11 @@ export type EventCard = {
   start_time_source_url?: string | null;
   start_time_utc: string | null;
   start_time_local: string | null;
-  timezone: string | null;
   status: string;
   venue: string | null;
   city: string | null;
-  region: string | null;
   country: string | null;
   country_source_url?: string;
-  country_checked_date?: string;
   round_or_stage: string | null;
   calendar_date: string | null;
   start_calendar_date?: string;
@@ -68,32 +58,9 @@ export type EventCard = {
   tags: string[];
   participants: ApiParticipant[];
   week_label: string | null;
-  facts_checked_date?: string;
-  facts_source_url?: string;
-  home_participant_name: string | null;
-  away_participant_name: string | null;
 };
 
-export type EventDetail = EventCard & {
-  is_regular_season: boolean;
-  is_postseason: boolean;
-  is_exhibition: boolean;
-  is_support_event: boolean;
-};
-
-export type ProviderSummary = {
-  provider: string;
-  label: string | null;
-  sport: string | null;
-  season_mode: string | null;
-  season: number;
-  event_count: number;
-  warnings: string[];
-  default_event_scope: string | null;
-  default_include_special_events: boolean | null;
-  default_include_support_events: boolean | null;
-  semantics: Record<string, unknown>;
-};
+export type EventDetail = EventCard;
 
 export type SourceNotice = {
   publisher?: string;
@@ -117,7 +84,6 @@ export type ManifestResponse = {
   season: number;
   all_events: number;
   available_seasons: number[];
-  providers: ProviderSummary[];
 };
 
 export type FacetValue = {

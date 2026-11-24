@@ -12,7 +12,6 @@ for (const width of [320, 1280]) for (const colorScheme of ["light", "dark"] as 
       expect(events[0]).toMatchObject({
         country: "MY",
         country_source_url: "https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?event=401835174",
-        country_checked_date: "2026-11-03",
       });
       await setup(page, events, { now: "2026-10-30T17:00:00Z" });
       for (const day of ["29", "30", "31"])
@@ -57,7 +56,7 @@ test("a golf event without a supplied country stays unflagged even with a famili
   await page.route("https://site.web.api.espn.com/**", (route) => route.fulfill({
     json: { events: [] }, headers: { "access-control-allow-origin": "*" },
   }));
-  await setup(page, events.map(event => ({ ...event, country: null, country_source_url: undefined, country_checked_date: undefined })),
+  await setup(page, events.map(event => ({ ...event, country: null, country_source_url: undefined })),
     { now: "2026-10-30T17:00:00Z" });
   const cell = page.locator("#day-2026-10-30");
   await expect(cell.locator(".event-pill .country-flag")).toHaveCount(0);

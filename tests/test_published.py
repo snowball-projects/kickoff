@@ -11,9 +11,7 @@ def bundle(year=2026):
         "season": year,
         "available_seasons": [2026, 2027],
         "updated_at": "2026-10-31T00:00:00Z",
-        "providers": [],
         "coverage": "Fixture coverage",
-        "exclusions": [],
         "data_licenses": {"espn": "No license granted", "wikipedia": "CC BY-SA 4.0"},
         "data_license_notice": "Wikipedia adaptations are CC BY-SA 4.0.",
         "sources": [
@@ -24,10 +22,6 @@ def bundle(year=2026):
                 "url": "https://en.wikipedia.org/w/index.php?oldid=123",
                 "revision": "123",
             },
-        ],
-        "input_evidence": [
-            {"kind": "espn", "url": "https://site.api.espn.com/", "sha256": "a" * 64},
-            {"kind": "wikipedia", "url": "https://en.wikipedia.org/w/index.php?oldid=123", "sha256": "b" * 64},
         ],
         "events": [
             {
@@ -81,7 +75,6 @@ def test_split_preserves_every_fact_and_specific_license_with_metadata_only_inde
         if item["value"] == "combat":
             assert sport["data_licenses"] == {"wikipedia": "CC BY-SA 4.0"}
             assert sport["sources"][0]["revision"] == "123"
-            assert sport["input_evidence"][0]["kind"] == "wikipedia"
         else:
             assert sport["data_licenses"] == {"espn": "No license granted"}
             assert sport["sources"][0]["kind"] == "espn"
@@ -104,30 +97,6 @@ def test_republication_removes_old_owned_outputs_and_has_no_sport_or_year_caps(t
     manifest = json.loads((tmp_path / "manifest.json").read_text())
     assert manifest["available_seasons"] == [2026, 2027]
     assert sum(year["all_events"] for year in manifest["seasons"].values()) == 4
-
-
-def test_optional_enrichment_evidence_contains_only_this_sports_matched_facts(tmp_path):
-    original = bundle()
-    original["input_evidence"].append(
-        {
-            "kind": "espn",
-            "url": "https://site.api.espn.com/mixed.json",
-            "sha256": "c" * 64,
-            "clocks_added": [{"event_id": "combat", "time_source_url": "https://www.espn.com/fight/"}],
-            "team_facts_added": [{"event_id": "football", "team_source_url": "https://www.espn.com/nfl/"}],
-        }
-    )
-    original["events"][1]["start_time_source"] = "espn"
-    publish_sports([original], tmp_path)
-    football = json.loads((tmp_path / "2026-football-nfl.json").read_text())
-    combat = json.loads((tmp_path / "2026-combat-pfl.json").read_text())
-    football_receipt = next(row for row in football["input_evidence"] if row["url"].endswith("mixed.json"))
-    combat_receipt = next(row for row in combat["input_evidence"] if row["url"].endswith("mixed.json"))
-    assert football_receipt["clocks_added"] == []
-    assert football_receipt["team_facts_added"] == original["input_evidence"][-1]["team_facts_added"]
-    assert combat_receipt["team_facts_added"] == []
-    assert combat_receipt["clocks_added"] == original["input_evidence"][-1]["clocks_added"]
-    assert len(original["input_evidence"][-1]["clocks_added"]) == 1
 
 
 def test_football_leagues_have_independent_files_without_changing_sport_or_facts(tmp_path):
@@ -165,23 +134,13 @@ def test_football_leagues_have_independent_files_without_changing_sport_or_facts
         assert f'href="{item["file"]}"' in index
 
 
-def test_each_sport_publishes_one_file_per_league_with_all_facts_and_receipts(tmp_path):
+def test_each_sport_publishes_one_file_per_league_with_visible_facts_and_licenses(tmp_path):
     original = bundle()
     template = original["events"][0]
     original["events"] = [
         {**template, "event_id": league, "league": league, "sport": sport}
         for sport, league in [("basketball", "NBA"), ("basketball", "WNBA"), ("soccer", "EPL"), ("soccer", "FA_CUP")]
     ]
-    original["input_evidence"].append(
-        {
-            "kind": "espn",
-            "url": "https://site.api.espn.com/optional-facts.json",
-            "sha256": "c" * 64,
-            "team_facts_added": [
-                {"event_id": event["event_id"], "team_source_url": event["source_url"]} for event in original["events"]
-            ],
-        }
-    )
     publish_sports([original], tmp_path)
     year = json.loads((tmp_path / "manifest.json").read_text())["seasons"]["2026"]
     assert year["all_events"] == 4
@@ -193,10 +152,6 @@ def test_each_sport_publishes_one_file_per_league_with_all_facts_and_receipts(tm
         assert len(item["leagues"]) == 1
         assert payload["events"] == [event for event in original["events"] if event["league"] == item["leagues"][0]]
         assert payload["data_licenses"] == {"espn": "No license granted"}
-        assert payload["input_evidence"][0] == original["input_evidence"][0]
-        assert payload["input_evidence"][1]["team_facts_added"] == [
-            row for row in original["input_evidence"][-1]["team_facts_added"] if row["event_id"] == item["leagues"][0]
-        ]
         assert f'href="{item["file"]}"' in index
         published.extend(payload["events"])
     assert sorted(published, key=lambda event: event["event_id"]) == sorted(
@@ -230,7 +185,10 @@ def test_espn_image_source_keeps_license_with_official_schedule_bundle(tmp_path,
     payload = json.loads((tmp_path / f"2026-{sport}-{league.lower()}.json").read_text())
     assert {source["kind"] for source in payload["sources"]} == {kind, "espn"}
     assert set(payload["data_licenses"]) == {kind, "espn"}
-    assert payload["events"] == original["events"]
+    assert payload["events"][0]["participants"] == [
+        {"name": "Source team", "role": "home", "logo_url": original["events"][0]["participants"][0]["logo_url"]}
+    ]
+    assert original["events"][0]["participants"][0]["logo_source_url"]
 
 
 @pytest.mark.parametrize("complete", [False, True])

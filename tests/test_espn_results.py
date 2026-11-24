@@ -9,7 +9,6 @@ from kickoff.espn_results import espn_result
 PROOF = {
     "source_url": "https://site.api.espn.com/scoreboard?dates=2025",
     "checked_date": "2026-11-03",
-    "sha256": "a" * 64,
 }
 
 

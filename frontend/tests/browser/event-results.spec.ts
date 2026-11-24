@@ -160,7 +160,7 @@ test("a medal-only result shows explicit medals with no invented attempts; a mis
 test("walkover and grouped source podiums show only supplied facts", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await setup(page, [event("Walkover", undefined, { sport: "tennis", league: "ATP", status: "finished", result: { kind: "tennis-final", ...proof, winner: { name: "Confirmed champion" }, runner_up: { name: "Confirmed runner-up" }, status: "walkover" } }),
-    event("Grouped podium", undefined, { sport: "climbing", league: "IFSC_WORLD_CUP", status: "finished", result: { kind: "podiums", ...proof, allocation_source: { source_url: "https://ifsc.results.info/events/1491/infosheet", checked_date: "2026-11-03", page: 3, sha256: "private-source-hash", scope: "private-allocation-review-prose" }, categories: [{ label: "LEAD Women B3", rows: [{ rank: 1, name: "First category winner" }, { rank: 3, name: "Tied bronze A" }, { rank: 3, name: "Tied bronze B" }] }, { label: "SPEED RELAY Men", rows: [{ rank: 1, name: "CHN" }, { rank: 2, name: "CHN" }] }] } })]);
+    event("Grouped podium", undefined, { sport: "climbing", league: "IFSC_WORLD_CUP", status: "finished", result: { kind: "podiums", ...proof, allocation_source: { source_url: "https://ifsc.results.info/events/1491/infosheet", checked_date: "2026-11-03", page: 3 }, categories: [{ label: "LEAD Women B3", rows: [{ rank: 1, name: "First category winner" }, { rank: 3, name: "Tied bronze A" }, { rank: 3, name: "Tied bronze B" }] }, { label: "SPEED RELAY Men", rows: [{ rank: 1, name: "CHN" }, { rank: 2, name: "CHN" }] }] } })]);
   await agendaToggle(page).click();
   await page.locator('[id="agenda-2026-10-28-Walkover"]').getByRole("button").click();
   const final = page.getByRole("table", { name: "Singles final" });
@@ -178,8 +178,6 @@ test("walkover and grouped source podiums show only supplied facts", async ({ pa
   await expect(result.getByRole("link", { name: "Result source" }).locator("..")).toContainText("Checked 2026-11-04");
   await expect(result.getByRole("link", { name: "Session source" })).toHaveAttribute("href", "https://ifsc.results.info/events/1491/infosheet");
   await expect(result.getByRole("link", { name: "Session source" }).locator("..")).toHaveText("Session source ↗ · Checked 2026-11-03 · Page 3");
-  await expect(result).not.toContainText("private-source-hash");
-  await expect(result).not.toContainText("private-allocation-review-prose");
 });
 
 

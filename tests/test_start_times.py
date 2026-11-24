@@ -53,7 +53,7 @@ def test_brazil_clock_is_refreshed_with_exact_teams_date_timezone_and_attributio
     config = football_teams()["BRASILEIRAO"]["teams"]
     row = espn(home=config["CR Flamengo"], away=config["SE Palmeiras"])
     calls = answer(monkeypatch, [row])
-    receipts = fill_missing_start_times([event], 2026)
+    fill_missing_start_times([event], 2026)
     assert calls == [f"{feeds.ESPN}/soccer/bra.1/scoreboard?dates=2026&limit=1000"]
     assert event.event_id == identity
     assert event.calendar_date == event.end_calendar_date == "2026-10-28"
@@ -64,14 +64,6 @@ def test_brazil_clock_is_refreshed_with_exact_teams_date_timezone_and_attributio
     assert event.start_time_source == "espn" and event.start_time_source_url == row["links"][0]["href"]
     assert event.country == "Brazil"  # Original domestic-league provenance is retained.
     assert _event_payload(event)["start_time_source_url"] == event.start_time_source_url
-    assert receipts[0]["clocks_added"] == [
-        {
-            "event_id": identity,
-            "schedule_source_url": source,
-            "time_source_url": event.start_time_source_url,
-        }
-    ]
-    assert len(receipts[0]["canonical_json_sha256"]) == 64
     # A subsequent refresh uses the new source clock, with no cached one-off data.
     changed = football()
     row["date"] = row["competitions"][0]["date"] = "2026-10-29T00:00Z"
@@ -103,7 +95,7 @@ def test_uncertain_clocks_do_not_mutate_source_date_or_identity(monkeypatch, mut
         for c in row["competitions"][0]["competitors"]:
             c["homeAway"] = "away" if c["homeAway"] == "home" else "home"
     answer(monkeypatch, [row])
-    assert not fill_missing_start_times([event], 2026)[0]["clocks_added"]
+    assert not fill_missing_start_times([event], 2026)
     assert event.to_dict() == before
 
 
@@ -130,7 +122,7 @@ def test_complete_team_facts_and_multiday_tournaments_do_not_fetch(monkeypatch):
     events = [timed, span]
     before = [e.to_dict() for e in events]
     calls = answer(monkeypatch, [])
-    assert fill_missing_start_times(events, 2026) == []
+    assert not fill_missing_start_times(events, 2026)
     assert calls == [] and [e.to_dict() for e in events] == before
 
 
@@ -139,7 +131,7 @@ def test_malformed_lookup_warns_and_preserves_events(monkeypatch, caplog, payloa
     monkeypatch.setattr(feeds, "get_json", lambda _, **_options: payload)
     event = football()
     before = event.to_dict()
-    assert fill_missing_start_times([event], 2026) == []
+    assert not fill_missing_start_times([event], 2026)
     assert event.to_dict() == before
     assert "ESPN clock lookup failed" in caplog.text
     assert "/soccer/bra.1/scoreboard?dates=2026" in caplog.text
@@ -155,7 +147,7 @@ def test_missing_timezone_and_possible_truncation_warn_and_preserve_events(monke
     answer(monkeypatch, [row] * (1000 if truncated else 1))
     event = football()
     before = event.to_dict()
-    assert fill_missing_start_times([event], 2026) == []
+    assert not fill_missing_start_times([event], 2026)
     assert event.to_dict() == before
     assert ("truncated" if truncated else "timezone") in caplog.text
 
@@ -169,7 +161,7 @@ def test_late_malformed_clock_discards_all_changes_from_its_lookup(monkeypatch, 
     bad = espn(clock="2026-10-29T23:30Z", home=teams["CR Flamengo"], away=teams["SE Palmeiras"], identity="456")
     bad["competitions"][0]["date"] = "invalid"
     answer(monkeypatch, [row, bad])
-    assert fill_missing_start_times(events, 2026) == []
+    assert not fill_missing_start_times(events, 2026)
     assert [event.to_dict() for event in events] == before
     assert "ESPN clock lookup failed" in caplog.text
 
@@ -202,12 +194,11 @@ def test_failed_lookup_does_not_discard_other_lookups_or_existing_times(monkeypa
 
     monkeypatch.setattr(feeds, "get_json", get_json)
     events = [missing, other, timed] if failed_first else [other, missing, timed]
-    receipts = fill_missing_start_times(events, 2026)
+    fill_missing_start_times(events, 2026)
     assert missing.start_time_utc is missing.start_time_local is None
     assert timed.to_dict() == timed_before
     assert other.start_time_utc == "2026-10-28T20:30:00Z"
     assert other.start_time_source_url == row["links"][0]["href"]
-    assert len(receipts) == 1 and receipts[0]["clocks_added"][0]["event_id"] == other.event_id
 
 
 def test_combat_card_uses_reviewed_identity_and_header_block_not_main_bout(monkeypatch):
@@ -324,11 +315,10 @@ def test_doubleheader_identity_is_required_when_sibling_is_missing(
             )
         rows.append(row)
     answer(monkeypatch, rows)
-    receipts = fill_missing_start_times([event], 2026)
+    fill_missing_start_times([event], 2026)
     assert event.start_time_utc == expected_utc
     if expected_utc is None:
         assert event.to_dict() == before
-        assert receipts[0]["clocks_added"] == []
     else:
         assert event.source == "mlb" and event.start_time_source == "espn"
         assert event.source_url == before["source_url"]
@@ -353,7 +343,6 @@ def test_export_keeps_both_source_receipts_and_espn_license(monkeypatch, tmp_pat
     assert bundle["data_licenses"]["espn"] == feeds.SOURCES["espn"]["license"]
     assert any(n["name"] == "openfootball contributors" for n in bundle["sources"])
     assert any(n["name"] == "ESPN" for n in bundle["sources"])
-    assert next(r for r in bundle["input_evidence"] if r.get("clocks_added"))["clocks_added"][0]["schedule_source_url"]
     assert "9 football leagues" in bundle["coverage"]
 
 
@@ -399,7 +388,6 @@ def test_failed_clock_lookup_still_exports_date_only_events(monkeypatch, tmp_pat
     assert event["source"] == "openfootball" and event["source_url"]
     assert not event.get("start_time_source") and not event.get("start_time_source_url")
     assert any(e["start_time_utc"] for e in bundle["events"])  # Primary clocks survive.
-    assert not any(receipt.get("clocks_added") for receipt in bundle["input_evidence"])
     assert "ESPN clock lookup failed" in caplog.text
 
 
@@ -420,8 +408,7 @@ def test_primary_espn_schedule_failure_still_aborts_publication(monkeypatch, tmp
     assert not (tmp_path / "2026.json").exists()
 
 
-def test_enriched_combat_keeps_wikipedia_component_membership_and_mixed_licenses(monkeypatch, tmp_path):
-    import hashlib
+def test_enriched_combat_keeps_wikipedia_facts_and_mixed_file_licenses(monkeypatch, tmp_path):
     from datetime import datetime
     from zoneinfo import ZoneInfo
 
@@ -446,12 +433,12 @@ def test_enriched_combat_keeps_wikipedia_component_membership_and_mixed_licenses
     monkeypatch.setattr(open_schedules, "load_reviewed_schedules", lambda *_: (events, notices, exclusions))
     answer(monkeypatch, rows)
     bundle = json.loads(open_schedules.refresh_open_schedules(2026, tmp_path, enrich_times=True).read_text())
-    reference = next(item for item in bundle["components"] if "-wikipedia-" in item["path"])
-    body = (tmp_path / reference["path"]).read_bytes()
-    assert hashlib.sha256(body).hexdigest() == reference["sha256"]
-    component = json.loads(body)
-    assert {event["event_id"] for event in component["events"]} == set(origins)
-    enriched = [event for event in component["events"] if event.get("start_time_source") == "espn"]
+    from kickoff.published import publish_sports
+
+    publish_sports([bundle], tmp_path / "public")
+    published = [json.loads(path.read_text()) for path in (tmp_path / "public").glob("2026-*.json")]
+    files = [p for p in published if any(e.get("start_time_source") == "espn" for e in p["events"])]
+    enriched = [event for p in files for event in p["events"] if event.get("start_time_source") == "espn"]
     assert len(enriched) == 18
     for event in enriched:
         origin = origins[event["event_id"]]
@@ -459,10 +446,14 @@ def test_enriched_combat_keeps_wikipedia_component_membership_and_mixed_licenses
             assert event[field] == origin[field]
         assert event["source"] == "wikipedia" and event["start_time_source"] == "espn"
         assert event["start_time_utc"] and event["start_time_source_url"].startswith("https://www.espn.com/")
-    assert component["license"] == component["data_licenses"]["wikipedia"] == "CC BY-SA 4.0"
-    assert component["data_licenses"]["espn"] == bundle["data_licenses"]["espn"] == feeds.SOURCES["espn"]["license"]
-    assert {source["kind"] for source in component["sources"]} == {"wikipedia", "espn"}
-    assert "Separately attributed team facts and start times retain their source's terms" in component["license_notice"]
+    for published in files:
+        assert published["data_licenses"]["wikipedia"] == "CC BY-SA 4.0"
+        assert published["data_licenses"]["espn"] == feeds.SOURCES["espn"]["license"]
+        assert {"wikipedia", "espn"} <= {source["kind"] for source in published["sources"]}
+        assert (
+            "Separately attributed team facts and start times retain their source's terms"
+            in published["data_license_notice"]
+        )
 
 
 def test_existing_soccer_response_supplies_team_facts_without_extra_calls_or_clock_changes(monkeypatch):
@@ -474,18 +465,16 @@ def test_existing_soccer_response_supplies_team_facts_without_extra_calls_or_clo
         competitor["team"]["shortDisplayName"] = competitor["homeAway"] + " team"
         competitor["records"] = [{"type": "total", "summary": "12-5-8"}]
     calls = answer(monkeypatch, [row])
-    receipts = fill_missing_start_times([pending, known], 2026)
+    fill_missing_start_times([pending, known], 2026)
     assert len(calls) == 1
     assert (known.start_time_local, known.start_time_utc, known.timezone) == original_clock
-    assert not receipts[0]["clocks_added"]
-    assert receipts[0]["team_facts_added"] == [{"event_id": known.event_id, "team_source_url": row["links"][0]["href"]}]
     assert known.facts_checked_date == datetime.now(UTC).date().isoformat()
     for participant in [known.home_participant, known.away_participant, *known.participants]:
         assert participant.short_name == participant.role + " team"
         assert participant.record == "12-5-8"
         assert participant.team_source_url == row["links"][0]["href"]
     # A league with no missing kickoff times does not gain a new request.
-    assert fill_missing_start_times([known], 2026) == []
+    assert not fill_missing_start_times([known], 2026)
     assert len(calls) == 1
 
 
@@ -496,6 +485,5 @@ def test_soccer_optional_team_facts_omit_unsupported_records_and_short_names(mon
         competitor["team"]["shortDisplayName"] = 100
         competitor["records"] = [{"type": "total", "summary": "Unknown"}]
     answer(monkeypatch, [row])
-    receipts = fill_missing_start_times([event], 2026)
-    assert receipts[0]["team_facts_added"] == []
+    fill_missing_start_times([event], 2026)
     assert event.home_participant.short_name is event.home_participant.record is None

@@ -8,7 +8,6 @@ never odds or article content.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 import time
@@ -28,7 +27,7 @@ from kickoff.espn_results import espn_result
 from kickoff.http import read_bounded_response
 from kickoff.models import CalendarEvent, Participant
 from kickoff.results import attach_result
-from kickoff.semantics import classification_fields
+from kickoff.semantics import POSTSEASON_PHASES, classification_fields
 from kickoff.team_logos import TEAM_SPORTS, source_logo
 
 USER_AGENT = "kickoff-refresh/0.3 (https://github.com/snowball-projects/kickoff)"
@@ -99,24 +98,13 @@ SOURCES = {
 }
 
 
-def get_json(
-    url: str, *, retries: int = 3, missing_ok: bool = False, receipt: dict | None = None
-) -> dict | list | None:
+def get_json(url: str, *, retries: int = 3, missing_ok: bool = False) -> dict | list | None:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json", "Accept-Encoding": "gzip"})
     for attempt in range(retries):
         try:
             with urlopen(request, timeout=60) as response:
                 data = read_bounded_response(response, max_bytes=MAX_BYTES)
             parsed = json.loads(data)
-            if receipt is not None:
-                checked = datetime.now(UTC)
-                receipt.update(
-                    url=url,
-                    checked_date=checked.date().isoformat(),
-                    observed_at=checked.isoformat(),
-                    sha256=hashlib.sha256(data).hexdigest(),
-                    hash_scope="decoded source response bytes",
-                )
             return parsed
         except HTTPError as error:
             if missing_ok and error.code in {400, 404}:
@@ -130,16 +118,13 @@ def get_json(
     return None
 
 
-def _schedule_source(url: str, league: str, kind: str, *, window=None, **options):
+def _schedule_source(url: str, *, window=None, **options):
     if window is not None and url in window.responses:
         return window.responses[url]
-    receipt = {}
-    payload = get_json(url, receipt=receipt, **options)
+    payload = get_json(url, **options)
     if window is not None:
-        if receipt:
-            window.receipts[url] = {**receipt, "kind": kind, "league": league}
-        window.responses[url] = payload, receipt
-    return payload, receipt
+        window.responses[url] = payload
+    return payload
 
 
 def _since(window, league, year):
@@ -150,7 +135,7 @@ def _season_calendar(path, league, season, *, window=None, group=None):
     url = f"{ESPN}/{path}/scoreboard?dates={season}&limit=1"
     if group is not None:
         url += f"&groups={group}"
-    payload, _ = _schedule_source(url, league, "espn", window=window, missing_ok=True)
+    payload = _schedule_source(url, window=window, missing_ok=True)
     if payload is None:
         return []
     league_row = payload["leagues"][0]
@@ -478,7 +463,7 @@ def espn_season_feed(
     """Annual scoreboards expose tournaments or games as top-level events."""
 
     def collect(url, window):
-        payload, receipt = _schedule_source(url, league, "espn", window=window)
+        payload = _schedule_source(url, window=window)
         events = []
         for row in rows(payload, "events"):
             # LPGA and Major League Rugby include empty calendar placeholders.
@@ -499,12 +484,8 @@ def espn_season_feed(
                 input_url=url,
             )
             if event:
-                if receipt and league in {"NASCAR_CUP", "INDYCAR", "ATP", "WTA"}:
-                    result = espn_result(
-                        row, league, source_url=url, checked_date=receipt["checked_date"], sha256=receipt["sha256"]
-                    )
-                    if result is not None:
-                        result["hash_scope"] = receipt["hash_scope"]
+                if league in {"NASCAR_CUP", "INDYCAR", "ATP", "WTA"}:
+                    result = espn_result(row, league, source_url=url, checked_date=datetime.now(UTC).date().isoformat())
                     attach_result(event, result)
                 if sport == "rugby":
                     competition = (row.get("competitions") or [{}])[0]
@@ -537,7 +518,7 @@ def nfl_events(year: int, *, window=None) -> list[CalendarEvent]:
     """Fetch only ESPN calendar weeks that overlap the cutoff and source year."""
 
     def collect(url, season_type, week):
-        payload, _ = _schedule_source(url, "NFL", "espn", window=window, missing_ok=True)
+        payload = _schedule_source(url, window=window, missing_ok=True)
         batch = []
         for row in rows(payload, "events") if payload is not None else []:
             name = row.get("name", "")
@@ -582,7 +563,7 @@ def nba_events(year: int, *, window=None) -> list[CalendarEvent]:
         if date(year, month, monthrange(year, month)[1]) < since:
             continue
         url = f"{ESPN}/basketball/nba/scoreboard?dates={year}{month:02}&limit=1000"
-        payload, _ = _schedule_source(url, "NBA", "espn", window=window, missing_ok=True)
+        payload = _schedule_source(url, window=window, missing_ok=True)
         selected = rows(payload, "events") if payload is not None else []
         if len(selected) >= 1000:
             raise ValueError("NBA monthly scoreboard reached its limit")
@@ -713,7 +694,7 @@ def espn_team_events(year: int, league: str, *, window=None) -> list[CalendarEve
         prefix: str, group: int | None, season_type: str | None = None, week: str | None = None, request_url=None
     ):
         url = request_url or query_url(prefix, group, season_type, week)
-        payload, _ = _schedule_source(url, league, "espn", window=window)
+        payload = _schedule_source(url, window=window)
         selected = rows(payload, "events")
         supplements = []
         if league == "UFL" and len(prefix) == 4 and season_type is None:
@@ -819,7 +800,9 @@ def espn_team_events(year: int, league: str, *, window=None) -> list[CalendarEve
                 days.update((last + timedelta(days=offset)).isoformat() for offset in range(1, (end - last).days + 1))
         if window is not None:
             days.update(
-                e["calendar_date"] for e in window.events.values() if e["league"] == league and e.get("is_postseason")
+                e["calendar_date"]
+                for e in window.events.values()
+                if e["league"] == league and e.get("competition_phase") in POSTSEASON_PHASES
             )
         days = sorted(day.replace("-", "") for day in days if since.isoformat() <= day <= f"{year}-12-31")
         queries = [(day, group) for group in groups for day in days]
@@ -870,7 +853,7 @@ def ucl_events(year: int, *, window=None) -> list[CalendarEvent]:
     if _since(window, "UEFA_CHAMPIONS_LEAGUE", year) > date(year, 12, 31):
         return []
     url = f"{ESPN}/soccer/uefa.champions/scoreboard?dates={year}&limit=1000"
-    payload, _ = _schedule_source(url, "UEFA_CHAMPIONS_LEAGUE", "espn", window=window)
+    payload = _schedule_source(url, window=window)
     selected = rows(payload, "events")
     if len(selected) >= 1000:
         raise ValueError("Champions League annual scoreboard reached its limit")
@@ -900,7 +883,7 @@ def mlb_events(year: int, *, window=None) -> list[CalendarEvent]:
     events = []
 
     def collect(url):
-        payload, _ = _schedule_source(url, "MLB", "mlb", window=window)
+        payload = _schedule_source(url, window=window)
         batch = []
         for day in rows(payload, "dates"):
             for game in rows(day, "games"):
@@ -982,7 +965,7 @@ def nhl_events(year: int, *, window=None) -> list[CalendarEvent]:
     events = []
 
     def collect(url):
-        payload, _ = _schedule_source(url, "NHL", "nhl", window=window)
+        payload = _schedule_source(url, window=window)
         batch = []
         for week in rows(payload, "gameWeek"):
             for game in rows(week, "games"):

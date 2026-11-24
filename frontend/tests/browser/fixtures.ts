@@ -3,9 +3,9 @@ import type { ManifestResponse } from "../../src/types";
 import { allPreferences, INTERESTS_KEY } from "../../src/interest-preferences";
 import { publishedFiles } from "../published-fixture.mjs";
 export const event = (id: string, date = "2026-10-28", fields = {}) => ({
-  event_id: id, title: id, source: "fixture", sport: "soccer", league: "EPL", season: date.slice(0, 4),
+  event_id: id, title: id, source: "fixture", sport: "soccer", league: "EPL",
   event_type: "match", subtitle: null, calendar_date: date, end_calendar_date: date,
-  start_time_utc: null, start_time_local: null, timezone: null, status: "scheduled",
+  start_time_utc: null, start_time_local: null, status: "scheduled",
   venue: "Town Stadium", city: "London", country: "England", competition_phase: "regular_season", tags: [], participants: [],
   source_url: "https://example.com/schedule", ...fields,
 });
@@ -30,7 +30,7 @@ export async function setup(page: Page, events: ReturnType<typeof event>[], opti
     await options.holdFiles?.[file];
     if (options.failedFiles?.includes(file)) return route.fulfill({ status: 503, body: "unavailable" });
     const files = publishedFiles([2025, 2026, 2027].filter((year) => year !== options.missing).map((year) => ({
-      season: year, ...options.metadata, events: events.filter((item) => item.season === String(year)),
+      season: year, ...options.metadata, events: events.filter((item) => item.calendar_date?.slice(0, 4) === String(year)),
     })));
     return file in files ? route.fulfill({ json: files[file] }) : route.fulfill({ status: 404, body: "missing" });
   });

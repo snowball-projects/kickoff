@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import json
-import re
-from collections import defaultdict
 from datetime import date
 from functools import cache
 from importlib.resources import files
@@ -43,12 +41,7 @@ def reviewed_country_facts() -> tuple[dict, dict]:
         if kind not in sources or urlparse(fact["source_url"]).scheme != "https":
             raise ValueError("Unreviewed country proof host")
         start, end = date.fromisoformat(fact["start_date"]), date.fromisoformat(fact["end_date"])
-        if (
-            end < start
-            or not fact["title"]
-            or not fact.get("evidence")
-            or not re.fullmatch(r"[a-f0-9]{64}", fact["sha256"])
-        ):
+        if end < start or not fact["title"]:
             raise ValueError("Invalid reviewed country proof")
         date.fromisoformat(fact["checked_date"])
         facts[fact["event_id"]] = fact
@@ -58,7 +51,7 @@ def reviewed_country_facts() -> tuple[dict, dict]:
 def fill_reviewed_countries(events):
     """Fill missing countries only; moved/renamed fixtures need another review."""
     sources, facts = reviewed_country_facts()
-    added, withheld = defaultdict(list), defaultdict(list)
+    kinds = set()
     for event in events:
         fact = facts.get(event.event_id)
         if event.country or not fact:
@@ -73,21 +66,9 @@ def fill_reviewed_countries(events):
         )
         reviewed = tuple(fact[key] for key in ("league", "title", "start_date", "end_date", "venue"))
         if identity != reviewed:
-            withheld[kind].append(
-                {
-                    **{key: fact[key] for key in ("event_id", "source_url", "checked_date", "sha256")},
-                    "reason": "Appointment changed since country review",
-                }
-            )
             continue
         event.country = fact["country"]
         event.country_source_url = fact["source_url"]
         event.country_checked_date = fact["checked_date"]
-        added[kind].append(
-            {key: fact[key] for key in ("event_id", "country", "source_url", "checked_date", "sha256", "evidence")}
-        )
-    evidence = [
-        {"kind": kind, "countries_added": added[kind], "countries_withheld": withheld[kind]}
-        for kind in sorted(added.keys() | withheld.keys())
-    ]
-    return evidence, [sources[receipt["kind"]] for receipt in evidence]
+        kinds.add(kind)
+    return [sources[kind] for kind in sorted(kinds)]

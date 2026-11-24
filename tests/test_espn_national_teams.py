@@ -110,7 +110,7 @@ def test_official_positive_country_identity_keeps_conflicting_core_fact_private(
     assert participant["name"] == name and participant["entity_type"] == "national_team"
     assert participant["country_code"] == code and participant["country_source_kind"] == kind
     assert participant["country_source_url"] == reviewed["source_url"]
-    assert "conflicting_core_metadata" not in participant and "source_sha256" not in participant
+    assert "conflicting_core_metadata" not in participant
 
 
 def test_official_identity_attribution_survives_collector_and_league_split(monkeypatch, tmp_path):
@@ -132,10 +132,7 @@ def test_official_identity_attribution_survives_collector_and_league_split(monke
     assert notice in manifest["seasons"]["2026"]["sources"]
     rugby = json.loads((tmp_path / "published/2026-rugby-six-nations.json").read_text())
     assert notice in rugby["sources"] and rugby["data_licenses"]["world_rugby"] == notice["license"]
-    assert (
-        next(p for p in rugby["events"][0]["participants"] if p["role"] == "home")["country_source_url"]
-        == notice["url"]
-    )
+    assert next(p for p in rugby["events"][0]["participants"] if p["role"] == "home")["country_code"] == "HK"
     for path in (tmp_path / "published").glob("2026-*.json"):
         if path.name != "2026-rugby-six-nations.json":
             assert all(source["kind"] != "world_rugby" for source in json.loads(path.read_text())["sources"])

@@ -110,8 +110,6 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             raise ValueError("Registry source must pin its exact revision")
         if source["license"] != license_name or source["license_url"] != license_url:
             raise ValueError("Incorrect registry data license")
-        if not re.fullmatch(r"[a-f0-9]{64}", source["sha256"]):
-            raise ValueError("Missing source SHA-256")
         if not source.get("changes") or not source.get("name"):
             raise ValueError("Missing attribution or transformation notice")
         if kind in {"weightlifting", "world_climbing"} or kind.startswith("boxing_"):
@@ -150,8 +148,7 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 ):
                     raise ValueError("Wikipedia title evidence needs a pinned revision")
                 date.fromisoformat(title["checked_date"])
-                if not title.get("evidence"):
-                    raise ValueError("Boxing title needs its classification evidence")
+
         disciplines = row.get("disciplines", [])
         if not isinstance(disciplines, list) or any(d not in {"Boulder", "Lead", "Speed"} for d in disciplines):
             raise ValueError("Unknown climbing discipline")
@@ -214,7 +211,6 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
                 start != end
                 or not zone
                 or zone != source.get("clock_timezone")
-                or not source.get("clock_evidence")
                 or row.get("source_url") != source["url"]
                 or time_scope != "event"
             ):
@@ -236,19 +232,12 @@ def reviewed_events(payload: dict, year: int) -> tuple[list[CalendarEvent], list
             country = venue_country(country)
             if country:
                 country_source_url = row.get("country_source_url")
-                if country_source_url != source["url"]:
-                    location = row.get("location_evidence")
-                    proofs = location.get("sources", []) if isinstance(location, dict) else []
-                    if row["league"] != "BOXING_MAJOR" or not any(
-                        proof.get("url") == country_source_url
-                        and "country" in proof.get("fields", [])
-                        and proof.get("checked_date") == row.get("country_checked_date")
-                        and urlparse(proof["url"]).scheme == "https"
-                        and urlparse(proof["url"]).netloc in BOXING_HOSTS
-                        and re.fullmatch(r"[a-f0-9]{64}", proof.get("sha256", ""))
-                        for proof in proofs
-                    ):
-                        raise ValueError("Venue country needs its reviewed source link")
+                if country_source_url != source["url"] and (
+                    row["league"] != "BOXING_MAJOR"
+                    or urlparse(country_source_url or "").scheme != "https"
+                    or urlparse(country_source_url).netloc not in BOXING_HOSTS
+                ):
+                    raise ValueError("Venue country needs its reviewed source link")
                 country_checked_date = date.fromisoformat(row["country_checked_date"]).isoformat()
         home, away = None, None
         if row["event_type"] == "game":

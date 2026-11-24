@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import logging
 import re
@@ -126,10 +125,6 @@ def load_f1_result(
             return None
         podium = _podium(body)
         rows = []
-        inputs = [
-            {"url": f"{RAW}/{revision}/{race_path}/race.yml", "sha256": hashlib.sha256(race_body).hexdigest()},
-            {"url": result_url, "sha256": hashlib.sha256(body).hexdigest()},
-        ]
         for rank, driver_id in podium:
             driver_url = f"{RAW}/{revision}/src/data/drivers/{driver_id}.yml"
             if driver_url not in cache:
@@ -145,15 +140,13 @@ def load_f1_result(
             if driver.get("id") != driver_id:
                 raise ValueError("F1DB driver identity does not match its classification")
             rows.append({"rank": rank, "name": _name(driver["name"]), "participant_id": driver_id})
-            inputs.append({"url": driver_url, "sha256": hashlib.sha256(driver_body).hexdigest()})
+
         return {
             "kind": "podium",
             "rows": rows,
             "source_url": f"{BLOB}/{revision}/{result_path}",
             "checked_date": checked_date,
-            "sha256": hashlib.sha256(body).hexdigest(),
             "revision": revision,
-            "inputs": inputs,
         }
     except Exception as error:
         LOGGER.warning("Optional F1DB result unavailable for %s: %s", event_id, error)

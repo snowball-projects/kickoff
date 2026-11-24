@@ -12,8 +12,6 @@
       "revision": "Start book rev2, 12 April 2026",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "b1eb2d9631f5a19883bde4506a90de4e5561e07e3383cdcfd36421f947263831",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
     {
@@ -26,8 +24,6 @@
       "revision": "structured-source-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
-      "sha256": "3eb381abf75b98437b73e7af9e43640a3f3227ab6cd99535e5107538c6edbb91",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
       "evidence": [
         {
@@ -62,8 +58,6 @@
       "revision": "Start book, 13 May 2026",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "00c33bd032bb6d3a754bc0449507726d078517758c8d90677f98d4c19ae92151",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
     {
@@ -76,8 +70,6 @@
       "revision": "Start book, 3 May 2026",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "82272cffa6f166f64e378acbde7e5cda60ac5cef16f9ce94cc091b1caee0a612",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
     },
     {
@@ -90,8 +82,6 @@
       "revision": "Final competition timetable",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "54864b3205592198fe558aa6635d1c3970febf5bd5026b69ad5bdb1742c8d122",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Meet combines Universal Cup, Oceania Senior/Junior/Youth and Commonwealth Junior/Youth. Final timetable explicitly has Women 77+kg and Men 94+kg additional sessions; these are preserved literally as +77/+94, not relabeled as adult classes. Senior results book contains only 48,53,58,63,69,77,86,+86 women / 60,65,71,79,88,94,110,+110 men.",
       "verification_source_url": "https://www.oceaniaweightlifting.com/Portals/0/news/2026/Oceania%20Senior%20Championships%20Results%20Book.pdf",
       "timezone_basis": "Published venue-local timetable; IANA zone selected for the host city. No clock inferred for date-only spans."
@@ -105,9 +95,7 @@
       "license_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=3004",
       "revision": "Start book v1.1, 26 October 2026; timetable printed pages 2 (PDF pages 5-6)",
       "checked_date": "2026-10-28",
-      "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "800d47b3777e23525a9ec372356dc35ca8f9b807d410ba6063c64e5c0f1b86fc",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research"
+      "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city."
     },
     {
       "id": "iwf-junior-worlds-2026-official",
@@ -118,9 +106,7 @@
       "license_url": "https://iwf.sport/wp-content/plugins/download-monitor/download.php?id=2931",
       "revision": "Start book v1.1, 1 May 2026; timetable printed page 2 (PDF page 4)",
       "checked_date": "2026-10-28",
-      "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "80f5c6de73ddcaba4c9f1967b34ac02c6edd800ce9920fca9af4f4b1b425afed",
-      "hash_scope": "canonical reviewed event facts (sorted keys, compact ASCII JSON), not raw source bytes; original read via web research"
+      "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city."
     },
     {
       "id": "youth-worlds-2026-official",
@@ -132,8 +118,6 @@
       "revision": "Start book v1.1, 4 July 2026; timetable printed 04.07.2026 14:37:46",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "1233808d8602aef474d813fec1373f7b0677f99c41110d5133548877796c44d3",
-      "hash_scope": "raw official PDF bytes from federation mirror",
       "coverage_notes": "Official IWF start book downloaded from Saxony Weightlifting Federation mirror. All 22 scheduled competition sessions included; six classes split A/B. Preliminary timetable is superseded. Host-city IANA timezone America/Bogota (UTC-05:00).",
       "mirror_url": "https://vgkf-sachsen.de/assets/3e5bb41a-b14c-45bf-a4c1-84e0a080c4a1/2026-IWF-WYC_START-BOOK-v1.1.pdf"
     },
@@ -147,8 +131,6 @@
       "revision": "structured-source-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
-      "sha256": "73a254f59700586d5d46d633b0f730e4630f048b23b389197a74f2dd7a12df2e",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
       "evidence": [
         {
@@ -183,8 +165,6 @@
       "revision": "Results book v1.0; Competition Schedule revised 2026-09-25 11:05",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "725a980521745420b26f0f5fa7b153dea90eccebf2f78170ac07bb9a677ef871",
-      "hash_scope": "raw document bytes",
       "coverage_notes": "21 actual sessions covering all 24 class/group rows from the revised competition schedule (results book PDF page 3). The three combined Group B sessions each preserve both classes in one title. Japan Standard Time UTC+09:00. Revised men 110kg Group A is Sept29 at12:30; unsplit classes have no Group A suffix."
     },
     {
@@ -197,8 +177,6 @@
       "revision": "v8 2026-09-13",
       "checked_date": "2026-10-28",
       "changes": "Reviewed factual dates, venue and published session starts only. No results, athlete entries, logos or source prose copied. Combined timetable rows remain single events; unsplit classes omit Group A. IANA timezone follows the host city.",
-      "sha256": "46e808c873bc66381b2a234c13d235c394bf3d6efd33144f42e22fb61c8b08c0",
-      "hash_scope": "raw document bytes",
       "coverage_notes": "111 platform sessions (37 numbered time slots on 3 platforms). Combined age/bodyweight categories stay combined because the timetable supplies a platform session start, not an individual class start. Platform A/B/C labels are distinct from bodyweight Group A/B/C. The single adaptive M40 +110kg entry shares session 17/C with M45 70kg and 75kg and is retained explicitly as part of that shared session.",
       "source_page": "https://www.weightliftingevents.gr/home/schedule-technical-information"
     },
@@ -212,8 +190,6 @@
       "revision": "structured-source-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
-      "sha256": "82b60977492d6b19f7c5944ab0c1104e67f6b392fc9535b7fcb8c6b44a85b66a",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
       "evidence": [
         {
@@ -248,8 +224,6 @@
       "revision": "structured-source-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
-      "sha256": "910e63eafff56d8f9785e2c91f23808f977eba95298f9914739e9d4ec85a3522",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
       "evidence": [
         {
@@ -284,8 +258,6 @@
       "revision": "structured-source-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
-      "sha256": "9d3055e1bf3938a95f19c1128825bd92c9e180b262d90439b1758009bd36bdbd",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
       "evidence": [
         {
@@ -320,8 +292,6 @@
       "revision": "structured-source-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed source substitution for unchanged schedule facts. Switch primary date/time citation for covered records, retain original PDF as evidence only for unmatched facts. Do not change any timetable fact or refresh start-list snapshots.",
-      "sha256": "98fd8b431d0e093fb42abac4dd6ee56b95491acf9bfb1855e6fb393b8cd21252",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, start_date, end_date, local_time, host city where introductory text explicitly names it. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
       "evidence": [
         {
@@ -356,8 +326,6 @@
       "revision": "structured-source-review-2026-11-04",
       "checked_date": "2026-11-04",
       "changes": "Reviewed source substitution for unchanged schedule facts. Seven source-table sessions match all stored timetable facts exactly. The page gives Georgian local times explicitly; do not use the German-time column.",
-      "sha256": "46b35306b73180362ee83d962476eca370707062b967196f09c0bde3e6eff899",
-      "hash_scope": "canonical reviewed event facts for this source_id, in registry order; sorted keys, compact ASCII JSON; excluding source_id, source_url, checked_date, evidence_urls, evidence and notes; not raw source bytes",
       "coverage_notes": "Structured HTML covers: competition identity, gender, weight class, group, start_date, end_date, local_time, Batumi city, Georgia host country. Original PDF evidence remains only for the explicitly listed unmatched fields; no PDF fetched or parsed.",
       "evidence": [
         {

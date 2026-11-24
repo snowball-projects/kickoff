@@ -74,10 +74,8 @@ def test_known_clocks_receive_missing_team_facts_with_independent_source_receipt
     before = event.to_dict()
     row = FIXTURE[key]
     calls = answers(monkeypatch, [row])
-    (receipt,) = fill_missing_start_times([event], 2026)
+    fill_missing_start_times([event], 2026)
     assert len(calls) == 1
-    assert receipt["clocks_added"] == []
-    assert receipt["team_facts_added"][0]["event_id"] == event.event_id
     assert event.facts_checked_date == datetime.now(UTC).date().isoformat()
     for participant in [event.home_participant, event.away_participant, *event.participants]:
         original = next(c for c in row["competitions"][0]["competitors"] if c["homeAway"] == participant.role)
@@ -85,7 +83,6 @@ def test_known_clocks_receive_missing_team_facts_with_independent_source_receipt
         assert participant.record == next(
             r["summary"] for r in original["records"] if r["type"] == ("ytd" if sport == "hockey" else "total")
         )
-        assert participant.team_source_url == receipt["team_facts_added"][0]["team_source_url"]
         assert participant.team_source_url.startswith("https://www.espn.com/")
     for field in (
         "event_id",
@@ -104,7 +101,7 @@ def test_known_clocks_receive_missing_team_facts_with_independent_source_receipt
         next(p for p in _event_payload(event)["participants"] if p["role"] == "home")["team_source_url"]
         == event.home_participant.team_source_url
     )
-    assert fill_missing_start_times([event], 2026) == []
+    assert not fill_missing_start_times([event], 2026)
 
 
 @pytest.mark.parametrize(
@@ -157,9 +154,8 @@ def test_monthly_baseball_lookup_is_shared_and_retains_supplied_records_scores_a
         p.record = "90-72"
         p.final_score = 4
     calls = answers(monkeypatch, [FIXTURE["mlb"]])
-    (receipt,) = fill_missing_start_times([first, second], 2026)
+    fill_missing_start_times([first, second], 2026)
     assert calls == [f"{feeds.ESPN}/baseball/mlb/scoreboard?dates=202610&limit=1000"]
-    assert [item["event_id"] for item in receipt["team_facts_added"]] == [first.event_id]
     assert all(p.record == "90-72" and p.final_score == 4 and p.short_name for p in first.participants)
     assert not second.home_participant.short_name
     assert first.week_label is first.round_or_stage is None
@@ -180,8 +176,7 @@ def test_ambiguous_wrong_team_date_and_canceled_matches_leave_facts_absent(monke
     elif mutation == "canceled":
         row["competitions"][0]["status"] = {"type": {"name": "STATUS_CANCELED"}}
     answers(monkeypatch, [row, copy.deepcopy(row)] if mutation == "duplicate" else [row])
-    (receipt,) = fill_missing_start_times([event], 2026)
-    assert not receipt["team_facts_added"]
+    fill_missing_start_times([event], 2026)
     assert event.to_dict() == before
 
 
@@ -198,8 +193,7 @@ def test_group_records_and_abbreviations_do_not_fill_absent_overall_record_or_sh
         c["team"]["abbreviation"] = "AAA"
     before = event.to_dict()
     answers(monkeypatch, [row])
-    (receipt,) = fill_missing_start_times([event], 2026)
-    assert not receipt["team_facts_added"]
+    fill_missing_start_times([event], 2026)
     assert event.to_dict() == before
 
 
@@ -263,12 +257,10 @@ def test_unique_same_season_soccer_identity_fills_facts_after_a_date_move_withou
     event.start_time_utc = event.start_time_local = None
     row = copy.deepcopy(FIXTURE["epl"])
     answers(monkeypatch, [row])
-    (receipt,) = fill_missing_start_times([event], 2026)
+    fill_missing_start_times([event], 2026)
     assert event.home_participant.short_name and event.home_participant.record
     assert event.calendar_date == "2026-12-29"
     assert event.start_time_utc is event.start_time_local is None
-    assert not receipt["clocks_added"]
-    assert receipt["team_facts_added"]
 
 
 @pytest.mark.parametrize("kind", ["other-season", "ambiguous", "postseason"])
@@ -285,8 +277,7 @@ def test_soccer_season_fallback_requires_one_exact_regular_season_pair(monkeypat
     rows = [row, copy.deepcopy(row)] if kind == "ambiguous" else [row]
     answers(monkeypatch, rows)
     before = event.to_dict()
-    (receipt,) = fill_missing_start_times([event], 2026)
-    assert not receipt["team_facts_added"]
+    fill_missing_start_times([event], 2026)
     assert event.to_dict() == before
 
 
@@ -299,10 +290,8 @@ def test_known_doubleheader_instant_supplies_facts_without_inventing_game_number
     sibling = copy.deepcopy(row)
     sibling["date"] = sibling["competitions"][0]["date"] = "2026-10-02T03:00Z"
     answers(monkeypatch, [sibling, row])
-    (receipt,) = fill_missing_start_times([event], 2026)
-    assert not receipt["clocks_added"]
+    fill_missing_start_times([event], 2026)
     assert bool(event.home_participant.short_name) is not conflicting_number
-    assert bool(receipt["team_facts_added"]) is not conflicting_number
 
 
 def test_soccer_season_identity_requires_a_single_primary_fixture_too(monkeypatch):
@@ -313,8 +302,7 @@ def test_soccer_season_identity_requires_a_single_primary_fixture_too(monkeypatc
     sibling = copy.deepcopy(event)
     sibling.event_id += "-replay"
     answers(monkeypatch, [FIXTURE["epl"]])
-    (receipt,) = fill_missing_start_times([event, sibling], 2026)
-    assert not receipt["team_facts_added"]
+    fill_missing_start_times([event, sibling], 2026)
     assert event.home_participant.record is sibling.home_participant.record is None
 
 
@@ -355,8 +343,7 @@ def test_explicit_source_offset_matches_world_cup_venue_date_when_espn_changes_t
     row = copy.deepcopy(FIXTURE["world_cup"])
     row["date"] = row["competitions"][0]["date"] = "2026-07-01T02:00Z"
     answers(monkeypatch, [row])
-    (receipt,) = fill_missing_start_times([event], 2026)
+    fill_missing_start_times([event], 2026)
     assert event.home_participant.short_name == "Mexico"
     assert event.calendar_date == "2026-06-30"
     assert event.start_time_utc == "2026-07-01T01:00:00Z"
-    assert not receipt["clocks_added"]

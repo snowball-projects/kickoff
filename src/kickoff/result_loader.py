@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import logging
 import signal
@@ -24,7 +23,7 @@ LOGGER = logging.getLogger(__name__)
 MAX_BYTES = 20_000_000
 USER_AGENT = "kickoff-refresh/0.6 (https://github.com/snowball-projects/kickoff)"
 MEDALS = ("total_medalists", "snatch_medalists", "clean_and_jerk_medalists")
-PROVENANCE = ("gender", "weight_class", "source_url", "input_url", "checked_date", "revision", "sha256", "hash_scope")
+PROVENANCE = ("gender", "weight_class", "source_url", "input_url", "checked_date", "revision")
 
 
 class _BudgetExpired(BaseException):
@@ -187,11 +186,7 @@ class ResultsLoader:
             return None
         sources = [{key: row[key] for key in PROVENANCE if key in row} for row in classes]
         first = sources[0]
-        result = {
-            key: first[key]
-            for key in ("source_url", "checked_date", "revision", "sha256", "hash_scope")
-            if key in first
-        }
+        result = {key: first[key] for key in ("source_url", "checked_date", "revision") if key in first}
         result.update(
             kind="weightlifting",
             sources=sources,
@@ -217,11 +212,9 @@ class ResultsLoader:
             snapshot = json.loads(path.read_text())
             sessions = snapshot["sessions"]
 
-            digest = hashlib.sha256(json.dumps(sessions, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
             if (
                 snapshot["league"] != "IWF_JUNIOR_WORLDS"
                 or snapshot["year"] != year
-                or snapshot["sha256"] != digest
                 or len(sessions) != snapshot["session_count"]
                 or sum(len(s["athletes"]) for s in sessions) != snapshot["athlete_count"]
             ):
@@ -242,7 +235,7 @@ class ResultsLoader:
             selected = [a for a in source_session["athletes"] if all(a[key] == value for key, value in scope.items())]
             row = {
                 **scope,
-                **{k: snapshot[k] for k in ("source_url", "checked_date", "sha256", "hash_scope")},
+                **{k: snapshot[k] for k in ("source_url", "checked_date")},
                 "revision": snapshot["review_revision"],
                 "athletes": selected,
                 "_complete": True,
@@ -322,7 +315,7 @@ class ResultsLoader:
         now=None,
         window=None,
     ):
-        sources, evidence = {}, {}
+        sources = {}
         contexts = f1_contexts or {}
         moment = now or datetime.now(timezone.utc)
         for event in events:
@@ -353,7 +346,7 @@ class ResultsLoader:
                 continue
             attach_result(event, result)
             for source in result.get("sources", [result]):
-                url, checked, digest = source["source_url"], source["checked_date"], source["sha256"]
+                url = source["source_url"]
                 if kind == "f1db":
                     notice = {
                         "kind": kind,
@@ -387,24 +380,6 @@ class ResultsLoader:
                         "license": WEIGHTLIFTING_LICENSE,
                         "license_url": url,
                     }
-                notice.update(
-                    {
-                        key: source[key]
-                        for key in ("checked_date", "revision", "input_url", "sha256", "hash_scope")
-                        if key in source
-                    }
-                )
+                notice.update({key: source[key] for key in ("checked_date", "revision", "input_url") if key in source})
                 sources[json.dumps(notice, sort_keys=True)] = notice
-                key = kind, url, checked, digest
-                if key not in evidence:
-                    evidence[key] = {
-                        "kind": kind,
-                        "url": url,
-                        "checked_date": checked,
-                        "sha256": digest,
-                        "hash_scope": source.get("hash_scope", "source response bytes"),
-                        "results_added": [],
-                        **{key: source[key] for key in ("input_url", "revision") if key in source},
-                    }
-                evidence[key]["results_added"].append({"event_id": event.event_id, "complete": event.result_complete})
-        return list(sources.values()), list(evidence.values())
+        return list(sources.values())

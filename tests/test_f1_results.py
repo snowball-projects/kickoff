@@ -1,4 +1,3 @@
-import hashlib
 import json
 import zlib
 
@@ -61,14 +60,6 @@ def test_explicit_finishing_rank_wins_over_input_and_grid_order_with_exact_names
     assert result["source_url"] == f"{BLOB}/{REVISION}/{PATH}/race-results.yml"
     assert result["checked_date"] == "2026-11-04"
     assert result["revision"] == REVISION
-    assert result["sha256"] == hashlib.sha256(data[RESULT_URL]).hexdigest()
-    assert result["inputs"] == [
-        {"url": f"{RAW}/{REVISION}/{PATH}/race.yml", "sha256": hashlib.sha256(RACE).hexdigest()},
-        *[
-            {"url": url, "sha256": hashlib.sha256(data[url]).hexdigest()}
-            for url in [RESULT_URL, *(f"{RAW}/{REVISION}/src/data/drivers/{d}.yml" for d in DRIVERS)]
-        ],
-    ]
     assert "dateOfBirth" not in json.dumps(result)
     assert "1990-01-01" not in json.dumps(result)
 

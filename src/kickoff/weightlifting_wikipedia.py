@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 from copy import deepcopy
 from dataclasses import dataclass, field
-from datetime import date, datetime
+from datetime import date
 from html.parser import HTMLParser
 from urllib.parse import parse_qs, quote, urlencode, urlsplit
 
@@ -417,7 +416,6 @@ def _full_table(table: Node, scope: dict) -> dict | None:
         "clean_and_jerk_medalists": _podiums(athletes, "clean_and_jerk"),
         "_complete": omitted == 0 and {row["rank"] for row in total_medals} == {1, 2, 3},
         "_omitted_rows": omitted,
-        "_completion_evidence": "explicit_class_result_table",
     }
 
 
@@ -472,7 +470,6 @@ def _overview(table: Node, scope: dict) -> list[dict]:
                 "snatch_medalists": [],
                 "clean_and_jerk_medalists": [],
                 "_complete": False,
-                "_completion_evidence": "medal_overview_only",
                 "_source_anchor": anchor,
             },
         )
@@ -497,27 +494,6 @@ def _overview(table: Node, scope: dict) -> list[dict]:
     return list(output.values())
 
 
-def _class_date(root: Node, year: int) -> str | None:
-    for table in _nodes(root, "table"):
-        if "infobox" not in table.attrs.get("class", "").split():
-            continue
-        for row in _rows(table):
-            if len(row) == 2 and _text(row[0]).casefold() in {"date", "dates"}:
-                text = _text(row[1])
-                if not re.search(r"\b\d{4}\b", text):
-                    text += f" {year}"  # Year is explicit in this class article's title.
-                # An explicit class date is an upper calendar bound, not a clock.
-                for pattern in [
-                    r"(\d{1,2} \w+ \d{4})",
-                    r"\d{1,2}[–-](\d{1,2} \w+ \d{4})",
-                    r"\d{1,2} \w+ [–-] (\d{1,2} \w+ \d{4})",
-                ]:
-                    match = re.fullmatch(pattern, text)
-                    if match:
-                        return datetime.strptime(match[1], "%d %B %Y").date().isoformat()
-    return None
-
-
 def parse_classes(content: bytes | None, *, input_url: str, checked_date: str) -> list[dict]:
     """All explicit class tables/medals in one real API response, no HTTP or PDFs.
 
@@ -535,7 +511,6 @@ def parse_classes(content: bytes | None, *, input_url: str, checked_date: str) -
             return []
         parser = Tables()
         parser.feed(html)
-        source_date = _class_date(parser.root, scope["year"]) if "gender" in scope else None
         by_class, ambiguous = {}, set()
         for table in _nodes(parser.root, "table"):
             try:
@@ -561,8 +536,6 @@ def parse_classes(content: bytes | None, *, input_url: str, checked_date: str) -
             "input_url": input_url,
             "checked_date": checked_date,
             "revision": str(payload["revid"]),
-            "sha256": hashlib.sha256(content).hexdigest(),
-            "hash_scope": "raw MediaWiki API JSON response bytes",
         }
         results = []
         for result in by_class.values():
@@ -576,7 +549,6 @@ def parse_classes(content: bytes | None, *, input_url: str, checked_date: str) -
                     **result,
                     **provenance,
                     "source_url": provenance["source_url"] + ("#" + quote(anchor) if anchor else ""),
-                    "_source_date": source_date,
                 }
             )
         return results

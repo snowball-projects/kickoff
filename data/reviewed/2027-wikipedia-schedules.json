@@ -10,7 +10,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:04:40.045408+00:00",
       "checked_date": "2026-10-31",
-      "sha256": "8ea033f45220e2a3b406002766e4e9455c91691473b76941d57a940dddc32859",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382540947&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0."
     },
@@ -23,7 +22,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:04:40.255255+00:00",
       "checked_date": "2026-10-31",
-      "sha256": "04f98d53ca2911ebc10f749fe147f30db092ff1ce194cc6c82087b2b0ed73c4c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1383037102&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0."
     },
@@ -36,7 +34,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:04:40.266765+00:00",
       "checked_date": "2026-10-31",
-      "sha256": "c618f1681f1f855ae9a1aa30b640fd6730f4d4a0a002a31173011bfb6e672cf3",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382252324&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0."
     },
@@ -49,7 +46,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:04:40.293887+00:00",
       "checked_date": "2026-10-31",
-      "sha256": "63ddbebeeb49e6de294ce44f12b70bf17d6e348dbbb081efd59c092313bd7de9",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382260847&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0."
     },
@@ -62,7 +58,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:04:40.420932+00:00",
       "checked_date": "2026-10-31",
-      "sha256": "39c9a428045c8571d71426104bafab95b8ab0194578375f3dc6d6ad2bdb77cb9",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1375134624&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0."
     },
@@ -75,7 +70,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:04:40.495015+00:00",
       "checked_date": "2026-10-31",
-      "sha256": "68693b22c5f53c7a081bf638a8cfb9ee5c9a0e505bbf541546b1615e9526b04c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382655343&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0.",
       "clock_timezone": "Etc/GMT-2",
@@ -90,7 +84,6 @@
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "retrieved_at": "2026-10-31T23:04:40.537791+00:00",
       "checked_date": "2026-10-31",
-      "sha256": "b0d002de4735c87137e9fdd27d8a14e397a981b06822b30b6eb3652b5e1ea78c",
       "input_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&revids=1382870338&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json",
       "changes": "Selected published schedule names, dates, stages, venues and explicit match clocks; removed markup, references, results and media; assigned stable IDs and sport/league labels. Preserved published cancellations and unassigned fixture slots without inventing teams or times. Adapted schedule content remains CC BY-SA 4.0.",
       "clock_timezone": "America/Sao_Paulo",

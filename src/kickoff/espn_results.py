@@ -139,7 +139,7 @@ def _tennis_final(row: dict, league: str) -> dict | None:
     return result
 
 
-def espn_result(row: dict, league: str, *, source_url: str, checked_date: str, sha256: str) -> dict | None:
+def espn_result(row: dict, league: str, *, source_url: str, checked_date: str) -> dict | None:
     """Return only a confirmed podium or the selected tour's singles final.
 
     No I/O, dates inferred from schedules, historical previousWinners, or country
@@ -161,5 +161,5 @@ def espn_result(row: dict, league: str, *, source_url: str, checked_date: str, s
         # Optional external result facts must not abort schedule publication.
         return None
     if result is not None:
-        result.update(source_url=source_url, checked_date=checked_date, sha256=sha256)
+        result.update(source_url=source_url, checked_date=checked_date)
     return result

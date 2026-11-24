@@ -21,12 +21,12 @@ export function publishedFiles(bundles) {
       });
     const leagues = counts(events.map(({ league }) => league))
       .map((item) => ({ ...item, sport: events.find(({ league }) => league === item.value).sport }));
-    index.seasons[String(season)] = { providers: [], sources: [], updated_at: "2026-10-27T12:00:00Z", ...metadata,
+    index.seasons[String(season)] = { sources: [], updated_at: "2026-10-27T12:00:00Z", ...metadata,
       season, available_seasons, all_events: events.length, sports, leagues };
     for (const { value: sport, file, leagues } of sports) files[file] = {
       schema_version: "1", season, sport, updated_at: index.seasons[String(season)].updated_at,
       sources: metadata.sources || [], data_license_notice: metadata.data_license_notice,
-      data_licenses: metadata.data_licenses || {}, input_evidence: metadata.input_evidence || [],
+      data_licenses: metadata.data_licenses || {},
       events: events.filter((event) => leagues.includes(event.league)),
     };
   }

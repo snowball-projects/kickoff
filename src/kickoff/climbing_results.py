@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 from datetime import date
@@ -69,7 +68,7 @@ def _positive_integer(value: Any) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and value > 0
 
 
-def _category(item: dict, url: str, checked_date: str, sha256: str) -> dict | None:
+def _category(item: dict, url: str, checked_date: str) -> dict | None:
     identity = item.get("dcat_id")
     discipline, category = item.get("discipline_kind"), item.get("category_name")
     label, athletes = item.get("dcat_name"), item.get("athletes")
@@ -129,7 +128,6 @@ def _category(item: dict, url: str, checked_date: str, sha256: str) -> dict | No
         "rows": sorted(rows, key=lambda row: row["rank"]),
         "source_url": url,
         "checked_date": checked_date,
-        "sha256": sha256,
         "scope": {
             "event_url": url,
             "discipline": discipline,
@@ -139,7 +137,6 @@ def _category(item: dict, url: str, checked_date: str, sha256: str) -> dict | No
             "competitor_kind": "national_team" if discipline == "speed_relay" else "athlete",
         },
         "_complete": True,
-        "_completion_evidence": "official_podium",
     }
 
 
@@ -172,10 +169,9 @@ def parse_climbing_podiums(body: bytes | None, *, source_url: str, checked_date:
         props = [item for item in _objects(sections[0]) if item.get("headerTitle") == "The Podium" and "dcats" in item]
         if len(props) != 1 or not isinstance(props[0]["dcats"], list):
             return []
-        digest = hashlib.sha256(body).hexdigest()
         result = []
         for item in props[0]["dcats"]:
-            if isinstance(item, dict) and (podium := _category(item, url, checked_date, digest)) is not None:
+            if isinstance(item, dict) and (podium := _category(item, url, checked_date)) is not None:
                 result.append(podium)
         return result
     except (AttributeError, KeyError, TypeError, ValueError, OverflowError, RecursionError):
@@ -215,7 +211,7 @@ def _allocated_result(event: CalendarEvent, podiums: list[dict], allocation: dic
         ]
         if len(matches) == 1:
             selected.append(matches[0])
-    if not selected or len({(row["source_url"], row["checked_date"], row["sha256"]) for row in selected}) != 1:
+    if not selected or len({(row["source_url"], row["checked_date"]) for row in selected}) != 1:
         return None
     complete = (
         len(selected) == expected_count == len(expected)
@@ -231,7 +227,6 @@ def _allocated_result(event: CalendarEvent, podiums: list[dict], allocation: dic
             "categories": [{"label": row["scope"]["label"], "rows": row["rows"]} for row in selected],
             "source_url": source["source_url"],
             "checked_date": source["checked_date"],
-            "sha256": source["sha256"],
             "scope": {
                 "event_url": url,
                 "category_ids": [row["scope"]["category_id"] for row in selected],
@@ -241,7 +236,6 @@ def _allocated_result(event: CalendarEvent, podiums: list[dict], allocation: dic
     result.update(
         allocation_source=allocation["allocation_source"],
         _complete=complete,
-        _completion_evidence="official_podium_and_reviewed_final_block",
     )
     return result
 

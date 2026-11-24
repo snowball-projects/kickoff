@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import logging
 from dataclasses import dataclass
@@ -34,7 +33,6 @@ ENTRY_FIELDS = (
 )
 Category = tuple[str, str, str]
 SessionKey = frozenset[Category]
-ROSTER_HASH_SCOPE = "canonical reviewed roster facts (sessions; sorted keys, compact ASCII JSON), not raw PDF bytes"
 
 
 @dataclass(frozen=True)
@@ -62,16 +60,10 @@ def reviewed_categories(row: dict) -> SessionKey:
     return frozenset((c["gender"], c["weight_class"], c["group"]) for c in row["categories"])
 
 
-def roster_hash(sessions: list[dict]) -> str:
-    return hashlib.sha256(json.dumps(sessions, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-
-
 def reviewed_start_book(book: dict, reviewed_dir: Path) -> tuple[list[Session], dict]:
     snapshot = json.loads((reviewed_dir / book["snapshot_file"]).read_text())
     if (snapshot["league"], snapshot["year"]) != (book["league"], book["year"]):
         raise ValueError("Reviewed roster has the wrong competition")
-    if snapshot["hash_scope"] != ROSTER_HASH_SCOPE or snapshot["sha256"] != roster_hash(snapshot["sessions"]):
-        raise ValueError("Reviewed roster canonical-fact hash does not match")
     datetime.fromisoformat(snapshot["checked_date"])
     parsed, lots = [], []
     for row in snapshot["sessions"]:
@@ -105,7 +97,7 @@ class StartListLoader:
             and any(event.league == book["league"] and event.event_type == "session" for event in events)
         ]
         if not relevant:
-            return [], []
+            return []
         try:
             definitions = {
                 row["id"]: row
@@ -113,8 +105,8 @@ class StartListLoader:
             }
         except Exception as error:
             LOGGER.warning("Reviewed weightlifting session definitions unavailable: %s", error)
-            return [], []
-        sources, evidence = [], []
+            return []
+        sources = []
         for book in relevant:
             cohort = [event for event in events if event.league == book["league"] and event.event_type == "session"]
             try:
@@ -125,26 +117,11 @@ class StartListLoader:
                 keys = [reviewed_categories(definitions[event.event_id]) for event in cohort]
                 if len(set(keys)) != len(keys) or set(keys) != by_category.keys():
                     raise ValueError("Start list does not match every reviewed session")
-                url, checked, sha = snapshot["source_url"], snapshot["checked_date"], snapshot["sha256"]
-                provenance = {
-                    key: snapshot[key]
-                    for key in (
-                        "hash_scope",
-                        "revision",
-                        "collection_method",
-                        "source_raw_sha256",
-                        "source_raw_hash_scope",
-                        "source_raw_checked_date",
-                        "source_raw_session_count",
-                        "source_raw_athlete_count",
-                    )
-                    if key in snapshot
-                }
-                replacements, omitted = [], []
+                url, checked = snapshot["source_url"], snapshot["checked_date"]
+                replacements = []
                 for event, key in zip(cohort, keys, strict=True):
                     session = by_category[key]
                     if session.issue:
-                        omitted.append({"event_id": event.event_id, "reason": session.issue})
                         continue
                     participants = []
                     for entry in session.entries:
@@ -184,26 +161,9 @@ class StartListLoader:
                         "license": "Schedule facts; no data license granted",
                         "license_url": url,
                         "checked_date": checked,
-                        "sha256": sha,
-                        **provenance,
                         "changes": "Factual athlete names, source nation codes and entry totals from reviewed official start lists; no birth dates or source pages copied.",
-                    }
-                )
-                evidence.append(
-                    {
-                        "kind": "weightlifting",
-                        "url": url,
-                        "landing_url": book["landing_url"],
-                        "sha256": sha,
-                        "checked_date": checked,
-                        **provenance,
-                        "sessions": len(replacements),
-                        "parsed_sessions": len(parsed),
-                        "parsed_athletes": sum(len(session.entries) for session in parsed),
-                        "omitted_sessions": omitted,
-                        "athletes": sum(len(participants) for _, participants in replacements),
                     }
                 )
             except Exception as error:
                 LOGGER.warning("Optional reviewed weightlifting roster omitted for %s: %s", book["league"], error)
-        return sources, evidence
+        return sources

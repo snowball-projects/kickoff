@@ -36,8 +36,6 @@ def reviewed_fixture(monkeypatch, tmp_path):
         "revision": "Start book v1.1",
         "checked_date": "2026-11-04",
         "collection_method": "Reviewed official factual roster; no daily PDF check",
-        "hash_scope": startlists.ROSTER_HASH_SCOPE,
-        "sha256": startlists.roster_hash(sessions),
         "session_count": 1,
         "athlete_count": 2,
         "sessions": sessions,
@@ -48,7 +46,7 @@ def reviewed_fixture(monkeypatch, tmp_path):
     return snapshot, path
 
 
-def test_reviewed_roster_is_offline_keeps_actual_checkdate_and_canonical_hash_scope(monkeypatch, tmp_path):
+def test_reviewed_roster_is_offline_and_keeps_actual_checkdate(monkeypatch, tmp_path):
     snapshot, _ = reviewed_fixture(monkeypatch, tmp_path)
     item = event("session")
     before = item.to_dict()
@@ -64,17 +62,12 @@ def test_reviewed_roster_is_offline_keeps_actual_checkdate_and_canonical_hash_sc
         raise AssertionError("Reviewed snapshots must publish without network access")
 
     monkeypatch.setattr("urllib.request.urlopen", no_network)
-    sources, evidence = startlists.StartListLoader().enrich([item], tmp_path, 2026)
+    sources = startlists.StartListLoader().enrich([item], tmp_path, 2026)
     assert len(item.participants) == 2
     after = item.to_dict()
     after["participants"] = []
     assert after == before
-    for proof in [sources[0], evidence[0]]:
-        assert proof["checked_date"] == "2026-11-04"
-        assert proof["sha256"] == snapshot["sha256"]
-        assert proof["hash_scope"] == startlists.ROSTER_HASH_SCOPE
-        assert "not raw PDF bytes" in proof["hash_scope"]
-        assert proof["revision"] == "Start book v1.1"
+    assert sources[0]["checked_date"] == snapshot["checked_date"]
     assert item.participants[0].metadata["country_code"] == "DE"
     assert "country_code" not in item.participants[1].metadata
     assert item.participants[1].metadata["start_list_nation"] == "WRT"
@@ -93,18 +86,16 @@ def test_reviewed_roster_is_offline_keeps_actual_checkdate_and_canonical_hash_sc
         lambda p: p["sessions"][0]["categories"][0].update(group="B"),
         lambda p: p.update(athlete_count=1),
         lambda p: p.update(session_count=2),
-        lambda p: p.update(hash_scope="raw PDF bytes"),
         lambda p: p.update(checked_date="unknown"),
     ],
 )
 def test_invalid_reviewed_cohort_is_omitted_atomically_without_changing_schedule(monkeypatch, tmp_path, mutation):
     snapshot, path = reviewed_fixture(monkeypatch, tmp_path)
     mutation(snapshot)
-    snapshot["sha256"] = startlists.roster_hash(snapshot["sessions"])
     path.write_text(json.dumps(snapshot))
     item = event("session")
     before = deepcopy(item.to_dict())
-    assert startlists.StartListLoader().enrich([item], tmp_path, 2026) == ([], [])
+    assert startlists.StartListLoader().enrich([item], tmp_path, 2026) == []
     assert item.to_dict() == before
 
 
@@ -120,15 +111,8 @@ def test_missing_or_unreadable_reviewed_roster_cannot_abort_schedule(monkeypatch
     monkeypatch.setattr(Path, "read_text", denied_read)
     item = event("session")
     before = deepcopy(item.to_dict())
-    assert startlists.StartListLoader().enrich([item], tmp_path, 2026) == ([], [])
+    assert startlists.StartListLoader().enrich([item], tmp_path, 2026) == []
     assert item.to_dict() == before
-
-
-def test_corrupted_canonical_roster_hash_cannot_publish_new_facts(monkeypatch, tmp_path):
-    snapshot, path = reviewed_fixture(monkeypatch, tmp_path)
-    snapshot["sessions"][0]["entries"][0]["name"] = "Changed without review hash"
-    path.write_text(json.dumps(snapshot))
-    assert startlists.StartListLoader().enrich([event("session")], tmp_path, 2026) == ([], [])
 
 
 @pytest.mark.parametrize(
@@ -168,10 +152,9 @@ def test_current_reviewed_rosters_keep_every_athlete_session_and_original_schedu
     events, _, _ = load_reviewed_schedules(ROOT / "data/reviewed", 2026)
     events = [e for e in events if e.league == league]
     originals = {e.event_id: e.to_dict() for e in events}
-    sources, evidence = startlists.StartListLoader().enrich(events, ROOT / "data/reviewed", 2026)
+    sources = startlists.StartListLoader().enrich(events, ROOT / "data/reviewed", 2026)
     assert len(parsed) == len(events) == count
     assert sum(len(s.entries) for s in parsed) == athletes
-    assert evidence[0]["athletes"] == athletes and evidence[0]["sessions"] == count
     assert snapshot["revision"] == revision
     assert sources[0]["checked_date"] == "2026-11-04"
     assert len({p.participant_id for e in events for p in e.participants}) == athletes
