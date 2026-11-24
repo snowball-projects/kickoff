@@ -127,7 +127,7 @@ def test_only_one_hook_is_installed_across_runs(monkeypatch, capsys):
     assert capsys.readouterr().out == summary(0) * 3
 
 
-def test_cli_failure_is_nonzero_with_one_summary_and_no_traceback():
+def test_cli_failure_reports_error_with_one_summary_and_no_traceback():
     root = Path(__file__).parents[1]
     script = """
 import runpy
@@ -147,7 +147,7 @@ with patch("kickoff.open_schedules.refresh_open_schedules", side_effect=ValueErr
     )
     assert completed.returncode == 1
     assert completed.stdout == summary(0)
-    assert completed.stderr == ""
+    assert completed.stderr == "ValueError: bad primary source\n"
 
 
 @pytest.mark.parametrize(

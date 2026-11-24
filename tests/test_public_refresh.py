@@ -105,7 +105,8 @@ runpy.run_path(str(ROOT / "scripts/refresh-public.py"), run_name="__main__")
     )
     assert result.returncode != 0
     assert result.stdout == summary(0)
-    assert result.stderr == ""
+    assert f"{failed}: source offline" in result.stderr
+    assert "Traceback" not in result.stderr
     assert not (tmp_path / "built").exists()
     assert not (tmp_path / "deployed").exists()
 
